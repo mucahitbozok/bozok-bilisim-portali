@@ -1,0 +1,27 @@
+# Gizli Değişkenler ve API Anahtarları
+.env
+.env.local
+.env.*.local
+!.env.example
+
+# Python Cache & Geçici Dosyalar
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.pytest_cache/
+
+# Sistem ve İşletim Sistemi Dosyaları
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDE ve Editör Klasörleri
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Node / Scratch
+node_modules/
+npm-debug.log*

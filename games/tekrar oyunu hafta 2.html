@@ -1,0 +1,801 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teknoloji Dedektifleri - 5. Sınıf Bilişim Teknolojileri 2. Hafta Oyunu</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- Tailwind CSS (CDN) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Poppins', 'Fredoka', 'sans-serif'],
+                    },
+                    colors: {
+                        detective: {
+                            dark: '#0a0f1d',
+                            card: '#131b2e',
+                            gold: '#fbbf24',
+                            cyan: '#06b6d4',
+                            emerald: '#10b981',
+                            rose: '#f43f5e'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        * { box-sizing: border-box; font-family: 'Poppins', sans-serif; -webkit-tap-highlight-color: transparent; }
+        body { background-color: #070a13; color: #f8fafc; min-height: 100vh; overflow-x: hidden; }
+        .glass-panel { background: rgba(19, 27, 46, 0.85); backdrop-filter: blur(16px); border: 2px solid rgba(251, 191, 36, 0.25); }
+        .option-btn { transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); }
+        .option-btn:hover:not(:disabled) { transform: translateY(-2px); }
+        .option-btn:active:not(:disabled) { transform: scale(0.98); }
+        @keyframes popIn { 0% { transform: scale(0.92); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
+        .animate-pop { animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        @keyframes shake { 0%, 100% { transform: translateX(0); } 20%, 60% { transform: translateX(-6px); } 40%, 80% { transform: translateX(6px); } }
+        .animate-shake { animation: shake 0.4s ease-in-out; }
+        @keyframes pulseGlow { 0%, 100% { box-shadow: 0 0 25px rgba(251, 191, 36, 0.4); } 50% { box-shadow: 0 0 45px rgba(251, 191, 36, 0.8); } }
+        .pulse-gold { animation: pulseGlow 2s infinite; }
+    </style>
+</head>
+<body class="flex flex-col justify-between p-3 sm:p-6 select-none">
+
+    <!-- ÜST ÇUBUK -->
+    <header class="max-w-6xl w-full mx-auto flex items-center justify-between gap-4 pb-4 border-b border-slate-800">
+        <div class="flex items-center gap-3">
+            <div class="w-12 h-12 rounded-2xl bg-gradient-to-tr from-amber-500 to-yellow-300 text-slate-950 flex items-center justify-center text-2xl shadow-lg">
+                <i class="fa-solid fa-magnifying-glass"></i>
+            </div>
+            <div>
+                <span class="px-2.5 py-0.5 bg-yellow-400/20 text-yellow-300 font-black rounded-lg text-[10px] tracking-wider uppercase border border-yellow-400/30">5. SINIF BİLİŞİM TEKNOLOJİLERİ</span>
+                <h1 class="text-xl sm:text-2xl font-black text-white tracking-tight">TEKNOLOJİ DEDEKTİFLERİ 🕵️‍♂️</h1>
+            </div>
+        </div>
+
+        <div class="flex items-center gap-2">
+            <button onclick="game.toggleAudio()" id="audio-btn" class="w-10 h-10 rounded-xl bg-slate-800 hover:bg-slate-700 text-yellow-400 flex items-center justify-center border border-slate-700 transition-all shadow" title="Ses Aç/Kapat">
+                <i class="fa-solid fa-volume-high" id="audio-icon"></i>
+            </button>
+            <button onclick="game.toggleFullscreen()" class="w-10 h-10 rounded-xl bg-slate-800 hover:bg-slate-700 text-cyan-400 flex items-center justify-center border border-slate-700 transition-all shadow" title="Tam Ekran (Akıllı Tahta)">
+                <i class="fa-solid fa-expand"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- ANA OYUN KONTEYNERİ (16:9 Geniş Akıllı Tahta Görünümü) -->
+    <main id="app-container" class="max-w-6xl w-full mx-auto my-auto py-4">
+        <!-- JS ile dolacak (Menü, Oyun Ekranı veya Final) -->
+    </main>
+
+    <!-- ALT MARKA İMZASI -->
+    <footer class="max-w-6xl w-full mx-auto pt-3 border-t border-slate-800/80 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-400 gap-2">
+        <div class="flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+            <span>2. Hafta: Bilişim Teknolojilerinin Etkileri ve Dijital Sağlık (Kazanım: BTY.5.1.2)</span>
+        </div>
+        <div class="font-extrabold text-yellow-400/90 tracking-wider">
+            👨‍🏫 Hazırlayan: Öğretmen Bozok
+        </div>
+    </footer>
+
+    <!-- MODAL: KONUYU TEKRAR ET -->
+    <div id="modal-review" class="hidden fixed inset-0 z-50 bg-slate-950/85 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="bg-slate-900 border-2 border-yellow-400/50 rounded-3xl max-w-2xl w-full max-h-[85vh] flex flex-col shadow-2xl overflow-hidden animate-pop">
+            <div class="p-5 border-b border-slate-800 flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-xl bg-yellow-400/20 text-yellow-300 flex items-center justify-center text-xl">
+                        <i class="fa-solid fa-book-open"></i>
+                    </div>
+                    <h3 class="text-lg font-black text-white">2. Hafta Konu Özeti</h3>
+                </div>
+                <button onclick="game.closeModal('modal-review')" class="w-9 h-9 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 flex items-center justify-center">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <div class="p-5 overflow-y-auto space-y-4 text-xs sm:text-sm text-slate-200">
+                <div class="p-4 bg-emerald-950/50 rounded-2xl border border-emerald-500/40 space-y-2">
+                    <h4 class="font-black text-emerald-300 text-base flex items-center gap-2"><i class="fa-solid fa-thumbs-up"></i> Olumlu Etkiler</h4>
+                    <ul class="list-disc list-inside space-y-1 text-emerald-100">
+                        <li>Bilgiye kolay ve hızlı ulaşmayı sağlar.</li>
+                        <li>Hayatımızı ve günlük işlerimizi kolaylaştırır.</li>
+                        <li>Hızlı haberleşmeyi ve anlık iletişimi sağlar.</li>
+                        <li>Zamandan tasarruf sağlar.</li>
+                        <li>Maliyeti azaltabilir.</li>
+                    </ul>
+                </div>
+                <div class="p-4 bg-rose-950/50 rounded-2xl border border-rose-500/40 space-y-2">
+                    <h4 class="font-black text-rose-300 text-base flex items-center gap-2"><i class="fa-solid fa-triangle-exclamation"></i> Olumsuz Etkiler</h4>
+                    <ul class="list-disc list-inside space-y-1 text-rose-100">
+                        <li>İnsanları tembelliğe alıştırabilir.</li>
+                        <li>İnsanların birbirleriyle olan yüz yüze bağlarının zayıflamasına neden olabilir.</li>
+                        <li>Hareketsiz yaşamı artırabilir.</li>
+                        <li>Obezite ve çeşitli sağlık problemleriyle ilişkilendirilebilir.</li>
+                        <li>İşsizlik üzerinde olumsuz etkileri olabilir.</li>
+                    </ul>
+                </div>
+                <div class="p-4 bg-blue-950/50 rounded-2xl border border-blue-500/40 space-y-2">
+                    <h4 class="font-black text-cyan-300 text-base flex items-center gap-2"><i class="fa-solid fa-shield-heart"></i> Dijital Sağlık</h4>
+                    <p class="text-blue-100 leading-relaxed">
+                        Bilgisayar ve teknolojik araçların yanlış veya fazla kullanımı; boyun ve kas ağrılarına, duruş bozukluklarına, görme sorunlarına, teknoloji ve oyun bağımlılığına, psikolojik sorunlara yol açabilir. <strong>Dengeli ve bilinçli kullanmalıyız!</strong>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL: NASIL OYNANIR? -->
+    <div id="modal-howto" class="hidden fixed inset-0 z-50 bg-slate-950/85 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="bg-slate-900 border-2 border-cyan-400/50 rounded-3xl max-w-xl w-full flex flex-col shadow-2xl overflow-hidden animate-pop">
+            <div class="p-5 border-b border-slate-800 flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-xl bg-cyan-400/20 text-cyan-300 flex items-center justify-center text-xl">
+                        <i class="fa-solid fa-circle-question"></i>
+                    </div>
+                    <h3 class="text-lg font-black text-white">Nasıl Oynanır?</h3>
+                </div>
+                <button onclick="game.closeModal('modal-howto')" class="w-9 h-9 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 flex items-center justify-center">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <div class="p-6 space-y-3 text-sm text-slate-200">
+                <div class="flex items-start gap-3">
+                    <span class="w-7 h-7 rounded-lg bg-yellow-400 text-slate-950 font-black flex items-center justify-center text-xs shrink-0">1</span>
+                    <p>Oyunda toplam <strong>10 dedektiflik sorusu</strong> yer alır. Her doğru cevap <strong>10 puandır</strong>.</p>
+                </div>
+                <div class="flex items-start gap-3">
+                    <span class="w-7 h-7 rounded-lg bg-yellow-400 text-slate-950 font-black flex items-center justify-center text-xs shrink-0">2</span>
+                    <p>Öğrenci cevabını seçeneğe dokunarak seçer. Doğru cevap hemen açılmaz!</p>
+                </div>
+                <div class="flex items-start gap-3">
+                    <span class="w-7 h-7 rounded-lg bg-yellow-400 text-slate-950 font-black flex items-center justify-center text-xs shrink-0">3</span>
+                    <p>Öğretmen <strong>"Cevabı Göster"</strong> butonuna bastığında doğru cevap yeşil olur ve detaylı açıklama açılır.</p>
+                </div>
+                <div class="flex items-start gap-3">
+                    <span class="w-7 h-7 rounded-lg bg-yellow-400 text-slate-950 font-black flex items-center justify-center text-xs shrink-0">4</span>
+                    <p>Klavyeden <strong>Sol Ok (Önceki)</strong>, <strong>Sağ Ok (Sonraki)</strong> ve <strong>Enter (Cevabı Göster)</strong> tuşları kullanılabilir.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL: SKOR TABLOSU -->
+    <div id="modal-score" class="hidden fixed inset-0 z-50 bg-slate-950/85 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="bg-slate-900 border-2 border-purple-400/50 rounded-3xl max-w-md w-full flex flex-col shadow-2xl overflow-hidden animate-pop">
+            <div class="p-5 border-b border-slate-800 flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-xl bg-purple-400/20 text-purple-300 flex items-center justify-center text-xl">
+                        <i class="fa-solid fa-trophy"></i>
+                    </div>
+                    <h3 class="text-lg font-black text-white">Dedektiflik Başarı Skoru</h3>
+                </div>
+                <button onclick="game.closeModal('modal-score')" class="w-9 h-9 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 flex items-center justify-center">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <div class="p-6 text-center space-y-4">
+                <div class="text-5xl text-yellow-400"><i class="fa-solid fa-award animate-bounce"></i></div>
+                <div>
+                    <div class="text-xs text-slate-400 uppercase font-bold">En Yüksek Skor</div>
+                    <div id="high-score-display" class="text-4xl font-black text-white">0 / 100</div>
+                </div>
+                <p id="high-score-desc" class="text-xs text-slate-300">Henüz oyun tamamlanmadı. Oyuna başla ve usta dedektif rozetini kazan!</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- OYUN MOTORU JS -->
+    <script>
+        // Basit Web Audio API Ses Sentezleyici (Harici dosya gerektirmez, %100 çevrimdışı)
+        class SoundEngine {
+            constructor() {
+                this.ctx = null;
+                this.muted = false;
+            }
+            init() {
+                if (!this.ctx) {
+                    const AudioCtx = window.AudioContext || window.webkitAudioContext;
+                    if (AudioCtx) this.ctx = new AudioCtx();
+                }
+            }
+            playBeep(freq, type, duration, gainVal = 0.15) {
+                if (this.muted) return;
+                this.init();
+                if (!this.ctx) return;
+                try {
+                    const osc = this.ctx.createOscillator();
+                    const gain = this.ctx.createGain();
+                    osc.type = type;
+                    osc.frequency.setValueAtTime(freq, this.ctx.currentTime);
+                    gain.gain.setValueAtTime(gainVal, this.ctx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.0001, this.ctx.currentTime + duration);
+                    osc.connect(gain);
+                    gain.connect(this.ctx.destination);
+                    osc.start();
+                    osc.stop(this.ctx.currentTime + duration);
+                } catch(e) {}
+            }
+            playClick() { this.playBeep(550, 'sine', 0.08, 0.1); }
+            playCorrect() {
+                this.playBeep(523, 'triangle', 0.12, 0.2);
+                setTimeout(() => this.playBeep(659, 'triangle', 0.15, 0.2), 100);
+                setTimeout(() => this.playBeep(784, 'triangle', 0.25, 0.25), 200);
+            }
+            playWrong() {
+                this.playBeep(260, 'sawtooth', 0.18, 0.2);
+                setTimeout(() => this.playBeep(200, 'sawtooth', 0.28, 0.2), 150);
+            }
+            playFanfare() {
+                const notes = [523, 659, 784, 1046];
+                notes.forEach((n, idx) => {
+                    setTimeout(() => this.playBeep(n, 'triangle', 0.3, 0.25), idx * 140);
+                });
+            }
+        }
+
+        const sounds = new SoundEngine();
+
+        class TeknolojiDedektifleriGame {
+            constructor() {
+                this.questions = [
+                    {
+                        title: "SORU 1",
+                        tag: "Olumlu Etkiler",
+                        q: "Bilişim teknolojilerinin aşağıdakilerden hangisi olumlu etkilerinden biridir?",
+                        options: [
+                            "Hareketsizliği artırması",
+                            "Bilgiye kolay ulaşmayı sağlaması",
+                            "İnsanları tembelliğe alıştırması",
+                            "İnsanların birbirinden uzaklaşması"
+                        ],
+                        correct: 1, // B
+                        explanation: "Bilişim teknolojileri bilgiye kolay ulaşmamızı sağlayabilir."
+                    },
+                    {
+                        title: "SORU 2",
+                        tag: "Olumsuz Etkiler",
+                        q: "Aşağıdakilerden hangisi bilişim teknolojilerinin olumsuz etkilerinden biridir?",
+                        options: [
+                            "Zamandan tasarruf sağlamak",
+                            "Hızlı haberleşmek",
+                            "Hareketsiz yaşamı artırmak",
+                            "Bilgiye kolay ulaşmak"
+                        ],
+                        correct: 2, // C
+                        explanation: "Aşırı ve kontrolsüz teknoloji kullanımı hareketsiz yaşamı artırarak sağlığı olumsuz etkileyebilir."
+                    },
+                    {
+                        title: "SORU 3 – ETKİYİ BUL!",
+                        tag: "Senaryo Analizi",
+                        q: "Ali her gün uzun süre bilgisayar oyunu oynuyor ve gün içinde çok az hareket ediyor. Bu durum aşağıdakilerden hangisine örnektir?",
+                        options: [
+                            "Olumlu etki",
+                            "Olumsuz etki",
+                            "Zamandan tasarruf",
+                            "Hızlı haberleşme"
+                        ],
+                        correct: 1, // B
+                        explanation: "Uzun süre hareketsiz kalmak sağlığımız açısından olumsuz sonuçlara yol açabilir."
+                    },
+                    {
+                        title: "SORU 4",
+                        tag: "Bilgiye Ulaşım",
+                        q: "Bir öğrenci interneti kullanarak araştırma yapıyor ve ihtiyaç duyduğu bilgiye kısa sürede ulaşıyor. Bu durum hangi olumlu etkiyi gösterir?",
+                        options: [
+                            "Hareketsizlik",
+                            "Bağımlılık",
+                            "Bilgiye kolay ulaşma",
+                            "İnsanların birbirinden uzaklaşması"
+                        ],
+                        correct: 2, // C
+                        explanation: "İnternet ve bilişim araçları doğru bilgiye en kısa sürede ve kolayca ulaşmamıza imkan tanır."
+                    },
+                    {
+                        title: "SORU 5 – DİJİTAL SAĞLIK",
+                        tag: "Beden Sağlığı",
+                        q: "Aşağıdakilerden hangisi teknolojik araçların yanlış veya fazla kullanımının sonuçlarından biri olabilir?",
+                        options: [
+                            "Boyun ve kas ağrıları",
+                            "Zamandan tasarruf",
+                            "Bilgiye kolay ulaşma",
+                            "Hızlı haberleşme"
+                        ],
+                        correct: 0, // A
+                        explanation: "Ekran başında yanlış duruş ve saatlerce hareketsiz kalmak boyun ve kas ağrılarına yol açar."
+                    },
+                    {
+                        title: "SORU 6",
+                        tag: "Görme Sağlığı",
+                        q: "Aşağıdakilerden hangisi teknolojinin fazla kullanımının görme sağlığı üzerindeki olası etkisidir?",
+                        options: [
+                            "Görme sorunları",
+                            "Daha hızlı iletişim",
+                            "Bilgiye daha kolay ulaşma",
+                            "Maliyet azalması"
+                        ],
+                        correct: 0, // A
+                        explanation: "Uzun süre mola vermeden ekrana bakmak göz yorgunluğuna ve görme sorunlarına neden olabilir."
+                    },
+                    {
+                        title: "SORU 7 – ETKİYİ BUL!",
+                        tag: "Sosyal Bağlar",
+                        q: "Zeynep teknolojik cihazlarla çok fazla zaman geçiriyor ve arkadaşlarıyla yüz yüze iletişime daha az zaman ayırıyor. Bu durum aşağıdakilerden hangisine örnektir?",
+                        options: [
+                            "Olumlu etki",
+                            "Olumsuz etki",
+                            "Zamandan tasarruf",
+                            "Bilgiye kolay ulaşma"
+                        ],
+                        correct: 1, // B
+                        explanation: "Yüz yüze iletişim yerine ekrana aşırı vakit ayırmak sosyal bağların ve arkadaşlıkların zayıflamasına yol açar."
+                    },
+                    {
+                        title: "SORU 8",
+                        tag: "Etki Ayrımı",
+                        q: "Aşağıdakilerden hangisi teknolojinin olumlu etkilerinden biri değildir?",
+                        options: [
+                            "Hayatı kolaylaştırması",
+                            "Zamandan tasarruf sağlaması",
+                            "Hızlı haberleşmeyi sağlaması",
+                            "Hareketsiz yaşamı artırması"
+                        ],
+                        correct: 3, // D
+                        explanation: "Hareketsiz yaşamı artırması teknolojinin olumsuz etkilerinden biridir."
+                    },
+                    {
+                        title: "SORU 9 – SAĞLIK DEDEKTİFİ",
+                        tag: "Bağımlılık Riski",
+                        q: "Bir öğrenci teknolojik cihazları yanlış ve fazla kullanmaya devam ediyor. Aşağıdakilerden hangisi ortaya çıkabilecek sorunlardan biridir?",
+                        options: [
+                            "Teknoloji ve oyun bağımlılığı",
+                            "Bilgiye kolay ulaşma",
+                            "Hızlı haberleşme",
+                            "Zamandan tasarruf"
+                        ],
+                        correct: 0, // A
+                        explanation: "Kontrolsüz ve ölçüsüz ekran kullanımı teknoloji ve oyun bağımlılığına sebep olabilir."
+                    },
+                    {
+                        title: "SORU 10 – BÜYÜK FİNAL",
+                        tag: "Bilinçli Kullanım",
+                        q: "Aşağıdakilerden hangisi teknolojiyi daha bilinçli kullanmaya yönelik en uygun davranıştır?",
+                        options: [
+                            "Teknolojik cihazları gün boyunca hiç bırakmamak",
+                            "Teknolojiyi yalnızca eğlence amacıyla kullanmak",
+                            "Teknolojinin olumlu ve olumsuz etkilerini fark ederek kullanmak",
+                            "Günün büyük bölümünü hareketsiz geçirmek"
+                        ],
+                        correct: 2, // C
+                        explanation: "Bilinçli dedektif; teknolojinin olumlu ve olumsuz yönlerini bilerek ölçülü ve dengeli kullanan kişidir."
+                    }
+                ];
+
+                this.currentQuestionIndex = 0;
+                this.userAnswers = new Array(this.questions.length).fill(null);
+                this.answerRevealed = new Array(this.questions.length).fill(false);
+                this.highScore = parseInt(localStorage.getItem('tekno_dedektif_highscore') || '0', 10);
+            }
+
+            init() {
+                this.renderMainMenu();
+                this.setupKeyboard();
+            }
+
+            setupKeyboard() {
+                document.addEventListener('keydown', (e) => {
+                    const activeScreen = document.getElementById('question-screen');
+                    if (!activeScreen) return;
+
+                    if (e.key === 'ArrowRight') {
+                        this.nextQuestion();
+                    } else if (e.key === 'ArrowLeft') {
+                        this.prevQuestion();
+                    } else if (e.key === 'Enter') {
+                        this.revealAnswer();
+                    }
+                });
+            }
+
+            renderMainMenu() {
+                const container = document.getElementById('app-container');
+                container.innerHTML = `
+                    <div class="glass-panel rounded-3xl p-6 sm:p-12 text-center max-w-3xl mx-auto space-y-8 shadow-2xl animate-pop relative overflow-hidden">
+                        <!-- Parlayan Arka Plan Efekti -->
+                        <div class="absolute -top-24 -left-24 w-60 h-60 bg-amber-500/10 rounded-full blur-3xl pointer-events-none"></div>
+                        <div class="absolute -bottom-24 -right-24 w-60 h-60 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none"></div>
+
+                        <!-- Başlık Rozeti -->
+                        <div class="inline-flex items-center gap-2.5 px-5 py-2 rounded-2xl bg-amber-500/20 border border-amber-400/40 text-yellow-300 font-black text-xs sm:text-sm uppercase tracking-widest shadow-inner">
+                            <i class="fa-solid fa-user-secret text-base"></i>
+                            <span>2. Hafta Akıllı Tahta Tekrar Oyunu</span>
+                        </div>
+
+                        <!-- Ana Başlık -->
+                        <div class="space-y-3">
+                            <h2 class="text-3xl sm:text-5xl font-black text-white tracking-tight drop-shadow-md">
+                                TEKNOLOJİ DEDEKTİFLERİ 🕵️‍♂️
+                            </h2>
+                            <p class="text-sm sm:text-base text-slate-300 font-medium max-w-xl mx-auto leading-relaxed">
+                                Bilişim Teknolojilerinin Etkileri ve Dijital Sağlık ipuçlarını takip et, 10 gizemi çözerek <strong class="text-yellow-400">Teknoloji Dedektifi Ustası</strong> rozetini kazan!
+                            </p>
+                        </div>
+
+                        <!-- Menü Butonları Grid -->
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-lg mx-auto pt-2">
+                            <button onclick="game.startGame()" class="sm:col-span-2 py-4 px-8 bg-gradient-to-r from-amber-500 via-yellow-400 to-amber-500 hover:from-amber-400 hover:to-yellow-300 text-slate-950 font-black text-lg sm:text-xl rounded-2xl shadow-xl flex items-center justify-center gap-3 transition-all hover:scale-105 active:scale-95 border-2 border-yellow-300 pulse-gold">
+                                <i class="fa-solid fa-play text-xl"></i>
+                                <span>OYUNA BAŞLA</span>
+                            </button>
+
+                            <button onclick="game.openModal('modal-review')" class="py-3.5 px-5 bg-slate-800/90 hover:bg-slate-700/90 text-white font-bold text-sm rounded-2xl border border-slate-700 flex items-center justify-center gap-2.5 transition-all hover:border-cyan-400 shadow-md">
+                                <i class="fa-solid fa-book-open text-cyan-400"></i>
+                                <span>Konuyu Tekrar Et</span>
+                            </button>
+
+                            <button onclick="game.openModal('modal-score')" class="py-3.5 px-5 bg-slate-800/90 hover:bg-slate-700/90 text-white font-bold text-sm rounded-2xl border border-slate-700 flex items-center justify-center gap-2.5 transition-all hover:border-purple-400 shadow-md">
+                                <i class="fa-solid fa-trophy text-yellow-400"></i>
+                                <span>Skor Tablosu</span>
+                            </button>
+
+                            <button onclick="game.openModal('modal-howto')" class="sm:col-span-2 py-3 px-5 bg-slate-850 hover:bg-slate-800 text-slate-300 font-semibold text-xs rounded-xl border border-slate-800 flex items-center justify-center gap-2 transition-all">
+                                <i class="fa-solid fa-circle-info text-indigo-400"></i>
+                                <span>Nasıl Oynanır? (Kurallar & İpuçları)</span>
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }
+
+            startGame() {
+                sounds.playFanfare();
+                this.currentQuestionIndex = 0;
+                this.userAnswers = new Array(this.questions.length).fill(null);
+                this.answerRevealed = new Array(this.questions.length).fill(false);
+                this.renderQuestionScreen();
+            }
+
+            renderQuestionScreen() {
+                const container = document.getElementById('app-container');
+                const q = this.questions[this.currentQuestionIndex];
+                const isRevealed = this.answerRevealed[this.currentQuestionIndex];
+                const selectedOpt = this.userAnswers[this.currentQuestionIndex];
+                const letters = ["A", "B", "C", "D"];
+                const progressPct = ((this.currentQuestionIndex + 1) / this.questions.length) * 100;
+
+                let score = this.calculateCurrentScore();
+
+                container.innerHTML = `
+                    <div id="question-screen" class="glass-panel rounded-3xl p-5 sm:p-8 max-w-4xl mx-auto space-y-6 shadow-2xl animate-pop border-2 border-yellow-400/30">
+                        
+                        <!-- Üst Kontrol & İlerleme Barı -->
+                        <div class="flex items-center justify-between gap-3 flex-wrap pb-3 border-b border-slate-800">
+                            <div class="flex items-center gap-2">
+                                <button onclick="game.renderMainMenu()" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold rounded-xl text-xs flex items-center gap-1.5 transition-all border border-slate-700">
+                                    <i class="fa-solid fa-house"></i> Ana Menü
+                                </button>
+                                <button onclick="game.startGame()" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold rounded-xl text-xs flex items-center gap-1.5 transition-all border border-slate-700" title="Yeniden Başlat">
+                                    <i class="fa-solid fa-rotate-right"></i>
+                                </button>
+                            </div>
+
+                            <div class="flex items-center gap-3">
+                                <span class="px-3.5 py-1 bg-amber-500/20 text-yellow-300 font-black rounded-xl text-xs uppercase border border-amber-500/30">
+                                    Soru: ${this.currentQuestionIndex + 1} / ${this.questions.length}
+                                </span>
+                                <span class="px-3.5 py-1 bg-emerald-500/20 text-emerald-300 font-black rounded-xl text-xs flex items-center gap-1.5 border border-emerald-500/30">
+                                    <i class="fa-solid fa-star text-yellow-400"></i> ${score} Puan
+                                </span>
+                            </div>
+                        </div>
+
+                        <!-- İlerleme Çizgisi -->
+                        <div class="w-full bg-slate-800 h-2 rounded-full overflow-hidden border border-slate-700/50">
+                            <div class="h-full bg-gradient-to-r from-amber-400 to-yellow-300 transition-all duration-300 rounded-full" style="width: ${progressPct}%"></div>
+                        </div>
+
+                        <!-- Soru Başlık & Metni -->
+                        <div class="space-y-2">
+                            <div class="flex items-center gap-2">
+                                <span class="px-2.5 py-0.5 bg-indigo-500/30 text-indigo-300 rounded-lg text-[11px] font-black uppercase tracking-wider">${q.tag}</span>
+                                <span class="text-xs text-slate-400 font-bold">${q.title}</span>
+                            </div>
+                            <h3 class="text-lg sm:text-2xl font-black text-white leading-relaxed">
+                                ${q.q}
+                            </h3>
+                        </div>
+
+                        <!-- 4 Seçenek Kartı -->
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5 pt-1">
+                            ${q.options.map((opt, idx) => {
+                                let btnClasses = "bg-slate-850 hover:bg-slate-800 border-slate-700 text-slate-100 hover:border-yellow-400/60";
+                                let letterBg = "bg-slate-800 text-yellow-400";
+                                let indicator = "";
+
+                                if (!isRevealed) {
+                                    if (selectedOpt === idx) {
+                                        btnClasses = "bg-yellow-500/20 border-yellow-400 text-yellow-300 font-bold ring-2 ring-yellow-400/50 scale-[1.01]";
+                                        letterBg = "bg-yellow-400 text-slate-950 font-black";
+                                        indicator = '<span class="text-xs font-extrabold text-yellow-300 uppercase ml-auto">Seçildi</span>';
+                                    }
+                                } else {
+                                    if (idx === q.correct) {
+                                        btnClasses = "bg-emerald-600 border-emerald-400 text-white font-black ring-4 ring-emerald-400/40 scale-[1.01]";
+                                        letterBg = "bg-black/40 text-emerald-300 font-black";
+                                        indicator = '<span class="text-xs font-black text-white uppercase ml-auto flex items-center gap-1"><i class="fa-solid fa-check"></i> Doğru</span>';
+                                    } else if (selectedOpt === idx) {
+                                        btnClasses = "bg-rose-700/80 border-rose-500 text-rose-100 font-bold opacity-85";
+                                        letterBg = "bg-black/40 text-rose-300 font-black";
+                                        indicator = '<span class="text-xs font-bold text-rose-200 uppercase ml-auto flex items-center gap-1"><i class="fa-solid fa-xmark"></i> Yanlış</span>';
+                                    } else {
+                                        btnClasses = "bg-slate-900/50 border-slate-800 text-slate-500 opacity-60";
+                                        letterBg = "bg-slate-900 text-slate-600";
+                                    }
+                                }
+
+                                return `
+                                    <button onclick="game.selectOption(${idx})" class="option-btn p-4 rounded-2xl border-2 text-left flex items-center gap-3.5 shadow-md ${btnClasses}">
+                                        <span class="w-9 h-9 rounded-xl flex items-center justify-center font-black text-sm shrink-0 shadow-inner ${letterBg}">
+                                            ${letters[idx]}
+                                        </span>
+                                        <span class="text-sm sm:text-base font-semibold leading-snug">${opt}</span>
+                                        ${indicator}
+                                    </button>
+                                `;
+                            }).join('')}
+                        </div>
+
+                        <!-- Geri Bildirim ve Açıklama Kutusu (Cevabı Göster denince açılır) -->
+                        <div id="feedback-area" class="min-h-[70px]">
+                            ${isRevealed ? `
+                                <div class="p-4 rounded-2xl border-2 animate-pop ${selectedOpt === q.correct ? 'bg-emerald-950/80 border-emerald-500 text-emerald-100' : 'bg-rose-950/80 border-rose-500 text-rose-100'} space-y-1">
+                                    <div class="flex items-center justify-between font-black text-xs sm:text-sm">
+                                        <span>${selectedOpt === q.correct ? '🎉 TEBRİKLER! DOĞRU CEVAP (+10 PUAN)' : '💡 TEKRAR DÜŞÜN! Teknolojinin etkisini bulmaya çalış.'}</span>
+                                        <span class="text-yellow-300 font-extrabold">Doğru: ${letters[q.correct]}</span>
+                                    </div>
+                                    <p class="text-xs sm:text-sm font-medium text-white">${q.explanation}</p>
+                                </div>
+                            ` : `
+                                <div class="p-3 bg-slate-900/50 rounded-xl border border-slate-800 text-center text-xs text-slate-400">
+                                    💡 Öğrenciler cevabı seçtikten sonra doğru cevabı ve çözümü görmek için <strong>"Cevabı Göster"</strong> butonuna basınız.
+                                </div>
+                            `}
+                        </div>
+
+                        <!-- Alt Navigasyon Çubuğu -->
+                        <div class="flex items-center justify-between gap-3 pt-2 flex-wrap">
+                            <button onclick="game.prevQuestion()" ${this.currentQuestionIndex === 0 ? 'disabled' : ''} class="px-5 py-3 bg-slate-800 hover:bg-slate-700 disabled:opacity-40 disabled:pointer-events-none text-white font-bold text-xs sm:text-sm rounded-xl border border-slate-700 flex items-center gap-2 transition-all">
+                                <i class="fa-solid fa-arrow-left"></i> Önceki
+                            </button>
+
+                            <!-- Ortadaki Büyük Buton: Cevabı Göster -->
+                            ${!isRevealed ? `
+                                <button onclick="game.revealAnswer()" class="px-8 py-3.5 bg-yellow-500 hover:bg-yellow-400 text-slate-950 font-black text-sm sm:text-base rounded-2xl shadow-xl flex items-center gap-2.5 transition-all hover:scale-105 active:scale-95 border-2 border-yellow-300">
+                                    <i class="fa-solid fa-eye"></i>
+                                    <span>CEVABI GÖSTER</span>
+                                </button>
+                            ` : `
+                                <div class="text-xs text-emerald-400 font-bold flex items-center gap-1.5">
+                                    <i class="fa-solid fa-circle-check"></i> Cevap İncelendi
+                                </div>
+                            `}
+
+                            ${this.currentQuestionIndex < this.questions.length - 1 ? `
+                                <button onclick="game.nextQuestion()" class="px-6 py-3 bg-indigo-600 hover:bg-indigo-500 text-white font-black text-xs sm:text-sm rounded-xl border border-indigo-400 flex items-center gap-2 transition-all shadow-lg hover:scale-105 active:scale-95">
+                                    <span>Sonraki</span> <i class="fa-solid fa-arrow-right"></i>
+                                </button>
+                            ` : `
+                                <button onclick="game.finishGame()" class="px-6 py-3 bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 text-white font-black text-xs sm:text-sm rounded-xl border border-emerald-300 flex items-center gap-2 transition-all shadow-xl hover:scale-105 active:scale-95 pulse-gold">
+                                    <span>Raporu Gör</span> <i class="fa-solid fa-flag-checkered"></i>
+                                </button>
+                            `}
+                        </div>
+                    </div>
+                `;
+            }
+
+            selectOption(optIdx) {
+                if (this.answerRevealed[this.currentQuestionIndex]) return;
+                sounds.playClick();
+                this.userAnswers[this.currentQuestionIndex] = optIdx;
+                this.renderQuestionScreen();
+            }
+
+            revealAnswer() {
+                if (this.answerRevealed[this.currentQuestionIndex]) return;
+
+                if (this.userAnswers[this.currentQuestionIndex] === null) {
+                    alert("Lütfen önce bir cevap seçeneğine dokununuz!");
+                    return;
+                }
+
+                this.answerRevealed[this.currentQuestionIndex] = true;
+                const q = this.questions[this.currentQuestionIndex];
+                const isCorrect = (this.userAnswers[this.currentQuestionIndex] === q.correct);
+
+                if (isCorrect) {
+                    sounds.playCorrect();
+                } else {
+                    sounds.playWrong();
+                }
+
+                this.renderQuestionScreen();
+            }
+
+            nextQuestion() {
+                if (this.currentQuestionIndex < this.questions.length - 1) {
+                    sounds.playClick();
+                    this.currentQuestionIndex++;
+                    this.renderQuestionScreen();
+                }
+            }
+
+            prevQuestion() {
+                if (this.currentQuestionIndex > 0) {
+                    sounds.playClick();
+                    this.currentQuestionIndex--;
+                    this.renderQuestionScreen();
+                }
+            }
+
+            calculateCurrentScore() {
+                let score = 0;
+                this.userAnswers.forEach((ans, idx) => {
+                    if (ans !== null && ans === this.questions[idx].correct) {
+                        score += 10;
+                    }
+                });
+                return score;
+            }
+
+            finishGame() {
+                sounds.playFanfare();
+                const finalScore = this.calculateCurrentScore();
+
+                // Yüksek skor kontrolü
+                if (finalScore > this.highScore) {
+                    this.highScore = finalScore;
+                    localStorage.setItem('tekno_dedektif_highscore', finalScore.toString());
+                    const hsEl = document.getElementById('high-score-display');
+                    if (hsEl) hsEl.innerText = `${finalScore} / 100`;
+                }
+
+                let badge = "";
+                let badgeColor = "";
+                if (finalScore >= 90) {
+                    badge = "Teknoloji Dedektifi Ustası! 🕵️‍♂️🥇";
+                    badgeColor = "from-amber-400 to-yellow-300 text-slate-950";
+                } else if (finalScore >= 70) {
+                    badge = "Çok İyi Dedektif! 🥈";
+                    badgeColor = "from-cyan-400 to-blue-500 text-white";
+                } else if (finalScore >= 50) {
+                    badge = "İyi Gidiyorsun! 🥉";
+                    badgeColor = "from-emerald-400 to-teal-500 text-slate-950";
+                } else {
+                    badge = "Bir Kez Daha Tekrar Edelim! 🔄";
+                    badgeColor = "from-rose-500 to-orange-500 text-white";
+                }
+
+                const container = document.getElementById('app-container');
+                container.innerHTML = `
+                    <div class="glass-panel rounded-3xl p-6 sm:p-10 max-w-3xl mx-auto space-y-6 shadow-2xl text-center animate-pop border-2 border-yellow-400/40">
+                        
+                        <div class="w-20 h-20 rounded-full bg-gradient-to-tr ${badgeColor} mx-auto flex items-center justify-center text-4xl shadow-2xl animate-bounce">
+                            <i class="fa-solid fa-award"></i>
+                        </div>
+
+                        <div class="space-y-1">
+                            <span class="px-3.5 py-1 bg-yellow-400/20 text-yellow-300 font-black rounded-xl text-xs uppercase tracking-widest border border-yellow-400/30">
+                                GÖREV TAMAMLANDI
+                            </span>
+                            <h2 class="text-3xl sm:text-4xl font-black text-white">TEKNOLOJİ DEDEKTİFİ RAPORUN</h2>
+                        </div>
+
+                        <!-- Puan Kartı -->
+                        <div class="p-5 bg-slate-900/90 rounded-2xl border border-slate-700 inline-block px-10 shadow-inner">
+                            <div class="text-xs text-slate-400 uppercase font-extrabold tracking-wider">TOPLAM PUANIN</div>
+                            <div class="text-5xl sm:text-6xl font-black text-yellow-400 my-1">${finalScore} <span class="text-2xl text-slate-400 font-bold">/ 100</span></div>
+                            <div class="px-4 py-1.5 rounded-full text-xs sm:text-sm font-black mt-2 bg-gradient-to-r ${badgeColor}">
+                                ${badge}
+                            </div>
+                        </div>
+
+                        <!-- Dedektif Yetkinlik Maddeleri -->
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-left max-w-xl mx-auto text-xs sm:text-sm">
+                            <div class="p-3 bg-slate-850 rounded-xl border border-emerald-500/30 flex items-center gap-2.5 text-emerald-200">
+                                <i class="fa-solid fa-circle-check text-emerald-400 text-base shrink-0"></i>
+                                <span>Teknolojinin olumlu etkilerini biliyorum.</span>
+                            </div>
+                            <div class="p-3 bg-slate-850 rounded-xl border border-emerald-500/30 flex items-center gap-2.5 text-emerald-200">
+                                <i class="fa-solid fa-circle-check text-emerald-400 text-base shrink-0"></i>
+                                <span>Olumsuz etkilerini fark edebiliyorum.</span>
+                            </div>
+                            <div class="p-3 bg-slate-850 rounded-xl border border-emerald-500/30 flex items-center gap-2.5 text-emerald-200">
+                                <i class="fa-solid fa-circle-check text-emerald-400 text-base shrink-0"></i>
+                                <span>Dijital sağlığımı korumanın önemini biliyorum.</span>
+                            </div>
+                            <div class="p-3 bg-slate-850 rounded-xl border border-emerald-500/30 flex items-center gap-2.5 text-emerald-200">
+                                <i class="fa-solid fa-circle-check text-emerald-400 text-base shrink-0"></i>
+                                <span>Teknolojiyi bilinçli kullanabilirim.</span>
+                            </div>
+                        </div>
+
+                        <!-- Kapanış Mesajı -->
+                        <div class="p-4 bg-gradient-to-r from-amber-500/20 via-yellow-500/20 to-amber-500/20 rounded-2xl border border-yellow-400/40 text-yellow-200 font-bold text-xs sm:text-sm max-w-xl mx-auto">
+                            “Teknoloji hayatımızı kolaylaştırır. Önemli olan onu nasıl kullandığımızdır!”
+                        </div>
+
+                        <!-- Butonlar -->
+                        <div class="flex justify-center gap-4 flex-wrap pt-2">
+                            <button onclick="game.startGame()" class="px-7 py-3.5 bg-gradient-to-r from-amber-500 to-yellow-400 hover:from-amber-400 hover:to-yellow-300 text-slate-950 font-black text-sm sm:text-base rounded-2xl shadow-xl flex items-center gap-2 transition-all hover:scale-105 active:scale-95 border-2 border-yellow-300">
+                                <i class="fa-solid fa-rotate-right"></i>
+                                <span>Tekrar Oyna</span>
+                            </button>
+                            <button onclick="game.renderMainMenu()" class="px-7 py-3.5 bg-slate-800 hover:bg-slate-700 text-white font-bold text-sm sm:text-base rounded-2xl shadow-lg flex items-center gap-2 transition-all border border-slate-700">
+                                <i class="fa-solid fa-house"></i>
+                                <span>Ana Menü</span>
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }
+
+            openModal(modalId) {
+                sounds.playClick();
+                const m = document.getElementById(modalId);
+                if (m) {
+                    if (modalId === 'modal-score') {
+                        const hsEl = document.getElementById('high-score-display');
+                        const hsDesc = document.getElementById('high-score-desc');
+                        if (hsEl) hsEl.innerText = `${this.highScore} / 100`;
+                        if (hsDesc) {
+                            if (this.highScore >= 90) hsDesc.innerText = "Harika! Teknoloji Dedektifi Ustası unvanına sahipsin!";
+                            else if (this.highScore > 0) hsDesc.innerText = "İyi bir skor! Şimdi 100 tam puan almayı dene!";
+                            else hsDesc.innerText = "Henüz oyun tamamlanmadı. Oyuna başla ve dedektif rozetini kap!";
+                        }
+                    }
+                    m.classList.remove('hidden');
+                }
+            }
+
+            closeModal(modalId) {
+                sounds.playClick();
+                const m = document.getElementById(modalId);
+                if (m) m.classList.add('hidden');
+            }
+
+            toggleAudio() {
+                sounds.muted = !sounds.muted;
+                const icon = document.getElementById('audio-icon');
+                if (icon) {
+                    icon.className = sounds.muted ? "fa-solid fa-volume-xmark text-rose-400" : "fa-solid fa-volume-high text-yellow-400";
+                }
+            }
+
+            toggleFullscreen() {
+                sounds.playClick();
+                if (!document.fullscreenElement) {
+                    if (document.documentElement.requestFullscreen) {
+                        document.documentElement.requestFullscreen();
+                    }
+                } else {
+                    if (document.exitFullscreen) {
+                        document.exitFullscreen();
+                    }
+                }
+            }
+        }
+
+        const game = new TeknolojiDedektifleriGame();
+        window.onload = () => game.init();
+    </script>
+</body>
+</html>

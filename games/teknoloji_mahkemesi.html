@@ -1,0 +1,1677 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Teknoloji Mahkemesi - Bilişim Teknolojileri 5. Sınıf</title>
+  <style>
+    :root {
+      --bg-dark: #0f172a;
+      --bg-card: #1e293b;
+      --bg-card-hover: #334155;
+      --accent-gold: #f59e0b;
+      --accent-gold-light: #fbbf24;
+      --court-red: #ef4444;
+      --court-red-dark: #b91c1c;
+      --court-green: #10b981;
+      --court-green-dark: #047857;
+      --court-blue: #3b82f6;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --border-color: #475569;
+      --shadow-lg: 0 10px 25px -5px rgba(0, 0, 0, 0.5), 0 8px 10px -6px rgba(0, 0, 0, 0.5);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+
+    body {
+      background: radial-gradient(circle at top, #1e293b 0%, #0f172a 100%);
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow-x: hidden;
+    }
+
+    /* ÜST BİLGİ VE SKOR PANELİ */
+    header {
+      background: rgba(15, 23, 42, 0.95);
+      border-bottom: 3px solid var(--accent-gold);
+      padding: 10px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      box-shadow: var(--shadow-lg);
+      position: sticky;
+      top: 0;
+      z-index: 50;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .brand-icon {
+      font-size: 2rem;
+      filter: drop-shadow(0 0 8px var(--accent-gold));
+    }
+
+    .brand-title {
+      font-size: 1.4rem;
+      font-weight: 800;
+      letter-spacing: 1px;
+      color: var(--accent-gold-light);
+    }
+
+    .brand-sub {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .btn-header {
+      background: #334155;
+      color: var(--text-main);
+      border: 1px solid var(--border-color);
+      padding: 8px 14px;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s;
+    }
+
+    .btn-header:hover {
+      background: #475569;
+      transform: translateY(-1px);
+    }
+
+    /* CANLI TEK TAKIM SKOR PANELİ */
+    .live-scoreboard {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .single-team-badge {
+      background: linear-gradient(135deg, #1e293b, #2d3f59);
+      border: 2px solid var(--accent-gold);
+      padding: 6px 18px;
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      white-space: nowrap;
+      font-size: 1rem;
+      box-shadow: 0 0 15px rgba(245, 158, 11, 0.25);
+    }
+
+    .single-team-badge .t-name {
+      font-weight: 800;
+      color: var(--accent-gold-light);
+    }
+
+    .single-team-badge .t-score {
+      background: var(--accent-gold);
+      color: #0f172a;
+      font-weight: 900;
+      padding: 3px 12px;
+      border-radius: 12px;
+      font-size: 1rem;
+    }
+
+    /* ANA KONTEYNER */
+    main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      max-width: 1200px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    /* EKRANLAR */
+    .screen {
+      display: none;
+      width: 100%;
+      animation: fadeIn 0.3s ease-in-out;
+    }
+
+    .screen.active {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* GİRİŞ EKRANI */
+    .menu-card {
+      background: var(--bg-card);
+      border: 2px solid var(--border-color);
+      border-radius: 20px;
+      padding: 40px;
+      text-align: center;
+      box-shadow: var(--shadow-lg);
+      max-width: 700px;
+      width: 100%;
+    }
+
+    .menu-logo {
+      font-size: 4.5rem;
+      margin-bottom: 10px;
+      animation: pulse 2s infinite ease-in-out;
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.06); }
+    }
+
+    .menu-title {
+      font-size: 2.5rem;
+      font-weight: 900;
+      color: var(--accent-gold-light);
+      margin-bottom: 6px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .menu-subtitle {
+      font-size: 1.25rem;
+      color: var(--text-muted);
+      margin-bottom: 25px;
+      font-style: italic;
+    }
+
+    .menu-curriculum-badge {
+      display: inline-block;
+      background: #334155;
+      color: #38bdf8;
+      padding: 6px 16px;
+      border-radius: 30px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      margin-bottom: 30px;
+      border: 1px solid #475569;
+    }
+
+    .menu-buttons {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 14px;
+      max-width: 400px;
+      margin: 0 auto;
+    }
+
+    .btn-main {
+      padding: 16px 24px;
+      font-size: 1.2rem;
+      font-weight: 800;
+      border-radius: 12px;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      transition: all 0.2s;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    }
+
+    .btn-start {
+      background: linear-gradient(135deg, var(--accent-gold), #d97706);
+      color: #0f172a;
+    }
+
+    .btn-start:hover {
+      background: linear-gradient(135deg, var(--accent-gold-light), var(--accent-gold));
+      transform: translateY(-3px);
+      box-shadow: 0 8px 20px rgba(245, 158, 11, 0.4);
+    }
+
+    .btn-secondary {
+      background: #334155;
+      color: var(--text-main);
+      border: 1px solid var(--border-color);
+    }
+
+    .btn-secondary:hover {
+      background: #475569;
+      transform: translateY(-2px);
+    }
+
+    /* DAVA / OYUN EKRANI */
+    .game-container {
+      width: 100%;
+      max-width: 950px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .docket-header {
+      background: var(--bg-card);
+      border-radius: 16px;
+      padding: 16px 24px;
+      border: 2px solid var(--border-color);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .docket-case-info {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .case-number-pill {
+      background: var(--accent-gold);
+      color: #0f172a;
+      font-weight: 900;
+      font-size: 1.1rem;
+      padding: 6px 14px;
+      border-radius: 8px;
+    }
+
+    .case-difficulty-pill {
+      font-size: 0.85rem;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 6px;
+      text-transform: uppercase;
+    }
+
+    .diff-easy { background: rgba(16, 185, 129, 0.2); color: #34d399; border: 1px solid #10b981; }
+    .diff-medium { background: rgba(245, 158, 11, 0.2); color: #fbbf24; border: 1px solid #f59e0b; }
+    .diff-hard { background: rgba(239, 68, 68, 0.2); color: #f87171; border: 1px solid #ef4444; }
+
+    .current-turn-indicator {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: #0f172a;
+      padding: 8px 16px;
+      border-radius: 30px;
+      border: 2px solid var(--accent-gold);
+    }
+
+    .current-turn-indicator span {
+      font-weight: 800;
+      color: var(--accent-gold-light);
+      font-size: 1rem;
+    }
+
+    /* DAVA DOSYASI KARTI */
+    .case-file-card {
+      background: linear-gradient(180deg, #1e293b 0%, #172033 100%);
+      border: 2px solid #475569;
+      border-radius: 20px;
+      padding: 30px;
+      box-shadow: var(--shadow-lg);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .case-file-card::before {
+      content: "📋 DAVA DOSYASI";
+      position: absolute;
+      top: 12px;
+      right: 20px;
+      font-size: 0.8rem;
+      font-weight: 800;
+      color: var(--accent-gold);
+      letter-spacing: 1.5px;
+      opacity: 0.7;
+    }
+
+    .case-topic-tag {
+      display: inline-block;
+      font-size: 0.85rem;
+      color: var(--accent-gold-light);
+      font-weight: 700;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    .case-scenario-text {
+      font-size: 1.45rem;
+      line-height: 1.6;
+      font-weight: 600;
+      color: #ffffff;
+      margin-bottom: 24px;
+      padding: 16px;
+      background: rgba(15, 23, 42, 0.6);
+      border-left: 5px solid var(--accent-gold);
+      border-radius: 0 12px 12px 0;
+    }
+
+    .case-question-title {
+      font-size: 1.25rem;
+      font-weight: 800;
+      color: #38bdf8;
+      margin-bottom: 18px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    /* AŞAMA 1: OLUMLU / OLUMSUZ SEÇİM BUTONLARI */
+    .decision-buttons-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      margin-top: 15px;
+    }
+
+    .btn-decision {
+      padding: 24px;
+      border-radius: 16px;
+      font-size: 1.4rem;
+      font-weight: 900;
+      border: 3px solid transparent;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      transition: all 0.2s;
+      box-shadow: var(--shadow-lg);
+    }
+
+    .btn-decision-positive {
+      background: linear-gradient(135deg, #065f46, var(--court-green));
+      color: #ffffff;
+      border-color: #34d399;
+    }
+
+    .btn-decision-positive:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 25px rgba(16, 185, 129, 0.4);
+      background: linear-gradient(135deg, var(--court-green), #34d399);
+      color: #064e3b;
+    }
+
+    .btn-decision-negative {
+      background: linear-gradient(135deg, #991b1b, var(--court-red));
+      color: #ffffff;
+      border-color: #f87171;
+    }
+
+    .btn-decision-negative:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 25px rgba(239, 68, 68, 0.4);
+      background: linear-gradient(135deg, var(--court-red), #f87171);
+      color: #450a0a;
+    }
+
+    .btn-decision .icon-large {
+      font-size: 2.8rem;
+    }
+
+    /* AŞAMA 2: GEREKÇE SEÇENEKLERİ */
+    .justification-section {
+      display: none;
+      flex-direction: column;
+      gap: 15px;
+      margin-top: 10px;
+      animation: fadeIn 0.3s ease;
+    }
+
+    .justification-section.active {
+      display: flex;
+    }
+
+    .justification-title {
+      font-size: 1.3rem;
+      font-weight: 800;
+      color: var(--accent-gold-light);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .options-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+    }
+
+    .btn-option {
+      background: #1e293b;
+      border: 2px solid var(--border-color);
+      color: var(--text-main);
+      padding: 16px 20px;
+      border-radius: 12px;
+      font-size: 1.15rem;
+      font-weight: 600;
+      text-align: left;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      transition: all 0.2s;
+    }
+
+    .btn-option:hover {
+      background: #334155;
+      border-color: var(--accent-gold);
+      transform: translateX(4px);
+    }
+
+    .opt-letter {
+      background: #0f172a;
+      color: var(--accent-gold-light);
+      font-weight: 800;
+      width: 38px;
+      height: 38px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+      border: 1px solid var(--border-color);
+      flex-shrink: 0;
+    }
+
+    /* MAHKEME KARARI / SONUÇ KARTI (HER TUR SONU) */
+    .verdict-modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(15, 23, 42, 0.85);
+      backdrop-filter: blur(6px);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 100;
+      padding: 20px;
+      animation: fadeIn 0.25s ease;
+    }
+
+    .verdict-modal-overlay.active {
+      display: flex;
+    }
+
+    .verdict-box {
+      background: #1e293b;
+      border: 3px solid var(--accent-gold);
+      border-radius: 20px;
+      padding: 30px;
+      max-width: 650px;
+      width: 100%;
+      text-align: center;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.7);
+      animation: scaleUp 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    @keyframes scaleUp {
+      from { transform: scale(0.85); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+
+    .verdict-header-icon {
+      font-size: 3.5rem;
+      margin-bottom: 10px;
+    }
+
+    .verdict-status {
+      font-size: 2rem;
+      font-weight: 900;
+      margin-bottom: 10px;
+    }
+
+    .status-full { color: var(--court-green); }
+    .status-half { color: var(--accent-gold-light); }
+    .status-zero { color: var(--court-red); }
+
+    .verdict-points-badge {
+      display: inline-block;
+      font-size: 1.3rem;
+      font-weight: 800;
+      padding: 6px 20px;
+      border-radius: 20px;
+      background: #0f172a;
+      border: 2px solid currentColor;
+      margin-bottom: 20px;
+    }
+
+    .verdict-explanation {
+      background: #0f172a;
+      padding: 16px;
+      border-radius: 12px;
+      font-size: 1.1rem;
+      line-height: 1.6;
+      color: #e2e8f0;
+      text-align: left;
+      margin-bottom: 24px;
+      border-left: 4px solid var(--accent-gold);
+    }
+
+    .verdict-explanation strong {
+      color: var(--accent-gold-light);
+    }
+
+    /* MODAL PENCERELER (NASIL OYNANIR, AYARLAR) */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(15, 23, 42, 0.8);
+      backdrop-filter: blur(4px);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 90;
+      padding: 20px;
+    }
+
+    .modal-overlay.active {
+      display: flex;
+    }
+
+    .modal-box {
+      background: var(--bg-card);
+      border: 2px solid var(--border-color);
+      border-radius: 20px;
+      padding: 30px;
+      max-width: 650px;
+      width: 100%;
+      max-height: 85vh;
+      overflow-y: auto;
+      box-shadow: var(--shadow-lg);
+    }
+
+    .modal-title {
+      font-size: 1.6rem;
+      font-weight: 800;
+      color: var(--accent-gold-light);
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      border-bottom: 2px solid #334155;
+      padding-bottom: 12px;
+    }
+
+    .team-config-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 0;
+      border-bottom: 1px solid #334155;
+      gap: 15px;
+    }
+
+    .team-input {
+      background: #0f172a;
+      border: 1px solid var(--border-color);
+      color: white;
+      padding: 8px 14px;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 600;
+      flex: 1;
+    }
+
+    .rule-item {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 14px;
+      font-size: 1.05rem;
+      line-height: 1.5;
+    }
+
+    .rule-icon {
+      font-size: 1.3rem;
+      color: var(--accent-gold);
+      flex-shrink: 0;
+    }
+
+    /* FİNAL SKOR EKRANI */
+    .final-card {
+      background: var(--bg-card);
+      border: 3px solid var(--accent-gold);
+      border-radius: 24px;
+      padding: 40px 30px;
+      text-align: center;
+      max-width: 750px;
+      width: 100%;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
+    }
+
+    /* ALT BİLGİ */
+    footer {
+      background: #090d16;
+      border-top: 1px solid #1e293b;
+      padding: 12px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .teacher-badge {
+      color: var(--accent-gold-light);
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* DUYARLILIK VE AKILLI TAHTA UYUMLULUĞU */
+    @media (max-width: 768px) {
+      .decision-buttons-grid {
+        grid-template-columns: 1fr;
+      }
+      .case-scenario-text {
+        font-size: 1.2rem;
+      }
+      .menu-title {
+        font-size: 1.8rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ÜST PANEL -->
+  <header>
+    <div class="brand">
+      <span class="brand-icon">⚖️</span>
+      <div>
+        <div class="brand-title">TEKNOLOJİ MAHKEMESİ</div>
+        <div class="brand-sub">Bilişim Teknolojileri ve Yazılım | 5. Sınıf</div>
+      </div>
+    </div>
+
+    <!-- Canlı Tek Jüri Skoru -->
+    <div class="live-scoreboard" id="headerScoreboard">
+      <!-- JavaScript ile doldurulur -->
+    </div>
+
+    <!-- Başlık Butonları -->
+    <div class="header-actions">
+      <button class="btn-header" onclick="toggleSound()" id="soundToggleBtn" title="Sesi Aç/Kapat">
+        <span id="soundIcon">🔊</span>
+      </button>
+      <button class="btn-header" onclick="toggleFullScreen()" title="Tam Ekran">
+        <span>⛶</span>
+      </button>
+      <button class="btn-header" onclick="openModal('teamsModal')" title="Takım Ayarları">
+        <span>✏️</span> Jüri Adı
+      </button>
+    </div>
+  </header>
+
+  <!-- ANA İÇERİK ALANI -->
+  <main>
+    
+    <!-- 1. GİRİŞ VE ANA MENÜ EKRANI -->
+    <section id="menuScreen" class="screen active">
+      <div class="menu-card">
+        <div class="menu-logo">⚖️</div>
+        <h1 class="menu-title">Teknoloji Mahkemesi</h1>
+        <p class="menu-subtitle">“Kararını ver. Gerekçeni savun.”</p>
+        
+        <div class="menu-curriculum-badge">
+          📌 Kazanım: BTY.5.1.2 Bilişim teknolojilerinin olumlu ve olumsuz etkilerini değerlendirir.
+        </div>
+
+        <div class="menu-buttons">
+          <button class="btn-main btn-start" onclick="startGame()">
+            <span>▶</span> DAVAYI BAŞLAT
+          </button>
+          <button class="btn-main btn-secondary" onclick="openModal('howToPlayModal')">
+            <span>📖</span> Nasıl Oynanır?
+          </button>
+          <button class="btn-main btn-secondary" onclick="openModal('teamsModal')">
+            <span>✏️</span> Jüri / Takım Adı Belirle
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2. OYUN / DAVA EKRANI -->
+    <section id="gameScreen" class="screen">
+      <div class="game-container">
+        
+        <!-- Dava Başlığı ve Bilgi Şeridi -->
+        <div class="docket-header">
+          <div class="docket-case-info">
+            <span class="case-number-pill" id="casePill">DAVA #1 / 20</span>
+            <span class="case-difficulty-pill diff-easy" id="diffPill">KOLAY SEVİYE</span>
+          </div>
+          
+          <div class="current-turn-indicator">
+            <span>🧑‍⚖️ Jüri:</span>
+            <span id="activeTurnName">Sınıf Jürisi</span>
+          </div>
+        </div>
+
+        <!-- Dava Dosyası İçeriği -->
+        <div class="case-file-card">
+          <span class="case-topic-tag" id="caseCategory">GÜNLÜK YAŞAM VE TEKNOLOJİ</span>
+          <div class="case-scenario-text" id="scenarioText">
+            Senaryo yükleniyor...
+          </div>
+
+          <!-- AŞAMA 1: OLUMLU / OLUMSUZ MAHKEME KARARI -->
+          <div id="decisionPhase">
+            <h3 class="case-question-title">
+              <span>⚖️</span> Jüri Kararı: Bu durum teknolojinin hangi etkisini göstermektedir?
+            </h3>
+            
+            <div class="decision-buttons-grid">
+              <button class="btn-decision btn-decision-positive" onclick="handleDecisionChoice(true)">
+                <span class="icon-large">🟢</span>
+                <span>OLUMLU ETKİ</span>
+              </button>
+              <button class="btn-decision btn-decision-negative" onclick="handleDecisionChoice(false)">
+                <span class="icon-large">🔴</span>
+                <span>OLUMSUZ ETKİ</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- AŞAMA 2: GEREKÇELENDİRME SEÇENEKLERİ -->
+          <div id="justificationPhase" class="justification-section">
+            <h3 class="justification-title">
+              <span>📜</span> MAHKEME KARARINI GEREKÇELENDİR:
+            </h3>
+            <p style="color: var(--text-muted); font-size: 1rem; margin-bottom: 6px;">
+              Verdiğin kararı destekleyen en uygun ders gerekçesini seç:
+            </p>
+
+            <div class="options-grid" id="optionsContainer">
+              <!-- JS ile şıklar oluşturulur -->
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 3. FİNAL VE KAZANAN EKRANI -->
+    <section id="finalScreen" class="screen">
+      <div class="final-card">
+        <div style="font-size: 4rem; margin-bottom: 10px;">🏆</div>
+        <h2 style="font-size: 2.2rem; font-weight: 900; color: var(--accent-gold-light); margin-bottom: 6px;">
+          MAHKEME KARAR RAPORU
+        </h2>
+        <p style="color: #94a3b8; font-size: 1.15rem; margin-bottom: 20px;">
+          Tüm 20 dava dosyası başarıyla incelendi ve karara bağlandı!
+        </p>
+
+        <!-- Tek Takım Başarı Karnesi -->
+        <div style="background: rgba(15, 23, 42, 0.85); border: 2px solid var(--accent-gold); border-radius: 18px; padding: 25px; margin: 20px 0; display: flex; flex-direction: column; align-items: center; gap: 14px;">
+          <div id="finalTeamName" style="font-size: 1.8rem; font-weight: 900; color: #fff;">Sınıf Jürisi</div>
+          <div id="finalScoreDisplay" style="font-size: 2.4rem; font-weight: 900; color: var(--accent-gold-light);">0 / 400 PUAN</div>
+          <div id="finalRankBadge" style="background: rgba(16, 185, 129, 0.2); border: 2px solid #10b981; color: #34d399; font-size: 1.2rem; font-weight: 800; padding: 6px 20px; border-radius: 20px;">
+            BAŞYARGIÇ DÜZEYİ
+          </div>
+        </div>
+
+        <div style="background: rgba(15,23,42,0.7); border: 2px dashed var(--accent-gold); border-radius: 16px; padding: 20px; margin: 20px 0;">
+          <h3 style="color: #34d399; font-size: 1.4rem; font-weight: 800; margin-bottom: 8px;">
+            🎉 TEBRİKLER!
+          </h3>
+          <p style="font-size: 1.1rem; color: #f8fafc;" id="winnerMessage">
+            Teknolojinin olumlu ve olumsuz etkilerini doğru gerekçelerle değerlendirerek davaları adaletle sonlandırdınız.
+          </p>
+        </div>
+
+        <div style="display: flex; gap: 14px; justify-content: center; flex-wrap: wrap;">
+          <button class="btn-main btn-start" onclick="restartGame()">
+            <span>🔄</span> TEKRAR OYNA
+          </button>
+          <button class="btn-main btn-secondary" onclick="showScreen('menuScreen')">
+            <span>🏠</span> ANA MENÜYE DÖN
+          </button>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- TUR SONU MAHKEME KARARI BİLDİRİMİ (MODAL) -->
+  <div class="verdict-modal-overlay" id="verdictModal">
+    <div class="verdict-box">
+      <div class="verdict-header-icon" id="verdictIcon">⚖️</div>
+      <h2 class="verdict-status" id="verdictStatus">TAM İSABET!</h2>
+      <div class="verdict-points-badge" id="verdictPointsBadge">+20 PUAN</div>
+      
+      <div class="verdict-explanation" id="verdictExplanationText">
+        <!-- Detaylı açıklama -->
+      </div>
+
+      <button class="btn-main btn-start" style="width: 100%;" onclick="nextRound()">
+        <span>▶</span> SONRAKİ DAVAYA GEÇ
+      </button>
+    </div>
+  </div>
+
+  <!-- MODAL: NASIL OYNANIR? -->
+  <div class="modal-overlay" id="howToPlayModal">
+    <div class="modal-box">
+      <h2 class="modal-title"><span>📖</span> Nasıl Oynanır?</h2>
+      
+      <div class="rule-item">
+        <span class="rule-icon">🧑‍⚖️</span>
+        <div><strong>Tek Jüri / Ortak Karar:</strong> Tüm sınıf birlikte tek bir jüri olarak davaları inceler ve ortak karar verir.</div>
+      </div>
+      <div class="rule-item">
+        <span class="rule-icon">📋</span>
+        <div><strong>Davayı İncele:</strong> Ekrana gelen 2. hafta müfredat senaryosunu dikkatlice okuyun.</div>
+      </div>
+      <div class="rule-item">
+        <span class="rule-icon">🟢</span>
+        <div><strong>1. Aşama (Karar):</strong> Durumun <strong>OLUMLU ETKİ</strong> mi yoksa <strong>OLUMSUZ ETKİ</strong> mi olduğuna karar verin (+10 Puan).</div>
+      </div>
+      <div class="rule-item">
+        <span class="rule-icon">📜</span>
+        <div><strong>2. Aşama (Gerekçe):</strong> Kararınızı destekleyen doğru kazanım gerekçesini veya sağlık problemini seçin (+10 Puan).</div>
+      </div>
+      <div class="rule-item">
+        <span class="rule-icon">🏆</span>
+        <div><strong>Kazanma:</strong> 20 turun sonunda maksimum 400 puan toplayarak en yüksek yargıç unvanını almaya çalışın!</div>
+      </div>
+
+      <button class="btn-main btn-secondary" style="width: 100%; margin-top: 20px;" onclick="closeModal('howToPlayModal')">
+        Anladım, Kapat
+      </button>
+    </div>
+  </div>
+
+  <!-- MODAL: TAKIM / JÜRİ ADI DÜZENLEME -->
+  <div class="modal-overlay" id="teamsModal">
+    <div class="modal-box">
+      <h2 class="modal-title"><span>✏️</span> Takım / Jüri Adı</h2>
+      
+      <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 16px;">
+        Sınıfınız veya takımınız için dilediğiniz ismi belirleyebilirsiniz:
+      </p>
+
+      <div class="team-config-row">
+        <label style="font-weight:700; width:110px; color:#fbbf24;">Jüri / Takım:</label>
+        <input type="text" class="team-input" id="singleTeamInput" value="Sınıf Jürisi" maxlength="30">
+      </div>
+
+      <div style="display: flex; gap: 10px; margin-top: 25px;">
+        <button class="btn-main btn-start" style="flex: 1;" onclick="saveTeams()">
+          Kaydet
+        </button>
+        <button class="btn-main btn-secondary" style="flex: 1;" onclick="closeModal('teamsModal')">
+          Kapat
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ALT BİLGİ -->
+  <footer>
+    <div class="teacher-badge">
+      <span>🧑‍🏫</span> Öğretmen Bozok
+    </div>
+    <div>5. Sınıf Bilişim Teknolojileri • BTY.5.1.2 Ders Materyali</div>
+    <div>Teknoloji Mahkemesi v2.0</div>
+  </footer>
+
+  <!-- JAVASCRIPT OYUN MOTORU -->
+  <script>
+    /* =========================================================================
+       2. HAFTA MÜFREDAT KAPSAMI KESİN VERİ TABANI (20 ÖZGÜN SENARYO)
+       ========================================================================= */
+
+    const CASES_DATA = [
+      // BÖLÜM 1: KOLAY SEVİYE (1-8)
+      {
+        id: 1,
+        difficulty: "Kolay",
+        diffClass: "diff-easy",
+        category: "BİLGİ VE ARAŞTIRMA",
+        scenario: "Bir öğrenci fen bilimleri dersi ödevi için kütüphaneye gitmeye gerek kalmadan arama motorları sayesinde aradığı bilimsel kaynaklara saniyeler içinde erişti.",
+        isPositive: true,
+        correctReason: "Bilgiye kolay ulaşmayı sağlaması",
+        wrongReasons: [
+          "İnsanları tembelliğe alıştırması",
+          "Maliyeti azaltması",
+          "Duruş bozukluklarına neden olması"
+        ],
+        explanation: "Bilişim teknolojileri, arama motorları ve dijital kaynaklar sayesinde bilgiye kolay ve hızlıca ulaşmamızı sağlar."
+      },
+      {
+        id: 2,
+        difficulty: "Kolay",
+        diffClass: "diff-easy",
+        category: "GÜNLÜK HİZMETLER",
+        scenario: "Bir aile, elektrik ve su faturalarını veznede sıra beklemeden mobil uygulama üzerinden 1 dakika içinde ödedi.",
+        isPositive: true,
+        correctReason: "Zamandan tasarruf sağlaması",
+        wrongReasons: [
+          "İşsizlik oranının artması",
+          "Görme bozukluklarına yol açması",
+          "İnsanların birbiriyle olan bağının kopması"
+        ],
+        explanation: "İşlemlerin dijital ortamda sıraya girmeden yapılması zamandan büyük tasarruf sağlar."
+      },
+      {
+        id: 3,
+        difficulty: "Kolay",
+        diffClass: "diff-easy",
+        category: "SAĞLIK VE BESLENME",
+        scenario: "Bir öğrenci okuldan geldikten sonra saatlerce bilgisayar başında hareketsiz kalarak fast-food atıştırmalıklar tüketmektedir.",
+        isPositive: false,
+        correctReason: "Hareketsiz ve sağlıksız beslenmeyle birlikte obezitenin artması",
+        wrongReasons: [
+          "Hayatımızı kolaylaştırması",
+          "Hızlı haberleşmeyi sağlaması",
+          "Zamandan tasarruf sağlaması"
+        ],
+        explanation: "Uzun süre ekran başında kalıp fiziksel aktiviteden uzak durmak ve sağlıksız beslenmek obeziteye yol açar."
+      },
+      {
+        id: 4,
+        difficulty: "Kolay",
+        diffClass: "diff-easy",
+        category: "İLETİŞİM",
+        scenario: "Farklı şehirlerde yaşayan iki arkadaş, internet üzerinden görüntülü arama yaparak anında birbirleriyle yüz yüze gibi konuştu.",
+        isPositive: true,
+        correctReason: "Hızlı haberleşmeyi sağlaması",
+        wrongReasons: [
+          "Boyun ve kas ağrıları yaratması",
+          "İnsanları tembelliğe alıştırması",
+          "Maliyeti artırması"
+        ],
+        explanation: "Bilişim teknolojileri mesafeleri ortadan kaldırarak anlık ve hızlı haberleşmeye imkan tanır."
+      },
+      {
+        id: 5,
+        difficulty: "Kolay",
+        diffClass: "diff-easy",
+        category: "EKONOMİ VE MALİYET",
+        scenario: "Bir okul tüm duyuruları kağıda basıp dağıtmak yerine e-posta ve okul paneli üzerinden ileterek kağıt ve baskı masraflarını sıfırladı.",
+        isPositive: true,
+        correctReason: "Maliyeti azaltması",
+        wrongReasons: [
+          "Farklı sağlık problemlerinin ortaya çıkması",
+          "Teknoloji ve oyun bağımlılığı oluşturması",
+          "İnsanların sosyal bağlarını koparması"
+        ],
+        explanation: "Baskı, posta ve kağıt masraflarının kalkması bilişim teknolojilerinin maliyeti azaltıcı etkisine örnektir."
+      },
+      {
+        id: 6,
+        difficulty: "Kolay",
+        diffClass: "diff-easy",
+        category: "EV VE YAŞAM",
+        scenario: "Akıllı çamaşır makineleri ve robot süpürgeler sayesinde günlük ev temizliği tek tuşla otomatik olarak tamamlanmaktadır.",
+        isPositive: true,
+        correctReason: "Hayatımızı kolaylaştırması",
+        wrongReasons: [
+          "İşsizlik oranının artması",
+          "İnsanların sosyal bağlarının kaybolması",
+          "Görme bozukluklarına sebep olması"
+        ],
+        explanation: "Akıllı teknolojik aletler günlük iş yükünü azaltarak hayatımızı doğrudan kolaylaştırır."
+      },
+      {
+        id: 7,
+        difficulty: "Kolay",
+        diffClass: "diff-easy",
+        category: "ALIŞKANLIKLAR",
+        scenario: "Bir kişi en basit toplama işlemlerini bile hesap makinesiyle yapmakta, 50 metrelik mesafeye yürümek yerine hemen elektrikli scooter çağırmaktadır.",
+        isPositive: false,
+        correctReason: "İnsanları tembelliğe alıştırması",
+        wrongReasons: [
+          "Bilgiye kolay ulaşmayı sağlaması",
+          "Zamandan tasarruf sağlaması",
+          "Maliyeti azaltması"
+        ],
+        explanation: "Teknolojinin aşırı ve tembelce kullanımı insanların zihinsel ve bedensel çabadan kaçmasına yol açabilir."
+      },
+      {
+        id: 8,
+        difficulty: "Kolay",
+        diffClass: "diff-easy",
+        category: "AİLE VE SOSYAL İLİŞKİLER",
+        scenario: "Akşam yemeğinde aynı masada toplanan aile üyeleri, sohbet etmek yerine sürekli ellerindeki telefon ekranlarına bakmaktadır.",
+        isPositive: false,
+        correctReason: "İnsanların birbiriyle olan bağının zamanla kaybolması",
+        wrongReasons: [
+          "Hızlı haberleşmeyi sağlaması",
+          "Hayatımızı kolaylaştırması",
+          "Bilgiye kolay ulaşım sağlaması"
+        ],
+        explanation: "Ekran bağımlılığı yüz yüze iletişimi yok ederek insanlar arasındaki sıcak sosyal bağları zayıflatır."
+      },
+
+      // BÖLÜM 2: ORTA SEVİYE - SAĞLIK DOSYALARI (9-13)
+      {
+        id: 9,
+        difficulty: "Orta (Sağlık Dosyası)",
+        diffClass: "diff-medium",
+        category: "SAĞLIK İNCELEMESİ",
+        scenario: "Ahmet, bilgisayar karşısında çalışırken sürekli kambur oturmakta ve öne eğilmektedir. Zamanla sırtında ve omurgasında eğrilik başlamıştır.",
+        isPositive: false,
+        correctReason: "Duruş bozuklukları",
+        wrongReasons: [
+          "Hızlı haberleşmeyi sağlaması",
+          "Zamandan tasarruf sağlaması",
+          "Maliyeti azaltması"
+        ],
+        explanation: "Bilgisayar başında dik durmamak ve ergonomik kurallara uymamak duruş bozukluklarına sebep olur."
+      },
+      {
+        id: 10,
+        difficulty: "Orta (Sağlık Dosyası)",
+        diffClass: "diff-medium",
+        category: "SAĞLIK İNCELEMESİ",
+        scenario: "Karanlık odada tablete saatlerce çok yakından bakan Zeynep'te göz kuruluğu, yanma ve uzağı net görememe şikayeti başlamıştır.",
+        isPositive: false,
+        correctReason: "Görme bozuklukları",
+        wrongReasons: [
+          "Hayatımızı kolaylaştırması",
+          "Maliyeti azaltması",
+          "Bilgiye kolay ulaşım sağlaması"
+        ],
+        explanation: "Ekrana çok yakından ve uzun süre ara vermeden bakmak görme bozukluklarına yol açar."
+      },
+      {
+        id: 11,
+        difficulty: "Orta (Sağlık Dosyası)",
+        diffClass: "diff-medium",
+        category: "SAĞLIK İNCELEMESİ",
+        scenario: "Günde 6 saat boyunca aralıksız klavye ve fare kullanan bir çalışanın el bileklerinde ve boyun kaslarında şiddetli kasılmalar meydana gelmiştir.",
+        isPositive: false,
+        correctReason: "Boyun ve kas ağrıları",
+        wrongReasons: [
+          "İnsanların birbiriyle bağını güçlendirmesi",
+          "Zamandan tasarruf sağlaması",
+          "İşsizlik oranını azaltması"
+        ],
+        explanation: "Aynı pozisyonda uzun süre klavye/fare kullanımı boyun, omuz ve bilek kaslarında ağrılara neden olur."
+      },
+      {
+        id: 12,
+        difficulty: "Orta (Sağlık Dosyası)",
+        diffClass: "diff-medium",
+        category: "SAĞLIK İNCELEMESİ",
+        scenario: "Günde 8 saatten fazla bilgisayar oyunu oynayan, oyunu bırakması istendiğinde öfke patlaması yaşayan ve derslerini bırakan bir öğrenci değerlendirilmektedir.",
+        isPositive: false,
+        correctReason: "Teknoloji ve oyun bağımlılığı",
+        wrongReasons: [
+          "Hızlı haberleşmeyi sağlaması",
+          "Maliyeti azaltması",
+          "Zamandan tasarruf sağlaması"
+        ],
+        explanation: "Zaman sınırını kaybedip teknolojiyi hayatın merkezine koymak teknoloji ve oyun bağımlılığıdır."
+      },
+      {
+        id: 13,
+        difficulty: "Orta (Sağlık Dosyası)",
+        diffClass: "diff-medium",
+        category: "SAĞLIK İNCELEMESİ",
+        scenario: "Telefonu veya tableti elinden alındığında aşırı stres, yoğun huzursuzluk, kaygı ve yalnızlık hissi yaşayan bir birey incelenmektedir.",
+        isPositive: false,
+        correctReason: "Psikolojik bozukluklar",
+        wrongReasons: [
+          "Bilgiye kolay ulaşmayı sağlaması",
+          "Hayatımızı kolaylaştırması",
+          "Maliyeti düşürmesi"
+        ],
+        explanation: "Teknoloji yoksunluğunda veya aşırı kullanımında ortaya çıkan stres ve huzursuzluk psikolojik bozukluklar arasındadır."
+      },
+
+      // BÖLÜM 3: ZOR SEVİYE - KAPSAMLI MAHKEME VAKALARI (14-20)
+      {
+        id: 14,
+        difficulty: "Zor (Mahkeme Dosyası)",
+        diffClass: "diff-hard",
+        category: "İŞ GÜCÜ VE TOPLUM",
+        scenario: "Bir fabrikada daha önce 50 ustanın elle yaptığı montaj işini tek bir robotik makine üstlenmiş, bunun sonucunda birçok çalışan işini kaybetmiştir.",
+        isPositive: false,
+        correctReason: "İşsizlik oranının artması",
+        wrongReasons: [
+          "Görme bozukluklarına yol açması",
+          "Hızlı haberleşmeyi sağlaması",
+          "Boyun ve kas ağrıları oluşturması"
+        ],
+        explanation: "Otomasyon ve bilişim sistemleri bazı sektörlerde insan gücüne ihtiyacı azaltarak işsizliğin artmasına neden olabilir."
+      },
+      {
+        id: 15,
+        difficulty: "Zor (Mahkeme Dosyası)",
+        diffClass: "diff-hard",
+        category: "ACİL DURUM İLETİŞİMİ",
+        scenario: "Köyde rahatsızlanan bir hastanın tahlil sonuçları dijital sistem ile şehirdeki uzman doktora anında iletilmiş ve anında doğru tedaviye başlanmıştır.",
+        isPositive: true,
+        correctReason: "Hızlı haberleşmeyi sağlaması",
+        wrongReasons: [
+          "İnsanları tembelliğe alıştırması",
+          "İşsizlik oranını artırması",
+          "Duruş bozukluğu oluşturması"
+        ],
+        explanation: "Verilerin ve tahlil sonuçlarının anında aktarılması hızlı haberleşmenin hayati önemini gösterir."
+      },
+      {
+        id: 16,
+        difficulty: "Zor (Mahkeme Dosyası)",
+        diffClass: "diff-hard",
+        category: "ARAŞTIRMA VE ZAMAN",
+        scenario: "Eskiden günlerce ansiklopedi sayfaları taranarak yapılan bir araştırma ödevi, günümüzde dijital kütüphaneler sayesinde 15 dakikada hazırlanabilmektedir.",
+        isPositive: true,
+        correctReason: "Zamandan tasarruf sağlaması",
+        wrongReasons: [
+          "Psikolojik bozukluklara sebep olması",
+          "Teknoloji ve oyun bağımlılığı yaratması",
+          "İnsanların birbiriyle bağını koparması"
+        ],
+        explanation: "Bilişim araçları saatler süren işleri dakikalara indirerek büyük bir zaman tasarrufu sağlar."
+      },
+      {
+        id: 17,
+        difficulty: "Zor (Mahkeme Dosyası)",
+        diffClass: "diff-hard",
+        category: "TOPLUMSAL BAĞLAR",
+        scenario: "Bir mahallede çocukların parkta buluşup oyun oynamak yerine evlerinde tek başlarına sanal dünyada vakit geçirmesi sonucu komşuluk ve arkadaşlık bağları kopmuştur.",
+        isPositive: false,
+        correctReason: "İnsanların birbiriyle olan bağının zamanla kaybolması",
+        wrongReasons: [
+          "Maliyeti azaltması",
+          "Bilgiye kolay ulaşımı sağlaması",
+          "Hızlı haberleşmeyi sağlaması"
+        ],
+        explanation: "Yüz yüze etkileşimin azalması toplum içindeki yardımlaşma ve arkadaşlık bağlarını zayıflatır."
+      },
+      {
+        id: 18,
+        difficulty: "Zor (Mahkeme Dosyası)",
+        diffClass: "diff-hard",
+        category: "EĞİTİM VE BÜTÇE",
+        scenario: "Bir üniversite öğrencisi çok pahalı basılı ders kitaplarını almak yerine açık erişimli ücretsiz e-kitap kaynaklarını kullanarak eğitim harcamasını düşürmüştür.",
+        isPositive: true,
+        correctReason: "Maliyeti azaltması",
+        wrongReasons: [
+          "İşsizlik oranını artırması",
+          "İnsanları tembelliğe alıştırması",
+          "Duruş bozukluğu yaratması"
+        ],
+        explanation: "Dijital kaynakların basılı materyallere göre çok daha ekonomik olması maliyetin azalmasını sağlar."
+      },
+      {
+        id: 19,
+        difficulty: "Zor (Mahkeme Dosyası)",
+        diffClass: "diff-hard",
+        category: "FİZİKSEL VE DİJİTAL SAĞLIK",
+        scenario: "Bütün gün bilgisayar karşısında oyun oynayıp hiç hareket etmeyen ve abur cuburla beslenen bir çocuğun hızla aşırı kilo aldığı tespit edilmiştir.",
+        isPositive: false,
+        correctReason: "Hareketsiz ve sağlıksız beslenmeyle birlikte obezitenin artması",
+        wrongReasons: [
+          "Hayatımızı kolaylaştırması",
+          "Hızlı haberleşmeyi sağlaması",
+          "Zamandan tasarruf sağlaması"
+        ],
+        explanation: "Hareketsiz teknoloji kullanımı ve düzensiz beslenme doğrudan obezite riskini artırır."
+      },
+      {
+        id: 20,
+        difficulty: "Zor (Mahkeme Dosyası)",
+        diffClass: "diff-hard",
+        category: "E-DEVLET VE AKILLI SİSTEMLER",
+        scenario: "Vatandaşların hastane randevusu, adres bildirimi ve resmi evrak alma işlemlerini kurumlara gitmeden internetten tek tıkla halledebilmesi.",
+        isPositive: true,
+        correctReason: "Hayatımızı kolaylaştırması",
+        wrongReasons: [
+          "İnsanları tembelliğe alıştırması",
+          "Görme bozukluklarına sebep olması",
+          "Farklı sağlık problemlerinin ortaya çıkması"
+        ],
+        explanation: "Resmi işlemlerin tek merkezden kolayca yapılması günlük hayatımızı büyük ölçüde kolaylaştırır."
+      }
+    ];
+
+    /* =========================================================================
+       OYUN DURUMU (STATE MANAGEMENT) - TEK TAKIM SİSTEMİ
+       ========================================================================= */
+
+    let gameState = {
+      team: { name: "Sınıf Jürisi", score: 0 },
+      currentRoundIndex: 0,
+      soundEnabled: true,
+      
+      // Mevcut turun geçici seçimleri
+      selectedDecision: null,
+      decisionPoints: 0,
+      justificationPoints: 0
+    };
+
+    /* =========================================================================
+       SES EFEKTLERİ (DAHİLİ WEB AUDIO API - MAHKEME TOKMAĞI)
+       ========================================================================= */
+
+    let audioCtx = null;
+
+    function getAudioContext() {
+      if (!audioCtx) {
+        const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+        audioCtx = new AudioContextClass();
+      }
+      if (audioCtx.state === 'suspended') {
+        audioCtx.resume();
+      }
+      return audioCtx;
+    }
+
+    // Mahkeme Tokmağı Sesi
+    function playGavelSound() {
+      if (!gameState.soundEnabled) return;
+      try {
+        const ctx = getAudioContext();
+        const now = ctx.currentTime;
+
+        [0, 0.14].forEach(delay => {
+          const osc = ctx.createOscillator();
+          const gain = ctx.createGain();
+
+          osc.type = 'triangle';
+          osc.frequency.setValueAtTime(140, now + delay);
+          osc.frequency.exponentialRampToValueAtTime(30, now + delay + 0.1);
+
+          gain.gain.setValueAtTime(1.0, now + delay);
+          gain.gain.exponentialRampToValueAtTime(0.01, now + delay + 0.12);
+
+          osc.connect(gain);
+          gain.connect(ctx.destination);
+
+          osc.start(now + delay);
+          osc.stop(now + delay + 0.13);
+        });
+      } catch (e) {}
+    }
+
+    // Doğru Karar Sesi
+    function playSuccessSound() {
+      if (!gameState.soundEnabled) return;
+      try {
+        const ctx = getAudioContext();
+        const now = ctx.currentTime;
+        const freqs = [523.25, 659.25, 783.99, 1046.50]; // C5, E5, G5, C6
+        freqs.forEach((f, idx) => {
+          const osc = ctx.createOscillator();
+          const gain = ctx.createGain();
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(f, now + idx * 0.08);
+          gain.gain.setValueAtTime(0.3, now + idx * 0.08);
+          gain.gain.exponentialRampToValueAtTime(0.01, now + idx * 0.08 + 0.3);
+          osc.connect(gain);
+          gain.connect(ctx.destination);
+          osc.start(now + idx * 0.08);
+          osc.stop(now + idx * 0.08 + 0.35);
+        });
+      } catch (e) {}
+    }
+
+    // Hata / Yanlış Sesi
+    function playErrorSound() {
+      if (!gameState.soundEnabled) return;
+      try {
+        const ctx = getAudioContext();
+        const now = ctx.currentTime;
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = 'sawtooth';
+        osc.frequency.setValueAtTime(180, now);
+        osc.frequency.exponentialRampToValueAtTime(90, now + 0.25);
+        gain.gain.setValueAtTime(0.4, now);
+        gain.gain.exponentialRampToValueAtTime(0.01, now + 0.25);
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.start(now);
+        osc.stop(now + 0.26);
+      } catch (e) {}
+    }
+
+    function toggleSound() {
+      gameState.soundEnabled = !gameState.soundEnabled;
+      document.getElementById("soundIcon").textContent = gameState.soundEnabled ? "🔊" : "🔇";
+    }
+
+    function toggleFullScreen() {
+      if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen().catch(() => {});
+      } else {
+        if (document.exitFullscreen) {
+          document.exitFullscreen().catch(() => {});
+        }
+      }
+    }
+
+    /* =========================================================================
+       EKRAN VE ARAYÜZ YÖNETİMİ
+       ========================================================================= */
+
+    function showScreen(screenId) {
+      document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+      const target = document.getElementById(screenId);
+      if (target) target.classList.add('active');
+    }
+
+    function openModal(modalId) {
+      const m = document.getElementById(modalId);
+      if (m) {
+        m.classList.add('active');
+        if (modalId === 'teamsModal') {
+          const input = document.getElementById("singleTeamInput");
+          if (input) input.value = gameState.team.name;
+        }
+      }
+    }
+
+    function closeModal(modalId) {
+      const m = document.getElementById(modalId);
+      if (m) m.classList.remove('active');
+    }
+
+    // Canlı Üst Skor Şeridini Güncelle
+    function updateScoreboard() {
+      const container = document.getElementById("headerScoreboard");
+      if (!container) return;
+      container.innerHTML = `
+        <div class="single-team-badge">
+          <span class="t-name">🧑‍⚖️ ${gameState.team.name}</span>
+          <span class="t-score">${gameState.team.score} P</span>
+        </div>
+      `;
+      updateTurnIndicator();
+    }
+
+    function updateTurnIndicator() {
+      const el = document.getElementById("activeTurnName");
+      if (el) {
+        el.textContent = gameState.team.name;
+      }
+    }
+
+    /* =========================================================================
+       TAKIM YÖNETİMİ (TEK TAKIM)
+       ========================================================================= */
+
+    function saveTeams() {
+      const input = document.getElementById("singleTeamInput");
+      if (input && input.value.trim() !== "") {
+        gameState.team.name = input.value.trim();
+      }
+      closeModal('teamsModal');
+      updateScoreboard();
+    }
+
+    /* =========================================================================
+       OYUN AKIŞI VE DAVA YÖNETİMİ
+       ========================================================================= */
+
+    function startGame() {
+      gameState.currentRoundIndex = 0;
+      gameState.team.score = 0;
+      updateScoreboard();
+      showScreen('gameScreen');
+      loadCase(gameState.currentRoundIndex);
+    }
+
+    function restartGame() {
+      startGame();
+    }
+
+    function loadCase(index) {
+      if (index >= CASES_DATA.length) {
+        showFinalScreen();
+        return;
+      }
+
+      const caseData = CASES_DATA[index];
+
+      // Tur puanlarını sıfırla
+      gameState.selectedDecision = null;
+      gameState.decisionPoints = 0;
+      gameState.justificationPoints = 0;
+
+      // Header bilgileri
+      document.getElementById("casePill").textContent = `DAVA #${caseData.id} / ${CASES_DATA.length}`;
+      
+      const diffPill = document.getElementById("diffPill");
+      diffPill.textContent = caseData.difficulty.toUpperCase();
+      diffPill.className = `case-difficulty-pill ${caseData.diffClass}`;
+
+      document.getElementById("caseCategory").textContent = `📋 ${caseData.category}`;
+      document.getElementById("scenarioText").textContent = `“${caseData.scenario}”`;
+
+      // Arayüz fazlarını sıfırla
+      document.getElementById("decisionPhase").style.display = "block";
+      const justPhase = document.getElementById("justificationPhase");
+      justPhase.classList.remove("active");
+
+      updateScoreboard();
+    }
+
+    // 1. AŞAMA: OLUMLU / OLUMSUZ SEÇİMİ
+    function handleDecisionChoice(userChoiceIsPositive) {
+      playGavelSound();
+      const currentCase = CASES_DATA[gameState.currentRoundIndex];
+      gameState.selectedDecision = userChoiceIsPositive;
+
+      if (userChoiceIsPositive === currentCase.isPositive) {
+        // Doğru Karar: +10 Puan
+        gameState.decisionPoints = 10;
+      } else {
+        // Yanlış Karar: 0 Puan
+        gameState.decisionPoints = 0;
+      }
+
+      // 2. Aşamaya geçiş (Gerekçelendirme)
+      showJustificationPhase(currentCase);
+    }
+
+    // 2. AŞAMA: GEREKÇE ŞIKLARINI HAZIRLAMA VE GÖSTERME
+    function showJustificationPhase(currentCase) {
+      document.getElementById("decisionPhase").style.display = "none";
+      const justPhase = document.getElementById("justificationPhase");
+      justPhase.classList.add("active");
+
+      const optionsContainer = document.getElementById("optionsContainer");
+      optionsContainer.innerHTML = "";
+
+      // Şıkları karıştır (Rastgele dağıtım)
+      const allOptions = [
+        { text: currentCase.correctReason, isCorrect: true },
+        ...currentCase.wrongReasons.map(r => ({ text: r, isCorrect: false }))
+      ];
+      shuffleArray(allOptions);
+
+      const letters = ["A", "B", "C", "D"];
+      allOptions.forEach((opt, idx) => {
+        const btn = document.createElement("button");
+        btn.className = "btn-option";
+        btn.innerHTML = `
+          <span class="opt-letter">${letters[idx]}</span>
+          <span>${opt.text}</span>
+        `;
+        btn.onclick = () => handleJustificationChoice(opt.isCorrect, currentCase);
+        optionsContainer.appendChild(btn);
+      });
+    }
+
+    // 2. AŞAMA SEÇİMİ VE PUANLAMA
+    function handleJustificationChoice(isCorrect, currentCase) {
+      if (isCorrect) {
+        gameState.justificationPoints = 10;
+      } else {
+        gameState.justificationPoints = 0;
+      }
+
+      const totalEarned = gameState.decisionPoints + gameState.justificationPoints;
+      
+      // Puan ekle
+      gameState.team.score += totalEarned;
+      updateScoreboard();
+
+      // Sonuç Modalını Göster
+      showVerdictModal(totalEarned, currentCase);
+    }
+
+    // MAHKEME KARARI BİLDİRİM PENCERESİ (VERDICT MODAL)
+    function showVerdictModal(points, currentCase) {
+      const modal = document.getElementById("verdictModal");
+      const icon = document.getElementById("verdictIcon");
+      const status = document.getElementById("verdictStatus");
+      const badge = document.getElementById("verdictPointsBadge");
+      const expText = document.getElementById("verdictExplanationText");
+
+      if (points === 20) {
+        playSuccessSound();
+        icon.textContent = "⚖️🎉";
+        status.textContent = "TAM İSABET! ADALET SAĞLANDI";
+        status.className = "verdict-status status-full";
+        badge.textContent = "+20 PUAN KAZANILDI";
+        badge.style.borderColor = "var(--court-green)";
+        badge.style.color = "var(--court-green)";
+      } else if (points === 10) {
+        playGavelSound();
+        icon.textContent = "⚖️⚠️";
+        status.textContent = "KISMİ DOĞRU KARAR";
+        status.className = "verdict-status status-half";
+        badge.textContent = "+10 PUAN (Karar Doğru, Gerekçe Yanlış)";
+        badge.style.borderColor = "var(--accent-gold)";
+        badge.style.color = "var(--accent-gold-light)";
+      } else {
+        playErrorSound();
+        icon.textContent = "⚖️❌";
+        status.textContent = "KARAR BOZULDU (YANLIŞ DEĞERLENDİRME)";
+        status.className = "verdict-status status-zero";
+        badge.textContent = "0 PUAN";
+        badge.style.borderColor = "var(--court-red)";
+        badge.style.color = "var(--court-red)";
+      }
+
+      const expectedDecisionText = currentCase.isPositive ? "🟢 OLUMLU ETKİ" : "🔴 OLUMSUZ ETKİ";
+      
+      expText.innerHTML = `
+        <div style="margin-bottom:8px;"><strong>Mahkemenin Hükmü:</strong> ${expectedDecisionText}</div>
+        <div style="margin-bottom:8px;"><strong>Doğru Gerekçe:</strong> ${currentCase.correctReason}</div>
+        <div style="border-top:1px solid #334155; padding-top:8px; color:#94a3b8; font-size:0.95rem;">
+          💡 <strong>Ders Özeti:</strong> ${currentCase.explanation}
+        </div>
+      `;
+
+      modal.classList.add("active");
+    }
+
+    // SONRAKİ TURA GEÇİŞ
+    function nextRound() {
+      const modal = document.getElementById("verdictModal");
+      modal.classList.remove("active");
+
+      gameState.currentRoundIndex++;
+      loadCase(gameState.currentRoundIndex);
+    }
+
+    /* =========================================================================
+       FİNAL / KAZANAN EKRANI - TEK TAKIM DEĞERLENDİRMESİ
+       ========================================================================= */
+
+    function showFinalScreen() {
+      showScreen('finalScreen');
+      playSuccessSound();
+
+      const score = gameState.team.score;
+      const maxScore = CASES_DATA.length * 20; // 400 puan
+      const percent = Math.round((score / maxScore) * 100);
+
+      document.getElementById("finalTeamName").textContent = gameState.team.name;
+      document.getElementById("finalScoreDisplay").textContent = `${score} / ${maxScore} PUAN (%${percent})`;
+
+      const rankBadge = document.getElementById("finalRankBadge");
+      let rankTitle = "";
+      let rankColor = "#10b981";
+
+      if (percent >= 85) {
+        rankTitle = "🥇 YÜKSEK MAHKEME BAŞYARGICI";
+        rankColor = "var(--accent-gold-light)";
+      } else if (percent >= 65) {
+        rankTitle = "🥈 UZMAN BİLİŞİM HÂKİMİ";
+        rankColor = "#38bdf8";
+      } else if (percent >= 45) {
+        rankTitle = "🥉 KIDEMLİ JÜRİ ÜYESİ";
+        rankColor = "#fbbf24";
+      } else {
+        rankTitle = "📋 STAJYER JÜRİ ÜYESİ";
+        rankColor = "#f87171";
+      }
+
+      rankBadge.textContent = rankTitle;
+      rankBadge.style.borderColor = rankColor;
+      rankBadge.style.color = rankColor;
+
+      const winnerMsg = document.getElementById("winnerMessage");
+      winnerMsg.innerHTML = `
+        Tebrikler <strong>${gameState.team.name}</strong>! 20 dava dosyasını inceleyip 
+        <strong>${score} Puan</strong> topladınız ve teknolojinin etkilerini doğru analiz ettiniz.
+      `;
+    }
+
+    /* =========================================================================
+       YARDIMCI FONKSİYONLAR
+       ========================================================================= */
+
+    function shuffleArray(array) {
+      for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+      }
+      return array;
+    }
+
+    // Sayfa Yüklendiğinde Başlat
+    window.addEventListener("DOMContentLoaded", () => {
+      updateScoreboard();
+    });
+  </script>
+</body>
+</html>

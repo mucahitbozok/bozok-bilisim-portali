@@ -1,0 +1,1395 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bir Günlük Teknoloji Macerası | 5. Sınıf Bilişim Teknolojileri</title>
+  <style>
+    :root {
+      --font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      --primary: #4F46E5;
+      --primary-hover: #4338CA;
+      --secondary: #06B6D4;
+      --positive: #10B981;
+      --positive-bg: #ECFDF5;
+      --positive-border: #A7F3D0;
+      --negative: #EF4444;
+      --negative-bg: #FEF2F2;
+      --negative-border: #FECACA;
+      --warning: #F59E0B;
+      --text-main: #1F2937;
+      --text-muted: #6B7280;
+      --card-bg: rgba(255, 255, 255, 0.94);
+      --card-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+      --radius-lg: 24px;
+      --radius-md: 16px;
+      --radius-sm: 10px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+
+    body {
+      font-family: var(--font-family);
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      overflow-x: hidden;
+      background: linear-gradient(135deg, #E0F2FE 0%, #BAE6FD 50%, #F0F9FF 100%);
+      transition: background 0.8s ease;
+    }
+
+    /* Zaman Dilimi Temaları */
+    body.theme-morning {
+      background: linear-gradient(135deg, #FEF3C7 0%, #FDE68A 30%, #BAE6FD 100%);
+    }
+    body.theme-noon {
+      background: linear-gradient(135deg, #BAE6FD 0%, #7DD3FC 50%, #38BDF8 100%);
+    }
+    body.theme-evening {
+      background: linear-gradient(135deg, #FDE047 0%, #FB923C 40%, #818CF8 100%);
+    }
+    body.theme-night {
+      background: linear-gradient(135deg, #1E1B4B 0%, #312E81 50%, #4C1D95 100%);
+      color: #F9FAFB;
+    }
+    body.theme-night .content-card {
+      background: rgba(30, 27, 75, 0.92);
+      color: #F9FAFB;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+    }
+    body.theme-night .text-muted-custom {
+      color: #CBD5E1 !important;
+    }
+    body.theme-night .btn-choice {
+      background: rgba(255, 255, 255, 0.08);
+      color: #F8FAFC;
+      border-color: rgba(255, 255, 255, 0.2);
+    }
+    body.theme-night .btn-choice:hover {
+      background: rgba(255, 255, 255, 0.18);
+    }
+
+    /* Header & Marka */
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 1.5rem;
+      backdrop-filter: blur(10px);
+      background: rgba(255, 255, 255, 0.35);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+      z-index: 10;
+    }
+
+    .brand-group {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .badge-tag {
+      background: #4F46E5;
+      color: #fff;
+      font-size: 0.8rem;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 9999px;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+
+    .teacher-badge {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(255, 255, 255, 0.8);
+      padding: 6px 14px;
+      border-radius: 9999px;
+      font-weight: 700;
+      font-size: 0.85rem;
+      color: #1E293B;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.06);
+      border: 1px solid rgba(0,0,0,0.05);
+    }
+
+    .teacher-badge span {
+      color: #4F46E5;
+    }
+
+    /* Ana Taşıyıcı */
+    main {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+      max-width: 1100px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    .app-container {
+      width: 100%;
+      position: relative;
+    }
+
+    /* Kart Yapısı */
+    .content-card {
+      background: var(--card-bg);
+      backdrop-filter: blur(16px);
+      border-radius: var(--radius-lg);
+      padding: 2.2rem;
+      box-shadow: var(--card-shadow);
+      border: 1px solid rgba(255, 255, 255, 0.8);
+      position: relative;
+      animation: fadeIn 0.4s ease-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(12px) scale(0.98); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    /* HUD (Üst Gösterge Çubuğu) */
+    .hud-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(243, 244, 246, 0.8);
+      border-radius: var(--radius-md);
+      padding: 0.75rem 1.25rem;
+      margin-bottom: 1.5rem;
+      border: 1px solid rgba(0,0,0,0.05);
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    body.theme-night .hud-bar {
+      background: rgba(255, 255, 255, 0.08);
+      border-color: rgba(255, 255, 255, 0.1);
+    }
+
+    .hud-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 700;
+      font-size: 0.95rem;
+    }
+
+    .hud-pill {
+      background: #EEF2FF;
+      color: #4F46E5;
+      padding: 4px 12px;
+      border-radius: 999px;
+      font-size: 0.85rem;
+      font-weight: 800;
+    }
+
+    body.theme-night .hud-pill {
+      background: rgba(79, 70, 229, 0.4);
+      color: #E0E7FF;
+    }
+
+    .score-pill {
+      background: #ECFDF5;
+      color: #059669;
+      padding: 5px 14px;
+      border-radius: 999px;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      border: 1px solid #A7F3D0;
+    }
+
+    body.theme-night .score-pill {
+      background: rgba(16, 185, 129, 0.2);
+      color: #6EE7B7;
+      border-color: rgba(16, 185, 129, 0.4);
+    }
+
+    /* Karakter & Senaryo Izgarası */
+    .scenario-grid {
+      display: grid;
+      grid-template-columns: 240px 1fr;
+      gap: 2rem;
+      align-items: start;
+    }
+
+    @media (max-width: 820px) {
+      .scenario-grid {
+        grid-template-columns: 1fr;
+        gap: 1.2rem;
+      }
+    }
+
+    /* Karakter Portresi */
+    .character-stage {
+      background: linear-gradient(180deg, rgba(243, 244, 246, 0.7) 0%, rgba(229, 231, 235, 0.9) 100%);
+      border-radius: var(--radius-md);
+      padding: 1.5rem 1rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      border: 2px solid rgba(255, 255, 255, 0.8);
+      box-shadow: 0 4px 10px rgba(0,0,0,0.04);
+      position: relative;
+    }
+
+    body.theme-night .character-stage {
+      background: rgba(255, 255, 255, 0.05);
+      border-color: rgba(255, 255, 255, 0.1);
+    }
+
+    .avatar-svg-container {
+      width: 110px;
+      height: 110px;
+      margin-bottom: 0.75rem;
+      filter: drop-shadow(0 8px 12px rgba(0,0,0,0.12));
+      transition: transform 0.3s ease;
+    }
+
+    .avatar-svg-container:hover {
+      transform: scale(1.05) rotate(2deg);
+    }
+
+    .char-name {
+      font-weight: 800;
+      font-size: 1.1rem;
+      margin-bottom: 4px;
+    }
+
+    .char-status {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    /* Senaryo Alanı */
+    .scenario-content {
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+
+    .chapter-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: #4F46E5;
+      font-weight: 800;
+      font-size: 0.9rem;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+
+    body.theme-night .chapter-badge {
+      color: #A5B4FC;
+    }
+
+    .scenario-title {
+      font-size: 1.7rem;
+      font-weight: 800;
+      line-height: 1.3;
+    }
+
+    .scenario-box {
+      background: rgba(248, 250, 252, 0.85);
+      padding: 1.3rem 1.6rem;
+      border-radius: var(--radius-md);
+      font-size: 1.15rem;
+      line-height: 1.6;
+      border-left: 5px solid #4F46E5;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+    }
+
+    body.theme-night .scenario-box {
+      background: rgba(255, 255, 255, 0.05);
+      border-left-color: #818CF8;
+    }
+
+    /* Karar Seçenek Butonları (Büyük & Dokunmatik Uyumlu) */
+    .choices-container {
+      display: flex;
+      flex-direction: column;
+      gap: 0.85rem;
+      margin-top: 0.5rem;
+    }
+
+    .btn-choice {
+      width: 100%;
+      text-align: left;
+      padding: 1.15rem 1.4rem;
+      font-size: 1.1rem;
+      font-weight: 700;
+      border-radius: var(--radius-md);
+      border: 2px solid #E2E8F0;
+      background: #FFFFFF;
+      color: #1E293B;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 2px 4px rgba(0,0,0,0.03);
+    }
+
+    .btn-choice:hover {
+      border-color: #6366F1;
+      background: #F5F3FF;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 16px rgba(99, 102, 241, 0.15);
+    }
+
+    .btn-choice:active {
+      transform: translateY(0);
+    }
+
+    .choice-letter {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: #EEF2FF;
+      color: #4F46E5;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 900;
+      font-size: 1rem;
+      flex-shrink: 0;
+      border: 1px solid #C7D2FE;
+    }
+
+    /* Geri Bildirim Kartı */
+    .feedback-panel {
+      display: none;
+      margin-top: 1.25rem;
+      padding: 1.5rem;
+      border-radius: var(--radius-md);
+      animation: slideUp 0.3s ease-out forwards;
+    }
+
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .feedback-positive {
+      background: var(--positive-bg);
+      border: 2px solid var(--positive-border);
+      color: #065F46;
+    }
+
+    .feedback-negative {
+      background: var(--negative-bg);
+      border: 2px solid var(--negative-border);
+      color: #991B1B;
+    }
+
+    .feedback-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 1.2rem;
+      font-weight: 800;
+      margin-bottom: 0.6rem;
+    }
+
+    .feedback-body {
+      font-size: 1.05rem;
+      line-height: 1.55;
+      margin-bottom: 1.25rem;
+    }
+
+    .btn-next {
+      background: #4F46E5;
+      color: #fff;
+      font-weight: 800;
+      font-size: 1.1rem;
+      padding: 0.9rem 1.8rem;
+      border-radius: var(--radius-md);
+      border: none;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
+      transition: all 0.2s ease;
+    }
+
+    .btn-next:hover {
+      background: #4338CA;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 18px rgba(79, 70, 229, 0.4);
+    }
+
+    /* Başlangıç ve Karakter Seçim Ekranı */
+    .hero-center {
+      text-align: center;
+      max-width: 680px;
+      margin: 0 auto;
+    }
+
+    .game-logo {
+      font-size: 3.5rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .hero-title {
+      font-size: 2.4rem;
+      font-weight: 900;
+      line-height: 1.2;
+      margin-bottom: 0.75rem;
+      background: linear-gradient(135deg, #4F46E5 0%, #06B6D4 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero-subtitle {
+      font-size: 1.25rem;
+      color: var(--text-muted);
+      margin-bottom: 2rem;
+      font-weight: 600;
+    }
+
+    .btn-primary-start {
+      background: linear-gradient(135deg, #4F46E5 0%, #6366F1 100%);
+      color: #fff;
+      font-size: 1.35rem;
+      font-weight: 900;
+      padding: 1.2rem 2.8rem;
+      border-radius: 9999px;
+      border: none;
+      cursor: pointer;
+      box-shadow: 0 10px 25px rgba(79, 70, 229, 0.35);
+      transition: all 0.25s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .btn-primary-start:hover {
+      transform: translateY(-3px) scale(1.02);
+      box-shadow: 0 15px 30px rgba(79, 70, 229, 0.45);
+    }
+
+    /* Karakter Kartları */
+    .character-cards-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+      margin: 2rem 0;
+    }
+
+    @media (max-width: 650px) {
+      .character-cards-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .char-card-select {
+      background: #FFFFFF;
+      border: 3px solid #E2E8F0;
+      border-radius: var(--radius-lg);
+      padding: 1.8rem 1rem;
+      cursor: pointer;
+      text-align: center;
+      transition: all 0.25s ease;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .char-card-select:hover {
+      border-color: #6366F1;
+      transform: translateY(-6px);
+      box-shadow: 0 12px 24px rgba(99, 102, 241, 0.2);
+    }
+
+    .char-card-select.selected {
+      border-color: #4F46E5;
+      background: #EEF2FF;
+      box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.3);
+    }
+
+    /* Sonuç Ekranı */
+    .result-summary-card {
+      text-align: center;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .result-badge {
+      display: inline-block;
+      padding: 0.6rem 1.8rem;
+      border-radius: 9999px;
+      font-size: 1.3rem;
+      font-weight: 900;
+      margin-bottom: 1.2rem;
+    }
+
+    .badge-user-conscious {
+      background: #D1FAE5;
+      color: #065F46;
+      border: 2px solid #6EE7B7;
+    }
+
+    .badge-user-balanced {
+      background: #FEF3C7;
+      color: #92400E;
+      border: 2px solid #FCD34D;
+    }
+
+    .badge-user-careful {
+      background: #FEE2E2;
+      color: #991B1B;
+      border: 2px solid #FCA5A5;
+    }
+
+    .day-log-box {
+      background: rgba(248, 250, 252, 0.9);
+      border-radius: var(--radius-md);
+      padding: 1.5rem;
+      margin: 1.5rem 0;
+      text-align: left;
+      border: 1px solid #E2E8F0;
+    }
+
+    body.theme-night .day-log-box {
+      background: rgba(255, 255, 255, 0.05);
+      border-color: rgba(255, 255, 255, 0.1);
+    }
+
+    .log-list {
+      list-style: none;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 0.75rem;
+    }
+
+    @media (max-width: 600px) {
+      .log-list {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .log-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 1rem;
+      font-weight: 600;
+    }
+
+    .log-item.positive { color: #059669; }
+    .log-item.negative { color: #DC2626; }
+
+    /* Alt Navigasyon & Kontrol Butonları */
+    .controls-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 1.5rem;
+      padding-top: 1.2rem;
+      border-top: 1px solid rgba(0, 0, 0, 0.08);
+    }
+
+    body.theme-night .controls-bar {
+      border-top-color: rgba(255, 255, 255, 0.1);
+    }
+
+    .btn-subtle {
+      background: transparent;
+      border: 1px solid #CBD5E1;
+      color: var(--text-muted);
+      padding: 0.5rem 1rem;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      font-weight: 700;
+      font-size: 0.9rem;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s;
+    }
+
+    .btn-subtle:hover {
+      background: rgba(0, 0, 0, 0.05);
+      color: var(--text-main);
+    }
+
+    /* İlerleme Çubuğu */
+    .progress-track {
+      width: 100%;
+      height: 8px;
+      background: rgba(0, 0, 0, 0.06);
+      border-radius: 999px;
+      margin-bottom: 1.2rem;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #4F46E5, #06B6D4);
+      width: 0%;
+      transition: width 0.4s ease;
+    }
+
+    /* Ses Efekti Aç/Kapa Butonu */
+    .btn-sound {
+      background: rgba(255, 255, 255, 0.8);
+      border: 1px solid #E2E8F0;
+      border-radius: 50%;
+      width: 38px;
+      height: 38px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 1.1rem;
+    }
+
+    /* Görsel Odaklı İpuçları */
+    .status-emoji {
+      font-size: 1.6rem;
+    }
+  </style>
+</head>
+<body class="theme-morning">
+
+  <!-- Üst Başlık & Öğretmen İmzası -->
+  <header>
+    <div class="brand-group">
+      <span class="badge-tag">5. Sınıf Bilişim</span>
+      <strong style="font-size: 1.05rem;">BİR GÜNLÜK TEKNOLOJİ MACERASI</strong>
+    </div>
+    <div style="display: flex; align-items: center; gap: 10px;">
+      <button class="btn-sound" id="btnSoundToggle" title="Ses Aç/Kapat">🔊</button>
+      <div class="teacher-badge">
+        <span>👨‍🏫</span> Öğretmen Bozok
+      </div>
+    </div>
+  </header>
+
+  <!-- Ana İçerik Taşıyıcısı -->
+  <main>
+    <div class="app-container" id="app">
+      <!-- İçerik Dinamik Olarak JavaScript ile Yüklenecektir -->
+    </div>
+  </main>
+
+  <script>
+    /* ==========================================================
+       DERS İÇERİK VERİ TABANI (Yalnızca 2. Hafta Konu ve Kazanımları)
+       Kazanım: BTY.5.1.2 Bilişim teknolojilerinin etkilerini birey ve toplum açısından özetler.
+       ========================================================== */
+
+    const CHARACTERS = [
+      {
+        id: 'charA',
+        name: 'Can',
+        role: 'Meraklı Kaşif',
+        avatarSvg: `<svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="50" cy="50" r="45" fill="#FED7AA"/>
+          <path d="M25 40C25 24 35 15 50 15C65 15 75 24 75 40C75 42 70 32 50 32C30 32 25 42 25 40Z" fill="#78350F"/>
+          <circle cx="38" cy="48" r="5" fill="#1E293B"/>
+          <circle cx="62" cy="48" r="5" fill="#1E293B"/>
+          <path d="M42 64C46 68 54 68 58 64" stroke="#78350F" stroke-width="3" stroke-linecap="round"/>
+          <path d="M20 90C20 75 32 72 50 72C68 72 80 75 80 90" fill="#3B82F6"/>
+        </svg>`
+      },
+      {
+        id: 'charB',
+        name: 'Ece',
+        role: 'Teknoloji Dostu',
+        avatarSvg: `<svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="50" cy="50" r="45" fill="#FBCFE8"/>
+          <path d="M20 45C20 20 32 12 50 12C68 12 80 20 80 45C80 60 78 70 78 70L70 48L62 30H38L30 48L22 70C22 70 20 60 20 45Z" fill="#9D174D"/>
+          <circle cx="38" cy="48" r="5" fill="#1E293B"/>
+          <circle cx="62" cy="48" r="5" fill="#1E293B"/>
+          <path d="M42 63C46 67 54 67 58 63" stroke="#9D174D" stroke-width="3" stroke-linecap="round"/>
+          <path d="M20 90C20 75 32 72 50 72C68 72 80 75 80 90" fill="#EC4899"/>
+        </svg>`
+      },
+      {
+        id: 'charC',
+        name: 'Deniz',
+        role: 'Araştırmacı',
+        avatarSvg: `<svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="50" cy="50" r="45" fill="#FEF08A"/>
+          <path d="M25 45C25 22 35 15 50 15C65 15 75 22 75 45C75 32 68 28 50 28C32 28 25 32 25 45Z" fill="#1E293B"/>
+          <circle cx="38" cy="48" r="5" fill="#1E293B"/>
+          <circle cx="62" cy="48" r="5" fill="#1E293B"/>
+          <path d="M40 64C45 69 55 69 60 64" stroke="#1E293B" stroke-width="3" stroke-linecap="round"/>
+          <path d="M20 90C20 75 32 72 50 72C68 72 80 75 80 90" fill="#10B981"/>
+        </svg>`
+      }
+    ];
+
+    const CHAPTERS = [
+      {
+        id: 1,
+        time: '08:00',
+        period: 'morning',
+        periodLabel: 'Sabah 🌅',
+        chapterTitle: 'BÖLÜM 1 — SABAH ARAŞTIRMASI',
+        scenario: 'Bugün teslim etmen gereken bilişim ödevi için güvenilir ve detaylı bir bilgiye acilen ulaşman gerekiyor.',
+        question: 'Nasıl bir yol izlersin?',
+        choices: [
+          {
+            text: 'A) Teknolojiden yararlanarak (arama motorları, eğitim portalları) bilgiye hızlıca ulaş.',
+            type: 'positive',
+            points: 1,
+            feedbackTitle: '🟢 OLUMLU ETKİ: Bilgiye Kolay Ulaşma',
+            feedbackText: 'Harika bir karar! Bilişim teknolojileri, kütüphanelere gitmeye gerek kalmadan devasa bilgi kaynaklarına saniyeler içinde ve kolayca ulaşmamızı sağlar.'
+          },
+          {
+            text: 'B) Teknolojiyi hiç kullanmadan bilginin kendiliğinden gelmesini bekle.',
+            type: 'neutral',
+            points: 0,
+            feedbackTitle: '💡 DÜŞÜNELİM: Teknolojinin Gücü',
+            feedbackText: 'Beklemek zaman kaybettirebilir. Bilişim teknolojileri doğru amaçla kullanıldığında bilgiye kolay ve hızlı ulaşmanın en etkili yoludur.'
+          }
+        ]
+      },
+      {
+        id: 2,
+        time: '10:30',
+        period: 'morning',
+        periodLabel: 'Kuşluk Vakti ☀️',
+        chapterTitle: 'BÖLÜM 2 — UZAKTAKİ DOSTLA İLETİŞİM',
+        scenario: 'Farklı bir şehirde yaşayan ve çok özlediğin bir arkadaşınla okul projesi hakkında acil görüşmen gerekiyor.',
+        question: 'İletişim için ne yaparsın?',
+        choices: [
+          {
+            text: 'A) İnternet ve iletişim araçlarını kullanarak görüntülü veya sesli anında haberleş.',
+            type: 'positive',
+            points: 1,
+            feedbackTitle: '🟢 OLUMLU ETKİ: Hızlı Haberleşme & Zamandan Tasarruf',
+            feedbackText: 'Tebrikler! Bilişim teknolojileri mesafeleri ortadan kaldırarak hızlı haberleşmeyi sağlar ve bize büyük bir zaman tasarrufu kazandırır.'
+          },
+          {
+            text: 'B) Mektup yazıp günlerce cevabın gelmesini bekle.',
+            type: 'neutral',
+            points: 0,
+            feedbackTitle: '💡 FARKINDALIK: Hız ve Kolaylık',
+            feedbackText: 'Geleneksel yöntemler değerli olsa da, acil durumlarda bilişim teknolojileri anlık ve hızlı haberleşme imkânı sunarak hayatımızı kolaylaştırır.'
+          }
+        ]
+      },
+      {
+        id: 3,
+        time: '12:45',
+        period: 'noon',
+        periodLabel: 'Öğle ☀️',
+        chapterTitle: 'BÖLÜM 3 — GÜNLÜK İŞLER VE MALİYET',
+        scenario: 'Günün bir diğer işi için fatura ödemesi veya ders kaynağı temin edilmesi gerekiyor. Dışarı çıkıp saatlerce sıra beklemek yerine dijital uygulamaları kullanma fırsatın var.',
+        question: 'Kararın ne olur?',
+        choices: [
+          {
+            text: 'A) Çevrim içi sistemleri kullanarak işlemi evden birkaç tıkla tamamla.',
+            type: 'positive',
+            points: 1,
+            feedbackTitle: '🟢 OLUMLU ETKİ: Hayatımızı Kolaylaştırma & Maliyeti Azaltma',
+            feedbackText: 'Doğru tercih! Bilişim teknolojileri hem yol masraflarını azaltarak maliyetten tasarruf ettirir hem de hayatımızı büyük ölçüde kolaylaştırır.'
+          },
+          {
+            text: 'B) Şehirlerarası yolculuk yaparak işlemi yerinde elden yapmaya çalış.',
+            type: 'neutral',
+            points: 0,
+            feedbackTitle: '💡 ANALİZ: Maliyet ve Enerji',
+            feedbackText: 'Bu yöntem gereksiz yakıt ve zaman harcatır. Teknoloji, maliyeti azaltarak hayatımızı kolaylaştıran güçlü bir araçtır.'
+          }
+        ]
+      },
+      {
+        id: 4,
+        time: '14:30',
+        period: 'noon',
+        periodLabel: 'Öğleden Sonra 🌤️',
+        chapterTitle: 'BÖLÜM 4 — UZUN SÜRELİ KULLANIM VE DENGE',
+        scenario: 'Bilgisayar başında ödevini bitirdin ama kalkmak yerine saatlerce hiç ara vermeden ekrana bakmaya ve eğlence içerikleri tüketmeye devam etmek istiyorsun.',
+        question: 'Nasıl hareket etmelisin?',
+        choices: [
+          {
+            text: 'A) Ekran süresini sınırlayıp mola ver; ayağa kalkıp esneme hareketleri yap.',
+            type: 'positive',
+            points: 1,
+            feedbackTitle: '🟢 BİLİNÇLİ SEÇİM: Denge ve Sağlık Koruması',
+            feedbackText: 'Harika! Teknolojiyi dengeli kullanmak ve düzenli aralar vermek, duruş bozuklukları ve diğer fiziksel problemlerin önüne geçer.'
+          },
+          {
+            text: 'B) Hiç kıpırdamadan saatlerce kambur şekilde bilgisayar başında kal.',
+            type: 'negative',
+            points: 0,
+            feedbackTitle: '🔴 OLUMSUZ ETKİ: Duruş Bozuklukları & Tembellik',
+            feedbackText: 'Dikkat! Bilgisayar başında uzun ve kontrolsüz süre kalmak insanları tembelliğe alıştırır, duruş bozukluklarına ve sağlık sorunlarına yol açar.'
+          }
+        ]
+      },
+      {
+        id: 5,
+        time: '15:45',
+        period: 'noon',
+        periodLabel: 'Öğleden Sonra 🌤️',
+        chapterTitle: 'BÖLÜM 5 — SAĞLIK DOSYASI: AĞRILAR',
+        scenario: 'Karakter teknolojik cihazı kullanırken uygun olmayan bir sandalyede eğri oturduğu için boyun, omuz ve sırt kaslarında şiddetli gerginlik ve ağrılar hissetmeye başladı.',
+        question: 'Bu durum ders içeriğimize göre doğrudan hangi sağlık problemiyle ilgilidir?',
+        choices: [
+          {
+            text: 'A) Boyun ve kas ağrıları',
+            type: 'positive',
+            points: 1,
+            feedbackTitle: '🟢 DOĞRU TESPİT: Boyun ve Kas Ağrıları',
+            feedbackText: 'Tebrikler! Yanlış pozisyonda ve uzun süreli bilgisayar/tablet kullanımı kasların aşırı gerilmesine, boyun ve sırt kas ağrılarına sebep olur.'
+          },
+          {
+            text: 'B) Görme bozuklukları',
+            type: 'neutral',
+            points: 0,
+            feedbackTitle: '💡 İPUCU: Kas ve İskelet Sistemi',
+            feedbackText: 'Görme gözlerle ilgilidir. Yaşanan gerginlik ve sızlama kas ve iskelet yapımızla ilgili olan "Boyun ve kas ağrıları" problemidir.'
+          },
+          {
+            text: 'C) Bilgiye kolay ulaşma',
+            type: 'neutral',
+            points: 0,
+            feedbackTitle: '💡 KAVRAM KONTROLÜ',
+            feedbackText: 'Bilgiye kolay ulaşma teknolojinin olumlu bir etkisidir; fiziksel bir ağrı veya sağlık problemi değildir.'
+          }
+        ]
+      },
+      {
+        id: 6,
+        time: '17:00',
+        period: 'evening',
+        periodLabel: 'Akşamüstü 🌆',
+        chapterTitle: 'BÖLÜM 6 — SOSYAL HAYAT VE İLETİŞİM',
+        scenario: 'Arkadaşların seni parka oyun oynamaya çağırdı ve ailen sohbet etmek istiyor. Ancak karakter teknolojik cihaza dalıp herkesi görmezden geliyor, yüz yüze iletişimi tamamen kesiyor.',
+        question: 'Bu durum birey ve toplum açısından nasıl bir etkidir?',
+        choices: [
+          {
+            text: 'A) 🔴 OLUMSUZ ETKİ — İnsanların birbiriyle olan bağının kaybolması',
+            type: 'positive',
+            points: 1,
+            feedbackTitle: '🔴 OLUMSUZ ETKİ: Sosyal Bağların Zayıflaması',
+            feedbackText: 'Doğru analiz! Bilişim teknolojilerinin aşırı ve kontrolsüz kullanımı, insanların birbiriyle olan bağının zamanla kaybolmasına ve sosyal izolasyona neden olabilir.'
+          },
+          {
+            text: 'B) 🟢 OLUMLU ETKİ — Zamandan tasarruf sağlanması',
+            type: 'neutral',
+            points: 0,
+            feedbackTitle: '💡 DEĞERLENDİRME: Sosyal İletişim',
+            feedbackText: 'Yüz yüze iletişimi tamamen kesmek olumlu değildir; bireyler arasındaki duygusal bağı koparan olumsuz bir durumdur.'
+          }
+        ]
+      },
+      {
+        id: 7,
+        time: '18:30',
+        period: 'evening',
+        periodLabel: 'Akşam 🌆',
+        chapterTitle: 'BÖLÜM 7 — HAREKETSİZLİK VE BESLENME',
+        scenario: 'Karakter akşama doğru ekran başından hiç ayrılmıyor, hareketsiz kalıyor ve sürekli abur cubur tüketerek sağlıksız besleniyor.',
+        question: 'Bu alışkanlık hangi olumsuz sonuca yol açar?',
+        choices: [
+          {
+            text: 'A) Hareketsiz ve sağlıksız beslenmeyle birlikte obezitenin artması',
+            type: 'positive',
+            points: 1,
+            feedbackTitle: '🔴 DOĞRU TEŞHİS: Obezite ve Hareketsizlik Riski',
+            feedbackText: 'Çok doğru! Teknolojinin hareketsizlikle birleşmesi, sağlıksız beslenme alışkanlıklarıyla birlikte obezitenin artmasına zemin hazırlar.'
+          },
+          {
+            text: 'B) Maliyetin azalması ve hızlı haberleşme',
+            type: 'neutral',
+            points: 0,
+            feedbackTitle: '💡 KAVRAM AYRIMI',
+            feedbackText: 'Maliyet ve haberleşme ekonomik ve iletişimsel olumlu etkilerdir; hareketsizlik ve beslenme bozukluğu doğrudan obezite riskini artırır.'
+          }
+        ]
+      },
+      {
+        id: 8,
+        time: '19:45',
+        period: 'evening',
+        periodLabel: 'Akşam 🌆',
+        chapterTitle: 'BÖLÜM 8 — SAĞLIK DOSYASI: GÖZ SAĞLIĞI',
+        scenario: 'Karakter karanlık bir odada, tableti gözlerine çok yakın mesafede tutarak saatlerce kırpmadan baktığı için gözlerinde yanma, kuruluk ve bulanık görme başladı.',
+        question: 'Bu senaryo hangi sağlık problemi ile doğrudan ilgilidir?',
+        choices: [
+          {
+            text: 'A) Görme bozuklukları',
+            type: 'positive',
+            points: 1,
+            feedbackTitle: '🟢 DOĞRU CEVAP: Görme Bozuklukları',
+            feedbackText: 'Harika tespit! Ekranlara çok yakından, karanlıkta ve uzun süre aralıksız bakmak göz sağlığını bozar ve görme bozukluklarına yol açar.'
+          },
+          {
+            text: 'B) Zamandan tasarruf',
+            type: 'neutral',
+            points: 0,
+            feedbackTitle: '💡 İPUCU: Göz Sağlığı',
+            feedbackText: 'Göz yanması ve bulanıklık zamandan tasarrufla ilgili değil, doğrudan "Görme bozuklukları" sağlık problemiyle ilgilidir.'
+          },
+          {
+            text: 'C) İşsizlik oranının artması',
+            type: 'neutral',
+            points: 0,
+            feedbackTitle: '💡 TOPLUMSAL ETKİ FARKI',
+            feedbackText: 'İşsizlik toplumsal bir etkidir; göz yanması ise bireysel bir sağlık problemidir.'
+          }
+        ]
+      },
+      {
+        id: 9,
+        time: '21:00',
+        period: 'night',
+        periodLabel: 'Gece 🌙',
+        chapterTitle: 'BÖLÜM 9 — KONTROL KAYBI VE BAĞIMLILIK',
+        scenario: 'Karakter "bir el daha oynayayım" diyerek saatlerdir dijital oyunun başından kalkamıyor, yapması gereken diğer tüm sorumlulukları unutuyor ve oyunu bırakmakta aşırı zorlanıyor.',
+        question: 'Bu durum ders kaynaklarımızda geçen hangi sağlık problemiyle tanımlanır?',
+        choices: [
+          {
+            text: 'A) Teknoloji ve oyun bağımlılığı',
+            type: 'positive',
+            points: 1,
+            feedbackTitle: '🟢 DOĞRU CEVAP: Teknoloji ve Oyun Bağımlılığı',
+            feedbackText: 'Tebrikler! Cihaz kullanım süresini kontrol edememek, planlanandan çok daha fazla oynamak teknoloji ve oyun bağımlılığının en net belirtisidir.'
+          },
+          {
+            text: 'B) Bilgiye kolay ulaşmayı sağlaması',
+            type: 'neutral',
+            points: 0,
+            feedbackTitle: '💡 DİKKAT: Bağımlılık Riski',
+            feedbackText: 'Oyun başında kontrolsüzce kilitlenip kalmak bilgiye ulaşmak değil, teknoloji ve oyun bağımlılığı problemidir.'
+          }
+        ]
+      },
+      {
+        id: 10,
+        time: '21:45',
+        period: 'night',
+        periodLabel: 'Gece 🌙',
+        chapterTitle: 'BÖLÜM 10 — RUH SAĞLIĞI VE DUYGULAR',
+        scenario: 'Aşırı ekran kullanımı ve sanal dünyadaki olumsuz içerikler nedeniyle karakter kendini sürekli gergin, öfkeli, mutsuz hissetmeye ve uykuya dalmakta korkular yaşamaya başladı.',
+        question: 'Bu tablo hangi sağlık problemi türüne örnektir?',
+        choices: [
+          {
+            text: 'A) Psikolojik bozukluklar',
+            type: 'positive',
+            points: 1,
+            feedbackTitle: '🟢 DOĞRU TESPİT: Psikolojik Bozukluklar',
+            feedbackText: 'Mükemmel! Teknolojinin aşırı ve bilinçsiz tüketimi bireyin ruh halini etkileyerek kaygı, stres, öfke gibi psikolojik bozukluklara yol açabilir.'
+          },
+          {
+            text: 'B) Maliyeti azaltması',
+            type: 'neutral',
+            points: 0,
+            feedbackTitle: '💡 ETKİ ANALİZİ',
+            feedbackText: 'Ruhsal gerginlik ve huzursuzluk ekonomik bir etki değildir; psikolojik bozukluklar kategorisine giren bir sağlık sorunudur.'
+          }
+        ]
+      }
+    ];
+
+    /* ==========================================================
+       OYUN DURUM VE YÖNETİM MERKEZİ (STATE)
+       ========================================================== */
+
+    const gameState = {
+      view: 'start', // 'start' | 'character_select' | 'playing' | 'result'
+      selectedCharacter: CHARACTERS[0],
+      currentChapterIndex: 0,
+      score: 0, // Teknoloji Etki Puanı
+      soundEnabled: true,
+      userChoicesHistory: []
+    };
+
+    // DOM Öğesi
+    const appEl = document.getElementById('app');
+    const soundToggleBtn = document.getElementById('btnSoundToggle');
+
+    /* ==========================================================
+       BASİT SES MOTORU (Web Audio API - Harici Dosyasız)
+       ========================================================== */
+    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+    function playTone(freq, type, duration) {
+      if (!gameState.soundEnabled) return;
+      try {
+        if (audioCtx.state === 'suspended') {
+          audioCtx.resume();
+        }
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = type;
+        osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+        gain.gain.setValueAtTime(0.12, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start();
+        osc.stop(audioCtx.currentTime + duration);
+      } catch (e) {
+        // Ses desteklenmiyorsa sessizce geç
+      }
+    }
+
+    function soundClick() {
+      playTone(480, 'sine', 0.1);
+    }
+    function soundSuccess() {
+      playTone(587.33, 'triangle', 0.15);
+      setTimeout(() => playTone(880, 'triangle', 0.25), 100);
+    }
+    function soundNotice() {
+      playTone(349.23, 'sine', 0.2);
+    }
+
+    soundToggleBtn.addEventListener('click', () => {
+      gameState.soundEnabled = !gameState.soundEnabled;
+      soundToggleBtn.textContent = gameState.soundEnabled ? '🔊' : '🔇';
+    });
+
+    /* ==========================================================
+       EKRAN RENDER FONKSİYONLARI
+       ========================================================== */
+
+    // Tema Değiştirici
+    function updateTheme(period) {
+      document.body.className = `theme-${period || 'morning'}`;
+    }
+
+    // 1. Başlangıç Ekranı
+    function renderStartScreen() {
+      updateTheme('morning');
+      appEl.innerHTML = `
+        <div class="content-card hero-center">
+          <div class="game-logo">🚀💻</div>
+          <h1 class="hero-title">BİR GÜNLÜK TEKNOLOJİ MACERASI</h1>
+          <p class="hero-subtitle">Bugün teknolojiyle ilgili kararları sen vereceksin.</p>
+          
+          <div style="background: rgba(238, 242, 255, 0.7); padding: 1.2rem; border-radius: var(--radius-md); margin-bottom: 2rem; border: 1px dashed #C7D2FE; text-align: left;">
+            <strong style="color: #4F46E5; display: block; margin-bottom: 6px;">🎯 Görevin:</strong>
+            Karakterinin bir günü boyunca karşılaşacağı teknolojik durumlarda bilinçli kararlar ver; teknolojinin <strong>olumlu</strong> ve <strong>olumsuz</strong> etkilerini keşfet!
+          </div>
+
+          <button class="btn-primary-start" id="btnStartGame">
+            <span>▶</span> MACERAYA BAŞLA
+          </button>
+        </div>
+      `;
+
+      document.getElementById('btnStartGame').addEventListener('click', () => {
+        soundClick();
+        gameState.view = 'character_select';
+        renderCharacterSelect();
+      });
+    }
+
+    // 2. Karakter Seçim Ekranı
+    function renderCharacterSelect() {
+      updateTheme('morning');
+      appEl.innerHTML = `
+        <div class="content-card hero-center">
+          <span class="chapter-badge">ADIM 1</span>
+          <h2 style="font-size: 2rem; font-weight: 800; margin: 0.5rem 0;">Karakterini Seç</h2>
+          <p style="color: var(--text-muted); font-size: 1.05rem;">Macerada sana eşlik edecek arkadaşını belirle:</p>
+
+          <div class="character-cards-grid">
+            ${CHARACTERS.map(c => `
+              <div class="char-card-select ${gameState.selectedCharacter.id === c.id ? 'selected' : ''}" data-char-id="${c.id}">
+                <div class="avatar-svg-container" style="width: 85px; height: 85px;">
+                  ${c.avatarSvg}
+                </div>
+                <strong style="font-size: 1.25rem;">${c.name}</strong>
+                <span style="font-size: 0.85rem; color: #64748B;">${c.role}</span>
+              </div>
+            `).join('')}
+          </div>
+
+          <button class="btn-primary-start" id="btnConfirmCharacter" style="font-size: 1.15rem; padding: 1rem 2.4rem;">
+            Seç ve Güne Başla (08:00) ➔
+          </button>
+        </div>
+      `;
+
+      document.querySelectorAll('.char-card-select').forEach(card => {
+        card.addEventListener('click', () => {
+          soundClick();
+          const charId = card.getAttribute('data-char-id');
+          gameState.selectedCharacter = CHARACTERS.find(c => c.id === charId);
+          document.querySelectorAll('.char-card-select').forEach(c => c.classList.remove('selected'));
+          card.classList.add('selected');
+        });
+      });
+
+      document.getElementById('btnConfirmCharacter').addEventListener('click', () => {
+        soundSuccess();
+        gameState.view = 'playing';
+        gameState.currentChapterIndex = 0;
+        gameState.score = 0;
+        gameState.userChoicesHistory = [];
+        renderChapter();
+      });
+    }
+
+    // 3. Bölüm / Oynanış Ekranı
+    function renderChapter() {
+      const chapter = CHAPTERS[gameState.currentChapterIndex];
+      updateTheme(chapter.period);
+
+      const progressPercent = ((gameState.currentChapterIndex) / CHAPTERS.length) * 100;
+
+      appEl.innerHTML = `
+        <div class="content-card">
+          <!-- İlerleme Çubuğu -->
+          <div class="progress-track">
+            <div class="progress-fill" style="width: ${progressPercent}%"></div>
+          </div>
+
+          <!-- HUD Üst Göstergeler -->
+          <div class="hud-bar">
+            <div class="hud-item">
+              <span>🕒</span> Saat: <strong>${chapter.time}</strong>
+              <span class="hud-pill">${chapter.periodLabel}</span>
+            </div>
+            <div class="hud-item">
+              <span>📖</span> Bölüm: <strong>${chapter.id} / ${CHAPTERS.length}</strong>
+            </div>
+            <div class="score-pill">
+              <span>⭐</span> Teknoloji Etki Puanı: <strong id="hudScoreVal">${gameState.score}</strong>
+            </div>
+          </div>
+
+          <!-- Karakter & Senaryo Gövdesi -->
+          <div class="scenario-grid">
+            
+            <!-- Karakter Vitrini -->
+            <div class="character-stage">
+              <div class="avatar-svg-container">
+                ${gameState.selectedCharacter.avatarSvg}
+              </div>
+              <div class="char-name">${gameState.selectedCharacter.name}</div>
+              <div class="char-status">Durum: Düşünüyor... 🤔</div>
+            </div>
+
+            <!-- Senaryo & Kararlar -->
+            <div class="scenario-content">
+              <span class="chapter-badge">${chapter.chapterTitle}</span>
+              <div class="scenario-box">
+                ${chapter.scenario}
+              </div>
+
+              <div style="font-size: 1.15rem; font-weight: 800; margin-top: 0.3rem;">
+                ${chapter.question}
+              </div>
+
+              <!-- Seçenek Butonları -->
+              <div class="choices-container" id="choicesContainer">
+                ${chapter.choices.map((ch, idx) => `
+                  <button class="btn-choice" data-choice-idx="${idx}">
+                    <span class="choice-letter">${String.fromCharCode(65 + idx)}</span>
+                    <span>${ch.text}</span>
+                  </button>
+                `).join('')}
+              </div>
+
+              <!-- Geri Bildirim Açıklama Paneli -->
+              <div class="feedback-panel" id="feedbackPanel">
+                <div class="feedback-header" id="feedbackHeader"></div>
+                <div class="feedback-body" id="feedbackBody"></div>
+                <button class="btn-next" id="btnNextStep">
+                  ${gameState.currentChapterIndex === CHAPTERS.length - 1 ? 'Günü Tamamla & Değerlendir ➔' : 'Sonraki Saate Geç ➔'}
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Alt Kontrol Barı -->
+          <div class="controls-bar">
+            <button class="btn-subtle" id="btnBackToMenu">
+              <span>🏠</span> Ana Menü
+            </button>
+            <span style="font-size: 0.85rem; color: var(--text-muted);" class="text-muted-custom">
+              5. Sınıf Bilişim Teknolojileri Etkileri
+            </span>
+          </div>
+        </div>
+      `;
+
+      // Seçenek Olay Dinleyicileri
+      document.querySelectorAll('.btn-choice').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const choiceIdx = parseInt(btn.getAttribute('data-choice-idx'), 10);
+          handleChoiceSelection(choiceIdx);
+        });
+      });
+
+      // Ana Menü Butonu
+      document.getElementById('btnBackToMenu').addEventListener('click', () => {
+        soundClick();
+        renderStartScreen();
+      });
+    }
+
+    // Karar Verme Mantığı
+    function handleChoiceSelection(choiceIdx) {
+      const chapter = CHAPTERS[gameState.currentChapterIndex];
+      const selectedChoice = chapter.choices[choiceIdx];
+
+      // Puan Güncelle
+      if (selectedChoice.points > 0) {
+        gameState.score += selectedChoice.points;
+        soundSuccess();
+      } else {
+        soundNotice();
+      }
+
+      // Geçmişe kaydet
+      gameState.userChoicesHistory.push({
+        chapterId: chapter.id,
+        title: chapter.chapterTitle,
+        type: selectedChoice.type,
+        feedbackTitle: selectedChoice.feedbackTitle
+      });
+
+      // HUD Skorunu Güncelle
+      const scoreEl = document.getElementById('hudScoreVal');
+      if (scoreEl) scoreEl.textContent = gameState.score;
+
+      // Butonları devre dışı bırak
+      const choicesContainer = document.getElementById('choicesContainer');
+      choicesContainer.style.pointerEvents = 'none';
+      choicesContainer.style.opacity = '0.7';
+
+      // Seçilen butonu vurgula
+      const buttons = choicesContainer.querySelectorAll('.btn-choice');
+      buttons.forEach((b, i) => {
+        if (i === choiceIdx) {
+          b.style.borderColor = '#4F46E5';
+          b.style.background = '#EEF2FF';
+        }
+      });
+
+      // Geri Bildirimi Göster
+      const feedbackPanel = document.getElementById('feedbackPanel');
+      const feedbackHeader = document.getElementById('feedbackHeader');
+      const feedbackBody = document.getElementById('feedbackBody');
+
+      feedbackHeader.innerHTML = selectedChoice.feedbackTitle;
+      feedbackBody.textContent = selectedChoice.feedbackText;
+
+      feedbackPanel.className = 'feedback-panel ' + (selectedChoice.type === 'positive' ? 'feedback-positive' : 'feedback-negative');
+      feedbackPanel.style.display = 'block';
+
+      // İlerle Butonu
+      document.getElementById('btnNextStep').addEventListener('click', () => {
+        soundClick();
+        if (gameState.currentChapterIndex < CHAPTERS.length - 1) {
+          gameState.currentChapterIndex++;
+          renderChapter();
+        } else {
+          renderResultScreen();
+        }
+      });
+    }
+
+    // 4. Sonuç ve Gün Sonu Değerlendirme Ekranı (Bölüm 11)
+    function renderResultScreen() {
+      updateTheme('night');
+
+      let userProfileBadge = '';
+      let userProfileDesc = '';
+      let badgeClass = '';
+
+      if (gameState.score >= 8) {
+        badgeClass = 'badge-user-conscious';
+        userProfileBadge = '🟢 BİLİNÇLİ TEKNOLOJİ KULLANICISI';
+        userProfileDesc = 'Tebrikler! Gün boyunca bilişim teknolojilerinin bilgiye kolay ulaşma, zamandan tasarruf ve hayatı kolaylaştırma gibi olumlu etkilerinden en üst düzeyde faydalandın. Aşırı kullanımın ve hareketsizliğin sağlık üzerindeki olumsuz etkilerini doğru şekilde fark ettin.';
+      } else if (gameState.score >= 5) {
+        badgeClass = 'badge-user-balanced';
+        userProfileBadge = '🟡 DENGELİ KULLANICI';
+        userProfileDesc = 'Bazı kararların olumlu, bazı kararların ise dikkat gerektiren sonuçlar doğurdu. Teknolojinin günlük yaşamı kolaylaştıran gücünü keşfettin; ancak duruş bozuklukları ve ekran süresi sınırlarına biraz daha özen gösterebilirsin.';
+      } else {
+        badgeClass = 'badge-user-careful';
+        userProfileBadge = '🔴 DİKKATLİ OLMASI GEREKEN KULLANICI';
+        userProfileDesc = 'Teknolojinin fazla ve yanlış kullanımının görme, boyun ağrısı, hareketsizlik ve bağımlılık gibi önemli sağlık problemleri doğurabileceğini tecrübe ettin. Bu macera, teknolojiyi daha bilinçli yönetmen için harika bir öğrenme adımı oldu!';
+      }
+
+      appEl.innerHTML = `
+        <div class="content-card result-summary-card">
+          <span class="chapter-badge">BÖLÜM 11 — GÜN SONU ANALİZİ</span>
+          <h2 style="font-size: 2.2rem; font-weight: 900; margin: 0.5rem 0 1rem 0;">Bugün Teknolojiyi Nasıl Kullandın?</h2>
+
+          <div class="result-badge ${badgeClass}">
+            ${userProfileBadge}
+          </div>
+
+          <p style="font-size: 1.15rem; line-height: 1.6; margin-bottom: 1.5rem;" class="text-muted-custom">
+            ${userProfileDesc}
+          </p>
+
+          <div class="score-pill" style="display: inline-flex; font-size: 1.2rem; padding: 8px 24px; margin-bottom: 1rem;">
+            Toplam Teknoloji Etki Puanın: <strong style="font-size: 1.4rem;">${gameState.score} / ${CHAPTERS.length}</strong>
+          </div>
+
+          <!-- Günlük Öğrenilen Kazanımlar Listesi -->
+          <div class="day-log-box">
+            <strong style="display: block; font-size: 1.1rem; margin-bottom: 10px; color: #4F46E5;">
+              📋 2. Hafta Bilişim Etkileri Özeti:
+            </strong>
+            <ul class="log-list">
+              <li class="log-item positive">✓ Bilgiye kolay ulaşma sağlandı</li>
+              <li class="log-item positive">✓ Hızlı haberleşme gerçekleşti</li>
+              <li class="log-item positive">✓ Hayatımızı kolaylaştırma & maliyet tasarrufu</li>
+              <li class="log-item negative">⚠ Boyun, kas ağrıları ve duruş bozuklukları fark edildi</li>
+              <li class="log-item negative">⚠ Hareketsizlik ve obezite riski analiz edildi</li>
+              <li class="log-item negative">⚠ Görme bozuklukları ve bağımlılık riski öğrenildi</li>
+            </ul>
+          </div>
+
+          <div style="display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap; margin-top: 1.5rem;">
+            <button class="btn-primary-start" id="btnRestartGame" style="font-size: 1.15rem; padding: 0.9rem 2rem;">
+              🔄 Macerayı Yeniden Başlat
+            </button>
+            <button class="btn-subtle" id="btnChangeCharacter" style="font-size: 1.05rem; padding: 0.9rem 1.6rem;">
+              👤 Karakter Değiştir
+            </button>
+          </div>
+        </div>
+      `;
+
+      document.getElementById('btnRestartGame').addEventListener('click', () => {
+        soundSuccess();
+        gameState.currentChapterIndex = 0;
+        gameState.score = 0;
+        gameState.userChoicesHistory = [];
+        renderChapter();
+      });
+
+      document.getElementById('btnChangeCharacter').addEventListener('click', () => {
+        soundClick();
+        renderCharacterSelect();
+      });
+    }
+
+    // Uygulamayı Başlat
+    window.addEventListener('DOMContentLoaded', () => {
+      renderStartScreen();
+    });
+  </script>
+</body>
+</html>

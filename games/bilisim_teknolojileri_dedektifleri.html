@@ -1,0 +1,1538 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bilişim Teknolojileri Dedektifleri | Öğretmen Bozok</title>
+    <style>
+        :root {
+            --bg-main: #0b132b;
+            --bg-card: #1c2541;
+            --bg-card-header: #141c33;
+            --accent-amber: #f59e0b;
+            --accent-cyan: #38bdf8;
+            --accent-green: #10b981;
+            --accent-red: #ef4444;
+            --accent-purple: #8b5cf6;
+            --text-light: #f8fafc;
+            --text-muted: #94a3b8;
+            --border-glow: rgba(56, 189, 248, 0.3);
+            --font-family: 'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+
+        body {
+            font-family: var(--font-family);
+            background-color: var(--bg-main);
+            color: var(--text-light);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(56, 189, 248, 0.08) 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(245, 158, 11, 0.08) 0%, transparent 40%),
+                repeating-linear-gradient(0deg, rgba(255,255,255,0.015) 0px, rgba(255,255,255,0.015) 1px, transparent 1px, transparent 40px),
+                repeating-linear-gradient(90deg, rgba(255,255,255,0.015) 0px, rgba(255,255,255,0.015) 1px, transparent 1px, transparent 40px);
+        }
+
+        /* --- ÜST BİLGİ & İMZA --- */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 14px 24px;
+            background: rgba(11, 19, 43, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 2px solid var(--border-glow);
+            position: sticky;
+            top: 0;
+            z-index: 50;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .brand-icon {
+            width: 44px;
+            height: 44px;
+            background: linear-gradient(135deg, var(--accent-amber), #d97706);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 15px rgba(245, 158, 11, 0.4);
+            font-size: 1.5rem;
+        }
+
+        .brand-title {
+            font-size: 1.35rem;
+            font-weight: 900;
+            letter-spacing: 0.5px;
+            background: linear-gradient(90deg, #fff, #38bdf8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .teacher-badge {
+            background: rgba(56, 189, 248, 0.12);
+            border: 1px solid rgba(56, 189, 248, 0.35);
+            padding: 6px 16px;
+            border-radius: 9999px;
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: var(--accent-cyan);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* --- ANA KONTEYNER --- */
+        main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            max-width: 1200px;
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        .screen {
+            display: none;
+            width: 100%;
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        .screen.active {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* --- BUTON STİLLERİ (AKILLI TAHTA UYUMLU VE BÜYÜK) --- */
+        .btn {
+            font-family: inherit;
+            font-size: 1.2rem;
+            font-weight: 700;
+            padding: 16px 32px;
+            border-radius: 14px;
+            border: none;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            text-decoration: none;
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            filter: brightness(1.1);
+        }
+
+        .btn:active {
+            transform: translateY(1px);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--accent-amber), #d97706);
+            color: #111827;
+            box-shadow: 0 6px 20px rgba(245, 158, 11, 0.35);
+        }
+
+        .btn-cyan {
+            background: linear-gradient(135deg, var(--accent-cyan), #0284c7);
+            color: #0f172a;
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--text-light);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.18);
+        }
+
+        .btn-danger {
+            background: rgba(239, 68, 68, 0.2);
+            color: #fca5a5;
+            border: 1px solid rgba(239, 68, 68, 0.4);
+        }
+
+        /* --- ANA MENÜ EKRANI --- */
+        .hero-container {
+            text-align: center;
+            max-width: 850px;
+            background: rgba(28, 37, 65, 0.88);
+            padding: 45px 35px;
+            border-radius: 28px;
+            border: 2px solid var(--border-glow);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(14px);
+        }
+
+        .hero-badge {
+            display: inline-block;
+            background: rgba(245, 158, 11, 0.15);
+            color: var(--accent-amber);
+            border: 1px solid rgba(245, 158, 11, 0.4);
+            padding: 8px 20px;
+            border-radius: 9999px;
+            font-size: 1rem;
+            font-weight: 800;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-bottom: 18px;
+        }
+
+        .hero-title {
+            font-size: 3rem;
+            font-weight: 900;
+            line-height: 1.15;
+            margin-bottom: 14px;
+            background: linear-gradient(135deg, #ffffff 30%, #38bdf8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-subtitle {
+            font-size: 1.4rem;
+            color: var(--accent-amber);
+            font-weight: 700;
+            margin-bottom: 35px;
+        }
+
+        .hero-actions {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 18px;
+        }
+
+        /* --- OYUN ALANI (HUD & VAKA DOSYASI) --- */
+        .game-layout {
+            width: 100%;
+            max-width: 1100px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .scoreboard-bar {
+            background: var(--bg-card-header);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 18px;
+            padding: 14px 24px;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            gap: 15px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+        }
+
+        .class-score-badge {
+            background: rgba(56, 189, 248, 0.15);
+            border: 2px solid var(--accent-cyan);
+            border-radius: 14px;
+            padding: 8px 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 1.25rem;
+            font-weight: 800;
+        }
+
+        .class-score-num {
+            background: var(--accent-cyan);
+            color: #0b132b;
+            padding: 4px 14px;
+            border-radius: 8px;
+            font-size: 1.4rem;
+            font-weight: 900;
+        }
+
+        .stat-pill {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 8px 16px;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 1.05rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .game-controls-mini {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn-mini {
+            padding: 10px 16px;
+            font-size: 0.95rem;
+            border-radius: 10px;
+        }
+
+        .stage-indicator-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(56, 189, 248, 0.1);
+            border: 1px solid rgba(56, 189, 248, 0.3);
+            border-radius: 14px;
+            padding: 12px 24px;
+        }
+
+        .stage-title {
+            font-weight: 800;
+            color: var(--accent-cyan);
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .round-counter {
+            font-weight: 800;
+            color: var(--accent-amber);
+            font-size: 1.2rem;
+        }
+
+        /* Dedektif Vaka Kartı */
+        .case-card {
+            background: var(--bg-card);
+            border: 2px solid var(--border-glow);
+            border-radius: 22px;
+            padding: 32px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.4);
+            display: flex;
+            flex-direction: column;
+            gap: 22px;
+            position: relative;
+        }
+
+        .case-card::before {
+            content: "KANIT DOSYASI";
+            position: absolute;
+            top: -13px;
+            left: 32px;
+            background: var(--accent-amber);
+            color: #111827;
+            font-size: 0.85rem;
+            font-weight: 900;
+            padding: 3px 16px;
+            border-radius: 6px;
+            letter-spacing: 1px;
+        }
+
+        .case-scenario-box {
+            background: rgba(11, 19, 43, 0.85);
+            border-left: 6px solid var(--accent-cyan);
+            padding: 22px 26px;
+            border-radius: 0 16px 16px 0;
+            font-size: 1.5rem;
+            line-height: 1.55;
+            font-weight: 600;
+            color: #f8fafc;
+        }
+
+        .case-question {
+            font-size: 1.4rem;
+            font-weight: 800;
+            color: var(--accent-amber);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        /* Şıklar Grid'i */
+        .options-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+        }
+
+        @media (max-width: 768px) {
+            .options-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .option-btn {
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid rgba(255, 255, 255, 0.15);
+            color: var(--text-light);
+            border-radius: 16px;
+            padding: 20px 24px;
+            font-size: 1.3rem;
+            font-weight: 700;
+            text-align: left;
+            cursor: pointer;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .option-btn:hover:not(:disabled) {
+            background: rgba(56, 189, 248, 0.15);
+            border-color: var(--accent-cyan);
+            transform: translateX(4px);
+        }
+
+        .option-badge {
+            width: 42px;
+            height: 42px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+            font-weight: 900;
+            flex-shrink: 0;
+            color: var(--accent-cyan);
+        }
+
+        /* Cevap Durum Renkleri */
+        .option-btn.correct {
+            background: rgba(16, 185, 129, 0.28) !important;
+            border-color: var(--accent-green) !important;
+            color: #a7f3d0 !important;
+        }
+        .option-btn.correct .option-badge {
+            background: var(--accent-green) !important;
+            color: #064e3b !important;
+        }
+
+        .option-btn.wrong {
+            background: rgba(239, 68, 68, 0.28) !important;
+            border-color: var(--accent-red) !important;
+            color: #fecaca !important;
+        }
+        .option-btn.wrong .option-badge {
+            background: var(--accent-red) !important;
+            color: #7f1d1d !important;
+        }
+
+        .option-btn.selected-stage3 {
+            background: rgba(245, 158, 11, 0.25);
+            border-color: var(--accent-amber);
+            box-shadow: 0 0 14px rgba(245, 158, 11, 0.4);
+        }
+
+        /* 3. Bölüm - Çift Seçim Bloğu */
+        .section-split-box {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            background: rgba(11, 19, 43, 0.55);
+            padding: 18px;
+            border-radius: 16px;
+            border: 1px dashed rgba(255, 255, 255, 0.25);
+        }
+
+        .split-title {
+            font-size: 1.2rem;
+            font-weight: 800;
+            color: var(--accent-cyan);
+        }
+
+        /* Geri Bildirim ve İlerleme Paneli */
+        .feedback-panel {
+            display: none;
+            background: rgba(11, 19, 43, 0.96);
+            border: 2px solid rgba(255, 255, 255, 0.25);
+            border-radius: 18px;
+            padding: 24px;
+            text-align: center;
+            animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        @keyframes popIn {
+            from { transform: scale(0.92); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        .feedback-panel.active {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .feedback-status {
+            font-size: 1.9rem;
+            font-weight: 900;
+            letter-spacing: 0.5px;
+        }
+
+        .feedback-status.correct {
+            color: var(--accent-green);
+        }
+
+        .feedback-status.wrong {
+            color: var(--accent-red);
+        }
+
+        .feedback-explanation {
+            font-size: 1.3rem;
+            color: #e2e8f0;
+            max-width: 850px;
+            line-height: 1.55;
+        }
+
+        /* --- FİNAL SKOR TABLOSU --- */
+        .podium-container {
+            width: 100%;
+            max-width: 850px;
+            background: var(--bg-card);
+            border: 2px solid var(--border-glow);
+            border-radius: 24px;
+            padding: 40px;
+            text-align: center;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+        }
+
+        .winner-banner {
+            background: linear-gradient(135deg, rgba(245, 158, 11, 0.2), rgba(245, 158, 11, 0.05));
+            border: 2px solid var(--accent-amber);
+            border-radius: 20px;
+            padding: 28px;
+            margin-bottom: 28px;
+        }
+
+        .winner-banner h2 {
+            font-size: 2.3rem;
+            font-weight: 900;
+            color: var(--accent-amber);
+            margin-bottom: 10px;
+        }
+
+        .winner-banner p {
+            font-size: 1.35rem;
+            color: #f1f5f9;
+            font-weight: 600;
+        }
+
+        .score-summary-box {
+            background: rgba(11, 19, 43, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 16px;
+            padding: 20px 28px;
+            margin-bottom: 30px;
+        }
+
+        .score-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+
+        .score-row:last-child {
+            border-bottom: none;
+        }
+
+        /* --- MODAL PENCERELERİ --- */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(8px);
+            z-index: 100;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal-box {
+            background: var(--bg-card);
+            border: 2px solid var(--border-glow);
+            border-radius: 20px;
+            padding: 32px;
+            max-width: 750px;
+            width: 100%;
+            max-height: 85vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            border-bottom: 1px solid rgba(255,255,255,0.15);
+            padding-bottom: 12px;
+        }
+
+        .modal-header h3 {
+            font-size: 1.6rem;
+            color: var(--accent-cyan);
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            font-size: 2rem;
+            cursor: pointer;
+            line-height: 1;
+        }
+
+        .modal-close:hover {
+            color: #fff;
+        }
+
+        .rules-content {
+            font-size: 1.15rem;
+            line-height: 1.65;
+            color: #cbd5e1;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .rules-item {
+            background: rgba(11, 19, 43, 0.6);
+            padding: 16px 20px;
+            border-radius: 12px;
+            border-left: 4px solid var(--accent-amber);
+        }
+
+        /* Canvas Konfeti */
+        #confettiCanvas {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 99;
+        }
+    </style>
+</head>
+<body>
+
+    <canvas id="confettiCanvas"></canvas>
+
+    <!-- ÜST ÇUBUK -->
+    <header>
+        <div class="brand">
+            <div class="brand-icon">🕵️‍♂️</div>
+            <div class="brand-title">BİLİŞİM TEKNOLOJİLERİ DEDEKTİFLERİ</div>
+        </div>
+
+        <div class="teacher-badge">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                <circle cx="12" cy="7" r="4"></circle>
+            </svg>
+            <span>Öğretmen Bozok</span>
+        </div>
+    </header>
+
+    <!-- ANA İÇERİK ALANI -->
+    <main>
+
+        <!-- 1. EKRAN: ANA MENÜ -->
+        <section id="screen-menu" class="screen active">
+            <div class="hero-container">
+                <div class="hero-badge">5. Sınıf Bilişim Teknolojileri • BTY.5.1.1</div>
+                <h1 class="hero-title">BİLİŞİM TEKNOLOJİLERİ<br>DEDEKTİFLERİ</h1>
+                <p class="hero-subtitle">“Teknolojinin izini sür, doğru alanı bul!”</p>
+                
+                <div class="hero-actions">
+                    <button class="btn btn-primary" onclick="startGame()">
+                        ▶ Göreve Başla
+                    </button>
+                    <button class="btn btn-cyan" onclick="openModal('modal-rules')">
+                        📖 Nasıl Oynanır?
+                    </button>
+                    <button class="btn btn-secondary" onclick="openModal('modal-areas')">
+                        🔍 Kullanım Alanları ve Faydalar
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- 2. EKRAN: OYUN ALANI -->
+        <section id="screen-game" class="screen">
+            <div class="game-layout">
+
+                <!-- Skor Tablosu Üst Barı -->
+                <div class="scoreboard-bar">
+                    <div style="display: flex; align-items: center; gap: 14px; flex-wrap: wrap;">
+                        <div class="class-score-badge">
+                            <span>🕵️‍♂️ SINIF PUANI:</span>
+                            <span class="class-score-num" id="classScoreText">0 P</span>
+                        </div>
+                        <div class="stat-pill" style="color: var(--accent-green);">
+                            ✅ Doğru: <span id="correctStatText" style="font-weight: 900; margin-left: 4px;">0</span>
+                        </div>
+                        <div class="stat-pill" style="color: var(--accent-red);">
+                            ❌ Yanlış: <span id="wrongStatText" style="font-weight: 900; margin-left: 4px;">0</span>
+                        </div>
+                    </div>
+
+                    <div class="game-controls-mini">
+                        <button class="btn btn-secondary btn-mini" onclick="toggleAudio()" id="audioToggleBtn">🔊 Ses: Açık</button>
+                        <button class="btn btn-danger btn-mini" onclick="restartGame()">🔄 Yeniden Başlat</button>
+                    </div>
+                </div>
+
+                <!-- Aşama & Vaka Çubuğu -->
+                <div class="stage-indicator-bar">
+                    <div class="stage-title" id="stageBadge">
+                        🔍 Bölüm 1: Dedektif Görevi (Kolay)
+                    </div>
+                    <div class="round-counter" id="roundCounterBadge">
+                        Vaka: 1 / 20
+                    </div>
+                </div>
+
+                <!-- Dedektif Vaka Kartı -->
+                <div class="case-card">
+                    <div class="case-scenario-box" id="scenarioText">
+                        "Vaka yükleniyor..."
+                    </div>
+
+                    <div class="case-question" id="questionText">
+                        <span>Bu teknoloji hangi alanda kullanılmaktadır?</span>
+                    </div>
+
+                    <!-- Tekli Seçenekler Grid'i (Bölüm 1 ve Bölüm 2 için) -->
+                    <div class="options-grid" id="singleOptionsGrid"></div>
+
+                    <!-- Bölüm 3 Çift Seçim Bloğu (Usta Dedektif) -->
+                    <div id="stage3Container" style="display: none; flex-direction: column; gap: 20px;">
+                        <div class="section-split-box">
+                            <div class="split-title">1. Soru: Hangi kullanım alanıdır?</div>
+                            <div class="options-grid" id="stage3AreaGrid"></div>
+                        </div>
+
+                        <div class="section-split-box">
+                            <div class="split-title">2. Soru: Hangi faydayı göstermektedir?</div>
+                            <div class="options-grid" id="stage3BenefitGrid"></div>
+                        </div>
+
+                        <div style="text-align: center; margin-top: 10px;">
+                            <button class="btn btn-primary" id="stage3ConfirmBtn" onclick="submitStage3Answer()" disabled style="opacity: 0.5; width: 100%; max-width: 440px;">
+                                ⚖️ Kararı Onayla ve Kanıtı Sun
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Geri Bildirim Paneli -->
+                    <div class="feedback-panel" id="feedbackPanel">
+                        <div class="feedback-status" id="feedbackStatusText">DOĞRU! +10 PUAN</div>
+                        <div class="feedback-explanation" id="feedbackExplanationText">Açıklama</div>
+                        <button class="btn btn-cyan" id="nextQuestionBtn" onclick="nextRound()" style="margin-top: 12px;">
+                            Sonraki Vakaya Geç ➡️
+                        </button>
+                    </div>
+
+                </div>
+
+            </div>
+        </section>
+
+        <!-- 3. EKRAN: FİNAL SKOR TABLOSU -->
+        <section id="screen-results" class="screen">
+            <div class="podium-container">
+                <div class="winner-banner">
+                    <div style="font-size: 3.8rem; margin-bottom: 12px;" id="finalEmoji">🏆</div>
+                    <h2 id="winnerText">TEBRİKLER! BİLİŞİM TEKNOLOJİLERİ DEDEKTİFİ OLDUNUZ!</h2>
+                    <p id="winnerSubText">Bütün kanıtlar sınıfça başarıyla incelendi.</p>
+                </div>
+
+                <div class="score-summary-box">
+                    <div class="score-row">
+                        <span>🎯 Toplam Sınıf Puanı:</span>
+                        <strong id="finalScoreVal" style="color: var(--accent-cyan); font-size: 1.45rem;">0 / 250 P</strong>
+                    </div>
+                    <div class="score-row">
+                        <span>✅ Doğru Çözülen Vaka:</span>
+                        <strong id="finalCorrectVal" style="color: var(--accent-green);">0 / 20</strong>
+                    </div>
+                    <div class="score-row">
+                        <span>❌ Yanlış Değerlendirme:</span>
+                        <strong id="finalWrongVal" style="color: var(--accent-red);">0</strong>
+                    </div>
+                    <div class="score-row">
+                        <span>🎖️ Kazanılan Sınıf Rütbesi:</span>
+                        <strong id="finalRankBadge" style="color: var(--accent-amber);">Baş Dedektif Sınıf</strong>
+                    </div>
+                </div>
+
+                <div style="display: flex; gap: 14px; justify-content: center;">
+                    <button class="btn btn-primary" onclick="restartGame()">🔄 Yeni Görev Başlat</button>
+                    <button class="btn btn-secondary" onclick="showScreen('screen-menu')">🏠 Ana Menü</button>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- NASIL OYNANIR MODAL -->
+    <div class="modal-overlay" id="modal-rules">
+        <div class="modal-box">
+            <div class="modal-header">
+                <h3>📖 Nasıl Oynanır?</h3>
+                <button class="modal-close" onclick="closeModal('modal-rules')">&times;</button>
+            </div>
+            <div class="rules-content">
+                <div class="rules-item">
+                    <strong>🕵️‍♂️ Sınıfça Tek Dedektif Ekibi:</strong> Tüm sınıf birlikte tek bir dedektif bürosu olarak görev yapar. Akıllı tahtada görünen vakayı öğretmen rehberliğinde tüm sınıf tartışır, ortak karar verir ve öğretmen cevabı tahtadan işaretler.
+                </div>
+                <div class="rules-item">
+                    <strong>🔍 Bölüm 1 - Dedektif Görevi (1-8. Vaka):</strong> Verilen durumun hangi <em>Kullanım Alanına</em> ait olduğunu bulun. (Doğru: <strong>+10 Puan</strong>)
+                </div>
+                <div class="rules-item">
+                    <strong>⚡ Bölüm 2 - Faydayı Yakala (9-15. Vaka):</strong> Verilen durumun teknolojinin hangi <em>Temel Faydasına</em> ait olduğunu bulun. (Doğru: <strong>+10 Puan</strong>)
+                </div>
+                <div class="rules-item">
+                    <strong>🎓 Bölüm 3 - Usta Dedektif (16-20. Vaka):</strong> Duruma ait <u>hem kullanım alanını</u> <u>hem de faydayı</u> doğru seçin. (Her iki seçim de doğruysa: <strong>+20 Puan</strong>, aksi halde 0 puan)
+                </div>
+                <div class="rules-item">
+                    <strong>🏆 Dedektiflik Rütbesi:</strong> 20 vaka sonunda toplanan puanla sınıfça "Baş Dedektif Sınıf" rütbesine ulaşın!
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- KULLANIM ALANLARI VE FAYDALAR LİSTESİ MODAL -->
+    <div class="modal-overlay" id="modal-areas">
+        <div class="modal-box">
+            <div class="modal-header">
+                <h3>📚 Kazanım Bilgi Rehberi (BTY.5.1.1)</h3>
+                <button class="modal-close" onclick="closeModal('modal-areas')">&times;</button>
+            </div>
+            <div class="rules-content">
+                <div class="rules-item">
+                    <strong style="color:var(--accent-amber); font-size:1.2rem;">🔹 11 Kullanım Alanı:</strong><br><br>
+                    1. Günlük Yaşam ve Eğlence<br>
+                    2. Eğitim<br>
+                    3. Ulaşım<br>
+                    4. İletişim<br>
+                    5. Sağlık<br>
+                    6. Güvenlik<br>
+                    7. Bankacılık ve Alışveriş<br>
+                    8. Mühendislik ve Mimari<br>
+                    9. Sinema ve Televizyon<br>
+                    10. Bilim ve Uzay<br>
+                    11. Üretim ve Sanayi
+                </div>
+                <div class="rules-item">
+                    <strong style="color:var(--accent-cyan); font-size:1.2rem;">🔹 5 Temel Fayda:</strong><br><br>
+                    • Bilgiye kolay ulaşmayı sağlaması<br>
+                    • Maliyeti azaltması<br>
+                    • Hayatımızı kolaylaştırması<br>
+                    • Hızlı haberleşmeyi sağlaması<br>
+                    • Zamandan tasarruf sağlaması
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        /* ==========================================================================
+           1. SORU VERİ BANKASI (20 ADET VAKA - KESİNLİKLE 1. HAFTA KAZANIMLARINA ÖZEL)
+           ========================================================================== */
+        const QUESTION_DATABASE = [
+            /* --- BÖLÜM 1: DEDEKTİF GÖREVİ (KULLANIM ALANLARI - 1 İLA 8) --- */
+            {
+                roundType: 1,
+                difficulty: "Kolay",
+                scenario: "Doktorların hastanede hastaların röntgen ve tahlil sonuçlarını bilgisayar ekranından inceleyerek teşhis koyması.",
+                question: "Bu teknoloji hangi alanda kullanılmaktadır?",
+                correctAnswer: "Sağlık",
+                distractors: ["Eğitim", "Ulaşım", "Üretim ve Sanayi"],
+                explanation: "Hastanelerdeki röntgen, tahlil inceleme ve bilgisayarlı teşhis sistemleri 'Sağlık' alanındaki bilişim kullanımına örnektir."
+            },
+            {
+                roundType: 1,
+                difficulty: "Kolay",
+                scenario: "Öğretmenin derste akıllı tahta kullanarak dijital ders materyallerini ve EBA içeriklerini öğrencilere sunması.",
+                question: "Bu durum bilişim teknolojilerinin hangi kullanım alanına girer?",
+                correctAnswer: "Eğitim",
+                distractors: ["Sinema ve Televizyon", "Bankacılık ve Alışveriş", "Güvenlik"],
+                explanation: "Akıllı tahta, dijital ders içerikleri ve EBA platformu doğrudan 'Eğitim' alanına aittir."
+            },
+            {
+                roundType: 1,
+                difficulty: "Kolay",
+                scenario: "Bir ailenin tatile giderken cep telefonundaki navigasyon (GPS) uygulamasını açıp en uygun güzergâhtan yolculuk etmesi.",
+                question: "Bu durum bilişim teknolojilerinin hangi alanında kullanıldığını gösterir?",
+                correctAnswer: "Ulaşım",
+                distractors: ["Mühendislik ve Mimari", "Sağlık", "Bilim ve Uzay"],
+                explanation: "Navigasyon haritaları, hızlı tren kontrol sistemleri ve online biletler 'Ulaşım' alanındaki bilişim uygulamalarıdır."
+            },
+            {
+                roundType: 1,
+                difficulty: "Kolay",
+                scenario: "Şehir dışındaki dedesiyle görüntülü arama yaparak sohbet eden ve anlık mesaj gönderen bir çocuk.",
+                question: "Bu teknolojik durum hangi kullanım alanına aittir?",
+                correctAnswer: "İletişim",
+                distractors: ["Bilim ve Uzay", "Üretim ve Sanayi", "Mühendislik ve Mimari"],
+                explanation: "Görüntülü konuşma, e-posta ve anlık mesajlaşma programları 'İletişim' alanına aittir."
+            },
+            {
+                roundType: 1,
+                difficulty: "Kolay",
+                scenario: "Bir kişinin markette cüzdanından nakit para çıkarmadan temassız banka kartı veya POS cihazıyla ödeme yapması.",
+                question: "Bu teknoloji bilişim teknolojilerinin hangi kullanım alanıdır?",
+                correctAnswer: "Bankacılık ve Alışveriş",
+                distractors: ["Ulaşım", "Güvenlik", "Günlük Yaşam ve Eğlence"],
+                explanation: "ATM'ler, POS cihazları, temassız ödemeler ve online siparişler 'Bankacılık ve Alışveriş' alanına girer."
+            },
+            {
+                roundType: 1,
+                difficulty: "Kolay",
+                scenario: "Bir mimarın inşa edilecek yeni bir okul binasının ve köprünün 3 boyutlu planlarını bilgisayar çizim programıyla hazırlaması.",
+                question: "Bu durum hangi kullanım alanına örnektir?",
+                correctAnswer: "Mühendislik ve Mimari",
+                distractors: ["Sinema ve Televizyon", "Sağlık", "Eğitim"],
+                explanation: "Bina, köprü ve makine çizimlerinin bilgisayar destekli tasarım programlarıyla yapılması 'Mühendislik ve Mimari' alanına aittir."
+            },
+            {
+                roundType: 1,
+                difficulty: "Kolay",
+                scenario: "Otomobil fabrikasında çalışan robotik kolların araç parçalarını hatasız ve otomatik olarak birbirine monte etmesi.",
+                question: "Bu teknoloji hangi kullanım alanına aittir?",
+                correctAnswer: "Üretim ve Sanayi",
+                distractors: ["Günlük Yaşam ve Eğlence", "Bilim ve Uzay", "Eğitim"],
+                explanation: "Fabrikalardaki otomatik robot kollar ve seri montaj sistemleri 'Üretim ve Sanayi' alanında yer alır."
+            },
+            {
+                roundType: 1,
+                difficulty: "Kolay",
+                scenario: "Uzay istasyonundaki teleskopların ve roketlerin bilgisayar kontrol merkezinden yönetilip uzak gezegenlerin fotoğraflanması.",
+                question: "Bu teknoloji hangi alanda kullanılmaktadır?",
+                correctAnswer: "Bilim ve Uzay",
+                distractors: ["Ulaşım", "Sinema ve Televizyon", "Bankacılık ve Alışveriş"],
+                explanation: "Gezegen araştırmaları, uydular ve gök bilimi gözlemleri 'Bilim ve Uzay' alanının kapsamındadır."
+            },
+
+            /* --- BÖLÜM 2: FAYDAYI YAKALA (FAYDALAR - 9 İLA 15) --- */
+            {
+                roundType: 2,
+                difficulty: "Orta",
+                scenario: "Bir öğrencinin fen ödevi için kütüphaneleri günlerce gezmek yerine arama motorunu kullanarak saniyeler içinde doğru bilgiye ulaşması.",
+                question: "Bu durum bilişim teknolojilerinin hangi temel faydasını gösterir?",
+                correctAnswer: "Bilgiye kolay ulaşmayı sağlaması",
+                distractors: ["Maliyeti azaltması", "Hızlı haberleşmeyi sağlaması", "Zamandan tasarruf sağlaması"],
+                explanation: "İnternet ve arama motorları sayesinde kütüphaneler dolusu bilgiye anında erişebilmek 'Bilgiye kolay ulaşmayı sağlaması' faydasıdır."
+            },
+            {
+                roundType: 2,
+                difficulty: "Orta",
+                scenario: "Postaya verildiğinde 1 haftada gidecek bir mektup yerine e-posta veya anlık mesajlaşma ile saniyesinde karşı tarafa haber verilmesi.",
+                question: "Bu durum bilişim teknolojilerinin hangi faydasına örnektir?",
+                correctAnswer: "Hızlı haberleşmeyi sağlaması",
+                distractors: ["Maliyeti azaltması", "Bilgiye kolay ulaşmayı sağlaması", "Hayatımızı kolaylaştırması"],
+                explanation: "Mesajların ve iletilerin dünyanın diğer ucuna anında gitmesi 'Hızlı haberleşmeyi sağlaması' faydasıdır."
+            },
+            {
+                roundType: 2,
+                difficulty: "Orta",
+                scenario: "Bir muhasebecinin elle saatlerce sürecek karmaşık bir hesaplamayı elektronik hesap tablosu programıyla 3 saniyede tamamlaması.",
+                question: "Bu durum bilişim teknolojilerinin hangi temel faydasını gösterir?",
+                correctAnswer: "Zamandan tasarruf sağlaması",
+                distractors: ["Hızlı haberleşmeyi sağlaması", "Bilgiye kolay ulaşmayı sağlaması", "Maliyeti azaltması"],
+                explanation: "Saatler veya günler sürecek uzun işlemlerin çok kısa sürede bitirilmesi 'Zamandan tasarruf sağlaması'dır."
+            },
+            {
+                roundType: 2,
+                difficulty: "Orta",
+                scenario: "Bir şirketin binlerce sayfalık kâğıt evrak basmak yerine belgelerini dijital ortamda saklayarak yüksek baskı ve kâğıt harcamalarını önlemesi.",
+                question: "Bu durum teknolojinin hangi temel faydasını ortaya koyar?",
+                correctAnswer: "Maliyeti azaltması",
+                distractors: ["Hızlı haberleşmeyi sağlaması", "Hayatımızı kolaylaştırması", "Bilgiye kolay ulaşmayı sağlaması"],
+                explanation: "Kâğıt, kargo, baskı ve depolama masraflarının ortadan kalkması 'Maliyeti azaltması' faydasıdır."
+            },
+            {
+                roundType: 2,
+                difficulty: "Orta",
+                scenario: "Evden çıkmadan, soğuk havada yorulup kuyruk beklemeden tek tuşla su faturasının ödenmesi ve market siparişinin kapıya gelmesi.",
+                question: "Bu durum teknolojinin hangi faydasına en net örnektir?",
+                correctAnswer: "Hayatımızı kolaylaştırması",
+                distractors: ["Bilgiye kolay ulaşmayı sağlaması", "Hızlı haberleşmeyi sağlaması", "Maliyeti azaltması"],
+                explanation: "Zahmetli ve yorucu günlük işlerin oturduğumuz yerden pratikçe halledilmesi 'Hayatımızı kolaylaştırması'dır."
+            },
+            {
+                roundType: 2,
+                difficulty: "Orta",
+                scenario: "Farklı ülkelerdeki doktorların video konferans açarak hastanın durumu hakkında anında konuşup bilgi paylaşması.",
+                question: "Bu teknolojik durum hangi temel faydayı vurgulamaktadır?",
+                correctAnswer: "Hızlı haberleşmeyi sağlaması",
+                distractors: ["Maliyeti azaltması", "Bilgiye kolay ulaşmayı sağlaması", "Hayatımızı kolaylaştırması"],
+                explanation: "Uzak mesafeler arasında görüntülü ve sesli iletişimin gecikmesiz kurulması 'Hızlı haberleşmeyi sağlaması' faydasıdır."
+            },
+            {
+                roundType: 2,
+                difficulty: "Orta",
+                scenario: "Evdeki onlarca ansiklopedi cildini taşımak yerine, küçük bir tablette milyonlarca araştırma konusunun taranabilmesi.",
+                question: "Bu durum teknolojinin hangi temel faydasıdır?",
+                correctAnswer: "Bilgiye kolay ulaşmayı sağlaması",
+                distractors: ["Hızlı haberleşmeyi sağlaması", "Maliyeti azaltması", "Zamandan tasarruf sağlaması"],
+                explanation: "Geniş kaynaklara ve araştırmalara tek bir cihaz üzerinden kolayca erişmek 'Bilgiye kolay ulaşmayı sağlaması'dır."
+            },
+
+            /* --- BÖLÜM 3: USTA DEDEKTİF (HEM ALAN HEM FAYDA - 16 İLA 20) --- */
+            {
+                roundType: 3,
+                difficulty: "Zor",
+                scenario: "Bir hastanın MHRS (Merkezi Hekim Randevu Sistemi) web sitesinden 1 dakikada randevu alıp hastanede saatlerce sıra beklemekten kurtulması.",
+                correctArea: "Sağlık",
+                correctBenefit: "Zamandan tasarruf sağlaması",
+                distractorAreas: ["Ulaşım", "Sinema ve Televizyon", "Eğitim"],
+                distractorBenefits: ["Maliyeti azaltması", "Hızlı haberleşmeyi sağlaması", "Bilgiye kolay ulaşmayı sağlaması"],
+                explanation: "Hastane randevusu 'Sağlık' alanına girer; saatlerce sıra beklemeden işlemi bitirmek ise 'Zamandan tasarruf sağlaması' faydasıdır."
+            },
+            {
+                roundType: 3,
+                difficulty: "Zor",
+                scenario: "Bir öğretmenin ders sunumunu okul portalına yüklemesi ve öğrencilerin ders notlarına evlerinden tek tıkla ulaşabilmesi.",
+                correctArea: "Eğitim",
+                correctBenefit: "Bilgiye kolay ulaşmayı sağlaması",
+                distractorAreas: ["Bankacılık ve Alışveriş", "Güvenlik", "Mühendislik ve Mimari"],
+                distractorBenefits: ["Maliyeti azaltması", "Hızlı haberleşmeyi sağlaması", "Zamandan tasarruf sağlaması"],
+                explanation: "Ders materyalleri 'Eğitim' alanına aittir; notlara internetten anında erişmek 'Bilgiye kolay ulaşmayı sağlaması' faydasıdır."
+            },
+            {
+                roundType: 3,
+                difficulty: "Zor",
+                scenario: "Bir tekstil fabrikasının akıllı kumaş kesim makineleri kullanarak kumaş israfını sıfıra indirmesi ve üretim harcamalarını düşürmesi.",
+                correctArea: "Üretim ve Sanayi",
+                correctBenefit: "Maliyeti azaltması",
+                distractorAreas: ["Günlük Yaşam ve Eğlence", "Bilim ve Uzay", "Sağlık"],
+                distractorBenefits: ["Hızlı haberleşmeyi sağlaması", "Bilgiye kolay ulaşmayı sağlaması", "Hayatımızı kolaylaştırması"],
+                explanation: "Kumaş fabrikası 'Üretim ve Sanayi' alanıdır; malzeme israfını önleyip harcamayı düşürmek 'Maliyeti azaltması'dır."
+            },
+            {
+                roundType: 3,
+                difficulty: "Zor",
+                scenario: "Belediye otobüsünün durağa kaç dakikada geleceğini cep telefonu uygulamasından evdeyken görerek soğukta beklemekten kurtulan yolcular.",
+                correctArea: "Ulaşım",
+                correctBenefit: "Hayatımızı kolaylaştırması",
+                distractorAreas: ["Mühendislik ve Mimari", "Sinema ve Televizyon", "Güvenlik"],
+                distractorBenefits: ["Maliyeti azaltması", "Hızlı haberleşmeyi sağlaması", "Bilgiye kolay ulaşmayı sağlaması"],
+                explanation: "Toplu taşıma takibi 'Ulaşım' alanıdır; durağa varış vaktini zahmetsizce öğrenmek 'Hayatımızı kolaylaştırması' faydasıdır."
+            },
+            {
+                roundType: 3,
+                difficulty: "Zor",
+                scenario: "Film yönetmenlerinin uzay ve savaş sahnelerini dev stüdyolar kurup milyonlarca lira harcamak yerine bilgisayar efektleriyle hazırlaması.",
+                correctArea: "Sinema ve Televizyon",
+                correctBenefit: "Maliyeti azaltması",
+                distractorAreas: ["Bilim ve Uzay", "Sağlık", "Bankacılık ve Alışveriş"],
+                distractorBenefits: ["Hızlı haberleşmeyi sağlaması", "Bilgiye kolay ulaşmayı sağlaması", "Zamandan tasarruf sağlaması"],
+                explanation: "Film yapımı 'Sinema ve Televizyon' alanına aittir; devasa dekor harcamalarından tasarruf etmek 'Maliyeti azaltması' faydasıdır."
+            }
+        ];
+
+        /* ==========================================================================
+           2. OYUN DURUMU (TÜM SINIF TEK DEDEKTİF EKİBİ)
+           ========================================================================== */
+        let classScore = 0;
+        let correctCount = 0;
+        let wrongCount = 0;
+        let currentRoundIndex = 0;
+        let isAnswerLocked = false;
+        let audioEnabled = true;
+
+        // Bölüm 3 için seçimler
+        let stage3SelectedArea = null;
+        let stage3SelectedBenefit = null;
+
+        /* ==========================================================================
+           3. SES MOTORU (Web Audio API - Sıfır dış bağlantı gereksinimi)
+           ========================================================================== */
+        let audioCtx = null;
+
+        function getAudioContext() {
+            if (!audioCtx) {
+                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            }
+            if (audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
+            return audioCtx;
+        }
+
+        function playSound(type) {
+            if (!audioEnabled) return;
+            try {
+                const ctx = getAudioContext();
+                const now = ctx.currentTime;
+
+                if (type === 'correct') {
+                    const osc = ctx.createOscillator();
+                    const gain = ctx.createGain();
+                    osc.connect(gain);
+                    gain.connect(ctx.destination);
+                    osc.type = 'triangle';
+                    osc.frequency.setValueAtTime(523.25, now); // C5
+                    osc.frequency.setValueAtTime(659.25, now + 0.1); // E5
+                    osc.frequency.setValueAtTime(783.99, now + 0.2); // G5
+                    gain.gain.setValueAtTime(0.3, now);
+                    gain.gain.exponentialRampToValueAtTime(0.01, now + 0.5);
+                    osc.start(now);
+                    osc.stop(now + 0.5);
+                } else if (type === 'wrong') {
+                    const osc = ctx.createOscillator();
+                    const gain = ctx.createGain();
+                    osc.connect(gain);
+                    gain.connect(ctx.destination);
+                    osc.type = 'sawtooth';
+                    osc.frequency.setValueAtTime(220, now);
+                    osc.frequency.setValueAtTime(164.81, now + 0.15);
+                    gain.gain.setValueAtTime(0.25, now);
+                    gain.gain.exponentialRampToValueAtTime(0.01, now + 0.4);
+                    osc.start(now);
+                    osc.stop(now + 0.4);
+                } else if (type === 'click') {
+                    const osc = ctx.createOscillator();
+                    const gain = ctx.createGain();
+                    osc.connect(gain);
+                    gain.connect(ctx.destination);
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(800, now);
+                    gain.gain.setValueAtTime(0.08, now);
+                    gain.gain.exponentialRampToValueAtTime(0.01, now + 0.08);
+                    osc.start(now);
+                    osc.stop(now + 0.08);
+                } else if (type === 'victory') {
+                    const notes = [523.25, 659.25, 783.99, 1046.50];
+                    notes.forEach((freq, idx) => {
+                        const osc = ctx.createOscillator();
+                        const gain = ctx.createGain();
+                        osc.connect(gain);
+                        gain.connect(ctx.destination);
+                        osc.type = 'triangle';
+                        osc.frequency.setValueAtTime(freq, now + idx * 0.12);
+                        gain.gain.setValueAtTime(0.28, now + idx * 0.12);
+                        gain.gain.exponentialRampToValueAtTime(0.01, now + idx * 0.12 + 0.4);
+                        osc.start(now + idx * 0.12);
+                        osc.stop(now + idx * 0.12 + 0.4);
+                    });
+                }
+            } catch (e) {
+                // AudioContext engeli durumunda sessiz devam
+            }
+        }
+
+        function toggleAudio() {
+            audioEnabled = !audioEnabled;
+            document.getElementById('audioToggleBtn').textContent = audioEnabled ? "🔊 Ses: Açık" : "🔇 Ses: Kapalı";
+        }
+
+        /* ==========================================================================
+           4. EKRAN GEÇİŞLERİ VE MODALLAR
+           ========================================================================== */
+        function showScreen(screenId) {
+            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+            const target = document.getElementById(screenId);
+            if (target) target.classList.add('active');
+        }
+
+        function openModal(modalId) {
+            playSound('click');
+            const m = document.getElementById(modalId);
+            if (m) m.classList.add('active');
+        }
+
+        function closeModal(modalId) {
+            playSound('click');
+            const m = document.getElementById(modalId);
+            if (m) m.classList.remove('active');
+        }
+
+        /* ==========================================================================
+           5. OYUN DÖNGÜSÜ & MANTIĞI
+           ========================================================================== */
+        function startGame() {
+            playSound('click');
+            classScore = 0;
+            correctCount = 0;
+            wrongCount = 0;
+            currentRoundIndex = 0;
+            showScreen('screen-game');
+            loadRound(currentRoundIndex);
+        }
+
+        function restartGame() {
+            startGame();
+        }
+
+        function updateHUD() {
+            document.getElementById('classScoreText').textContent = `${classScore} P`;
+            document.getElementById('correctStatText').textContent = correctCount;
+            document.getElementById('wrongStatText').textContent = wrongCount;
+        }
+
+        function loadRound(roundIndex) {
+            isAnswerLocked = false;
+            const qData = QUESTION_DATABASE[roundIndex];
+
+            // Sayaç ve Görev Başlığı
+            document.getElementById('roundCounterBadge').textContent = `Vaka: ${roundIndex + 1} / ${QUESTION_DATABASE.length}`;
+            
+            const stageBadge = document.getElementById('stageBadge');
+            if (qData.roundType === 1) {
+                stageBadge.innerHTML = `🔍 Bölüm 1: Dedektif Görevi (${qData.difficulty})`;
+            } else if (qData.roundType === 2) {
+                stageBadge.innerHTML = `⚡ Bölüm 2: Faydayı Yakala (${qData.difficulty})`;
+            } else {
+                stageBadge.innerHTML = `🎓 Bölüm 3: Usta Dedektif (${qData.difficulty} • Çift Soru)`;
+            }
+
+            // Senaryo & Geri Bildirimi Temizle
+            document.getElementById('scenarioText').textContent = `"${qData.scenario}"`;
+            document.getElementById('feedbackPanel').classList.remove('active');
+
+            updateHUD();
+
+            const singleGrid = document.getElementById('singleOptionsGrid');
+            const stage3Container = document.getElementById('stage3Container');
+            const questionBox = document.getElementById('questionText');
+
+            if (qData.roundType === 1 || qData.roundType === 2) {
+                // Bölüm 1 ve 2: Tekli Seçenekler
+                singleGrid.style.display = 'grid';
+                stage3Container.style.display = 'none';
+                questionBox.style.display = 'flex';
+                questionBox.innerHTML = `
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+                    <span>${qData.question}</span>
+                `;
+
+                // Şıkları karıştır (Fisher-Yates)
+                const options = [qData.correctAnswer, ...qData.distractors];
+                shuffleArray(options);
+
+                const letters = ['A', 'B', 'C', 'D'];
+                singleGrid.innerHTML = '';
+                options.forEach((opt, idx) => {
+                    const btn = document.createElement('button');
+                    btn.className = 'option-btn';
+                    btn.innerHTML = `<div class="option-badge">${letters[idx]}</div> <span>${opt}</span>`;
+                    btn.onclick = () => handleSingleAnswer(btn, opt, qData.correctAnswer, qData.explanation);
+                    singleGrid.appendChild(btn);
+                });
+
+            } else {
+                // Bölüm 3: Çift Seçim (Usta Dedektif)
+                singleGrid.style.display = 'none';
+                stage3Container.style.display = 'flex';
+                questionBox.style.display = 'none';
+
+                stage3SelectedArea = null;
+                stage3SelectedBenefit = null;
+                const confirmBtn = document.getElementById('stage3ConfirmBtn');
+                confirmBtn.disabled = true;
+                confirmBtn.style.opacity = '0.5';
+
+                // 1. Alan Şıkları
+                const areaOptions = [qData.correctArea, ...qData.distractorAreas];
+                shuffleArray(areaOptions);
+                const areaGrid = document.getElementById('stage3AreaGrid');
+                areaGrid.innerHTML = '';
+                const letters = ['A', 'B', 'C', 'D'];
+
+                areaOptions.forEach((opt, idx) => {
+                    const btn = document.createElement('button');
+                    btn.className = 'option-btn';
+                    btn.innerHTML = `<div class="option-badge">${letters[idx]}</div> <span>${opt}</span>`;
+                    btn.onclick = () => {
+                        if (isAnswerLocked) return;
+                        playSound('click');
+                        Array.from(areaGrid.children).forEach(b => b.classList.remove('selected-stage3'));
+                        btn.classList.add('selected-stage3');
+                        stage3SelectedArea = opt;
+                        checkStage3Ready();
+                    };
+                    areaGrid.appendChild(btn);
+                });
+
+                // 2. Fayda Şıkları
+                const benefitOptions = [qData.correctBenefit, ...qData.distractorBenefits];
+                shuffleArray(benefitOptions);
+                const benefitGrid = document.getElementById('stage3BenefitGrid');
+                benefitGrid.innerHTML = '';
+
+                benefitOptions.forEach((opt, idx) => {
+                    const btn = document.createElement('button');
+                    btn.className = 'option-btn';
+                    btn.innerHTML = `<div class="option-badge">${letters[idx]}</div> <span>${opt}</span>`;
+                    btn.onclick = () => {
+                        if (isAnswerLocked) return;
+                        playSound('click');
+                        Array.from(benefitGrid.children).forEach(b => b.classList.remove('selected-stage3'));
+                        btn.classList.add('selected-stage3');
+                        stage3SelectedBenefit = opt;
+                        checkStage3Ready();
+                    };
+                    benefitGrid.appendChild(btn);
+                });
+            }
+        }
+
+        /* --- TEKLİ CEVAP DEĞERLENDİRME (BÖLÜM 1 & 2) --- */
+        function handleSingleAnswer(selectedBtn, selectedText, correctText, explanation) {
+            if (isAnswerLocked) return;
+            isAnswerLocked = true;
+
+            const isCorrect = (selectedText === correctText);
+            const allBtns = document.getElementById('singleOptionsGrid').querySelectorAll('.option-btn');
+            
+            allBtns.forEach(btn => {
+                btn.disabled = true;
+                const textSpan = btn.querySelector('span').textContent;
+                if (textSpan === correctText) {
+                    btn.classList.add('correct');
+                } else if (btn === selectedBtn && !isCorrect) {
+                    btn.classList.add('wrong');
+                }
+            });
+
+            const feedbackPanel = document.getElementById('feedbackPanel');
+            const feedbackStatus = document.getElementById('feedbackStatusText');
+            const feedbackExp = document.getElementById('feedbackExplanationText');
+
+            if (isCorrect) {
+                playSound('correct');
+                classScore += 10;
+                correctCount++;
+                feedbackStatus.textContent = `🎯 DOĞRU CEVAP! +10 PUAN`;
+                feedbackStatus.className = 'feedback-status correct';
+            } else {
+                playSound('wrong');
+                wrongCount++;
+                feedbackStatus.textContent = `❌ YANLIŞ CEVAP! (0 PUAN)`;
+                feedbackStatus.className = 'feedback-status wrong';
+            }
+
+            feedbackExp.textContent = explanation;
+            feedbackPanel.classList.add('active');
+            updateHUD();
+        }
+
+        /* --- ÇİFTLİ CEVAP DEĞERLENDİRME (BÖLÜM 3) --- */
+        function checkStage3Ready() {
+            const confirmBtn = document.getElementById('stage3ConfirmBtn');
+            if (stage3SelectedArea && stage3SelectedBenefit) {
+                confirmBtn.disabled = false;
+                confirmBtn.style.opacity = '1';
+            } else {
+                confirmBtn.disabled = true;
+                confirmBtn.style.opacity = '0.5';
+            }
+        }
+
+        function submitStage3Answer() {
+            if (isAnswerLocked || !stage3SelectedArea || !stage3SelectedBenefit) return;
+            isAnswerLocked = true;
+
+            const qData = QUESTION_DATABASE[currentRoundIndex];
+            const isAreaCorrect = (stage3SelectedArea === qData.correctArea);
+            const isBenefitCorrect = (stage3SelectedBenefit === qData.correctBenefit);
+            const isFullyCorrect = (isAreaCorrect && isBenefitCorrect);
+
+            // Alan Butonları
+            document.getElementById('stage3AreaGrid').querySelectorAll('.option-btn').forEach(btn => {
+                btn.disabled = true;
+                const txt = btn.querySelector('span').textContent;
+                if (txt === qData.correctArea) {
+                    btn.classList.add('correct');
+                } else if (txt === stage3SelectedArea && !isAreaCorrect) {
+                    btn.classList.add('wrong');
+                }
+            });
+
+            // Fayda Butonları
+            document.getElementById('stage3BenefitGrid').querySelectorAll('.option-btn').forEach(btn => {
+                btn.disabled = true;
+                const txt = btn.querySelector('span').textContent;
+                if (txt === qData.correctBenefit) {
+                    btn.classList.add('correct');
+                } else if (txt === stage3SelectedBenefit && !isBenefitCorrect) {
+                    btn.classList.add('wrong');
+                }
+            });
+
+            document.getElementById('stage3ConfirmBtn').disabled = true;
+
+            const feedbackPanel = document.getElementById('feedbackPanel');
+            const feedbackStatus = document.getElementById('feedbackStatusText');
+            const feedbackExp = document.getElementById('feedbackExplanationText');
+
+            if (isFullyCorrect) {
+                playSound('correct');
+                classScore += 20;
+                correctCount++;
+                feedbackStatus.textContent = `🌟 MÜKEMMEL DEDEKTİFLİK! +20 PUAN`;
+                feedbackStatus.className = 'feedback-status correct';
+            } else {
+                playSound('wrong');
+                wrongCount++;
+                feedbackStatus.textContent = `❌ TAM DOĞRU OLMADI! (0 PUAN)`;
+                feedbackStatus.className = 'feedback-status wrong';
+            }
+
+            feedbackExp.innerHTML = `<strong>Doğru Alan:</strong> ${qData.correctArea} | <strong>Doğru Fayda:</strong> ${qData.correctBenefit}<br>${qData.explanation}`;
+            feedbackPanel.classList.add('active');
+            updateHUD();
+        }
+
+        /* --- SONRAKİ TURA GEÇİŞ --- */
+        function nextRound() {
+            playSound('click');
+            currentRoundIndex++;
+            if (currentRoundIndex < QUESTION_DATABASE.length) {
+                loadRound(currentRoundIndex);
+            } else {
+                finishGame();
+            }
+        }
+
+        /* ==========================================================================
+           6. OYUN SONU (RÜTBE & KONFETİ)
+           ========================================================================== */
+        function finishGame() {
+            playSound('victory');
+            showScreen('screen-results');
+
+            document.getElementById('finalScoreVal').textContent = `${classScore} / 250 P`;
+            document.getElementById('finalCorrectVal').textContent = `${correctCount} / 20`;
+            document.getElementById('finalWrongVal').textContent = `${wrongCount}`;
+
+            let rank = "";
+            let emoji = "🏆";
+
+            if (classScore >= 210) {
+                rank = "🥇 Baş Dedektif Sınıf (Kusursuz Sonuç!)";
+                emoji = "🕵️‍♂️🎖️";
+            } else if (classScore >= 160) {
+                rank = "🥈 Kıdemli Dedektif Sınıf (Çok Başarılı)";
+                emoji = "🔍🌟";
+            } else if (classScore >= 110) {
+                rank = "🥉 Yardımcı Dedektif Sınıf (İyi İlerleme)";
+                emoji = "🔎👍";
+            } else {
+                rank = "🌱 Çaylak Dedektif Sınıf (Tekrar Edilmeli)";
+                emoji = "📚💡";
+            }
+
+            document.getElementById('finalRankBadge').textContent = rank;
+            document.getElementById('finalEmoji').textContent = emoji;
+            document.getElementById('winnerText').textContent = `TEBRİKLER 5. SINIF!`;
+            document.getElementById('winnerSubText').textContent = `${classScore} Puan toplayarak tüm kanıt dosyalarını sınıfça başarıyla incelediniz.`;
+
+            startConfetti();
+        }
+
+        /* ==========================================================================
+           7. YARDIMCI METOTLAR (Shuffle & Canvas Konfeti)
+           ========================================================================== */
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+        }
+
+        function startConfetti() {
+            const canvas = document.getElementById('confettiCanvas');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+
+            const pieces = [];
+            const colors = ['#f59e0b', '#38bdf8', '#10b981', '#ef4444', '#a855f7', '#ffffff'];
+
+            for (let i = 0; i < 110; i++) {
+                pieces.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height - canvas.height,
+                    w: Math.random() * 10 + 6,
+                    h: Math.random() * 12 + 6,
+                    color: colors[Math.floor(Math.random() * colors.length)],
+                    vy: Math.random() * 3.5 + 2,
+                    vx: Math.random() * 2 - 1,
+                    rot: Math.random() * 360,
+                    vRot: Math.random() * 4 - 2
+                });
+            }
+
+            let animationFrames = 0;
+            function render() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                pieces.forEach(p => {
+                    p.y += p.vy;
+                    p.x += p.vx;
+                    p.rot += p.vRot;
+
+                    ctx.save();
+                    ctx.translate(p.x, p.y);
+                    ctx.rotate((p.rot * Math.PI) / 180);
+                    ctx.fillStyle = p.color;
+                    ctx.fillRect(-p.w / 2, -p.h / 2, p.w, p.h);
+                    ctx.restore();
+
+                    if (p.y > canvas.height) {
+                        p.y = -20;
+                        p.x = Math.random() * canvas.width;
+                    }
+                });
+
+                animationFrames++;
+                if (animationFrames < 350) {
+                    requestAnimationFrame(render);
+                } else {
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+                }
+            }
+            render();
+        }
+
+        window.addEventListener('resize', () => {
+            const canvas = document.getElementById('confettiCanvas');
+            if (canvas) {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+            }
+        });
+    </script>
+</body>
+</html>
