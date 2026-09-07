@@ -203,3 +203,240 @@ button, select, input, .match-card {
 .game-mode-card:hover {
     transform: translateY(-8px) scale(1.02);
 }
+
+/* ========================================================
+   TEMA SİSTEMİ (NORMAL / AÇIK / KOYU)
+   ======================================================== */
+
+/* --------------------------------------------------------
+   1. AÇIK TEMA (LIGHT MODE - GÜNDÜZ / SINIF MODU)
+   -------------------------------------------------------- */
+[data-theme="light"] {
+    color-scheme: light;
+}
+
+[data-theme="light"] body {
+    background-color: #F8FAFC !important;
+    color: #0F172A !important;
+}
+
+[data-theme="light"] header {
+    background-color: rgba(255, 255, 255, 0.95) !important;
+    border-color: #E2E8F0 !important;
+    box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05) !important;
+}
+
+[data-theme="light"] header h1 {
+    color: #0F172A !important;
+}
+
+[data-theme="light"] header p {
+    color: #4F46E5 !important;
+}
+
+[data-theme="light"] .bg-slate-950 {
+    background-color: #F8FAFC !important;
+    color: #0F172A !important;
+}
+
+[data-theme="light"] .bg-slate-900,
+[data-theme="light"] .bg-slate-900\/90,
+[data-theme="light"] .bg-slate-900\/85,
+[data-theme="light"] .bg-slate-900\/80,
+[data-theme="light"] .bg-slate-900\/70 {
+    background-color: #FFFFFF !important;
+    border-color: #E2E8F0 !important;
+    color: #0F172A !important;
+    box-shadow: 0 4px 15px -2px rgba(0, 0, 0, 0.05) !important;
+}
+
+[data-theme="light"] .bg-slate-800,
+[data-theme="light"] .bg-slate-800\/90,
+[data-theme="light"] .bg-slate-800\/80 {
+    background-color: #F1F5F9 !important;
+    color: #1E293B !important;
+    border-color: #CBD5E1 !important;
+}
+
+[data-theme="light"] .bg-slate-800:hover {
+    background-color: #E2E8F0 !important;
+    color: #0F172A !important;
+}
+
+[data-theme="light"] .text-slate-100,
+[data-theme="light"] .text-slate-200 {
+    color: #1E293B !important;
+}
+
+[data-theme="light"] .text-slate-300 {
+    color: #334155 !important;
+}
+
+[data-theme="light"] .text-slate-400 {
+    color: #64748B !important;
+}
+
+[data-theme="light"] .border-slate-800,
+[data-theme="light"] .border-slate-700 {
+    border-color: #E2E8F0 !important;
+}
+
+[data-theme="light"] select#week-select-dropdown {
+    background-color: #FFFFFF !important;
+    color: #0F172A !important;
+    border-color: #CBD5E1 !important;
+}
+
+/* Hafta Bilgi Kartı */
+[data-theme="light"] #week-selector-bar {
+    background: linear-gradient(135deg, #EEF2FF 0%, #F5F3FF 50%, #FAF5FF 100%) !important;
+    border-color: #C7D2FE !important;
+    box-shadow: 0 10px 25px -5px rgba(99, 102, 241, 0.1) !important;
+}
+
+[data-theme="light"] #week-selector-bar h2 {
+    color: #1E1B4B !important;
+}
+
+/* 4 Ana Sekme Butonları */
+[data-theme="light"] .tab-btn:not(.active) {
+    background-color: #FFFFFF !important;
+    color: #475569 !important;
+    border-color: #E2E8F0 !important;
+}
+
+[data-theme="light"] .tab-btn:not(.active):hover {
+    background-color: #F1F5F9 !important;
+    color: #0F172A !important;
+    border-color: #CBD5E1 !important;
+}
+
+/* Slayt Kontrol Çubukları */
+[data-theme="light"] #slide-display-area {
+    box-shadow: 0 20px 35px -10px rgba(0, 0, 0, 0.15) !important;
+}
+
+[data-theme="light"] #slide-counter-badge {
+    background-color: #F8FAFC !important;
+    color: #B45309 !important;
+    border-color: #CBD5E1 !important;
+}
+
+[data-theme="light"] #slide-prev-btn {
+    background-color: #FFFFFF !important;
+    color: #1E293B !important;
+    border-color: #CBD5E1 !important;
+}
+
+[data-theme="light"] #slide-prev-btn:hover {
+    background-color: #F1F5F9 !important;
+}
+
+/* Modallar */
+[data-theme="light"] #curriculum-modal .bg-slate-900,
+[data-theme="light"] #slide-menu-modal .bg-slate-900,
+[data-theme="light"] #standalone-game-modal .bg-slate-900,
+[data-theme="light"] #theme-dropdown-menu {
+    background-color: #FFFFFF !important;
+    border-color: #E2E8F0 !important;
+    color: #0F172A !important;
+    box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.15) !important;
+}
+
+[data-theme="light"] .theme-opt-btn {
+    color: #1E293B !important;
+}
+
+[data-theme="light"] .theme-opt-btn:hover {
+    background-color: #F1F5F9 !important;
+    color: #4F46E5 !important;
+}
+
+/* Quiz Soru ve Seçenek Kartları */
+[data-theme="light"] .quiz-option-btn:not(.selected) {
+    background-color: #FFFFFF !important;
+    color: #1E293B !important;
+    border-color: #CBD5E1 !important;
+}
+
+[data-theme="light"] .quiz-option-btn:not(.selected):hover {
+    background-color: #F8FAFC !important;
+    border-color: #6366F1 !important;
+}
+
+/* Scrollbar Açık Mod */
+[data-theme="light"] ::-webkit-scrollbar-track {
+    background: #F1F5F9;
+}
+[data-theme="light"] ::-webkit-scrollbar-thumb {
+    background: #CBD5E1;
+}
+[data-theme="light"] ::-webkit-scrollbar-thumb:hover {
+    background: #94A3B8;
+}
+
+/* --------------------------------------------------------
+   2. KOYU TEMA (DEEP OLED BLACK - DERİN GECE MODU)
+   -------------------------------------------------------- */
+[data-theme="dark"] {
+    color-scheme: dark;
+}
+
+[data-theme="dark"] body {
+    background-color: #000000 !important;
+    color: #F8FAFC !important;
+}
+
+[data-theme="dark"] header {
+    background-color: rgba(5, 8, 17, 0.95) !important;
+    border-color: #1E293B !important;
+    box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.8) !important;
+}
+
+[data-theme="dark"] .bg-slate-950 {
+    background-color: #000000 !important;
+}
+
+[data-theme="dark"] .bg-slate-900,
+[data-theme="dark"] .bg-slate-900\/90,
+[data-theme="dark"] .bg-slate-900\/85,
+[data-theme="dark"] .bg-slate-900\/80 {
+    background-color: #050811 !important;
+    border-color: #1E293B !important;
+}
+
+[data-theme="dark"] .bg-slate-800,
+[data-theme="dark"] .bg-slate-800\/90,
+[data-theme="dark"] .bg-slate-800\/80 {
+    background-color: #0A101D !important;
+    border-color: #1E293B !important;
+}
+
+[data-theme="dark"] .bg-slate-800:hover {
+    background-color: #111A30 !important;
+}
+
+[data-theme="dark"] #week-selector-bar {
+    background: linear-gradient(135deg, #0A0E1A 0%, #050811 100%) !important;
+    border-color: #312E81 !important;
+}
+
+[data-theme="dark"] #theme-dropdown-menu {
+    background-color: #050811 !important;
+    border-color: #1E293B !important;
+}
+
+[data-theme="dark"] ::-webkit-scrollbar-track {
+    background: #000000;
+}
+[data-theme="dark"] ::-webkit-scrollbar-thumb {
+    background: #1E293B;
+}
+
+/* --------------------------------------------------------
+   3. NORMAL TEMA (VARSAYILAN SLATE / BİLİŞİM MAVİSİ)
+   -------------------------------------------------------- */
+[data-theme="normal"] {
+    color-scheme: dark;
+}
+

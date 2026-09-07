@@ -11,9 +11,11 @@ class App {
         this.quizScore = 0;
         this.userAnswers = {};
         this.showAnswers = false;
+        this.currentTheme = 'normal';
     }
 
     init() {
+        this.initTheme();
         this.renderThemeNavBar();
         this.renderWeekSelector();
         this.loadWeek(1);
@@ -21,6 +23,79 @@ class App {
 
         document.addEventListener("fullscreenchange", () => this.updateFullscreenUI());
         document.addEventListener("webkitfullscreenchange", () => this.updateFullscreenUI());
+    }
+
+    // --- GÖRÜNÜM TEMASI (NORMAL / AÇIK / KOYU) ---
+    initTheme() {
+        let savedTheme = 'normal';
+        try {
+            savedTheme = localStorage.getItem('bozok_portal_theme') || 'normal';
+        } catch (e) {}
+        this.setTheme(savedTheme, false);
+
+        // Menü dışına tıklandığında dropdown'ı kapat
+        document.addEventListener('click', (e) => {
+            const container = document.getElementById('theme-selector-container');
+            const menu = document.getElementById('theme-dropdown-menu');
+            if (container && menu && !container.contains(e.target)) {
+                menu.classList.add('hidden');
+            }
+        });
+    }
+
+    toggleThemeDropdown() {
+        sounds.playClick();
+        const menu = document.getElementById('theme-dropdown-menu');
+        if (menu) menu.classList.toggle('hidden');
+    }
+
+    setTheme(themeName, playSound = true) {
+        if (!['normal', 'light', 'dark'].includes(themeName)) themeName = 'normal';
+        if (playSound) sounds.playClick();
+
+        this.currentTheme = themeName;
+        document.documentElement.setAttribute('data-theme', themeName);
+
+        if (themeName === 'light') {
+            document.documentElement.classList.remove('dark');
+            document.documentElement.classList.add('light');
+        } else {
+            document.documentElement.classList.remove('light');
+            document.documentElement.classList.add('dark');
+        }
+
+        try {
+            localStorage.setItem('bozok_portal_theme', themeName);
+        } catch (e) {}
+
+        const label = document.getElementById('theme-btn-label');
+        const icon = document.getElementById('theme-btn-icon');
+        const menu = document.getElementById('theme-dropdown-menu');
+
+        if (menu) menu.classList.add('hidden');
+
+        const themeInfo = {
+            normal: { label: 'Normal', icon: '🎨' },
+            light: { label: 'Açık', icon: '☀️' },
+            dark: { label: 'Koyu', icon: '🌙' }
+        };
+
+        if (label) label.innerText = themeInfo[themeName].label;
+        if (icon) icon.innerText = themeInfo[themeName].icon;
+
+        document.querySelectorAll('.theme-opt-btn').forEach(btn => {
+            const val = btn.getAttribute('data-theme-val');
+            const check = btn.querySelector('.theme-check');
+            if (check) {
+                if (val === themeName) {
+                    check.classList.remove('hidden');
+                    btn.classList.add('bg-indigo-600/30', 'text-yellow-400');
+                } else {
+                    check.classList.add('hidden');
+                    btn.classList.remove('bg-indigo-600/30', 'text-yellow-400');
+                }
+            }
+        });
     }
 
     // --- 6 MEB TEMASI HIZLI GEZİNME BARI ---

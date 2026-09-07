@@ -67,6 +67,29 @@
                     <i class="fa-solid fa-chevron-down absolute right-3 top-1/2 -translate-y-1/2 text-xs text-slate-400 pointer-events-none"></i>
                 </div>
 
+                <!-- Tema Seçici Dropdown (Normal / Açık / Koyu) -->
+                <div class="relative" id="theme-selector-container">
+                    <button id="theme-toggle-btn" onclick="app.toggleThemeDropdown()" class="px-3 py-2 bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 rounded-xl text-xs sm:text-sm font-bold flex items-center gap-1.5 transition-all shadow-md active:scale-95" title="Görünüm Teması: Normal / Açık / Koyu">
+                        <span id="theme-btn-icon">🎨</span>
+                        <span id="theme-btn-label" class="hidden sm:inline">Normal</span>
+                        <i class="fa-solid fa-chevron-down text-[10px] text-slate-400 ml-0.5"></i>
+                    </button>
+                    <div id="theme-dropdown-menu" class="hidden absolute right-0 mt-2 w-44 bg-slate-900 border-2 border-slate-700 rounded-2xl shadow-2xl p-1.5 z-50 flex flex-col gap-1 backdrop-blur-xl animate-pop">
+                        <button onclick="app.setTheme('normal')" class="theme-opt-btn flex items-center justify-between px-3 py-2 rounded-xl text-xs font-bold transition-all text-slate-200 hover:bg-slate-800" data-theme-val="normal">
+                            <span class="flex items-center gap-2"><span>🎨</span> Normal</span>
+                            <i class="fa-solid fa-check text-yellow-400 theme-check text-xs"></i>
+                        </button>
+                        <button onclick="app.setTheme('light')" class="theme-opt-btn flex items-center justify-between px-3 py-2 rounded-xl text-xs font-bold transition-all text-slate-200 hover:bg-slate-800" data-theme-val="light">
+                            <span class="flex items-center gap-2"><span>☀️</span> Açık</span>
+                            <i class="fa-solid fa-check text-yellow-400 theme-check text-xs hidden"></i>
+                        </button>
+                        <button onclick="app.setTheme('dark')" class="theme-opt-btn flex items-center justify-between px-3 py-2 rounded-xl text-xs font-bold transition-all text-slate-200 hover:bg-slate-800" data-theme-val="dark">
+                            <span class="flex items-center gap-2"><span>🌙</span> Koyu</span>
+                            <i class="fa-solid fa-check text-yellow-400 theme-check text-xs hidden"></i>
+                        </button>
+                    </div>
+                </div>
+
                 <!-- Ses Aç/Kapat Butonu -->
                 <button onclick="app.toggleAudio()" class="w-10 h-10 bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 rounded-xl flex items-center justify-center transition-all shadow-md" title="Sesi Aç/Kapat">
                     <i id="audio-toggle-icon" class="fa-solid fa-volume-high text-emerald-400"></i>
