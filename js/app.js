@@ -277,9 +277,6 @@ class App {
                     <i class="fa-solid fa-gamepad"></i>
                     <span>Tekrar Oyunları 🎮</span>
                 </button>
-                <span class="text-xs bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 px-3.5 py-2 rounded-xl font-bold flex items-center gap-1.5">
-                    <i class="fa-solid fa-circle-check"></i> Akıllı Tahta & Dokunmatik Uyumlu
-                </span>
             `;
         }
 

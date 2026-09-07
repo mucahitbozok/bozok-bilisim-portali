@@ -349,12 +349,6 @@ button, select, input, .match-card {
     border-color: #A5B4FC !important;
 }
 
-[data-theme="light"] #week-action-buttons span {
-    background-color: #DCFCE7 !important;
-    color: #15803D !important;
-    border-color: #86EFAC !important;
-}
-
 [data-theme="light"] #view-lecture button.absolute {
     background-color: rgba(255, 255, 255, 0.92) !important;
     color: #1E293B !important;
