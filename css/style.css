@@ -343,6 +343,45 @@ button, select, input, .match-card {
     box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.15) !important;
 }
 
+[data-theme="light"] #active-week-badge {
+    background-color: #EEF2FF !important;
+    color: #4338CA !important;
+    border-color: #A5B4FC !important;
+}
+
+[data-theme="light"] #week-action-buttons span {
+    background-color: #DCFCE7 !important;
+    color: #15803D !important;
+    border-color: #86EFAC !important;
+}
+
+[data-theme="light"] #view-lecture button.absolute {
+    background-color: rgba(255, 255, 255, 0.92) !important;
+    color: #1E293B !important;
+    border-color: #CBD5E1 !important;
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.15) !important;
+}
+
+[data-theme="light"] #view-lecture button.absolute:hover {
+    background-color: #4F46E5 !important;
+    color: #FFFFFF !important;
+    border-color: #818CF8 !important;
+}
+
+[data-theme="light"] #slide-menu-list button:not(.bg-indigo-600) {
+    background-color: #F8FAFC !important;
+    border-color: #E2E8F0 !important;
+    color: #1E293B !important;
+}
+
+[data-theme="light"] #slide-menu-list button:not(.bg-indigo-600) .text-white {
+    color: #0F172A !important;
+}
+
+[data-theme="light"] #slide-menu-list button:not(.bg-indigo-600) .text-slate-400 {
+    color: #64748B !important;
+}
+
 [data-theme="light"] .theme-opt-btn {
     color: #1E293B !important;
 }

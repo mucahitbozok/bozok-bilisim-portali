@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="tr" class="dark">
+<html lang="tr" class="light" data-theme="light">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
@@ -67,20 +67,20 @@
                     <i class="fa-solid fa-chevron-down absolute right-3 top-1/2 -translate-y-1/2 text-xs text-slate-400 pointer-events-none"></i>
                 </div>
 
-                <!-- Tema Seçici Dropdown (Normal / Açık / Koyu) -->
+                <!-- Tema Seçici Dropdown (Açık / Koyu / Normal) -->
                 <div class="relative" id="theme-selector-container">
-                    <button id="theme-toggle-btn" onclick="app.toggleThemeDropdown()" class="px-3 py-2 bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 rounded-xl text-xs sm:text-sm font-bold flex items-center gap-1.5 transition-all shadow-md active:scale-95" title="Görünüm Teması: Normal / Açık / Koyu">
-                        <span id="theme-btn-icon">🎨</span>
-                        <span id="theme-btn-label" class="hidden sm:inline">Normal</span>
+                    <button id="theme-toggle-btn" onclick="app.toggleThemeDropdown()" class="px-3 py-2 bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 rounded-xl text-xs sm:text-sm font-bold flex items-center gap-1.5 transition-all shadow-md active:scale-95" title="Görünüm Teması: Açık / Koyu / Normal">
+                        <span id="theme-btn-icon">☀️</span>
+                        <span id="theme-btn-label" class="hidden sm:inline">Açık</span>
                         <i class="fa-solid fa-chevron-down text-[10px] text-slate-400 ml-0.5"></i>
                     </button>
                     <div id="theme-dropdown-menu" class="hidden absolute right-0 mt-2 w-44 bg-slate-900 border-2 border-slate-700 rounded-2xl shadow-2xl p-1.5 z-50 flex flex-col gap-1 backdrop-blur-xl animate-pop">
-                        <button onclick="app.setTheme('normal')" class="theme-opt-btn flex items-center justify-between px-3 py-2 rounded-xl text-xs font-bold transition-all text-slate-200 hover:bg-slate-800" data-theme-val="normal">
-                            <span class="flex items-center gap-2"><span>🎨</span> Normal</span>
+                        <button onclick="app.setTheme('light')" class="theme-opt-btn flex items-center justify-between px-3 py-2 rounded-xl text-xs font-bold transition-all text-slate-200 hover:bg-slate-800 bg-indigo-600/30 text-yellow-400" data-theme-val="light">
+                            <span class="flex items-center gap-2"><span>☀️</span> Açık</span>
                             <i class="fa-solid fa-check text-yellow-400 theme-check text-xs"></i>
                         </button>
-                        <button onclick="app.setTheme('light')" class="theme-opt-btn flex items-center justify-between px-3 py-2 rounded-xl text-xs font-bold transition-all text-slate-200 hover:bg-slate-800" data-theme-val="light">
-                            <span class="flex items-center gap-2"><span>☀️</span> Açık</span>
+                        <button onclick="app.setTheme('normal')" class="theme-opt-btn flex items-center justify-between px-3 py-2 rounded-xl text-xs font-bold transition-all text-slate-200 hover:bg-slate-800" data-theme-val="normal">
+                            <span class="flex items-center gap-2"><span>🎨</span> Normal</span>
                             <i class="fa-solid fa-check text-yellow-400 theme-check text-xs hidden"></i>
                         </button>
                         <button onclick="app.setTheme('dark')" class="theme-opt-btn flex items-center justify-between px-3 py-2 rounded-xl text-xs font-bold transition-all text-slate-200 hover:bg-slate-800" data-theme-val="dark">
@@ -105,19 +105,6 @@
 
     <!-- ANA İÇERİK KONTEYNERİ -->
     <main class="max-w-7xl mx-auto w-full px-4 py-6 flex-1 flex flex-col space-y-6">
-
-        <!-- 6 MEB TEMASI HIZLI ERİŞİM VE GEZİNME BARI -->
-        <div class="no-print space-y-2">
-            <div class="flex items-center justify-between gap-2 px-1">
-                <span class="text-xs font-black text-slate-400 uppercase tracking-wider flex items-center gap-1.5">
-                    <i class="fa-solid fa-layer-group text-yellow-400"></i> MEB 5. Sınıf Müfredat Temaları (6 Tema)
-                </span>
-                <span class="text-[11px] text-slate-400 font-semibold hidden sm:inline">Temaya tıklayarak ilgili haftalara hızlıca geçebilirsiniz</span>
-            </div>
-            <div id="theme-nav-bar" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2.5">
-                <!-- JS (renderThemeNavBar) ile doldurulacak -->
-            </div>
-        </div>
 
         <!-- AKTİF HAFTA BİLGİ KARTI -->
         <div id="week-selector-bar" class="bg-gradient-to-r from-indigo-900/60 via-purple-900/60 to-slate-900/80 rounded-3xl p-5 border border-indigo-500/30 shadow-2xl flex flex-col md:flex-row items-start md:items-center justify-between gap-4">

@@ -11,12 +11,11 @@ class App {
         this.quizScore = 0;
         this.userAnswers = {};
         this.showAnswers = false;
-        this.currentTheme = 'normal';
+        this.currentTheme = 'light';
     }
 
     init() {
         this.initTheme();
-        this.renderThemeNavBar();
         this.renderWeekSelector();
         this.loadWeek(1);
         this.setupKeyboard();
@@ -25,11 +24,11 @@ class App {
         document.addEventListener("webkitfullscreenchange", () => this.updateFullscreenUI());
     }
 
-    // --- GÖRÜNÜM TEMASI (NORMAL / AÇIK / KOYU) ---
+    // --- GÖRÜNÜM TEMASI (AÇIK / KOYU / NORMAL) ---
     initTheme() {
-        let savedTheme = 'normal';
+        let savedTheme = 'light';
         try {
-            savedTheme = localStorage.getItem('bozok_portal_theme') || 'normal';
+            savedTheme = localStorage.getItem('bozok_portal_theme') || 'light';
         } catch (e) {}
         this.setTheme(savedTheme, false);
 
@@ -50,7 +49,7 @@ class App {
     }
 
     setTheme(themeName, playSound = true) {
-        if (!['normal', 'light', 'dark'].includes(themeName)) themeName = 'normal';
+        if (!['light', 'normal', 'dark'].includes(themeName)) themeName = 'light';
         if (playSound) sounds.playClick();
 
         this.currentTheme = themeName;
@@ -283,9 +282,6 @@ class App {
                 </span>
             `;
         }
-
-        // Temaların hızlı gezinti çubuğundaki aktif tema vurgusunu güncelle
-        this.renderThemeNavBar();
 
         // Reset views
         this.currentSlideIndex = 0;
