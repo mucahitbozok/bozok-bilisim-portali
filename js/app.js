@@ -978,6 +978,95 @@ class App {
     }
 
     // --- 4. TEKRAR OYUNLARI ARENASI MODÜLÜ ---
+    getExtraGamesForWeek(weekNum, data) {
+        const extra = [];
+        if (weekNum === 1) {
+            extra.push({
+                badge: "Özel",
+                badgeColor: "text-yellow-300",
+                title: "Bilgi Arenası",
+                desc: "1. haftanın tüm kazanımlarını ve kullanım alanlarını kapsayan 10 soruluk interaktif yarışma arenası!",
+                icon: "fa-solid fa-crown",
+                iconBg: "bg-yellow-500/30 text-yellow-400",
+                cardGradient: "from-blue-900/90 to-indigo-950/90",
+                border: "border-blue-500/50",
+                descColor: "text-indigo-100",
+                btnText: "Arenaya Gir!",
+                btnIcon: "fa-solid fa-rocket",
+                btnGradient: "from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white",
+                action: "app.launchGame('arena')"
+            });
+            extra.push({
+                badge: "Vaka",
+                badgeColor: "text-cyan-300",
+                title: "Bilişim Dedektifleri",
+                desc: "Olay yerindeki ipuçlarını topla, kullanım alanını doğru tespit et ve vakaları çözerek dedektif ol!",
+                icon: "fa-solid fa-user-secret",
+                iconBg: "bg-cyan-500/30 text-cyan-300",
+                cardGradient: "from-cyan-900/90 to-teal-950/90",
+                border: "border-cyan-500/50",
+                descColor: "text-cyan-100",
+                btnText: "Dedektifliği Başlat!",
+                btnIcon: "fa-solid fa-magnifying-glass",
+                btnGradient: "from-cyan-600 to-teal-600 hover:from-cyan-500 hover:to-teal-500 text-white",
+                action: "app.openStandaloneGame('games/bilisim_teknolojileri_dedektifleri.html', 'Bilişim Teknolojileri Dedektifleri | Öğretmen Bozok')"
+            });
+        } else if (weekNum === 2) {
+            extra.push({
+                badge: "Özel",
+                badgeColor: "text-amber-300",
+                title: "Teknoloji Dedektifleri",
+                desc: "Olumlu ve olumsuz etkileri incele, dijital sağlık ipuçlarını takip et ve usta dedektif rozetini kazan!",
+                icon: "fa-solid fa-user-secret",
+                iconBg: "bg-amber-500/30 text-amber-300",
+                cardGradient: "from-amber-900/90 to-yellow-950/90",
+                border: "border-amber-500/50",
+                descColor: "text-amber-100",
+                btnText: "Dedektifliği Başlat!",
+                btnIcon: "fa-solid fa-magnifying-glass",
+                btnGradient: "from-amber-500 to-yellow-500 hover:from-amber-400 hover:to-yellow-400 text-slate-950",
+                action: "app.openStandaloneGame('games/tekrar oyunu hafta 2.html', 'Teknoloji Dedektifleri Arenası | Öğretmen Bozok')"
+            });
+            extra.push({
+                badge: "Mahkeme",
+                badgeColor: "text-orange-300",
+                title: "Teknoloji Mahkemesi",
+                desc: "Sınıfça mahkemeye girin! Davalarda hakim ve jüri olun, delilleri inceleyip adil kararı verin!",
+                icon: "fa-solid fa-gavel",
+                iconBg: "bg-orange-500/30 text-orange-300",
+                cardGradient: "from-orange-900/90 to-stone-950/90",
+                border: "border-orange-500/50",
+                descColor: "text-orange-100",
+                btnText: "Mahkemeyi Başlat!",
+                btnIcon: "fa-solid fa-gavel",
+                btnGradient: "from-orange-600 to-amber-600 hover:from-orange-500 hover:to-amber-500 text-white",
+                action: "app.openStandaloneGame('games/teknoloji_mahkemesi.html', 'Teknoloji Mahkemesi | Öğretmen Bozok')"
+            });
+            extra.push({
+                badge: "Macera",
+                badgeColor: "text-emerald-300",
+                title: "Teknoloji Macerası",
+                desc: "Sabahtan geceye 24 saatlik serüvene çık! Doğru tercihler yaparak ekran süreni ve sağlığını koru!",
+                icon: "fa-solid fa-compass",
+                iconBg: "bg-emerald-500/30 text-emerald-300",
+                cardGradient: "from-emerald-900/90 to-teal-950/90",
+                border: "border-emerald-500/50",
+                descColor: "text-emerald-100",
+                btnText: "Maceraya Başla!",
+                btnIcon: "fa-solid fa-play",
+                btnGradient: "from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white",
+                action: "app.openStandaloneGame('games/bir_gunluk_teknoloji_maceras.html', 'Bir Günlük Teknoloji Macerası | Öğretmen Bozok')"
+            });
+        }
+
+        // Haftalık içerik verisinde (data.extraGames) tanımlı ek oyunlar varsa onları da listeye ekle
+        if (data && Array.isArray(data.extraGames)) {
+            data.extraGames.forEach(g => extra.push(g));
+        }
+
+        return extra;
+    }
+
     renderGameHub() {
         const gameContainer = document.getElementById("game-container");
         if (!gameContainer) return;
@@ -988,9 +1077,9 @@ class App {
             return;
         }
 
-        const isWeek1 = (this.currentWeek === 1);
-        const isWeek2 = (this.currentWeek === 2);
-        const hasArena = (isWeek1 || isWeek2);
+        // Eklenen oyunlar (Daima 1, 2, 3, 4'ten sonra, 5, 6, 7... olarak sona eklenecek)
+        const extraGames = this.getExtraGamesForWeek(this.currentWeek, data);
+        const totalGameCount = 4 + extraGames.length;
 
         gameContainer.innerHTML = `
             <div class="max-w-5xl mx-auto space-y-8">
@@ -999,117 +1088,19 @@ class App {
                     <span class="px-4 py-1.5 bg-yellow-400/20 text-yellow-300 font-extrabold text-xs uppercase tracking-widest rounded-full border border-yellow-400/30">
                         🎮 Sınıf İçi Pekiştirme Oyunları
                     </span>
-                    <h2 class="text-3xl sm:text-4xl font-black text-white">${isWeek1 ? '1. Hafta Oyun Arenası (6 Farklı Oyun Modu 🎮)' : (isWeek2 ? '2. Hafta Oyun Arenası (7 Farklı Oyun Modu 🎮)' : 'Bir Oyun Modu Seç ve Başla!')}</h2>
+                    <h2 class="text-3xl sm:text-4xl font-black text-white">${this.currentWeek}. Hafta Oyun Arenası (${totalGameCount} Farklı Oyun Modu 🎮)</h2>
                     <p class="text-slate-400 text-sm max-w-xl mx-auto">
                         Akıllı tahtada tüm sınıfla çarkıfelek oynayabilir, teknoloji mahkemesi kurabilir, maceralara atılabilir veya hızlı reflekslerini test edebilirsin!
                     </p>
                 </div>
 
-                <!-- Oyun Kartları Grid -->
+                <!-- Oyun Kartları Grid (1, 2, 3, 4, 5, 6... Sıralı) -->
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                    ${isWeek1 ? `
-                    <!-- Oyun 5: 1. Hafta Özel Tekrar Oyunu (Bilgi Arenası) -->
-                    <div class="game-mode-card bg-gradient-to-br from-blue-900/90 to-indigo-950/90 rounded-3xl p-6 border-2 border-blue-500/50 shadow-2xl flex flex-col justify-between space-y-4">
-                        <div class="flex items-center gap-4">
-                            <div class="w-14 h-14 rounded-2xl bg-yellow-500/30 text-yellow-400 flex items-center justify-center text-3xl shadow-inner shrink-0">
-                                <i class="fa-solid fa-crown"></i>
-                            </div>
-                            <div>
-                                <span class="text-xs font-bold text-yellow-300 uppercase">5. Oyun Modu (Özel)</span>
-                                <h3 class="text-xl font-black text-white">Bilgi Arenası</h3>
-                            </div>
-                        </div>
-                        <p class="text-sm text-indigo-100 flex-1">
-                            1. haftanın tüm kazanımlarını ve kullanım alanlarını kapsayan 10 soruluk interaktif yarışma arenası!
-                        </p>
-                        <button onclick="app.launchGame('arena')" class="w-full py-3.5 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-black text-base rounded-2xl shadow-xl flex items-center justify-center gap-2 transition-all hover:scale-[1.02] active:scale-95">
-                            <i class="fa-solid fa-rocket"></i> Arenaya Gir!
-                        </button>
-                    </div>
 
-                    <!-- Oyun 6: 1. Hafta Özel Dedektiflik Oyunu (Bilişim Teknolojileri Dedektifleri) -->
-                    <div class="game-mode-card bg-gradient-to-br from-cyan-900/90 to-teal-950/90 rounded-3xl p-6 border-2 border-cyan-500/50 shadow-2xl flex flex-col justify-between space-y-4">
-                        <div class="flex items-center gap-4">
-                            <div class="w-14 h-14 rounded-2xl bg-cyan-500/30 text-cyan-300 flex items-center justify-center text-3xl shadow-inner shrink-0">
-                                <i class="fa-solid fa-user-secret"></i>
-                            </div>
-                            <div>
-                                <span class="text-xs font-bold text-cyan-300 uppercase">6. Oyun Modu (Vaka)</span>
-                                <h3 class="text-xl font-black text-white">Bilişim Dedektifleri</h3>
-                            </div>
-                        </div>
-                        <p class="text-sm text-cyan-100 flex-1">
-                            Olay yerindeki ipuçlarını topla, kullanım alanını doğru tespit et ve vakaları çözerek dedektif ol!
-                        </p>
-                        <button onclick="app.openStandaloneGame('games/bilisim_teknolojileri_dedektifleri.html', 'Bilişim Teknolojileri Dedektifleri | Öğretmen Bozok')" class="w-full py-3.5 bg-gradient-to-r from-cyan-600 to-teal-600 hover:from-cyan-500 hover:to-teal-500 text-white font-black text-base rounded-2xl shadow-xl flex items-center justify-center gap-2 transition-all hover:scale-[1.02] active:scale-95">
-                            <i class="fa-solid fa-magnifying-glass"></i> Dedektifliği Başlat!
-                        </button>
-                    </div>
-                    ` : ''}
-
-                    ${isWeek2 ? `
-                    <!-- Oyun 5: 2. Hafta Özel Tekrar Oyunu (Teknoloji Dedektifleri) -->
-                    <div class="game-mode-card bg-gradient-to-br from-amber-900/90 to-yellow-950/90 rounded-3xl p-6 border-2 border-amber-500/50 shadow-2xl flex flex-col justify-between space-y-4">
-                        <div class="flex items-center gap-4">
-                            <div class="w-14 h-14 rounded-2xl bg-amber-500/30 text-amber-300 flex items-center justify-center text-3xl shadow-inner shrink-0">
-                                <i class="fa-solid fa-user-secret"></i>
-                            </div>
-                            <div>
-                                <span class="text-xs font-bold text-amber-300 uppercase">5. Oyun Modu (Özel)</span>
-                                <h3 class="text-xl font-black text-white">Teknoloji Dedektifleri</h3>
-                            </div>
-                        </div>
-                        <p class="text-sm text-amber-100 flex-1">
-                            Olumlu ve olumsuz etkileri incele, dijital sağlık ipuçlarını takip et ve usta dedektif rozetini kazan!
-                        </p>
-                        <button onclick="app.openStandaloneGame('games/tekrar oyunu hafta 2.html', 'Teknoloji Dedektifleri Arenası | Öğretmen Bozok')" class="w-full py-3.5 bg-gradient-to-r from-amber-500 to-yellow-500 hover:from-amber-400 hover:to-yellow-400 text-slate-950 font-black text-base rounded-2xl shadow-xl flex items-center justify-center gap-2 transition-all hover:scale-[1.02] active:scale-95">
-                            <i class="fa-solid fa-magnifying-glass"></i> Dedektifliği Başlat!
-                        </button>
-                    </div>
-
-                    <!-- Oyun 6: 2. Hafta Özel Oyunu (Teknoloji Mahkemesi) -->
-                    <div class="game-mode-card bg-gradient-to-br from-orange-900/90 to-stone-950/90 rounded-3xl p-6 border-2 border-orange-500/50 shadow-2xl flex flex-col justify-between space-y-4">
-                        <div class="flex items-center gap-4">
-                            <div class="w-14 h-14 rounded-2xl bg-orange-500/30 text-orange-300 flex items-center justify-center text-3xl shadow-inner shrink-0">
-                                <i class="fa-solid fa-gavel"></i>
-                            </div>
-                            <div>
-                                <span class="text-xs font-bold text-orange-300 uppercase">6. Oyun Modu (Mahkeme)</span>
-                                <h3 class="text-xl font-black text-white">Teknoloji Mahkemesi</h3>
-                            </div>
-                        </div>
-                        <p class="text-sm text-orange-100 flex-1">
-                            Sınıfça mahkemeye girin! Davalarda hakim ve jüri olun, delilleri inceleyip adil kararı verin!
-                        </p>
-                        <button onclick="app.openStandaloneGame('games/teknoloji_mahkemesi.html', 'Teknoloji Mahkemesi | Öğretmen Bozok')" class="w-full py-3.5 bg-gradient-to-r from-orange-600 to-amber-600 hover:from-orange-500 hover:to-amber-500 text-white font-black text-base rounded-2xl shadow-xl flex items-center justify-center gap-2 transition-all hover:scale-[1.02] active:scale-95">
-                            <i class="fa-solid fa-gavel"></i> Mahkemeyi Başlat!
-                        </button>
-                    </div>
-
-                    <!-- Oyun 7: 2. Hafta Özel Oyunu (Bir Günlük Teknoloji Macerası) -->
-                    <div class="game-mode-card bg-gradient-to-br from-emerald-900/90 to-teal-950/90 rounded-3xl p-6 border-2 border-emerald-500/50 shadow-2xl flex flex-col justify-between space-y-4">
-                        <div class="flex items-center gap-4">
-                            <div class="w-14 h-14 rounded-2xl bg-emerald-500/30 text-emerald-300 flex items-center justify-center text-3xl shadow-inner shrink-0">
-                                <i class="fa-solid fa-compass"></i>
-                            </div>
-                            <div>
-                                <span class="text-xs font-bold text-emerald-300 uppercase">7. Oyun Modu (Macera)</span>
-                                <h3 class="text-xl font-black text-white">Teknoloji Macerası</h3>
-                            </div>
-                        </div>
-                        <p class="text-sm text-emerald-100 flex-1">
-                            Sabahtan geceye 24 saatlik serüvene çık! Doğru tercihler yaparak ekran süreni ve sağlığını koru!
-                        </p>
-                        <button onclick="app.openStandaloneGame('games/bir_gunluk_teknoloji_maceras.html', 'Bir Günlük Teknoloji Macerası | Öğretmen Bozok')" class="w-full py-3.5 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-black text-base rounded-2xl shadow-xl flex items-center justify-center gap-2 transition-all hover:scale-[1.02] active:scale-95">
-                            <i class="fa-solid fa-play"></i> Maceraya Başla!
-                        </button>
-                    </div>
-                    ` : ''}
-
-                    <!-- Oyun 1: Çarkıfelek -->
+                    <!-- 1. Oyun Modu: Çarkıfelek -->
                     <div class="game-mode-card bg-gradient-to-br from-indigo-900/90 to-blue-900/90 rounded-3xl p-6 border-2 border-indigo-500/50 shadow-2xl flex flex-col justify-between space-y-4">
                         <div class="flex items-center gap-4">
-                            <div class="w-14 h-14 rounded-2xl bg-indigo-500/30 text-yellow-400 flex items-center justify-center text-3xl shadow-inner">
+                            <div class="w-14 h-14 rounded-2xl bg-indigo-500/30 text-yellow-400 flex items-center justify-center text-3xl shadow-inner shrink-0">
                                 <i class="fa-solid fa-dharmachakra"></i>
                             </div>
                             <div>
@@ -1117,18 +1108,18 @@ class App {
                                 <h3 class="text-xl font-black text-white">Bilişim Çarkıfeleği</h3>
                             </div>
                         </div>
-                        <p class="text-sm text-indigo-100">
+                        <p class="text-sm text-indigo-100 flex-1">
                             Çarkı çevirerek puanları topla, jokerleri kullan ve sınıfın şampiyonu ol!
                         </p>
-                        <button onclick="app.launchGame('wheel')" class="w-full py-3.5 bg-gradient-to-r from-yellow-500 to-amber-500 hover:from-yellow-400 hover:to-amber-400 text-slate-950 font-black text-base rounded-2xl shadow-xl flex items-center justify-center gap-2 transition-all">
+                        <button onclick="app.launchGame('wheel')" class="w-full py-3.5 bg-gradient-to-r from-yellow-500 to-amber-500 hover:from-yellow-400 hover:to-amber-400 text-slate-950 font-black text-base rounded-2xl shadow-xl flex items-center justify-center gap-2 transition-all hover:scale-[1.02] active:scale-95">
                             <i class="fa-solid fa-play"></i> Çarkıfeleği Başlat
                         </button>
                     </div>
 
-                    <!-- Oyun 2: Eşleştirme -->
+                    <!-- 2. Oyun Modu: Eşleştirme -->
                     <div class="game-mode-card bg-gradient-to-br from-emerald-900/90 to-teal-900/90 rounded-3xl p-6 border-2 border-emerald-500/50 shadow-2xl flex flex-col justify-between space-y-4">
                         <div class="flex items-center gap-4">
-                            <div class="w-14 h-14 rounded-2xl bg-emerald-500/30 text-emerald-300 flex items-center justify-center text-3xl shadow-inner">
+                            <div class="w-14 h-14 rounded-2xl bg-emerald-500/30 text-emerald-300 flex items-center justify-center text-3xl shadow-inner shrink-0">
                                 <i class="fa-solid fa-puzzle-piece"></i>
                             </div>
                             <div>
@@ -1136,18 +1127,18 @@ class App {
                                 <h3 class="text-xl font-black text-white">Kavram & Alan Eşleştirme</h3>
                             </div>
                         </div>
-                        <p class="text-sm text-emerald-100">
+                        <p class="text-sm text-emerald-100 flex-1">
                             Bilişim teknolojilerini kullanım alanlarıyla en hızlı şekilde eşleştir, süreyi yen!
                         </p>
-                        <button onclick="app.launchGame('match')" class="w-full py-3.5 bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 text-white font-black text-base rounded-2xl shadow-xl flex items-center justify-center gap-2 transition-all">
+                        <button onclick="app.launchGame('match')" class="w-full py-3.5 bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 text-white font-black text-base rounded-2xl shadow-xl flex items-center justify-center gap-2 transition-all hover:scale-[1.02] active:scale-95">
                             <i class="fa-solid fa-play"></i> Eşleştirmeye Başla
                         </button>
                     </div>
 
-                    <!-- Oyun 3: Refleks -->
+                    <!-- 3. Oyun Modu: Refleks -->
                     <div class="game-mode-card bg-gradient-to-br from-cyan-900/90 to-blue-950/90 rounded-3xl p-6 border-2 border-cyan-500/50 shadow-2xl flex flex-col justify-between space-y-4">
                         <div class="flex items-center gap-4">
-                            <div class="w-14 h-14 rounded-2xl bg-cyan-500/30 text-cyan-300 flex items-center justify-center text-3xl shadow-inner">
+                            <div class="w-14 h-14 rounded-2xl bg-cyan-500/30 text-cyan-300 flex items-center justify-center text-3xl shadow-inner shrink-0">
                                 <i class="fa-solid fa-bolt-lightning"></i>
                             </div>
                             <div>
@@ -1155,18 +1146,18 @@ class App {
                                 <h3 class="text-xl font-black text-white">Hızlı Doğru mu Yanlış mı?</h3>
                             </div>
                         </div>
-                        <p class="text-sm text-cyan-100">
+                        <p class="text-sm text-cyan-100 flex-1">
                             Hızla akan kartları değerlendir, seri yaparak kombo puanları topla!
                         </p>
-                        <button onclick="app.launchGame('reflex')" class="w-full py-3.5 bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-400 hover:to-blue-400 text-white font-black text-base rounded-2xl shadow-xl flex items-center justify-center gap-2 transition-all">
+                        <button onclick="app.launchGame('reflex')" class="w-full py-3.5 bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-400 hover:to-blue-400 text-white font-black text-base rounded-2xl shadow-xl flex items-center justify-center gap-2 transition-all hover:scale-[1.02] active:scale-95">
                             <i class="fa-solid fa-play"></i> Refleks Oyununu Başlat
                         </button>
                     </div>
 
-                    <!-- Oyun 4: Düello -->
+                    <!-- 4. Oyun Modu: Düello -->
                     <div class="game-mode-card bg-gradient-to-br from-purple-900/90 to-pink-900/90 rounded-3xl p-6 border-2 border-purple-500/50 shadow-2xl flex flex-col justify-between space-y-4">
                         <div class="flex items-center gap-4">
-                            <div class="w-14 h-14 rounded-2xl bg-purple-500/30 text-pink-300 flex items-center justify-center text-3xl shadow-inner">
+                            <div class="w-14 h-14 rounded-2xl bg-purple-500/30 text-pink-300 flex items-center justify-center text-3xl shadow-inner shrink-0">
                                 <i class="fa-solid fa-users"></i>
                             </div>
                             <div>
@@ -1174,13 +1165,38 @@ class App {
                                 <h3 class="text-xl font-black text-white">Akıllı Tahta İkili Düello</h3>
                             </div>
                         </div>
-                        <p class="text-sm text-purple-100">
+                        <p class="text-sm text-purple-100 flex-1">
                             Tahtayı ikiye bölen ve iki öğrencinin aynı anda canlı yarışabileceği sınıf modu!
                         </p>
-                        <button onclick="app.launchGame('duel')" class="w-full py-3.5 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white font-black text-base rounded-2xl shadow-xl flex items-center justify-center gap-2 transition-all">
+                        <button onclick="app.launchGame('duel')" class="w-full py-3.5 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white font-black text-base rounded-2xl shadow-xl flex items-center justify-center gap-2 transition-all hover:scale-[1.02] active:scale-95">
                             <i class="fa-solid fa-play"></i> Sınıf Düellosunu Başlat
                         </button>
                     </div>
+
+                    <!-- SONA EKLENEN ÖZEL OYUNLAR (5, 6, 7...) -->
+                    ${extraGames.map((game, idx) => {
+                        const gameNumber = 5 + idx;
+                        return `
+                        <div class="game-mode-card bg-gradient-to-br ${game.cardGradient} rounded-3xl p-6 border-2 ${game.border} shadow-2xl flex flex-col justify-between space-y-4">
+                            <div class="flex items-center gap-4">
+                                <div class="w-14 h-14 rounded-2xl ${game.iconBg} flex items-center justify-center text-3xl shadow-inner shrink-0">
+                                    <i class="${game.icon}"></i>
+                                </div>
+                                <div>
+                                    <span class="text-xs font-bold ${game.badgeColor} uppercase">${gameNumber}. Oyun Modu (${game.badge})</span>
+                                    <h3 class="text-xl font-black text-white">${game.title}</h3>
+                                </div>
+                            </div>
+                            <p class="text-sm ${game.descColor} flex-1">
+                                ${game.desc}
+                            </p>
+                            <button onclick="${game.action}" class="w-full py-3.5 bg-gradient-to-r ${game.btnGradient} font-black text-base rounded-2xl shadow-xl flex items-center justify-center gap-2 transition-all hover:scale-[1.02] active:scale-95">
+                                <i class="${game.btnIcon}"></i> ${game.btnText}
+                            </button>
+                        </div>
+                        `;
+                    }).join('')}
+
                 </div>
             </div>
         `;
