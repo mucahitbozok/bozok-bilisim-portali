@@ -16,14 +16,420 @@ window.WEEK1_CONTENT = {
             "Bilişim teknolojilerinin fayda ve zararlarını ayırt edebileceğim."
         ],
         images: {
-            konu: "1.1 konu.png",
-            soru: "1.1 soru.png",
-            cevap: "1.1 cevap.png"
+            konu: "assets/worksheets/1.1_konu.png",
+            soru: "assets/worksheets/1.1_soru.png",
+            cevap: "assets/worksheets/1.1_cevap.png"
         }
     },
 
 // 🖥️ 1. DERS SUNUSU (Akıllı Tahta Modu - 22 Slayt)
     // 🖥️ 1. İNTERAKTİF DERS SUNUSU (Akıllı Tahta Modu - 22 Slayt - Resimli Görsel Tasarım)
+    
+    // 📄 1. HAFTALIK ÇALIŞMA KAĞITLARI & CEVAP ANAHTARI BELGELERİ
+    worksheetDocs: {
+        images: {
+            konu: "assets/worksheets/1.1_konu.png",
+            soru: "assets/worksheets/1.1_soru.png",
+            cevap: "assets/worksheets/1.1_cevap.png"
+        },
+        konuHtml: `
+        <div class="printable-doc bg-slate-900 text-white rounded-3xl p-6 sm:p-10 border-4 border-indigo-500/50 shadow-2xl space-y-6">
+            <!-- Belge Başlığı -->
+            <div class="border-b-2 border-indigo-500/40 pb-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+                <div>
+                    <span class="px-3 py-1 bg-indigo-500/30 text-indigo-300 font-black rounded-lg text-xs tracking-wider uppercase">1. Tema: Bilişim Teknolojilerinin Hayatımızdaki Yeri</span>
+                    <h1 class="text-2xl sm:text-3xl font-black text-white mt-1">1. HAFTA: BİLİŞİM TEKNOLOJİLERİNİN GÜNLÜK YAŞAMDAKİ ÖNEMİ</h1>
+                    <p class="text-xs text-indigo-200 font-semibold">T.C. Millî Eğitim Bakanlığı 5. Sınıf Bilişim Teknolojileri ve Yazılım Dersi</p>
+                </div>
+                <div class="text-right text-xs text-yellow-300 font-bold bg-slate-800/80 p-2.5 rounded-xl border border-slate-700">
+                    <div>👨‍🏫 Öğretmen: Bozok</div>
+                    <div>🎯 Kazanım: BTY.5.1.1</div>
+                </div>
+            </div>
+
+            <!-- Konu Özeti Kartı -->
+            <div class="bg-indigo-950/60 rounded-2xl p-5 border border-indigo-400/30 space-y-3">
+                <h3 class="text-lg font-bold text-yellow-300 flex items-center gap-2">
+                    <i class="fa-solid fa-book-open text-indigo-400"></i> Bu Hafta Ne Öğreniyoruz?
+                </h3>
+                <p class="text-sm text-indigo-100 leading-relaxed">
+                    Bilişim teknolojileri hayatımızın her anında yanımızdadır. Bilgiye ulaşmaktan haberleşmeye, ders çalışmaktan alışveriş yapmaya kadar pek çok işimizi kolaylaştırır. Bu hafta bilişim, iletişim ve teknoloji kavramlarını, BT'nin 5 temel faydasını ve 11 farklı kullanım alanını öğreniyoruz.
+                </p>
+            </div>
+
+            <!-- 4 Temel Kavram Tablosu -->
+            <div class="space-y-3">
+                <h3 class="text-base font-bold text-yellow-400 flex items-center gap-2">
+                    <i class="fa-solid fa-layer-group text-indigo-400"></i> 4 Temel Kavram
+                </h3>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 text-xs">
+                    <div class="p-3.5 bg-slate-800/90 rounded-xl border border-slate-700 space-y-1.5">
+                        <span class="font-black text-blue-400 block text-sm">1. BİLGİ</span>
+                        <p class="text-slate-300">Öğrenme, araştırma ya da gözlem yoluyla elde edilen her türlü gerçek ve veri.</p>
+                    </div>
+                    <div class="p-3.5 bg-slate-800/90 rounded-xl border border-slate-700 space-y-1.5">
+                        <span class="font-black text-emerald-400 block text-sm">2. İLETİŞİM</span>
+                        <p class="text-slate-300">Duygu, düşünce ve bilgilerin akla gelebilecek her yolla başkalarına aktarılması.</p>
+                    </div>
+                    <div class="p-3.5 bg-slate-800/90 rounded-xl border border-slate-700 space-y-1.5">
+                        <span class="font-black text-amber-400 block text-sm">3. TEKNOLOJİ</span>
+                        <p class="text-slate-300">İnsanoğlunun hayatını kolaylaştırmak için geliştirdiği araç, gereç ve yöntemler.</p>
+                    </div>
+                    <div class="p-3.5 bg-slate-800/90 rounded-xl border border-slate-700 space-y-1.5">
+                        <span class="font-black text-purple-400 block text-sm">4. BİLİŞİM</span>
+                        <p class="text-slate-300">Bilginin elektronik ortamda toplanması, saklanması ve işlenmesi bilimi (Bilgi + İletişim).</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bilişim Teknolojilerinin 5 Temel Faydası -->
+            <div class="space-y-3">
+                <h3 class="text-base font-bold text-emerald-400 flex items-center gap-2">
+                    <i class="fa-solid fa-star text-yellow-400"></i> Bilişim Teknolojilerinin 5 Temel Faydası
+                </h3>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 text-xs">
+                    <div class="p-3 bg-emerald-950/40 rounded-xl border border-emerald-500/30 flex items-center gap-3">
+                        <i class="fa-solid fa-clock text-emerald-400 text-lg"></i>
+                        <span><strong>Zaman Tasarrufu:</strong> İşlerimizi saniyeler içinde tamamlarız.</span>
+                    </div>
+                    <div class="p-3 bg-emerald-950/40 rounded-xl border border-emerald-500/30 flex items-center gap-3">
+                        <i class="fa-solid fa-magnifying-glass text-emerald-400 text-lg"></i>
+                        <span><strong>Bilgiye Kolay Erişim:</strong> Dünyanın bilgisi parmaklarımızın ucunda.</span>
+                    </div>
+                    <div class="p-3 bg-emerald-950/40 rounded-xl border border-emerald-500/30 flex items-center gap-3">
+                        <i class="fa-solid fa-bolt text-emerald-400 text-lg"></i>
+                        <span><strong>Hızlı Haberleşme:</strong> Sevdiklerimizle anında görüntülü görüşme.</span>
+                    </div>
+                    <div class="p-3 bg-emerald-950/40 rounded-xl border border-emerald-500/30 flex items-center gap-3">
+                        <i class="fa-solid fa-coins text-emerald-400 text-lg"></i>
+                        <span><strong>Maliyet Tasarrufu:</strong> Kağıt, posta ve ulaşım masraflarını azaltır.</span>
+                    </div>
+                    <div class="p-3 bg-emerald-950/40 rounded-xl border border-emerald-500/30 flex items-center gap-3">
+                        <i class="fa-solid fa-wand-magic-sparkles text-emerald-400 text-lg"></i>
+                        <span><strong>Hayatı Kolaylaştırma:</strong> Günlük işleri pratik ve konforlu hale getirir.</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bilişim Teknolojilerinin 11 Kullanım Alanı -->
+            <div class="space-y-3">
+                <h3 class="text-base font-bold text-cyan-400 flex items-center gap-2">
+                    <i class="fa-solid fa-globe text-cyan-400"></i> Günlük Hayatta 11 Kullanım Alanı
+                </h3>
+                <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2.5 text-xs">
+                    <div class="p-2.5 bg-slate-800/90 rounded-xl border border-slate-700 flex items-center gap-2">
+                        <i class="fa-solid fa-graduation-cap text-yellow-400"></i> <span>1. Eğitim (Akıllı Tahta, EBA)</span>
+                    </div>
+                    <div class="p-2.5 bg-slate-800/90 rounded-xl border border-slate-700 flex items-center gap-2">
+                        <i class="fa-solid fa-heart-pulse text-rose-400"></i> <span>2. Sağlık (MR, e-Nabız)</span>
+                    </div>
+                    <div class="p-2.5 bg-slate-800/90 rounded-xl border border-slate-700 flex items-center gap-2">
+                        <i class="fa-solid fa-route text-cyan-400"></i> <span>3. Ulaşım (Navigasyon, HGS)</span>
+                    </div>
+                    <div class="p-2.5 bg-slate-800/90 rounded-xl border border-slate-700 flex items-center gap-2">
+                        <i class="fa-solid fa-comments text-blue-400"></i> <span>4. İletişim (E-posta, Mesajlaşma)</span>
+                    </div>
+                    <div class="p-2.5 bg-slate-800/90 rounded-xl border border-slate-700 flex items-center gap-2">
+                        <i class="fa-solid fa-credit-card text-emerald-400"></i> <span>5. Bankacılık (ATM, İnternet Şubesi)</span>
+                    </div>
+                    <div class="p-2.5 bg-slate-800/90 rounded-xl border border-slate-700 flex items-center gap-2">
+                        <i class="fa-solid fa-cart-shopping text-purple-400"></i> <span>6. Alışveriş (Online e-Ticaret)</span>
+                    </div>
+                    <div class="p-2.5 bg-slate-800/90 rounded-xl border border-slate-700 flex items-center gap-2">
+                        <i class="fa-solid fa-shield-halved text-amber-400"></i> <span>7. Güvenlik (Kamera Sistemleri)</span>
+                    </div>
+                    <div class="p-2.5 bg-slate-800/90 rounded-xl border border-slate-700 flex items-center gap-2">
+                        <i class="fa-solid fa-gamepad text-pink-400"></i> <span>8. Eğlence (Oyun, Film, Müzik)</span>
+                    </div>
+                    <div class="p-2.5 bg-slate-800/90 rounded-xl border border-slate-700 flex items-center gap-2">
+                        <i class="fa-solid fa-compass-drafting text-orange-400"></i> <span>9. Mimarlık & Tasarım (3D CAD)</span>
+                    </div>
+                    <div class="p-2.5 bg-slate-800/90 rounded-xl border border-slate-700 flex items-center gap-2">
+                        <i class="fa-solid fa-industry text-teal-400"></i> <span>10. Sanayi & Üretim (Robot Kollar)</span>
+                    </div>
+                    <div class="p-2.5 bg-slate-800/90 rounded-xl border border-slate-700 flex items-center gap-2">
+                        <i class="fa-solid fa-rocket text-indigo-400"></i> <span>11. Bilim & Uzay (Teleskop, Uydu)</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Alt Bilgi Notu -->
+            <div class="pt-3 border-t border-slate-800 flex justify-between items-center text-[11px] text-slate-400">
+                <span>5. Sınıf Bilişim Teknolojileri Çalışma Kağıdı • 1. Hafta</span>
+                <span class="font-bold text-yellow-400">Öğretmen Bozok • Sayfa 1/1</span>
+            </div>
+        </div>
+        `,
+
+        soruHtml: `
+        <div class="printable-doc bg-slate-900 text-white rounded-3xl p-6 sm:p-10 border-4 border-blue-500/50 shadow-2xl space-y-6">
+            <!-- Belge Başlığı -->
+            <div class="border-b-2 border-blue-500/40 pb-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+                <div>
+                    <span class="px-3 py-1 bg-blue-500/30 text-blue-300 font-black rounded-lg text-xs tracking-wider uppercase">1. Hafta Pekiştirme Etkinliği</span>
+                    <h1 class="text-2xl sm:text-3xl font-black text-white mt-1">BİLİŞİM TEKNOLOJİLERİNİN GÜNLÜK YAŞAMDAKİ ÖNEMİ - ÇALIŞMA SORULARI</h1>
+                    <p class="text-xs text-blue-200 font-semibold">Adı Soyadı: .................................................... Sınıf / No: .......... / ..........</p>
+                </div>
+                <div class="text-right text-xs text-yellow-300 font-bold bg-slate-800/80 p-2.5 rounded-xl border border-slate-700">
+                    <div>👨‍🏫 Öğretmen: Bozok</div>
+                    <div>⭐ Puan: ......... / 100</div>
+                </div>
+            </div>
+
+            <!-- 1. Etkinlik: Kavram & Alan Eşleştirme (25 Puan) -->
+            <div class="bg-slate-800/80 rounded-2xl p-5 border border-slate-700 space-y-3">
+                <h3 class="text-sm font-bold text-blue-300 flex items-center gap-2">
+                    <span class="w-6 h-6 rounded-lg bg-blue-600 text-white flex items-center justify-center text-xs">1</span>
+                    AŞAĞIDAKİ TEKNOLOJİLERİ KULLANIM ALANLARIYLA EŞLEŞTİRİNİZ (5x5 = 25 Puan)
+                </h3>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+                    <div class="p-2.5 bg-slate-750 rounded-xl border border-slate-700 flex items-center justify-between">
+                        <span class="font-bold text-yellow-300">1. ATM Cihazı</span>
+                        <span class="text-slate-300">( &nbsp; ) Ulaşım</span>
+                    </div>
+                    <div class="p-2.5 bg-slate-750 rounded-xl border border-slate-700 flex items-center justify-between">
+                        <span class="font-bold text-yellow-300">2. Navigasyon / GPS</span>
+                        <span class="text-slate-300">( &nbsp; ) Sağlık</span>
+                    </div>
+                    <div class="p-2.5 bg-slate-750 rounded-xl border border-slate-700 flex items-center justify-between">
+                        <span class="font-bold text-yellow-300">3. Akıllı Tahta & EBA</span>
+                        <span class="text-slate-300">( &nbsp; ) Bankacılık</span>
+                    </div>
+                    <div class="p-2.5 bg-slate-750 rounded-xl border border-slate-700 flex items-center justify-between">
+                        <span class="font-bold text-yellow-300">4. Röntgen & MR Cihazı</span>
+                        <span class="text-slate-300">( &nbsp; ) Güvenlik</span>
+                    </div>
+                    <div class="p-2.5 bg-slate-750 rounded-xl border border-slate-700 flex items-center justify-between">
+                        <span class="font-bold text-yellow-300">5. MOBESE Kameraları</span>
+                        <span class="text-slate-300">( &nbsp; ) Eğitim</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2. Etkinlik: Doğru / Yanlış (25 Puan) -->
+            <div class="bg-slate-800/80 rounded-2xl p-5 border border-slate-700 space-y-3">
+                <h3 class="text-sm font-bold text-emerald-300 flex items-center gap-2">
+                    <span class="w-6 h-6 rounded-lg bg-emerald-600 text-white flex items-center justify-center text-xs">2</span>
+                    İFADELERİN BAŞINA DOĞRU İSE (D), YANLIŞ İSE (Y) YAZINIZ (5x5 = 25 Puan)
+                </h3>
+                <div class="space-y-2 text-xs sm:text-sm">
+                    <div class="p-2.5 bg-slate-750 rounded-xl border border-slate-700 flex items-center gap-3">
+                        <span class="w-8 h-8 rounded-lg bg-slate-900 border border-slate-600 font-bold text-yellow-400 flex items-center justify-center shrink-0">( &nbsp; )</span>
+                        <span>1. Bilişim teknolojileri sadece bilgisayar ve internetten ibarettir.</span>
+                    </div>
+                    <div class="p-2.5 bg-slate-750 rounded-xl border border-slate-700 flex items-center gap-3">
+                        <span class="w-8 h-8 rounded-lg bg-slate-900 border border-slate-600 font-bold text-yellow-400 flex items-center justify-center shrink-0">( &nbsp; )</span>
+                        <span>2. Bilişim teknolojileri günlük hayatta zamandan ve maliyetten tasarruf sağlar.</span>
+                    </div>
+                    <div class="p-2.5 bg-slate-750 rounded-xl border border-slate-700 flex items-center gap-3">
+                        <span class="w-8 h-8 rounded-lg bg-slate-900 border border-slate-600 font-bold text-yellow-400 flex items-center justify-center shrink-0">( &nbsp; )</span>
+                        <span>3. Hastanelerde sıramızı almak ve tahlil sonuçlarına bakmak da bilişim teknolojisi örneğidir.</span>
+                    </div>
+                    <div class="p-2.5 bg-slate-750 rounded-xl border border-slate-700 flex items-center gap-3">
+                        <span class="w-8 h-8 rounded-lg bg-slate-900 border border-slate-600 font-bold text-yellow-400 flex items-center justify-center shrink-0">( &nbsp; )</span>
+                        <span>4. Bilişim teknolojileri insanlara yalnızca zarar verir, hiçbir faydası yoktur.</span>
+                    </div>
+                    <div class="p-2.5 bg-slate-750 rounded-xl border border-slate-700 flex items-center gap-3">
+                        <span class="w-8 h-8 rounded-lg bg-slate-900 border border-slate-600 font-bold text-yellow-400 flex items-center justify-center shrink-0">( &nbsp; )</span>
+                        <span>5. Navigasyon cihazları gitmek istediğimiz rotayı en kısa yoldan tarif ederek hayatı kolaylaştırır.</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 3. Etkinlik: Çoktan Seçmeli Test (35 Puan) -->
+            <div class="bg-slate-800/80 rounded-2xl p-5 border border-slate-700 space-y-4">
+                <h3 class="text-sm font-bold text-purple-300 flex items-center gap-2">
+                    <span class="w-6 h-6 rounded-lg bg-purple-600 text-white flex items-center justify-center text-xs">3</span>
+                    ÇOKTAN SEÇMELİ DEĞERLENDİRME TESTİ (7x5 = 35 Puan)
+                </h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                    <div class="p-3 bg-slate-900/60 rounded-xl border border-slate-700 space-y-2">
+                        <div class="text-xs font-bold text-white"><span class="text-purple-400 font-black mr-1">1.</span> İnsanoğlunun hayatını kolaylaştırmak için geliştirdiği araç, gereç ve yöntemlerin tümüne ne ad verilir?</div>
+                        <div class="space-y-1 text-xs">
+                            <div class="p-1.5 bg-slate-800 rounded border border-slate-700">A) Bilgi</div>
+                            <div class="p-1.5 bg-slate-800 rounded border border-slate-700">B) İletişim</div>
+                            <div class="p-1.5 bg-slate-800 rounded border border-slate-700">C) Teknoloji</div>
+                            <div class="p-1.5 bg-slate-800 rounded border border-slate-700">D) Yazılım</div>
+                        </div>
+                    </div>
+
+                    <div class="p-3 bg-slate-900/60 rounded-xl border border-slate-700 space-y-2">
+                        <div class="text-xs font-bold text-white"><span class="text-purple-400 font-black mr-1">2.</span> Aşağıdakilerden hangisi bilişim teknolojilerinin sağlık alanındaki kullanımına örnektir?</div>
+                        <div class="space-y-1 text-xs">
+                            <div class="p-1.5 bg-slate-800 rounded border border-slate-700">A) E-Okul sistemi</div>
+                            <div class="p-1.5 bg-slate-800 rounded border border-slate-700">B) MR ve Ultrason cihazları</div>
+                            <div class="p-1.5 bg-slate-800 rounded border border-slate-700">C) Bankamatikler</div>
+                            <div class="p-1.5 bg-slate-800 rounded border border-slate-700">D) Navigasyon</div>
+                        </div>
+                    </div>
+
+                    <div class="p-3 bg-slate-900/60 rounded-xl border border-slate-700 space-y-2">
+                        <div class="text-xs font-bold text-white"><span class="text-purple-400 font-black mr-1">3.</span> Aşağıdakilerden hangisi bilişim teknolojisinin sağladığı temel faydalardan biri DEĞİLDİR?</div>
+                        <div class="space-y-1 text-xs">
+                            <div class="p-1.5 bg-slate-800 rounded border border-slate-700">A) Bilgiye anında ve kolay erişim</div>
+                            <div class="p-1.5 bg-slate-800 rounded border border-slate-700">B) Hızlı ve ucuz haberleşme</div>
+                            <div class="p-1.5 bg-slate-800 rounded border border-slate-700">C) Günlük işlerde zaman tasarrufu</div>
+                            <div class="p-1.5 bg-slate-800 rounded border border-slate-700">D) İnsanları hareketsizliğe alıştırması</div>
+                        </div>
+                    </div>
+
+                    <div class="p-3 bg-slate-900/60 rounded-xl border border-slate-700 space-y-2">
+                        <div class="text-xs font-bold text-white"><span class="text-purple-400 font-black mr-1">4.</span> Duygu, düşünce veya bilgilerin türlü yollarla başkalarına aktarılmasına ne denir?</div>
+                        <div class="space-y-1 text-xs">
+                            <div class="p-1.5 bg-slate-800 rounded border border-slate-700">A) İletişim</div>
+                            <div class="p-1.5 bg-slate-800 rounded border border-slate-700">B) Donanım</div>
+                            <div class="p-1.5 bg-slate-800 rounded border border-slate-700">C) Güvenlik</div>
+                            <div class="p-1.5 bg-slate-800 rounded border border-slate-700">D) İnternet</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 4. Etkinlik: Açık Uçlu Soru (15 Puan) -->
+            <div class="bg-slate-800/80 rounded-2xl p-5 border border-slate-700 space-y-2">
+                <h3 class="text-sm font-bold text-yellow-300 flex items-center gap-2">
+                    <span class="w-6 h-6 rounded-lg bg-yellow-600 text-slate-950 font-black flex items-center justify-center text-xs">4</span>
+                    DÜŞÜN VE YAZ (15 Puan)
+                </h3>
+                <p class="text-xs text-slate-200">
+                    Bir gün boyunca dünyadaki tüm bilişim teknolojileri (internet, telefonlar, bankalar, navigasyon) çalışmasaydı günlük yaşamda ne gibi zorluklar yaşanırdı? Kendi cümlelerinizle 2 örnek yazınız.
+                </p>
+                <div class="p-3 bg-slate-900/80 rounded-xl border border-dashed border-slate-600 min-h-[60px] text-xs text-slate-400">
+                    Cevabınız: ....................................................................................................................................................................................
+                </div>
+            </div>
+
+            <!-- Alt Bilgi Notu -->
+            <div class="pt-3 border-t border-slate-800 flex justify-between items-center text-[11px] text-slate-400">
+                <span>Öğretmen Bozok • 5. Sınıf Bilişim Teknolojileri Çalışma Soruları</span>
+                <span class="font-bold text-yellow-400">Başarılar Dilerim! 🌟</span>
+            </div>
+        </div>
+        `,
+
+        cevapHtml: `
+        <div class="printable-doc bg-slate-900 text-white rounded-3xl p-6 sm:p-10 border-4 border-emerald-500/50 shadow-2xl space-y-6">
+            <!-- Belge Başlığı -->
+            <div class="border-b-2 border-emerald-500/40 pb-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+                <div>
+                    <span class="px-3 py-1 bg-emerald-500/30 text-emerald-300 font-black rounded-lg text-xs tracking-wider uppercase">Resmi Öğretmen Kılavuzu</span>
+                    <h1 class="text-2xl sm:text-3xl font-black text-white mt-1">1. HAFTA: ÇALIŞMA SORULARI RESMİ CEVAP ANAHTARI & ÇÖZÜMLER</h1>
+                    <p class="text-xs text-emerald-200 font-semibold">Öğretmen Bozok • 5. Sınıf Bilişim Teknolojileri ve Yazılım Dersi</p>
+                </div>
+                <div class="text-right text-xs text-yellow-300 font-bold bg-slate-800/80 p-2.5 rounded-xl border border-slate-700">
+                    <div>🔑 Çözüm Anahtarı</div>
+                    <div>⭐ Tam Puan: 100</div>
+                </div>
+            </div>
+
+            <!-- 1. Etkinlik Çözümü: Eşleştirme (25 Puan) -->
+            <div class="bg-slate-800/80 rounded-2xl p-5 border border-slate-700 space-y-3">
+                <h3 class="text-sm font-bold text-blue-300 flex items-center gap-2">
+                    <i class="fa-solid fa-circle-check text-emerald-400"></i>
+                    1. ETKİNLİK: KAVRAM & ALAN EŞLEŞTİRME ÇÖZÜMLERİ (5x5 = 25 Puan)
+                </h3>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+                    <div class="p-2.5 bg-emerald-950/40 rounded-xl border border-emerald-500/30 flex items-center justify-between">
+                        <span>1. ATM Cihazı ➔</span>
+                        <strong class="text-yellow-300">Bankacılık</strong>
+                    </div>
+                    <div class="p-2.5 bg-emerald-950/40 rounded-xl border border-emerald-500/30 flex items-center justify-between">
+                        <span>2. Navigasyon / GPS ➔</span>
+                        <strong class="text-yellow-300">Ulaşım</strong>
+                    </div>
+                    <div class="p-2.5 bg-emerald-950/40 rounded-xl border border-emerald-500/30 flex items-center justify-between">
+                        <span>3. Akıllı Tahta & EBA ➔</span>
+                        <strong class="text-yellow-300">Eğitim</strong>
+                    </div>
+                    <div class="p-2.5 bg-emerald-950/40 rounded-xl border border-emerald-500/30 flex items-center justify-between">
+                        <span>4. Röntgen & MR Cihazı ➔</span>
+                        <strong class="text-yellow-300">Sağlık</strong>
+                    </div>
+                    <div class="p-2.5 bg-emerald-950/40 rounded-xl border border-emerald-500/30 flex items-center justify-between">
+                        <span>5. MOBESE Kameraları ➔</span>
+                        <strong class="text-yellow-300">Güvenlik</strong>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2. Etkinlik Çözümü: Doğru / Yanlış (25 Puan) -->
+            <div class="bg-slate-800/80 rounded-2xl p-5 border border-slate-700 space-y-3">
+                <h3 class="text-sm font-bold text-emerald-300 flex items-center gap-2">
+                    <i class="fa-solid fa-circle-check text-emerald-400"></i>
+                    2. ETKİNLİK: DOĞRU / YANLIŞ CEVAPLARI & AÇIKLAMALARI (5x5 = 25 Puan)
+                </h3>
+                <div class="space-y-2 text-xs">
+                    <div class="p-2.5 bg-slate-750 rounded-xl border border-slate-700 flex items-start gap-3">
+                        <span class="px-2 py-0.5 rounded bg-rose-600 text-white font-black shrink-0">YANLIŞ (Y)</span>
+                        <div><strong>1. Soru:</strong> Bilişim teknolojileri akıllı saatten navigasyona kadar tüm bilgi ve iletişim araçlarını kapsar, sadece bilgisayardan ibaret değildir.</div>
+                    </div>
+                    <div class="p-2.5 bg-slate-750 rounded-xl border border-slate-700 flex items-start gap-3">
+                        <span class="px-2 py-0.5 rounded bg-emerald-600 text-white font-black shrink-0">DOĞRU (D)</span>
+                        <div><strong>2. Soru:</strong> İşlemleri hızlandırır, kuyruk bekleme ve posta masraflarını ortadan kaldırır.</div>
+                    </div>
+                    <div class="p-2.5 bg-slate-750 rounded-xl border border-slate-700 flex items-start gap-3">
+                        <span class="px-2 py-0.5 rounded bg-emerald-600 text-white font-black shrink-0">DOĞRU (D)</span>
+                        <div><strong>3. Soru:</strong> MHRS randevu sistemi ve tahlil sorgulama sağlık alanındaki en yaygın BT örnekleridir.</div>
+                    </div>
+                    <div class="p-2.5 bg-slate-750 rounded-xl border border-slate-700 flex items-start gap-3">
+                        <span class="px-2 py-0.5 rounded bg-rose-600 text-white font-black shrink-0">YANLIŞ (Y)</span>
+                        <div><strong>4. Soru:</strong> Bilişim teknolojilerinin hayat kurtaran ve kolaylaştıran sayısız faydası vardır; yalnızca aşırı ve bilinçsiz kullanımda zarar verir.</div>
+                    </div>
+                    <div class="p-2.5 bg-slate-750 rounded-xl border border-slate-700 flex items-start gap-3">
+                        <span class="px-2 py-0.5 rounded bg-emerald-600 text-white font-black shrink-0">DOĞRU (D)</span>
+                        <div><strong>5. Soru:</strong> Uydu destekli harita ve navigasyon araçları trafikte en kısa ve güvenli yolu gösterir.</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 3. Etkinlik Çözümü: Çoktan Seçmeli Test (35 Puan) -->
+            <div class="bg-slate-800/80 rounded-2xl p-5 border border-slate-700 space-y-3">
+                <h3 class="text-sm font-bold text-purple-300 flex items-center gap-2">
+                    <i class="fa-solid fa-circle-check text-emerald-400"></i>
+                    3. ETKİNLİK: TEST CEVAPLARI (7x5 = 35 Puan)
+                </h3>
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs">
+                    <div class="p-2.5 bg-purple-950/40 rounded-xl border border-purple-500/30 text-center">
+                        <span class="text-slate-400 block">1. Soru</span>
+                        <strong class="text-yellow-300 text-sm">C (Teknoloji)</strong>
+                    </div>
+                    <div class="p-2.5 bg-purple-950/40 rounded-xl border border-purple-500/30 text-center">
+                        <span class="text-slate-400 block">2. Soru</span>
+                        <strong class="text-yellow-300 text-sm">B (MR & Ultrason)</strong>
+                    </div>
+                    <div class="p-2.5 bg-purple-950/40 rounded-xl border border-purple-500/30 text-center">
+                        <span class="text-slate-400 block">3. Soru</span>
+                        <strong class="text-yellow-300 text-sm">D (Hareketsizlik)</strong>
+                    </div>
+                    <div class="p-2.5 bg-purple-950/40 rounded-xl border border-purple-500/30 text-center">
+                        <span class="text-slate-400 block">4. Soru</span>
+                        <strong class="text-yellow-300 text-sm">A (İletişim)</strong>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 4. Etkinlik: Örnek Öğrenci Cevapları (15 Puan) -->
+            <div class="bg-slate-800/80 rounded-2xl p-5 border border-slate-700 space-y-2">
+                <h3 class="text-sm font-bold text-yellow-300 flex items-center gap-2">
+                    <i class="fa-solid fa-lightbulb text-yellow-400"></i>
+                    4. ETKİNLİK: ÖRNEK ÖĞRENCİ YANITLARI (15 Puan)
+                </h3>
+                <ul class="space-y-1.5 text-xs text-slate-300 list-disc list-inside">
+                    <li>Uzak şehirdeki yakınlarımızla anında görüntülü görüşemez, mektupların günlerce sürmesini beklemek zorunda kalırdık.</li>
+                    <li>ATM ve kartlar çalışmayacağı için banka kuyruklarında saatlerce beklemek gerekirdi.</li>
+                    <li>Hastanelerde randevu ve tahlil sonuçları elden kağıtla aranır, tanı ve tedaviler gecikirdi.</li>
+                </ul>
+            </div>
+
+            <!-- Alt Bilgi Notu -->
+            <div class="pt-3 border-t border-slate-800 flex justify-between items-center text-[11px] text-slate-400">
+                <span>Öğretmen Bozok • Bozok Bilişim Portalı</span>
+                <span class="font-bold text-emerald-400">Değerlendirme: 85-100 Puan: Mükemmel, 70-84: Çok İyi, 50-69: Geliştirilmeli</span>
+            </div>
+        </div>
+        `
+    },
+
     slides: [
         // SLAYT 1: KAPAK
         {

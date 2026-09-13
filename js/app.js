@@ -549,71 +549,130 @@ class App {
     }
 
     // --- 2. ÇALIŞMA KAĞIDI & FOTOĞRAFLI BELGE GÖRÜNTÜLEYİCİ ---
+    resolveDocPath(raw, weekNum, docType) {
+        if (raw && (raw.startsWith('http://') || raw.startsWith('https://') || raw.startsWith('assets/worksheets/'))) {
+            return raw;
+        }
+        const defaultMap = {
+            1: { konu: 'assets/worksheets/1.1_konu.png', soru: 'assets/worksheets/1.1_soru.png', cevap: 'assets/worksheets/1.1_cevap.png' },
+            2: { konu: 'assets/worksheets/1.2_konu.png', soru: 'assets/worksheets/1.2_soru.png', cevap: 'assets/worksheets/1.2_cevap.png' }
+        };
+        if (defaultMap[weekNum] && defaultMap[weekNum][docType]) {
+            return defaultMap[weekNum][docType];
+        }
+        if (raw) {
+            const clean = raw.replace(/\s+/g, '_');
+            return 'assets/worksheets/' + clean;
+        }
+        return '';
+    }
+
+    setWorksheetViewMode(mode) {
+        sounds.playClick();
+        this.worksheetViewMode = mode;
+        this.renderWorksheet();
+    }
+
+    setPhotoDoc(docType) {
+        sounds.playClick();
+        this.activePhotoDoc = docType;
+        this.photoZoom = 1.0;
+        this.renderWorksheet();
+    }
+
     renderWorksheet() {
         const wsContainer = document.getElementById("worksheet-render-area");
         if (!wsContainer) return;
 
         const data = this.getCurrentWeekData();
-        const images = data.weekInfo?.images || data.worksheetDocs?.images || (this.currentWeek === 1 ? { konu: "1.1 konu.png", soru: "1.1 soru.png", cevap: "1.1 cevap.png" } : null);
+        const images = data.weekInfo?.images || data.worksheetDocs?.images;
+        const docs = data.worksheetDocs || {};
 
         if (!this.activePhotoDoc) this.activePhotoDoc = 'konu'; // 'konu', 'soru', 'cevap'
+        if (!this.worksheetViewMode) this.worksheetViewMode = 'photo'; // 'photo' veya 'digital'
         if (!this.photoZoom) this.photoZoom = 1.0;
 
-        if (this.currentWeek >= 3 || (!images && !data.worksheetDocs?.konuHtml)) {
+        // Henüz içeriği yüklenmemiş ileri haftalar
+        if (this.currentWeek >= 3 || (!images && !docs.konuHtml)) {
             this.renderPendingPlaceholder("worksheet-render-area", "Çalışma Kağıtları & Cevap Anahtarı", "fa-solid fa-file-lines");
             return;
         }
 
-        if (images) {
-            const imgMap = {
-                konu: { src: images.konu, title: `${this.currentWeek}. Hafta Konu Anlatımı & Çalışma Kağıdı`, icon: "fa-solid fa-book-open", badge: "Konu Özeti" },
-                soru: { src: images.soru, title: `${this.currentWeek}. Hafta Pekiştirme Soruları & Etkinlikler`, icon: "fa-solid fa-circle-question", badge: "Sorular & Görevler" },
-                cevap: { src: images.cevap, title: `${this.currentWeek}. Hafta Resmi Cevap Anahtarı`, icon: "fa-solid fa-key", badge: "Çözümler & Cevaplar" }
-            };
+        const imgMap = {
+            konu: { 
+                src: this.resolveDocPath(images?.konu, this.currentWeek, 'konu'), 
+                title: `${this.currentWeek}. Hafta Konu Anlatımı & Çalışma Kağıdı`, 
+                icon: "fa-solid fa-book-open", 
+                badge: "Konu Özeti" 
+            },
+            soru: { 
+                src: this.resolveDocPath(images?.soru, this.currentWeek, 'soru'), 
+                title: `${this.currentWeek}. Hafta Pekiştirme Soruları & Etkinlikler`, 
+                icon: "fa-solid fa-circle-question", 
+                badge: "Sorular & Görevler" 
+            },
+            cevap: { 
+                src: this.resolveDocPath(images?.cevap, this.currentWeek, 'cevap'), 
+                title: `${this.currentWeek}. Hafta Resmi Cevap Anahtarı`, 
+                icon: "fa-solid fa-key", 
+                badge: "Çözümler & Cevaplar" 
+            }
+        };
 
-            const currentDoc = imgMap[this.activePhotoDoc] || imgMap.konu;
+        const currentDoc = imgMap[this.activePhotoDoc] || imgMap.konu;
 
-            wsContainer.innerHTML = `
-                <div class="bg-slate-900 text-white rounded-3xl p-4 sm:p-8 border-4 border-indigo-500/50 shadow-2xl space-y-6">
-                    <!-- Üst Başlık & Belge Seçim Butonları -->
-                    <div class="flex flex-col lg:flex-row items-center justify-between gap-4 pb-4 border-b border-slate-700">
-                        <div class="flex items-center gap-3">
-                            <div class="w-12 h-12 rounded-2xl bg-indigo-600 flex items-center justify-center text-white text-2xl shadow-lg">
-                                <i class="fa-solid fa-file-image"></i>
-                            </div>
-                            <div>
-                                <h2 class="text-xl sm:text-2xl font-black text-white">Orijinal Çalışma ve Soru Belgeleri</h2>
-                                <p class="text-xs text-indigo-300 font-semibold">Öğretmen Bozok • ${this.currentWeek}. Hafta Ders Materyalleri</p>
-                            </div>
+        let activeHtmlContent = docs.konuHtml;
+        if (this.activePhotoDoc === 'soru') activeHtmlContent = docs.soruHtml;
+        if (this.activePhotoDoc === 'cevap') activeHtmlContent = docs.cevapHtml;
+
+        wsContainer.innerHTML = `
+            <div class="bg-slate-900 text-white rounded-3xl p-4 sm:p-8 border-4 border-indigo-500/50 shadow-2xl space-y-6">
+                <!-- Üst Başlık & Sekmeler -->
+                <div class="flex flex-col lg:flex-row items-center justify-between gap-4 pb-4 border-b border-slate-700">
+                    <div class="flex items-center gap-3">
+                        <div class="w-12 h-12 rounded-2xl bg-indigo-600 flex items-center justify-center text-white text-2xl shadow-lg shrink-0">
+                            <i class="fa-solid fa-file-lines"></i>
                         </div>
-
-                        <!-- 3 Ana Belge Sekmesi -->
-                        <div class="flex items-center gap-2 bg-slate-800 p-1.5 rounded-2xl border border-slate-700 flex-wrap justify-center">
-                            <button onclick="app.setPhotoDoc('konu')" class="px-4 py-2.5 rounded-xl font-bold text-xs sm:text-sm flex items-center gap-2 transition-all ${this.activePhotoDoc === 'konu' ? 'bg-indigo-600 text-white shadow-lg' : 'text-slate-300 hover:bg-slate-700'}">
-                                <i class="fa-solid fa-book-open text-yellow-400"></i>
-                                <span>1. Konu Kağıdı</span>
-                            </button>
-                            <button onclick="app.setPhotoDoc('soru')" class="px-4 py-2.5 rounded-xl font-bold text-xs sm:text-sm flex items-center gap-2 transition-all ${this.activePhotoDoc === 'soru' ? 'bg-blue-600 text-white shadow-lg' : 'text-slate-300 hover:bg-slate-700'}">
-                                <i class="fa-solid fa-circle-question text-cyan-400"></i>
-                                <span>2. Pekiştirme Soruları</span>
-                            </button>
-                            <button onclick="app.setPhotoDoc('cevap')" class="px-4 py-2.5 rounded-xl font-bold text-xs sm:text-sm flex items-center gap-2 transition-all ${this.activePhotoDoc === 'cevap' ? 'bg-emerald-600 text-white shadow-lg' : 'text-slate-300 hover:bg-slate-700'}">
-                                <i class="fa-solid fa-key text-yellow-300"></i>
-                                <span>3. Cevap Anahtarı</span>
-                            </button>
+                        <div>
+                            <h2 class="text-xl sm:text-2xl font-black text-white">Çalışma Kağıtları, Sorular & Cevaplar</h2>
+                            <p class="text-xs text-indigo-300 font-semibold">Öğretmen Bozok • ${this.currentWeek}. Hafta Resmî Ders Belgeleri</p>
                         </div>
                     </div>
 
-                    <!-- Kontrol Araç Çubuğu (Yakınlaştırma, Tam Ekran, Yazdırma) -->
-                    <div class="flex items-center justify-between gap-3 bg-slate-800/80 p-3 rounded-2xl border border-slate-700 flex-wrap">
-                        <div class="flex items-center gap-2">
-                            <span class="px-3 py-1 bg-indigo-500/20 text-indigo-300 font-bold text-xs rounded-xl border border-indigo-500/30 flex items-center gap-1.5">
-                                <i class="${currentDoc.icon}"></i> ${currentDoc.badge}
-                            </span>
-                            <span class="text-xs text-slate-300 font-semibold hidden sm:inline">${currentDoc.title}</span>
-                        </div>
+                    <!-- 3 Ana Belge Butonu (1. Konu, 2. Sorular, 3. Cevap Anahtarı) -->
+                    <div class="flex items-center gap-2 bg-slate-800 p-1.5 rounded-2xl border border-slate-700 flex-wrap justify-center">
+                        <button onclick="app.setPhotoDoc('konu')" class="px-4 py-2.5 rounded-xl font-bold text-xs sm:text-sm flex items-center gap-2 transition-all ${this.activePhotoDoc === 'konu' ? 'bg-indigo-600 text-white shadow-lg ring-2 ring-indigo-400' : 'text-slate-300 hover:bg-slate-700'}">
+                            <i class="fa-solid fa-book-open text-yellow-400"></i>
+                            <span>1. Konu Kağıdı</span>
+                        </button>
+                        <button onclick="app.setPhotoDoc('soru')" class="px-4 py-2.5 rounded-xl font-bold text-xs sm:text-sm flex items-center gap-2 transition-all ${this.activePhotoDoc === 'soru' ? 'bg-blue-600 text-white shadow-lg ring-2 ring-blue-400' : 'text-slate-300 hover:bg-slate-700'}">
+                            <i class="fa-solid fa-circle-question text-cyan-400"></i>
+                            <span>2. Pekiştirme Soruları</span>
+                        </button>
+                        <button onclick="app.setPhotoDoc('cevap')" class="px-4 py-2.5 rounded-xl font-bold text-xs sm:text-sm flex items-center gap-2 transition-all ${this.activePhotoDoc === 'cevap' ? 'bg-emerald-600 text-white shadow-lg ring-2 ring-emerald-400' : 'text-slate-300 hover:bg-slate-700'}">
+                            <i class="fa-solid fa-key text-yellow-300"></i>
+                            <span>3. Cevap Anahtarı</span>
+                        </button>
+                    </div>
+                </div>
 
-                        <div class="flex items-center gap-2 flex-wrap">
+                <!-- Mod Seçici & Araç Çubuğu -->
+                <div class="flex items-center justify-between gap-3 bg-slate-800/90 p-3 rounded-2xl border border-slate-700 flex-wrap">
+                    <!-- Format Geçişi (Görsel vs Metin) -->
+                    <div class="flex items-center gap-1.5 bg-slate-900 p-1 rounded-xl border border-slate-700">
+                        <button onclick="app.setWorksheetViewMode('photo')" class="px-3 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 ${this.worksheetViewMode === 'photo' ? 'bg-indigo-600 text-white shadow' : 'text-slate-300 hover:bg-slate-800'}">
+                            <i class="fa-solid fa-image text-yellow-400"></i>
+                            <span>Orijinal Belge Görseli</span>
+                        </button>
+                        <button onclick="app.setWorksheetViewMode('digital')" class="px-3 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 ${this.worksheetViewMode === 'digital' ? 'bg-indigo-600 text-white shadow' : 'text-slate-300 hover:bg-slate-800'}">
+                            <i class="fa-solid fa-align-left text-cyan-400"></i>
+                            <span>Yazdırılabilir A4 Metin</span>
+                        </button>
+                    </div>
+
+                    <!-- Aktif Başlık & Butonlar -->
+                    <div class="flex items-center gap-2 flex-wrap">
+                        ${this.worksheetViewMode === 'photo' ? `
                             <!-- Yakınlaştır / Uzaklaştır -->
                             <div class="flex items-center bg-slate-900 rounded-xl border border-slate-700 p-1">
                                 <button onclick="app.zoomPhoto(-0.15)" class="w-8 h-8 rounded-lg hover:bg-slate-800 text-slate-200 flex items-center justify-center text-sm transition-all" title="Uzaklaştır">
@@ -629,96 +688,65 @@ class App {
                             </div>
 
                             <!-- Tam Ekran Lightbox -->
-                            <button onclick="app.openPhotoLightbox('${currentDoc.src}', '${currentDoc.title}')" class="px-3.5 py-2 bg-indigo-600 hover:bg-indigo-500 text-white font-bold rounded-xl text-xs flex items-center gap-1.5 transition-all shadow-md">
+                            <button onclick="app.openPhotoLightbox('${currentDoc.src}', '${currentDoc.title}')" class="px-3.5 py-2 bg-indigo-600 hover:bg-indigo-500 text-white font-bold rounded-xl text-xs flex items-center gap-1.5 transition-all shadow-md active:scale-95">
                                 <i class="fa-solid fa-expand"></i> Tam Ekran Aç
                             </button>
 
                             <!-- Yazdır -->
-                            <button onclick="app.printPhoto('${currentDoc.src}')" class="px-3.5 py-2 bg-slate-700 hover:bg-slate-600 text-white font-bold rounded-xl text-xs flex items-center gap-1.5 transition-all">
+                            <button onclick="app.printPhoto('${currentDoc.src}')" class="px-3.5 py-2 bg-slate-700 hover:bg-slate-600 text-white font-bold rounded-xl text-xs flex items-center gap-1.5 transition-all active:scale-95">
                                 <i class="fa-solid fa-print"></i> Yazdır
                             </button>
 
-                            <!-- Doğrudan Fotoğrafı Aç -->
+                            <!-- Sekmede Aç -->
                             <a href="${currentDoc.src}" target="_blank" class="px-3.5 py-2 bg-slate-700 hover:bg-slate-600 text-white font-bold rounded-xl text-xs flex items-center gap-1.5 transition-all">
                                 <i class="fa-solid fa-arrow-up-right-from-square"></i> Sekmede Aç
                             </a>
-                        </div>
+                        ` : `
+                            <!-- A4 Metin Yazdır Butonu -->
+                            <button onclick="window.print()" class="px-4 py-2 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded-xl text-xs flex items-center gap-2 transition-all shadow-md active:scale-95">
+                                <i class="fa-solid fa-print"></i> A4 Yazdır / PDF
+                            </button>
+                        `}
                     </div>
+                </div>
 
-                    <!-- Fotoğraf Görüntüleme Alanı (Scroll & Zoom Desteği) -->
+                <!-- ANA İÇERİK ALANI -->
+                ${this.worksheetViewMode === 'photo' ? `
+                    <!-- 1. FOTOĞRAF GÖRÜNTÜLEME ALANI (Zoom & Scroll Desteği) -->
                     <div class="relative bg-slate-950 rounded-2xl border-2 border-slate-800 overflow-auto p-4 flex justify-center items-start min-h-[500px] max-h-[75vh]">
                         <div id="photo-container" class="transition-transform duration-200 origin-top" style="transform: scale(${this.photoZoom});">
-                            <img id="active-photo-img" src="${currentDoc.src}" alt="${currentDoc.title}" class="max-w-full h-auto rounded-xl shadow-2xl cursor-zoom-in border border-slate-700" onclick="app.openPhotoLightbox('${currentDoc.src}', '${currentDoc.title}')">
+                            <img id="active-photo-img" 
+                                 src="${currentDoc.src}" 
+                                 alt="${currentDoc.title}" 
+                                 class="max-w-full h-auto rounded-xl shadow-2xl cursor-zoom-in border border-slate-700" 
+                                 onclick="app.openPhotoLightbox('${currentDoc.src}', '${currentDoc.title}')"
+                                 onerror="if (!this.src.includes('1.1_') && !this.src.includes('1.2_')) { this.src = '${currentDoc.src}'.replace('.png', '').replace(/\\s+/g, '_') + '.png'; }">
                         </div>
                     </div>
 
-                    <!-- Alt Bilgi Notu -->
+                    <!-- Hızlı Dijital Çözüm Butonu -->
                     <div class="flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-slate-400 pt-2 border-t border-slate-800">
                         <div class="flex items-center gap-2">
                             <i class="fa-solid fa-circle-info text-yellow-400"></i>
-                            <span>Görsele tıklayarak veya <strong>Tam Ekran Aç</strong> butonuna basarak akıllı tahtada devasa boyutta büyütebilirsiniz.</span>
+                            <span>Görsele tıklayarak akıllı tahtada devasa boyutta büyütebilir veya sağ üstten <strong>Yazdırılabilir A4 Metin</strong> formatına geçebilirsiniz.</span>
                         </div>
-                        <div class="font-bold text-yellow-400">Öğretmen Bozok • Bozok Bilişim Portalı</div>
-                    </div>
-                </div>
-            `;
-        } else {
-            // Dijital Çalışma Kağıtları & Cevap Anahtarı (Tüm 37 Hafta İçin)
-            const docs = data.worksheetDocs || {};
-            let activeContent = docs.konuHtml;
-            if (this.activePhotoDoc === 'soru') activeContent = docs.soruHtml;
-            if (this.activePhotoDoc === 'cevap') activeContent = docs.cevapHtml;
-
-            wsContainer.innerHTML = `
-                <div class="space-y-6 max-w-5xl mx-auto">
-                    <!-- 3 Ana Belge Sekmesi Barı -->
-                    <div class="bg-slate-900/90 rounded-3xl p-4 border border-indigo-500/40 shadow-xl flex flex-col md:flex-row items-center justify-between gap-4">
-                        <div class="flex items-center gap-3">
-                            <div class="w-10 h-10 rounded-xl bg-indigo-600 flex items-center justify-center text-white text-xl">
-                                <i class="fa-solid fa-file-lines"></i>
-                            </div>
-                            <div>
-                                <h3 class="font-black text-white text-base">${this.currentWeek}. Hafta Ders Materyalleri</h3>
-                                <p class="text-xs text-indigo-300">Öğretmen Bozok • Bozok Bilişim Portalı</p>
-                            </div>
-                        </div>
-
-                        <!-- Sekme Butonları -->
-                        <div class="flex items-center gap-2 bg-slate-800 p-1.5 rounded-2xl border border-slate-700 flex-wrap justify-center">
-                            <button onclick="app.setPhotoDoc('konu')" class="px-4 py-2 rounded-xl font-bold text-xs flex items-center gap-2 transition-all ${this.activePhotoDoc === 'konu' ? 'bg-indigo-600 text-white shadow-lg ring-2 ring-indigo-400/50' : 'text-slate-300 hover:bg-slate-700'}">
-                                <i class="fa-solid fa-book-open text-yellow-400"></i>
-                                <span>1. Konu Kağıdı</span>
-                            </button>
-                            <button onclick="app.setPhotoDoc('soru')" class="px-4 py-2 rounded-xl font-bold text-xs flex items-center gap-2 transition-all ${this.activePhotoDoc === 'soru' ? 'bg-blue-600 text-white shadow-lg ring-2 ring-blue-400/50' : 'text-slate-300 hover:bg-slate-700'}">
-                                <i class="fa-solid fa-circle-question text-cyan-400"></i>
-                                <span>2. Pekiştirme Soruları</span>
-                            </button>
-                            <button onclick="app.setPhotoDoc('cevap')" class="px-4 py-2 rounded-xl font-bold text-xs flex items-center gap-2 transition-all ${this.activePhotoDoc === 'cevap' ? 'bg-emerald-600 text-white shadow-lg ring-2 ring-emerald-400/50' : 'text-slate-300 hover:bg-slate-700'}">
-                                <i class="fa-solid fa-key text-yellow-300"></i>
-                                <span>3. Cevap Anahtarı</span>
-                            </button>
-                        </div>
-
-                        <!-- Yazdır Butonu -->
-                        <button onclick="window.print()" class="px-4 py-2 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded-xl text-xs flex items-center gap-2 transition-all shadow-md shrink-0">
-                            <i class="fa-solid fa-print"></i> A4 Yazdır / PDF
+                        <button onclick="app.setWorksheetViewMode('digital')" class="text-xs font-bold text-yellow-400 hover:text-yellow-300 underline flex items-center gap-1">
+                            <i class="fa-solid fa-file-lines"></i> Bu Belgenin Metin / Çözüm Halini Aç ➔
                         </button>
                     </div>
-
-                    <!-- Aktif Belge İçeriği (A4 Formatında ve Şık) -->
+                ` : `
+                    <!-- 2. DİJİTAL A4 METİN VE YAZDIRMA ALANI -->
                     <div id="active-printable-document" class="animate-pop">
-                        ${activeContent || '<div class="p-6 text-center text-slate-400">Bu haftanın belgesi hazırlanıyor...</div>'}
+                        ${activeHtmlContent || '<div class="p-8 text-center text-slate-400 bg-slate-800/40 rounded-2xl border border-slate-700">Bu haftanın dijital belgesi hazırlanıyor. Üstteki butonla "Orijinal Belge Görseli" moduna geçebilirsiniz.</div>'}
                     </div>
-                </div>
-            `;
-        }
-    }
-
-    setPhotoDoc(docType) {
-        sounds.playClick();
-        this.activePhotoDoc = docType;
-        this.photoZoom = 1.0;
-        this.renderWorksheet();
+                    <div class="pt-2 border-t border-slate-800 text-right">
+                        <button onclick="app.setWorksheetViewMode('photo')" class="text-xs font-bold text-indigo-400 hover:text-indigo-300 underline flex items-center gap-1 inline-flex">
+                            <i class="fa-solid fa-image"></i> Orijinal Belge Görseline Geri Dön ➔
+                        </button>
+                    </div>
+                `}
+            </div>
+        `;
     }
 
     zoomPhoto(delta) {
@@ -764,10 +792,21 @@ class App {
 
     printPhoto(src) {
         sounds.playClick();
+        let fullSrc = src;
+        try {
+            fullSrc = new URL(src, window.location.href).href;
+        } catch (e) {}
+
         const win = window.open('', '_blank');
+        if (!win) {
+            alert('Lütfen tarayıcınızın açılır pencere (pop-up) engelleyicisini kapatın.');
+            return;
+        }
         win.document.write(`
+            <!DOCTYPE html>
             <html>
             <head>
+                <meta charset="UTF-8">
                 <title>Yazdır - Öğretmen Bozok Çalışma Kağıdı</title>
                 <style>
                     body { margin: 0; padding: 0; display: flex; justify-content: center; align-items: center; background: #fff; }
@@ -775,8 +814,8 @@ class App {
                     @page { size: A4 portrait; margin: 5mm; }
                 </style>
             </head>
-            <body onload="window.print(); window.close();">
-                <img src="${src}" />
+            <body onload="window.focus(); window.print();">
+                <img src="${fullSrc}" alt="Çalışma Kağıdı" />
             </body>
             </html>
         `);

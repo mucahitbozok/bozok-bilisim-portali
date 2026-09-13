@@ -16,18 +16,18 @@ window.WEEK2_CONTENT = {
             "Fiziksel güvenlik önlemlerini (kablo, priz ve şarj güvenliği) doğru şekilde açıklayabileceğim."
         ],
         images: {
-            konu: "1.2 konu.png",
-            soru: "1.2 soru.png",
-            cevap: "1.2 cevap.png"
+            konu: "assets/worksheets/1.2_konu.png",
+            soru: "assets/worksheets/1.2_soru.png",
+            cevap: "assets/worksheets/1.2_cevap.png"
         }
     },
 
     // 📄 1. HAFTALIK ÇALIŞMA KAĞITLARI & CEVAP ANAHTARI BELGELERİ
     worksheetDocs: {
         images: {
-            konu: "1.2 konu.png",
-            soru: "1.2 soru.png",
-            cevap: "1.2 cevap.png"
+            konu: "assets/worksheets/1.2_konu.png",
+            soru: "assets/worksheets/1.2_soru.png",
+            cevap: "assets/worksheets/1.2_cevap.png"
         },
         konuHtml: `
         <div class="printable-doc bg-slate-900 text-white rounded-3xl p-6 sm:p-10 border-4 border-indigo-500/50 shadow-2xl space-y-6">
