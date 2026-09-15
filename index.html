@@ -238,6 +238,29 @@
         <!-- 4. SEKME: TEKRAR OYUNLARI ARENASI -->
         <!-- ======================================================== -->
         <section id="view-games" class="hidden">
+            <!-- Oyunlar Üst Kontrol Çubuğu (Akıllı Tahta Tam Ekran & Menüye Dönüş) -->
+            <div class="flex items-center justify-between gap-4 mb-5 p-3.5 sm:p-4 bg-slate-900/90 rounded-2xl border border-purple-500/40 shadow-xl flex-wrap">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-purple-600 to-pink-600 text-white flex items-center justify-center text-xl font-black shadow-lg">
+                        <i class="fa-solid fa-gamepad"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-base sm:text-lg font-black text-white">Bozok Oyun Arenası 🎮</h3>
+                        <p class="text-xs text-purple-300 font-semibold">Akıllı Tahta & Dokunmatik Sınıf Yarışmaları</p>
+                    </div>
+                </div>
+                <div class="flex items-center gap-2">
+                    <button id="games-hub-back-btn" onclick="app.renderGameHub()" class="hidden px-4 py-2.5 bg-slate-800 hover:bg-slate-700 text-yellow-300 font-black rounded-xl text-xs sm:text-sm border border-slate-700 flex items-center gap-2 shadow-lg active:scale-95 transition-all" title="Oyun Listesine Geri Dön">
+                        <i class="fa-solid fa-arrow-left"></i>
+                        <span>Oyun Menüsüne Dön</span>
+                    </button>
+                    <button id="games-fullscreen-btn" onclick="app.toggleGamesFullscreen()" class="px-4 py-2.5 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white font-black rounded-xl text-xs sm:text-sm border border-purple-400 flex items-center gap-2 shadow-lg active:scale-95 transition-all" title="Akıllı Tahta Tam Ekran / Küçült">
+                        <i id="games-fullscreen-icon" class="fa-solid fa-expand text-base"></i>
+                        <span id="games-fullscreen-text">Tam Ekran</span>
+                    </button>
+                </div>
+            </div>
+
             <div id="game-container">
                 <!-- JS ile oyun motoru yüklenecek -->
             </div>
@@ -354,6 +377,10 @@
                 </div>
             </div>
             <div class="flex items-center gap-2">
+                <button id="standalone-fullscreen-btn" onclick="app.toggleStandaloneGameFullscreen()" class="px-3.5 py-2 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white font-black rounded-xl text-xs flex items-center gap-1.5 border border-purple-400 shadow transition-all hover:scale-105 active:scale-95" title="Akıllı Tahta Tam Ekran Yap">
+                    <i id="standalone-fullscreen-icon" class="fa-solid fa-expand text-yellow-300"></i>
+                    <span id="standalone-fullscreen-text">Tam Ekran</span>
+                </button>
                 <button onclick="window.open(document.getElementById('standalone-game-iframe').src, '_blank')" class="px-3.5 py-2 bg-slate-800 hover:bg-slate-700 text-white font-bold rounded-xl text-xs flex items-center gap-1.5 border border-slate-700 shadow transition-all hover:scale-105 active:scale-95">
                     <i class="fa-solid fa-arrow-up-right-from-square text-amber-400"></i> Ayrı Sekmede Aç
                 </button>

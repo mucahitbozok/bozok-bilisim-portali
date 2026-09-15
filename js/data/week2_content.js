@@ -385,9 +385,9 @@ window.WEEK2_CONTENT = {
             icon: "fa-solid fa-chalkboard-user",
             bgColor: "from-blue-700 via-indigo-800 to-slate-900",
             content: `
-                <div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-center max-w-5xl mx-auto my-auto py-2">
+                <div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-center max-w-6xl mx-auto my-auto py-2">
                     <div class="md:col-span-6 space-y-4 text-left">
-                        <span class="px-4 py-1.5 bg-yellow-400/20 text-yellow-300 font-extrabold text-xs uppercase tracking-widest rounded-full border border-yellow-400/40">
+                        <span class="px-4 py-1.5 bg-yellow-400/20 text-yellow-300 font-extrabold text-sm sm:text-base uppercase tracking-wider font-extrabold rounded-full border border-yellow-400/40">
                             2. HAFTA • DERS SUNUSU
                         </span>
                         <h1 class="text-3xl sm:text-5xl font-black text-white tracking-tight leading-tight">
@@ -405,7 +405,7 @@ window.WEEK2_CONTENT = {
                     </div>
                     <div class="md:col-span-6 flex justify-center">
                         <div class="relative group rounded-3xl overflow-hidden border-4 border-indigo-400/40 shadow-2xl bg-slate-900/50">
-                            <img src="assets/slides/dijital_saglik_durus.jpg" alt="Dijital Sağlık" class="w-full max-h-72 object-cover transition-transform duration-500 group-hover:scale-105" />
+                            <img src="assets/slides/dijital_saglik_durus.jpg" alt="Dijital Sağlık" class="w-full max-h-[380px] sm:max-h-[440px] md:max-h-[480px] object-cover transition-transform duration-500 group-hover:scale-105" />
                             <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent flex items-end p-4">
                                 <span class="text-xs font-bold text-yellow-300">🌿 Sağlıklı ve Bilinçli Teknoloji Kullanımı</span>
                             </div>
@@ -424,36 +424,36 @@ window.WEEK2_CONTENT = {
             icon: "fa-solid fa-bullseye",
             bgColor: "from-indigo-700 via-purple-800 to-slate-900",
             content: `
-                <div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-center max-w-5xl mx-auto my-auto py-2">
+                <div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-center max-w-6xl mx-auto my-auto py-2">
                     <div class="md:col-span-7 space-y-4 text-left">
-                        <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-xl bg-yellow-400/20 text-yellow-300 border border-yellow-400/40 font-black text-xs uppercase tracking-wider">
+                        <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-xl bg-yellow-400/20 text-yellow-300 border border-yellow-400/40 font-black text-sm sm:text-base uppercase tracking-wider font-extrabold">
                             <i class="fa-solid fa-award"></i> BTY.5.1.2
                         </div>
                         <div class="bg-white/10 backdrop-blur-md rounded-3xl p-6 border-2 border-indigo-400/40 shadow-xl space-y-3">
-                            <h3 class="text-xl sm:text-2xl font-black text-white leading-snug">
+                            <h3 class="text-2xl sm:text-3xl md:text-4xl font-black text-white leading-snug">
                                 “Bilişim teknolojilerinin birey ve toplum üzerindeki etkilerini özetleyebilme.”
                             </h3>
-                            <p class="text-sm text-indigo-100 font-medium">
+                            <p class="text-base sm:text-lg md:text-xl text-indigo-100 font-medium">
                                 Bu dersimizde teknolojinin getirdiği olumlu ve olumsuz etkileri inceleyecek, yanlış ve fazla kullanımın sağlığımız üzerindeki sonuçlarını öğreneceğiz.
                             </p>
                         </div>
                         <div class="grid grid-cols-3 gap-3">
                             <div class="p-3 bg-white/5 rounded-xl border border-white/10 text-center">
                                 <span class="text-xs font-bold text-emerald-300 block">Olumlu Etkiler</span>
-                                <span class="text-[10px] text-slate-300">5 temel fayda</span>
+                                <span class="text-xs sm:text-sm font-semibold text-slate-300">5 temel fayda</span>
                             </div>
                             <div class="p-3 bg-white/5 rounded-xl border border-white/10 text-center">
                                 <span class="text-xs font-bold text-rose-300 block">Olumsuz Etkiler</span>
-                                <span class="text-[10px] text-slate-300">5 temel risk</span>
+                                <span class="text-xs sm:text-sm font-semibold text-slate-300">5 temel risk</span>
                             </div>
                             <div class="p-3 bg-white/5 rounded-xl border border-white/10 text-center">
                                 <span class="text-xs font-bold text-cyan-300 block">Dijital Sağlık</span>
-                                <span class="text-[10px] text-slate-300">5 sağlık problemi</span>
+                                <span class="text-xs sm:text-sm font-semibold text-slate-300">5 sağlık problemi</span>
                             </div>
                         </div>
                     </div>
                     <div class="md:col-span-5 flex justify-center">
-                        <img src="assets/slides/tech_discovery.jpg" alt="Ders Kazanımı" class="rounded-3xl border-4 border-indigo-400/30 shadow-2xl max-h-64 object-cover" />
+                        <img src="assets/slides/tech_discovery.jpg" alt="Ders Kazanımı" class="rounded-3xl border-4 border-indigo-400/30 shadow-2xl max-h-[360px] sm:max-h-[400px] md:max-h-[440px] object-cover" />
                     </div>
                 </div>
             `
@@ -468,10 +468,10 @@ window.WEEK2_CONTENT = {
             icon: "fa-solid fa-scale-balanced",
             bgColor: "from-blue-700 via-indigo-800 to-slate-900",
             content: `
-                <div class="max-w-4xl mx-auto space-y-6 my-auto text-center py-2">
+                <div class="max-w-5xl mx-auto space-y-6 my-auto text-center py-2">
                     <div class="space-y-1">
                         <span class="text-xs font-black uppercase text-yellow-300 tracking-widest">TEMEL BAKIŞ</span>
-                        <h2 class="text-2xl sm:text-3xl font-black text-white">
+                        <h2 class="text-3xl sm:text-4xl md:text-5xl font-black text-white">
                             Bilişim Teknolojileri Hayatımızı Nasıl Etkiler?
                         </h2>
                     </div>
@@ -481,7 +481,7 @@ window.WEEK2_CONTENT = {
                                 <i class="fa-solid fa-thumbs-up"></i>
                             </div>
                             <h3 class="text-2xl font-black text-emerald-300">Olumlu Etkiler</h3>
-                            <p class="text-sm text-emerald-100 leading-relaxed">
+                            <p class="text-base sm:text-lg md:text-xl text-emerald-100 leading-relaxed">
                                 Hayatı kolaylaştıran, bilgiye hızla ulaştıran, maliyeti ve zaman kaybını azaltan faydalı yönler.
                             </p>
                         </div>
@@ -508,10 +508,10 @@ window.WEEK2_CONTENT = {
             icon: "fa-solid fa-star",
             bgColor: "from-emerald-700 via-teal-800 to-slate-900",
             content: `
-                <div class="max-w-4xl mx-auto space-y-4 my-auto py-2">
+                <div class="max-w-5xl mx-auto space-y-4 my-auto py-2">
                     <div class="text-center space-y-1">
                         <span class="text-xs font-black uppercase text-yellow-300 tracking-widest">KAYNAKTAKİ 5 OLUMLU ETKİ</span>
-                        <h3 class="text-2xl sm:text-3xl font-black text-white">Teknolojinin Sağladığı Kolaylıklar</h3>
+                        <h3 class="text-3xl sm:text-4xl md:text-5xl font-black text-white">Teknolojinin Sağladığı Kolaylıklar</h3>
                     </div>
                     <div class="grid grid-cols-1 sm:grid-cols-5 gap-3 pt-2">
                         <div class="p-4 bg-slate-900/90 rounded-2xl border border-emerald-500/40 text-center space-y-2 shadow-xl">
@@ -548,13 +548,13 @@ window.WEEK2_CONTENT = {
             icon: "fa-solid fa-book-open-reader",
             bgColor: "from-blue-600 via-cyan-700 to-slate-900",
             content: `
-                <div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-center max-w-5xl mx-auto my-auto py-2">
+                <div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-center max-w-6xl mx-auto my-auto py-2">
                     <div class="md:col-span-6 space-y-4 text-left">
-                        <span class="px-3 py-1 bg-blue-500/20 text-blue-300 rounded-lg font-black text-xs uppercase tracking-wider">1. OLUMLU ETKİ</span>
-                        <h3 class="text-2xl sm:text-3xl font-black text-white">
+                        <span class="px-3 py-1 bg-blue-500/20 text-blue-300 rounded-lg font-black text-sm sm:text-base uppercase tracking-wider font-extrabold">1. OLUMLU ETKİ</span>
+                        <h3 class="text-3xl sm:text-4xl md:text-5xl font-black text-white">
                             Bilgiye Kolay Ulaşmayı Sağlaması
                         </h3>
-                        <p class="text-sm sm:text-base text-blue-100 leading-relaxed font-medium">
+                        <p class="text-lg sm:text-xl text-blue-100 leading-relaxed font-medium">
                             Bilişim teknolojileri sayesinde aradığımız bir konuyu, ders kaynaklarını, bilimsel araştırmaları ve ansiklopedi bilgilerini saniyeler içinde ekranımızda bulabiliriz.
                         </p>
                         <div class="p-4 bg-slate-900/80 rounded-2xl border border-blue-500/30 text-xs text-slate-200">
@@ -562,7 +562,7 @@ window.WEEK2_CONTENT = {
                         </div>
                     </div>
                     <div class="md:col-span-6 flex justify-center">
-                        <img src="assets/slides/bilgi_arastirma.jpg" alt="Bilgiye Kolay Ulaşma" class="rounded-3xl border-4 border-blue-400/30 shadow-2xl max-h-72 object-cover" />
+                        <img src="assets/slides/bilgi_arastirma.jpg" alt="Bilgiye Kolay Ulaşma" class="rounded-3xl border-4 border-blue-400/30 shadow-2xl max-h-[380px] sm:max-h-[440px] md:max-h-[480px] object-cover" />
                     </div>
                 </div>
             `
@@ -577,13 +577,13 @@ window.WEEK2_CONTENT = {
             icon: "fa-solid fa-coins",
             bgColor: "from-teal-600 via-emerald-700 to-slate-900",
             content: `
-                <div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-center max-w-5xl mx-auto my-auto py-2">
+                <div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-center max-w-6xl mx-auto my-auto py-2">
                     <div class="md:col-span-6 space-y-4 text-left">
-                        <span class="px-3 py-1 bg-teal-500/20 text-teal-300 rounded-lg font-black text-xs uppercase tracking-wider">2. OLUMLU ETKİ</span>
-                        <h3 class="text-2xl sm:text-3xl font-black text-white">
+                        <span class="px-3 py-1 bg-teal-500/20 text-teal-300 rounded-lg font-black text-sm sm:text-base uppercase tracking-wider font-extrabold">2. OLUMLU ETKİ</span>
+                        <h3 class="text-3xl sm:text-4xl md:text-5xl font-black text-white">
                             Maliyeti Azaltması
                         </h3>
-                        <p class="text-sm sm:text-base text-teal-100 leading-relaxed font-medium">
+                        <p class="text-lg sm:text-xl text-teal-100 leading-relaxed font-medium">
                             Bilişim araçları kağıt, baskı, kargo, ulaşım ve depolama harcamalarını azaltarak bireylerin ve kurumların bütçesine büyük tasarruf sağlar.
                         </p>
                         <div class="p-4 bg-slate-900/80 rounded-2xl border border-teal-500/30 text-xs text-slate-200">
@@ -591,7 +591,7 @@ window.WEEK2_CONTENT = {
                         </div>
                     </div>
                     <div class="md:col-span-6 flex justify-center">
-                        <img src="assets/slides/guvenlik_bankacilik.jpg" alt="Maliyeti Azaltma" class="rounded-3xl border-4 border-teal-400/30 shadow-2xl max-h-72 object-cover" />
+                        <img src="assets/slides/guvenlik_bankacilik.jpg" alt="Maliyeti Azaltma" class="rounded-3xl border-4 border-teal-400/30 shadow-2xl max-h-[380px] sm:max-h-[440px] md:max-h-[480px] object-cover" />
                     </div>
                 </div>
             `
@@ -606,13 +606,13 @@ window.WEEK2_CONTENT = {
             icon: "fa-solid fa-wand-magic-sparkles",
             bgColor: "from-indigo-600 via-purple-700 to-slate-900",
             content: `
-                <div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-center max-w-5xl mx-auto my-auto py-2">
+                <div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-center max-w-6xl mx-auto my-auto py-2">
                     <div class="md:col-span-6 space-y-4 text-left">
-                        <span class="px-3 py-1 bg-yellow-500/20 text-yellow-300 rounded-lg font-black text-xs uppercase tracking-wider">3. OLUMLU ETKİ</span>
-                        <h3 class="text-2xl sm:text-3xl font-black text-white">
+                        <span class="px-3 py-1 bg-yellow-500/20 text-yellow-300 rounded-lg font-black text-sm sm:text-base uppercase tracking-wider font-extrabold">3. OLUMLU ETKİ</span>
+                        <h3 class="text-3xl sm:text-4xl md:text-5xl font-black text-white">
                             Hayatımızı Kolaylaştırması
                         </h3>
-                        <p class="text-sm sm:text-base text-indigo-100 leading-relaxed font-medium">
+                        <p class="text-lg sm:text-xl text-indigo-100 leading-relaxed font-medium">
                             Zor, yorucu ve karmaşık işleri pratik adımlara dönüştürerek insanların günlük yaşamlarındaki yükü hafifletir ve konfor sağlar.
                         </p>
                         <div class="p-4 bg-slate-900/80 rounded-2xl border border-indigo-500/30 text-xs text-slate-200">
@@ -620,7 +620,7 @@ window.WEEK2_CONTENT = {
                         </div>
                     </div>
                     <div class="md:col-span-6 flex justify-center">
-                        <img src="assets/slides/teknoloji_araclar.jpg" alt="Hayatı Kolaylaştırma" class="rounded-3xl border-4 border-indigo-400/30 shadow-2xl max-h-72 object-cover" />
+                        <img src="assets/slides/teknoloji_araclar.jpg" alt="Hayatı Kolaylaştırma" class="rounded-3xl border-4 border-indigo-400/30 shadow-2xl max-h-[380px] sm:max-h-[440px] md:max-h-[480px] object-cover" />
                     </div>
                 </div>
             `
@@ -635,13 +635,13 @@ window.WEEK2_CONTENT = {
             icon: "fa-solid fa-bolt",
             bgColor: "from-cyan-600 via-blue-700 to-slate-900",
             content: `
-                <div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-center max-w-5xl mx-auto my-auto py-2">
+                <div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-center max-w-6xl mx-auto my-auto py-2">
                     <div class="md:col-span-6 space-y-4 text-left">
-                        <span class="px-3 py-1 bg-cyan-500/20 text-cyan-300 rounded-lg font-black text-xs uppercase tracking-wider">4. OLUMLU ETKİ</span>
-                        <h3 class="text-2xl sm:text-3xl font-black text-white">
+                        <span class="px-3 py-1 bg-cyan-500/20 text-cyan-300 rounded-lg font-black text-sm sm:text-base uppercase tracking-wider font-extrabold">4. OLUMLU ETKİ</span>
+                        <h3 class="text-3xl sm:text-4xl md:text-5xl font-black text-white">
                             Hızlı Haberleşmeyi Sağlaması
                         </h3>
-                        <p class="text-sm sm:text-base text-cyan-100 leading-relaxed font-medium">
+                        <p class="text-lg sm:text-xl text-cyan-100 leading-relaxed font-medium">
                             Mesafeler ne kadar uzak olursa olsun, dünyanın öteki ucundaki insanlarla anında mesajlaşma, sesli ve görüntülü bağlantı kurma imkanı sunar.
                         </p>
                         <div class="p-4 bg-slate-900/80 rounded-2xl border border-cyan-500/30 text-xs text-slate-200">
@@ -649,7 +649,7 @@ window.WEEK2_CONTENT = {
                         </div>
                     </div>
                     <div class="md:col-span-6 flex justify-center">
-                        <img src="assets/slides/iletisim_ag.jpg" alt="Hızlı Haberleşme" class="rounded-3xl border-4 border-cyan-400/30 shadow-2xl max-h-72 object-cover" />
+                        <img src="assets/slides/iletisim_ag.jpg" alt="Hızlı Haberleşme" class="rounded-3xl border-4 border-cyan-400/30 shadow-2xl max-h-[380px] sm:max-h-[440px] md:max-h-[480px] object-cover" />
                     </div>
                 </div>
             `
@@ -664,13 +664,13 @@ window.WEEK2_CONTENT = {
             icon: "fa-solid fa-stopwatch",
             bgColor: "from-blue-700 via-indigo-800 to-slate-900",
             content: `
-                <div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-center max-w-5xl mx-auto my-auto py-2">
+                <div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-center max-w-6xl mx-auto my-auto py-2">
                     <div class="md:col-span-6 space-y-4 text-left">
-                        <span class="px-3 py-1 bg-blue-500/20 text-blue-300 rounded-lg font-black text-xs uppercase tracking-wider">5. OLUMLU ETKİ</span>
-                        <h3 class="text-2xl sm:text-3xl font-black text-white">
+                        <span class="px-3 py-1 bg-blue-500/20 text-blue-300 rounded-lg font-black text-sm sm:text-base uppercase tracking-wider font-extrabold">5. OLUMLU ETKİ</span>
+                        <h3 class="text-3xl sm:text-4xl md:text-5xl font-black text-white">
                             Zamandan Tasarruf Sağlaması
                         </h3>
-                        <p class="text-sm sm:text-base text-blue-100 leading-relaxed font-medium">
+                        <p class="text-lg sm:text-xl text-blue-100 leading-relaxed font-medium">
                             Günler veya haftalar sürebilecek hesaplamaları, banka işlemlerini, bilet alımlarını ve araştırmaları birkaç dakika içinde tamamlamamızı sağlar.
                         </p>
                         <div class="p-4 bg-slate-900/80 rounded-2xl border border-blue-500/30 text-xs text-slate-200">
@@ -678,7 +678,7 @@ window.WEEK2_CONTENT = {
                         </div>
                     </div>
                     <div class="md:col-span-6 flex justify-center">
-                        <img src="assets/slides/ulasim_navigasyon.jpg" alt="Zamandan Tasarruf" class="rounded-3xl border-4 border-blue-400/30 shadow-2xl max-h-72 object-cover" />
+                        <img src="assets/slides/ulasim_navigasyon.jpg" alt="Zamandan Tasarruf" class="rounded-3xl border-4 border-blue-400/30 shadow-2xl max-h-[380px] sm:max-h-[440px] md:max-h-[480px] object-cover" />
                     </div>
                 </div>
             `
@@ -693,10 +693,10 @@ window.WEEK2_CONTENT = {
             icon: "fa-solid fa-triangle-exclamation",
             bgColor: "from-rose-700 via-red-800 to-slate-950",
             content: `
-                <div class="max-w-4xl mx-auto space-y-4 my-auto py-2">
+                <div class="max-w-5xl mx-auto space-y-4 my-auto py-2">
                     <div class="text-center space-y-1">
                         <span class="text-xs font-black uppercase text-yellow-300 tracking-widest">KAYNAKTAKİ 5 OLUMSUZ ETKİ</span>
-                        <h3 class="text-2xl sm:text-3xl font-black text-white">Teknolojinin Getirebileceği Riskler</h3>
+                        <h3 class="text-3xl sm:text-4xl md:text-5xl font-black text-white">Teknolojinin Getirebileceği Riskler</h3>
                     </div>
                     <div class="grid grid-cols-1 sm:grid-cols-5 gap-3 pt-2">
                         <div class="p-4 bg-slate-900/90 rounded-2xl border border-rose-500/40 text-center space-y-2 shadow-xl">
@@ -733,13 +733,13 @@ window.WEEK2_CONTENT = {
             icon: "fa-solid fa-bed",
             bgColor: "from-rose-800 via-red-900 to-slate-950",
             content: `
-                <div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-center max-w-5xl mx-auto my-auto py-2">
+                <div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-center max-w-6xl mx-auto my-auto py-2">
                     <div class="md:col-span-6 space-y-4 text-left">
-                        <span class="px-3 py-1 bg-rose-500/20 text-rose-300 rounded-lg font-black text-xs uppercase tracking-wider">1. OLUMSUZ ETKİ</span>
-                        <h3 class="text-2xl sm:text-3xl font-black text-white">
+                        <span class="px-3 py-1 bg-rose-500/20 text-rose-300 rounded-lg font-black text-sm sm:text-base uppercase tracking-wider font-extrabold">1. OLUMSUZ ETKİ</span>
+                        <h3 class="text-3xl sm:text-4xl md:text-5xl font-black text-white">
                             İnsanları Tembelliğe Alıştırması
                         </h3>
-                        <p class="text-sm sm:text-base text-rose-100 leading-relaxed font-medium">
+                        <p class="text-lg sm:text-xl text-rose-100 leading-relaxed font-medium">
                             Her işin teknolojiye devredilmesi, insanların fiziksel olarak hareket etme ve zihinsel olarak çaba sarf etme arzusunu zayıflatabilir.
                         </p>
                         <div class="p-4 bg-slate-900/80 rounded-2xl border border-rose-500/30 text-xs text-slate-200">
@@ -747,7 +747,7 @@ window.WEEK2_CONTENT = {
                         </div>
                     </div>
                     <div class="md:col-span-6 flex justify-center">
-                        <img src="assets/slides/oyun_bagimliligi.jpg" alt="Tembelliğe Alıştırma" class="rounded-3xl border-4 border-rose-400/30 shadow-2xl max-h-72 object-cover" />
+                        <img src="assets/slides/oyun_bagimliligi.jpg" alt="Tembelliğe Alıştırma" class="rounded-3xl border-4 border-rose-400/30 shadow-2xl max-h-[380px] sm:max-h-[440px] md:max-h-[480px] object-cover" />
                     </div>
                 </div>
             `
@@ -762,13 +762,13 @@ window.WEEK2_CONTENT = {
             icon: "fa-solid fa-user-xmark",
             bgColor: "from-orange-800 via-rose-900 to-slate-950",
             content: `
-                <div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-center max-w-5xl mx-auto my-auto py-2">
+                <div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-center max-w-6xl mx-auto my-auto py-2">
                     <div class="md:col-span-6 space-y-4 text-left">
-                        <span class="px-3 py-1 bg-orange-500/20 text-orange-300 rounded-lg font-black text-xs uppercase tracking-wider">2. OLUMSUZ ETKİ</span>
-                        <h3 class="text-2xl sm:text-3xl font-black text-white">
+                        <span class="px-3 py-1 bg-orange-500/20 text-orange-300 rounded-lg font-black text-sm sm:text-base uppercase tracking-wider font-extrabold">2. OLUMSUZ ETKİ</span>
+                        <h3 class="text-3xl sm:text-4xl md:text-5xl font-black text-white">
                             İşsizlik Oranının Artması
                         </h3>
-                        <p class="text-sm sm:text-base text-orange-100 leading-relaxed font-medium">
+                        <p class="text-lg sm:text-xl text-orange-100 leading-relaxed font-medium">
                             Fabrikalarda ve iş yerlerinde otomatik makinelerin ve robotların insan gücünün yerine geçmesi, bazı alanlarda işsizliğe yol açabilir.
                         </p>
                         <div class="p-4 bg-slate-900/80 rounded-2xl border border-orange-500/30 text-xs text-slate-200">
@@ -776,7 +776,7 @@ window.WEEK2_CONTENT = {
                         </div>
                     </div>
                     <div class="md:col-span-6 flex justify-center">
-                        <img src="assets/slides/uretim_sanayi.jpg" alt="İşsizlik Riski" class="rounded-3xl border-4 border-orange-400/30 shadow-2xl max-h-72 object-cover" />
+                        <img src="assets/slides/uretim_sanayi.jpg" alt="İşsizlik Riski" class="rounded-3xl border-4 border-orange-400/30 shadow-2xl max-h-[380px] sm:max-h-[440px] md:max-h-[480px] object-cover" />
                     </div>
                 </div>
             `
@@ -791,13 +791,13 @@ window.WEEK2_CONTENT = {
             icon: "fa-solid fa-link-slash",
             bgColor: "from-red-800 via-rose-950 to-slate-950",
             content: `
-                <div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-center max-w-5xl mx-auto my-auto py-2">
+                <div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-center max-w-6xl mx-auto my-auto py-2">
                     <div class="md:col-span-6 space-y-4 text-left">
-                        <span class="px-3 py-1 bg-red-500/20 text-red-300 rounded-lg font-black text-xs uppercase tracking-wider">3. OLUMSUZ ETKİ</span>
+                        <span class="px-3 py-1 bg-red-500/20 text-red-300 rounded-lg font-black text-sm sm:text-base uppercase tracking-wider font-extrabold">3. OLUMSUZ ETKİ</span>
                         <h3 class="text-xl sm:text-2xl font-black text-white">
                             “İnsanların birbiriyle olan bağının zamanla kaybolması”
                         </h3>
-                        <p class="text-sm sm:text-base text-rose-100 leading-relaxed font-medium">
+                        <p class="text-lg sm:text-xl text-rose-100 leading-relaxed font-medium">
                             Yüz yüze konuşmak ve sohbet etmek yerine sürekli telefon ve ekranla vakit geçirmek, aile içi ve arkadaşlar arasındaki sosyal bağları zayıflatır.
                         </p>
                         <div class="p-4 bg-slate-900/80 rounded-2xl border border-red-500/30 text-xs text-slate-200">
@@ -805,7 +805,7 @@ window.WEEK2_CONTENT = {
                         </div>
                     </div>
                     <div class="md:col-span-6 flex justify-center">
-                        <img src="assets/slides/sosyal_baglar.jpg" alt="İnsanlar Arasındaki Bağlar" class="rounded-3xl border-4 border-red-400/30 shadow-2xl max-h-72 object-cover" />
+                        <img src="assets/slides/sosyal_baglar.jpg" alt="İnsanlar Arasındaki Bağlar" class="rounded-3xl border-4 border-red-400/30 shadow-2xl max-h-[380px] sm:max-h-[440px] md:max-h-[480px] object-cover" />
                     </div>
                 </div>
             `
@@ -820,13 +820,13 @@ window.WEEK2_CONTENT = {
             icon: "fa-solid fa-person-falling",
             bgColor: "from-rose-900 via-red-950 to-slate-950",
             content: `
-                <div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-center max-w-5xl mx-auto my-auto py-2">
+                <div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-center max-w-6xl mx-auto my-auto py-2">
                     <div class="md:col-span-6 space-y-4 text-left">
-                        <span class="px-3 py-1 bg-rose-500/20 text-rose-300 rounded-lg font-black text-xs uppercase tracking-wider">4. OLUMSUZ ETKİ</span>
+                        <span class="px-3 py-1 bg-rose-500/20 text-rose-300 rounded-lg font-black text-sm sm:text-base uppercase tracking-wider font-extrabold">4. OLUMSUZ ETKİ</span>
                         <h3 class="text-xl sm:text-2xl font-black text-white">
                             “Hareketsiz ve sağlıksız beslenmeyle birlikte obezitenin artması”
                         </h3>
-                        <p class="text-sm sm:text-base text-rose-100 leading-relaxed font-medium">
+                        <p class="text-lg sm:text-xl text-rose-100 leading-relaxed font-medium">
                             Ekran karşısında saatlerce kıpırdamadan oturmak, spordan uzak kalmak ve ekran başında atıştırmak obezite riskini artırır.
                         </p>
                         <div class="p-4 bg-slate-900/80 rounded-2xl border border-rose-500/30 text-xs text-slate-200">
@@ -834,7 +834,7 @@ window.WEEK2_CONTENT = {
                         </div>
                     </div>
                     <div class="md:col-span-6 flex justify-center">
-                        <img src="assets/karakter_yanlis.png" alt="Hareketsizlik" class="rounded-3xl border-4 border-rose-400/30 shadow-2xl max-h-72 object-contain bg-slate-900/70 p-4" />
+                        <img src="assets/karakter_yanlis.png" alt="Hareketsizlik" class="rounded-3xl border-4 border-rose-400/30 shadow-2xl max-h-[380px] sm:max-h-[440px] md:max-h-[480px] object-contain bg-slate-900/70 p-4" />
                     </div>
                 </div>
             `
@@ -849,13 +849,13 @@ window.WEEK2_CONTENT = {
             icon: "fa-solid fa-heart-pulse",
             bgColor: "from-red-900 via-rose-950 to-slate-950",
             content: `
-                <div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-center max-w-5xl mx-auto my-auto py-2">
+                <div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-center max-w-6xl mx-auto my-auto py-2">
                     <div class="md:col-span-6 space-y-4 text-left">
-                        <span class="px-3 py-1 bg-red-500/20 text-red-300 rounded-lg font-black text-xs uppercase tracking-wider">5. OLUMSUZ ETKİ</span>
+                        <span class="px-3 py-1 bg-red-500/20 text-red-300 rounded-lg font-black text-sm sm:text-base uppercase tracking-wider font-extrabold">5. OLUMSUZ ETKİ</span>
                         <h3 class="text-xl sm:text-2xl font-black text-white">
                             “Farklı sağlık problemlerinin ortaya çıkması”
                         </h3>
-                        <p class="text-sm sm:text-base text-rose-100 leading-relaxed font-medium">
+                        <p class="text-lg sm:text-xl text-rose-100 leading-relaxed font-medium">
                             Teknolojinin ölçüsüz, yanlış ve kontrolsüz kullanımı vücudumuzun dengesini bozarak hem bedensel hem de ruhsal sağlık sorunlarına yol açar.
                         </p>
                         <div class="p-4 bg-slate-900/80 rounded-2xl border border-red-500/30 text-xs text-slate-200">
@@ -863,7 +863,7 @@ window.WEEK2_CONTENT = {
                         </div>
                     </div>
                     <div class="md:col-span-6 flex justify-center">
-                        <img src="assets/ergonomi_karsilastirma.png" alt="Sağlık Problemleri" class="rounded-3xl border-4 border-red-400/30 shadow-2xl max-h-72 object-contain bg-slate-900/70 p-2" />
+                        <img src="assets/ergonomi_karsilastirma.png" alt="Sağlık Problemleri" class="rounded-3xl border-4 border-red-400/30 shadow-2xl max-h-[380px] sm:max-h-[440px] md:max-h-[480px] object-contain bg-slate-900/70 p-2" />
                     </div>
                 </div>
             `
@@ -878,22 +878,22 @@ window.WEEK2_CONTENT = {
             icon: "fa-solid fa-shield-heart",
             bgColor: "from-indigo-800 via-purple-900 to-slate-950",
             content: `
-                <div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-center max-w-5xl mx-auto my-auto py-2">
+                <div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-center max-w-6xl mx-auto my-auto py-2">
                     <div class="md:col-span-7 space-y-4 text-left">
                         <div class="bg-slate-900/90 rounded-3xl p-6 border-4 border-yellow-400 shadow-2xl space-y-3">
-                            <span class="px-3 py-1 bg-yellow-400/20 text-yellow-300 rounded-full font-black text-xs uppercase tracking-wider border border-yellow-400/40">
+                            <span class="px-3 py-1 bg-yellow-400/20 text-yellow-300 rounded-full font-black text-sm sm:text-base uppercase tracking-wider font-extrabold border border-yellow-400/40">
                                 ANA KAYNAK CÜMLESİ
                             </span>
                             <h2 class="text-xl sm:text-2xl font-black text-white leading-relaxed">
                                 “Bilgisayar ve diğer teknolojik araçların <span class="text-yellow-300 underline underline-offset-4">yanlış</span> veya <span class="text-yellow-300 underline underline-offset-4">fazla</span> kullanımı sağlık problemlerini de beraberinde getirir.”
                             </h2>
                         </div>
-                        <p class="text-sm sm:text-base text-indigo-200 font-semibold">
+                        <p class="text-lg sm:text-xl text-indigo-200 font-semibold">
                             Teknolojiden faydalanırken bedenimizi korumak bizim elimizdedir!
                         </p>
                     </div>
                     <div class="md:col-span-5 flex justify-center">
-                        <img src="assets/slides/dijital_saglik_durus.jpg" alt="Duruş ve Sağlık" class="rounded-3xl border-4 border-yellow-400/30 shadow-2xl max-h-64 object-cover" />
+                        <img src="assets/slides/dijital_saglik_durus.jpg" alt="Duruş ve Sağlık" class="rounded-3xl border-4 border-yellow-400/30 shadow-2xl max-h-[360px] sm:max-h-[400px] md:max-h-[440px] object-cover" />
                     </div>
                 </div>
             `
@@ -908,13 +908,13 @@ window.WEEK2_CONTENT = {
             icon: "fa-solid fa-person",
             bgColor: "from-red-800 via-rose-900 to-slate-950",
             content: `
-                <div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-center max-w-5xl mx-auto my-auto py-2">
+                <div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-center max-w-6xl mx-auto my-auto py-2">
                     <div class="md:col-span-6 space-y-4 text-left">
-                        <span class="px-3 py-1 bg-rose-500/20 text-rose-300 rounded-lg font-black text-xs uppercase tracking-wider">1. SAĞLIK PROBLEMİ</span>
-                        <h3 class="text-2xl sm:text-3xl font-black text-white">
+                        <span class="px-3 py-1 bg-rose-500/20 text-rose-300 rounded-lg font-black text-sm sm:text-base uppercase tracking-wider font-extrabold">1. SAĞLIK PROBLEMİ</span>
+                        <h3 class="text-3xl sm:text-4xl md:text-5xl font-black text-white">
                             Boyun Kas Ağrıları
                         </h3>
-                        <p class="text-sm sm:text-base text-rose-100 leading-relaxed font-medium">
+                        <p class="text-lg sm:text-xl text-rose-100 leading-relaxed font-medium">
                             Cep telefonuna veya ekrana sürekli başı aşağı eğerek bakmak, boyun ve omuz kaslarına aşırı yük bindirerek şiddetli ağrılara sebep olur.
                         </p>
                         <div class="p-4 bg-slate-900/80 rounded-2xl border border-rose-500/30 text-xs text-slate-200">
@@ -922,7 +922,7 @@ window.WEEK2_CONTENT = {
                         </div>
                     </div>
                     <div class="md:col-span-6 flex justify-center">
-                        <img src="assets/yanlis_oturus.png" alt="Boyun Ağrısı" class="rounded-3xl border-4 border-rose-400/30 shadow-2xl max-h-72 object-contain bg-slate-900/70 p-4" />
+                        <img src="assets/yanlis_oturus.png" alt="Boyun Ağrısı" class="rounded-3xl border-4 border-rose-400/30 shadow-2xl max-h-[380px] sm:max-h-[440px] md:max-h-[480px] object-contain bg-slate-900/70 p-4" />
                     </div>
                 </div>
             `
@@ -937,13 +937,13 @@ window.WEEK2_CONTENT = {
             icon: "fa-solid fa-chair",
             bgColor: "from-rose-800 via-red-900 to-slate-950",
             content: `
-                <div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-center max-w-5xl mx-auto my-auto py-2">
+                <div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-center max-w-6xl mx-auto my-auto py-2">
                     <div class="md:col-span-6 space-y-4 text-left">
-                        <span class="px-3 py-1 bg-rose-500/20 text-rose-300 rounded-lg font-black text-xs uppercase tracking-wider">2. SAĞLIK PROBLEMİ</span>
-                        <h3 class="text-2xl sm:text-3xl font-black text-white">
+                        <span class="px-3 py-1 bg-rose-500/20 text-rose-300 rounded-lg font-black text-sm sm:text-base uppercase tracking-wider font-extrabold">2. SAĞLIK PROBLEMİ</span>
+                        <h3 class="text-3xl sm:text-4xl md:text-5xl font-black text-white">
                             Duruş Bozuklukları
                         </h3>
-                        <p class="text-sm sm:text-base text-rose-100 leading-relaxed font-medium">
+                        <p class="text-lg sm:text-xl text-rose-100 leading-relaxed font-medium">
                             Bilgisayar başında kambur oturmak, koltukta desteksiz ve eğri pozisyonlarda kalmak omurganın doğal yapısını bozarak duruş eğriliklerine yol açar.
                         </p>
                         <div class="p-4 bg-slate-900/80 rounded-2xl border border-rose-500/30 text-xs text-slate-200">
@@ -951,7 +951,7 @@ window.WEEK2_CONTENT = {
                         </div>
                     </div>
                     <div class="md:col-span-6 flex justify-center">
-                        <img src="assets/slides/dijital_saglik_durus.jpg" alt="Duruş Bozuklukları" class="rounded-3xl border-4 border-rose-400/30 shadow-2xl max-h-72 object-cover" />
+                        <img src="assets/slides/dijital_saglik_durus.jpg" alt="Duruş Bozuklukları" class="rounded-3xl border-4 border-rose-400/30 shadow-2xl max-h-[380px] sm:max-h-[440px] md:max-h-[480px] object-cover" />
                     </div>
                 </div>
             `
@@ -966,13 +966,13 @@ window.WEEK2_CONTENT = {
             icon: "fa-solid fa-eye",
             bgColor: "from-cyan-800 via-blue-900 to-slate-950",
             content: `
-                <div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-center max-w-5xl mx-auto my-auto py-2">
+                <div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-center max-w-6xl mx-auto my-auto py-2">
                     <div class="md:col-span-6 space-y-4 text-left">
-                        <span class="px-3 py-1 bg-cyan-500/20 text-cyan-300 rounded-lg font-black text-xs uppercase tracking-wider">3. SAĞLIK PROBLEMİ</span>
-                        <h3 class="text-2xl sm:text-3xl font-black text-white">
+                        <span class="px-3 py-1 bg-cyan-500/20 text-cyan-300 rounded-lg font-black text-sm sm:text-base uppercase tracking-wider font-extrabold">3. SAĞLIK PROBLEMİ</span>
+                        <h3 class="text-3xl sm:text-4xl md:text-5xl font-black text-white">
                             Görme Bozuklukları
                         </h3>
-                        <p class="text-sm sm:text-base text-cyan-100 leading-relaxed font-medium">
+                        <p class="text-lg sm:text-xl text-cyan-100 leading-relaxed font-medium">
                             Ekrana çok yakından ve aralıksız bakmak; göz kırpma sayısını azaltarak göz kuruluğuna, yanmaya, bulanık görmeye ve görme sorunlarına yol açar.
                         </p>
                         <div class="p-4 bg-slate-900/80 rounded-2xl border border-cyan-500/30 text-xs text-slate-200">
@@ -980,7 +980,7 @@ window.WEEK2_CONTENT = {
                         </div>
                     </div>
                     <div class="md:col-span-6 flex justify-center">
-                        <img src="assets/slides/goz_sagligi.jpg" alt="Göz Sağlığı" class="rounded-3xl border-4 border-cyan-400/30 shadow-2xl max-h-72 object-cover" />
+                        <img src="assets/slides/goz_sagligi.jpg" alt="Göz Sağlığı" class="rounded-3xl border-4 border-cyan-400/30 shadow-2xl max-h-[380px] sm:max-h-[440px] md:max-h-[480px] object-cover" />
                     </div>
                 </div>
             `
@@ -995,13 +995,13 @@ window.WEEK2_CONTENT = {
             icon: "fa-solid fa-gamepad",
             bgColor: "from-purple-800 via-indigo-900 to-slate-950",
             content: `
-                <div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-center max-w-5xl mx-auto my-auto py-2">
+                <div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-center max-w-6xl mx-auto my-auto py-2">
                     <div class="md:col-span-6 space-y-4 text-left">
-                        <span class="px-3 py-1 bg-purple-500/20 text-purple-300 rounded-lg font-black text-xs uppercase tracking-wider">4. SAĞLIK PROBLEMİ</span>
-                        <h3 class="text-2xl sm:text-3xl font-black text-white">
+                        <span class="px-3 py-1 bg-purple-500/20 text-purple-300 rounded-lg font-black text-sm sm:text-base uppercase tracking-wider font-extrabold">4. SAĞLIK PROBLEMİ</span>
+                        <h3 class="text-3xl sm:text-4xl md:text-5xl font-black text-white">
                             Teknoloji ve Oyun Bağımlılığı
                         </h3>
-                        <p class="text-sm sm:text-base text-purple-100 leading-relaxed font-medium">
+                        <p class="text-lg sm:text-xl text-purple-100 leading-relaxed font-medium">
                             Ekran başından ayrılamamak, zamanın nasıl geçtiğini fark edememek ve cihaz elinden alındığında öfkelenmek teknoloji bağımlılığının belirtisidir.
                         </p>
                         <div class="p-4 bg-slate-900/80 rounded-2xl border border-purple-500/30 text-xs text-slate-200">
@@ -1009,7 +1009,7 @@ window.WEEK2_CONTENT = {
                         </div>
                     </div>
                     <div class="md:col-span-6 flex justify-center">
-                        <img src="assets/slides/oyun_bagimliligi.jpg" alt="Teknoloji Bağımlılığı" class="rounded-3xl border-4 border-purple-400/30 shadow-2xl max-h-72 object-cover" />
+                        <img src="assets/slides/oyun_bagimliligi.jpg" alt="Teknoloji Bağımlılığı" class="rounded-3xl border-4 border-purple-400/30 shadow-2xl max-h-[380px] sm:max-h-[440px] md:max-h-[480px] object-cover" />
                     </div>
                 </div>
             `
@@ -1024,13 +1024,13 @@ window.WEEK2_CONTENT = {
             icon: "fa-solid fa-brain",
             bgColor: "from-rose-900 via-purple-950 to-slate-950",
             content: `
-                <div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-center max-w-5xl mx-auto my-auto py-2">
+                <div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-center max-w-6xl mx-auto my-auto py-2">
                     <div class="md:col-span-6 space-y-4 text-left">
-                        <span class="px-3 py-1 bg-pink-500/20 text-pink-300 rounded-lg font-black text-xs uppercase tracking-wider">5. SAĞLIK PROBLEMİ</span>
-                        <h3 class="text-2xl sm:text-3xl font-black text-white">
+                        <span class="px-3 py-1 bg-pink-500/20 text-pink-300 rounded-lg font-black text-sm sm:text-base uppercase tracking-wider font-extrabold">5. SAĞLIK PROBLEMİ</span>
+                        <h3 class="text-3xl sm:text-4xl md:text-5xl font-black text-white">
                             Psikolojik Bozukluklar
                         </h3>
-                        <p class="text-sm sm:text-base text-pink-100 leading-relaxed font-medium">
+                        <p class="text-lg sm:text-xl text-pink-100 leading-relaxed font-medium">
                             Sanal dünyada gereğinden fazla zaman geçirmek; gerçek hayattan kopma, yalnızlık hissi, aşırı stres, huzursuzluk ve uyku bozukluklarına sebep olabilir.
                         </p>
                         <div class="p-4 bg-slate-900/80 rounded-2xl border border-pink-500/30 text-xs text-slate-200">
@@ -1038,7 +1038,7 @@ window.WEEK2_CONTENT = {
                         </div>
                     </div>
                     <div class="md:col-span-6 flex justify-center">
-                        <img src="assets/slides/sosyal_baglar.jpg" alt="Psikolojik Sağlık" class="rounded-3xl border-4 border-pink-400/30 shadow-2xl max-h-72 object-cover" />
+                        <img src="assets/slides/sosyal_baglar.jpg" alt="Psikolojik Sağlık" class="rounded-3xl border-4 border-pink-400/30 shadow-2xl max-h-[380px] sm:max-h-[440px] md:max-h-[480px] object-cover" />
                     </div>
                 </div>
             `
@@ -1053,10 +1053,10 @@ window.WEEK2_CONTENT = {
             icon: "fa-solid fa-shield-heart",
             bgColor: "from-indigo-800 via-purple-900 to-slate-950",
             content: `
-                <div class="max-w-4xl mx-auto space-y-4 my-auto py-2">
+                <div class="max-w-5xl mx-auto space-y-4 my-auto py-2">
                     <div class="text-center space-y-1">
                         <span class="text-xs font-black uppercase text-yellow-300 tracking-widest">DİJİTAL SAĞLIK HARİTASI</span>
-                        <h3 class="text-2xl sm:text-3xl font-black text-white">Yanlış ve Fazla Kullanımın Getirdiği 5 Problem</h3>
+                        <h3 class="text-3xl sm:text-4xl md:text-5xl font-black text-white">Yanlış ve Fazla Kullanımın Getirdiği 5 Problem</h3>
                     </div>
                     <div class="grid grid-cols-1 sm:grid-cols-5 gap-3 pt-2 text-center">
                         <div class="p-3 bg-slate-900/90 rounded-2xl border border-rose-500/40 space-y-1 shadow-lg">
@@ -1093,14 +1093,14 @@ window.WEEK2_CONTENT = {
             icon: "fa-solid fa-scale-balanced",
             bgColor: "from-blue-900 via-indigo-950 to-slate-950",
             content: `
-                <div class="max-w-5xl mx-auto space-y-4 my-auto py-2">
+                <div class="max-w-6xl mx-auto space-y-4 my-auto py-2">
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
                         <div class="bg-emerald-950/70 rounded-3xl p-6 border-2 border-emerald-500/50 shadow-xl space-y-3">
                             <div class="flex items-center gap-3 border-b border-emerald-500/40 pb-3">
                                 <i class="fa-solid fa-circle-check text-emerald-400 text-2xl"></i>
                                 <h3 class="text-xl font-black text-emerald-300">OLUMLU ETKİLER</h3>
                             </div>
-                            <ul class="space-y-2 text-xs sm:text-sm text-emerald-100">
+                            <ul class="space-y-2 text-xs sm:text-base sm:text-lg md:text-xl text-emerald-100">
                                 <li class="flex items-center gap-2"><i class="fa-solid fa-check text-emerald-400"></i> Bilgiye kolay ulaşma</li>
                                 <li class="flex items-center gap-2"><i class="fa-solid fa-check text-emerald-400"></i> Maliyeti azaltma</li>
                                 <li class="flex items-center gap-2"><i class="fa-solid fa-check text-emerald-400"></i> Hayatı kolaylaştırma</li>
@@ -1135,10 +1135,10 @@ window.WEEK2_CONTENT = {
             icon: "fa-solid fa-clipboard-check",
             bgColor: "from-indigo-800 via-purple-900 to-slate-950",
             content: `
-                <div class="max-w-4xl mx-auto space-y-4 my-auto py-2">
+                <div class="max-w-5xl mx-auto space-y-4 my-auto py-2">
                     <div class="text-center space-y-1">
                         <span class="text-xs font-black uppercase text-yellow-300 tracking-widest">KAVRAM HARİTASI</span>
-                        <h3 class="text-2xl sm:text-3xl font-black text-white">2. Haftanın Özeti</h3>
+                        <h3 class="text-3xl sm:text-4xl md:text-5xl font-black text-white">2. Haftanın Özeti</h3>
                     </div>
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs sm:text-sm">
                         <div class="p-3.5 bg-slate-900/90 rounded-2xl border border-emerald-500/40 space-y-1">
@@ -1171,16 +1171,16 @@ window.WEEK2_CONTENT = {
             icon: "fa-solid fa-flag-checkered",
             bgColor: "from-blue-700 via-indigo-900 to-slate-950",
             content: `
-                <div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-center max-w-5xl mx-auto my-auto py-2">
+                <div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-center max-w-6xl mx-auto my-auto py-2">
                     <div class="md:col-span-7 space-y-4 text-left">
-                        <span class="px-4 py-1.5 bg-yellow-400/20 text-yellow-300 font-black text-xs uppercase tracking-wider rounded-full border border-yellow-400/40">
+                        <span class="px-4 py-1.5 bg-yellow-400/20 text-yellow-300 font-black text-sm sm:text-base uppercase tracking-wider font-extrabold rounded-full border border-yellow-400/40">
                             TEBRİKLER!
                         </span>
                         <div class="space-y-2">
-                            <h2 class="text-xl sm:text-2xl font-black text-white leading-snug">
+                            <h2 class="text-2xl sm:text-3xl md:text-4xl font-black text-white leading-snug">
                                 “BİLİŞİM TEKNOLOJİLERİNİN OLUMLU VE OLUMSUZ ETKİLERİ OLABİLİR.”
                             </h2>
-                            <p class="text-sm sm:text-base text-yellow-300 font-extrabold leading-snug">
+                            <p class="text-lg sm:text-xl text-yellow-300 font-extrabold leading-snug">
                                 “YANLIŞ VEYA FAZLA KULLANIM SAĞLIK PROBLEMLERİNİ DE BERABERİNDE GETİREBİLİR.”
                             </p>
                         </div>
@@ -1192,7 +1192,7 @@ window.WEEK2_CONTENT = {
                         </div>
                     </div>
                     <div class="md:col-span-5 flex justify-center">
-                        <img src="assets/slides/dijital_saglik_durus.jpg" alt="Ders Sonu" class="rounded-3xl border-4 border-yellow-400/40 shadow-2xl max-h-64 object-cover" />
+                        <img src="assets/slides/dijital_saglik_durus.jpg" alt="Ders Sonu" class="rounded-3xl border-4 border-yellow-400/40 shadow-2xl max-h-[360px] sm:max-h-[400px] md:max-h-[440px] object-cover" />
                     </div>
                 </div>
             `

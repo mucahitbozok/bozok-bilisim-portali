@@ -75,9 +75,8 @@ body {
 /* Sunu Kartı ve Sabit Slayt Boyut Stilleri */
 #slide-display-area {
     width: 100%;
-    height: 600px;
-    min-height: 600px;
-    max-height: 600px;
+    height: auto;
+    min-height: 640px;
     display: flex;
     flex-direction: column;
     position: relative;
@@ -85,9 +84,13 @@ body {
 
 @media (min-width: 640px) {
     #slide-display-area {
-        height: 640px;
-        min-height: 640px;
-        max-height: 640px;
+        min-height: 680px;
+    }
+}
+
+@media (min-width: 1024px) {
+    #slide-display-area {
+        min-height: 720px;
     }
 }
 
@@ -95,12 +98,10 @@ body {
     width: 100%;
     height: 100% !important;
     min-height: 100% !important;
-    max-height: 100% !important;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     transition: all 0.25s ease;
-    overflow: hidden;
     position: relative;
 }
 
@@ -111,8 +112,9 @@ body {
     justify-content: center;
     overflow-y: auto;
     overflow-x: hidden;
-    padding-top: 0.25rem;
-    padding-bottom: 0.25rem;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    font-size: 1.15rem;
 }
 
 .slide-content-scroll::-webkit-scrollbar {
@@ -121,6 +123,21 @@ body {
 .slide-content-scroll::-webkit-scrollbar-thumb {
     background: rgba(255, 255, 255, 0.25);
     border-radius: 9999px;
+}
+
+/* Akıllı Tahta Slayt Görselleri ve Tipografi İyileştirmesi */
+.slide-card img {
+    max-height: 420px !important;
+    width: auto;
+    max-width: 100%;
+    object-fit: contain;
+    border-radius: 1.5rem;
+}
+
+@media (min-width: 768px) {
+    .slide-card img {
+        max-height: 460px !important;
+    }
 }
 
 /* Akıllı Tahta Tam Ekran (Fullscreen) Sunum Modu Stilleri */
@@ -141,9 +158,9 @@ body {
 #view-lecture:-webkit-full-screen #slide-display-area {
     flex: 1 !important;
     width: 100% !important;
-    height: calc(100vh - 160px) !important;
-    min-height: calc(100vh - 160px) !important;
-    max-height: calc(100vh - 160px) !important;
+    height: calc(100vh - 150px) !important;
+    min-height: calc(100vh - 150px) !important;
+    max-height: calc(100vh - 150px) !important;
 }
 
 #view-lecture:fullscreen .slide-card,
@@ -152,6 +169,48 @@ body {
     min-height: 100% !important;
     max-height: 100% !important;
     border-width: 3px !important;
+}
+
+#view-lecture:fullscreen .slide-card img,
+#view-lecture:-webkit-full-screen .slide-card img {
+    max-height: 520px !important;
+}
+
+#view-lecture:fullscreen .slide-content-scroll,
+#view-lecture:-webkit-full-screen .slide-content-scroll {
+    font-size: 1.3rem !important;
+}
+
+/* Akıllı Tahta Tam Ekran (Fullscreen) Oyun Arenası Stilleri */
+#view-games:fullscreen,
+#view-games:-webkit-full-screen {
+    background: #0b0f19 !important;
+    padding: 1.5rem !important;
+    display: flex !important;
+    flex-direction: column !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    z-index: 999999 !important;
+}
+
+#view-games:fullscreen #game-container,
+#view-games:-webkit-full-screen #game-container {
+    flex: 1 !important;
+    width: 100% !important;
+    max-width: 1400px !important;
+    margin: 0 auto !important;
+}
+
+/* Bağımsız Oyun Modalı Tam Ekran Stilleri */
+#standalone-game-modal:fullscreen,
+#standalone-game-modal:-webkit-full-screen {
+    background: #020617 !important;
+    padding: 0.75rem !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    z-index: 999999 !important;
 }
 
 /* Yazdırılabilir Çalışma Kağıdı Stilleri */

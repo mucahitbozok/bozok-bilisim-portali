@@ -412,29 +412,29 @@ class App {
             }
         }
 
-        container.className = `slide-card w-full h-full rounded-3xl p-6 sm:p-8 md:p-10 shadow-2xl bg-gradient-to-br ${slide.bgColor} border-2 border-white/20 flex flex-col justify-between select-none`;
+        container.className = `slide-card w-full h-full rounded-3xl p-6 sm:p-8 md:p-10 lg:p-12 shadow-2xl bg-gradient-to-br ${slide.bgColor} border-2 border-white/20 flex flex-col justify-between select-none`;
         container.innerHTML = `
-            <!-- Slayt Başlık -->
-            <div class="flex items-center justify-between border-b border-white/20 pb-3 mb-3 shrink-0">
-                <div class="flex items-center gap-4">
-                    <div class="w-12 h-12 rounded-2xl bg-white/20 backdrop-blur-md flex items-center justify-center text-yellow-300 text-2xl shadow-inner shrink-0">
+            <!-- Slayt Başlık (Akıllı Tahta Dev Fontlar) -->
+            <div class="flex items-center justify-between border-b border-white/20 pb-4 mb-4 shrink-0 gap-4">
+                <div class="flex items-center gap-4 sm:gap-5">
+                    <div class="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-white/20 backdrop-blur-md flex items-center justify-center text-yellow-300 text-3xl sm:text-4xl shadow-inner shrink-0">
                         <i class="${slide.icon}"></i>
                     </div>
                     <div>
-                        <span class="text-xs uppercase tracking-widest text-yellow-300 font-bold">${slide.topic}</span>
-                        <h2 class="text-xl sm:text-2xl md:text-3xl font-black text-white leading-tight">${slide.title}</h2>
+                        <span class="text-xs sm:text-sm uppercase tracking-widest text-yellow-300 font-extrabold">${slide.topic}</span>
+                        <h2 class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-black text-white leading-tight">${slide.title}</h2>
                     </div>
                 </div>
-                <span class="text-sm font-bold text-white/70 hidden sm:inline-block">${slide.subtitle}</span>
+                <span class="text-sm sm:text-base font-bold text-white/90 hidden sm:inline-block bg-white/10 px-4 py-2 rounded-2xl border border-white/20 shrink-0">${slide.subtitle}</span>
             </div>
 
-            <!-- Slayt İçeriği (Sabit Boyutta Ortalı ve Taşmaz) -->
-            <div class="slide-content-scroll my-auto py-2">
+            <!-- Slayt İçeriği (Genişletilmiş ve Yüksek Okunabilirlik) -->
+            <div class="slide-content-scroll my-auto py-3">
                 ${slide.content}
             </div>
 
             <!-- Slayt Alt Bilgi -->
-            <div class="flex justify-between items-center pt-3 border-t border-white/20 text-xs text-white/70 mt-3 shrink-0">
+            <div class="flex justify-between items-center pt-3 border-t border-white/20 text-xs sm:text-sm text-white/80 font-semibold mt-3 shrink-0">
                 <span>Öğretmen Bozok • 5. Sınıf Bilişim Teknolojileri</span>
                 <span>Akıllı Tahta Sunu Modu 🖥️</span>
             </div>
@@ -525,15 +525,60 @@ class App {
         }
     }
 
-    updateFullscreenUI() {
+    toggleGamesFullscreen() {
+        sounds.playClick();
+        const elem = document.getElementById("view-games");
+        if (!elem) return;
+
         const isFS = !!(document.fullscreenElement || document.webkitFullscreenElement);
+        if (!isFS) {
+            if (elem.requestFullscreen) {
+                elem.requestFullscreen().catch(() => {});
+            } else if (elem.webkitRequestFullscreen) {
+                elem.webkitRequestFullscreen();
+            }
+        } else {
+            if (document.exitFullscreen) {
+                document.exitFullscreen().catch(() => {});
+            } else if (document.webkitExitFullscreen) {
+                document.webkitExitFullscreen();
+            }
+        }
+    }
+
+    toggleStandaloneGameFullscreen() {
+        sounds.playClick();
+        const elem = document.getElementById("standalone-game-modal");
+        if (!elem) return;
+
+        const isFS = !!(document.fullscreenElement || document.webkitFullscreenElement);
+        if (!isFS) {
+            if (elem.requestFullscreen) {
+                elem.requestFullscreen().catch(() => {});
+            } else if (elem.webkitRequestFullscreen) {
+                elem.webkitRequestFullscreen();
+            }
+        } else {
+            if (document.exitFullscreen) {
+                document.exitFullscreen().catch(() => {});
+            } else if (document.webkitExitFullscreen) {
+                document.webkitExitFullscreen();
+            }
+        }
+    }
+
+    updateFullscreenUI() {
+        const fsEl = document.fullscreenElement || document.webkitFullscreenElement;
+
+        // 1. Slayt / Sunum Tam Ekran Durumu
+        const isLectureFS = !!fsEl && (fsEl.id === "view-lecture" || fsEl.contains(document.getElementById("slide-display-area")));
         const icon = document.getElementById("fullscreen-btn-icon");
         const text = document.getElementById("fullscreen-btn-text");
         const bottomIcon = document.getElementById("bottom-fullscreen-icon");
         const bottomText = document.getElementById("bottom-fullscreen-text");
         const lectureEl = document.getElementById("view-lecture");
 
-        if (isFS) {
+        if (isLectureFS) {
             if (icon) icon.className = "fa-solid fa-compress text-base text-yellow-300";
             if (text) text.innerText = "Ekranı Küçült";
             if (bottomIcon) bottomIcon.className = "fa-solid fa-compress text-base text-yellow-300";
@@ -545,6 +590,34 @@ class App {
             if (bottomIcon) bottomIcon.className = "fa-solid fa-expand text-base";
             if (bottomText) bottomText.innerText = "Tam Ekran";
             if (lectureEl) lectureEl.classList.remove("is-fullscreen");
+        }
+
+        // 2. Oyun Arenası Tam Ekran Durumu
+        const isGamesFS = !!fsEl && (fsEl.id === "view-games" || (document.getElementById("game-container") && fsEl.contains(document.getElementById("game-container"))));
+        const gamesIcon = document.getElementById("games-fullscreen-icon");
+        const gamesText = document.getElementById("games-fullscreen-text");
+        if (gamesIcon && gamesText) {
+            if (isGamesFS) {
+                gamesIcon.className = "fa-solid fa-compress text-base text-yellow-300";
+                gamesText.innerText = "Ekranı Küçült";
+            } else {
+                gamesIcon.className = "fa-solid fa-expand text-base";
+                gamesText.innerText = "Tam Ekran";
+            }
+        }
+
+        // 3. Bağımsız Oyun Modalı Tam Ekran Durumu
+        const isStandaloneFS = !!fsEl && (fsEl.id === "standalone-game-modal");
+        const standaloneIcon = document.getElementById("standalone-fullscreen-icon");
+        const standaloneText = document.getElementById("standalone-fullscreen-text");
+        if (standaloneIcon && standaloneText) {
+            if (isStandaloneFS) {
+                standaloneIcon.className = "fa-solid fa-compress text-base text-yellow-300";
+                standaloneText.innerText = "Ekranı Küçült";
+            } else {
+                standaloneIcon.className = "fa-solid fa-expand text-yellow-300";
+                standaloneText.innerText = "Tam Ekran";
+            }
         }
     }
 
@@ -1110,6 +1183,10 @@ class App {
         const gameContainer = document.getElementById("game-container");
         if (!gameContainer) return;
 
+        // Oyun listesine dönüldüğü için geri butonunu gizle
+        const backBtn = document.getElementById("games-hub-back-btn");
+        if (backBtn) backBtn.classList.add("hidden");
+
         const data = this.getCurrentWeekData();
         if (this.currentWeek >= 3 || !data.gameData || !data.gameData.wheelQuiz) {
             this.renderPendingPlaceholder("game-container", "Sınıf İçi Tekrar Oyunları", "fa-solid fa-gamepad");
@@ -1244,6 +1321,11 @@ class App {
     launchGame(gameType) {
         sounds.playClick();
         this.stopAllGames();
+        
+        // Bir oyun açıldığında üst barda menüye dön butonunu göster
+        const backBtn = document.getElementById("games-hub-back-btn");
+        if (backBtn) backBtn.classList.remove("hidden");
+
         if (gameType === 'wheel') {
             wheelGame.init("game-container");
         } else if (gameType === 'match') {
@@ -1382,6 +1464,16 @@ class App {
         sounds.playClick();
         const modal = document.getElementById("standalone-game-modal");
         const iframe = document.getElementById("standalone-game-iframe");
+
+        // Tam ekrandaysa önce tam ekrandan çık
+        if (document.fullscreenElement === modal || document.webkitFullscreenElement === modal) {
+            if (document.exitFullscreen) {
+                document.exitFullscreen().catch(() => {});
+            } else if (document.webkitExitFullscreen) {
+                document.webkitExitFullscreen();
+            }
+        }
+
         if (modal) modal.classList.add("hidden");
         if (iframe) iframe.src = "";
         document.body.classList.remove("overflow-hidden");

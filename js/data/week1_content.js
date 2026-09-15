@@ -440,9 +440,9 @@ window.WEEK1_CONTENT = {
             icon: "fa-solid fa-chalkboard-user",
             bgColor: "from-blue-700 via-indigo-800 to-slate-900",
             content: `
-                <div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-center max-w-5xl mx-auto my-auto py-2">
+                <div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-center max-w-6xl mx-auto my-auto py-2">
                     <div class="md:col-span-6 space-y-4 text-left">
-                        <span class="px-4 py-1.5 bg-yellow-400/20 text-yellow-300 font-extrabold text-xs uppercase tracking-widest rounded-full border border-yellow-400/40">
+                        <span class="px-4 py-1.5 bg-yellow-400/20 text-yellow-300 font-extrabold text-sm sm:text-base uppercase tracking-wider font-extrabold rounded-full border border-yellow-400/40">
                             1. HAFTA • DERS SUNUSU
                         </span>
                         <h1 class="text-3xl sm:text-5xl font-black text-white tracking-tight leading-tight">
@@ -460,7 +460,7 @@ window.WEEK1_CONTENT = {
                     </div>
                     <div class="md:col-span-6 flex justify-center">
                         <div class="relative group rounded-3xl overflow-hidden border-4 border-indigo-400/40 shadow-2xl bg-slate-900/50">
-                            <img src="assets/slides/tech_discovery.jpg" alt="Bilişim Teknolojileri" class="w-full max-h-72 object-cover transition-transform duration-500 group-hover:scale-105" />
+                            <img src="assets/slides/tech_discovery.jpg" alt="Bilişim Teknolojileri" class="w-full max-h-[380px] sm:max-h-[440px] md:max-h-[480px] object-cover transition-transform duration-500 group-hover:scale-105" />
                             <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent flex items-end p-4">
                                 <span class="text-xs font-bold text-yellow-300">✨ Bozok Bilişim Portalı'na Hoş Geldiniz!</span>
                             </div>
@@ -479,36 +479,36 @@ window.WEEK1_CONTENT = {
             icon: "fa-solid fa-bullseye",
             bgColor: "from-indigo-700 via-purple-800 to-slate-900",
             content: `
-                <div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-center max-w-5xl mx-auto my-auto py-2">
+                <div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-center max-w-6xl mx-auto my-auto py-2">
                     <div class="md:col-span-7 space-y-4 text-left">
-                        <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-xl bg-yellow-400/20 text-yellow-300 border border-yellow-400/40 font-black text-xs uppercase tracking-wider">
+                        <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-xl bg-yellow-400/20 text-yellow-300 border border-yellow-400/40 font-black text-sm sm:text-base uppercase tracking-wider font-extrabold">
                             <i class="fa-solid fa-award"></i> BTY.5.1.1
                         </div>
                         <div class="bg-white/10 backdrop-blur-md rounded-3xl p-6 border-2 border-indigo-400/40 shadow-xl space-y-3">
-                            <h3 class="text-xl sm:text-2xl font-black text-white leading-snug">
+                            <h3 class="text-2xl sm:text-3xl md:text-4xl font-black text-white leading-snug">
                                 “Bilişim teknolojilerinin günlük yaşamda kullanım alanlarını sınıflandırabilme.”
                             </h3>
-                            <p class="text-sm text-indigo-100 font-medium">
+                            <p class="text-base sm:text-lg md:text-xl text-indigo-100 font-medium">
                                 Bu ders boyunca temel kavramları öğrenecek, bilişim teknolojilerinin sağladığı 5 temel faydayı ve hayatımızın 11 farklı alanındaki kullanımını keşfedeceğiz.
                             </p>
                         </div>
                         <div class="grid grid-cols-3 gap-3">
                             <div class="p-3 bg-white/5 rounded-xl border border-white/10 text-center">
                                 <span class="text-xs font-bold text-emerald-300 block">5 Temel Kavram</span>
-                                <span class="text-[10px] text-slate-300">Bilgi, İletişim, Teknoloji, Bilişim, BT</span>
+                                <span class="text-xs sm:text-sm font-semibold text-slate-300">Bilgi, İletişim, Teknoloji, Bilişim, BT</span>
                             </div>
                             <div class="p-3 bg-white/5 rounded-xl border border-white/10 text-center">
                                 <span class="text-xs font-bold text-yellow-300 block">5 Temel Fayda</span>
-                                <span class="text-[10px] text-slate-300">Hız, kolaylık, tasarruf</span>
+                                <span class="text-xs sm:text-sm font-semibold text-slate-300">Hız, kolaylık, tasarruf</span>
                             </div>
                             <div class="p-3 bg-white/5 rounded-xl border border-white/10 text-center">
                                 <span class="text-xs font-bold text-cyan-300 block">11 Kullanım Alanı</span>
-                                <span class="text-[10px] text-slate-300">Sağlık, eğitim, uzay...</span>
+                                <span class="text-xs sm:text-sm font-semibold text-slate-300">Sağlık, eğitim, uzay...</span>
                             </div>
                         </div>
                     </div>
                     <div class="md:col-span-5 flex justify-center">
-                        <img src="assets/slides/tech_discovery.jpg" alt="Ders Kazanımı" class="rounded-3xl border-4 border-indigo-400/30 shadow-2xl max-h-64 object-cover" />
+                        <img src="assets/slides/tech_discovery.jpg" alt="Ders Kazanımı" class="rounded-3xl border-4 border-indigo-400/30 shadow-2xl max-h-[360px] sm:max-h-[400px] md:max-h-[440px] object-cover" />
                     </div>
                 </div>
             `
@@ -523,31 +523,31 @@ window.WEEK1_CONTENT = {
             icon: "fa-solid fa-book-open",
             bgColor: "from-blue-600 via-indigo-700 to-slate-900",
             content: `
-                <div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-center max-w-5xl mx-auto my-auto py-2">
+                <div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-center max-w-6xl mx-auto my-auto py-2">
                     <div class="md:col-span-6 space-y-4 text-left">
                         <div class="bg-blue-950/70 border-2 border-blue-400/40 rounded-3xl p-6 shadow-xl space-y-3">
-                            <span class="px-3 py-1 bg-blue-500/20 text-blue-300 rounded-lg font-black text-xs uppercase tracking-wider">RESMİ TANIM</span>
-                            <h2 class="text-2xl sm:text-3xl font-black text-white leading-snug">
+                            <span class="px-3 py-1 bg-blue-500/20 text-blue-300 rounded-lg font-black text-sm sm:text-base uppercase tracking-wider font-extrabold">RESMİ TANIM</span>
+                            <h2 class="text-2xl sm:text-3xl md:text-4xl font-black text-white leading-snug">
                                 “Öğrenme, araştırma ve gözlem yoluyla elde edilen gerçeklere <span class="text-yellow-300 underline underline-offset-4">bilgi</span> denir.”
                             </h2>
                         </div>
                         <div class="grid grid-cols-3 gap-3">
                             <div class="p-3 bg-white/10 rounded-2xl border border-white/10 text-center">
                                 <div class="text-xl text-yellow-300 mb-1"><i class="fa-solid fa-graduation-cap"></i></div>
-                                <span class="font-bold text-xs text-white">Öğrenme</span>
+                                <span class="font-bold text-lg sm:text-xl text-white font-medium">Öğrenme</span>
                             </div>
                             <div class="p-3 bg-white/10 rounded-2xl border border-white/10 text-center">
                                 <div class="text-xl text-cyan-300 mb-1"><i class="fa-solid fa-magnifying-glass"></i></div>
-                                <span class="font-bold text-xs text-white">Araştırma</span>
+                                <span class="font-bold text-lg sm:text-xl text-white font-medium">Araştırma</span>
                             </div>
                             <div class="p-3 bg-white/10 rounded-2xl border border-white/10 text-center">
                                 <div class="text-xl text-emerald-300 mb-1"><i class="fa-solid fa-eye"></i></div>
-                                <span class="font-bold text-xs text-white">Gözlem</span>
+                                <span class="font-bold text-lg sm:text-xl text-white font-medium">Gözlem</span>
                             </div>
                         </div>
                     </div>
                     <div class="md:col-span-6 flex justify-center">
-                        <img src="assets/slides/bilgi_arastirma.jpg" alt="Bilgi ve Araştırma" class="rounded-3xl border-4 border-blue-400/30 shadow-2xl max-h-72 object-cover" />
+                        <img src="assets/slides/bilgi_arastirma.jpg" alt="Bilgi ve Araştırma" class="rounded-3xl border-4 border-blue-400/30 shadow-2xl max-h-[380px] sm:max-h-[440px] md:max-h-[480px] object-cover" />
                     </div>
                 </div>
             `
@@ -562,11 +562,11 @@ window.WEEK1_CONTENT = {
             icon: "fa-solid fa-comments",
             bgColor: "from-cyan-600 via-teal-700 to-slate-900",
             content: `
-                <div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-center max-w-5xl mx-auto my-auto py-2">
+                <div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-center max-w-6xl mx-auto my-auto py-2">
                     <div class="md:col-span-6 space-y-4 text-left">
                         <div class="bg-cyan-950/70 border-2 border-cyan-400/40 rounded-3xl p-6 shadow-xl space-y-3">
-                            <span class="px-3 py-1 bg-cyan-500/20 text-cyan-300 rounded-lg font-black text-xs uppercase tracking-wider">RESMİ TANIM</span>
-                            <h2 class="text-xl sm:text-2xl font-black text-white leading-snug">
+                            <span class="px-3 py-1 bg-cyan-500/20 text-cyan-300 rounded-lg font-black text-sm sm:text-base uppercase tracking-wider font-extrabold">RESMİ TANIM</span>
+                            <h2 class="text-2xl sm:text-3xl md:text-4xl font-black text-white leading-snug">
                                 “Bilginin, duygunun veya düşüncenin göndericiden alıcıya aktarılması sürecine <span class="text-yellow-300 underline underline-offset-4">iletişim</span> denir.”
                             </h2>
                         </div>
@@ -577,7 +577,7 @@ window.WEEK1_CONTENT = {
                         </div>
                     </div>
                     <div class="md:col-span-6 flex justify-center">
-                        <img src="assets/slides/iletisim_ag.jpg" alt="İletişim Süreci" class="rounded-3xl border-4 border-cyan-400/30 shadow-2xl max-h-72 object-cover" />
+                        <img src="assets/slides/iletisim_ag.jpg" alt="İletişim Süreci" class="rounded-3xl border-4 border-cyan-400/30 shadow-2xl max-h-[380px] sm:max-h-[440px] md:max-h-[480px] object-cover" />
                     </div>
                 </div>
             `
@@ -592,11 +592,11 @@ window.WEEK1_CONTENT = {
             icon: "fa-solid fa-gears",
             bgColor: "from-amber-600 via-orange-700 to-slate-900",
             content: `
-                <div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-center max-w-5xl mx-auto my-auto py-2">
+                <div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-center max-w-6xl mx-auto my-auto py-2">
                     <div class="md:col-span-6 space-y-4 text-left">
                         <div class="bg-orange-950/70 border-2 border-orange-400/40 rounded-3xl p-6 shadow-xl space-y-3">
-                            <span class="px-3 py-1 bg-orange-500/20 text-orange-300 rounded-lg font-black text-xs uppercase tracking-wider">RESMİ TANIM</span>
-                            <h2 class="text-xl sm:text-2xl font-black text-white leading-snug">
+                            <span class="px-3 py-1 bg-orange-500/20 text-orange-300 rounded-lg font-black text-sm sm:text-base uppercase tracking-wider font-extrabold">RESMİ TANIM</span>
+                            <h2 class="text-2xl sm:text-3xl md:text-4xl font-black text-white leading-snug">
                                 “İnsan hayatını kolaylaştırmak için başvurulan bilgi, gelişim, yöntem, araç ve teknikler bütünüdür.”
                             </h2>
                         </div>
@@ -610,7 +610,7 @@ window.WEEK1_CONTENT = {
                         </div>
                     </div>
                     <div class="md:col-span-6 flex justify-center">
-                        <img src="assets/slides/teknoloji_araclar.jpg" alt="Teknoloji Araçları" class="rounded-3xl border-4 border-orange-400/30 shadow-2xl max-h-72 object-cover" />
+                        <img src="assets/slides/teknoloji_araclar.jpg" alt="Teknoloji Araçları" class="rounded-3xl border-4 border-orange-400/30 shadow-2xl max-h-[380px] sm:max-h-[440px] md:max-h-[480px] object-cover" />
                     </div>
                 </div>
             `
@@ -625,8 +625,8 @@ window.WEEK1_CONTENT = {
             icon: "fa-solid fa-lightbulb",
             bgColor: "from-purple-600 via-indigo-700 to-slate-900",
             content: `
-                <div class="max-w-4xl mx-auto space-y-6 my-auto text-center py-2">
-                    <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-xl bg-purple-500/20 text-purple-300 border border-purple-400/40 font-black text-xs uppercase tracking-wider">
+                <div class="max-w-5xl mx-auto space-y-6 my-auto text-center py-2">
+                    <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-xl bg-purple-500/20 text-purple-300 border border-purple-400/40 font-black text-sm sm:text-base uppercase tracking-wider font-extrabold">
                         TEMEL FORMÜL
                     </div>
                     <div class="bg-gradient-to-r from-blue-900/60 via-purple-900/60 to-indigo-900/60 rounded-3xl p-8 border-2 border-purple-400/40 shadow-2xl space-y-6">
@@ -654,9 +654,9 @@ window.WEEK1_CONTENT = {
             icon: "fa-solid fa-laptop-code",
             bgColor: "from-blue-700 via-indigo-800 to-slate-900",
             content: `
-                <div class="max-w-4xl mx-auto space-y-5 my-auto py-2">
+                <div class="max-w-5xl mx-auto space-y-5 my-auto py-2">
                     <div class="bg-indigo-950/70 border-2 border-indigo-400/40 rounded-3xl p-6 shadow-xl text-center space-y-3">
-                        <span class="px-3 py-1 bg-indigo-500/20 text-indigo-300 rounded-lg font-black text-xs uppercase tracking-wider">RESMİ TANIM</span>
+                        <span class="px-3 py-1 bg-indigo-500/20 text-indigo-300 rounded-lg font-black text-sm sm:text-base uppercase tracking-wider font-extrabold">RESMİ TANIM</span>
                         <h2 class="text-lg sm:text-xl font-bold text-white leading-relaxed max-w-3xl mx-auto">
                             “Bilginin <span class="text-yellow-300 font-black">toplanması</span>, <span class="text-yellow-300 font-black">işlenmesi</span>, <span class="text-yellow-300 font-black">depolanması</span> ve <span class="text-yellow-300 font-black">kullanılması</span> ile ilgili süreçlerde kullanılan her türlü iletişim cihazları ve bilgisayarları kapsayan teknolojiler bütünüdür.”
                         </h2>
@@ -692,10 +692,10 @@ window.WEEK1_CONTENT = {
             icon: "fa-solid fa-star",
             bgColor: "from-emerald-700 via-teal-800 to-slate-900",
             content: `
-                <div class="max-w-4xl mx-auto space-y-4 my-auto py-2">
+                <div class="max-w-5xl mx-auto space-y-4 my-auto py-2">
                     <div class="text-center space-y-1">
                         <span class="text-xs font-black uppercase text-yellow-300 tracking-widest">KAYNAKTAKİ 5 FAYDA</span>
-                        <h3 class="text-2xl sm:text-3xl font-black text-white">Hayatımıza Ne Kazandırır?</h3>
+                        <h3 class="text-3xl sm:text-4xl md:text-5xl font-black text-white">Hayatımıza Ne Kazandırır?</h3>
                     </div>
                     <div class="grid grid-cols-1 sm:grid-cols-5 gap-3 pt-2">
                         <div class="p-4 bg-slate-900/90 rounded-2xl border border-emerald-500/40 text-center space-y-2 shadow-xl">
@@ -732,26 +732,26 @@ window.WEEK1_CONTENT = {
             icon: "fa-solid fa-gamepad",
             bgColor: "from-pink-600 via-purple-700 to-slate-900",
             content: `
-                <div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-center max-w-5xl mx-auto my-auto py-2">
+                <div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-center max-w-6xl mx-auto my-auto py-2">
                     <div class="md:col-span-6 space-y-4 text-left">
                         <div class="space-y-2">
-                            <span class="px-3 py-1 bg-pink-500/20 text-pink-300 rounded-lg font-black text-xs uppercase tracking-wider">1. ALAN</span>
-                            <h3 class="text-2xl sm:text-3xl font-black text-white">Günlük Yaşam ve Eğlence</h3>
+                            <span class="px-3 py-1 bg-pink-500/20 text-pink-300 rounded-lg font-black text-sm sm:text-base uppercase tracking-wider font-extrabold">1. ALAN</span>
+                            <h3 class="text-3xl sm:text-4xl md:text-5xl font-black text-white">Günlük Yaşam ve Eğlence</h3>
                         </div>
-                        <p class="text-sm sm:text-base text-pink-100 leading-relaxed font-medium">
+                        <p class="text-lg sm:text-xl text-pink-100 leading-relaxed font-medium">
                             Boş zamanlarımızı değerlendirmek, müzik dinlemek, akıllı ev sistemlerini yönetmek ve oyun oynamak için bilişim araçlarını kullanırız.
                         </p>
                         <div class="space-y-2">
-                            <div class="p-2.5 bg-white/10 rounded-xl border border-white/10 text-xs text-white flex items-center gap-2">
+                            <div class="p-2.5 bg-white/10 rounded-xl border border-white/10 text-lg sm:text-xl text-white font-medium flex items-center gap-2">
                                 <i class="fa-solid fa-tv text-pink-300"></i> Akıllı TV ve dijital yayın platformları
                             </div>
-                            <div class="p-2.5 bg-white/10 rounded-xl border border-white/10 text-xs text-white flex items-center gap-2">
+                            <div class="p-2.5 bg-white/10 rounded-xl border border-white/10 text-lg sm:text-xl text-white font-medium flex items-center gap-2">
                                 <i class="fa-solid fa-headphones text-pink-300"></i> Çevrimiçi müzik dinleme ve eğitici oyunlar
                             </div>
                         </div>
                     </div>
                     <div class="md:col-span-6 flex justify-center">
-                        <img src="assets/slides/teknoloji_araclar.jpg" alt="Günlük Yaşam ve Eğlence" class="rounded-3xl border-4 border-pink-400/30 shadow-2xl max-h-72 object-cover" />
+                        <img src="assets/slides/teknoloji_araclar.jpg" alt="Günlük Yaşam ve Eğlence" class="rounded-3xl border-4 border-pink-400/30 shadow-2xl max-h-[380px] sm:max-h-[440px] md:max-h-[480px] object-cover" />
                     </div>
                 </div>
             `
@@ -766,26 +766,26 @@ window.WEEK1_CONTENT = {
             icon: "fa-solid fa-graduation-cap",
             bgColor: "from-blue-600 via-indigo-700 to-slate-900",
             content: `
-                <div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-center max-w-5xl mx-auto my-auto py-2">
+                <div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-center max-w-6xl mx-auto my-auto py-2">
                     <div class="md:col-span-6 space-y-4 text-left">
                         <div class="space-y-2">
-                            <span class="px-3 py-1 bg-blue-500/20 text-blue-300 rounded-lg font-black text-xs uppercase tracking-wider">2. ALAN</span>
-                            <h3 class="text-2xl sm:text-3xl font-black text-white">Eğitim</h3>
+                            <span class="px-3 py-1 bg-blue-500/20 text-blue-300 rounded-lg font-black text-sm sm:text-base uppercase tracking-wider font-extrabold">2. ALAN</span>
+                            <h3 class="text-3xl sm:text-4xl md:text-5xl font-black text-white">Eğitim</h3>
                         </div>
-                        <p class="text-sm sm:text-base text-blue-100 leading-relaxed font-medium">
+                        <p class="text-lg sm:text-xl text-blue-100 leading-relaxed font-medium">
                             Okullarda akıllı tahtalar, eğitim platformları (EBA), ders videoları ve dijital kütüphaneler sayesinde öğrenme çok daha kalıcı hale gelir.
                         </p>
                         <div class="space-y-2">
-                            <div class="p-2.5 bg-white/10 rounded-xl border border-white/10 text-xs text-white flex items-center gap-2">
+                            <div class="p-2.5 bg-white/10 rounded-xl border border-white/10 text-lg sm:text-xl text-white font-medium flex items-center gap-2">
                                 <i class="fa-solid fa-chalkboard text-blue-300"></i> Akıllı tahta ve etkileşimli ekranlar
                             </div>
-                            <div class="p-2.5 bg-white/10 rounded-xl border border-white/10 text-xs text-white flex items-center gap-2">
+                            <div class="p-2.5 bg-white/10 rounded-xl border border-white/10 text-lg sm:text-xl text-white font-medium flex items-center gap-2">
                                 <i class="fa-solid fa-tablet-screen-button text-blue-300"></i> EBA ve dijital ders kitapları
                             </div>
                         </div>
                     </div>
                     <div class="md:col-span-6 flex justify-center">
-                        <img src="assets/slides/bilgi_arastirma.jpg" alt="Eğitim Alanı" class="rounded-3xl border-4 border-blue-400/30 shadow-2xl max-h-72 object-cover" />
+                        <img src="assets/slides/bilgi_arastirma.jpg" alt="Eğitim Alanı" class="rounded-3xl border-4 border-blue-400/30 shadow-2xl max-h-[380px] sm:max-h-[440px] md:max-h-[480px] object-cover" />
                     </div>
                 </div>
             `
@@ -800,26 +800,26 @@ window.WEEK1_CONTENT = {
             icon: "fa-solid fa-car-side",
             bgColor: "from-teal-600 via-cyan-700 to-slate-900",
             content: `
-                <div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-center max-w-5xl mx-auto my-auto py-2">
+                <div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-center max-w-6xl mx-auto my-auto py-2">
                     <div class="md:col-span-6 space-y-4 text-left">
                         <div class="space-y-2">
-                            <span class="px-3 py-1 bg-teal-500/20 text-teal-300 rounded-lg font-black text-xs uppercase tracking-wider">3. ALAN</span>
-                            <h3 class="text-2xl sm:text-3xl font-black text-white">Ulaşım</h3>
+                            <span class="px-3 py-1 bg-teal-500/20 text-teal-300 rounded-lg font-black text-sm sm:text-base uppercase tracking-wider font-extrabold">3. ALAN</span>
+                            <h3 class="text-3xl sm:text-4xl md:text-5xl font-black text-white">Ulaşım</h3>
                         </div>
-                        <p class="text-sm sm:text-base text-teal-100 leading-relaxed font-medium">
+                        <p class="text-lg sm:text-xl text-teal-100 leading-relaxed font-medium">
                             Navigasyon cihazları en kısa yolu gösterir, akıllı bilet sistemleri sıra beklemeden yolculuk yapmamızı sağlar.
                         </p>
                         <div class="space-y-2">
-                            <div class="p-2.5 bg-white/10 rounded-xl border border-white/10 text-xs text-white flex items-center gap-2">
+                            <div class="p-2.5 bg-white/10 rounded-xl border border-white/10 text-lg sm:text-xl text-white font-medium flex items-center gap-2">
                                 <i class="fa-solid fa-map-location-dot text-teal-300"></i> GPS ve navigasyon harita sistemleri
                             </div>
-                            <div class="p-2.5 bg-white/10 rounded-xl border border-white/10 text-xs text-white flex items-center gap-2">
+                            <div class="p-2.5 bg-white/10 rounded-xl border border-white/10 text-lg sm:text-xl text-white font-medium flex items-center gap-2">
                                 <i class="fa-solid fa-ticket text-teal-300"></i> Çevrimiçi bilet alma ve akıllı toplu taşıma kartları
                             </div>
                         </div>
                     </div>
                     <div class="md:col-span-6 flex justify-center">
-                        <img src="assets/slides/ulasim_navigasyon.jpg" alt="Ulaşım Alanı" class="rounded-3xl border-4 border-teal-400/30 shadow-2xl max-h-72 object-cover" />
+                        <img src="assets/slides/ulasim_navigasyon.jpg" alt="Ulaşım Alanı" class="rounded-3xl border-4 border-teal-400/30 shadow-2xl max-h-[380px] sm:max-h-[440px] md:max-h-[480px] object-cover" />
                     </div>
                 </div>
             `
@@ -834,26 +834,26 @@ window.WEEK1_CONTENT = {
             icon: "fa-solid fa-tower-broadcast",
             bgColor: "from-blue-600 via-sky-700 to-slate-900",
             content: `
-                <div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-center max-w-5xl mx-auto my-auto py-2">
+                <div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-center max-w-6xl mx-auto my-auto py-2">
                     <div class="md:col-span-6 space-y-4 text-left">
                         <div class="space-y-2">
-                            <span class="px-3 py-1 bg-sky-500/20 text-sky-300 rounded-lg font-black text-xs uppercase tracking-wider">4. ALAN</span>
-                            <h3 class="text-2xl sm:text-3xl font-black text-white">İletişim</h3>
+                            <span class="px-3 py-1 bg-sky-500/20 text-sky-300 rounded-lg font-black text-sm sm:text-base uppercase tracking-wider font-extrabold">4. ALAN</span>
+                            <h3 class="text-3xl sm:text-4xl md:text-5xl font-black text-white">İletişim</h3>
                         </div>
-                        <p class="text-sm sm:text-base text-sky-100 leading-relaxed font-medium">
+                        <p class="text-lg sm:text-xl text-sky-100 leading-relaxed font-medium">
                             Görüntülü konuşma uygulamaları, anlık mesajlaşma ve e-posta sistemleri sayesinde sevdiklerimizle kesintisiz haberleşiriz.
                         </p>
                         <div class="space-y-2">
-                            <div class="p-2.5 bg-white/10 rounded-xl border border-white/10 text-xs text-white flex items-center gap-2">
+                            <div class="p-2.5 bg-white/10 rounded-xl border border-white/10 text-lg sm:text-xl text-white font-medium flex items-center gap-2">
                                 <i class="fa-solid fa-video text-sky-300"></i> Görüntülü ve sesli konferans görüşmeleri
                             </div>
-                            <div class="p-2.5 bg-white/10 rounded-xl border border-white/10 text-xs text-white flex items-center gap-2">
+                            <div class="p-2.5 bg-white/10 rounded-xl border border-white/10 text-lg sm:text-xl text-white font-medium flex items-center gap-2">
                                 <i class="fa-solid fa-envelope text-sky-300"></i> E-posta ve anlık mesajlaşma programları
                             </div>
                         </div>
                     </div>
                     <div class="md:col-span-6 flex justify-center">
-                        <img src="assets/slides/iletisim_ag.jpg" alt="İletişim Alanı" class="rounded-3xl border-4 border-sky-400/30 shadow-2xl max-h-72 object-cover" />
+                        <img src="assets/slides/iletisim_ag.jpg" alt="İletişim Alanı" class="rounded-3xl border-4 border-sky-400/30 shadow-2xl max-h-[380px] sm:max-h-[440px] md:max-h-[480px] object-cover" />
                     </div>
                 </div>
             `
@@ -868,26 +868,26 @@ window.WEEK1_CONTENT = {
             icon: "fa-solid fa-heart-pulse",
             bgColor: "from-rose-600 via-red-700 to-slate-900",
             content: `
-                <div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-center max-w-5xl mx-auto my-auto py-2">
+                <div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-center max-w-6xl mx-auto my-auto py-2">
                     <div class="md:col-span-6 space-y-4 text-left">
                         <div class="space-y-2">
-                            <span class="px-3 py-1 bg-rose-500/20 text-rose-300 rounded-lg font-black text-xs uppercase tracking-wider">5. ALAN</span>
-                            <h3 class="text-2xl sm:text-3xl font-black text-white">Sağlık</h3>
+                            <span class="px-3 py-1 bg-rose-500/20 text-rose-300 rounded-lg font-black text-sm sm:text-base uppercase tracking-wider font-extrabold">5. ALAN</span>
+                            <h3 class="text-3xl sm:text-4xl md:text-5xl font-black text-white">Sağlık</h3>
                         </div>
-                        <p class="text-sm sm:text-base text-rose-100 leading-relaxed font-medium">
+                        <p class="text-lg sm:text-xl text-rose-100 leading-relaxed font-medium">
                             Hastanelerde kullanılan dijital randevu sistemleri (MHRS), tahlil sonuçları ve modern tıbbi görüntüleme cihazları hayat kurtarır.
                         </p>
                         <div class="space-y-2">
-                            <div class="p-2.5 bg-white/10 rounded-xl border border-white/10 text-xs text-white flex items-center gap-2">
+                            <div class="p-2.5 bg-white/10 rounded-xl border border-white/10 text-lg sm:text-xl text-white font-medium flex items-center gap-2">
                                 <i class="fa-solid fa-hospital-user text-rose-300"></i> MHRS online hastane randevusu ve e-Nabız
                             </div>
-                            <div class="p-2.5 bg-white/10 rounded-xl border border-white/10 text-xs text-white flex items-center gap-2">
+                            <div class="p-2.5 bg-white/10 rounded-xl border border-white/10 text-lg sm:text-xl text-white font-medium flex items-center gap-2">
                                 <i class="fa-solid fa-x-ray text-rose-300"></i> Röntgen, MR ve ultrason gibi dijital tanı cihazları
                             </div>
                         </div>
                     </div>
                     <div class="md:col-span-6 flex justify-center">
-                        <img src="assets/slides/saglik_teknoloji.jpg" alt="Sağlık Alanı" class="rounded-3xl border-4 border-rose-400/30 shadow-2xl max-h-72 object-cover" />
+                        <img src="assets/slides/saglik_teknoloji.jpg" alt="Sağlık Alanı" class="rounded-3xl border-4 border-rose-400/30 shadow-2xl max-h-[380px] sm:max-h-[440px] md:max-h-[480px] object-cover" />
                     </div>
                 </div>
             `
@@ -902,26 +902,26 @@ window.WEEK1_CONTENT = {
             icon: "fa-solid fa-shield-halved",
             bgColor: "from-slate-700 via-indigo-900 to-slate-950",
             content: `
-                <div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-center max-w-5xl mx-auto my-auto py-2">
+                <div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-center max-w-6xl mx-auto my-auto py-2">
                     <div class="md:col-span-6 space-y-4 text-left">
                         <div class="space-y-2">
-                            <span class="px-3 py-1 bg-indigo-500/20 text-indigo-300 rounded-lg font-black text-xs uppercase tracking-wider">6. ALAN</span>
-                            <h3 class="text-2xl sm:text-3xl font-black text-white">Güvenlik</h3>
+                            <span class="px-3 py-1 bg-indigo-500/20 text-indigo-300 rounded-lg font-black text-sm sm:text-base uppercase tracking-wider font-extrabold">6. ALAN</span>
+                            <h3 class="text-3xl sm:text-4xl md:text-5xl font-black text-white">Güvenlik</h3>
                         </div>
-                        <p class="text-sm sm:text-base text-indigo-100 leading-relaxed font-medium">
+                        <p class="text-lg sm:text-xl text-indigo-100 leading-relaxed font-medium">
                             Şehir güvenlik kameraları (MOBESE), parmak izi okuyucular ve akıllı alarm sistemleri toplumun güvenliğini sağlar.
                         </p>
                         <div class="space-y-2">
-                            <div class="p-2.5 bg-white/10 rounded-xl border border-white/10 text-xs text-white flex items-center gap-2">
+                            <div class="p-2.5 bg-white/10 rounded-xl border border-white/10 text-lg sm:text-xl text-white font-medium flex items-center gap-2">
                                 <i class="fa-solid fa-camera text-indigo-300"></i> Şehir güvenlik ve MOBESE kameraları
                             </div>
-                            <div class="p-2.5 bg-white/10 rounded-xl border border-white/10 text-xs text-white flex items-center gap-2">
+                            <div class="p-2.5 bg-white/10 rounded-xl border border-white/10 text-lg sm:text-xl text-white font-medium flex items-center gap-2">
                                 <i class="fa-solid fa-fingerprint text-indigo-300"></i> Biyometrik kimlik doğrulama (parmak izi, yüz tanıma)
                             </div>
                         </div>
                     </div>
                     <div class="md:col-span-6 flex justify-center">
-                        <img src="assets/slides/guvenlik_bankacilik.jpg" alt="Güvenlik Alanı" class="rounded-3xl border-4 border-indigo-400/30 shadow-2xl max-h-72 object-cover" />
+                        <img src="assets/slides/guvenlik_bankacilik.jpg" alt="Güvenlik Alanı" class="rounded-3xl border-4 border-indigo-400/30 shadow-2xl max-h-[380px] sm:max-h-[440px] md:max-h-[480px] object-cover" />
                     </div>
                 </div>
             `
@@ -936,26 +936,26 @@ window.WEEK1_CONTENT = {
             icon: "fa-solid fa-credit-card",
             bgColor: "from-emerald-700 via-teal-800 to-slate-900",
             content: `
-                <div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-center max-w-5xl mx-auto my-auto py-2">
+                <div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-center max-w-6xl mx-auto my-auto py-2">
                     <div class="md:col-span-6 space-y-4 text-left">
                         <div class="space-y-2">
-                            <span class="px-3 py-1 bg-teal-500/20 text-teal-300 rounded-lg font-black text-xs uppercase tracking-wider">7. ALAN</span>
-                            <h3 class="text-2xl sm:text-3xl font-black text-white">Bankacılık ve Alışveriş</h3>
+                            <span class="px-3 py-1 bg-teal-500/20 text-teal-300 rounded-lg font-black text-sm sm:text-base uppercase tracking-wider font-extrabold">7. ALAN</span>
+                            <h3 class="text-3xl sm:text-4xl md:text-5xl font-black text-white">Bankacılık ve Alışveriş</h3>
                         </div>
-                        <p class="text-sm sm:text-base text-teal-100 leading-relaxed font-medium">
+                        <p class="text-lg sm:text-xl text-teal-100 leading-relaxed font-medium">
                             ATM cihazları, mobil bankacılık uygulamaları ve çevrimiçi e-ticaret siteleri finansal işlemleri hızlandırır.
                         </p>
                         <div class="space-y-2">
-                            <div class="p-2.5 bg-white/10 rounded-xl border border-white/10 text-xs text-white flex items-center gap-2">
+                            <div class="p-2.5 bg-white/10 rounded-xl border border-white/10 text-lg sm:text-xl text-white font-medium flex items-center gap-2">
                                 <i class="fa-solid fa-money-bill-transfer text-teal-300"></i> ATM'ler ve temassız güvenli ödeme
                             </div>
-                            <div class="p-2.5 bg-white/10 rounded-xl border border-white/10 text-xs text-white flex items-center gap-2">
+                            <div class="p-2.5 bg-white/10 rounded-xl border border-white/10 text-lg sm:text-xl text-white font-medium flex items-center gap-2">
                                 <i class="fa-solid fa-cart-shopping text-teal-300"></i> İnternetten güvenli alışveriş ve mobil bankacılık
                             </div>
                         </div>
                     </div>
                     <div class="md:col-span-6 flex justify-center">
-                        <img src="assets/slides/guvenlik_bankacilik.jpg" alt="Bankacılık ve Alışveriş" class="rounded-3xl border-4 border-teal-400/30 shadow-2xl max-h-72 object-cover" />
+                        <img src="assets/slides/guvenlik_bankacilik.jpg" alt="Bankacılık ve Alışveriş" class="rounded-3xl border-4 border-teal-400/30 shadow-2xl max-h-[380px] sm:max-h-[440px] md:max-h-[480px] object-cover" />
                     </div>
                 </div>
             `
@@ -970,26 +970,26 @@ window.WEEK1_CONTENT = {
             icon: "fa-solid fa-compass-drafting",
             bgColor: "from-amber-700 via-orange-800 to-slate-900",
             content: `
-                <div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-center max-w-5xl mx-auto my-auto py-2">
+                <div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-center max-w-6xl mx-auto my-auto py-2">
                     <div class="md:col-span-6 space-y-4 text-left">
                         <div class="space-y-2">
-                            <span class="px-3 py-1 bg-amber-500/20 text-amber-300 rounded-lg font-black text-xs uppercase tracking-wider">8. ALAN</span>
-                            <h3 class="text-2xl sm:text-3xl font-black text-white">Mühendislik ve Mimari</h3>
+                            <span class="px-3 py-1 bg-amber-500/20 text-amber-300 rounded-lg font-black text-sm sm:text-base uppercase tracking-wider font-extrabold">8. ALAN</span>
+                            <h3 class="text-3xl sm:text-4xl md:text-5xl font-black text-white">Mühendislik ve Mimari</h3>
                         </div>
-                        <p class="text-sm sm:text-base text-amber-100 leading-relaxed font-medium">
+                        <p class="text-lg sm:text-xl text-amber-100 leading-relaxed font-medium">
                             Binaların, köprülerin ve makinelerin çizimi bilgisayar destekli 3 boyutlu tasarım programlarıyla sıfır hatayla yapılır.
                         </p>
                         <div class="space-y-2">
-                            <div class="p-2.5 bg-white/10 rounded-xl border border-white/10 text-xs text-white flex items-center gap-2">
+                            <div class="p-2.5 bg-white/10 rounded-xl border border-white/10 text-lg sm:text-xl text-white font-medium flex items-center gap-2">
                                 <i class="fa-solid fa-cubes text-amber-300"></i> 3 Boyutlu mimari modelleme ve CAD çizimleri
                             </div>
-                            <div class="p-2.5 bg-white/10 rounded-xl border border-white/10 text-xs text-white flex items-center gap-2">
+                            <div class="p-2.5 bg-white/10 rounded-xl border border-white/10 text-lg sm:text-xl text-white font-medium flex items-center gap-2">
                                 <i class="fa-solid fa-print text-amber-300"></i> 3D yazıcılar ile prototip üretimi
                             </div>
                         </div>
                     </div>
                     <div class="md:col-span-6 flex justify-center">
-                        <img src="assets/slides/uretim_sanayi.jpg" alt="Mühendislik ve Mimari" class="rounded-3xl border-4 border-amber-400/30 shadow-2xl max-h-72 object-cover" />
+                        <img src="assets/slides/uretim_sanayi.jpg" alt="Mühendislik ve Mimari" class="rounded-3xl border-4 border-amber-400/30 shadow-2xl max-h-[380px] sm:max-h-[440px] md:max-h-[480px] object-cover" />
                     </div>
                 </div>
             `
@@ -1004,26 +1004,26 @@ window.WEEK1_CONTENT = {
             icon: "fa-solid fa-clapperboard",
             bgColor: "from-purple-700 via-pink-800 to-slate-900",
             content: `
-                <div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-center max-w-5xl mx-auto my-auto py-2">
+                <div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-center max-w-6xl mx-auto my-auto py-2">
                     <div class="md:col-span-6 space-y-4 text-left">
                         <div class="space-y-2">
-                            <span class="px-3 py-1 bg-purple-500/20 text-purple-300 rounded-lg font-black text-xs uppercase tracking-wider">9. ALAN</span>
-                            <h3 class="text-2xl sm:text-3xl font-black text-white">Sinema ve Televizyon</h3>
+                            <span class="px-3 py-1 bg-purple-500/20 text-purple-300 rounded-lg font-black text-sm sm:text-base uppercase tracking-wider font-extrabold">9. ALAN</span>
+                            <h3 class="text-3xl sm:text-4xl md:text-5xl font-black text-white">Sinema ve Televizyon</h3>
                         </div>
-                        <p class="text-sm sm:text-base text-purple-100 leading-relaxed font-medium">
+                        <p class="text-lg sm:text-xl text-purple-100 leading-relaxed font-medium">
                             Çizgi filmler, büyüleyici görsel efektler (CGI), ses montajları ve dijital kurgular bilişim teknolojileriyle üretilir.
                         </p>
                         <div class="space-y-2">
-                            <div class="p-2.5 bg-white/10 rounded-xl border border-white/10 text-xs text-white flex items-center gap-2">
+                            <div class="p-2.5 bg-white/10 rounded-xl border border-white/10 text-lg sm:text-xl text-white font-medium flex items-center gap-2">
                                 <i class="fa-solid fa-wand-magic-sparkles text-purple-300"></i> Bilgisayar destekli görsel efektler (CGI)
                             </div>
-                            <div class="p-2.5 bg-white/10 rounded-xl border border-white/10 text-xs text-white flex items-center gap-2">
+                            <div class="p-2.5 bg-white/10 rounded-xl border border-white/10 text-lg sm:text-xl text-white font-medium flex items-center gap-2">
                                 <i class="fa-solid fa-film text-purple-300"></i> Dijital animasyonlar ve ses montaj stüdyoları
                             </div>
                         </div>
                     </div>
                     <div class="md:col-span-6 flex justify-center">
-                        <img src="assets/slides/tech_discovery.jpg" alt="Sinema ve Televizyon" class="rounded-3xl border-4 border-purple-400/30 shadow-2xl max-h-72 object-cover" />
+                        <img src="assets/slides/tech_discovery.jpg" alt="Sinema ve Televizyon" class="rounded-3xl border-4 border-purple-400/30 shadow-2xl max-h-[380px] sm:max-h-[440px] md:max-h-[480px] object-cover" />
                     </div>
                 </div>
             `
@@ -1038,26 +1038,26 @@ window.WEEK1_CONTENT = {
             icon: "fa-solid fa-rocket",
             bgColor: "from-indigo-800 via-blue-900 to-slate-950",
             content: `
-                <div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-center max-w-5xl mx-auto my-auto py-2">
+                <div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-center max-w-6xl mx-auto my-auto py-2">
                     <div class="md:col-span-6 space-y-4 text-left">
                         <div class="space-y-2">
-                            <span class="px-3 py-1 bg-cyan-500/20 text-cyan-300 rounded-lg font-black text-xs uppercase tracking-wider">10. ALAN</span>
-                            <h3 class="text-2xl sm:text-3xl font-black text-white">Bilim ve Uzay</h3>
+                            <span class="px-3 py-1 bg-cyan-500/20 text-cyan-300 rounded-lg font-black text-sm sm:text-base uppercase tracking-wider font-extrabold">10. ALAN</span>
+                            <h3 class="text-3xl sm:text-4xl md:text-5xl font-black text-white">Bilim ve Uzay</h3>
                         </div>
-                        <p class="text-sm sm:text-base text-cyan-100 leading-relaxed font-medium">
+                        <p class="text-lg sm:text-xl text-cyan-100 leading-relaxed font-medium">
                             Uzay teleskopları, yapay uydular ve süper bilgisayarlar evreni keşfetmemizi ve bilimsel araştırmalar yapmamızı sağlar.
                         </p>
                         <div class="space-y-2">
-                            <div class="p-2.5 bg-white/10 rounded-xl border border-white/10 text-xs text-white flex items-center gap-2">
+                            <div class="p-2.5 bg-white/10 rounded-xl border border-white/10 text-lg sm:text-xl text-white font-medium flex items-center gap-2">
                                 <i class="fa-solid fa-satellite text-cyan-300"></i> Yapay uydular ve uzay teleskopları
                             </div>
-                            <div class="p-2.5 bg-white/10 rounded-xl border border-white/10 text-xs text-white flex items-center gap-2">
+                            <div class="p-2.5 bg-white/10 rounded-xl border border-white/10 text-lg sm:text-xl text-white font-medium flex items-center gap-2">
                                 <i class="fa-solid fa-meteor text-cyan-300"></i> Gezegen araştırmaları ve hava tahmin modelleri
                             </div>
                         </div>
                     </div>
                     <div class="md:col-span-6 flex justify-center">
-                        <img src="assets/slides/bilim_uzay.jpg" alt="Bilim ve Uzay Alanı" class="rounded-3xl border-4 border-cyan-400/30 shadow-2xl max-h-72 object-cover" />
+                        <img src="assets/slides/bilim_uzay.jpg" alt="Bilim ve Uzay Alanı" class="rounded-3xl border-4 border-cyan-400/30 shadow-2xl max-h-[380px] sm:max-h-[440px] md:max-h-[480px] object-cover" />
                     </div>
                 </div>
             `
@@ -1072,26 +1072,26 @@ window.WEEK1_CONTENT = {
             icon: "fa-solid fa-industry",
             bgColor: "from-slate-700 via-zinc-800 to-slate-950",
             content: `
-                <div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-center max-w-5xl mx-auto my-auto py-2">
+                <div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-center max-w-6xl mx-auto my-auto py-2">
                     <div class="md:col-span-6 space-y-4 text-left">
                         <div class="space-y-2">
-                            <span class="px-3 py-1 bg-yellow-500/20 text-yellow-300 rounded-lg font-black text-xs uppercase tracking-wider">11. ALAN</span>
-                            <h3 class="text-2xl sm:text-3xl font-black text-white">Üretim ve Sanayi</h3>
+                            <span class="px-3 py-1 bg-yellow-500/20 text-yellow-300 rounded-lg font-black text-sm sm:text-base uppercase tracking-wider font-extrabold">11. ALAN</span>
+                            <h3 class="text-3xl sm:text-4xl md:text-5xl font-black text-white">Üretim ve Sanayi</h3>
                         </div>
-                        <p class="text-sm sm:text-base text-zinc-100 leading-relaxed font-medium">
+                        <p class="text-lg sm:text-xl text-zinc-100 leading-relaxed font-medium">
                             Fabrikalarda otomatik robot kollar, insansız üretim bantları ve akıllı depolar seri ve hatasız üretimi mümkün kılar.
                         </p>
                         <div class="space-y-2">
-                            <div class="p-2.5 bg-white/10 rounded-xl border border-white/10 text-xs text-white flex items-center gap-2">
+                            <div class="p-2.5 bg-white/10 rounded-xl border border-white/10 text-lg sm:text-xl text-white font-medium flex items-center gap-2">
                                 <i class="fa-solid fa-robot text-yellow-300"></i> Otomatik montaj yapan robot kollar
                             </div>
-                            <div class="p-2.5 bg-white/10 rounded-xl border border-white/10 text-xs text-white flex items-center gap-2">
+                            <div class="p-2.5 bg-white/10 rounded-xl border border-white/10 text-lg sm:text-xl text-white font-medium flex items-center gap-2">
                                 <i class="fa-solid fa-boxes-stacked text-yellow-300"></i> Akıllı depo ve otomatik lojistik sistemleri
                             </div>
                         </div>
                     </div>
                     <div class="md:col-span-6 flex justify-center">
-                        <img src="assets/slides/uretim_sanayi.jpg" alt="Üretim ve Sanayi" class="rounded-3xl border-4 border-yellow-400/30 shadow-2xl max-h-72 object-cover" />
+                        <img src="assets/slides/uretim_sanayi.jpg" alt="Üretim ve Sanayi" class="rounded-3xl border-4 border-yellow-400/30 shadow-2xl max-h-[380px] sm:max-h-[440px] md:max-h-[480px] object-cover" />
                     </div>
                 </div>
             `
@@ -1106,10 +1106,10 @@ window.WEEK1_CONTENT = {
             icon: "fa-solid fa-sitemap",
             bgColor: "from-blue-800 via-indigo-900 to-slate-950",
             content: `
-                <div class="max-w-5xl mx-auto space-y-4 my-auto py-2">
+                <div class="max-w-6xl mx-auto space-y-4 my-auto py-2">
                     <div class="text-center space-y-1">
                         <span class="text-xs font-black uppercase text-yellow-300 tracking-widest">GENEL BAKIŞ</span>
-                        <h3 class="text-2xl sm:text-3xl font-black text-white">Bilişim Teknolojilerinin 11 Kullanım Alanı</h3>
+                        <h3 class="text-3xl sm:text-4xl md:text-5xl font-black text-white">Bilişim Teknolojilerinin 11 Kullanım Alanı</h3>
                     </div>
                     <div class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 gap-2.5 pt-2 text-center text-xs">
                         <div class="p-3 bg-white/10 rounded-xl border border-white/10"><i class="fa-solid fa-gamepad text-pink-400 text-lg block mb-1"></i>1. Günlük Yaşam</div>
@@ -1137,10 +1137,10 @@ window.WEEK1_CONTENT = {
             icon: "fa-solid fa-clipboard-check",
             bgColor: "from-indigo-800 via-purple-900 to-slate-950",
             content: `
-                <div class="max-w-4xl mx-auto space-y-4 my-auto py-2">
+                <div class="max-w-5xl mx-auto space-y-4 my-auto py-2">
                     <div class="text-center space-y-1">
                         <span class="text-xs font-black uppercase text-yellow-300 tracking-widest">KAVRAM HARİTASI</span>
-                        <h3 class="text-2xl sm:text-3xl font-black text-white">Dersimizin Özeti</h3>
+                        <h3 class="text-3xl sm:text-4xl md:text-5xl font-black text-white">Dersimizin Özeti</h3>
                     </div>
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs sm:text-sm">
                         <div class="p-3.5 bg-slate-900/90 rounded-2xl border border-blue-500/40 space-y-1">
@@ -1173,9 +1173,9 @@ window.WEEK1_CONTENT = {
             icon: "fa-solid fa-flag-checkered",
             bgColor: "from-blue-700 via-indigo-900 to-slate-950",
             content: `
-                <div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-center max-w-5xl mx-auto my-auto py-2">
+                <div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-center max-w-6xl mx-auto my-auto py-2">
                     <div class="md:col-span-7 space-y-4 text-left">
-                        <span class="px-4 py-1.5 bg-yellow-400/20 text-yellow-300 font-black text-xs uppercase tracking-wider rounded-full border border-yellow-400/40">
+                        <span class="px-4 py-1.5 bg-yellow-400/20 text-yellow-300 font-black text-sm sm:text-base uppercase tracking-wider font-extrabold rounded-full border border-yellow-400/40">
                             TEBRİKLER!
                         </span>
                         <h2 class="text-2xl sm:text-4xl font-black text-white leading-tight">
@@ -1189,7 +1189,7 @@ window.WEEK1_CONTENT = {
                         </div>
                     </div>
                     <div class="md:col-span-5 flex justify-center">
-                        <img src="assets/slides/tech_discovery.jpg" alt="Kapanış" class="rounded-3xl border-4 border-yellow-400/40 shadow-2xl max-h-64 object-cover" />
+                        <img src="assets/slides/tech_discovery.jpg" alt="Kapanış" class="rounded-3xl border-4 border-yellow-400/40 shadow-2xl max-h-[360px] sm:max-h-[400px] md:max-h-[440px] object-cover" />
                     </div>
                 </div>
             `
