@@ -28,12 +28,17 @@ class MatchGame {
         const data = (typeof app !== 'undefined' && app.getCurrentWeekData) ? app.getCurrentWeekData() : WEEK1_CONTENT;
         this.items = [...(data.gameData?.matchCards || WEEK1_CONTENT.gameData.matchCards)];
 
+        const config = data.gameData?.matchConfig || {};
+        const leftTitle = config.leftTitle || "Bilişim Teknolojileri";
+        const rightTitle = config.rightTitle || "Kullanım Alanları";
+        const instruction = config.instruction || "💡 <strong>Nasıl Oynanır?</strong> Soldan bir kavrama dokun, ardından sağdan ait olduğu doğru alana/açıklamaya dokunarak eşleştir!";
+
         // Shuffle arrays
         const leftItems = [...this.items].sort(() => Math.random() - 0.5);
         const rightItems = [...this.items].sort(() => Math.random() - 0.5);
 
         container.innerHTML = `
-            <div class="max-w-4xl mx-auto bg-slate-900 text-white rounded-3xl p-6 shadow-2xl border-4 border-emerald-500">
+            <div class="max-w-5xl mx-auto bg-slate-900 text-white rounded-3xl p-6 shadow-2xl border-4 border-emerald-500">
                 <!-- Üst Bilgi Barı -->
                 <div class="flex items-center justify-between flex-wrap gap-4 pb-4 border-b border-slate-700">
                     <div class="flex items-center gap-3">
@@ -61,34 +66,34 @@ class MatchGame {
                 </div>
 
                 <!-- Oyun Yönergesi -->
-                <div class="bg-emerald-950/40 border border-emerald-500/30 rounded-2xl p-3 my-4 text-center text-sm text-emerald-200">
-                    💡 <strong>Nasıl Oynanır?</strong> Soldan bir teknolojiye dokun, ardından sağdan ait olduğu alana dokunarak eşleştir!
+                <div class="bg-emerald-950/50 border border-emerald-500/40 rounded-2xl p-4 my-4 text-center text-sm sm:text-base text-emerald-200 font-semibold shadow-inner">
+                    ${instruction}
                 </div>
 
                 <!-- Eşleştirme Alanı -->
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4 relative">
-                    <!-- Sol Kolon (Teknolojiler) -->
-                    <div class="space-y-3" id="match-left-column">
-                        <h4 class="text-center font-bold text-slate-400 text-xs tracking-wider uppercase mb-2">Bilişim Teknolojileri</h4>
+                    <!-- Sol Kolon -->
+                    <div class="space-y-3.5" id="match-left-column">
+                        <h4 class="text-center font-black text-slate-200 text-sm sm:text-base tracking-wider uppercase mb-2 bg-slate-800/90 py-2.5 rounded-xl border border-slate-700">${leftTitle}</h4>
                         ${leftItems.map(item => `
-                            <button id="left-${item.id}" onclick="matchGame.selectLeft(${item.id})" class="match-card w-full p-4 bg-slate-800 hover:bg-slate-750 border-2 border-slate-700 hover:border-blue-400 rounded-2xl text-left font-bold text-white flex items-center gap-3 transition-all active:scale-95 shadow-md">
-                                <div class="w-10 h-10 rounded-xl bg-blue-500/20 text-blue-400 flex items-center justify-center text-lg shrink-0">
+                            <button id="left-${item.id}" onclick="matchGame.selectLeft(${item.id})" class="match-card w-full p-4 sm:p-5 bg-slate-800 hover:bg-slate-750 border-2 border-slate-700 hover:border-blue-400 rounded-2xl text-left font-bold text-white flex items-center gap-3.5 transition-all active:scale-95 shadow-md text-base sm:text-lg">
+                                <div class="w-12 h-12 rounded-xl bg-blue-500/20 text-blue-400 flex items-center justify-center text-2xl shrink-0">
                                     <i class="${item.icon}"></i>
                                 </div>
-                                <span class="text-base">${item.text}</span>
+                                <span class="leading-snug">${item.text}</span>
                             </button>
                         `).join('')}
                     </div>
 
-                    <!-- Sağ Kolon (Kullanım Alanları) -->
-                    <div class="space-y-3" id="match-right-column">
-                        <h4 class="text-center font-bold text-slate-400 text-xs tracking-wider uppercase mb-2">Kullanım Alanları</h4>
+                    <!-- Sağ Kolon -->
+                    <div class="space-y-3.5" id="match-right-column">
+                        <h4 class="text-center font-black text-slate-200 text-sm sm:text-base tracking-wider uppercase mb-2 bg-slate-800/90 py-2.5 rounded-xl border border-slate-700">${rightTitle}</h4>
                         ${rightItems.map(item => `
-                            <button id="right-${item.id}" onclick="matchGame.selectRight(${item.id})" class="match-card w-full p-4 bg-slate-800 hover:bg-slate-750 border-2 border-slate-700 hover:border-emerald-400 rounded-2xl text-left font-bold text-white flex items-center gap-3 transition-all active:scale-95 shadow-md">
-                                <div class="w-10 h-10 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-lg shrink-0">
-                                    <i class="fa-solid fa-layer-group"></i>
+                            <button id="right-${item.id}" onclick="matchGame.selectRight(${item.id})" class="match-card w-full p-4 sm:p-5 bg-slate-800 hover:bg-slate-750 border-2 border-slate-700 hover:border-emerald-400 rounded-2xl text-left font-bold text-white flex items-center gap-3.5 transition-all active:scale-95 shadow-md text-base sm:text-lg">
+                                <div class="w-12 h-12 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-2xl shrink-0">
+                                    <i class="${item.rightIcon || 'fa-solid fa-circle-check'}"></i>
                                 </div>
-                                <span class="text-base">${item.category}</span>
+                                <span class="leading-snug">${item.category}</span>
                             </button>
                         `).join('')}
                     </div>
@@ -203,24 +208,33 @@ class MatchGame {
         const leftEl = document.getElementById(`left-${this.selectedLeft}`);
         const rightEl = document.getElementById(`right-${this.selectedRight}`);
 
-        if (this.selectedLeft === this.selectedRight) {
+        const leftItem = this.items.find(x => x.id === this.selectedLeft);
+        const rightItem = this.items.find(x => x.id === this.selectedRight);
+
+        // Hem doğrudan ID eşleşmesi hem de aynı kategoriye/açıklamaya sahip olma toleransı
+        const isMatch = (this.selectedLeft === this.selectedRight) || 
+                        (leftItem && rightItem && leftItem.category === rightItem.category);
+
+        if (isMatch) {
             // MATCH!
             sounds.playMatchSuccess();
-            this.matchedPairs.push(this.selectedLeft);
+            if (!this.matchedPairs.includes(this.selectedLeft)) this.matchedPairs.push(this.selectedLeft);
+            if (!this.matchedPairs.includes(this.selectedRight)) this.matchedPairs.push(this.selectedRight);
             this.score += 150;
 
             if (leftEl) {
-                leftEl.className = "w-full p-4 bg-emerald-900/40 border-2 border-emerald-500 rounded-2xl font-bold text-emerald-300 flex items-center gap-3 pointer-events-none opacity-80";
-                leftEl.innerHTML = `<i class="fa-solid fa-check text-emerald-400 text-xl"></i> <span>${leftEl.innerText}</span>`;
+                leftEl.className = "w-full p-4 sm:p-5 bg-emerald-900/50 border-2 border-emerald-400 rounded-2xl font-bold text-emerald-200 flex items-center gap-3.5 pointer-events-none opacity-90 shadow-inner text-base sm:text-lg";
+                leftEl.innerHTML = `<i class="fa-solid fa-circle-check text-emerald-400 text-2xl shrink-0"></i> <span class="line-through opacity-80">${leftItem ? leftItem.text : leftEl.innerText}</span>`;
             }
             if (rightEl) {
-                rightEl.className = "w-full p-4 bg-emerald-900/40 border-2 border-emerald-500 rounded-2xl font-bold text-emerald-300 flex items-center gap-3 pointer-events-none opacity-80";
-                rightEl.innerHTML = `<i class="fa-solid fa-check text-emerald-400 text-xl"></i> <span>${rightEl.innerText}</span>`;
+                rightEl.className = "w-full p-4 sm:p-5 bg-emerald-900/50 border-2 border-emerald-400 rounded-2xl font-bold text-emerald-200 flex items-center gap-3.5 pointer-events-none opacity-90 shadow-inner text-base sm:text-lg";
+                rightEl.innerHTML = `<i class="fa-solid fa-circle-check text-emerald-400 text-2xl shrink-0"></i> <span class="line-through opacity-80">${rightItem ? rightItem.category : rightEl.innerText}</span>`;
             }
 
             this.updateStats();
 
-            if (this.matchedPairs.length === this.items.length) {
+            const completedCount = document.querySelectorAll('#match-left-column .pointer-events-none').length;
+            if (completedCount >= this.items.length) {
                 clearInterval(this.timerInterval);
                 sounds.playFanfare();
                 this.showSuccess();

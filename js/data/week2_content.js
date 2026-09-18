@@ -468,29 +468,29 @@ window.WEEK2_CONTENT = {
             icon: "fa-solid fa-scale-balanced",
             bgColor: "from-blue-700 via-indigo-800 to-slate-900",
             content: `
-                <div class="max-w-5xl mx-auto space-y-6 my-auto text-center py-2">
-                    <div class="space-y-1">
-                        <span class="text-xs font-black uppercase text-yellow-300 tracking-widest">TEMEL BAKIŞ</span>
-                        <h2 class="text-3xl sm:text-4xl md:text-5xl font-black text-white">
+                <div class="max-w-5xl mx-auto space-y-8 my-auto text-center py-2">
+                    <div class="space-y-2">
+                        <span class="inline-block px-4 py-1.5 rounded-full bg-yellow-400/20 text-yellow-300 border border-yellow-400/40 text-sm sm:text-base font-black uppercase tracking-widest">TEMEL BAKIŞ</span>
+                        <h2 class="text-3xl sm:text-5xl md:text-6xl font-black text-white leading-tight">
                             Bilişim Teknolojileri Hayatımızı Nasıl Etkiler?
                         </h2>
                     </div>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 pt-2">
-                        <div class="p-6 bg-emerald-950/70 border-2 border-emerald-500/50 rounded-3xl space-y-3 shadow-xl text-left">
-                            <div class="w-12 h-12 bg-emerald-500 text-slate-950 rounded-2xl flex items-center justify-center text-2xl font-black">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 pt-2">
+                        <div class="p-7 sm:p-9 bg-emerald-950/80 border-3 border-emerald-400/60 rounded-3xl space-y-4 shadow-2xl text-left hover:scale-[1.02] transition-transform">
+                            <div class="w-16 h-16 bg-emerald-400 text-slate-950 rounded-2xl flex items-center justify-center text-3xl font-black shadow-lg">
                                 <i class="fa-solid fa-thumbs-up"></i>
                             </div>
-                            <h3 class="text-2xl font-black text-emerald-300">Olumlu Etkiler</h3>
-                            <p class="text-base sm:text-lg md:text-xl text-emerald-100 leading-relaxed">
+                            <h3 class="text-2xl sm:text-4xl font-black text-emerald-300 tracking-tight">Olumlu Etkiler</h3>
+                            <p class="text-lg sm:text-2xl text-emerald-100 leading-relaxed font-semibold">
                                 Hayatı kolaylaştıran, bilgiye hızla ulaştıran, maliyeti ve zaman kaybını azaltan faydalı yönler.
                             </p>
                         </div>
-                        <div class="p-6 bg-rose-950/70 border-2 border-rose-500/50 rounded-3xl space-y-3 shadow-xl text-left">
-                            <div class="w-12 h-12 bg-rose-500 text-white rounded-2xl flex items-center justify-center text-2xl font-black">
+                        <div class="p-7 sm:p-9 bg-rose-950/80 border-3 border-rose-400/60 rounded-3xl space-y-4 shadow-2xl text-left hover:scale-[1.02] transition-transform">
+                            <div class="w-16 h-16 bg-rose-500 text-white rounded-2xl flex items-center justify-center text-3xl font-black shadow-lg">
                                 <i class="fa-solid fa-triangle-exclamation"></i>
                             </div>
-                            <h3 class="text-2xl font-black text-rose-300">Olumsuz Etkiler</h3>
-                            <p class="text-sm text-rose-100 leading-relaxed">
+                            <h3 class="text-2xl sm:text-4xl font-black text-rose-300 tracking-tight">Olumsuz Etkiler</h3>
+                            <p class="text-lg sm:text-2xl text-rose-100 leading-relaxed font-semibold">
                                 Kontrolsüz, yanlış ve aşırı kullanımın birey ve toplum üzerinde ortaya çıkardığı zararlı yönler.
                             </p>
                         </div>
@@ -508,31 +508,46 @@ window.WEEK2_CONTENT = {
             icon: "fa-solid fa-star",
             bgColor: "from-emerald-700 via-teal-800 to-slate-900",
             content: `
-                <div class="max-w-5xl mx-auto space-y-4 my-auto py-2">
-                    <div class="text-center space-y-1">
-                        <span class="text-xs font-black uppercase text-yellow-300 tracking-widest">KAYNAKTAKİ 5 OLUMLU ETKİ</span>
-                        <h3 class="text-3xl sm:text-4xl md:text-5xl font-black text-white">Teknolojinin Sağladığı Kolaylıklar</h3>
+                <div class="max-w-6xl mx-auto space-y-6 my-auto py-2">
+                    <div class="text-center space-y-2">
+                        <span class="inline-block px-4 py-1.5 rounded-full bg-yellow-400/20 text-yellow-300 border border-yellow-400/40 text-sm sm:text-base font-black uppercase tracking-widest">KAYNAKTAKİ 5 OLUMLU ETKİ</span>
+                        <h3 class="text-3xl sm:text-5xl font-black text-white">Teknolojinin Sağladığı Kolaylıklar</h3>
                     </div>
-                    <div class="grid grid-cols-1 sm:grid-cols-5 gap-3 pt-2">
-                        <div class="p-4 bg-slate-900/90 rounded-2xl border border-emerald-500/40 text-center space-y-2 shadow-xl">
-                            <div class="w-12 h-12 bg-emerald-500/20 text-emerald-300 rounded-xl flex items-center justify-center text-2xl mx-auto"><i class="fa-solid fa-globe"></i></div>
-                            <h4 class="font-black text-sm text-emerald-300">Bilgiye Kolay Ulaşma</h4>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 pt-3">
+                        <div class="p-5 sm:p-6 bg-slate-900/90 rounded-3xl border-2 border-emerald-400/60 flex items-center gap-5 shadow-xl hover:scale-105 transition-transform">
+                            <div class="w-16 h-16 bg-emerald-500/20 text-emerald-300 rounded-2xl flex items-center justify-center text-3xl shrink-0"><i class="fa-solid fa-globe"></i></div>
+                            <div>
+                                <span class="text-xs font-black text-emerald-400 uppercase tracking-widest block">1. ETKİ</span>
+                                <h4 class="font-black text-lg sm:text-xl text-white">Bilgiye Kolay Ulaşma</h4>
+                            </div>
                         </div>
-                        <div class="p-4 bg-slate-900/90 rounded-2xl border border-emerald-500/40 text-center space-y-2 shadow-xl">
-                            <div class="w-12 h-12 bg-teal-500/20 text-teal-300 rounded-xl flex items-center justify-center text-2xl mx-auto"><i class="fa-solid fa-coins"></i></div>
-                            <h4 class="font-black text-sm text-teal-300">Maliyeti Azaltma</h4>
+                        <div class="p-5 sm:p-6 bg-slate-900/90 rounded-3xl border-2 border-teal-400/60 flex items-center gap-5 shadow-xl hover:scale-105 transition-transform">
+                            <div class="w-16 h-16 bg-teal-500/20 text-teal-300 rounded-2xl flex items-center justify-center text-3xl shrink-0"><i class="fa-solid fa-coins"></i></div>
+                            <div>
+                                <span class="text-xs font-black text-teal-400 uppercase tracking-widest block">2. ETKİ</span>
+                                <h4 class="font-black text-lg sm:text-xl text-white">Maliyeti Azaltma</h4>
+                            </div>
                         </div>
-                        <div class="p-4 bg-slate-900/90 rounded-2xl border border-emerald-500/40 text-center space-y-2 shadow-xl">
-                            <div class="w-12 h-12 bg-yellow-500/20 text-yellow-300 rounded-xl flex items-center justify-center text-2xl mx-auto"><i class="fa-solid fa-wand-magic-sparkles"></i></div>
-                            <h4 class="font-black text-sm text-yellow-300">Hayatı Kolaylaştırma</h4>
+                        <div class="p-5 sm:p-6 bg-slate-900/90 rounded-3xl border-2 border-yellow-400/60 flex items-center gap-5 shadow-xl hover:scale-105 transition-transform">
+                            <div class="w-16 h-16 bg-yellow-500/20 text-yellow-300 rounded-2xl flex items-center justify-center text-3xl shrink-0"><i class="fa-solid fa-wand-magic-sparkles"></i></div>
+                            <div>
+                                <span class="text-xs font-black text-yellow-400 uppercase tracking-widest block">3. ETKİ</span>
+                                <h4 class="font-black text-lg sm:text-xl text-white">Hayatı Kolaylaştırma</h4>
+                            </div>
                         </div>
-                        <div class="p-4 bg-slate-900/90 rounded-2xl border border-emerald-500/40 text-center space-y-2 shadow-xl">
-                            <div class="w-12 h-12 bg-cyan-500/20 text-cyan-300 rounded-xl flex items-center justify-center text-2xl mx-auto"><i class="fa-solid fa-paper-plane"></i></div>
-                            <h4 class="font-black text-sm text-cyan-300">Hızlı Haberleşme</h4>
+                        <div class="p-5 sm:p-6 bg-slate-900/90 rounded-3xl border-2 border-cyan-400/60 flex items-center gap-5 shadow-xl hover:scale-105 transition-transform">
+                            <div class="w-16 h-16 bg-cyan-500/20 text-cyan-300 rounded-2xl flex items-center justify-center text-3xl shrink-0"><i class="fa-solid fa-paper-plane"></i></div>
+                            <div>
+                                <span class="text-xs font-black text-cyan-400 uppercase tracking-widest block">4. ETKİ</span>
+                                <h4 class="font-black text-lg sm:text-xl text-white">Hızlı Haberleşme</h4>
+                            </div>
                         </div>
-                        <div class="p-4 bg-slate-900/90 rounded-2xl border border-emerald-500/40 text-center space-y-2 shadow-xl">
-                            <div class="w-12 h-12 bg-blue-500/20 text-blue-300 rounded-xl flex items-center justify-center text-2xl mx-auto"><i class="fa-solid fa-stopwatch"></i></div>
-                            <h4 class="font-black text-sm text-blue-300">Zamandan Tasarruf</h4>
+                        <div class="p-5 sm:p-6 bg-slate-900/90 rounded-3xl border-2 border-blue-400/60 flex items-center gap-5 shadow-xl sm:col-span-2 lg:col-span-2 hover:scale-105 transition-transform">
+                            <div class="w-16 h-16 bg-blue-500/20 text-blue-300 rounded-2xl flex items-center justify-center text-3xl shrink-0"><i class="fa-solid fa-stopwatch"></i></div>
+                            <div>
+                                <span class="text-xs font-black text-blue-400 uppercase tracking-widest block">5. ETKİ</span>
+                                <h4 class="font-black text-lg sm:text-xl text-white">Zamandan Tasarruf Sağlama</h4>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -666,19 +681,19 @@ window.WEEK2_CONTENT = {
             content: `
                 <div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-center max-w-6xl mx-auto my-auto py-2">
                     <div class="md:col-span-6 space-y-4 text-left">
-                        <span class="px-3 py-1 bg-blue-500/20 text-blue-300 rounded-lg font-black text-sm sm:text-base uppercase tracking-wider font-extrabold">5. OLUMLU ETKİ</span>
-                        <h3 class="text-3xl sm:text-4xl md:text-5xl font-black text-white">
+                        <span class="px-4 py-1.5 bg-blue-500/20 text-blue-300 rounded-full font-black text-sm sm:text-base uppercase tracking-wider border border-blue-400/40">5. OLUMLU ETKİ</span>
+                        <h3 class="text-3xl sm:text-4xl md:text-5xl font-black text-white leading-tight">
                             Zamandan Tasarruf Sağlaması
                         </h3>
-                        <p class="text-lg sm:text-xl text-blue-100 leading-relaxed font-medium">
+                        <p class="text-lg sm:text-2xl text-blue-100 leading-relaxed font-medium">
                             Günler veya haftalar sürebilecek hesaplamaları, banka işlemlerini, bilet alımlarını ve araştırmaları birkaç dakika içinde tamamlamamızı sağlar.
                         </p>
-                        <div class="p-4 bg-slate-900/80 rounded-2xl border border-blue-500/30 text-xs text-slate-200">
+                        <div class="p-4 bg-slate-900/90 rounded-2xl border border-blue-400/40 text-sm sm:text-base text-slate-200 font-semibold shadow-md">
                             ⏳ Zamandan artakalan süreyi ailemize, arkadaşlarımıza ve spora ayırmamıza imkan tanır.
                         </div>
                     </div>
                     <div class="md:col-span-6 flex justify-center">
-                        <img src="assets/slides/ulasim_navigasyon.jpg" alt="Zamandan Tasarruf" class="rounded-3xl border-4 border-blue-400/30 shadow-2xl max-h-[380px] sm:max-h-[440px] md:max-h-[480px] object-cover" />
+                        <img src="assets/slides/zamandan_tasarruf.jpg" alt="Zamandan Tasarruf" class="rounded-3xl border-4 border-blue-400/40 shadow-2xl max-h-[380px] sm:max-h-[440px] md:max-h-[480px] object-cover" />
                     </div>
                 </div>
             `
@@ -693,31 +708,46 @@ window.WEEK2_CONTENT = {
             icon: "fa-solid fa-triangle-exclamation",
             bgColor: "from-rose-700 via-red-800 to-slate-950",
             content: `
-                <div class="max-w-5xl mx-auto space-y-4 my-auto py-2">
-                    <div class="text-center space-y-1">
-                        <span class="text-xs font-black uppercase text-yellow-300 tracking-widest">KAYNAKTAKİ 5 OLUMSUZ ETKİ</span>
-                        <h3 class="text-3xl sm:text-4xl md:text-5xl font-black text-white">Teknolojinin Getirebileceği Riskler</h3>
+                <div class="max-w-6xl mx-auto space-y-6 my-auto py-2">
+                    <div class="text-center space-y-2">
+                        <span class="inline-block px-4 py-1.5 rounded-full bg-yellow-400/20 text-yellow-300 border border-yellow-400/40 text-sm sm:text-base font-black uppercase tracking-widest">KAYNAKTAKİ 5 OLUMSUZ ETKİ</span>
+                        <h3 class="text-3xl sm:text-5xl font-black text-white">Teknolojinin Getirebileceği Riskler</h3>
                     </div>
-                    <div class="grid grid-cols-1 sm:grid-cols-5 gap-3 pt-2">
-                        <div class="p-4 bg-slate-900/90 rounded-2xl border border-rose-500/40 text-center space-y-2 shadow-xl">
-                            <div class="w-12 h-12 bg-rose-500/20 text-rose-300 rounded-xl flex items-center justify-center text-2xl mx-auto"><i class="fa-solid fa-couch"></i></div>
-                            <h4 class="font-black text-sm text-rose-300">Tembelliğe Alıştırması</h4>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 pt-3">
+                        <div class="p-5 sm:p-6 bg-slate-900/90 rounded-3xl border-2 border-rose-400/60 flex items-center gap-5 shadow-xl hover:scale-105 transition-transform">
+                            <div class="w-16 h-16 bg-rose-500/20 text-rose-300 rounded-2xl flex items-center justify-center text-3xl shrink-0"><i class="fa-solid fa-couch"></i></div>
+                            <div>
+                                <span class="text-xs font-black text-rose-400 uppercase tracking-widest block">1. RİSK</span>
+                                <h4 class="font-black text-lg sm:text-xl text-white">Tembelliğe Alıştırması</h4>
+                            </div>
                         </div>
-                        <div class="p-4 bg-slate-900/90 rounded-2xl border border-rose-500/40 text-center space-y-2 shadow-xl">
-                            <div class="w-12 h-12 bg-orange-500/20 text-orange-300 rounded-xl flex items-center justify-center text-2xl mx-auto"><i class="fa-solid fa-user-slash"></i></div>
-                            <h4 class="font-black text-sm text-orange-300">İşsizlik Artışı</h4>
+                        <div class="p-5 sm:p-6 bg-slate-900/90 rounded-3xl border-2 border-orange-400/60 flex items-center gap-5 shadow-xl hover:scale-105 transition-transform">
+                            <div class="w-16 h-16 bg-orange-500/20 text-orange-300 rounded-2xl flex items-center justify-center text-3xl shrink-0"><i class="fa-solid fa-user-slash"></i></div>
+                            <div>
+                                <span class="text-xs font-black text-orange-400 uppercase tracking-widest block">2. RİSK</span>
+                                <h4 class="font-black text-lg sm:text-xl text-white">İşsizlik Oranının Artması</h4>
+                            </div>
                         </div>
-                        <div class="p-4 bg-slate-900/90 rounded-2xl border border-rose-500/40 text-center space-y-2 shadow-xl">
-                            <div class="w-12 h-12 bg-amber-500/20 text-yellow-300 rounded-xl flex items-center justify-center text-2xl mx-auto"><i class="fa-solid fa-link-slash"></i></div>
-                            <h4 class="font-black text-sm text-yellow-300">Bağların Kaybolması</h4>
+                        <div class="p-5 sm:p-6 bg-slate-900/90 rounded-3xl border-2 border-yellow-400/60 flex items-center gap-5 shadow-xl hover:scale-105 transition-transform">
+                            <div class="w-16 h-16 bg-amber-500/20 text-yellow-300 rounded-2xl flex items-center justify-center text-3xl shrink-0"><i class="fa-solid fa-link-slash"></i></div>
+                            <div>
+                                <span class="text-xs font-black text-yellow-400 uppercase tracking-widest block">3. RİSK</span>
+                                <h4 class="font-black text-lg sm:text-xl text-white">Bağların Kopması</h4>
+                            </div>
                         </div>
-                        <div class="p-4 bg-slate-900/90 rounded-2xl border border-rose-500/40 text-center space-y-2 shadow-xl">
-                            <div class="w-12 h-12 bg-red-500/20 text-red-300 rounded-xl flex items-center justify-center text-2xl mx-auto"><i class="fa-solid fa-person-falling"></i></div>
-                            <h4 class="font-black text-sm text-red-300">Hareketsizlik & Obezite</h4>
+                        <div class="p-5 sm:p-6 bg-slate-900/90 rounded-3xl border-2 border-red-400/60 flex items-center gap-5 shadow-xl hover:scale-105 transition-transform">
+                            <div class="w-16 h-16 bg-red-500/20 text-red-300 rounded-2xl flex items-center justify-center text-3xl shrink-0"><i class="fa-solid fa-person-falling"></i></div>
+                            <div>
+                                <span class="text-xs font-black text-red-400 uppercase tracking-widest block">4. RİSK</span>
+                                <h4 class="font-black text-lg sm:text-xl text-white">Hareketsizlik & Obezite</h4>
+                            </div>
                         </div>
-                        <div class="p-4 bg-slate-900/90 rounded-2xl border border-rose-500/40 text-center space-y-2 shadow-xl">
-                            <div class="w-12 h-12 bg-pink-500/20 text-pink-300 rounded-xl flex items-center justify-center text-2xl mx-auto"><i class="fa-solid fa-heart-crack"></i></div>
-                            <h4 class="font-black text-sm text-pink-300">Sağlık Problemleri</h4>
+                        <div class="p-5 sm:p-6 bg-slate-900/90 rounded-3xl border-2 border-pink-400/60 flex items-center gap-5 shadow-xl sm:col-span-2 lg:col-span-2 hover:scale-105 transition-transform">
+                            <div class="w-16 h-16 bg-pink-500/20 text-pink-300 rounded-2xl flex items-center justify-center text-3xl shrink-0"><i class="fa-solid fa-heart-crack"></i></div>
+                            <div>
+                                <span class="text-xs font-black text-pink-400 uppercase tracking-widest block">5. RİSK</span>
+                                <h4 class="font-black text-lg sm:text-xl text-white">Farklı Sağlık Problemleri</h4>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -735,19 +765,19 @@ window.WEEK2_CONTENT = {
             content: `
                 <div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-center max-w-6xl mx-auto my-auto py-2">
                     <div class="md:col-span-6 space-y-4 text-left">
-                        <span class="px-3 py-1 bg-rose-500/20 text-rose-300 rounded-lg font-black text-sm sm:text-base uppercase tracking-wider font-extrabold">1. OLUMSUZ ETKİ</span>
-                        <h3 class="text-3xl sm:text-4xl md:text-5xl font-black text-white">
+                        <span class="px-4 py-1.5 bg-rose-500/20 text-rose-300 rounded-full font-black text-sm sm:text-base uppercase tracking-wider border border-rose-400/40">1. OLUMSUZ ETKİ</span>
+                        <h3 class="text-3xl sm:text-4xl md:text-5xl font-black text-white leading-tight">
                             İnsanları Tembelliğe Alıştırması
                         </h3>
-                        <p class="text-lg sm:text-xl text-rose-100 leading-relaxed font-medium">
+                        <p class="text-lg sm:text-2xl text-rose-100 leading-relaxed font-medium">
                             Her işin teknolojiye devredilmesi, insanların fiziksel olarak hareket etme ve zihinsel olarak çaba sarf etme arzusunu zayıflatabilir.
                         </p>
-                        <div class="p-4 bg-slate-900/80 rounded-2xl border border-rose-500/30 text-xs text-slate-200">
+                        <div class="p-4 bg-slate-900/90 rounded-2xl border border-rose-400/40 text-sm sm:text-base text-slate-200 font-semibold shadow-md">
                             ⚠️ Basit işler için bile yerinden kalkmamak veya araştırmak yerine kolaya kaçmak tembellik oluşturur.
                         </div>
                     </div>
                     <div class="md:col-span-6 flex justify-center">
-                        <img src="assets/slides/oyun_bagimliligi.jpg" alt="Tembelliğe Alıştırma" class="rounded-3xl border-4 border-rose-400/30 shadow-2xl max-h-[380px] sm:max-h-[440px] md:max-h-[480px] object-cover" />
+                        <img src="assets/slides/tembellik_teknoloji.jpg" alt="Tembelliğe Alıştırma" class="rounded-3xl border-4 border-rose-400/30 shadow-2xl max-h-[380px] sm:max-h-[440px] md:max-h-[480px] object-cover" />
                     </div>
                 </div>
             `
@@ -822,19 +852,19 @@ window.WEEK2_CONTENT = {
             content: `
                 <div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-center max-w-6xl mx-auto my-auto py-2">
                     <div class="md:col-span-6 space-y-4 text-left">
-                        <span class="px-3 py-1 bg-rose-500/20 text-rose-300 rounded-lg font-black text-sm sm:text-base uppercase tracking-wider font-extrabold">4. OLUMSUZ ETKİ</span>
-                        <h3 class="text-xl sm:text-2xl font-black text-white">
-                            “Hareketsiz ve sağlıksız beslenmeyle birlikte obezitenin artması”
+                        <span class="px-4 py-1.5 bg-rose-500/20 text-rose-300 rounded-full font-black text-sm sm:text-base uppercase tracking-wider border border-rose-400/40">4. OLUMSUZ ETKİ</span>
+                        <h3 class="text-2xl sm:text-4xl font-black text-white leading-tight">
+                            Hareketsizlik ve Obezitenin Artması
                         </h3>
-                        <p class="text-lg sm:text-xl text-rose-100 leading-relaxed font-medium">
-                            Ekran karşısında saatlerce kıpırdamadan oturmak, spordan uzak kalmak ve ekran başında atıştırmak obezite riskini artırır.
+                        <p class="text-lg sm:text-2xl text-rose-100 leading-relaxed font-medium">
+                            Ekran karşısında saatlerce kıpırdamadan oturmak, spordan uzak kalmak ve abur cubur tüketmek obezite riskini ciddi oranda artırır.
                         </p>
-                        <div class="p-4 bg-slate-900/80 rounded-2xl border border-rose-500/30 text-xs text-slate-200">
-                            🏃‍♂️ Dışarıda hareketli oyunlar oynamak yerine sürekli ekranda kalmak bedeni zayıf düşürür.
+                        <div class="p-4 bg-slate-900/90 rounded-2xl border border-rose-400/40 text-sm sm:text-base text-slate-200 font-semibold shadow-md">
+                            🏃‍♂️ Dışarıda hareketli oyunlar oynamak yerine sürekli ekranda kalmak bedeni güçsüz bırakır.
                         </div>
                     </div>
                     <div class="md:col-span-6 flex justify-center">
-                        <img src="assets/karakter_yanlis.png" alt="Hareketsizlik" class="rounded-3xl border-4 border-rose-400/30 shadow-2xl max-h-[380px] sm:max-h-[440px] md:max-h-[480px] object-contain bg-slate-900/70 p-4" />
+                        <img src="assets/slides/hareketsizlik_obezite.jpg" alt="Hareketsizlik ve Obezite" class="rounded-3xl border-4 border-rose-400/30 shadow-2xl max-h-[380px] sm:max-h-[440px] md:max-h-[480px] object-cover" />
                     </div>
                 </div>
             `
@@ -851,19 +881,19 @@ window.WEEK2_CONTENT = {
             content: `
                 <div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-center max-w-6xl mx-auto my-auto py-2">
                     <div class="md:col-span-6 space-y-4 text-left">
-                        <span class="px-3 py-1 bg-red-500/20 text-red-300 rounded-lg font-black text-sm sm:text-base uppercase tracking-wider font-extrabold">5. OLUMSUZ ETKİ</span>
-                        <h3 class="text-xl sm:text-2xl font-black text-white">
-                            “Farklı sağlık problemlerinin ortaya çıkması”
+                        <span class="px-4 py-1.5 bg-red-500/20 text-red-300 rounded-full font-black text-sm sm:text-base uppercase tracking-wider border border-red-400/40">5. OLUMSUZ ETKİ</span>
+                        <h3 class="text-2xl sm:text-4xl font-black text-white leading-tight">
+                            Farklı Sağlık Problemlerinin Ortaya Çıkması
                         </h3>
-                        <p class="text-lg sm:text-xl text-rose-100 leading-relaxed font-medium">
+                        <p class="text-lg sm:text-2xl text-rose-100 leading-relaxed font-medium">
                             Teknolojinin ölçüsüz, yanlış ve kontrolsüz kullanımı vücudumuzun dengesini bozarak hem bedensel hem de ruhsal sağlık sorunlarına yol açar.
                         </p>
-                        <div class="p-4 bg-slate-900/80 rounded-2xl border border-red-500/30 text-xs text-slate-200">
-                            ➡️ Şimdi dijital sağlık bölümünde bu sağlık sorunlarını tek tek inceleyelim.
+                        <div class="p-4 bg-slate-900/90 rounded-2xl border border-red-400/40 text-sm sm:text-base text-slate-200 font-semibold shadow-md">
+                            ➡️ Şimdi dijital sağlık bölümünde bu sağlık sorunlarını tek tek inceleyelim!
                         </div>
                     </div>
                     <div class="md:col-span-6 flex justify-center">
-                        <img src="assets/ergonomi_karsilastirma.png" alt="Sağlık Problemleri" class="rounded-3xl border-4 border-red-400/30 shadow-2xl max-h-[380px] sm:max-h-[440px] md:max-h-[480px] object-contain bg-slate-900/70 p-2" />
+                        <img src="assets/slides/saglik_problemleri.jpg" alt="Sağlık Problemleri" class="rounded-3xl border-4 border-red-400/30 shadow-2xl max-h-[380px] sm:max-h-[440px] md:max-h-[480px] object-cover" />
                     </div>
                 </div>
             `
@@ -1053,31 +1083,46 @@ window.WEEK2_CONTENT = {
             icon: "fa-solid fa-shield-heart",
             bgColor: "from-indigo-800 via-purple-900 to-slate-950",
             content: `
-                <div class="max-w-5xl mx-auto space-y-4 my-auto py-2">
-                    <div class="text-center space-y-1">
-                        <span class="text-xs font-black uppercase text-yellow-300 tracking-widest">DİJİTAL SAĞLIK HARİTASI</span>
-                        <h3 class="text-3xl sm:text-4xl md:text-5xl font-black text-white">Yanlış ve Fazla Kullanımın Getirdiği 5 Problem</h3>
+                <div class="max-w-6xl mx-auto space-y-6 my-auto py-2">
+                    <div class="text-center space-y-2">
+                        <span class="inline-block px-4 py-1.5 rounded-full bg-yellow-400/20 text-yellow-300 border border-yellow-400/40 text-sm sm:text-base font-black uppercase tracking-widest">DİJİTAL SAĞLIK HARİTASI</span>
+                        <h3 class="text-3xl sm:text-5xl font-black text-white">Yanlış ve Fazla Kullanımın Getirdiği 5 Problem</h3>
                     </div>
-                    <div class="grid grid-cols-1 sm:grid-cols-5 gap-3 pt-2 text-center">
-                        <div class="p-3 bg-slate-900/90 rounded-2xl border border-rose-500/40 space-y-1 shadow-lg">
-                            <div class="text-2xl text-rose-400"><i class="fa-solid fa-person"></i></div>
-                            <h4 class="font-bold text-white text-xs">1. Boyun Ağrıları</h4>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 pt-3">
+                        <div class="p-5 sm:p-6 bg-slate-900/90 rounded-3xl border-2 border-rose-400/60 flex items-center gap-5 shadow-xl hover:scale-105 transition-transform">
+                            <div class="w-16 h-16 bg-rose-500/20 text-rose-300 rounded-2xl flex items-center justify-center text-3xl shrink-0"><i class="fa-solid fa-person"></i></div>
+                            <div>
+                                <span class="text-xs font-black text-rose-400 uppercase tracking-widest block">1. PROBLEM</span>
+                                <h4 class="font-black text-lg sm:text-xl text-white">Boyun Kas Ağrıları</h4>
+                            </div>
                         </div>
-                        <div class="p-3 bg-slate-900/90 rounded-2xl border border-rose-500/40 space-y-1 shadow-lg">
-                            <div class="text-2xl text-rose-400"><i class="fa-solid fa-chair"></i></div>
-                            <h4 class="font-bold text-white text-xs">2. Duruş Bozukluğu</h4>
+                        <div class="p-5 sm:p-6 bg-slate-900/90 rounded-3xl border-2 border-rose-400/60 flex items-center gap-5 shadow-xl hover:scale-105 transition-transform">
+                            <div class="w-16 h-16 bg-rose-500/20 text-rose-300 rounded-2xl flex items-center justify-center text-3xl shrink-0"><i class="fa-solid fa-chair"></i></div>
+                            <div>
+                                <span class="text-xs font-black text-rose-400 uppercase tracking-widest block">2. PROBLEM</span>
+                                <h4 class="font-black text-lg sm:text-xl text-white">Duruş Bozuklukları</h4>
+                            </div>
                         </div>
-                        <div class="p-3 bg-slate-900/90 rounded-2xl border border-cyan-500/40 space-y-1 shadow-lg">
-                            <div class="text-2xl text-cyan-400"><i class="fa-solid fa-eye"></i></div>
-                            <h4 class="font-bold text-white text-xs">3. Görme Sorunu</h4>
+                        <div class="p-5 sm:p-6 bg-slate-900/90 rounded-3xl border-2 border-cyan-400/60 flex items-center gap-5 shadow-xl hover:scale-105 transition-transform">
+                            <div class="w-16 h-16 bg-cyan-500/20 text-cyan-300 rounded-2xl flex items-center justify-center text-3xl shrink-0"><i class="fa-solid fa-eye"></i></div>
+                            <div>
+                                <span class="text-xs font-black text-cyan-400 uppercase tracking-widest block">3. PROBLEM</span>
+                                <h4 class="font-black text-lg sm:text-xl text-white">Görme Bozuklukları</h4>
+                            </div>
                         </div>
-                        <div class="p-3 bg-slate-900/90 rounded-2xl border border-purple-500/40 space-y-1 shadow-lg">
-                            <div class="text-2xl text-purple-400"><i class="fa-solid fa-gamepad"></i></div>
-                            <h4 class="font-bold text-white text-xs">4. Bağımlılık</h4>
+                        <div class="p-5 sm:p-6 bg-slate-900/90 rounded-3xl border-2 border-purple-400/60 flex items-center gap-5 shadow-xl hover:scale-105 transition-transform">
+                            <div class="w-16 h-16 bg-purple-500/20 text-purple-300 rounded-2xl flex items-center justify-center text-3xl shrink-0"><i class="fa-solid fa-gamepad"></i></div>
+                            <div>
+                                <span class="text-xs font-black text-purple-400 uppercase tracking-widest block">4. PROBLEM</span>
+                                <h4 class="font-black text-lg sm:text-xl text-white">Oyun Bağımlılığı</h4>
+                            </div>
                         </div>
-                        <div class="p-3 bg-slate-900/90 rounded-2xl border border-pink-500/40 space-y-1 shadow-lg">
-                            <div class="text-2xl text-pink-400"><i class="fa-solid fa-brain"></i></div>
-                            <h4 class="font-bold text-white text-xs">5. Psikolojik Sorun</h4>
+                        <div class="p-5 sm:p-6 bg-slate-900/90 rounded-3xl border-2 border-pink-400/60 flex items-center gap-5 shadow-xl sm:col-span-2 lg:col-span-2 hover:scale-105 transition-transform">
+                            <div class="w-16 h-16 bg-pink-500/20 text-pink-300 rounded-2xl flex items-center justify-center text-3xl shrink-0"><i class="fa-solid fa-brain"></i></div>
+                            <div>
+                                <span class="text-xs font-black text-pink-400 uppercase tracking-widest block">5. PROBLEM</span>
+                                <h4 class="font-black text-lg sm:text-xl text-white">Psikolojik Bozukluklar</h4>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -1093,32 +1138,32 @@ window.WEEK2_CONTENT = {
             icon: "fa-solid fa-scale-balanced",
             bgColor: "from-blue-900 via-indigo-950 to-slate-950",
             content: `
-                <div class="max-w-6xl mx-auto space-y-4 my-auto py-2">
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
-                        <div class="bg-emerald-950/70 rounded-3xl p-6 border-2 border-emerald-500/50 shadow-xl space-y-3">
-                            <div class="flex items-center gap-3 border-b border-emerald-500/40 pb-3">
-                                <i class="fa-solid fa-circle-check text-emerald-400 text-2xl"></i>
-                                <h3 class="text-xl font-black text-emerald-300">OLUMLU ETKİLER</h3>
+                <div class="max-w-6xl mx-auto space-y-6 my-auto py-2">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="bg-emerald-950/80 rounded-3xl p-7 sm:p-8 border-3 border-emerald-400/60 shadow-2xl space-y-4">
+                            <div class="flex items-center gap-3 border-b-2 border-emerald-500/40 pb-3">
+                                <i class="fa-solid fa-circle-check text-emerald-400 text-3xl"></i>
+                                <h3 class="text-2xl sm:text-3xl font-black text-emerald-300">OLUMLU ETKİLER</h3>
                             </div>
-                            <ul class="space-y-2 text-xs sm:text-base sm:text-lg md:text-xl text-emerald-100">
-                                <li class="flex items-center gap-2"><i class="fa-solid fa-check text-emerald-400"></i> Bilgiye kolay ulaşma</li>
-                                <li class="flex items-center gap-2"><i class="fa-solid fa-check text-emerald-400"></i> Maliyeti azaltma</li>
-                                <li class="flex items-center gap-2"><i class="fa-solid fa-check text-emerald-400"></i> Hayatı kolaylaştırma</li>
-                                <li class="flex items-center gap-2"><i class="fa-solid fa-check text-emerald-400"></i> Hızlı haberleşme</li>
-                                <li class="flex items-center gap-2"><i class="fa-solid fa-check text-emerald-400"></i> Zamandan tasarruf</li>
+                            <ul class="space-y-3.5 text-base sm:text-xl font-bold text-emerald-100">
+                                <li class="flex items-center gap-3"><i class="fa-solid fa-check text-emerald-400 text-xl"></i> Bilgiye kolay ulaşma</li>
+                                <li class="flex items-center gap-3"><i class="fa-solid fa-check text-emerald-400 text-xl"></i> Maliyeti azaltma</li>
+                                <li class="flex items-center gap-3"><i class="fa-solid fa-check text-emerald-400 text-xl"></i> Hayatı kolaylaştırma</li>
+                                <li class="flex items-center gap-3"><i class="fa-solid fa-check text-emerald-400 text-xl"></i> Hızlı haberleşme</li>
+                                <li class="flex items-center gap-3"><i class="fa-solid fa-check text-emerald-400 text-xl"></i> Zamandan tasarruf sağlama</li>
                             </ul>
                         </div>
-                        <div class="bg-rose-950/70 rounded-3xl p-6 border-2 border-rose-500/50 shadow-xl space-y-3">
-                            <div class="flex items-center gap-3 border-b border-rose-500/40 pb-3">
-                                <i class="fa-solid fa-circle-exclamation text-rose-400 text-2xl"></i>
-                                <h3 class="text-xl font-black text-rose-300">OLUMSUZ ETKİLER</h3>
+                        <div class="bg-rose-950/80 rounded-3xl p-7 sm:p-8 border-3 border-rose-400/60 shadow-2xl space-y-4">
+                            <div class="flex items-center gap-3 border-b-2 border-rose-500/40 pb-3">
+                                <i class="fa-solid fa-triangle-exclamation text-rose-400 text-3xl"></i>
+                                <h3 class="text-2xl sm:text-3xl font-black text-rose-300">OLUMSUZ ETKİLER</h3>
                             </div>
-                            <ul class="space-y-2 text-xs sm:text-sm text-rose-100">
-                                <li class="flex items-center gap-2"><i class="fa-solid fa-xmark text-rose-400"></i> Tembelliğe alıştırma</li>
-                                <li class="flex items-center gap-2"><i class="fa-solid fa-xmark text-rose-400"></i> İşsizlik oranının artması</li>
-                                <li class="flex items-center gap-2"><i class="fa-solid fa-xmark text-rose-400"></i> İnsanlar arasındaki bağların zayıflaması</li>
-                                <li class="flex items-center gap-2"><i class="fa-solid fa-xmark text-rose-400"></i> Hareketsiz ve sağlıksız yaşamla obezitenin artması</li>
-                                <li class="flex items-center gap-2"><i class="fa-solid fa-xmark text-rose-400"></i> Farklı sağlık problemleri</li>
+                            <ul class="space-y-3.5 text-base sm:text-xl font-bold text-rose-100">
+                                <li class="flex items-center gap-3"><i class="fa-solid fa-xmark text-rose-400 text-xl"></i> Tembelliğe alıştırma</li>
+                                <li class="flex items-center gap-3"><i class="fa-solid fa-xmark text-rose-400 text-xl"></i> İşsizlik oranının artması</li>
+                                <li class="flex items-center gap-3"><i class="fa-solid fa-xmark text-rose-400 text-xl"></i> İnsanlar arasındaki bağların zayıflaması</li>
+                                <li class="flex items-center gap-3"><i class="fa-solid fa-xmark text-rose-400 text-xl"></i> Hareketsizlik ve obezite artışı</li>
+                                <li class="flex items-center gap-3"><i class="fa-solid fa-xmark text-rose-400 text-xl"></i> Farklı sağlık problemleri</li>
                             </ul>
                         </div>
                     </div>
@@ -1135,27 +1180,31 @@ window.WEEK2_CONTENT = {
             icon: "fa-solid fa-clipboard-check",
             bgColor: "from-indigo-800 via-purple-900 to-slate-950",
             content: `
-                <div class="max-w-5xl mx-auto space-y-4 my-auto py-2">
-                    <div class="text-center space-y-1">
-                        <span class="text-xs font-black uppercase text-yellow-300 tracking-widest">KAVRAM HARİTASI</span>
-                        <h3 class="text-3xl sm:text-4xl md:text-5xl font-black text-white">2. Haftanın Özeti</h3>
+                <div class="max-w-6xl mx-auto space-y-6 my-auto py-2">
+                    <div class="text-center space-y-2">
+                        <span class="inline-block px-4 py-1.5 rounded-full bg-yellow-400/20 text-yellow-300 border border-yellow-400/40 text-sm sm:text-base font-black uppercase tracking-widest">KAVRAM HARİTASI</span>
+                        <h3 class="text-3xl sm:text-5xl font-black text-white">2. Haftanın Özeti</h3>
                     </div>
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs sm:text-sm">
-                        <div class="p-3.5 bg-slate-900/90 rounded-2xl border border-emerald-500/40 space-y-1">
-                            <strong class="text-emerald-300 block text-sm">1. OLUMLU ETKİLER:</strong>
-                            <span class="text-slate-200">Bilgiye kolay ulaşım, azalan maliyet, pratik hayat, hızlı haberleşme, zaman tasarrufu.</span>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                        <div class="p-5 sm:p-6 bg-slate-900/90 rounded-3xl border-l-8 border-l-emerald-400 border border-slate-700 space-y-2 shadow-xl">
+                            <span class="px-3 py-1 bg-emerald-500/20 text-emerald-300 rounded-lg text-xs font-black uppercase tracking-wider">BÖLÜM 1</span>
+                            <h4 class="text-xl sm:text-2xl font-black text-emerald-300">1. OLUMLU ETKİLER</h4>
+                            <p class="text-base sm:text-lg text-slate-200 font-medium">Bilgiye kolay ulaşım, azalan maliyet, hayatı kolaylaştırma, hızlı haberleşme ve zamandan tasarruf.</p>
                         </div>
-                        <div class="p-3.5 bg-slate-900/90 rounded-2xl border border-rose-500/40 space-y-1">
-                            <strong class="text-rose-300 block text-sm">2. OLUMSUZ ETKİLER:</strong>
-                            <span class="text-slate-200">Tembellik, işsizlik, bağların kaybolması, hareketsizlik ve obezite.</span>
+                        <div class="p-5 sm:p-6 bg-slate-900/90 rounded-3xl border-l-8 border-l-rose-400 border border-slate-700 space-y-2 shadow-xl">
+                            <span class="px-3 py-1 bg-rose-500/20 text-rose-300 rounded-lg text-xs font-black uppercase tracking-wider">BÖLÜM 2</span>
+                            <h4 class="text-xl sm:text-2xl font-black text-rose-300">2. OLUMSUZ ETKİLER</h4>
+                            <p class="text-base sm:text-lg text-slate-200 font-medium">Tembelliğe alıştırma, işsizlik riski, sosyal bağların kopması, hareketsizlik ve obezite tehlikesi.</p>
                         </div>
-                        <div class="p-3.5 bg-slate-900/90 rounded-2xl border border-yellow-500/40 space-y-1">
-                            <strong class="text-yellow-300 block text-sm">3. TEKNOLOJİ VE SAĞLIK:</strong>
-                            <span class="text-slate-200">Yanlış veya fazla kullanım sağlık problemlerini beraberinde getirir.</span>
+                        <div class="p-5 sm:p-6 bg-slate-900/90 rounded-3xl border-l-8 border-l-yellow-400 border border-slate-700 space-y-2 shadow-xl">
+                            <span class="px-3 py-1 bg-yellow-500/20 text-yellow-300 rounded-lg text-xs font-black uppercase tracking-wider">ALTIN KURAL</span>
+                            <h4 class="text-xl sm:text-2xl font-black text-yellow-300">3. TEKNOLOJİ VE SAĞLIK</h4>
+                            <p class="text-base sm:text-lg text-slate-200 font-medium">Yanlış veya fazla kullanım sağlık problemlerini beraberinde getirir. Bilinçli ve dengeli kullanmalıyız.</p>
                         </div>
-                        <div class="p-3.5 bg-slate-900/90 rounded-2xl border border-cyan-500/40 space-y-1">
-                            <strong class="text-cyan-300 block text-sm">4. SAĞLIK PROBLEMLERİ:</strong>
-                            <span class="text-slate-200">Boyun ağrısı, duruş bozukluğu, görme sorunları, bağımlılık ve psikolojik bozukluklar.</span>
+                        <div class="p-5 sm:p-6 bg-slate-900/90 rounded-3xl border-l-8 border-l-cyan-400 border border-slate-700 space-y-2 shadow-xl">
+                            <span class="px-3 py-1 bg-cyan-500/20 text-cyan-300 rounded-lg text-xs font-black uppercase tracking-wider">BÖLÜM 4</span>
+                            <h4 class="text-xl sm:text-2xl font-black text-cyan-300">4. SAĞLIK PROBLEMLERİ</h4>
+                            <p class="text-base sm:text-lg text-slate-200 font-medium">Boyun kas ağrıları, duruş bozuklukları, görme sorunları, oyun bağımlılığı ve psikolojik bozukluklar.</p>
                         </div>
                     </div>
                 </div>
@@ -1387,54 +1436,67 @@ window.WEEK2_CONTENT = {
                 points: 300
             }
         ],
+        matchConfig: {
+            leftTitle: "Dijital Sağlık & Teknoloji Kavramları 📋",
+            rightTitle: "Doğru Açıklama & Karşılıkları 🎯",
+            instruction: "💡 <strong>Nasıl Oynanır?</strong> Soldaki kavrama dokunun, ardından sağdaki doğru açıklamasına dokunarak eşleştirin!"
+        },
         matchCards: [
             {
                 id: 1,
-                text: "Bilgiye Kolay Ulaşım",
-                category: "Olumlu Etki",
-                icon: "fa-solid fa-globe"
+                text: "20-20-20 Kuralı",
+                category: "Her 20 dakikada 20 saniye uzağa bakmak (Göz Sağlığı)",
+                icon: "fa-solid fa-eye",
+                rightIcon: "fa-solid fa-eye-dropper"
             },
             {
                 id: 2,
-                text: "Zamandan Tasarruf",
-                category: "Olumlu Etki",
-                icon: "fa-solid fa-stopwatch"
+                text: "90 Derece Oturuş Açısı",
+                category: "Sırt dik, kollar ve dizler 90 derece dik duruş (Ergonomi)",
+                icon: "fa-solid fa-chair",
+                rightIcon: "fa-solid fa-person"
             },
             {
                 id: 3,
-                text: "Hareketsiz Yaşam",
-                category: "Olumsuz Etki",
-                icon: "fa-solid fa-couch"
+                text: "Teknoloji Bağımlılığı",
+                category: "Ekran başından kalkamama ve kontrolü kaybetme (Bağımlılık)",
+                icon: "fa-solid fa-gamepad",
+                rightIcon: "fa-solid fa-triangle-exclamation"
             },
             {
                 id: 4,
-                text: "Bağımlılık & Zaman Kaybı",
-                category: "Olumsuz Etki",
-                icon: "fa-solid fa-link"
+                text: "Mavi Işık Filtresi",
+                category: "Göz yorgunluğunu azaltan ve gece uykusunu koruyan ayar",
+                icon: "fa-solid fa-sun",
+                rightIcon: "fa-solid fa-moon"
             },
             {
                 id: 5,
-                text: "Harita & Online Bilet",
-                category: "Ulaşım Alanı",
-                icon: "fa-solid fa-map-location-dot"
+                text: "Boyun Ağrısı (Text Neck)",
+                category: "Ekrana sürekli aşağı eğik bakmanın omurgaya zararı",
+                icon: "fa-solid fa-mobile-screen",
+                rightIcon: "fa-solid fa-bone"
             },
             {
                 id: 6,
-                text: "Online Ders & Araştırma",
-                category: "Eğitim Alanı",
-                icon: "fa-solid fa-graduation-cap"
+                text: "Bilgiye Hızlı Erişim",
+                category: "Kütüphanelere gitmeden saniyeler içinde araştırma yapabilme",
+                icon: "fa-solid fa-globe",
+                rightIcon: "fa-solid fa-book-open"
             },
             {
                 id: 7,
-                text: "Beden & Ruh Sağlığı",
-                category: "Dijital Sağlık",
-                icon: "fa-solid fa-shield-heart"
+                text: "Hareketsiz Yaşam (Sedanter)",
+                category: "Uzun süre oturarak obezite ve kas zayıflığı riski",
+                icon: "fa-solid fa-couch",
+                rightIcon: "fa-solid fa-heart-pulse"
             },
             {
                 id: 8,
-                text: "Doğru + Bilinçli + Dengeli",
-                category: "Altın Formül",
-                icon: "fa-solid fa-award"
+                text: "Kablo ve Şarj Güvenliği",
+                category: "Yıpranmış kabloları kullanmama ve cihazları koruma",
+                icon: "fa-solid fa-plug",
+                rightIcon: "fa-solid fa-bolt"
             }
         ],
         reflexStatements: [
