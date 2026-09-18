@@ -26,30 +26,36 @@ window.WEEK2_CONTENT = {
     videos: [
         {
             id: 1,
-            title: "Bilişim Teknolojilerinin Olumlu ve Olumsuz Etkileri",
-            desc: "Teknolojinin getirdiği kolaylıklar, bağımlılık tehlikesi ve bilinçli teknoloji kullanımı.",
-            url: "", // Öğretmenin vereceği YouTube veya video linki buraya eklenecek
-            duration: "Ders Videosu 1",
-            badge: "Temel Konu",
-            icon: "fa-solid fa-scale-balanced"
+            title: "Bilgisayar Kullanırken Doğru Oturma Şekli",
+            desc: "Bilgisayar karşısında omurga sağlığı, doğru koltuk ve masa ayarları ile sağlıklı duruş kuralları.",
+            url: "https://www.youtube.com/watch?v=qbQU-H9A3zE",
+            youtubeId: "qbQU-H9A3zE",
+            duration: "Ders Videosu",
+            badge: "Ergonomi & Duruş",
+            author: "Murat Kenet",
+            icon: "fa-solid fa-chair"
         },
         {
             id: 2,
-            title: "Dijital Sağlık: Ergonomi ve 20-20-20 Kuralı",
-            desc: "Ekran başında doğru oturuş pozisyonu, göz sağlığını koruma ve omurga ergonomisi.",
-            url: "", // Öğretmenin vereceği YouTube veya video linki buraya eklenecek
-            duration: "Ders Videosu 2",
-            badge: "Beden Sağlığı",
-            icon: "fa-solid fa-heart-pulse"
+            title: "Bilgisayar Başında Nasıl Oturmalıyız?",
+            desc: "Akıllı tahtada ders anlatımına uygun; monitör mesafesi, 90 derece açısı ve göz sağlığı dinlenme aralıkları.",
+            url: "https://www.youtube.com/watch?v=_JaxB2X7kcY",
+            youtubeId: "_JaxB2X7kcY",
+            duration: "Ders Anlatımı",
+            badge: "Bilişim Okulu",
+            author: "Bilişim Okulu",
+            icon: "fa-solid fa-person"
         },
         {
             id: 3,
-            title: "Teknoloji Bağımlılığı ve Dijital Denge",
-            desc: "Ekran başında geçirilen süreyi yönetme, sosyal bağları koruma ve gerçek hayat dengesi.",
-            url: "", // Öğretmenin vereceği YouTube veya video linki buraya eklenecek
-            duration: "Ders Videosu 3",
-            badge: "Farkındalık",
-            icon: "fa-solid fa-gamepad"
+            title: "Bilgisayar Başında Ergonomi ve Doğru Oturma",
+            desc: "5. Sınıf bilişim teknolojileri ve yazılım dersi müfredatına tam uyumlu ergonomi ve dijital sağlık videosu.",
+            url: "https://www.youtube.com/watch?v=OATZofJjI4o",
+            youtubeId: "OATZofJjI4o",
+            duration: "Konu Özeti",
+            badge: "Dijital Sağlık",
+            author: "Melike Hoca Bilişim",
+            icon: "fa-solid fa-shield-heart"
         }
     ],
 

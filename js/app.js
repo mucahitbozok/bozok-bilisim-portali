@@ -1521,29 +1521,35 @@ class App {
         const data = this.getCurrentWeekData();
         const videos = data.videos || [];
 
+        // İlk açılışta varsayılan olarak ilk videoyu seç
+        if (!this.activeVideoUrl && videos.length > 0 && videos[0].url) {
+            this.activeVideoUrl = videos[0].url;
+            this.activeVideoTitle = videos[0].title;
+        }
+
         container.innerHTML = `
-            <div class="glass-panel rounded-3xl p-6 sm:p-8 space-y-6 shadow-2xl border-2 border-rose-500/30 animate-pop">
+            <div class="glass-panel rounded-3xl p-5 sm:p-8 space-y-6 shadow-2xl border-2 border-rose-500/30 animate-pop">
                 <!-- Üst Başlık ve Bilgi -->
                 <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 pb-5 border-b border-slate-700/80">
                     <div class="flex items-center gap-4">
-                        <div class="w-14 h-14 rounded-2xl bg-gradient-to-tr from-rose-600 to-red-600 text-white flex items-center justify-center text-3xl shadow-lg shadow-rose-500/30">
+                        <div class="w-14 h-14 rounded-2xl bg-gradient-to-tr from-rose-600 to-red-600 text-white flex items-center justify-center text-3xl shadow-lg shadow-rose-500/30 shrink-0">
                             <i class="fa-solid fa-film"></i>
                         </div>
                         <div>
                             <div class="flex items-center gap-2">
-                                <span class="px-3 py-1 bg-rose-500/20 text-rose-300 border border-rose-500/40 rounded-full text-xs font-black uppercase">
-                                    ${this.currentWeek}. Hafta Eğitici İçerik
+                                <span class="px-3 py-1 bg-rose-500/20 text-rose-300 border border-rose-500/40 rounded-full text-xs font-black uppercase tracking-wider">
+                                    ${this.currentWeek}. Hafta • Akıllı Tahta Video Alanı
                                 </span>
                             </div>
-                            <h2 class="text-2xl sm:text-3xl font-black text-white mt-1">Konu İle Alakalı Videolar 🎬</h2>
-                            <p class="text-xs sm:text-sm text-slate-300 font-medium">Akıllı tahtada tam ekran izlenebilir ders ve animasyon videoları</p>
+                            <h2 class="text-2xl sm:text-3xl md:text-4xl font-black text-white mt-1">Konu İle Alakalı Videolar 🎬</h2>
+                            <p class="text-xs sm:text-sm text-slate-300 font-medium">Bilişim teknolojileri ve dijital sağlık konulu eğitici ders videoları</p>
                         </div>
                     </div>
 
                     <!-- Hızlı YouTube Link Girişi (Öğretmen için Pratik Araç) -->
                     <div class="w-full md:w-auto flex items-center gap-2 bg-slate-900/90 p-2 rounded-2xl border border-slate-700 shadow-lg">
-                        <input id="quick-video-input" type="text" placeholder="YouTube linki yapıştırın..." class="bg-slate-800 text-xs sm:text-sm text-white px-3 py-2 rounded-xl border border-slate-600 focus:outline-none focus:border-rose-400 w-full sm:w-64" />
-                        <button onclick="app.playCustomVideoUrl()" class="px-4 py-2 bg-rose-600 hover:bg-rose-500 text-white font-black text-xs rounded-xl shadow-md transition-all active:scale-95 shrink-0 flex items-center gap-1.5">
+                        <input id="quick-video-input" type="text" placeholder="Yeni YouTube linki yapıştırın..." class="bg-slate-800 text-xs sm:text-sm text-white px-3 py-2.5 rounded-xl border border-slate-600 focus:outline-none focus:border-rose-400 w-full sm:w-64" />
+                        <button onclick="app.playCustomVideoUrl()" class="px-4 py-2.5 bg-rose-600 hover:bg-rose-500 text-white font-black text-xs sm:text-sm rounded-xl shadow-md transition-all active:scale-95 shrink-0 flex items-center gap-1.5">
                             <i class="fa-solid fa-play"></i> Oynat
                         </button>
                     </div>
@@ -1552,15 +1558,18 @@ class App {
                 <!-- Aktif Video Oynatıcı Alanı -->
                 <div id="active-video-player-container" class="space-y-3">
                     ${this.activeVideoUrl ? `
-                        <div class="relative w-full aspect-video rounded-3xl overflow-hidden border-4 border-rose-500/50 shadow-2xl bg-black">
+                        <div class="relative w-full aspect-video max-h-[580px] rounded-3xl overflow-hidden border-4 border-rose-500/60 shadow-2xl bg-black">
                             <iframe id="video-main-iframe" src="${this.getEmbedUrl(this.activeVideoUrl)}" class="w-full h-full border-0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
                         </div>
-                        <div class="flex items-center justify-between flex-wrap gap-2 px-2">
-                            <h3 id="active-video-title" class="text-lg sm:text-xl font-black text-yellow-300 flex items-center gap-2">
-                                <i class="fa-solid fa-circle-play text-rose-500"></i> ${this.activeVideoTitle || 'Ders Videosu'}
-                            </h3>
-                            <button onclick="app.toggleVideoFullscreen()" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 rounded-xl text-xs font-bold flex items-center gap-2 shadow-md hover:scale-105 active:scale-95 transition-all">
-                                <i class="fa-solid fa-expand text-rose-400"></i> Tam Ekran
+                        <div class="flex items-center justify-between flex-wrap gap-3 px-2">
+                            <div class="space-y-0.5">
+                                <span class="text-xs font-black text-rose-400 uppercase tracking-wider block">OYNATILAN VİDEO</span>
+                                <h3 id="active-video-title" class="text-lg sm:text-2xl font-black text-white flex items-center gap-2">
+                                    <i class="fa-solid fa-circle-play text-rose-500"></i> ${this.activeVideoTitle || 'Ders Videosu'}
+                                </h3>
+                            </div>
+                            <button onclick="app.toggleVideoFullscreen()" class="px-5 py-2.5 bg-slate-800 hover:bg-slate-700 text-slate-200 border-2 border-slate-600 hover:border-rose-400 rounded-2xl text-xs sm:text-sm font-black flex items-center gap-2 shadow-lg hover:scale-105 active:scale-95 transition-all">
+                                <i class="fa-solid fa-expand text-rose-400 text-base"></i> Tam Ekran Yap
                             </button>
                         </div>
                     ` : `
@@ -1570,59 +1579,59 @@ class App {
                             </div>
                             <div class="max-w-md space-y-1">
                                 <h3 class="text-xl sm:text-2xl font-black text-white">Video İzlemek İçin Aşağıdan Seçin</h3>
-                                <p class="text-xs sm:text-sm text-slate-300">Aşağıdaki video kartlarından birine tıklayarak veya yukarıya YouTube linki yapıştırarak akıllı tahtada oynatabilirsiniz.</p>
+                                <p class="text-xs sm:text-sm text-slate-300">Aşağıdaki video kartlarından birine tıklayarak akıllı tahtada hemen başlatabilirsiniz.</p>
                             </div>
                         </div>
                     `}
                 </div>
 
                 <!-- Video Listesi Kartları -->
-                <div class="space-y-3 pt-2">
-                    <div class="flex items-center justify-between">
-                        <h3 class="text-lg font-black text-white flex items-center gap-2">
-                            <i class="fa-solid fa-list-check text-rose-400"></i> 2. Hafta Ders Video Listesi (${videos.length})
+                <div class="space-y-3 pt-3">
+                    <div class="flex items-center justify-between border-t border-slate-800 pt-4">
+                        <h3 class="text-lg sm:text-xl font-black text-white flex items-center gap-2">
+                            <i class="fa-solid fa-list-check text-rose-400"></i> Ders Video Listesi (${videos.length})
                         </h3>
-                        <span class="text-xs text-slate-400">Öğretmen Bozok Arşivi</span>
+                        <span class="text-xs text-slate-400 font-semibold">Dokunarak Seçin</span>
                     </div>
 
-                    ${videos.length === 0 ? `
-                        <div class="p-8 bg-slate-900/60 rounded-2xl border border-slate-800 text-center space-y-2">
-                            <p class="text-sm font-semibold text-slate-300">Henüz video linki eklenmedi.</p>
-                            <p class="text-xs text-rose-300">Öğretmenim, video linklerinizi verdiğinizde hemen buradaki listeye eklenecektir!</p>
-                        </div>
-                    ` : `
-                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                            ${videos.map((v) => `
-                                <div class="bg-slate-900/90 rounded-2xl border-2 ${this.activeVideoUrl === v.url && v.url ? 'border-rose-500 ring-2 ring-rose-400/40' : 'border-slate-700/80 hover:border-rose-400/60'} p-4 flex flex-col justify-between space-y-3 transition-all shadow-xl hover:scale-[1.02]">
-                                    <div class="space-y-2">
-                                        <div class="flex items-center justify-between gap-2">
-                                            <span class="px-2.5 py-1 bg-rose-500/20 text-rose-300 rounded-lg text-xs font-black uppercase">
-                                                ${v.badge || 'Ders Videosu'}
-                                            </span>
-                                            <span class="text-xs text-slate-400 font-bold flex items-center gap-1">
-                                                <i class="fa-solid fa-clock text-rose-400"></i> ${v.duration || 'Ders Videosu'}
-                                            </span>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+                        ${videos.map((v) => {
+                            const isPlaying = this.activeVideoUrl === v.url && v.url;
+                            const thumbUrl = v.youtubeId ? `https://img.youtube.com/vi/${v.youtubeId}/hqdefault.jpg` : '';
+                            return `
+                                <div class="bg-slate-900/90 rounded-3xl border-2 ${isPlaying ? 'border-rose-500 ring-4 ring-rose-500/30' : 'border-slate-700/80 hover:border-rose-400/60'} overflow-hidden flex flex-col justify-between transition-all shadow-xl hover:scale-[1.02] group">
+                                    ${thumbUrl ? `
+                                        <div class="relative w-full aspect-video overflow-hidden bg-slate-950 cursor-pointer" onclick="app.selectVideo('${v.url}', '${v.title.replace(/'/g, "\\'")}')">
+                                            <img src="${thumbUrl}" alt="${v.title}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
+                                            <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent flex items-end justify-between p-3">
+                                                <span class="px-2.5 py-1 bg-rose-600/90 text-white rounded-lg text-xs font-black uppercase tracking-wider">${v.badge || 'Ders'}</span>
+                                                ${v.author ? `<span class="text-[11px] font-bold text-yellow-300 bg-slate-900/90 px-2 py-0.5 rounded-md border border-slate-700"><i class="fa-solid fa-user-check text-rose-400"></i> ${v.author}</span>` : ''}
+                                            </div>
+                                            <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity bg-black/40">
+                                                <div class="w-14 h-14 rounded-full bg-rose-600 text-white flex items-center justify-center text-2xl shadow-2xl scale-90 group-hover:scale-100 transition-transform">
+                                                    <i class="fa-solid fa-play ml-1"></i>
+                                                </div>
+                                            </div>
                                         </div>
-                                        <h4 class="text-base sm:text-lg font-black text-white leading-snug">${v.title}</h4>
-                                        <p class="text-xs text-slate-300 line-clamp-2">${v.desc || ''}</p>
-                                    </div>
+                                    ` : ''}
 
-                                    <div class="pt-2 border-t border-slate-800 flex items-center justify-between gap-2">
-                                        ${v.url ? `
-                                            <button onclick="app.selectVideo('${v.url}', '${v.title.replace(/'/g, "\\'")}')" class="w-full py-2.5 bg-rose-600 hover:bg-rose-500 text-white font-black text-xs sm:text-sm rounded-xl shadow-lg flex items-center justify-center gap-2 transition-all active:scale-95">
-                                                <i class="fa-solid fa-play"></i>
-                                                <span>${this.activeVideoUrl === v.url ? 'Şu An Oynatılıyor' : 'Akıllı Tahtada Başlat'}</span>
+                                    <div class="p-4 sm:p-5 flex-1 flex flex-col justify-between space-y-3">
+                                        <div class="space-y-1.5">
+                                            <h4 class="text-base sm:text-lg font-black text-white leading-snug group-hover:text-rose-300 transition-colors">${v.title}</h4>
+                                            <p class="text-xs sm:text-sm text-slate-300 line-clamp-2">${v.desc || ''}</p>
+                                        </div>
+
+                                        <div class="pt-2 border-t border-slate-800">
+                                            <button onclick="app.selectVideo('${v.url}', '${v.title.replace(/'/g, "\\'")}')" class="w-full py-3 ${isPlaying ? 'bg-emerald-600 hover:bg-emerald-500' : 'bg-rose-600 hover:bg-rose-500'} text-white font-black text-xs sm:text-sm rounded-xl shadow-lg flex items-center justify-center gap-2 transition-all active:scale-95">
+                                                <i class="${isPlaying ? 'fa-solid fa-circle-check' : 'fa-solid fa-play'}"></i>
+                                                <span>${isPlaying ? 'Şu An Oynatılıyor' : 'Akıllı Tahtada Başlat'}</span>
                                             </button>
-                                        ` : `
-                                            <span class="w-full py-2 text-center text-xs font-bold text-amber-300 bg-amber-500/10 rounded-xl border border-amber-500/30">
-                                                ⏳ Link Bekleniyor
-                                            </span>
-                                        `}
+                                        </div>
                                     </div>
                                 </div>
-                            `).join('')}
-                        </div>
-                    `}
+                            `;
+                        }).join('')}
+                    </div>
                 </div>
             </div>
         `;
