@@ -271,27 +271,21 @@ class App {
             bannerEl.className = `bg-gradient-to-r ${info.themeColor} rounded-3xl p-5 border border-white/20 shadow-2xl flex flex-col md:flex-row items-start md:items-center justify-between gap-4 transition-all duration-500`;
         }
 
-        // Video sekmesi görünürlük kontrolü (2. Hafta veya videosu olan haftalar)
+        // Video sekmesi her zaman erişilebilir
         const videoTabBtn = document.getElementById("tab-btn-videos");
-        const hasVideos = weekNum === 2 || (data && data.videos && data.videos.length > 0);
         if (videoTabBtn) {
-            if (hasVideos) {
-                videoTabBtn.classList.remove("hidden");
-            } else {
-                videoTabBtn.classList.add("hidden");
-            }
+            videoTabBtn.classList.remove("hidden");
         }
 
         // Aktif haftaya özel standart başlık butonları
         const actionBtnContainer = document.getElementById("week-action-buttons");
         if (actionBtnContainer) {
+            const hasOwnVideos = (data && data.videos && data.videos.length > 0);
             actionBtnContainer.innerHTML = `
-                ${hasVideos ? `
-                    <button onclick="app.switchTab('videos')" class="px-4 py-2 bg-gradient-to-r from-rose-600 to-red-600 hover:from-rose-500 hover:to-red-500 text-white font-black text-xs rounded-xl shadow-lg flex items-center gap-2 transition-all hover:scale-105 active:scale-95" title="Konu Videoları Sekmesine Git">
-                        <i class="fa-solid fa-circle-play"></i>
-                        <span>Konu Videoları 🎬</span>
-                    </button>
-                ` : ''}
+                <button onclick="${hasOwnVideos ? "app.switchTab('videos')" : "app.loadWeek(2); app.switchTab('videos')"}" class="px-4 py-2 bg-gradient-to-r from-rose-600 to-red-600 hover:from-rose-500 hover:to-red-500 text-white font-black text-xs rounded-xl shadow-lg flex items-center gap-2 transition-all hover:scale-105 active:scale-95" title="Konu Videoları">
+                    <i class="fa-solid fa-circle-play"></i>
+                    <span>${weekNum === 2 ? 'Konu Videoları 🎬' : '2. Hafta Videoları 🎬'}</span>
+                </button>
                 <button onclick="app.switchTab('games')" class="px-4 py-2 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white font-black text-xs rounded-xl shadow-lg flex items-center gap-2 transition-all hover:scale-105 active:scale-95" title="Tekrar Oyunları Sekmesine Git">
                     <i class="fa-solid fa-gamepad"></i>
                     <span>Tekrar Oyunları 🎮</span>
@@ -1519,7 +1513,16 @@ class App {
         if (!container) return;
 
         const data = this.getCurrentWeekData();
-        const videos = data.videos || [];
+        let videos = data.videos || [];
+        let isFallback = false;
+
+        if (videos.length === 0) {
+            const week2 = (typeof WEEK2_CONTENT !== 'undefined') ? WEEK2_CONTENT : null;
+            if (week2 && week2.videos && week2.videos.length > 0) {
+                videos = week2.videos;
+                isFallback = true;
+            }
+        }
 
         // İlk açılışta varsayılan olarak ilk videoyu seç
         if (!this.activeVideoUrl && videos.length > 0 && videos[0].url) {
@@ -1529,6 +1532,26 @@ class App {
 
         container.innerHTML = `
             <div class="glass-panel rounded-3xl p-5 sm:p-8 space-y-6 shadow-2xl border-2 border-rose-500/30 animate-pop">
+                ${isFallback ? `
+                    <div class="bg-gradient-to-r from-indigo-950/95 via-purple-950/90 to-slate-900 border-2 border-indigo-500/50 rounded-2xl p-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 shadow-xl">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-xl bg-indigo-500/20 text-indigo-400 flex items-center justify-center text-xl shrink-0">
+                                <i class="fa-solid fa-circle-info"></i>
+                            </div>
+                            <div>
+                                <div class="flex items-center gap-2">
+                                    <span class="px-2 py-0.5 bg-yellow-400/20 text-yellow-300 font-extrabold text-[11px] rounded-md border border-yellow-400/30 uppercase">2. Hafta Konu Videoları</span>
+                                    <span class="text-xs text-slate-300 font-bold">Ergonomi, Doğru Duruş ve Sağlık</span>
+                                </div>
+                                <p class="text-xs text-slate-300 mt-0.5">Şu an 1. haftadasınız. 2. Hafta dersi için eklenen videolar aşağıda hemen izlenebilir durumda listelenmektedir.</p>
+                            </div>
+                        </div>
+                        <button onclick="app.loadWeek(2); app.switchTab('videos');" class="px-4 py-2 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white font-black text-xs rounded-xl shadow-lg flex items-center gap-2 shrink-0 transition-all hover:scale-105 active:scale-95">
+                            <i class="fa-solid fa-arrow-right"></i> 2. Haftaya Geç
+                        </button>
+                    </div>
+                ` : ''}
+
                 <!-- Üst Başlık ve Bilgi -->
                 <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 pb-5 border-b border-slate-700/80">
                     <div class="flex items-center gap-4">
@@ -1538,7 +1561,7 @@ class App {
                         <div>
                             <div class="flex items-center gap-2">
                                 <span class="px-3 py-1 bg-rose-500/20 text-rose-300 border border-rose-500/40 rounded-full text-xs font-black uppercase tracking-wider">
-                                    ${this.currentWeek}. Hafta • Akıllı Tahta Video Alanı
+                                    ${isFallback ? '2' : this.currentWeek}. Hafta • Akıllı Tahta Video Alanı
                                 </span>
                             </div>
                             <h2 class="text-2xl sm:text-3xl md:text-4xl font-black text-white mt-1">Konu İle Alakalı Videolar 🎬</h2>
