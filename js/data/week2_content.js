@@ -22,6 +22,37 @@ window.WEEK2_CONTENT = {
         }
     },
 
+    // 🎬 2. HAFTA: KONU İLE ALAKALI VİDEOLAR (Öğretmen Bozok Video Arşivi)
+    videos: [
+        {
+            id: 1,
+            title: "Bilişim Teknolojilerinin Olumlu ve Olumsuz Etkileri",
+            desc: "Teknolojinin getirdiği kolaylıklar, bağımlılık tehlikesi ve bilinçli teknoloji kullanımı.",
+            url: "", // Öğretmenin vereceği YouTube veya video linki buraya eklenecek
+            duration: "Ders Videosu 1",
+            badge: "Temel Konu",
+            icon: "fa-solid fa-scale-balanced"
+        },
+        {
+            id: 2,
+            title: "Dijital Sağlık: Ergonomi ve 20-20-20 Kuralı",
+            desc: "Ekran başında doğru oturuş pozisyonu, göz sağlığını koruma ve omurga ergonomisi.",
+            url: "", // Öğretmenin vereceği YouTube veya video linki buraya eklenecek
+            duration: "Ders Videosu 2",
+            badge: "Beden Sağlığı",
+            icon: "fa-solid fa-heart-pulse"
+        },
+        {
+            id: 3,
+            title: "Teknoloji Bağımlılığı ve Dijital Denge",
+            desc: "Ekran başında geçirilen süreyi yönetme, sosyal bağları koruma ve gerçek hayat dengesi.",
+            url: "", // Öğretmenin vereceği YouTube veya video linki buraya eklenecek
+            duration: "Ders Videosu 3",
+            badge: "Farkındalık",
+            icon: "fa-solid fa-gamepad"
+        }
+    ],
+
     // 📄 1. HAFTALIK ÇALIŞMA KAĞITLARI & CEVAP ANAHTARI BELGELERİ
     worksheetDocs: {
         images: {
