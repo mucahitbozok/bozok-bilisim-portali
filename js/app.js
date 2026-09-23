@@ -545,6 +545,50 @@ class App {
         if (modal) modal.classList.add("hidden");
     }
 
+    handleSlideChoice(btn, isCorrect, feedbackId, explanationText) {
+        if (typeof sounds !== 'undefined') {
+            if (isCorrect) sounds.playCorrect();
+            else sounds.playWrong();
+        }
+        const parent = btn.parentElement;
+        if (parent) {
+            const buttons = parent.querySelectorAll('button');
+            buttons.forEach(b => {
+                b.disabled = true;
+                b.classList.add('opacity-50', 'pointer-events-none');
+            });
+        }
+
+        btn.classList.remove('opacity-50');
+        if (isCorrect) {
+            btn.className = "w-full py-3.5 px-6 rounded-2xl font-black text-lg sm:text-xl transition-all shadow-xl bg-emerald-600 border-2 border-emerald-400 text-white ring-4 ring-emerald-400/50 flex items-center justify-between";
+            btn.innerHTML += ' <i class="fa-solid fa-circle-check text-2xl"></i>';
+        } else {
+            btn.className = "w-full py-3.5 px-6 rounded-2xl font-black text-lg sm:text-xl transition-all shadow-xl bg-rose-600 border-2 border-rose-400 text-white ring-4 ring-rose-400/50 flex items-center justify-between animate-shake";
+            btn.innerHTML += ' <i class="fa-solid fa-circle-xmark text-2xl"></i>';
+        }
+
+        const fbEl = document.getElementById(feedbackId);
+        if (fbEl) {
+            fbEl.classList.remove('hidden');
+            fbEl.innerHTML = isCorrect
+                ? `<div class="p-4 bg-emerald-950/90 border-2 border-emerald-500 rounded-2xl text-emerald-200 font-bold text-base sm:text-lg animate-pop flex items-start gap-3 shadow-lg">
+                     <i class="fa-solid fa-circle-check text-emerald-400 text-2xl shrink-0 mt-0.5"></i>
+                     <div>
+                       <span class="text-emerald-400 font-black uppercase text-sm block">HARİKA! DOĞRU CEVAP</span>
+                       <span>${explanationText}</span>
+                     </div>
+                   </div>`
+                : `<div class="p-4 bg-rose-950/90 border-2 border-rose-500 rounded-2xl text-rose-200 font-bold text-base sm:text-lg animate-pop flex items-start gap-3 shadow-lg">
+                     <i class="fa-solid fa-circle-xmark text-rose-400 text-2xl shrink-0 mt-0.5"></i>
+                     <div>
+                       <span class="text-rose-400 font-black uppercase text-sm block">DİKKAT! DOĞRU CEVAP DEĞİL</span>
+                       <span>${explanationText}</span>
+                     </div>
+                   </div>`;
+        }
+    }
+
     togglePresentationFullscreen() {
         sounds.playClick();
         const elem = document.getElementById("view-lecture");
