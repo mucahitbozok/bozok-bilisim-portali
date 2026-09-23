@@ -255,6 +255,130 @@ class ArenaGame {
             }
         ];
 
+        // 3. HAFTA SORULARI (DİJİTAL VATANDAŞLIK ARENASI)
+        this.week3Questions = [
+            {
+                topic: "🛡️ DİJİTAL VATANDAŞ KAVRAMI",
+                question: "Dijital dünyada hak ve sorumluluklarını bilen, teknolojiyi etik, ahlaki ve güvenli şekilde kullanan bireye ne ad verilir?",
+                options: [
+                    "Dijital Vatandaş",
+                    "Sanal Korsan",
+                    "Yapay Zekâ",
+                    "Web Programcısı"
+                ],
+                correct: 0, // A
+                explanation: "Tebrikler! Hak ve sorumluluklarını bilerek teknolojiyi doğru kullanan kişiye Dijital Vatandaş denir."
+            },
+            {
+                topic: "🆔 DİJİTAL KİMLİK",
+                question: "İnternette bizi temsil eden kullanıcı adı, profil resmi, e-posta adresi ve paylaşımlarımızın oluşturduğu sanal varlığa ne denir?",
+                options: [
+                    "Dijital Kimlik",
+                    "Nüfus Cüzdanı",
+                    "İnternet Tarayıcısı",
+                    "Arama Motoru"
+                ],
+                correct: 0, // A
+                explanation: "Harika! Dijital kimlik, sanal dünyadaki profilimiz ve bizi yansıtan her türlü bilgidir."
+            },
+            {
+                topic: "👣 DİJİTAL AYAK İZİ",
+                question: "İnternette ziyaret ettiğimiz siteler, yaptığımız aramalar ve paylaştığımız fotoğrafların arkasında bıraktığı kalıcı izlere ne denir?",
+                options: [
+                    "Parmak İzi",
+                    "Dijital Ayak İzi",
+                    "İnternet Kablosu",
+                    "Ekran Çözünürlüğü"
+                ],
+                correct: 1, // B
+                explanation: "Doğru cevap! Karda yürürken iz bıraktığımız gibi internette de her adımımızda dijital ayak izi bırakırız."
+            },
+            {
+                topic: "🏛️ e-DEVLET KAPISI",
+                question: "Kamu kurumlarına ait yüzlerce resmi hizmete (nüfus kayıt, adli sicil, vergi vb.) tek bir şifreyle güvenli şekilde ulaşmamızı sağlayan resmi devlet portalı hangisidir?",
+                options: [
+                    "e-Devlet (turkiye.gov.tr)",
+                    "Sosyal Medya",
+                    "Online Oyun Mağazası",
+                    "Video Kanalı"
+                ],
+                correct: 0, // A
+                explanation: "Mükemmel! e-Devlet kapısı tüm vatandaşların kamu hizmetlerine hızlıca ulaşmasını sağlar."
+            },
+            {
+                topic: "📚 EĞİTİMDE DİJİTAL UYGULAMALAR",
+                question: "Öğrencilerin sınav notlarını, devamsızlık durumlarını ve karne bilgilerini görüntüleyebildikleri Millî Eğitim Bakanlığı sistemi hangisidir?",
+                options: [
+                    "e-Nabız",
+                    "e-Okul",
+                    "MHRS",
+                    "e-Belediye"
+                ],
+                correct: 1, // B
+                explanation: "Tebrikler! e-Okul sistemi öğrenci ve velilerin okul bilgilerini takip ettiği resmi platformdur."
+            },
+            {
+                topic: "🩺 SAĞLIKTA DİJİTAL UYGULAMALAR",
+                question: "Geçmiş tahlil sonuçlarımızı, kullandığımız ilaçları ve aşı takvimimizi güvenli şekilde incelememizi sağlayan dijital sağlık uygulaması hangisidir?",
+                options: [
+                    "e-Nabız",
+                    "EBA",
+                    "ÖSYM",
+                    "Haritalar"
+                ],
+                correct: 0, // A
+                explanation: "Harika! e-Nabız kişisel sağlık kayıtlarımıza kolayca ulaşmamızı sağlayan sağlık sistemidir."
+            },
+            {
+                topic: "💬 NETIQUETTE (DİJİTAL NEZAKET)",
+                question: "İnternette mesajlaşırken veya yorum yazarken KELİMELERİN TAMAMINI BÜYÜK HARFLE YAZMAK ne anlama gelir?",
+                options: [
+                    "Karşı tarafa bağırmak ve kaba davranmak",
+                    "Daha hızlı yazmak",
+                    "Gizli mesaj göndermek",
+                    "Şifre oluşturmak"
+                ],
+                correct: 0, // A
+                explanation: "Kesinlikle doğru! Büyük harfle yazmak bağırmak algısı oluşturur, dijital nezakete aykırıdır."
+            },
+            {
+                topic: "🚫 SİBER ZORBALIK",
+                question: "İnternet ortamında birisi sizi rahatsız eder veya alaycı mesajlar gönderirse yapılması gereken EN DOĞRU davranış hangisidir?",
+                options: [
+                    "Kişiye aynı kaba sözlerle karşılık vermek",
+                    "Kişiyi engelleyip durumu hemen anne-baba veya öğretmenimize bildirmek",
+                    "Kimseye söylemeyip içine kapanmak",
+                    "Şifremizi o kişiye vermek"
+                ],
+                correct: 1, // B
+                explanation: "Harika dedektif! Siber zorbalığa uğrandığında misilleme yapılmaz, kişi engellenir ve güvenilir bir yetişkine haber verilir."
+            },
+            {
+                topic: "🔒 KİŞİSEL VERİLERİN KORUNMASI",
+                question: "İyi bir dijital vatandaş, internette şifresini ve T.C. kimlik numarasını nasıl korumalıdır?",
+                options: [
+                    "Sosyal medyada herkesle paylaşmalıdır",
+                    "Oyun sohbetlerinde arkadaşlarına vermelidir",
+                    "Kimseyle paylaşmamalı ve güçlü şifreler kullanmalıdır",
+                    "Kolay hatırlamak için '123456' yapmalıdır"
+                ],
+                correct: 2, // C
+                explanation: "Tebrikler! Kişisel veriler ve şifreler gizli tutulmalı, güçlü kombinasyonlarla korunmalıdır."
+            },
+            {
+                topic: "🏆 DİJİTAL AYAK İZİ KURALI",
+                question: "İnternette bir fotoğraf veya video paylaşmadan önce aklımızdan çıkarmamamız gereken en temel kural nedir?",
+                options: [
+                    "İnternete yüklenen hiçbir içerik tamamen silinmeyebilir ve başkalarınca kaydedilebilir",
+                    "Paylaşılan her şey 10 dakika sonra kendiliğinden kaybolur",
+                    "İnternette kimse kimseyi göremez",
+                    "Ne kadar çok paylaşım yaparsak o kadar hızlı internetimiz olur"
+                ],
+                correct: 0, // A
+                explanation: "Muazzam! İnternetteki dijital ayak izi kalıcıdır, paylaşmadan önce her zaman iyi düşünmeliyiz!"
+            }
+        ];
+
         this.questions = this.week1Questions;
         this.currentIndex = 0;
         this.score = 0;
@@ -270,7 +394,12 @@ class ArenaGame {
         const week = (typeof app !== 'undefined' && app.currentWeek) ? app.currentWeek : 1;
         this.activeWeek = week;
 
-        if (this.activeWeek === 2) {
+        if (this.activeWeek === 3) {
+            this.gameTitle = "Dijital Vatandaşlık Arenası";
+            this.gameSubtitle = "3. Hafta – Dijital Vatandaşlık Uygulamaları";
+            this.gameBadge = "🛡️ 3. Hafta Özel Süper Tekrar Oyunu";
+            this.questions = this.week3Questions;
+        } else if (this.activeWeek === 2) {
             this.gameTitle = "Teknoloji Dedektifleri Arenası";
             this.gameSubtitle = "2. Hafta – Bilişim Teknolojilerinin Etkileri ve Dijital Sağlık";
             this.gameBadge = "🕵️‍♂️ 2. Hafta Özel Süper Tekrar Oyunu";
@@ -289,28 +418,33 @@ class ArenaGame {
         if (!this.container) return;
 
         const isWeek2 = (this.activeWeek === 2);
+        const isWeek3 = (this.activeWeek === 3);
+        const borderClass = isWeek3 ? 'border-blue-500/70' : (isWeek2 ? 'border-yellow-400' : 'border-indigo-500/50');
+        const iconClass = isWeek3 ? 'fa-shield-halved' : (isWeek2 ? 'fa-magnifying-glass' : 'fa-crown');
+        const iconGradient = isWeek3 ? 'from-blue-500 to-indigo-400' : (isWeek2 ? 'from-amber-500 to-yellow-300' : 'from-yellow-500 to-amber-300');
+        const targetBadge = isWeek3 ? 'Dijital Vatandaşlık Ustası' : (isWeek2 ? 'Teknoloji Dedektifi Ustası' : 'Bilişim Uzmanı');
 
         this.container.innerHTML = `
-            <div class="max-w-3xl mx-auto bg-slate-900 text-white rounded-3xl p-6 sm:p-10 shadow-2xl border-4 ${isWeek2 ? 'border-yellow-400' : 'border-indigo-500/50'} space-y-8 animate-pop">
+            <div class="max-w-3xl mx-auto bg-slate-900 text-white rounded-3xl p-6 sm:p-10 shadow-2xl border-4 ${borderClass} space-y-8 animate-pop">
                 <!-- Üst Geri Butonu -->
                 <div class="flex items-center justify-between border-b border-slate-800 pb-4">
                     <button onclick="app.renderGameHub()" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-xl font-bold text-xs flex items-center gap-2 transition-all">
                         <i class="fa-solid fa-arrow-left"></i> Oyunlar Menüsüne Dön
                     </button>
-                    <span class="px-3 py-1 ${isWeek2 ? 'bg-amber-500/20 text-yellow-300 border-amber-400/40' : 'bg-yellow-400/20 text-yellow-300 border-yellow-400/30'} font-extrabold text-xs rounded-full border">
+                    <span class="px-3 py-1 ${isWeek3 ? 'bg-blue-500/20 text-blue-300 border-blue-400/40' : (isWeek2 ? 'bg-amber-500/20 text-yellow-300 border-amber-400/40' : 'bg-yellow-400/20 text-yellow-300 border-yellow-400/30')} font-extrabold text-xs rounded-full border">
                         ${this.gameBadge}
                     </span>
                 </div>
 
                 <!-- Giriş İçeriği -->
                 <div class="text-center py-6 space-y-6 max-w-2xl mx-auto">
-                    <div class="inline-flex p-4 bg-gradient-to-tr ${isWeek2 ? 'from-amber-500 to-yellow-300' : 'from-yellow-500 to-amber-300'} text-slate-950 rounded-3xl text-5xl shadow-xl animate-bounce">
-                        <i class="fa-solid ${isWeek2 ? 'fa-magnifying-glass' : 'fa-crown'}"></i>
+                    <div class="inline-flex p-4 bg-gradient-to-tr ${iconGradient} text-slate-950 rounded-3xl text-5xl shadow-xl animate-bounce">
+                        <i class="fa-solid ${iconClass}"></i>
                     </div>
 
                     <div>
                         <h1 class="text-3xl sm:text-4xl font-black text-white">${this.gameTitle}</h1>
-                        <h2 class="text-base sm:text-lg font-bold ${isWeek2 ? 'text-yellow-200' : 'text-indigo-300'} mt-1">${this.gameSubtitle}</h2>
+                        <h2 class="text-base sm:text-lg font-bold ${isWeek3 ? 'text-blue-200' : (isWeek2 ? 'text-yellow-200' : 'text-indigo-300')} mt-1">${this.gameSubtitle}</h2>
                     </div>
 
                     <div class="bg-slate-800/80 rounded-2xl p-5 border border-slate-700 text-sm text-slate-300 leading-relaxed text-left space-y-2">
@@ -319,7 +453,7 @@ class ArenaGame {
                         </div>
                         <ul class="space-y-1 text-xs sm:text-sm text-slate-200">
                             <li>✨ <strong>Toplam 10 Soru:</strong> Her doğru soru 10 Puan kazandırır.</li>
-                            <li>💯 <strong>100 Tam Puan Hedefi:</strong> ${isWeek2 ? 'Teknoloji Dedektifi Ustası' : 'Bilişim Uzmanı'} rozetini kazanmak için yarış!</li>
+                            <li>💯 <strong>100 Tam Puan Hedefi:</strong> ${targetBadge} rozetini kazanmak için yarış!</li>
                             <li>💡 <strong>Anlık Açıklamalar:</strong> Her soruda doğru cevabın nedenini öğren.</li>
                         </ul>
                     </div>
@@ -503,35 +637,41 @@ class ArenaGame {
         if (!this.container) return;
 
         const isWeek2 = (this.activeWeek === 2);
+        const isWeek3 = (this.activeWeek === 3);
         let badge = "";
         let badgeColor = "";
 
         if (this.score >= 90) {
-            badge = isWeek2 ? "Teknoloji Dedektifi Ustası! 🕵️‍♂️🥇" : "Bilişim Arenası Şampiyonu! 🏆";
+            badge = isWeek3 ? "Dijital Vatandaşlık Ustası! 🛡️🥇" : (isWeek2 ? "Teknoloji Dedektifi Ustası! 🕵️‍♂️🥇" : "Bilişim Arenası Şampiyonu! 🏆");
             badgeColor = "from-yellow-400 to-amber-500 text-slate-950";
         } else if (this.score >= 70) {
-            badge = isWeek2 ? "Çok İyi Dedektif! 🥈" : "Bilişim Kıdemli Kaptanı! 🥈";
+            badge = isWeek3 ? "Bilinçli Dijital Vatandaş! 🥈" : (isWeek2 ? "Çok İyi Dedektif! 🥈" : "Bilişim Kıdemli Kaptanı! 🥈");
             badgeColor = "from-cyan-400 to-blue-500 text-white";
         } else if (this.score >= 50) {
-            badge = isWeek2 ? "İyi Gidiyorsun! 🥉" : "Bilişim Kaşifi! 🥉";
+            badge = isWeek3 ? "Gelişmekte Olan Vatandaş! 🥉" : (isWeek2 ? "İyi Gidiyorsun! 🥉" : "Bilişim Kaşifi! 🥉");
             badgeColor = "from-emerald-400 to-teal-500 text-slate-950";
         } else {
             badge = "Bir Kez Daha Tekrar Edelim! 🔄";
             badgeColor = "from-rose-500 to-orange-500 text-white";
         }
 
+        const borderClass = isWeek3 ? 'border-blue-500/70' : (isWeek2 ? 'border-yellow-400' : 'border-indigo-500/50');
+        const reportBadge = isWeek3 ? 'DİJİTAL VATANDAŞLIK RAPORU' : (isWeek2 ? 'DEDEKTİF RAPORU' : 'ARENA SONUÇ RAPORU');
+        const reportTitle = isWeek3 ? 'DİJİTAL VATANDAŞLIK RAPORUN' : (isWeek2 ? 'TEKNOLOJİ DEDEKTİFİ RAPORUN' : 'Tebrikler! Arena Tamamlandı!');
+        const headerIcon = isWeek3 ? 'fa-shield-halved' : (isWeek2 ? 'fa-award' : 'fa-trophy');
+
         this.container.innerHTML = `
-            <div class="max-w-3xl mx-auto bg-slate-900 text-white rounded-3xl p-6 sm:p-10 shadow-2xl border-4 ${isWeek2 ? 'border-yellow-400' : 'border-indigo-500/50'} text-center space-y-6 animate-pop">
+            <div class="max-w-3xl mx-auto bg-slate-900 text-white rounded-3xl p-6 sm:p-10 shadow-2xl border-4 ${borderClass} text-center space-y-6 animate-pop">
                 
                 <div class="w-24 h-24 rounded-full bg-gradient-to-tr ${badgeColor} mx-auto flex items-center justify-center text-5xl shadow-2xl animate-bounce">
-                    <i class="fa-solid ${isWeek2 ? 'fa-award' : 'fa-trophy'}"></i>
+                    <i class="fa-solid ${headerIcon}"></i>
                 </div>
 
                 <div class="space-y-1">
                     <span class="px-3.5 py-1 bg-yellow-400/20 text-yellow-300 font-black rounded-xl text-xs uppercase tracking-widest border border-yellow-400/30">
-                        ${isWeek2 ? 'DEDEKTİF RAPORU' : 'ARENA SONUÇ RAPORU'}
+                        ${reportBadge}
                     </span>
-                    <h2 class="text-3xl sm:text-4xl font-black text-white">${isWeek2 ? 'TEKNOLOJİ DEDEKTİFİ RAPORUN' : 'Tebrikler! Arena Tamamlandı!'}</h2>
+                    <h2 class="text-3xl sm:text-4xl font-black text-white">${reportTitle}</h2>
                 </div>
 
                 <!-- Skor Kartı -->
@@ -578,6 +718,32 @@ class ArenaGame {
 
                 <div class="p-4 bg-gradient-to-r from-amber-500/20 via-yellow-500/20 to-amber-500/20 rounded-2xl border border-yellow-400/40 text-yellow-200 font-bold text-xs sm:text-sm max-w-xl mx-auto">
                     “Teknoloji hayatımızı kolaylaştırır. Önemli olan onu nasıl kullandığımızdır!”
+                </div>
+                ` : ''}
+
+                ${isWeek3 ? `
+                <!-- 3. Hafta Dijital Vatandaşlık Maddeleri -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-left max-w-xl mx-auto text-xs sm:text-sm">
+                    <div class="p-3 bg-slate-850 rounded-xl border border-blue-500/30 flex items-center gap-2.5 text-blue-200">
+                        <i class="fa-solid fa-circle-check text-blue-400 text-base shrink-0"></i>
+                        <span>Dijital kimlik ve dijital ayak izini kavradım.</span>
+                    </div>
+                    <div class="p-3 bg-slate-850 rounded-xl border border-blue-500/30 flex items-center gap-2.5 text-blue-200">
+                        <i class="fa-solid fa-circle-check text-blue-400 text-base shrink-0"></i>
+                        <span>e-Devlet, e-Okul ve e-Hizmetleri sınıflandırabiliyorum.</span>
+                    </div>
+                    <div class="p-3 bg-slate-850 rounded-xl border border-blue-500/30 flex items-center gap-2.5 text-blue-200">
+                        <i class="fa-solid fa-circle-check text-blue-400 text-base shrink-0"></i>
+                        <span>Netiquette (dijital nezaket) kurallarına uyarım.</span>
+                    </div>
+                    <div class="p-3 bg-slate-850 rounded-xl border border-blue-500/30 flex items-center gap-2.5 text-blue-200">
+                        <i class="fa-solid fa-circle-check text-blue-400 text-base shrink-0"></i>
+                        <span>Siber zorbalığa karşı kendimi ve arkadaşlarımı korurum.</span>
+                    </div>
+                </div>
+
+                <div class="p-4 bg-gradient-to-r from-blue-500/20 via-indigo-500/20 to-blue-500/20 rounded-2xl border border-blue-400/40 text-blue-200 font-bold text-xs sm:text-sm max-w-xl mx-auto">
+                    “Gerçek hayatta nasıl iyi bir insansak, dijital dünyada da aynı şekilde sorumlu ve saygılı bir dijital vatandaşız!”
                 </div>
                 ` : ''}
 

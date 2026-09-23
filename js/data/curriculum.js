@@ -31,8 +31,8 @@ const CURRICULUM_DATA = [
                 "title": "Dijital Vatandaşlık Uygulamaları",
                 "code": "BTY.5.1.3. Dijital vatandaşlık uygulamalarını sınıflandırabilme",
                 "outcome": "a) Dijital kimlik kavramını belirler. b) Dijital ayak izinin etkilerini bilişim teknolojilerinin kullanım alanları ile ilişkilendirir. c) Dijital vatandaşlık uygulamalarını kullanım alanlarına göre gruplandır",
-                "isAvailable": false,
-                "badge": "Yakında"
+                "isAvailable": true,
+                "badge": "Hazır"
             },
             {
                 "week": 4,

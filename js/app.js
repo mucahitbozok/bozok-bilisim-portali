@@ -424,7 +424,7 @@ class App {
         const prevBtn = document.getElementById("slide-prev-btn");
         const nextBtn = document.getElementById("slide-next-btn");
 
-        if (this.currentWeek >= 3 || !slides.length || !slide) {
+        if (data.weekInfo?.isPending || !slides.length || !slide) {
             if (progress) progress.style.width = "0%";
             if (counter) counter.innerText = "- / -";
             if (prevBtn) prevBtn.disabled = true;
@@ -707,7 +707,7 @@ class App {
         if (!this.photoZoom) this.photoZoom = 1.0;
 
         // Henüz içeriği yüklenmemiş ileri haftalar
-        if (this.currentWeek >= 3 || (!images && !docs.konuHtml)) {
+        if (data.weekInfo?.isPending || (!images && !docs.konuHtml)) {
             this.renderPendingPlaceholder("worksheet-render-area", "Çalışma Kağıtları & Cevap Anahtarı", "fa-solid fa-file-lines");
             return;
         }
@@ -945,7 +945,7 @@ class App {
         const questions = data.questions || [];
         const images = data.weekInfo?.images;
 
-        if (this.currentWeek >= 3 || !questions || !questions.length) {
+        if (data.weekInfo?.isPending || !questions || !questions.length) {
             this.renderPendingPlaceholder("quiz-render-area", "Pekiştirme Testi & Etkinlikler", "fa-solid fa-clipboard-question");
             return;
         }
@@ -1210,6 +1210,22 @@ class App {
                 btnGradient: "from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white",
                 action: "app.openStandaloneGame('games/bir_gunluk_teknoloji_maceras.html', 'Bir Günlük Teknoloji Macerası | Öğretmen Bozok')"
             });
+        } else if (weekNum === 3) {
+            extra.push({
+                badge: "Özel",
+                badgeColor: "text-blue-300",
+                title: "Dijital Vatandaşlık Arenası",
+                desc: "Dijital kimlik, ayak izi ve e-Devlet uygulamalarını kapsayan 10 soruluk büyük bilgi arenası!",
+                icon: "fa-solid fa-shield-halved",
+                iconBg: "bg-blue-500/30 text-blue-400",
+                cardGradient: "from-blue-900/90 to-indigo-950/90",
+                border: "border-blue-500/50",
+                descColor: "text-blue-100",
+                btnText: "Arenaya Gir!",
+                btnIcon: "fa-solid fa-rocket",
+                btnGradient: "from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white",
+                action: "app.launchGame('arena')"
+            });
         }
 
         // Haftalık içerik verisinde (data.extraGames) tanımlı ek oyunlar varsa onları da listeye ekle
@@ -1229,7 +1245,7 @@ class App {
         if (backBtn) backBtn.classList.add("hidden");
 
         const data = this.getCurrentWeekData();
-        if (this.currentWeek >= 3 || !data.gameData || !data.gameData.wheelQuiz) {
+        if (data.weekInfo?.isPending || !data.gameData || !data.gameData.wheelQuiz) {
             this.renderPendingPlaceholder("game-container", "Sınıf İçi Tekrar Oyunları", "fa-solid fa-gamepad");
             return;
         }
