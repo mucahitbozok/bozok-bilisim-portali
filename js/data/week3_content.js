@@ -240,55 +240,57 @@ window.WEEK3_CONTENT = {
             bgColor: "from-slate-900 via-indigo-950 to-blue-900",
             gradient: "from-slate-900 via-indigo-950 to-blue-900",
             content: `
-                <div class="max-w-5xl mx-auto space-y-3.5 my-auto py-2">
-                    <p class="text-center text-base sm:text-xl text-indigo-200 font-semibold mb-4">
+                <div class="max-w-5xl mx-auto w-full space-y-3.5 my-auto">
+                    <p class="text-center text-base sm:text-lg text-indigo-200 font-bold">
                         Gerçek hayatta nezaketli olduğumuz gibi internette de örnek davranışlar sergileriz:
                     </p>
 
-                    <!-- Her Madde İçin Ayrı Büyük İkon (En az 26 punto metin) -->
-                    <div class="p-4 sm:p-4.5 rounded-2xl bg-slate-800/80 border-2 border-blue-400/40 flex items-center gap-4 shadow-lg hover:border-yellow-400 transition-all">
-                        <div class="w-14 h-14 rounded-2xl bg-pink-500/20 text-pink-400 flex items-center justify-center text-3xl shrink-0">
-                            <i class="fa-solid fa-handshake-angle"></i>
+                    <!-- 2 Kolonlu Dengeli Izgara (Tam Ekrana Sığar) -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                        <div class="p-3.5 sm:p-4 rounded-2xl bg-slate-800/80 border-2 border-pink-400/40 flex items-center gap-3.5 shadow-lg hover:border-pink-400 transition-all">
+                            <div class="w-12 h-12 rounded-xl bg-pink-500/20 text-pink-400 flex items-center justify-center text-2xl shrink-0">
+                                <i class="fa-solid fa-handshake-angle"></i>
+                            </div>
+                            <span class="text-base sm:text-lg md:text-xl font-black text-white">
+                                Başkalarına <strong class="text-yellow-300">saygılı</strong> davranır.
+                            </span>
                         </div>
-                        <span class="text-xl sm:text-2xl md:text-[25px] font-extrabold text-white">
-                            Başkalarına <strong class="text-yellow-300">saygılı</strong> davranır.
-                        </span>
-                    </div>
 
-                    <div class="p-4 sm:p-4.5 rounded-2xl bg-slate-800/80 border-2 border-blue-400/40 flex items-center gap-4 shadow-lg hover:border-yellow-400 transition-all">
-                        <div class="w-14 h-14 rounded-2xl bg-cyan-500/20 text-cyan-400 flex items-center justify-center text-3xl shrink-0">
-                            <i class="fa-solid fa-id-card-clip"></i>
+                        <div class="p-3.5 sm:p-4 rounded-2xl bg-slate-800/80 border-2 border-cyan-400/40 flex items-center gap-3.5 shadow-lg hover:border-cyan-400 transition-all">
+                            <div class="w-12 h-12 rounded-xl bg-cyan-500/20 text-cyan-400 flex items-center justify-center text-2xl shrink-0">
+                                <i class="fa-solid fa-id-card-clip"></i>
+                            </div>
+                            <span class="text-base sm:text-lg md:text-xl font-black text-white">
+                                Kişisel bilgilerini <strong class="text-cyan-300">korur</strong>.
+                            </span>
                         </div>
-                        <span class="text-xl sm:text-2xl md:text-[25px] font-extrabold text-white">
-                            Kişisel bilgilerini <strong class="text-cyan-300">korur</strong> ve paylaşmaz.
-                        </span>
-                    </div>
 
-                    <div class="p-4 sm:p-4.5 rounded-2xl bg-slate-800/80 border-2 border-blue-400/40 flex items-center gap-4 shadow-lg hover:border-yellow-400 transition-all">
-                        <div class="w-14 h-14 rounded-2xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-3xl shrink-0">
-                            <i class="fa-solid fa-magnifying-glass"></i>
+                        <div class="p-3.5 sm:p-4 rounded-2xl bg-slate-800/80 border-2 border-emerald-400/40 flex items-center gap-3.5 shadow-lg hover:border-emerald-400 transition-all">
+                            <div class="w-12 h-12 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-2xl shrink-0">
+                                <i class="fa-solid fa-magnifying-glass"></i>
+                            </div>
+                            <span class="text-base sm:text-lg md:text-xl font-black text-white">
+                                <strong class="text-emerald-300">Güvenilir kaynakları</strong> araştırır.
+                            </span>
                         </div>
-                        <span class="text-xl sm:text-2xl md:text-[25px] font-extrabold text-white">
-                            <strong class="text-emerald-300">Güvenilir kaynakları</strong> araştırır ve doğrular.
-                        </span>
-                    </div>
 
-                    <div class="p-4 sm:p-4.5 rounded-2xl bg-slate-800/80 border-2 border-blue-400/40 flex items-center gap-4 shadow-lg hover:border-yellow-400 transition-all">
-                        <div class="w-14 h-14 rounded-2xl bg-amber-500/20 text-amber-400 flex items-center justify-center text-3xl shrink-0">
-                            <i class="fa-solid fa-key"></i>
+                        <div class="p-3.5 sm:p-4 rounded-2xl bg-slate-800/80 border-2 border-amber-400/40 flex items-center gap-3.5 shadow-lg hover:border-amber-400 transition-all">
+                            <div class="w-12 h-12 rounded-xl bg-amber-500/20 text-amber-400 flex items-center justify-center text-2xl shrink-0">
+                                <i class="fa-solid fa-key"></i>
+                            </div>
+                            <span class="text-base sm:text-lg md:text-xl font-black text-white">
+                                <strong class="text-amber-300">Şifrelerini</strong> asla paylaşmaz.
+                            </span>
                         </div>
-                        <span class="text-xl sm:text-2xl md:text-[25px] font-extrabold text-white">
-                            Güçlü şifreler seçer ve <strong class="text-amber-300">şifrelerini paylaşmaz</strong>.
-                        </span>
-                    </div>
 
-                    <div class="p-4 sm:p-4.5 rounded-2xl bg-slate-800/80 border-2 border-blue-400/40 flex items-center gap-4 shadow-lg hover:border-yellow-400 transition-all">
-                        <div class="w-14 h-14 rounded-2xl bg-purple-500/20 text-purple-400 flex items-center justify-center text-3xl shrink-0">
-                            <i class="fa-solid fa-clock"></i>
+                        <div class="p-3.5 sm:p-4 rounded-2xl bg-slate-800/80 border-2 border-purple-400/40 flex items-center justify-center gap-3.5 shadow-lg hover:border-purple-400 transition-all col-span-1 md:col-span-2">
+                            <div class="w-12 h-12 rounded-xl bg-purple-500/20 text-purple-400 flex items-center justify-center text-2xl shrink-0">
+                                <i class="fa-solid fa-clock"></i>
+                            </div>
+                            <span class="text-base sm:text-lg md:text-xl font-black text-white">
+                                İnternette geçirdiği <strong class="text-purple-300">zamanı dengeler</strong>.
+                            </span>
                         </div>
-                        <span class="text-xl sm:text-2xl md:text-[25px] font-extrabold text-white">
-                            İnternette geçirdiği <strong class="text-purple-300">zamanı dengeler</strong>.
-                        </span>
                     </div>
                 </div>
             `
@@ -643,51 +645,53 @@ window.WEEK3_CONTENT = {
             bgColor: "from-indigo-900 via-purple-950 to-slate-900",
             gradient: "from-indigo-900 via-purple-950 to-slate-900",
             content: `
-                <div class="max-w-5xl mx-auto space-y-3.5 my-auto py-2">
-                    <!-- Büyük Görsellerle 5 Madde (En az 26 punto) -->
-                    <div class="p-4 sm:p-5 rounded-2xl bg-slate-800/80 border-2 border-yellow-400/40 flex items-center gap-4 shadow-lg hover:border-yellow-400 transition-all">
-                        <div class="w-14 h-14 rounded-2xl bg-yellow-400/20 text-yellow-300 flex items-center justify-center text-3xl shrink-0">
-                            <i class="fa-solid fa-stopwatch"></i>
+                <div class="max-w-5xl mx-auto w-full space-y-3 my-auto">
+                    <!-- 2 Kolonlu Dengeli Izgara (Tam Ekrana Sığar) -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                        <div class="p-3.5 sm:p-4 rounded-2xl bg-slate-800/80 border-2 border-yellow-400/40 flex items-center gap-3.5 shadow-lg hover:border-yellow-400 transition-all">
+                            <div class="w-12 h-12 rounded-xl bg-yellow-400/20 text-yellow-300 flex items-center justify-center text-2xl shrink-0">
+                                <i class="fa-solid fa-stopwatch"></i>
+                            </div>
+                            <span class="text-base sm:text-lg md:text-xl font-black text-white">
+                                ⏱ <strong class="text-yellow-300">Zaman</strong> kazandırabilir.
+                            </span>
                         </div>
-                        <span class="text-xl sm:text-2xl md:text-[26px] font-black text-white">
-                            ⏱ <strong class="text-yellow-300">Zaman</strong> kazandırabilir.
-                        </span>
-                    </div>
 
-                    <div class="p-4 sm:p-5 rounded-2xl bg-slate-800/80 border-2 border-cyan-400/40 flex items-center gap-4 shadow-lg hover:border-cyan-400 transition-all">
-                        <div class="w-14 h-14 rounded-2xl bg-cyan-400/20 text-cyan-300 flex items-center justify-center text-3xl shrink-0">
-                            <i class="fa-solid fa-laptop"></i>
+                        <div class="p-3.5 sm:p-4 rounded-2xl bg-slate-800/80 border-2 border-cyan-400/40 flex items-center gap-3.5 shadow-lg hover:border-cyan-400 transition-all">
+                            <div class="w-12 h-12 rounded-xl bg-cyan-400/20 text-cyan-300 flex items-center justify-center text-2xl shrink-0">
+                                <i class="fa-solid fa-laptop"></i>
+                            </div>
+                            <span class="text-base sm:text-lg md:text-xl font-black text-white">
+                                💻 İşlemleri <strong class="text-cyan-300">kolaylaştırabilir</strong>.
+                            </span>
                         </div>
-                        <span class="text-xl sm:text-2xl md:text-[26px] font-black text-white">
-                            💻 İşlemleri <strong class="text-cyan-300">kolaylaştırabilir</strong>.
-                        </span>
-                    </div>
 
-                    <div class="p-4 sm:p-5 rounded-2xl bg-slate-800/80 border-2 border-emerald-400/40 flex items-center gap-4 shadow-lg hover:border-emerald-400 transition-all">
-                        <div class="w-14 h-14 rounded-2xl bg-emerald-400/20 text-emerald-300 flex items-center justify-center text-3xl shrink-0">
-                            <i class="fa-solid fa-globe"></i>
+                        <div class="p-3.5 sm:p-4 rounded-2xl bg-slate-800/80 border-2 border-emerald-400/40 flex items-center gap-3.5 shadow-lg hover:border-emerald-400 transition-all">
+                            <div class="w-12 h-12 rounded-xl bg-emerald-400/20 text-emerald-300 flex items-center justify-center text-2xl shrink-0">
+                                <i class="fa-solid fa-globe"></i>
+                            </div>
+                            <span class="text-base sm:text-lg md:text-xl font-black text-white">
+                                🌐 Bilgiye ulaşmayı <strong class="text-emerald-300">kolaylaştırabilir</strong>.
+                            </span>
                         </div>
-                        <span class="text-xl sm:text-2xl md:text-[26px] font-black text-white">
-                            🌐 Bilgiye ulaşmayı <strong class="text-emerald-300">kolaylaştırabilir</strong>.
-                        </span>
-                    </div>
 
-                    <div class="p-4 sm:p-5 rounded-2xl bg-slate-800/80 border-2 border-blue-400/40 flex items-center gap-4 shadow-lg hover:border-blue-400 transition-all">
-                        <div class="w-14 h-14 rounded-2xl bg-blue-400/20 text-blue-300 flex items-center justify-center text-3xl shrink-0">
-                            <i class="fa-solid fa-house-laptop"></i>
+                        <div class="p-3.5 sm:p-4 rounded-2xl bg-slate-800/80 border-2 border-blue-400/40 flex items-center gap-3.5 shadow-lg hover:border-blue-400 transition-all">
+                            <div class="w-12 h-12 rounded-xl bg-blue-400/20 text-blue-300 flex items-center justify-center text-2xl shrink-0">
+                                <i class="fa-solid fa-house-laptop"></i>
+                            </div>
+                            <span class="text-base sm:text-lg md:text-xl font-black text-white">
+                                🏠 Bazı işlemleri <strong class="text-blue-300">bulunduğumuz yerden</strong> yapmamızı sağlayabilir.
+                            </span>
                         </div>
-                        <span class="text-xl sm:text-2xl md:text-[26px] font-black text-white">
-                            🏠 Bazı işlemleri <strong class="text-blue-300">bulunduğumuz yerden</strong> yapmamızı sağlayabilir.
-                        </span>
-                    </div>
 
-                    <div class="p-4 sm:p-5 rounded-2xl bg-slate-800/80 border-2 border-rose-400/40 flex items-center gap-4 shadow-lg hover:border-rose-400 transition-all">
-                        <div class="w-14 h-14 rounded-2xl bg-rose-400/20 text-rose-300 flex items-center justify-center text-3xl shrink-0">
-                            <i class="fa-solid fa-user-shield"></i>
+                        <div class="p-3.5 sm:p-4 rounded-2xl bg-slate-800/80 border-2 border-rose-400/40 flex items-center justify-center gap-3.5 shadow-lg hover:border-rose-400 transition-all col-span-1 md:col-span-2">
+                            <div class="w-12 h-12 rounded-xl bg-rose-400/20 text-rose-300 flex items-center justify-center text-2xl shrink-0">
+                                <i class="fa-solid fa-user-shield"></i>
+                            </div>
+                            <span class="text-base sm:text-lg md:text-xl font-black text-white text-center">
+                                🔐 Kişisel verilerin <strong class="text-rose-300">güvenliği</strong> konusunda bilinçlenmemize yardımcı olabilir.
+                            </span>
                         </div>
-                        <span class="text-xl sm:text-2xl md:text-[26px] font-black text-white">
-                            🔐 Kişisel verilerin <strong class="text-rose-300">güvenliği</strong> konusunda bilinçlenmemize yardımcı olabilir.
-                        </span>
                     </div>
                 </div>
             `
