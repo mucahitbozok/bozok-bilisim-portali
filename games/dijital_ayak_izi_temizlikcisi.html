@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dijital Ayak İzi Temizlikçisi | Öğretmen Bozok</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- Tailwind CSS (CDN) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Canvas Confetti -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Poppins', 'Fredoka', 'sans-serif'],
+                    },
+                    colors: {
+                        cyber: {
+                            dark: '#070b19',
+                            card: '#0f172a',
+                            border: '#1e293b',
+                            neonBlue: '#38bdf8',
+                            neonEmerald: '#10b981',
+                            neonRose: '#f43f5e',
+                            neonAmber: '#fbbf24'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        * { box-sizing: border-box; font-family: 'Poppins', sans-serif; -webkit-tap-highlight-color: transparent; }
+        body { background-color: #070b19; color: #f8fafc; min-height: 100vh; overflow-x: hidden; }
+        .glass-panel { background: rgba(15, 23, 42, 0.85); backdrop-filter: blur(16px); border: 2px solid rgba(56, 189, 248, 0.25); }
+        .glass-card { background: rgba(30, 41, 59, 0.7); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.1); }
+        .action-btn { transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); }
+        .action-btn:hover:not(:disabled) { transform: translateY(-3px) scale(1.02); }
+        .action-btn:active:not(:disabled) { transform: scale(0.97); }
+        @keyframes popIn { 0% { transform: scale(0.92); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
+        .animate-pop { animation: popIn 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        @keyframes shake { 0%, 100% { transform: translateX(0); } 20%, 60% { transform: translateX(-8px); } 40%, 80% { transform: translateX(8px); } }
+        .animate-shake { animation: shake 0.4s ease-in-out; }
+        @keyframes pulseGlow { 0%, 100% { box-shadow: 0 0 20px rgba(56, 189, 248, 0.3); } 50% { box-shadow: 0 0 40px rgba(56, 189, 248, 0.7); } }
+        .pulse-cyan { animation: pulseGlow 2s infinite; }
+    </style>
+</head>
+<body class="flex flex-col justify-between p-3 sm:p-6 select-none">
+
+    <!-- ÜST ÇUBUK -->
+    <header class="max-w-6xl w-full mx-auto flex items-center justify-between gap-4 pb-4 border-b border-slate-800">
+        <div class="flex items-center gap-3">
+            <div class="w-12 h-12 rounded-2xl bg-gradient-to-tr from-cyan-500 to-blue-600 text-white flex items-center justify-center text-2xl shadow-lg shadow-cyan-500/30">
+                <i class="fa-solid fa-broom"></i>
+            </div>
+            <div>
+                <span class="px-2.5 py-0.5 bg-cyan-400/20 text-cyan-300 font-black rounded-lg text-[10px] tracking-wider uppercase border border-cyan-400/30">5. SINIF BİLİŞİM TEKNOLOJİLERİ</span>
+                <h1 class="text-lg sm:text-xl font-black text-white flex items-center gap-2">
+                    Dijital Ayak İzi Temizlikçisi
+                    <span class="hidden sm:inline-block text-xs px-2 py-0.5 rounded-full bg-blue-500/20 text-blue-300 border border-blue-400/30 font-semibold">Siber Dedektif</span>
+                </h1>
+            </div>
+        </div>
+
+        <!-- SAĞ KONTROLLER -->
+        <div class="flex items-center gap-2 sm:gap-3">
+            <div class="bg-slate-900/90 border border-slate-800 rounded-xl px-3 py-1.5 flex items-center gap-2 text-xs font-bold text-slate-300">
+                <i class="fa-solid fa-chalkboard-user text-cyan-400"></i>
+                <span class="hidden sm:inline">Öğretmen:</span>
+                <span class="text-white">Bozok</span>
+            </div>
+            <button onclick="game.openHelpModal()" class="w-10 h-10 rounded-xl bg-slate-900 border border-slate-700 hover:border-cyan-400/50 text-cyan-300 flex items-center justify-center transition-all hover:bg-slate-800" title="Nasıl Oynanır?">
+                <i class="fa-solid fa-circle-question text-lg"></i>
+            </button>
+            <button onclick="game.toggleAudio()" class="w-10 h-10 rounded-xl bg-slate-900 border border-slate-700 hover:border-yellow-400/50 text-yellow-400 flex items-center justify-center transition-all hover:bg-slate-800" title="Ses Aç/Kapat">
+                <i id="audio-icon" class="fa-solid fa-volume-high text-lg"></i>
+            </button>
+            <button onclick="game.toggleFullscreen()" class="w-10 h-10 rounded-xl bg-slate-900 border border-slate-700 hover:border-cyan-400/50 text-slate-300 flex items-center justify-center transition-all hover:bg-slate-800" title="Tam Ekran">
+                <i class="fa-solid fa-expand text-lg"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- ANA OYUN ALANI -->
+    <main id="game-container" class="max-w-4xl w-full mx-auto my-auto py-6">
+        <!-- JS ile dinamik render edilecek -->
+    </main>
+
+    <!-- ALT BİLGİ -->
+    <footer class="max-w-6xl w-full mx-auto text-center pt-4 border-t border-slate-800/80 text-xs text-slate-500 flex flex-col sm:flex-row items-center justify-between gap-2">
+        <div class="flex items-center gap-2">
+            <i class="fa-solid fa-shield-halved text-cyan-400"></i>
+            <span>BTY.5.1.3 - Dijital Vatandaşlık & İnternette Kalıcı İzler</span>
+        </div>
+        <div class="text-slate-400">
+            Bozok Bilişim Portalı &copy; 2026 - Tüm Hakları Saklıdır
+        </div>
+    </footer>
+
+    <!-- MODAL: NASIL OYNANIR? -->
+    <div id="modal-help" class="hidden fixed inset-0 z-50 bg-slate-950/85 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="bg-slate-900 border-2 border-cyan-400/50 rounded-3xl max-w-lg w-full flex flex-col shadow-2xl overflow-hidden animate-pop">
+            <div class="p-5 border-b border-slate-800 flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-xl bg-cyan-400/20 text-cyan-300 flex items-center justify-center text-xl">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                    </div>
+                    <h3 class="text-lg font-black text-white">Nasıl Oynanır? (Dedektif Kılavuzu)</h3>
+                </div>
+                <button onclick="game.closeHelpModal()" class="w-9 h-9 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 flex items-center justify-center">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <div class="p-6 space-y-4 text-sm text-slate-200">
+                <div class="flex items-start gap-3">
+                    <span class="w-7 h-7 rounded-lg bg-cyan-400 text-slate-950 font-black flex items-center justify-center text-xs shrink-0">1</span>
+                    <p>Öğrencinin geçmişte internette paylaştığı <strong>10 şüpheli içerik ve iz</strong> karşına çıkacak.</p>
+                </div>
+                <div class="flex items-start gap-3">
+                    <span class="w-7 h-7 rounded-lg bg-cyan-400 text-slate-950 font-black flex items-center justify-center text-xs shrink-0">2</span>
+                    <p>İçerik kişisel veri, adres ifşası, hakaret veya tehlike içeriyorsa <strong class="text-rose-400">"SİL / TEMİZLE"</strong> butonuna bas!</p>
+                </div>
+                <div class="flex items-start gap-3">
+                    <span class="w-7 h-7 rounded-lg bg-cyan-400 text-slate-950 font-black flex items-center justify-center text-xs shrink-0">3</span>
+                    <p>İçerik faydalı, saygılı ve güvenli bir paylaşımsa <strong class="text-emerald-400">"GÜVENLİ (KORU)"</strong> butonuna bas!</p>
+                </div>
+                <div class="flex items-start gap-3">
+                    <span class="w-7 h-7 rounded-lg bg-cyan-400 text-slate-950 font-black flex items-center justify-center text-xs shrink-0">4</span>
+                    <p>Klavyeden <strong>Sol Ok (Temizle)</strong> ve <strong>Sağ Ok (Koru)</strong> tuşlarıyla da hızlıca karar verebilirsin.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- OYUN JS MOTORU -->
+    <script>
+        class SoundEngine {
+            constructor() {
+                this.ctx = null;
+                this.muted = false;
+            }
+            init() {
+                if (!this.ctx) {
+                    const AudioCtx = window.AudioContext || window.webkitAudioContext;
+                    if (AudioCtx) this.ctx = new AudioCtx();
+                }
+            }
+            playBeep(freq, type, duration, gainVal = 0.15) {
+                if (this.muted) return;
+                this.init();
+                if (!this.ctx) return;
+                try {
+                    const osc = this.ctx.createOscillator();
+                    const gain = this.ctx.createGain();
+                    osc.type = type;
+                    osc.frequency.setValueAtTime(freq, this.ctx.currentTime);
+                    gain.gain.setValueAtTime(gainVal, this.ctx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.0001, this.ctx.currentTime + duration);
+                    osc.connect(gain);
+                    gain.connect(this.ctx.destination);
+                    osc.start();
+                    osc.stop(this.ctx.currentTime + duration);
+                } catch(e) {}
+            }
+            playClick() { this.playBeep(600, 'sine', 0.08, 0.1); }
+            playClean() {
+                // Temizleme süpürge / lazer sesi
+                this.playBeep(400, 'sine', 0.1, 0.15);
+                setTimeout(() => this.playBeep(800, 'sine', 0.2, 0.15), 80);
+            }
+            playCorrect() {
+                this.playBeep(523, 'triangle', 0.1, 0.2);
+                setTimeout(() => this.playBeep(659, 'triangle', 0.12, 0.2), 90);
+                setTimeout(() => this.playBeep(784, 'triangle', 0.2, 0.25), 180);
+            }
+            playWrong() {
+                this.playBeep(220, 'sawtooth', 0.15, 0.25);
+                setTimeout(() => this.playBeep(180, 'sawtooth', 0.25, 0.25), 120);
+            }
+            playFanfare() {
+                const notes = [523, 659, 784, 1046, 1318];
+                notes.forEach((n, idx) => {
+                    setTimeout(() => this.playBeep(n, 'triangle', 0.25, 0.25), idx * 120);
+                });
+            }
+        }
+
+        const sounds = new SoundEngine();
+
+        class DigitalFootprintCleaner {
+            constructor() {
+                this.items = [
+                    {
+                        id: 1,
+                        platform: "Sosyal Medya Paylaşımı",
+                        platformIcon: "fa-brands fa-instagram text-pink-400",
+                        user: "can_bilişim58",
+                        time: "2 saat önce",
+                        text: "Evimizin tam adresi: Çiçek Mah. Gül Sokak No:14 Daire:2! Anne babam 3 gün tatilde, evde yalnızım sıkılan gelsin parti yapalım!",
+                        type: "BAD", // TEMİZLE
+                        dangerTag: "Kişisel Veri & Ev Güvenliği İhlali",
+                        explanation: "Ev adresi, kapı numarası ve evde yalnız olunduğu bilgisi asla paylaşılmamalıdır! Hırsızlık ve kötü niyetli kişiler için büyük tehlikedir."
+                    },
+                    {
+                        id: 2,
+                        platform: "Kodlama Topluluğu",
+                        platformIcon: "fa-solid fa-code text-cyan-400",
+                        user: "can_bilişim58",
+                        time: "Dün",
+                        text: "Bilişim dersinde Scratch ile tasarladığım 'Uzay Labirenti' oyunumu paylaştım! Deneyip görüşlerinizi paylaşırsanız sevinirim. Herkese iyi kodlamalar!",
+                        type: "GOOD", // KORU
+                        dangerTag: "Olumlu & Eğitici Dijital Ayak İzi",
+                        explanation: "Bilişim becerilerini sergileyen, kibar ve üretken paylaşımlar dijital ayak izinizi güçlendirir ve ileride size saygınlık katar."
+                    },
+                    {
+                        id: 3,
+                        platform: "Oyun İçi Sohbet",
+                        platformIcon: "fa-solid fa-gamepad text-purple-400",
+                        user: "can_gamer_pro",
+                        time: "3 gün önce",
+                        text: "Oyunda beni vuran arkadaşımın fotoğrafına komik bıyıklar çizip 'Bu çocuk tam bir acemi ezik, kimse onunla oynamasın' diye gruba yaydım!",
+                        type: "BAD", // TEMİZLE
+                        dangerTag: "Siber Zorbalık & İtibar Zedeleme",
+                        explanation: "Arkadaşların fotoğraflarını izinsiz değiştirmek ve alaycı mesajlar atmak siber zorbalıktır. Bu izler ileride karşınıza suç olarak çıkabilir."
+                    },
+                    {
+                        id: 4,
+                        platform: "Yorumlar / Çekiliş",
+                        platformIcon: "fa-solid fa-comments text-amber-400",
+                        user: "can_bilişim58",
+                        time: "5 gün önce",
+                        text: "Bedava 5000 Elmas kazanmak için formu doldurdum! Formda babamın kredi kartının ön yüzünü ve güvenlik numarasını (CVV) gönderdim, elmaslarımı bekliyorum!",
+                        type: "BAD", // TEMİZLE
+                        dangerTag: "Dolandırıcılık Tuzağı & Finansal Tehlike",
+                        explanation: "Asla ve asla kredi kartı bilgileri, şifreler veya banka verileri internette paylaşılmaz! Bu tuzaklarla aile bütçeniz dolandırılabilir."
+                    },
+                    {
+                        id: 5,
+                        platform: "Okul Kulübü Sayfası",
+                        platformIcon: "fa-solid fa-book-bookmark text-emerald-400",
+                        user: "can_bilişim58",
+                        time: "1 hafta önce",
+                        text: "Okul kütüphanesinden aldığım 'Yapay Zekanın Geleceği' kitabını bitirdim. Teknoloji meraklısı tüm arkadaşlarıma kesinlikle tavsiye ediyorum!",
+                        type: "GOOD", // KORU
+                        dangerTag: "Faydalı & Kültürel Dijital İz",
+                        explanation: "Kitap incelemeleri ve kültürel paylaşımlar, sizin araştırmacı ve bilinçli bir öğrenci olduğunuzu kanıtlayan harika bir dijital kimliktir."
+                    },
+                    {
+                        id: 6,
+                        platform: "Canlı Yayın Sohbeti",
+                        platformIcon: "fa-solid fa-headset text-rose-400",
+                        user: "can_gamer_pro",
+                        time: "2 hafta önce",
+                        text: "BANA BAK SENİ BULURUM EVİNİ BAŞINA YIKARIM HİLEBAZ HERİF SENİ ŞİKAYET EDECEM BİTİRECEM SENİ!!!",
+                        type: "BAD", // TEMİZLE
+                        dangerTag: "Dijital Nezaket İhlali & Tehdit Suçu",
+                        explanation: "Büyük harflerle yazmak bağırmaktır, hakaret ve tehdit ise sanal ortamda suçtur. İnternette dijital nezaket kurallarına daima uyulmalıdır."
+                    },
+                    {
+                        id: 7,
+                        platform: "Sosyal Paylaşım Ağı",
+                        platformIcon: "fa-solid fa-award text-yellow-400",
+                        user: "can_bilişim58",
+                        time: "3 hafta önce",
+                        text: "TÜBİTAK Bilim Şenliği'nde çevre projemizle sergilediğimiz maketimizi tanıttık. Emeği geçen Bilişim öğretmenimize teşekkür ederiz! (Katılım belgemiz sansürlenmiştir)",
+                        type: "GOOD", // KORU
+                        dangerTag: "Güvenli Başarı Paylaşımı",
+                        explanation: "Kişisel kimlik numaraları sansürlenerek paylaşılan proje ve başarı haberleri son derece güvenli ve örnek bir paylaşımdır."
+                    },
+                    {
+                        id: 8,
+                        platform: "Profil Biyografisi (Bio)",
+                        platformIcon: "fa-solid fa-id-badge text-blue-400",
+                        user: "can_bilişim58",
+                        time: "1 ay önce",
+                        text: "Hakkımda: 'Unutursam diye şifrelerimi buraya not ediyorum -> Instagram Şifrem: can2013bjk! Sakın kimse girmesin.'",
+                        type: "BAD", // TEMİZLE
+                        dangerTag: "Aşırı Güvenlik Zafiyeti",
+                        explanation: "Şifreler kişiye özel gizli anahtarlardır. Profilde veya sohbetlerde açıkça yazılması hesabın anında çalınmasına yol açar!"
+                    },
+                    {
+                        id: 9,
+                        platform: "Topluluk Gönüllülük Sayfası",
+                        platformIcon: "fa-solid fa-paw text-teal-400",
+                        user: "can_bilişim58",
+                        time: "1 ay önce",
+                        text: "Kış günlerinde sokaktaki sevimli dostlarımızı unutmayalım! Kapımızın önüne bir kap mama ve ılık su koyduk. Hayvanları korumak hepimizin görevi.",
+                        type: "GOOD", // KORU
+                        dangerTag: "Toplumsal Duyarlılık & İyilik İzi",
+                        explanation: "Çevre ve hayvan sevgisi gibi toplumsal fayda yaratan paylaşımlar, dijital izinizi pırıl pırıl parlatır."
+                    },
+                    {
+                        id: 10,
+                        platform: "Mesajlaşma Uygulaması",
+                        platformIcon: "fa-solid fa-comments text-violet-400",
+                        user: "can_bilişim58",
+                        time: "2 ay önce",
+                        text: "İnternette tanıştığım gizemli bir yabancı 'Sana bedava oyun hesabı vereceğim, karşılığında okulunun giriş-çıkış saatlerini ve kimlik fotokopini at' dedi, ben de yolladım.",
+                        type: "BAD", // TEMİZLE
+                        dangerTag: "Kritik Güvenlik & Tanımadığı Yabancıyla İletişim",
+                        explanation: "Sanal ortamda tanımadığımız kişilere asla kimlik bilgisi, okul bilgisi ve fotoğraf gönderilmez! Bu durum derhal aileye bildirilmelidir."
+                    }
+                ];
+
+                this.currentIndex = 0;
+                this.score = 0;
+                this.cleanedCount = 0;
+                this.protectedCount = 0;
+                this.answered = false;
+                this.state = 'intro'; // 'intro', 'playing', 'result'
+            }
+
+            init() {
+                this.bindKeys();
+                this.render();
+            }
+
+            bindKeys() {
+                window.addEventListener('keydown', (e) => {
+                    if (this.state !== 'playing' || this.answered) return;
+                    if (e.key === 'ArrowLeft') {
+                        this.handleChoice('BAD'); // Temizle
+                    } else if (e.key === 'ArrowRight') {
+                        this.handleChoice('GOOD'); // Koru
+                    }
+                });
+            }
+
+            startGame() {
+                sounds.playClick();
+                this.currentIndex = 0;
+                this.score = 0;
+                this.cleanedCount = 0;
+                this.protectedCount = 0;
+                this.answered = false;
+                this.state = 'playing';
+                this.render();
+            }
+
+            handleChoice(userChoice) {
+                if (this.answered) return;
+                this.answered = true;
+                const currentItem = this.items[this.currentIndex];
+                const isCorrect = (userChoice === currentItem.type);
+
+                if (isCorrect) {
+                    this.score += 100;
+                    if (userChoice === 'BAD') {
+                        this.cleanedCount++;
+                        sounds.playClean();
+                    } else {
+                        this.protectedCount++;
+                        sounds.playCorrect();
+                    }
+                } else {
+                    sounds.playWrong();
+                }
+
+                this.renderFeedback(isCorrect, userChoice, currentItem);
+            }
+
+            nextQuestion() {
+                sounds.playClick();
+                this.answered = false;
+                this.currentIndex++;
+
+                if (this.currentIndex >= this.items.length) {
+                    this.state = 'result';
+                    sounds.playFanfare();
+                    if (typeof confetti === 'function') {
+                        confetti({
+                            particleCount: 120,
+                            spread: 80,
+                            origin: { y: 0.6 }
+                        });
+                    }
+                }
+                this.render();
+            }
+
+            render() {
+                const container = document.getElementById("game-container");
+                if (!container) return;
+
+                if (this.state === 'intro') {
+                    container.innerHTML = this.getIntroHTML();
+                } else if (this.state === 'playing') {
+                    container.innerHTML = this.getPlayingHTML();
+                } else if (this.state === 'result') {
+                    container.innerHTML = this.getResultHTML();
+                }
+            }
+
+            getIntroHTML() {
+                return `
+                    <div class="glass-panel p-6 sm:p-10 rounded-3xl text-center space-y-6 animate-pop shadow-2xl border border-cyan-500/30">
+                        <div class="inline-flex p-5 rounded-3xl bg-cyan-500/20 text-cyan-400 text-5xl sm:text-6xl pulse-cyan">
+                            <i class="fa-solid fa-user-secret"></i>
+                        </div>
+                        <div class="space-y-2">
+                            <h2 class="text-2xl sm:text-3xl font-black text-white">Siber Dedektiflik Görevi: Can'ın Profilini Temizle!</h2>
+                            <p class="text-sm sm:text-base text-slate-300 max-w-xl mx-auto leading-relaxed">
+                                İnternette yaptığımız paylaşımlar, yorumlar ve aramalar kalıcı birer <strong class="text-cyan-400">Dijital Ayak İzi</strong> bırakır. 
+                                Can'ın geçmiş paylaşımlarını incele; tehlikeli verileri süpür, güvenli izleri koru!
+                            </p>
+                        </div>
+
+                        <!-- İstatistik / Özellik Kutuları -->
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 max-w-xl mx-auto text-left">
+                            <div class="bg-slate-900/80 p-3.5 rounded-2xl border border-slate-800 flex items-center gap-3">
+                                <div class="w-10 h-10 rounded-xl bg-rose-500/20 text-rose-400 flex items-center justify-center text-xl shrink-0">
+                                    <i class="fa-solid fa-trash-can"></i>
+                                </div>
+                                <div>
+                                    <div class="text-[11px] text-slate-400 font-bold uppercase">Hedef 1</div>
+                                    <div class="text-xs font-bold text-white">Zararlı İzleri Sil</div>
+                                </div>
+                            </div>
+                            <div class="bg-slate-900/80 p-3.5 rounded-2xl border border-slate-800 flex items-center gap-3">
+                                <div class="w-10 h-10 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-xl shrink-0">
+                                    <i class="fa-solid fa-shield-check"></i>
+                                </div>
+                                <div>
+                                    <div class="text-[11px] text-slate-400 font-bold uppercase">Hedef 2</div>
+                                    <div class="text-xs font-bold text-white">Faydalı İzleri Koru</div>
+                                </div>
+                            </div>
+                            <div class="bg-slate-900/80 p-3.5 rounded-2xl border border-slate-800 flex items-center gap-3">
+                                <div class="w-10 h-10 rounded-xl bg-amber-500/20 text-amber-400 flex items-center justify-center text-xl shrink-0">
+                                    <i class="fa-solid fa-star"></i>
+                                </div>
+                                <div>
+                                    <div class="text-[11px] text-slate-400 font-bold uppercase">Ödül</div>
+                                    <div class="text-xs font-bold text-white">Siber İtibar Rozeti</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="pt-2">
+                            <button onclick="game.startGame()" class="action-btn px-8 sm:px-12 py-4 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-slate-950 font-black text-base sm:text-lg rounded-2xl shadow-xl shadow-cyan-500/30 flex items-center gap-3 mx-auto border-2 border-cyan-300">
+                                <i class="fa-solid fa-play"></i>
+                                <span>Görevi Başlat!</span>
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }
+
+            getPlayingHTML() {
+                const item = this.items[this.currentIndex];
+                const progressPct = ((this.currentIndex + 1) / this.items.length) * 100;
+
+                return `
+                    <div class="space-y-5 animate-pop">
+                        <!-- ÜST DURUM BİLGİSİ -->
+                        <div class="flex items-center justify-between gap-4 bg-slate-900/80 p-4 rounded-2xl border border-slate-800">
+                            <div class="flex items-center gap-3">
+                                <span class="px-3 py-1 rounded-xl bg-cyan-500/20 text-cyan-300 font-black text-xs sm:text-sm border border-cyan-500/30">
+                                    İçerik ${this.currentIndex + 1} / ${this.items.length}
+                                </span>
+                                <span class="text-xs text-slate-400 hidden sm:inline">Dijital Ayak İzi İncelemesi</span>
+                            </div>
+                            <div class="flex items-center gap-4">
+                                <div class="text-right">
+                                    <div class="text-[10px] text-slate-400 uppercase font-bold">Toplam Puan</div>
+                                    <div class="text-lg sm:text-xl font-black text-yellow-400">${this.score}</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- İLERLEME ÇUBUĞU -->
+                        <div class="w-full bg-slate-950 rounded-full h-2.5 overflow-hidden p-0.5 border border-slate-800">
+                            <div class="bg-gradient-to-r from-cyan-500 to-blue-500 h-full rounded-full transition-all duration-300" style="width: ${progressPct}%"></div>
+                        </div>
+
+                        <!-- ŞÜPHELİ İÇERİK KARTI (SOSYAL MEDYA SİMÜLASYONU) -->
+                        <div id="item-card" class="glass-panel p-5 sm:p-7 rounded-3xl space-y-4 shadow-xl border border-slate-700/80">
+                            <!-- Profil Başlığı -->
+                            <div class="flex items-center justify-between border-b border-slate-800/80 pb-3">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-11 h-11 rounded-full bg-gradient-to-tr from-cyan-500 to-indigo-600 flex items-center justify-center text-lg text-white font-black shadow-md">
+                                        C
+                                    </div>
+                                    <div>
+                                        <div class="font-bold text-white text-sm sm:text-base flex items-center gap-2">
+                                            <span>@${item.user}</span>
+                                            <span class="text-xs px-2 py-0.5 rounded-md bg-slate-800 text-slate-400 font-normal">Öğrenci Profili</span>
+                                        </div>
+                                        <div class="text-xs text-slate-400 flex items-center gap-2">
+                                            <i class="${item.platformIcon}"></i>
+                                            <span>${item.platform} • ${item.time}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <span class="px-2.5 py-1 rounded-lg bg-slate-800/80 text-slate-400 text-xs border border-slate-700 font-semibold">
+                                    <i class="fa-solid fa-shoe-prints text-cyan-400 mr-1"></i> Kalıcı İz
+                                </span>
+                            </div>
+
+                            <!-- İçerik Metni -->
+                            <div class="p-4 sm:p-5 rounded-2xl bg-slate-900/90 border border-slate-800 text-slate-100 text-base sm:text-lg leading-relaxed font-medium">
+                                "${item.text}"
+                            </div>
+
+                            <!-- DEDEKTİF SORUSU -->
+                            <div class="text-center pt-2">
+                                <p class="text-xs sm:text-sm font-bold text-cyan-300">
+                                    <i class="fa-solid fa-magnifying-glass mr-1"></i> Siber Dedektif Kararı: Bu içerik bir tehdit mi, yoksa güvenli ve faydalı bir iz mi?
+                                </p>
+                            </div>
+
+                            <!-- KARAR ALANI / BUTONLAR -->
+                            <div id="action-buttons-container" class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
+                                <button onclick="game.handleChoice('BAD')" class="action-btn py-4 px-6 rounded-2xl bg-gradient-to-r from-rose-600 to-red-600 hover:from-rose-500 hover:to-red-500 text-white font-black text-base sm:text-lg shadow-lg shadow-rose-600/30 flex items-center justify-center gap-3 border-2 border-rose-400">
+                                    <i class="fa-solid fa-trash-can text-xl"></i>
+                                    <span>SİL / TEMİZLE! (Zararlı İz)</span>
+                                </button>
+                                <button onclick="game.handleChoice('GOOD')" class="action-btn py-4 px-6 rounded-2xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-black text-base sm:text-lg shadow-lg shadow-emerald-600/30 flex items-center justify-center gap-3 border-2 border-emerald-400">
+                                    <i class="fa-solid fa-shield-check text-xl"></i>
+                                    <span>GÜVENLİ (Koru ve Tut)</span>
+                                </button>
+                            </div>
+
+                            <!-- GERİ BİLDİRİM ALANI (İLK ETAPTA GİZLİ) -->
+                            <div id="feedback-area" class="hidden"></div>
+                        </div>
+                    </div>
+                `;
+            }
+
+            renderFeedback(isCorrect, userChoice, item) {
+                const btnContainer = document.getElementById("action-buttons-container");
+                const feedbackArea = document.getElementById("feedback-area");
+                const itemCard = document.getElementById("item-card");
+
+                if (btnContainer) btnContainer.classList.add("hidden");
+
+                if (feedbackArea) {
+                    feedbackArea.classList.remove("hidden");
+                    const statusClass = isCorrect ? "border-emerald-500/50 bg-emerald-950/40 text-emerald-200" : "border-rose-500/50 bg-rose-950/40 text-rose-200";
+                    const statusIcon = isCorrect ? "fa-circle-check text-emerald-400" : "fa-circle-xmark text-rose-400";
+                    const statusTitle = isCorrect ? "DOĞRU KARAR VERDİN!" : "DİKKAT! YANLIŞ KARAR!";
+                    const pointsBadge = isCorrect ? `<span class="px-2.5 py-1 rounded-lg bg-emerald-500/20 text-emerald-300 font-black text-xs border border-emerald-400/40">+100 Puan</span>` : `<span class="px-2.5 py-1 rounded-lg bg-rose-500/20 text-rose-300 font-black text-xs border border-rose-400/40">0 Puan</span>`;
+
+                    feedbackArea.innerHTML = `
+                        <div class="p-5 rounded-2xl border-2 ${statusClass} space-y-3 animate-pop">
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center gap-2.5 font-black text-base sm:text-lg">
+                                    <i class="fa-solid ${statusIcon} text-2xl"></i>
+                                    <span>${statusTitle}</span>
+                                </div>
+                                ${pointsBadge}
+                            </div>
+                            <div class="p-3 bg-slate-900/80 rounded-xl border border-slate-800 text-xs sm:text-sm text-slate-300 space-y-1">
+                                <div class="font-bold text-yellow-400 flex items-center gap-1.5">
+                                    <i class="fa-solid fa-graduation-cap"></i> Dedektif İnceleme Raporu:
+                                </div>
+                                <p class="leading-relaxed">${item.explanation}</p>
+                            </div>
+                            <div class="pt-2 text-right">
+                                <button onclick="game.nextQuestion()" class="action-btn px-7 py-3 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-slate-950 font-black text-sm sm:text-base rounded-xl shadow-lg shadow-cyan-500/20 inline-flex items-center gap-2 border border-cyan-300">
+                                    <span>Sonraki İz</span>
+                                    <i class="fa-solid fa-arrow-right"></i>
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                }
+
+                if (!isCorrect && itemCard) {
+                    itemCard.classList.add("animate-shake");
+                    setTimeout(() => itemCard.classList.remove("animate-shake"), 500);
+                }
+            }
+
+            getResultHTML() {
+                const maxScore = this.items.length * 100;
+                const ratio = this.score / maxScore;
+                let badgeTitle = "Çırak Dedektif";
+                let badgeColor = "from-amber-500 to-yellow-600 text-amber-200";
+                let badgeDesc = "İyi bir başlangıç! Ancak bazı dijital izleri temizlemeyi unuttun. Tekrar deneyerek uzmanlaşabilirsin.";
+
+                if (ratio >= 0.9) {
+                    badgeTitle = "🏆 Usta Siber Dedektif";
+                    badgeColor = "from-cyan-400 to-blue-600 text-cyan-100";
+                    badgeDesc = "Kusursuz çalışma! Can'ın dijital ayak izini tertemiz yaptın, tüm tehlikeli paylaşımları yok edip güvenli izleri korudun!";
+                } else if (ratio >= 0.7) {
+                    badgeTitle = "🛡️ Dijital İtibar Muhafızı";
+                    badgeColor = "from-emerald-400 to-teal-600 text-emerald-100";
+                    badgeDesc = "Çok başarılı! İnternetteki dijital ayak izlerinin farkındasın ve kendini korumayı iyi biliyorsun.";
+                }
+
+                return `
+                    <div class="glass-panel p-6 sm:p-10 rounded-3xl text-center space-y-6 animate-pop shadow-2xl border border-cyan-500/40">
+                        <div class="inline-flex p-5 rounded-3xl bg-gradient-to-tr ${badgeColor} text-5xl sm:text-6xl shadow-xl">
+                            <i class="fa-solid fa-award"></i>
+                        </div>
+
+                        <div class="space-y-2">
+                            <span class="px-3 py-1 rounded-full bg-cyan-500/20 text-cyan-300 font-bold text-xs uppercase tracking-wider border border-cyan-400/30">GÖREV RAPORU</span>
+                            <h2 class="text-2xl sm:text-3xl font-black text-white">${badgeTitle}</h2>
+                            <p class="text-sm sm:text-base text-slate-300 max-w-lg mx-auto leading-relaxed">${badgeDesc}</p>
+                        </div>
+
+                        <!-- SKOR KARTLARI -->
+                        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 max-w-xl mx-auto">
+                            <div class="bg-slate-900/90 p-3.5 rounded-2xl border border-slate-800">
+                                <div class="text-[10px] text-slate-400 font-bold uppercase">Toplam Skor</div>
+                                <div class="text-2xl font-black text-yellow-400">${this.score} / ${maxScore}</div>
+                            </div>
+                            <div class="bg-slate-900/90 p-3.5 rounded-2xl border border-slate-800">
+                                <div class="text-[10px] text-slate-400 font-bold uppercase">Doğruluk</div>
+                                <div class="text-2xl font-black text-cyan-400">%${Math.round(ratio * 100)}</div>
+                            </div>
+                            <div class="bg-slate-900/90 p-3.5 rounded-2xl border border-slate-800">
+                                <div class="text-[10px] text-slate-400 font-bold uppercase">Temizlenen İz</div>
+                                <div class="text-2xl font-black text-rose-400">${this.cleanedCount}</div>
+                            </div>
+                            <div class="bg-slate-900/90 p-3.5 rounded-2xl border border-slate-800">
+                                <div class="text-[10px] text-slate-400 font-bold uppercase">Korunan İz</div>
+                                <div class="text-2xl font-black text-emerald-400">${this.protectedCount}</div>
+                            </div>
+                        </div>
+
+                        <!-- ÖĞRENME ÖZETİ -->
+                        <div class="p-4 rounded-2xl bg-slate-900/80 border border-slate-800 max-w-lg mx-auto text-left text-xs sm:text-sm text-slate-300 space-y-2">
+                            <div class="font-bold text-cyan-300 flex items-center gap-2">
+                                <i class="fa-solid fa-lightbulb"></i> Hatırla:
+                            </div>
+                            <p>İnternette paylaştığın bir yazı, fotoğraf veya video bir daha asla tamamen kaybolmayabilir. Dijital ayak izini daima gurur duyacağın şekilde oluştur!</p>
+                        </div>
+
+                        <!-- BUTONLAR -->
+                        <div class="flex justify-center gap-4 flex-wrap pt-2">
+                            <button onclick="game.startGame()" class="action-btn px-8 py-3.5 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-slate-950 font-black text-sm sm:text-base rounded-2xl shadow-xl flex items-center gap-2 border-2 border-cyan-300">
+                                <i class="fa-solid fa-rotate-right"></i>
+                                <span>Tekrar Temizle</span>
+                            </button>
+                            <button onclick="game.state = 'intro'; game.render();" class="action-btn px-8 py-3.5 bg-slate-800 hover:bg-slate-700 text-white font-bold text-sm sm:text-base rounded-2xl shadow-lg flex items-center gap-2 border border-slate-700">
+                                <i class="fa-solid fa-house"></i>
+                                <span>Ana Menü</span>
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }
+
+            openHelpModal() {
+                sounds.playClick();
+                const m = document.getElementById('modal-help');
+                if (m) m.classList.remove('hidden');
+            }
+
+            closeHelpModal() {
+                sounds.playClick();
+                const m = document.getElementById('modal-help');
+                if (m) m.classList.add('hidden');
+            }
+
+            toggleAudio() {
+                sounds.muted = !sounds.muted;
+                const icon = document.getElementById('audio-icon');
+                if (icon) {
+                    icon.className = sounds.muted ? "fa-solid fa-volume-xmark text-rose-400" : "fa-solid fa-volume-high text-yellow-400";
+                }
+            }
+
+            toggleFullscreen() {
+                sounds.playClick();
+                if (!document.fullscreenElement) {
+                    if (document.documentElement.requestFullscreen) {
+                        document.documentElement.requestFullscreen();
+                    }
+                } else {
+                    if (document.exitFullscreen) {
+                        document.exitFullscreen();
+                    }
+                }
+            }
+        }
+
+        const game = new DigitalFootprintCleaner();
+        window.onload = () => game.init();
+    </script>
+</body>
+</html>

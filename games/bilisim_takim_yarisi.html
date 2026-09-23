@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bilişim Takım Yarışı | Öğretmen Bozok</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- Tailwind CSS (CDN) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Canvas Confetti -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Poppins', 'Fredoka', 'sans-serif'],
+                    },
+                    colors: {
+                        race: {
+                            blue: '#2563eb',
+                            red: '#dc2626',
+                            gold: '#fbbf24',
+                            dark: '#080d1a'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        * { box-sizing: border-box; font-family: 'Poppins', sans-serif; -webkit-tap-highlight-color: transparent; }
+        body { background-color: #060913; color: #f8fafc; min-height: 100vh; overflow-x: hidden; }
+        .glass-panel { background: rgba(15, 23, 42, 0.88); backdrop-filter: blur(16px); border: 2px solid rgba(255, 255, 255, 0.12); }
+        .option-btn { transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); }
+        .option-btn:hover:not(:disabled) { transform: translateY(-3px) scale(1.02); }
+        .option-btn:active:not(:disabled) { transform: scale(0.97); }
+        @keyframes popIn { 0% { transform: scale(0.92); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
+        .animate-pop { animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        @keyframes shake { 0%, 100% { transform: translateX(0); } 20%, 60% { transform: translateX(-8px); } 40%, 80% { transform: translateX(8px); } }
+        .animate-shake { animation: shake 0.4s ease-in-out; }
+        .rocket-trail { filter: drop-shadow(0 0 10px rgba(59, 130, 246, 0.8)); }
+        .rocket-trail-red { filter: drop-shadow(0 0 10px rgba(239, 68, 68, 0.8)); }
+    </style>
+</head>
+<body class="flex flex-col justify-between p-3 sm:p-6 select-none">
+
+    <!-- ÜST ÇUBUK -->
+    <header class="max-w-6xl w-full mx-auto flex items-center justify-between gap-4 pb-4 border-b border-slate-800">
+        <div class="flex items-center gap-3">
+            <div class="w-12 h-12 rounded-2xl bg-gradient-to-tr from-blue-600 via-indigo-600 to-rose-600 text-white flex items-center justify-center text-2xl shadow-lg shadow-indigo-500/25">
+                <i class="fa-solid fa-rocket"></i>
+            </div>
+            <div>
+                <span class="px-2.5 py-0.5 bg-indigo-500/20 text-indigo-300 font-black rounded-lg text-[10px] tracking-wider uppercase border border-indigo-400/30">AKILLI TAHTA GRUP YARIŞMASI</span>
+                <h1 class="text-lg sm:text-xl font-black text-white flex items-center gap-2">
+                    Bilişim Takım Yarışı
+                    <span class="hidden sm:inline-block text-xs px-2 py-0.5 rounded-full bg-yellow-400/20 text-yellow-300 border border-yellow-400/30 font-semibold">Mavi vs Kırmızı</span>
+                </h1>
+            </div>
+        </div>
+
+        <!-- SAĞ KONTROLLER -->
+        <div class="flex items-center gap-2 sm:gap-3">
+            <div class="bg-slate-900/90 border border-slate-800 rounded-xl px-3 py-1.5 flex items-center gap-2 text-xs font-bold text-slate-300">
+                <i class="fa-solid fa-chalkboard-user text-indigo-400"></i>
+                <span class="hidden sm:inline">Öğretmen:</span>
+                <span class="text-white">Bozok</span>
+            </div>
+            <button onclick="game.openHelpModal()" class="w-10 h-10 rounded-xl bg-slate-900 border border-slate-700 hover:border-indigo-400/50 text-indigo-300 flex items-center justify-center transition-all hover:bg-slate-800" title="Nasıl Oynanır?">
+                <i class="fa-solid fa-circle-question text-lg"></i>
+            </button>
+            <button onclick="game.toggleAudio()" class="w-10 h-10 rounded-xl bg-slate-900 border border-slate-700 hover:border-yellow-400/50 text-yellow-400 flex items-center justify-center transition-all hover:bg-slate-800" title="Ses Aç/Kapat">
+                <i id="audio-icon" class="fa-solid fa-volume-high text-lg"></i>
+            </button>
+            <button onclick="game.toggleFullscreen()" class="w-10 h-10 rounded-xl bg-slate-900 border border-slate-700 hover:border-indigo-400/50 text-slate-300 flex items-center justify-center transition-all hover:bg-slate-800" title="Tam Ekran">
+                <i class="fa-solid fa-expand text-lg"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- ANA OYUN ALANI -->
+    <main id="game-container" class="max-w-5xl w-full mx-auto my-auto py-5">
+        <!-- JS ile dinamik render edilecek -->
+    </main>
+
+    <!-- ALT BİLGİ -->
+    <footer class="max-w-6xl w-full mx-auto text-center pt-4 border-t border-slate-800/80 text-xs text-slate-500 flex flex-col sm:flex-row items-center justify-between gap-2">
+        <div class="flex items-center gap-2">
+            <i class="fa-solid fa-flag-checkered text-yellow-400"></i>
+            <span>BTY.5.1.3 - Dijital Vatandaşlık Sınıf İçi Bilgi Turnuvası</span>
+        </div>
+        <div class="text-slate-400">
+            Bozok Bilişim Portalı &copy; 2026 - Tüm Hakları Saklıdır
+        </div>
+    </footer>
+
+    <!-- MODAL: NASIL OYNANIR? -->
+    <div id="modal-help" class="hidden fixed inset-0 z-50 bg-slate-950/85 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="bg-slate-900 border-2 border-indigo-400/50 rounded-3xl max-w-lg w-full flex flex-col shadow-2xl overflow-hidden animate-pop">
+            <div class="p-5 border-b border-slate-800 flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-xl bg-indigo-400/20 text-indigo-300 flex items-center justify-center text-xl">
+                        <i class="fa-solid fa-users"></i>
+                    </div>
+                    <h3 class="text-lg font-black text-white">Takım Yarışı Kılavuzu</h3>
+                </div>
+                <button onclick="game.closeHelpModal()" class="w-9 h-9 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 flex items-center justify-center">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <div class="p-6 space-y-4 text-sm text-slate-200">
+                <div class="flex items-start gap-3">
+                    <span class="w-7 h-7 rounded-lg bg-indigo-500 text-white font-black flex items-center justify-center text-xs shrink-0">1</span>
+                    <p>Sınıfı <strong>Mavi Takım (Siber Muhafızlar)</strong> ve <strong>Kırmızı Takım (Veri Koruyucuları)</strong> olarak ikiye ayırın.</p>
+                </div>
+                <div class="flex items-start gap-3">
+                    <span class="w-7 h-7 rounded-lg bg-indigo-500 text-white font-black flex items-center justify-center text-xs shrink-0">2</span>
+                    <p>Soru sırası hangi takımdaysa o takım soruyu cevaplar. Doğru cevap veren takımın roketi bir kademe ilerler!</p>
+                </div>
+                <div class="flex items-start gap-3">
+                    <span class="w-7 h-7 rounded-lg bg-indigo-500 text-white font-black flex items-center justify-center text-xs shrink-0">3</span>
+                    <p>Toplam 10 tur sonunda bitiş çizgisine ilk ulaşan veya en çok puan toplayan takım şampiyon olur!</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- OYUN JS MOTORU -->
+    <script>
+        class SoundEngine {
+            constructor() {
+                this.ctx = null;
+                this.muted = false;
+            }
+            init() {
+                if (!this.ctx) {
+                    const AudioCtx = window.AudioContext || window.webkitAudioContext;
+                    if (AudioCtx) this.ctx = new AudioCtx();
+                }
+            }
+            playBeep(freq, type, duration, gainVal = 0.15) {
+                if (this.muted) return;
+                this.init();
+                if (!this.ctx) return;
+                try {
+                    const osc = this.ctx.createOscillator();
+                    const gain = this.ctx.createGain();
+                    osc.type = type;
+                    osc.frequency.setValueAtTime(freq, this.ctx.currentTime);
+                    gain.gain.setValueAtTime(gainVal, this.ctx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.0001, this.ctx.currentTime + duration);
+                    osc.connect(gain);
+                    gain.connect(this.ctx.destination);
+                    osc.start();
+                    osc.stop(this.ctx.currentTime + duration);
+                } catch(e) {}
+            }
+            playClick() { this.playBeep(520, 'sine', 0.08, 0.1); }
+            playRocket() {
+                // Roket ateşleme sesi
+                this.playBeep(180, 'sawtooth', 0.2, 0.2);
+                setTimeout(() => this.playBeep(320, 'sawtooth', 0.2, 0.2), 100);
+                setTimeout(() => this.playBeep(540, 'triangle', 0.25, 0.25), 200);
+            }
+            playWrong() {
+                this.playBeep(220, 'sawtooth', 0.15, 0.25);
+                setTimeout(() => this.playBeep(160, 'sawtooth', 0.25, 0.25), 120);
+            }
+            playFanfare() {
+                const notes = [523, 659, 784, 1046, 1318];
+                notes.forEach((n, idx) => {
+                    setTimeout(() => this.playBeep(n, 'triangle', 0.25, 0.25), idx * 130);
+                });
+            }
+        }
+
+        const sounds = new SoundEngine();
+
+        class TeamRaceGame {
+            constructor() {
+                this.teamBlue = { name: "Mavi Takım (Siber Muhafızlar)", score: 0, steps: 0, color: "blue" };
+                this.teamRed = { name: "Kırmızı Takım (Veri Koruyucuları)", score: 0, steps: 0, color: "red" };
+                this.maxSteps = 6; // Bitiş çizgisi kademesi
+
+                this.questions = [
+                    {
+                        q: "Tüm resmi kamu hizmetlerine (ikametgah, tapu, adli sicil) tek bir şifreyle 7/24 ulaşabildiğimiz devlet portalı hangisidir?",
+                        options: ["e-Devlet Kapısı", "EBA Portalı", "e-Nabız", "MHRS"],
+                        answer: 0,
+                        exp: "turkiye.gov.tr adresi e-Devlet kapısıdır ve resmi kamu hizmetlerini tek çatıda toplar."
+                    },
+                    {
+                        q: "İnternette yaptığımız paylaşımlar, arama geçmişimiz ve yüklediğimiz fotoğrafların arkamızda bıraktığı kalıcı izlere ne denir?",
+                        options: ["Dijital Ayak İzi", "Dijital Kimlik", "Ekran Süresi", "İnternet Tarayıcısı"],
+                        answer: 0,
+                        exp: "İnternette attığımız her dijital adım silinmesi çok zor bir 'Dijital Ayak İzi' oluşturur."
+                    },
+                    {
+                        q: "İnternette mesajlaşırken veya sosyal medyada yorum yaparken KELİMELERİN TAMAMINI BÜYÜK HARFLE YAZMAK ne anlama gelir?",
+                        options: ["Daha hızlı yazmak", "Karşı tarafa bağırmak ve kaba davranmak", "Gizli şifre iletmek", "Çok sevinçli olmak"],
+                        answer: 1,
+                        exp: "Dijital nezaket kurallarına göre tamamen büyük harfle yazmak karşı tarafa bağırmak kabul edilir."
+                    },
+                    {
+                        q: "Hastanelerden istediğimiz doktor ve poliklinikten muayene randevusu almamızı sağlayan dijital uygulama hangisidir?",
+                        options: ["MHRS (Alo 182)", "e-Okul", "e-Devlet", "EBA"],
+                        answer: 0,
+                        exp: "Merkezi Hekim Randevu Sistemi (MHRS) ve Alo 182 hastane randevuları için kullanılır."
+                    },
+                    {
+                        q: "Geçmiş tahlil sonuçları, röntgen filmleri, aşı takvimi ve e-reçetelerimize ulaştığımız sağlık portalı hangisidir?",
+                        options: ["e-Nabız", "MHRS", "e-Okul", "Haritalar"],
+                        answer: 0,
+                        exp: "e-Nabız kişisel sağlık kayıtlarımızın güvenle saklandığı dijital sağlık pasaportumuzdur."
+                    },
+                    {
+                        q: "Öğrencilerin sınav notlarını, devamsızlık durumlarını ve dönem sonu karnelerini takip ettiği MEB sistemi hangisidir?",
+                        options: ["e-Okul", "e-Nabız", "EBA", "e-Devlet"],
+                        answer: 0,
+                        exp: "Öğrenci notları ve devamsızlık takibi Milli Eğitim Bakanlığı e-Okul sistemindedir."
+                    },
+                    {
+                        q: "Milli Eğitim Bakanlığı'nın ders kitapları, canlı dersler ve eğitici videolar sunduğu çevrim içi eğitim platformu hangisidir?",
+                        options: ["EBA", "e-Okul", "e-Nabız", "MHRS"],
+                        answer: 0,
+                        exp: "Eğitim Bilişim Ağı (EBA) öğrencilere ders kaynakları ve etkileşimli içerikler sunar."
+                    },
+                    {
+                        q: "İnternette birisi sizi rahatsız ederse veya siber zorbalık yaparsa yapılması gereken EN DOĞRU İLK DAVRANIŞ nedir?",
+                        options: ["Ona aynı şekilde hakaret etmek", "Kişiyi engelleyip öğretmenimize veya ailemize bildirmek", "Şifremizi ona göndermek", "Bilgisayarı kapatıp hiç kimseye söylememek"],
+                        answer: 1,
+                        exp: "Siber zorbalığa asla karşılık verilmez; kişi engellenir ve güvenilir bir yetişkine haber verilir."
+                    },
+                    {
+                        q: "Aşağıdakilerden hangisi dijital vatandaşın internetteki TEMEL SORUMLULUKLARINDAN biridir?",
+                        options: ["Telif haklarına saygı duymak ve izinsiz kopyalamamak", "Arkadaşlarının şifrelerini tahmin etmeye çalışmak", "Tanımadığı yabancılara adresini vermek", "Her gördüğü bilgiyi araştırmadan paylaşmak"],
+                        answer: 0,
+                        exp: "Telif haklarına saygı duymak ve başkalarının içeriklerini izinsiz almamak temel dijital vatandaşlık görevidir."
+                    },
+                    {
+                        q: "İnternet dünyasında saygılı, kibar, görgülü ve centilmen iletişim kurallarına ne ad verilir?",
+                        options: ["Dijital Nezaket", "Hacking", "Spam Mesaj", "İndirme (Download)"],
+                        answer: 0,
+                        exp: "Sanal ortamda saygı ve görgü kurallarına Dijital Nezaket denir."
+                    },
+                    {
+                        q: "Aşağıdakilerden hangisi GÜÇLÜ bir şifre örneğidir?",
+                        options: ["123456", "bilsim2026", "K@7_Bilisim#9", "adinizsoyadiniz"],
+                        answer: 2,
+                        exp: "Güçlü şifre en az 8 karakter olmalı; büyük-küçük harf, rakam ve özel semboller içermelidir."
+                    },
+                    {
+                        q: "Bir paylaşım yapmadan önce aklımıza getirmemiz gereken 'DÜŞÜN' kuralında 'D' harfi neyi sorgular?",
+                        options: ["Doğru mu?", "Değerli mi?", "Dalgın mı?", "Deneme mi?"],
+                        answer: 0,
+                        exp: "DÜŞÜN kuralında D harfi bilginin 'Doğru mu?' olduğunu sorgulamamızı hatırlatır."
+                    }
+                ];
+
+                this.currentQuestionIndex = 0;
+                this.turn = 'blue'; // 'blue' or 'red'
+                this.answered = false;
+                this.state = 'intro'; // 'intro', 'playing', 'result'
+            }
+
+            init() {
+                this.render();
+            }
+
+            startGame() {
+                sounds.playClick();
+                this.teamBlue.score = 0;
+                this.teamBlue.steps = 0;
+                this.teamRed.score = 0;
+                this.teamRed.steps = 0;
+                this.currentQuestionIndex = 0;
+                this.turn = 'blue';
+                this.answered = false;
+                this.state = 'playing';
+                this.render();
+            }
+
+            handleAnswer(choiceIndex) {
+                if (this.answered) return;
+                this.answered = true;
+
+                const q = this.questions[this.currentQuestionIndex];
+                const isCorrect = (choiceIndex === q.answer);
+                const activeTeam = (this.turn === 'blue') ? this.teamBlue : this.teamRed;
+
+                if (isCorrect) {
+                    activeTeam.score += 100;
+                    activeTeam.steps = Math.min(this.maxSteps, activeTeam.steps + 1);
+                    sounds.playRocket();
+                } else {
+                    sounds.playWrong();
+                }
+
+                this.renderFeedback(isCorrect, choiceIndex, q);
+            }
+
+            nextTurn() {
+                sounds.playClick();
+                this.answered = false;
+
+                // Kontrol: Herhangi bir takım finişe ulaştı mı ya da sorular bitti mi?
+                if (this.teamBlue.steps >= this.maxSteps || this.teamRed.steps >= this.maxSteps || this.currentQuestionIndex >= this.questions.length - 1) {
+                    this.state = 'result';
+                    sounds.playFanfare();
+                    if (typeof confetti === 'function') {
+                        confetti({
+                            particleCount: 150,
+                            spread: 100,
+                            origin: { y: 0.5 }
+                        });
+                    }
+                    this.render();
+                    return;
+                }
+
+                // Sırayı diğer takıma geçir ve soru indexini artır
+                this.turn = (this.turn === 'blue') ? 'red' : 'blue';
+                this.currentQuestionIndex++;
+                this.render();
+            }
+
+            render() {
+                const container = document.getElementById("game-container");
+                if (!container) return;
+
+                if (this.state === 'intro') {
+                    container.innerHTML = this.getIntroHTML();
+                } else if (this.state === 'playing') {
+                    container.innerHTML = this.getPlayingHTML();
+                } else if (this.state === 'result') {
+                    container.innerHTML = this.getResultHTML();
+                }
+            }
+
+            getIntroHTML() {
+                return `
+                    <div class="glass-panel p-6 sm:p-10 rounded-3xl text-center space-y-6 animate-pop shadow-2xl border border-indigo-500/30">
+                        <div class="inline-flex p-5 rounded-3xl bg-indigo-500/20 text-indigo-400 text-5xl sm:text-6xl shadow-xl">
+                            <i class="fa-solid fa-users-rays"></i>
+                        </div>
+                        <div class="space-y-2">
+                            <h2 class="text-2xl sm:text-3xl font-black text-white">Akıllı Tahta: Sınıf İçi Takım Kapışması!</h2>
+                            <p class="text-sm sm:text-base text-slate-300 max-w-xl mx-auto leading-relaxed">
+                                Sınıfı iki gruba ayırın! Soruları sırayla bilin, roketinizi uzay üssüne ilk ulaştıran takım olun ve şampiyonluk kupasını kaldırın!
+                            </p>
+                        </div>
+
+                        <!-- 2 TAKIM KARTI -->
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-2xl mx-auto text-left">
+                            <div class="p-5 rounded-2xl bg-blue-950/60 border-2 border-blue-500/60 flex items-center gap-4">
+                                <div class="w-14 h-14 rounded-2xl bg-blue-600 text-white flex items-center justify-center text-3xl shadow-lg shadow-blue-500/30 shrink-0">
+                                    <i class="fa-solid fa-rocket"></i>
+                                </div>
+                                <div>
+                                    <span class="px-2 py-0.5 rounded-md bg-blue-500/30 text-blue-300 font-black text-[10px] uppercase">1. Grup</span>
+                                    <h3 class="text-lg font-black text-white">${this.teamBlue.name}</h3>
+                                    <p class="text-xs text-blue-200">Mavi Roket Takımı</p>
+                                </div>
+                            </div>
+
+                            <div class="p-5 rounded-2xl bg-rose-950/60 border-2 border-rose-500/60 flex items-center gap-4">
+                                <div class="w-14 h-14 rounded-2xl bg-rose-600 text-white flex items-center justify-center text-3xl shadow-lg shadow-rose-500/30 shrink-0">
+                                    <i class="fa-solid fa-shuttle-space"></i>
+                                </div>
+                                <div>
+                                    <span class="px-2 py-0.5 rounded-md bg-rose-500/30 text-rose-300 font-black text-[10px] uppercase">2. Grup</span>
+                                    <h3 class="text-lg font-black text-white">${this.teamRed.name}</h3>
+                                    <p class="text-xs text-rose-200">Kırmızı Roket Takımı</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="pt-2">
+                            <button onclick="game.startGame()" class="action-btn px-8 sm:px-12 py-4 bg-gradient-to-r from-blue-600 via-indigo-600 to-rose-600 hover:from-blue-500 hover:to-rose-500 text-white font-black text-base sm:text-lg rounded-2xl shadow-xl flex items-center gap-3 mx-auto border-2 border-indigo-400">
+                                <i class="fa-solid fa-flag-checkered"></i>
+                                <span>Yarışı Başlat!</span>
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }
+
+            getPlayingHTML() {
+                const q = this.questions[this.currentQuestionIndex];
+                const isBlueTurn = (this.turn === 'blue');
+                const activeTeam = isBlueTurn ? this.teamBlue : this.teamRed;
+
+                const blueProgress = (this.teamBlue.steps / this.maxSteps) * 100;
+                const redProgress = (this.teamRed.steps / this.maxSteps) * 100;
+
+                return `
+                    <div class="space-y-4 animate-pop">
+                        <!-- ROKET YARIŞ PİSTİ -->
+                        <div class="glass-panel p-4 sm:p-5 rounded-3xl space-y-3 border border-slate-700 shadow-xl">
+                            <div class="flex items-center justify-between text-xs font-bold text-slate-400 px-1">
+                                <span><i class="fa-solid fa-flag"></i> Başlangıç</span>
+                                <span class="text-yellow-400"><i class="fa-solid fa-satellite"></i> Siber Uzay İstasyonu (Hedef: ${this.maxSteps} Kademe)</span>
+                            </div>
+
+                            <!-- MAVİ PİST -->
+                            <div class="space-y-1">
+                                <div class="flex justify-between text-xs font-black">
+                                    <span class="text-blue-400 flex items-center gap-1.5"><i class="fa-solid fa-shield text-xs"></i> ${this.teamBlue.name}</span>
+                                    <span class="text-white">${this.teamBlue.steps} / ${this.maxSteps} Kademe (${this.teamBlue.score} P)</span>
+                                </div>
+                                <div class="relative w-full bg-slate-900 rounded-full h-7 p-1 border border-blue-500/40 overflow-hidden flex items-center">
+                                    <div class="bg-gradient-to-r from-blue-700 to-cyan-400 h-full rounded-full transition-all duration-500 flex items-center justify-end pr-1" style="width: ${Math.max(12, blueProgress)}%">
+                                        <i class="fa-solid fa-rocket text-white text-xs rocket-trail"></i>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- KIRMIZI PİST -->
+                            <div class="space-y-1">
+                                <div class="flex justify-between text-xs font-black">
+                                    <span class="text-rose-400 flex items-center gap-1.5"><i class="fa-solid fa-shield text-xs"></i> ${this.teamRed.name}</span>
+                                    <span class="text-white">${this.teamRed.steps} / ${this.maxSteps} Kademe (${this.teamRed.score} P)</span>
+                                </div>
+                                <div class="relative w-full bg-slate-900 rounded-full h-7 p-1 border border-rose-500/40 overflow-hidden flex items-center">
+                                    <div class="bg-gradient-to-r from-rose-700 to-amber-500 h-full rounded-full transition-all duration-500 flex items-center justify-end pr-1" style="width: ${Math.max(12, redProgress)}%">
+                                        <i class="fa-solid fa-shuttle-space text-white text-xs rocket-trail-red"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- SIRA KİMDE BANNERI -->
+                        <div class="p-3 rounded-2xl text-center font-black text-base sm:text-lg border-2 ${isBlueTurn ? 'bg-blue-950/70 border-blue-500 text-blue-200' : 'bg-rose-950/70 border-rose-500 text-rose-200'} flex items-center justify-center gap-3 shadow-lg">
+                            <i class="fa-solid ${isBlueTurn ? 'fa-rocket text-blue-400' : 'fa-shuttle-space text-rose-400'} text-xl animate-bounce"></i>
+                            <span>SIRA SİZDE: ${activeTeam.name.toUpperCase()}</span>
+                        </div>
+
+                        <!-- SORU KARTI -->
+                        <div id="question-card" class="glass-panel p-5 sm:p-7 rounded-3xl space-y-4 shadow-xl border border-slate-700">
+                            <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+                                <span class="px-3 py-1 rounded-xl bg-slate-800 text-slate-300 font-bold text-xs border border-slate-700">
+                                    Tur Soru ${this.currentQuestionIndex + 1}
+                                </span>
+                                <span class="text-xs text-yellow-400 font-bold">Doğru Cevap: +1 İlerleme</span>
+                            </div>
+
+                            <h3 class="text-lg sm:text-xl font-bold text-white leading-relaxed">
+                                ${q.q}
+                            </h3>
+
+                            <!-- SEÇENEKLER -->
+                            <div id="options-container" class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
+                                ${q.options.map((opt, idx) => `
+                                    <button onclick="game.handleAnswer(${idx})" class="option-btn p-4 rounded-2xl bg-slate-900/90 hover:bg-slate-800 border-2 border-slate-700 text-left font-bold text-sm sm:text-base text-slate-200 flex items-center gap-3">
+                                        <span class="w-8 h-8 rounded-xl bg-slate-800 border border-slate-700 text-yellow-400 font-black flex items-center justify-center text-xs shrink-0">
+                                            ${String.fromCharCode(65 + idx)}
+                                        </span>
+                                        <span>${opt}</span>
+                                    </button>
+                                `).join('')}
+                            </div>
+
+                            <!-- GERİ BİLDİRİM PANELİ -->
+                            <div id="feedback-area" class="hidden"></div>
+                        </div>
+                    </div>
+                `;
+            }
+
+            renderFeedback(isCorrect, chosenIdx, q) {
+                const optContainer = document.getElementById("options-container");
+                const feedbackArea = document.getElementById("feedback-area");
+                const qCard = document.getElementById("question-card");
+
+                if (optContainer) optContainer.classList.add("hidden");
+
+                if (feedbackArea) {
+                    feedbackArea.classList.remove("hidden");
+                    const activeTeam = (this.turn === 'blue') ? this.teamBlue : this.teamRed;
+                    const statusClass = isCorrect ? "border-emerald-500/50 bg-emerald-950/40 text-emerald-200" : "border-rose-500/50 bg-rose-950/40 text-rose-200";
+                    const statusIcon = isCorrect ? "fa-circle-check text-emerald-400" : "fa-circle-xmark text-rose-400";
+                    const statusTitle = isCorrect ? `${activeTeam.name.split(' ')[0]} Takımından Doğru Cevap! Roket İlerledi 🚀` : `Yanlış Cevap! Roket İlerleyemedi 🛑`;
+
+                    feedbackArea.innerHTML = `
+                        <div class="p-5 rounded-2xl border-2 ${statusClass} space-y-3 animate-pop">
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center gap-2.5 font-black text-base sm:text-lg">
+                                    <i class="fa-solid ${statusIcon} text-2xl"></i>
+                                    <span>${statusTitle}</span>
+                                </div>
+                                <span class="px-2.5 py-1 rounded-lg ${isCorrect ? 'bg-emerald-500/20 text-emerald-300 border-emerald-400/40' : 'bg-rose-500/20 text-rose-300 border-rose-400/40'} font-black text-xs border">
+                                    ${isCorrect ? '+100 Puan' : '0 Puan'}
+                                </span>
+                            </div>
+                            <div class="p-3 bg-slate-900/80 rounded-xl border border-slate-800 text-xs sm:text-sm text-slate-300 space-y-1">
+                                <div class="font-bold text-yellow-400 flex items-center gap-1.5">
+                                    <i class="fa-solid fa-circle-check"></i> Doğru Cevap: <span class="text-white">${q.options[q.answer]}</span>
+                                </div>
+                                <p class="leading-relaxed">${q.exp}</p>
+                            </div>
+                            <div class="pt-2 text-right">
+                                <button onclick="game.nextTurn()" class="action-btn px-7 py-3 bg-gradient-to-r from-blue-600 via-indigo-600 to-rose-600 hover:from-blue-500 hover:to-rose-500 text-white font-black text-sm sm:text-base rounded-xl shadow-lg inline-flex items-center gap-2 border border-indigo-400">
+                                    <span>Sıradaki Takıma Geç</span>
+                                    <i class="fa-solid fa-arrow-right"></i>
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                }
+
+                if (!isCorrect && qCard) {
+                    qCard.classList.add("animate-shake");
+                    setTimeout(() => qCard.classList.remove("animate-shake"), 500);
+                }
+            }
+
+            getResultHTML() {
+                let winnerText = "YARIŞ BERABERE BİTTİ! 🤝";
+                let winnerSub = "Her iki takım da harika bir bilişim mücadelesi sergiledi!";
+                let winnerColor = "from-amber-400 to-yellow-500 text-slate-950";
+
+                if (this.teamBlue.steps > this.teamRed.steps || (this.teamBlue.steps === this.teamRed.steps && this.teamBlue.score > this.teamRed.score)) {
+                    winnerText = `🏆 ŞAMPİYON: ${this.teamBlue.name}!`;
+                    winnerSub = "Mavi takım roketini hedefe daha hızlı ulaştırdı ve yarışmayı kazandı!";
+                    winnerColor = "from-blue-600 to-cyan-500 text-white";
+                } else if (this.teamRed.steps > this.teamBlue.steps || (this.teamBlue.steps === this.teamRed.steps && this.teamRed.score > this.teamBlue.score)) {
+                    winnerText = `🏆 ŞAMPİYON: ${this.teamRed.name}!`;
+                    winnerSub = "Kırmızı takım roketini hedefe daha hızlı ulaştırdı ve yarışmayı kazandı!";
+                    winnerColor = "from-rose-600 to-orange-500 text-white";
+                }
+
+                return `
+                    <div class="glass-panel p-6 sm:p-10 rounded-3xl text-center space-y-6 animate-pop shadow-2xl border border-indigo-500/40">
+                        <div class="inline-flex p-5 rounded-3xl bg-gradient-to-tr ${winnerColor} text-5xl sm:text-6xl shadow-xl">
+                            <i class="fa-solid fa-trophy"></i>
+                        </div>
+
+                        <div class="space-y-2">
+                            <span class="px-3 py-1 rounded-full bg-yellow-400/20 text-yellow-300 font-bold text-xs uppercase tracking-wider border border-yellow-400/30">YARIŞMA SONUCU</span>
+                            <h2 class="text-2xl sm:text-3xl font-black text-white">${winnerText}</h2>
+                            <p class="text-sm sm:text-base text-slate-300 max-w-lg mx-auto leading-relaxed">${winnerSub}</p>
+                        </div>
+
+                        <!-- 2 TAKIM SKOR TABLOSU -->
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-xl mx-auto">
+                            <div class="p-5 rounded-2xl bg-blue-950/70 border-2 border-blue-500/60 text-left space-y-2">
+                                <div class="flex items-center justify-between">
+                                    <span class="font-bold text-blue-300 text-sm">${this.teamBlue.name}</span>
+                                    <i class="fa-solid fa-rocket text-blue-400"></i>
+                                </div>
+                                <div class="text-2xl font-black text-white">${this.teamBlue.score} Puan</div>
+                                <div class="text-xs text-slate-300">İlerleme: ${this.teamBlue.steps} / ${this.maxSteps} Kademe</div>
+                            </div>
+
+                            <div class="p-5 rounded-2xl bg-rose-950/70 border-2 border-rose-500/60 text-left space-y-2">
+                                <div class="flex items-center justify-between">
+                                    <span class="font-bold text-rose-300 text-sm">${this.teamRed.name}</span>
+                                    <i class="fa-solid fa-shuttle-space text-rose-400"></i>
+                                </div>
+                                <div class="text-2xl font-black text-white">${this.teamRed.score} Puan</div>
+                                <div class="text-xs text-slate-300">İlerleme: ${this.teamRed.steps} / ${this.maxSteps} Kademe</div>
+                            </div>
+                        </div>
+
+                        <!-- BUTONLAR -->
+                        <div class="flex justify-center gap-4 flex-wrap pt-2">
+                            <button onclick="game.startGame()" class="action-btn px-8 py-3.5 bg-gradient-to-r from-blue-600 to-rose-600 hover:from-blue-500 hover:to-rose-500 text-white font-black text-sm sm:text-base rounded-2xl shadow-xl flex items-center gap-2 border-2 border-indigo-300">
+                                <i class="fa-solid fa-rotate-right"></i>
+                                <span>Rövanş Maçı Yap</span>
+                            </button>
+                            <button onclick="game.state = 'intro'; game.render();" class="action-btn px-8 py-3.5 bg-slate-800 hover:bg-slate-700 text-white font-bold text-sm sm:text-base rounded-2xl shadow-lg flex items-center gap-2 border border-slate-700">
+                                <i class="fa-solid fa-house"></i>
+                                <span>Ana Menü</span>
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }
+
+            openHelpModal() {
+                sounds.playClick();
+                const m = document.getElementById('modal-help');
+                if (m) m.classList.remove('hidden');
+            }
+
+            closeHelpModal() {
+                sounds.playClick();
+                const m = document.getElementById('modal-help');
+                if (m) m.classList.add('hidden');
+            }
+
+            toggleAudio() {
+                sounds.muted = !sounds.muted;
+                const icon = document.getElementById('audio-icon');
+                if (icon) {
+                    icon.className = sounds.muted ? "fa-solid fa-volume-xmark text-rose-400" : "fa-solid fa-volume-high text-yellow-400";
+                }
+            }
+
+            toggleFullscreen() {
+                sounds.playClick();
+                if (!document.fullscreenElement) {
+                    if (document.documentElement.requestFullscreen) {
+                        document.documentElement.requestFullscreen();
+                    }
+                } else {
+                    if (document.exitFullscreen) {
+                        document.exitFullscreen();
+                    }
+                }
+            }
+        }
+
+        const game = new TeamRaceGame();
+        window.onload = () => game.init();
+    </script>
+</body>
+</html>

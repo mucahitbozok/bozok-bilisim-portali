@@ -1270,6 +1270,66 @@ class App {
                 btnGradient: "from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white",
                 action: "app.launchGame('arena')"
             });
+            extra.push({
+                badge: "Dedektif",
+                badgeColor: "text-cyan-300",
+                title: "Dijital Ayak İzi Temizlikçisi",
+                desc: "Öğrencinin sanal profilini dedektif büyüteciyle incele, tehlikeli izleri süpür ve güvenli izleri koru!",
+                icon: "fa-solid fa-broom",
+                iconBg: "bg-cyan-500/30 text-cyan-300",
+                cardGradient: "from-cyan-900/90 to-blue-950/90",
+                border: "border-cyan-500/50",
+                descColor: "text-cyan-100",
+                btnText: "İzleri Temizle!",
+                btnIcon: "fa-solid fa-magnifying-glass",
+                btnGradient: "from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white",
+                action: "app.openStandaloneGame('games/dijital_ayak_izi_temizlikcisi.html', 'Dijital Ayak İzi Temizlikçisi | Öğretmen Bozok')"
+            });
+            extra.push({
+                badge: "e-Hizmet",
+                badgeColor: "text-amber-300",
+                title: "e-Hizmetler Postanesi",
+                desc: "Vatandaşların resmi evrak ve işlemlerini e-Devlet, e-Okul, e-Nabız, MHRS ve EBA kapılarına hızla dağıt!",
+                icon: "fa-solid fa-envelope-open-text",
+                iconBg: "bg-amber-500/30 text-amber-300",
+                cardGradient: "from-amber-900/90 to-yellow-950/90",
+                border: "border-amber-500/50",
+                descColor: "text-amber-100",
+                btnText: "Postaneyi Aç!",
+                btnIcon: "fa-solid fa-building-columns",
+                btnGradient: "from-amber-500 to-yellow-500 hover:from-amber-400 hover:to-yellow-400 text-slate-950",
+                action: "app.openStandaloneGame('games/e_hizmetler_postanesi.html', 'e-Hizmetler Postanesi | Öğretmen Bozok')"
+            });
+            extra.push({
+                badge: "Takım",
+                badgeColor: "text-rose-300",
+                title: "Bilişim Takım Yarışı",
+                desc: "Mavi ve Kırmızı takım karşı karşıya! Akıllı tahtada dijital vatandaşlık sorularını bil, roketini hedefe ilk ulaştır!",
+                icon: "fa-solid fa-rocket",
+                iconBg: "bg-rose-500/30 text-rose-300",
+                cardGradient: "from-blue-900/80 via-indigo-950/90 to-rose-900/80",
+                border: "border-rose-500/50",
+                descColor: "text-indigo-100",
+                btnText: "Yarışı Başlat!",
+                btnIcon: "fa-solid fa-flag-checkered",
+                btnGradient: "from-blue-600 via-indigo-600 to-rose-600 hover:from-blue-500 hover:to-rose-500 text-white",
+                action: "app.openStandaloneGame('games/bilisim_takim_yarisi.html', 'Bilişim Takım Yarışı | Öğretmen Bozok')"
+            });
+            extra.push({
+                badge: "Labirent",
+                badgeColor: "text-purple-300",
+                title: "Bilişim Kelime Avı",
+                desc: "Harf matrisinde gizlenen dijital vatandaşlık kavramlarını bul, siber labirenti kelime bilginle çöz!",
+                icon: "fa-solid fa-puzzle-piece",
+                iconBg: "bg-purple-500/30 text-purple-300",
+                cardGradient: "from-purple-900/90 to-indigo-950/90",
+                border: "border-purple-500/50",
+                descColor: "text-purple-100",
+                btnText: "Kelime Avına Başla!",
+                btnIcon: "fa-solid fa-crosshairs",
+                btnGradient: "from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white",
+                action: "app.openStandaloneGame('games/bilisim_kelime_avi.html', 'Bilişim Kelime Avı | Öğretmen Bozok')"
+            });
         }
 
         // Haftalık içerik verisinde (data.extraGames) tanımlı ek oyunlar varsa onları da listeye ekle

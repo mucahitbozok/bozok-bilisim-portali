@@ -15,7 +15,7 @@ window.WEEK3_CONTENT = {
             "Dijital vatandaş ve dijital kimlik kavramlarını tanımlayabileceğim.",
             "İnternette bıraktığımız dijital ayak izinin kalıcılığını ve etkilerini fark edebileceğim.",
             "e-Devlet, e-Okul, EBA, e-Nabız ve MHRS gibi dijital vatandaşlık uygulamalarını sınıflandırabileceğim.",
-            "Sanal ortamda dijital haklarımı, sorumluluklarımı ve dijital nezaket (netiquette) kurallarını uygulayabileceğim."
+            "Sanal ortamda dijital haklarımı, sorumluluklarımı ve dijital nezaket kurallarını uygulayabileceğim."
         ],
         images: {
             konu: null,
@@ -1225,7 +1225,7 @@ window.WEEK3_CONTENT = {
                     <p class="text-slate-300">İnternette yaptığımız her arama ve paylaşımla bıraktığımız kalıcı izler.</p>
                 </div>
                 <div class="p-3.5 bg-slate-800 rounded-xl border border-slate-700 space-y-1">
-                    <span class="font-black text-pink-400 block text-sm">4. NETIQUETTE</span>
+                    <span class="font-black text-pink-400 block text-sm">4. DİJİTAL NEZAKET</span>
                     <p class="text-slate-300">İnternet dünyasındaki görgü ve nezaket kuralları (Centilmenlik).</p>
                 </div>
             </div>
@@ -1402,7 +1402,7 @@ window.WEEK3_CONTENT = {
                         "Gizli bir şifre göndermek"
                     ],
                     answer: 0,
-                    explanation: "İnternet nezaket kurallarına (Netiquette) göre büyük harfle yazmak bağırmak anlamına gelir."
+                    explanation: "Dijital nezaket kurallarına göre büyük harfle yazmak bağırmak anlamına gelir."
                 },
                 {
                     q: "İnternette tanımadığınız bir kişi sizi alaycı sözlerle rahatsız ederse (Siber Zorbalık) yapılması gereken İLK adım nedir?",
@@ -1451,7 +1451,7 @@ window.WEEK3_CONTENT = {
                     explanation: "Doğru! e-Devlet kapısı resmi devlet hizmetlerinin tek noktadan sunulduğu güvenli portaldır."
                 },
                 {
-                    statement: "Dijital vatandaş, internette yazışırken ve oyun oynarken nezaket kurallarına (Netiquette) dikkat eder.",
+                    statement: "Dijital vatandaş, internette yazışırken ve oyun oynarken dijital nezaket kurallarına dikkat eder.",
                     correct: true,
                     explanation: "Doğru! İnternette saygılı ve kibar bir dil kullanmak dijital vatandaşlığın gereğidir."
                 },
@@ -1533,8 +1533,8 @@ window.WEEK3_CONTENT = {
                 pts: 150
             },
             {
-                q: "İnternette görgü ve nezaket kurallarına verilen İngilizce kökenli isim hangisidir?",
-                options: ["Netiquette", "Spam", "Hacker", "Download"],
+                q: "İnternette görgü ve nezaket kurallarına verilen isim hangisidir?",
+                options: ["Dijital Nezaket", "Spam", "Hacker", "Download"],
                 answer: 0,
                 pts: 500
             }
@@ -1598,7 +1598,7 @@ window.WEEK3_CONTENT = {
             },
             {
                 id: 8,
-                text: "Netiquette (Nezaket)",
+                text: "Dijital Nezaket",
                 category: "Sanal ortamda saygılı, kibar ve görgülü iletişim kuralları",
                 icon: "fa-solid fa-hand-holding-heart",
                 rightIcon: "fa-solid fa-comments"

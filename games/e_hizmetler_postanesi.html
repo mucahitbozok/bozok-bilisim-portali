@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>e-Hizmetler Postanesi | Öğretmen Bozok</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- Tailwind CSS (CDN) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Canvas Confetti -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Poppins', 'Fredoka', 'sans-serif'],
+                    },
+                    colors: {
+                        postal: {
+                            dark: '#0c1222',
+                            panel: '#151f38',
+                            border: '#233256',
+                            gold: '#f59e0b',
+                            cyan: '#06b6d4',
+                            emerald: '#10b981',
+                            blue: '#3b82f6',
+                            rose: '#f43f5e'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        * { box-sizing: border-box; font-family: 'Poppins', sans-serif; -webkit-tap-highlight-color: transparent; }
+        body { background-color: #090e1c; color: #f8fafc; min-height: 100vh; overflow-x: hidden; }
+        .glass-panel { background: rgba(21, 31, 56, 0.85); backdrop-filter: blur(16px); border: 2px solid rgba(59, 130, 246, 0.25); }
+        .dispatch-gate { transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); }
+        .dispatch-gate:hover:not(:disabled) { transform: translateY(-4px) scale(1.02); }
+        .dispatch-gate:active:not(:disabled) { transform: scale(0.97); }
+        @keyframes popIn { 0% { transform: scale(0.92); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
+        .animate-pop { animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        @keyframes shake { 0%, 100% { transform: translateX(0); } 20%, 60% { transform: translateX(-8px); } 40%, 80% { transform: translateX(8px); } }
+        .animate-shake { animation: shake 0.4s ease-in-out; }
+    </style>
+</head>
+<body class="flex flex-col justify-between p-3 sm:p-6 select-none">
+
+    <!-- ÜST ÇUBUK -->
+    <header class="max-w-6xl w-full mx-auto flex items-center justify-between gap-4 pb-4 border-b border-slate-800">
+        <div class="flex items-center gap-3">
+            <div class="w-12 h-12 rounded-2xl bg-gradient-to-tr from-amber-500 to-yellow-400 text-slate-950 flex items-center justify-center text-2xl shadow-lg shadow-amber-500/20">
+                <i class="fa-solid fa-envelope-open-text"></i>
+            </div>
+            <div>
+                <span class="px-2.5 py-0.5 bg-amber-400/20 text-amber-300 font-black rounded-lg text-[10px] tracking-wider uppercase border border-amber-400/30">5. SINIF BİLİŞİM TEKNOLOJİLERİ</span>
+                <h1 class="text-lg sm:text-xl font-black text-white flex items-center gap-2">
+                    e-Hizmetler Postanesi
+                    <span class="hidden sm:inline-block text-xs px-2 py-0.5 rounded-full bg-blue-500/20 text-blue-300 border border-blue-400/30 font-semibold">Görev Dağıtımı</span>
+                </h1>
+            </div>
+        </div>
+
+        <!-- SAĞ KONTROLLER -->
+        <div class="flex items-center gap-2 sm:gap-3">
+            <div class="bg-slate-900/90 border border-slate-800 rounded-xl px-3 py-1.5 flex items-center gap-2 text-xs font-bold text-slate-300">
+                <i class="fa-solid fa-chalkboard-user text-amber-400"></i>
+                <span class="hidden sm:inline">Öğretmen:</span>
+                <span class="text-white">Bozok</span>
+            </div>
+            <button onclick="game.openHelpModal()" class="w-10 h-10 rounded-xl bg-slate-900 border border-slate-700 hover:border-amber-400/50 text-amber-300 flex items-center justify-center transition-all hover:bg-slate-800" title="Nasıl Oynanır?">
+                <i class="fa-solid fa-circle-question text-lg"></i>
+            </button>
+            <button onclick="game.toggleAudio()" class="w-10 h-10 rounded-xl bg-slate-900 border border-slate-700 hover:border-yellow-400/50 text-yellow-400 flex items-center justify-center transition-all hover:bg-slate-800" title="Ses Aç/Kapat">
+                <i id="audio-icon" class="fa-solid fa-volume-high text-lg"></i>
+            </button>
+            <button onclick="game.toggleFullscreen()" class="w-10 h-10 rounded-xl bg-slate-900 border border-slate-700 hover:border-amber-400/50 text-slate-300 flex items-center justify-center transition-all hover:bg-slate-800" title="Tam Ekran">
+                <i class="fa-solid fa-expand text-lg"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- ANA OYUN ALANI -->
+    <main id="game-container" class="max-w-5xl w-full mx-auto my-auto py-6">
+        <!-- JS ile dinamik render edilecek -->
+    </main>
+
+    <!-- ALT BİLGİ -->
+    <footer class="max-w-6xl w-full mx-auto text-center pt-4 border-t border-slate-800/80 text-xs text-slate-500 flex flex-col sm:flex-row items-center justify-between gap-2">
+        <div class="flex items-center gap-2">
+            <i class="fa-solid fa-building-columns text-amber-400"></i>
+            <span>BTY.5.1.3 - e-Devlet, e-Okul, e-Nabız, MHRS ve EBA Uygulamaları</span>
+        </div>
+        <div class="text-slate-400">
+            Bozok Bilişim Portalı &copy; 2026 - Tüm Hakları Saklıdır
+        </div>
+    </footer>
+
+    <!-- MODAL: NASIL OYNANIR? -->
+    <div id="modal-help" class="hidden fixed inset-0 z-50 bg-slate-950/85 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="bg-slate-900 border-2 border-amber-400/50 rounded-3xl max-w-lg w-full flex flex-col shadow-2xl overflow-hidden animate-pop">
+            <div class="p-5 border-b border-slate-800 flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-xl bg-amber-400/20 text-amber-300 flex items-center justify-center text-xl">
+                        <i class="fa-solid fa-envelope-open-text"></i>
+                    </div>
+                    <h3 class="text-lg font-black text-white">Nasıl Oynanır? (Posta Şefi Kılavuzu)</h3>
+                </div>
+                <button onclick="game.closeHelpModal()" class="w-9 h-9 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 flex items-center justify-center">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <div class="p-6 space-y-4 text-sm text-slate-200">
+                <div class="flex items-start gap-3">
+                    <span class="w-7 h-7 rounded-lg bg-amber-400 text-slate-950 font-black flex items-center justify-center text-xs shrink-0">1</span>
+                    <p>Postaneye sırayla gelen <strong>12 vatandaşın</strong> resmi işlem ve evrak taleplerini oku.</p>
+                </div>
+                <div class="flex items-start gap-3">
+                    <span class="w-7 h-7 rounded-lg bg-amber-400 text-slate-950 font-black flex items-center justify-center text-xs shrink-0">2</span>
+                    <p>Vatandaşı doğru kapıya yönlendir: <strong>e-Devlet, e-Okul, e-Nabız, MHRS veya EBA</strong> butonuna bas!</p>
+                </div>
+                <div class="flex items-start gap-3">
+                    <span class="w-7 h-7 rounded-lg bg-amber-400 text-slate-950 font-black flex items-center justify-center text-xs shrink-0">3</span>
+                    <p>Üst üste doğru yönlendirmeler yaparak <strong>Seri (Kombo) Çarpanı</strong> yakala ve rekor puana ulaş!</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- OYUN JS MOTORU -->
+    <script>
+        class SoundEngine {
+            constructor() {
+                this.ctx = null;
+                this.muted = false;
+            }
+            init() {
+                if (!this.ctx) {
+                    const AudioCtx = window.AudioContext || window.webkitAudioContext;
+                    if (AudioCtx) this.ctx = new AudioCtx();
+                }
+            }
+            playBeep(freq, type, duration, gainVal = 0.15) {
+                if (this.muted) return;
+                this.init();
+                if (!this.ctx) return;
+                try {
+                    const osc = this.ctx.createOscillator();
+                    const gain = this.ctx.createGain();
+                    osc.type = type;
+                    osc.frequency.setValueAtTime(freq, this.ctx.currentTime);
+                    gain.gain.setValueAtTime(gainVal, this.ctx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.0001, this.ctx.currentTime + duration);
+                    osc.connect(gain);
+                    gain.connect(this.ctx.destination);
+                    osc.start();
+                    osc.stop(this.ctx.currentTime + duration);
+                } catch(e) {}
+            }
+            playClick() { this.playBeep(520, 'sine', 0.08, 0.1); }
+            playCorrect() {
+                this.playBeep(440, 'triangle', 0.1, 0.2);
+                setTimeout(() => this.playBeep(587, 'triangle', 0.12, 0.2), 90);
+                setTimeout(() => this.playBeep(880, 'triangle', 0.2, 0.25), 180);
+            }
+            playWrong() {
+                this.playBeep(240, 'sawtooth', 0.15, 0.25);
+                setTimeout(() => this.playBeep(180, 'sawtooth', 0.25, 0.25), 120);
+            }
+            playFanfare() {
+                const notes = [523, 659, 784, 1046, 1318];
+                notes.forEach((n, idx) => {
+                    setTimeout(() => this.playBeep(n, 'triangle', 0.25, 0.25), idx * 130);
+                });
+            }
+        }
+
+        const sounds = new SoundEngine();
+
+        class EServicesPostOffice {
+            constructor() {
+                // 5 Ana Kapı
+                this.gates = [
+                    { id: 'EDEVLET', name: 'e-Devlet Kapısı', icon: 'fa-solid fa-landmark', color: 'from-blue-600 to-indigo-700', border: 'border-blue-400', tag: 'turkiye.gov.tr' },
+                    { id: 'EOKUL', name: 'e-Okul Yönetim', icon: 'fa-solid fa-graduation-cap', color: 'from-emerald-600 to-teal-700', border: 'border-emerald-400', tag: 'meb.gov.tr' },
+                    { id: 'ENABIZ', name: 'e-Nabız Sistemi', icon: 'fa-solid fa-heart-pulse', color: 'from-rose-600 to-pink-700', border: 'border-rose-400', tag: 'enabiz.gov.tr' },
+                    { id: 'MHRS', name: 'MHRS (Alo 182)', icon: 'fa-solid fa-calendar-check', color: 'from-amber-600 to-orange-700', border: 'border-amber-400', tag: 'mhrs.gov.tr' },
+                    { id: 'EBA', name: 'EBA Eğitim Ağı', icon: 'fa-solid fa-book-open-reader', color: 'from-purple-600 to-violet-700', border: 'border-purple-400', tag: 'eba.gov.tr' }
+                ];
+
+                // 12 Vatandaş Görevi
+                this.missions = [
+                    {
+                        id: 1,
+                        citizen: "Ayşe Teyze (Emekli)",
+                        avatar: "fa-solid fa-person-cane text-amber-300",
+                        request: "“Evladım, yarın göz doktoruna muayene olmam gerekiyor. Devlet hastanesinden uygun bir doktor seçip randevu almak istiyorum!”",
+                        correctGate: "MHRS",
+                        hint: "Merkezi Hekim Randevu Sistemi (MHRS) hastane randevuları için kullanılır."
+                    },
+                    {
+                        id: 2,
+                        citizen: "Mert (5. Sınıf Öğrencisi)",
+                        avatar: "fa-solid fa-child text-cyan-300",
+                        request: "“Bugün bilişim ve matematik sınav sonuçlarımız açıklandı! Karneme kaç düşeceğini ve devamsızlık günlerimi hemen öğrenmem gerek!”",
+                        correctGate: "EOKUL",
+                        hint: "Öğrenci sınav notları, devamsızlık ve karne takibi e-Okul sistemindedir."
+                    },
+                    {
+                        id: 3,
+                        citizen: "Ahmet Bey (Memur)",
+                        avatar: "fa-solid fa-user-tie text-blue-300",
+                        request: "“Yeni iş başvurusu için ikametgah (yerleşim yeri) belgesi ve adli sicil kaydı (sabıka kaydı) çıkarmam gerekiyor.”",
+                        correctGate: "EDEVLET",
+                        hint: "İkametgah ve adli sicil gibi resmi kamu belgeleri e-Devlet kapısından (turkiye.gov.tr) alınır."
+                    },
+                    {
+                        id: 4,
+                        citizen: "Zeynep (Lise Hazırlık)",
+                        avatar: "fa-solid fa-graduation-cap text-purple-300",
+                        request: "“Fen Bilimleri dersindeki hücre konusunu anlamadım. İnteraktif konu anlatım videoları ve ders kitabımın PDF'ini incelemem lazım.”",
+                        correctGate: "EBA",
+                        hint: "Ders videoları, etkileşimli içerikler ve dijital ders kitapları EBA portaldadır."
+                    },
+                    {
+                        id: 5,
+                        citizen: "Kemal Amca (Esnaf)",
+                        avatar: "fa-solid fa-user-doctor text-rose-300",
+                        request: "“Geçen hafta hastanede yaptırdığım kan tahlili ve akciğer röntgen sonuçlarımı evden telefonumla incelemek istiyorum.”",
+                        correctGate: "ENABIZ",
+                        hint: "Geçmiş tahlil, röntgen, aşı ve reçete bilgileri e-Nabız sağlık kaydında saklanır."
+                    },
+                    {
+                        id: 6,
+                        citizen: "Selin Hanım (Mimar)",
+                        avatar: "fa-solid fa-house-chimney text-blue-300",
+                        request: "“Üzerime kayıtlı tapu bilgilerini ve adıma kayıtlı araçları sorgulamak için resmi kamu portalına girmeliyim.”",
+                        correctGate: "EDEVLET",
+                        hint: "Tapu, araç, vergi borcu ve soy kütüğü sorgulamaları e-Devlet kapısından yapılır."
+                    },
+                    {
+                        id: 7,
+                        citizen: "Barış (7. Sınıf Öğrencisi)",
+                        avatar: "fa-solid fa-school text-emerald-300",
+                        request: "“Dönem sonunda Takdir mi yoksa Teşekkür belgesi mi alacağımı haftalık ders notu ortalamalarıma bakarak hesaplayacağım!”",
+                        correctGate: "EOKUL",
+                        hint: "Öğrenci ortalamaları ve takdir/teşekkür durumları e-Okul Veli Bilgilendirme Sistemindedir."
+                    },
+                    {
+                        id: 8,
+                        citizen: "Fatma Hemşire",
+                        avatar: "fa-solid fa-syringe text-rose-300",
+                        request: "“Geçmiş yıllarda olduğum aşı takvimini ve doktorumun yazdığı e-Reçete kodunu kontrol etmem gerekiyor.”",
+                        correctGate: "ENABIZ",
+                        hint: "Aşı kartı ve e-reçete detayları e-Nabız sistemi üzerinden 7/24 görüntülenir."
+                    },
+                    {
+                        id: 9,
+                        citizen: "Deniz (Bilim Meraklısı)",
+                        avatar: "fa-solid fa-laptop-code text-purple-300",
+                        request: "“Bilişim öğretmenimizin sisteme yüklediği haftalık kazanım testini çözüp canlı derse katılmam lazım.”",
+                        correctGate: "EBA",
+                        hint: "Öğretmenlerin ödev gönderdiği ve canlı ders yapılan ulusal platform EBA'dır."
+                    },
+                    {
+                        id: 10,
+                        citizen: "Murat Bey (Mühendis)",
+                        avatar: "fa-solid fa-tooth text-amber-300",
+                        request: "“Dişim çok ağrıyor! Ağız ve Diş Sağlığı Merkezi'nden acilen randevu almam ve saat belirlemem gerek.”",
+                        correctGate: "MHRS",
+                        hint: "Diş ve poliklinik randevuları Merkezi Hekim Randevu Sistemi (MHRS) ile alınır."
+                    },
+                    {
+                        id: 11,
+                        citizen: "Cemil Dede (Gezgin)",
+                        avatar: "fa-solid fa-tree text-blue-300",
+                        request: "“Ailemin geçmiş yüzyıllara dayanan Alt-Üst Soy Kütüğü (soy ağacı) belgesini resmi olarak görüntülemek istiyorum.”",
+                        correctGate: "EDEVLET",
+                        hint: "Soy ağacı sorgulama Nüfus ve Vatandaşlık İşleri Genel Müdürlüğü adına e-Devlet'tedir."
+                    },
+                    {
+                        id: 12,
+                        citizen: "Veli Mehmet Bey (Baba)",
+                        avatar: "fa-solid fa-clipboard-user text-emerald-300",
+                        request: "“Oğlumun okul nakil başvurusunun kabul edilip edilmediğini ve yeni şubesini öğrenmek istiyorum.”",
+                        correctGate: "EOKUL",
+                        hint: "Şube bilgisi ve okul nakil sonuçları MEB e-Okul platformundadır."
+                    }
+                ];
+
+                this.currentIndex = 0;
+                this.score = 0;
+                this.streak = 0;
+                this.maxStreak = 0;
+                this.answered = false;
+                this.state = 'intro'; // 'intro', 'playing', 'result'
+            }
+
+            init() {
+                this.render();
+            }
+
+            startGame() {
+                sounds.playClick();
+                this.currentIndex = 0;
+                this.score = 0;
+                this.streak = 0;
+                this.maxStreak = 0;
+                this.answered = false;
+                this.state = 'playing';
+                this.render();
+            }
+
+            handleGate(gateId) {
+                if (this.answered) return;
+                this.answered = true;
+                const mission = this.missions[this.currentIndex];
+                const isCorrect = (gateId === mission.correctGate);
+
+                if (isCorrect) {
+                    this.streak++;
+                    if (this.streak > this.maxStreak) this.maxStreak = this.streak;
+                    const bonus = (this.streak > 1) ? (this.streak * 10) : 0;
+                    this.score += (100 + bonus);
+                    sounds.playCorrect();
+                } else {
+                    this.streak = 0;
+                    sounds.playWrong();
+                }
+
+                this.renderFeedback(isCorrect, gateId, mission);
+            }
+
+            nextMission() {
+                sounds.playClick();
+                this.answered = false;
+                this.currentIndex++;
+
+                if (this.currentIndex >= this.missions.length) {
+                    this.state = 'result';
+                    sounds.playFanfare();
+                    if (typeof confetti === 'function') {
+                        confetti({
+                            particleCount: 130,
+                            spread: 90,
+                            origin: { y: 0.6 }
+                        });
+                    }
+                }
+                this.render();
+            }
+
+            render() {
+                const container = document.getElementById("game-container");
+                if (!container) return;
+
+                if (this.state === 'intro') {
+                    container.innerHTML = this.getIntroHTML();
+                } else if (this.state === 'playing') {
+                    container.innerHTML = this.getPlayingHTML();
+                } else if (this.state === 'result') {
+                    container.innerHTML = this.getResultHTML();
+                }
+            }
+
+            getIntroHTML() {
+                return `
+                    <div class="glass-panel p-6 sm:p-10 rounded-3xl text-center space-y-6 animate-pop shadow-2xl border border-amber-500/30">
+                        <div class="inline-flex p-5 rounded-3xl bg-amber-500/20 text-amber-400 text-5xl sm:text-6xl shadow-xl shadow-amber-500/10">
+                            <i class="fa-solid fa-envelopes-bulk"></i>
+                        </div>
+                        <div class="space-y-2">
+                            <h2 class="text-2xl sm:text-3xl font-black text-white">e-Hizmetler Postanesine Hoş Geldin!</h2>
+                            <p class="text-sm sm:text-base text-slate-300 max-w-xl mx-auto leading-relaxed">
+                                Vatandaşlar resmi işlerini halletmek için sıraya girdi! 
+                                Baş Postacı olarak onların taleplerini incele; <strong>e-Devlet, e-Okul, e-Nabız, MHRS veya EBA</strong> kapılarına en hızlı ve doğru şekilde yönlendir!
+                            </p>
+                        </div>
+
+                        <!-- 5 KAPININ ÖZETİ -->
+                        <div class="grid grid-cols-2 sm:grid-cols-5 gap-2.5 max-w-3xl mx-auto text-center pt-2">
+                            <div class="p-3 bg-blue-950/40 rounded-2xl border border-blue-500/30">
+                                <i class="fa-solid fa-landmark text-blue-400 text-xl mb-1"></i>
+                                <div class="text-xs font-bold text-white">e-Devlet</div>
+                                <div class="text-[10px] text-slate-400">Resmi Kamu & Tapu</div>
+                            </div>
+                            <div class="p-3 bg-emerald-950/40 rounded-2xl border border-emerald-500/30">
+                                <i class="fa-solid fa-graduation-cap text-emerald-400 text-xl mb-1"></i>
+                                <div class="text-xs font-bold text-white">e-Okul</div>
+                                <div class="text-[10px] text-slate-400">Not & Devamsızlık</div>
+                            </div>
+                            <div class="p-3 bg-rose-950/40 rounded-2xl border border-rose-500/30">
+                                <i class="fa-solid fa-heart-pulse text-rose-400 text-xl mb-1"></i>
+                                <div class="text-xs font-bold text-white">e-Nabız</div>
+                                <div class="text-[10px] text-slate-400">Tahlil & Reçete</div>
+                            </div>
+                            <div class="p-3 bg-amber-950/40 rounded-2xl border border-amber-500/30">
+                                <i class="fa-solid fa-calendar-check text-amber-400 text-xl mb-1"></i>
+                                <div class="text-xs font-bold text-white">MHRS</div>
+                                <div class="text-[10px] text-slate-400">Hastane Randevusu</div>
+                            </div>
+                            <div class="p-3 bg-purple-950/40 rounded-2xl border border-purple-500/30 col-span-2 sm:col-span-1">
+                                <i class="fa-solid fa-book-open-reader text-purple-400 text-xl mb-1"></i>
+                                <div class="text-xs font-bold text-white">EBA</div>
+                                <div class="text-[10px] text-slate-400">Ders Kitabı & Video</div>
+                            </div>
+                        </div>
+
+                        <div class="pt-2">
+                            <button onclick="game.startGame()" class="action-btn px-8 sm:px-12 py-4 bg-gradient-to-r from-amber-500 to-yellow-400 hover:from-amber-400 hover:to-yellow-300 text-slate-950 font-black text-base sm:text-lg rounded-2xl shadow-xl shadow-amber-500/30 flex items-center gap-3 mx-auto border-2 border-yellow-300">
+                                <i class="fa-solid fa-play"></i>
+                                <span>Postaneyi Aç & Başla!</span>
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }
+
+            getPlayingHTML() {
+                const mission = this.missions[this.currentIndex];
+                const progressPct = ((this.currentIndex + 1) / this.missions.length) * 100;
+
+                return `
+                    <div class="space-y-5 animate-pop">
+                        <!-- ÜST BİLGİ & SKOR -->
+                        <div class="flex items-center justify-between gap-4 bg-slate-900/80 p-4 rounded-2xl border border-slate-800">
+                            <div class="flex items-center gap-3">
+                                <span class="px-3 py-1 rounded-xl bg-amber-500/20 text-amber-300 font-black text-xs sm:text-sm border border-amber-500/30">
+                                    Vatandaş ${this.currentIndex + 1} / ${this.missions.length}
+                                </span>
+                                ${this.streak > 1 ? `<span class="px-2.5 py-0.5 rounded-lg bg-orange-500/20 text-orange-400 font-black text-xs border border-orange-500/30 flex items-center gap-1"><i class="fa-solid fa-fire animate-pulse"></i> ${this.streak}x Kombo!</span>` : ''}
+                            </div>
+                            <div class="flex items-center gap-4">
+                                <div class="text-right">
+                                    <div class="text-[10px] text-slate-400 uppercase font-bold">Toplam Puan</div>
+                                    <div class="text-lg sm:text-xl font-black text-yellow-400">${this.score}</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- İLERLEME ÇUBUĞU -->
+                        <div class="w-full bg-slate-950 rounded-full h-2.5 overflow-hidden p-0.5 border border-slate-800">
+                            <div class="bg-gradient-to-r from-amber-500 to-yellow-400 h-full rounded-full transition-all duration-300" style="width: ${progressPct}%"></div>
+                        </div>
+
+                        <!-- VATANDAŞ TALEP KARTI -->
+                        <div id="mission-card" class="glass-panel p-5 sm:p-7 rounded-3xl space-y-4 shadow-xl border border-slate-700">
+                            <div class="flex items-center gap-4 border-b border-slate-800/80 pb-3">
+                                <div class="w-14 h-14 rounded-2xl bg-slate-800 border border-slate-700 flex items-center justify-center text-3xl shadow-md">
+                                    <i class="${mission.avatar}"></i>
+                                </div>
+                                <div>
+                                    <h3 class="font-bold text-white text-base sm:text-lg">${mission.citizen}</h3>
+                                    <div class="text-xs text-amber-400 flex items-center gap-1.5 font-medium">
+                                        <i class="fa-solid fa-comment-dots"></i> Resmi İşlem Talebi Var
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="p-4 sm:p-5 rounded-2xl bg-slate-900/90 border border-slate-800 text-slate-100 text-base sm:text-lg leading-relaxed font-medium">
+                                ${mission.request}
+                            </div>
+
+                            <div class="text-center pt-1">
+                                <p class="text-xs sm:text-sm font-bold text-amber-300">
+                                    <i class="fa-solid fa-hand-point-down mr-1"></i> Bu vatandaş hangi dijital kapıya yönlendirilmeli?
+                                </p>
+                            </div>
+
+                            <!-- 5 HİZMET KAPISI BUTONLARI -->
+                            <div id="gates-container" class="grid grid-cols-1 sm:grid-cols-5 gap-3 pt-2">
+                                ${this.gates.map(gate => `
+                                    <button onclick="game.handleGate('${gate.id}')" class="dispatch-gate p-4 rounded-2xl bg-gradient-to-b ${gate.color} text-white font-bold text-center shadow-lg border-2 ${gate.border} flex flex-col items-center justify-center gap-2">
+                                        <i class="${gate.icon} text-2xl"></i>
+                                        <span class="text-sm font-black leading-tight">${gate.name}</span>
+                                        <span class="text-[10px] text-white/80 font-normal opacity-90">${gate.tag}</span>
+                                    </button>
+                                `).join('')}
+                            </div>
+
+                            <!-- GERİ BİLDİRİM PANELİ -->
+                            <div id="feedback-area" class="hidden"></div>
+                        </div>
+                    </div>
+                `;
+            }
+
+            renderFeedback(isCorrect, chosenGateId, mission) {
+                const gatesContainer = document.getElementById("gates-container");
+                const feedbackArea = document.getElementById("feedback-area");
+                const missionCard = document.getElementById("mission-card");
+
+                if (gatesContainer) gatesContainer.classList.add("hidden");
+
+                const correctGateObj = this.gates.find(g => g.id === mission.correctGate);
+
+                if (feedbackArea) {
+                    feedbackArea.classList.remove("hidden");
+                    const statusClass = isCorrect ? "border-emerald-500/50 bg-emerald-950/40 text-emerald-200" : "border-rose-500/50 bg-rose-950/40 text-rose-200";
+                    const statusIcon = isCorrect ? "fa-circle-check text-emerald-400" : "fa-circle-xmark text-rose-400";
+                    const statusTitle = isCorrect ? "TAM İSABET! DOĞRU KAPIYA YÖNLENDİRDİN" : "YANLIŞ YÖNLENDİRME!";
+                    const ptsEarned = isCorrect ? (100 + (this.streak > 1 ? this.streak * 10 : 0)) : 0;
+
+                    feedbackArea.innerHTML = `
+                        <div class="p-5 rounded-2xl border-2 ${statusClass} space-y-3 animate-pop">
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center gap-2.5 font-black text-base sm:text-lg">
+                                    <i class="fa-solid ${statusIcon} text-2xl"></i>
+                                    <span>${statusTitle}</span>
+                                </div>
+                                <span class="px-2.5 py-1 rounded-lg ${isCorrect ? 'bg-emerald-500/20 text-emerald-300 border-emerald-400/40' : 'bg-rose-500/20 text-rose-300 border-rose-400/40'} font-black text-xs border">
+                                    ${isCorrect ? `+${ptsEarned} Puan` : '0 Puan'}
+                                </span>
+                            </div>
+                            <div class="p-3 bg-slate-900/80 rounded-xl border border-slate-800 text-xs sm:text-sm text-slate-300 space-y-1">
+                                <div class="font-bold text-amber-400 flex items-center gap-1.5">
+                                    <i class="fa-solid fa-circle-info"></i> Doğru Kapı: <span class="text-white">${correctGateObj ? correctGateObj.name : ''}</span>
+                                </div>
+                                <p class="leading-relaxed">${mission.hint}</p>
+                            </div>
+                            <div class="pt-2 text-right">
+                                <button onclick="game.nextMission()" class="action-btn px-7 py-3 bg-gradient-to-r from-amber-500 to-yellow-400 hover:from-amber-400 hover:to-yellow-300 text-slate-950 font-black text-sm sm:text-base rounded-xl shadow-lg shadow-amber-500/20 inline-flex items-center gap-2 border border-yellow-300">
+                                    <span>Sıradaki Vatandaş</span>
+                                    <i class="fa-solid fa-arrow-right"></i>
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                }
+
+                if (!isCorrect && missionCard) {
+                    missionCard.classList.add("animate-shake");
+                    setTimeout(() => missionCard.classList.remove("animate-shake"), 500);
+                }
+            }
+
+            getResultHTML() {
+                const maxScore = this.missions.length * 100;
+                const ratio = this.score / (maxScore + (this.maxStreak * 50));
+                let badgeTitle = "e-Hizmet Stajyeri";
+                let badgeDesc = "Devlet kapılarını öğrenmeye devam etmelisin. Bir dahaki sefere daha yüksek puan alabilirsin!";
+
+                if (this.score >= maxScore * 0.85) {
+                    badgeTitle = "🏆 Baş Dijital Posta Müdürü";
+                    badgeDesc = "Kusursuz bürokrasi bilgisi! Vatandaşların hiçbirini bekletmedin ve hepsini doğru kapılara yönlendirdin!";
+                } else if (this.score >= maxScore * 0.6) {
+                    badgeTitle = "📬 Uzman e-Hizmet Dağıtıcısı";
+                    badgeDesc = "Tebrikler! Dijital vatandaşlık uygulamalarına oldukça hakimsin.";
+                }
+
+                return `
+                    <div class="glass-panel p-6 sm:p-10 rounded-3xl text-center space-y-6 animate-pop shadow-2xl border border-amber-500/40">
+                        <div class="inline-flex p-5 rounded-3xl bg-gradient-to-tr from-amber-500 to-yellow-400 text-slate-950 text-5xl sm:text-6xl shadow-xl">
+                            <i class="fa-solid fa-award"></i>
+                        </div>
+
+                        <div class="space-y-2">
+                            <span class="px-3 py-1 rounded-full bg-amber-500/20 text-amber-300 font-bold text-xs uppercase tracking-wider border border-amber-400/30">MESAİ TAMAMLANDI</span>
+                            <h2 class="text-2xl sm:text-3xl font-black text-white">${badgeTitle}</h2>
+                            <p class="text-sm sm:text-base text-slate-300 max-w-lg mx-auto leading-relaxed">${badgeDesc}</p>
+                        </div>
+
+                        <!-- SKOR KARTLARI -->
+                        <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 max-w-lg mx-auto">
+                            <div class="bg-slate-900/90 p-3.5 rounded-2xl border border-slate-800">
+                                <div class="text-[10px] text-slate-400 font-bold uppercase">Toplam Puan</div>
+                                <div class="text-2xl font-black text-yellow-400">${this.score}</div>
+                            </div>
+                            <div class="bg-slate-900/90 p-3.5 rounded-2xl border border-slate-800">
+                                <div class="text-[10px] text-slate-400 font-bold uppercase">En Yüksek Seri</div>
+                                <div class="text-2xl font-black text-orange-400">${this.maxStreak}x</div>
+                            </div>
+                            <div class="bg-slate-900/90 p-3.5 rounded-2xl border border-slate-800 col-span-2 sm:col-span-1">
+                                <div class="text-[10px] text-slate-400 font-bold uppercase">Tamamlanan İşlem</div>
+                                <div class="text-2xl font-black text-emerald-400">${this.missions.length} / ${this.missions.length}</div>
+                            </div>
+                        </div>
+
+                        <!-- BUTONLAR -->
+                        <div class="flex justify-center gap-4 flex-wrap pt-2">
+                            <button onclick="game.startGame()" class="action-btn px-8 py-3.5 bg-gradient-to-r from-amber-500 to-yellow-400 hover:from-amber-400 hover:to-yellow-300 text-slate-950 font-black text-sm sm:text-base rounded-2xl shadow-xl flex items-center gap-2 border-2 border-yellow-300">
+                                <i class="fa-solid fa-rotate-right"></i>
+                                <span>Yeniden Dağıt</span>
+                            </button>
+                            <button onclick="game.state = 'intro'; game.render();" class="action-btn px-8 py-3.5 bg-slate-800 hover:bg-slate-700 text-white font-bold text-sm sm:text-base rounded-2xl shadow-lg flex items-center gap-2 border border-slate-700">
+                                <i class="fa-solid fa-house"></i>
+                                <span>Ana Menü</span>
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }
+
+            openHelpModal() {
+                sounds.playClick();
+                const m = document.getElementById('modal-help');
+                if (m) m.classList.remove('hidden');
+            }
+
+            closeHelpModal() {
+                sounds.playClick();
+                const m = document.getElementById('modal-help');
+                if (m) m.classList.add('hidden');
+            }
+
+            toggleAudio() {
+                sounds.muted = !sounds.muted;
+                const icon = document.getElementById('audio-icon');
+                if (icon) {
+                    icon.className = sounds.muted ? "fa-solid fa-volume-xmark text-rose-400" : "fa-solid fa-volume-high text-yellow-400";
+                }
+            }
+
+            toggleFullscreen() {
+                sounds.playClick();
+                if (!document.fullscreenElement) {
+                    if (document.documentElement.requestFullscreen) {
+                        document.documentElement.requestFullscreen();
+                    }
+                } else {
+                    if (document.exitFullscreen) {
+                        document.exitFullscreen();
+                    }
+                }
+            }
+        }
+
+        const game = new EServicesPostOffice();
+        window.onload = () => game.init();
+    </script>
+</body>
+</html>

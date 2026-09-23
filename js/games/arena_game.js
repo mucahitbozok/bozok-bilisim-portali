@@ -330,7 +330,7 @@ class ArenaGame {
                 explanation: "Harika! e-Nabız kişisel sağlık kayıtlarımıza kolayca ulaşmamızı sağlayan sağlık sistemidir."
             },
             {
-                topic: "💬 NETIQUETTE (DİJİTAL NEZAKET)",
+                topic: "💬 DİJİTAL NEZAKET",
                 question: "İnternette mesajlaşırken veya yorum yazarken KELİMELERİN TAMAMINI BÜYÜK HARFLE YAZMAK ne anlama gelir?",
                 options: [
                     "Karşı tarafa bağırmak ve kaba davranmak",
@@ -734,7 +734,7 @@ class ArenaGame {
                     </div>
                     <div class="p-3 bg-slate-850 rounded-xl border border-blue-500/30 flex items-center gap-2.5 text-blue-200">
                         <i class="fa-solid fa-circle-check text-blue-400 text-base shrink-0"></i>
-                        <span>Netiquette (dijital nezaket) kurallarına uyarım.</span>
+                        <span>Dijital nezaket kurallarına uyarım.</span>
                     </div>
                     <div class="p-3 bg-slate-850 rounded-xl border border-blue-500/30 flex items-center gap-2.5 text-blue-200">
                         <i class="fa-solid fa-circle-check text-blue-400 text-base shrink-0"></i>
