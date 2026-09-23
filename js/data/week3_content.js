@@ -28,37 +28,71 @@ window.WEEK3_CONTENT = {
     // 🖥️ 1. İNTERAKTİF DERS SUNUSU (Akıllı Tahta Modu - 22 Slayt)
     // ========================================================
     slides: [
+        // SLAYT 1: KAPAK
         {
             id: 1,
-            title: "3. Hafta: Dijital Vatandaşlık Uygulamaları 🌐",
-            subtitle: "Öğretmen Bozok ile Bilişim Teknolojileri ve Yazılım Dersi",
-            type: "hero",
-            badge: "GİRİŞ & HOŞ GELDİNİZ",
-            icon: "fa-solid fa-passport",
-            gradient: "from-blue-600 via-indigo-600 to-purple-800",
+            title: "5. SINIF BİLİŞİM TEKNOLOJİLERİ",
+            subtitle: "3. Hafta Ders Sunusu",
+            topic: "KAZANIM: BTY.5.1.3",
+            badge: "KAZANIM: BTY.5.1.3",
+            icon: "fa-solid fa-chalkboard-user",
+            bgColor: "from-blue-700 via-indigo-800 to-slate-900",
+            gradient: "from-blue-700 via-indigo-800 to-slate-900",
             content: `
-                <div class="space-y-6 text-center max-w-4xl mx-auto py-4">
-                    <div class="inline-flex items-center gap-3 px-6 py-2.5 bg-white/10 backdrop-blur-md rounded-full border border-white/20 text-yellow-300 font-black text-sm uppercase tracking-widest shadow-xl">
-                        <i class="fa-solid fa-shield-halved text-blue-400"></i> 1. TEMA: BİLİŞİM TEKNOLOJİLERİNİN HAYATIMIZDAKİ YERİ
+                <div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-center max-w-6xl mx-auto my-auto py-2">
+                    <!-- Sol Bilgi Alanı -->
+                    <div class="md:col-span-7 space-y-4 text-left">
+                        <!-- 5. Sınıf Bilişim Teknolojileri - 3. Hafta Rozeti -->
+                        <div class="flex items-center gap-2 flex-wrap">
+                            <span class="px-4 py-1.5 bg-yellow-400/20 text-yellow-300 font-extrabold text-sm sm:text-base uppercase tracking-wider rounded-full border border-yellow-400/40">
+                                5. Sınıf Bilişim Teknolojileri • 3. Hafta
+                            </span>
+                        </div>
+
+                        <!-- Çok Büyük Başlık: DİJİTAL VATANDAŞLIK UYGULAMALARI -->
+                        <h1 class="text-3xl sm:text-4xl md:text-5xl lg:text-[46px] font-black text-white tracking-tight leading-tight drop-shadow-lg">
+                            DİJİTAL VATANDAŞLIK UYGULAMALARI
+                        </h1>
+
+                        <!-- KAZANIM Kutusu (Belirgin, başlığın önüne geçmeyecek, en az 24-26 punto) -->
+                        <div class="p-4 sm:p-5 bg-white/10 backdrop-blur-md rounded-2xl border-2 border-indigo-400/50 shadow-xl space-y-1.5">
+                            <div class="flex items-center gap-2 text-yellow-300 font-black text-xs sm:text-sm uppercase tracking-widest">
+                                <i class="fa-solid fa-bullseye text-base text-yellow-400"></i>
+                                <span>KAZANIM:</span>
+                            </div>
+                            <p class="text-xl sm:text-2xl md:text-[26px] font-extrabold text-white leading-snug">
+                                <span class="text-yellow-300 font-black">BTY.5.1.3 –</span> Dijital vatandaşlık uygulamalarını tanıyabilme.
+                            </p>
+                        </div>
+
+                        <!-- Alt Bölümde Küçük Bilgi Kutusu -->
+                        <div class="p-3.5 sm:p-4 bg-indigo-950/80 rounded-2xl border border-indigo-400/30 flex items-start gap-3 shadow-lg">
+                            <div class="w-9 h-9 rounded-xl bg-indigo-500/30 text-yellow-300 flex items-center justify-center text-lg shrink-0 mt-0.5">
+                                <i class="fa-solid fa-circle-info"></i>
+                            </div>
+                            <p class="text-sm sm:text-base font-semibold text-indigo-100 leading-relaxed">
+                                “Bu derste dijital vatandaşlık uygulamalarını, dijital kimliği ve dijital ayak izini öğreneceğiz.”
+                            </p>
+                        </div>
+
+                        <!-- Öğretmen Bozok (küçük şekilde alt bölümde) -->
+                        <div class="pt-1 flex items-center gap-2">
+                            <span class="inline-flex items-center gap-2 px-4 py-1.5 bg-white/10 backdrop-blur-md rounded-xl border border-white/20 text-yellow-300 font-bold text-xs sm:text-sm shadow-md">
+                                <i class="fa-solid fa-graduation-cap text-base"></i>
+                                <span>Öğretmen Bozok • Bozok Bilişim Portalı</span>
+                            </span>
+                        </div>
                     </div>
-                    <h1 class="text-3xl sm:text-5xl md:text-6xl font-black text-white leading-tight drop-shadow-2xl">
-                        Dijital Vatandaşlık <span class="text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 via-amber-300 to-emerald-300">Uygulamaları</span> 🛡️
-                    </h1>
-                    <p class="text-base sm:text-xl text-blue-100 max-w-2xl mx-auto leading-relaxed">
-                        Fiziksel dünyada birer vatandaş olduğumuz gibi internet dünyasında da birer <strong>dijital vatandaşız</strong>! Dijital kimliğimizi, ayak izimizi ve e-Devlet uygulamalarını keşfetmeye hazır mısınız?
-                    </p>
-                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-4 text-xs sm:text-sm font-bold">
-                        <div class="p-3 bg-white/10 rounded-2xl border border-white/10 text-yellow-300 flex items-center justify-center gap-2">
-                            <i class="fa-solid fa-id-card"></i> Dijital Kimlik
-                        </div>
-                        <div class="p-3 bg-white/10 rounded-2xl border border-white/10 text-emerald-300 flex items-center justify-center gap-2">
-                            <i class="fa-solid fa-shoe-prints"></i> Dijital Ayak İzi
-                        </div>
-                        <div class="p-3 bg-white/10 rounded-2xl border border-white/10 text-cyan-300 flex items-center justify-center gap-2">
-                            <i class="fa-solid fa-building-columns"></i> e-Devlet & e-Okul
-                        </div>
-                        <div class="p-3 bg-white/10 rounded-2xl border border-white/10 text-pink-300 flex items-center justify-center gap-2">
-                            <i class="fa-solid fa-heart-circle-check"></i> Dijital Nezaket
+
+                    <!-- Sağ Görsel Alanı (Öğrenci + bilgisayar + tablet + telefon + internet ağı temalı modern illüstrasyon) -->
+                    <div class="md:col-span-5 flex justify-center">
+                        <div class="relative group rounded-3xl overflow-hidden border-4 border-indigo-400/40 shadow-2xl bg-slate-900/50 w-full max-w-md">
+                            <img src="assets/slides/dijital_vatandaslik_kapak.jpg" alt="Dijital Vatandaşlık Uygulamaları" class="w-full max-h-[380px] sm:max-h-[440px] md:max-h-[470px] object-cover transition-transform duration-500 group-hover:scale-105" />
+                            <div class="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-transparent to-transparent flex items-end p-4">
+                                <span class="text-xs sm:text-sm font-bold text-yellow-300 flex items-center gap-1.5">
+                                    <i class="fa-solid fa-shield-halved text-blue-400"></i> Dijital Vatandaşlık & İnternet Ağı
+                                </span>
+                            </div>
                         </div>
                     </div>
                 </div>

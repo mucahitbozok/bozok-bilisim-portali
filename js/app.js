@@ -453,20 +453,20 @@ class App {
             }
         }
 
-        container.className = `slide-card w-full h-full rounded-3xl p-6 sm:p-8 md:p-10 lg:p-12 shadow-2xl bg-gradient-to-br ${slide.bgColor} border-2 border-white/20 flex flex-col justify-between select-none`;
+        container.className = `slide-card w-full h-full rounded-3xl p-6 sm:p-8 md:p-10 lg:p-12 shadow-2xl bg-gradient-to-br ${slide.bgColor || slide.gradient || 'from-blue-700 via-indigo-800 to-slate-900'} border-2 border-white/20 flex flex-col justify-between select-none`;
         container.innerHTML = `
             <!-- Slayt Başlık (Akıllı Tahta Dev Fontlar) -->
             <div class="flex items-center justify-between border-b border-white/20 pb-4 mb-4 shrink-0 gap-4">
                 <div class="flex items-center gap-4 sm:gap-5">
                     <div class="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-white/20 backdrop-blur-md flex items-center justify-center text-yellow-300 text-3xl sm:text-4xl shadow-inner shrink-0">
-                        <i class="${slide.icon}"></i>
+                        <i class="${slide.icon || 'fa-solid fa-chalkboard-user'}"></i>
                     </div>
                     <div>
-                        <span class="text-xs sm:text-sm uppercase tracking-widest text-yellow-300 font-extrabold">${slide.topic}</span>
+                        <span class="text-xs sm:text-sm uppercase tracking-widest text-yellow-300 font-extrabold">${slide.topic || slide.badge || 'BİLİŞİM TEKNOLOJİLERİ'}</span>
                         <h2 class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-black text-white leading-tight">${slide.title}</h2>
                     </div>
                 </div>
-                <span class="text-sm sm:text-base font-bold text-white/90 hidden sm:inline-block bg-white/10 px-4 py-2 rounded-2xl border border-white/20 shrink-0">${slide.subtitle}</span>
+                <span class="text-sm sm:text-base font-bold text-white/90 hidden sm:inline-block bg-white/10 px-4 py-2 rounded-2xl border border-white/20 shrink-0">${slide.subtitle || ''}</span>
             </div>
 
             <!-- Slayt İçeriği (Genişletilmiş ve Yüksek Okunabilirlik) -->
