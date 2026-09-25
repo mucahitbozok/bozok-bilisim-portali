@@ -91,6 +91,44 @@
                     </div>
                 </div>
 
+                <!-- Akıllı Tahta & 4K (3840x2160) Ölçek Seçici Dropdown -->
+                <div class="relative" id="scale-selector-container">
+                    <button id="scale-toggle-btn" onclick="app.toggleScaleDropdown()" class="px-3 py-2 bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 rounded-xl text-xs sm:text-sm font-bold flex items-center gap-1.5 transition-all shadow-md active:scale-95" title="Akıllı Tahta & 4K (3840x2160) Ekran Ölçeği">
+                        <i class="fa-solid fa-tv text-cyan-400"></i>
+                        <span id="scale-btn-label" class="hidden sm:inline">4K Oto</span>
+                        <i class="fa-solid fa-chevron-down text-[10px] text-slate-400 ml-0.5"></i>
+                    </button>
+                    <div id="scale-dropdown-menu" class="hidden absolute right-0 mt-2 w-56 bg-slate-900 border-2 border-slate-700 rounded-2xl shadow-2xl p-1.5 z-50 flex flex-col gap-1 backdrop-blur-xl animate-pop">
+                        <div class="px-3 py-1 text-[10px] font-black uppercase tracking-wider text-cyan-400 border-b border-slate-800">
+                            3840x2160 Akıllı Tahta Ölçeği
+                        </div>
+                        <button onclick="app.setScale('auto')" class="scale-opt-btn flex items-center justify-between px-3 py-2 rounded-xl text-xs font-bold transition-all text-slate-200 hover:bg-slate-800 bg-indigo-600/30 text-yellow-400" data-scale-val="auto">
+                            <span class="flex items-center gap-2"><span>⚡</span> Otomatik (4K Uyumlu)</span>
+                            <i class="fa-solid fa-check text-yellow-400 scale-check text-xs"></i>
+                        </button>
+                        <button onclick="app.setScale('100')" class="scale-opt-btn flex items-center justify-between px-3 py-2 rounded-xl text-xs font-bold transition-all text-slate-200 hover:bg-slate-800" data-scale-val="100">
+                            <span class="flex items-center gap-2"><span>💻</span> %100 (Standart PC)</span>
+                            <i class="fa-solid fa-check text-yellow-400 scale-check text-xs hidden"></i>
+                        </button>
+                        <button onclick="app.setScale('115')" class="scale-opt-btn flex items-center justify-between px-3 py-2 rounded-xl text-xs font-bold transition-all text-slate-200 hover:bg-slate-800" data-scale-val="115">
+                            <span class="flex items-center gap-2"><span>🖥️</span> %115 (Tahta Geniş)</span>
+                            <i class="fa-solid fa-check text-yellow-400 scale-check text-xs hidden"></i>
+                        </button>
+                        <button onclick="app.setScale('130')" class="scale-opt-btn flex items-center justify-between px-3 py-2 rounded-xl text-xs font-bold transition-all text-slate-200 hover:bg-slate-800" data-scale-val="130">
+                            <span class="flex items-center gap-2"><span>📺</span> %130 (Tahta Büyük)</span>
+                            <i class="fa-solid fa-check text-yellow-400 scale-check text-xs hidden"></i>
+                        </button>
+                        <button onclick="app.setScale('150')" class="scale-opt-btn flex items-center justify-between px-3 py-2 rounded-xl text-xs font-bold transition-all text-slate-200 hover:bg-slate-800" data-scale-val="150">
+                            <span class="flex items-center gap-2"><span>🚀</span> %150 (Sınıf Dev Görünüm)</span>
+                            <i class="fa-solid fa-check text-yellow-400 scale-check text-xs hidden"></i>
+                        </button>
+                        <button onclick="app.setScale('200')" class="scale-opt-btn flex items-center justify-between px-3 py-2 rounded-xl text-xs font-bold transition-all text-slate-200 hover:bg-slate-800" data-scale-val="200">
+                            <span class="flex items-center gap-2"><span>💎</span> %200 (Ham 3840x2160 4K)</span>
+                            <i class="fa-solid fa-check text-yellow-400 scale-check text-xs hidden"></i>
+                        </button>
+                    </div>
+                </div>
+
                 <!-- Ses Aç/Kapat Butonu -->
                 <button onclick="app.toggleAudio()" class="w-10 h-10 bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 rounded-xl flex items-center justify-center transition-all shadow-md" title="Sesi Aç/Kapat">
                     <i id="audio-toggle-icon" class="fa-solid fa-volume-high text-emerald-400"></i>

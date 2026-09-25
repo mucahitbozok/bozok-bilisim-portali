@@ -34,6 +34,20 @@
       -webkit-user-select: none;
     }
 
+    @media (min-width: 1921px) {
+      html:not([data-scale]), html[data-scale="auto"] {
+        font-size: calc(100vw / 120) !important;
+      }
+      main, .adventure-container, .screen {
+        max-width: min(85rem, 92vw) !important;
+      }
+    }
+    html[data-scale="100"] { font-size: 16px !important; }
+    html[data-scale="115"] { font-size: max(18.4px, calc(100vw / 104)) !important; }
+    html[data-scale="130"] { font-size: max(20.8px, calc(100vw / 92)) !important; }
+    html[data-scale="150"] { font-size: max(24px, calc(100vw / 80)) !important; }
+    html[data-scale="200"] { font-size: 32px !important; }
+
     body {
       font-family: var(--font-family);
       color: var(--text-main);

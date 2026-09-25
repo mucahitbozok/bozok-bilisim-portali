@@ -39,6 +39,19 @@
     </script>
     <style>
         * { box-sizing: border-box; font-family: 'Poppins', sans-serif; -webkit-tap-highlight-color: transparent; }
+        @media (min-width: 1921px) {
+            html:not([data-scale]), html[data-scale="auto"] {
+                font-size: calc(100vw / 120) !important;
+            }
+            .max-w-6xl, .max-w-5xl, .max-w-4xl {
+                max-width: min(85rem, 92vw) !important;
+            }
+        }
+        html[data-scale="100"] { font-size: 16px !important; }
+        html[data-scale="115"] { font-size: max(18.4px, calc(100vw / 104)) !important; }
+        html[data-scale="130"] { font-size: max(20.8px, calc(100vw / 92)) !important; }
+        html[data-scale="150"] { font-size: max(24px, calc(100vw / 80)) !important; }
+        html[data-scale="200"] { font-size: 32px !important; }
         body { background-color: #090e1c; color: #f8fafc; min-height: 100vh; overflow-x: hidden; }
         .glass-panel { background: rgba(21, 31, 56, 0.85); backdrop-filter: blur(16px); border: 2px solid rgba(59, 130, 246, 0.25); }
         .dispatch-gate { transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); }

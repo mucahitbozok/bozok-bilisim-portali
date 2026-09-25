@@ -15,16 +15,127 @@ class App {
         this.activeVideoUrl = null;
         this.activeVideoTitle = null;
         this.isVideoPlaying = false;
+        this.currentScale = 'auto';
     }
 
     init() {
         this.initTheme();
+        this.initScale();
         this.renderWeekSelector();
         this.loadWeek(1);
         this.setupKeyboard();
 
         document.addEventListener("fullscreenchange", () => this.updateFullscreenUI());
         document.addEventListener("webkitfullscreenchange", () => this.updateFullscreenUI());
+    }
+
+    // --- 4K UHD (3840x2160) AKILLI TAHTA ÖLÇEK SİSTEMİ ---
+    initScale() {
+        let savedScale = 'auto';
+        try {
+            savedScale = localStorage.getItem('bozok_portal_scale') || 'auto';
+        } catch (e) {}
+        this.setScale(savedScale, false);
+
+        document.addEventListener('click', (e) => {
+            const container = document.getElementById('scale-selector-container');
+            const menu = document.getElementById('scale-dropdown-menu');
+            if (container && menu && !container.contains(e.target)) {
+                menu.classList.add('hidden');
+            }
+        });
+    }
+
+    toggleScaleDropdown() {
+        sounds.playClick();
+        const menu = document.getElementById('scale-dropdown-menu');
+        if (menu) menu.classList.toggle('hidden');
+    }
+
+    setScale(scaleVal, playSound = true) {
+        if (!['auto', '100', '115', '130', '150', '200'].includes(scaleVal)) scaleVal = 'auto';
+        if (playSound) sounds.playClick();
+
+        this.currentScale = scaleVal;
+        document.documentElement.setAttribute('data-scale', scaleVal);
+
+        // Eğer fiziksel ekran 3840x2160 (4K) ise ve işletim sistemi ölçeği %200 olduğu için
+        // tarayıcı viewport'u 1920px görünüyorsa, 'auto' modda sınıf içi okunabilirlik için hafif tahta ölçeği uygula
+        if (scaleVal === 'auto') {
+            const is4KPhysical = (window.screen && (window.screen.width >= 3840 || window.screen.height >= 2160));
+            if (is4KPhysical && window.innerWidth <= 1920) {
+                document.documentElement.style.fontSize = '17.5px';
+            } else {
+                document.documentElement.style.fontSize = '';
+            }
+        } else {
+            document.documentElement.style.fontSize = '';
+        }
+
+        try {
+            localStorage.setItem('bozok_portal_scale', scaleVal);
+        } catch (e) {}
+
+        const label = document.getElementById('scale-btn-label');
+        const menu = document.getElementById('scale-dropdown-menu');
+        if (menu) menu.classList.add('hidden');
+
+        const scaleLabels = {
+            'auto': '4K Oto',
+            '100': '%100',
+            '115': '%115',
+            '130': '%130',
+            '150': '%150',
+            '200': '%200 4K'
+        };
+        if (label) label.innerText = scaleLabels[scaleVal] || '4K Oto';
+
+        document.querySelectorAll('.scale-opt-btn').forEach(btn => {
+            const val = btn.getAttribute('data-scale-val');
+            const check = btn.querySelector('.scale-check');
+            if (check) {
+                if (val === scaleVal) {
+                    check.classList.remove('hidden');
+                    btn.classList.add('bg-indigo-600/30', 'text-yellow-400');
+                } else {
+                    check.classList.add('hidden');
+                    btn.classList.remove('bg-indigo-600/30', 'text-yellow-400');
+                }
+            }
+        });
+
+        this.syncIframeScale();
+    }
+
+    syncIframeScale() {
+        const iframe = document.getElementById("standalone-game-iframe");
+        if (!iframe || !iframe.contentDocument || !iframe.contentDocument.documentElement) return;
+        try {
+            const docEl = iframe.contentDocument.documentElement;
+            docEl.setAttribute('data-scale', this.currentScale || 'auto');
+            if (!iframe.contentDocument.getElementById('bozok-4k-scale-style')) {
+                const styleEl = iframe.contentDocument.createElement('style');
+                styleEl.id = 'bozok-4k-scale-style';
+                styleEl.textContent = `
+                    @media (min-width: 1921px) {
+                        html:not([data-scale]), html[data-scale="auto"] {
+                            font-size: calc(100vw / 120) !important;
+                        }
+                    }
+                    @media (min-width: 1600px) {
+                        .max-w-6xl, .max-w-5xl, .max-w-4xl {
+                            max-width: min(84rem, 92vw) !important;
+                        }
+                    }
+                    html[data-scale="100"] { font-size: 16px !important; }
+                    html[data-scale="115"] { font-size: max(18.4px, calc(100vw / 104)) !important; }
+                    html[data-scale="130"] { font-size: max(20.8px, calc(100vw / 92)) !important; }
+                    html[data-scale="150"] { font-size: max(24px, calc(100vw / 80)) !important; }
+                    html[data-scale="200"] { font-size: 32px !important; }
+                `;
+                iframe.contentDocument.head.appendChild(styleEl);
+            }
+        } catch (e) {}
     }
 
     // --- GÖRÜNÜM TEMASI (AÇIK / KOYU / NORMAL) ---
@@ -1615,6 +1726,7 @@ class App {
             window.open(targetUrl, "_blank");
             return;
         }
+        iframe.onload = () => this.syncIframeScale();
         iframe.src = targetUrl;
         if (titleEl) titleEl.innerText = title;
         modal.classList.remove("hidden");

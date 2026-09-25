@@ -72,11 +72,60 @@ body {
     border-color: #A78BFA;
 }
 
-/* Sunu Kartı ve Sabit Slayt Boyut Stilleri */
+/* ========================================================
+   AKILLI TAHTA & 4K UHD (3840x2160) OTOMATİK ÖLÇEKLEME SİSTEMİ
+   1920x1080 (Full HD), 2560x1440 (2K QHD) ve 3840x2160 (4K UHD)
+   tüm ekranlarda 16:9 oranını ve tasarım bütünlüğünü %100 korur.
+   ======================================================== */
+html {
+    font-size: 16px;
+}
+
+/* 1920px üzeri (2K QHD, 3K ve 3840x2160 4K Akıllı Tahtalar) için
+   120rem yatay ızgara sabitlemesi:
+   - 1920px -> 1rem = 16px (%100)
+   - 2560px -> 1rem = 21.33px (%133.3)
+   - 3072px -> 1rem = 25.6px (%160)
+   - 3840px -> 1rem = 32px (%200 - Tam 4K UHD Doğal Ölçek) */
+@media (min-width: 1921px) {
+    html:not([data-scale]),
+    html[data-scale="auto"] {
+        font-size: calc(100vw / 120);
+    }
+}
+
+/* Geniş Ekran & 4K Akıllı Tahta Konteyner Genişletmesi */
+@media (min-width: 1600px) {
+    .max-w-7xl {
+        max-width: min(90rem, 94vw) !important;
+    }
+    .max-w-6xl {
+        max-width: min(82rem, 92vw) !important;
+    }
+}
+
+/* Manuel Akıllı Tahta Ölçek Modları (Üst Menüden Seçilebilir) */
+html[data-scale="100"] {
+    font-size: 16px !important;
+}
+html[data-scale="115"] {
+    font-size: max(18.4px, calc(100vw / 104)) !important;
+}
+html[data-scale="130"] {
+    font-size: max(20.8px, calc(100vw / 92)) !important;
+}
+html[data-scale="150"] {
+    font-size: max(24px, calc(100vw / 80)) !important;
+}
+html[data-scale="200"] {
+    font-size: 32px !important;
+}
+
+/* Sunu Kartı ve Sabit Slayt Boyut Stilleri (rem & vh tabanlı - 4K Uyumlu) */
 #slide-display-area {
     width: 100%;
     height: auto;
-    min-height: 640px;
+    min-height: 40rem;
     display: flex;
     flex-direction: column;
     position: relative;
@@ -84,13 +133,13 @@ body {
 
 @media (min-width: 640px) {
     #slide-display-area {
-        min-height: 680px;
+        min-height: 42.5rem;
     }
 }
 
 @media (min-width: 1024px) {
     #slide-display-area {
-        min-height: 720px;
+        min-height: clamp(44rem, 72vh, 52rem);
     }
 }
 
@@ -118,16 +167,16 @@ body {
 }
 
 .slide-content-scroll::-webkit-scrollbar {
-    width: 6px;
+    width: 0.375rem;
 }
 .slide-content-scroll::-webkit-scrollbar-thumb {
     background: rgba(255, 255, 255, 0.25);
     border-radius: 9999px;
 }
 
-/* Akıllı Tahta Slayt Görselleri ve Tipografi İyileştirmesi */
+/* Akıllı Tahta Slayt Görselleri ve Tipografi İyileştirmesi (4K 3840x2160 Uyumlu) */
 .slide-card img {
-    max-height: 420px !important;
+    max-height: min(26.25rem, 44vh) !important;
     width: auto;
     max-width: 100%;
     object-fit: contain;
@@ -136,7 +185,7 @@ body {
 
 @media (min-width: 768px) {
     .slide-card img {
-        max-height: 460px !important;
+        max-height: min(28.75rem, 46vh) !important;
     }
 }
 
@@ -158,9 +207,9 @@ body {
 #view-lecture:-webkit-full-screen #slide-display-area {
     flex: 1 !important;
     width: 100% !important;
-    height: calc(100vh - 150px) !important;
-    min-height: calc(100vh - 150px) !important;
-    max-height: calc(100vh - 150px) !important;
+    height: calc(100vh - 9.375rem) !important;
+    min-height: calc(100vh - 9.375rem) !important;
+    max-height: calc(100vh - 9.375rem) !important;
 }
 
 #view-lecture:fullscreen .slide-card,
@@ -168,13 +217,13 @@ body {
     height: 100% !important;
     min-height: 100% !important;
     max-height: 100% !important;
-    border-width: 3px !important;
+    border-width: 0.1875rem !important;
     padding: 1.25rem 2rem !important;
 }
 
 #view-lecture:fullscreen .slide-card img,
 #view-lecture:-webkit-full-screen .slide-card img {
-    max-height: 520px !important;
+    max-height: min(34rem, 50vh) !important;
 }
 
 #view-lecture:fullscreen .slide-content-scroll,
@@ -200,7 +249,7 @@ body {
 #view-games:-webkit-full-screen #game-container {
     flex: 1 !important;
     width: 100% !important;
-    max-width: 1400px !important;
+    max-width: min(92rem, 94vw) !important;
     margin: 0 auto !important;
 }
 
@@ -396,7 +445,8 @@ button, select, input, .match-card {
 [data-theme="light"] #curriculum-modal .bg-slate-900,
 [data-theme="light"] #slide-menu-modal .bg-slate-900,
 [data-theme="light"] #standalone-game-modal .bg-slate-900,
-[data-theme="light"] #theme-dropdown-menu {
+[data-theme="light"] #theme-dropdown-menu,
+[data-theme="light"] #scale-dropdown-menu {
     background-color: #FFFFFF !important;
     border-color: #E2E8F0 !important;
     color: #0F172A !important;
@@ -436,11 +486,13 @@ button, select, input, .match-card {
     color: #64748B !important;
 }
 
-[data-theme="light"] .theme-opt-btn {
+[data-theme="light"] .theme-opt-btn,
+[data-theme="light"] .scale-opt-btn {
     color: #1E293B !important;
 }
 
-[data-theme="light"] .theme-opt-btn:hover {
+[data-theme="light"] .theme-opt-btn:hover,
+[data-theme="light"] .scale-opt-btn:hover {
     background-color: #F1F5F9 !important;
     color: #4F46E5 !important;
 }
@@ -514,7 +566,8 @@ button, select, input, .match-card {
     border-color: #312E81 !important;
 }
 
-[data-theme="dark"] #theme-dropdown-menu {
+[data-theme="dark"] #theme-dropdown-menu,
+[data-theme="dark"] #scale-dropdown-menu {
     background-color: #050811 !important;
     border-color: #1E293B !important;
 }

@@ -38,6 +38,19 @@
     </script>
     <style>
         * { box-sizing: border-box; font-family: 'Poppins', sans-serif; -webkit-tap-highlight-color: transparent; }
+        @media (min-width: 1921px) {
+            html:not([data-scale]), html[data-scale="auto"] {
+                font-size: calc(100vw / 120) !important;
+            }
+            .max-w-6xl, .max-w-5xl, .max-w-4xl {
+                max-width: min(85rem, 92vw) !important;
+            }
+        }
+        html[data-scale="100"] { font-size: 16px !important; }
+        html[data-scale="115"] { font-size: max(18.4px, calc(100vw / 104)) !important; }
+        html[data-scale="130"] { font-size: max(20.8px, calc(100vw / 92)) !important; }
+        html[data-scale="150"] { font-size: max(24px, calc(100vw / 80)) !important; }
+        html[data-scale="200"] { font-size: 32px !important; }
         body { background-color: #060913; color: #f8fafc; min-height: 100vh; overflow-x: hidden; }
         .glass-panel { background: rgba(15, 23, 42, 0.88); backdrop-filter: blur(16px); border: 2px solid rgba(56, 189, 248, 0.25); }
         .grid-cell {
@@ -522,7 +535,7 @@
                                     <span>Gizli Bilişim Terimleri</span>
                                 </h3>
 
-                                <div class="space-y-2 pt-3 max-h-[380px] overflow-y-auto pr-1">
+                                <div class="space-y-2 pt-3 max-h-[26rem] overflow-y-auto pr-1">
                                     ${this.words.map(w => `
                                         <div class="p-2.5 rounded-xl border transition-all ${w.found ? 'bg-emerald-950/40 border-emerald-500/50 text-emerald-200' : 'bg-slate-900/80 border-slate-800 text-slate-300'}">
                                             <div class="flex items-center justify-between">
