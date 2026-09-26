@@ -824,7 +824,8 @@ class App {
         }
         const defaultMap = {
             1: { konu: 'assets/worksheets/1.1_konu.png', soru: 'assets/worksheets/1.1_soru.png', cevap: 'assets/worksheets/1.1_cevap.png' },
-            2: { konu: 'assets/worksheets/1.2_konu.png', soru: 'assets/worksheets/1.2_soru.png', cevap: 'assets/worksheets/1.2_cevap.png' }
+            2: { konu: 'assets/worksheets/1.2_konu.png', soru: 'assets/worksheets/1.2_soru.png', cevap: 'assets/worksheets/1.2_cevap.png' },
+            3: { konu: 'assets/worksheets/1.3_konu.png', soru: 'assets/worksheets/1.3_soru.png', cevap: 'assets/worksheets/1.3_cevap.png' }
         };
         if (defaultMap[weekNum] && defaultMap[weekNum][docType]) {
             return defaultMap[weekNum][docType];

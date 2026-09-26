@@ -18,11 +18,26 @@ window.WEEK3_CONTENT = {
             "Sanal ortamda dijital haklarımı, sorumluluklarımı ve dijital nezaket kurallarını uygulayabileceğim."
         ],
         images: {
-            konu: null,
-            soru: null,
-            cevap: null
+            konu: "assets/worksheets/1.3_konu.png",
+            soru: "assets/worksheets/1.3_soru.png",
+            cevap: "assets/worksheets/1.3_cevap.png"
         }
     },
+
+    // 🎬 3. HAFTA: KONU İLE ALAKALI VİDEOLAR (Öğretmen Bozok Video Arşivi)
+    videos: [
+        {
+            id: 1,
+            title: "Dijital Yurttaşlık Nedir?",
+            desc: "Dijital vatandaşlığın ne olduğunu, temel boyutlarını, dijital hak ve sorumluluklar ile internette güvenli davranış kurallarını anlatan eğitici ders videosu.",
+            url: "https://www.youtube.com/watch?v=1QVvGxxjw_4",
+            youtubeId: "1QVvGxxjw_4",
+            duration: "Ders Videosu",
+            badge: "Dijital Vatandaşlık",
+            author: "Eğitici Ders Videosu",
+            icon: "fa-solid fa-shield-halved"
+        }
+    ],
 
     // ========================================================
     // 🖥️ 1. İNTERAKTİF DERS SUNUSU (Akıllı Tahta Modu - 22 Slayt)
