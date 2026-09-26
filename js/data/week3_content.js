@@ -1192,13 +1192,14 @@ window.WEEK3_CONTENT = {
     ],
 
     // ========================================================
+    // ========================================================
     // 📄 2. HAFTALIK ÇALIŞMA KAĞITLARI & DİJİTAL METİNLER
     // ========================================================
     worksheetDocs: {
         images: {
-            konu: null,
-            soru: null,
-            cevap: null
+            konu: "assets/worksheets/1.3_konu.png",
+            soru: "assets/worksheets/1.3_soru.png",
+            cevap: "assets/worksheets/1.3_cevap.png"
         },
         konuHtml: `
         <div class="printable-doc bg-slate-900 text-white rounded-3xl p-6 sm:p-10 border-4 border-indigo-500/50 shadow-2xl space-y-6">
@@ -1216,39 +1217,48 @@ window.WEEK3_CONTENT = {
             </div>
 
             <!-- Konu Özeti -->
-            <div class="bg-indigo-950/60 rounded-2xl p-5 border border-indigo-400/30 space-y-3">
+            <div class="bg-indigo-950/60 rounded-2xl p-5 border border-indigo-400/30 space-y-2">
                 <h3 class="text-lg font-bold text-yellow-300 flex items-center gap-2">
                     <i class="fa-solid fa-book-open text-indigo-400"></i> Bu Hafta Ne Öğreniyoruz?
                 </h3>
                 <p class="text-sm text-indigo-100 leading-relaxed">
-                    İnternet ortamında haklarımızı, sorumluluklarımızı ve güvenliğimizi bilmek en temel vatandaşlık görevidir. Bu hafta; dijital kimliğin ne olduğunu, internette bıraktığımız dijital ayak izinin önemini, e-Devlet, e-Okul, EBA, e-Nabız gibi resmi uygulamaların hayatımıza katkılarını ve dijital nezaket kurallarını öğreniyoruz.
+                    İnternet ortamında haklarımızı, sorumluluklarımızı ve güvenliğimizi bilmek en temel vatandaşlık bilincidir. Bu hafta; dijital vatandaş ve dijital kimliğin ne olduğunu, internette bıraktığımız aktif ve pasif dijital ayak izlerini, e-Devlet, e-Okul, e-Nabız, MHRS, e-Vergi, EBA ve e-Bankacılık gibi resmi dijital vatandaşlık uygulamalarını ve dijital nezaket kurallarını öğreniyoruz.
                 </p>
             </div>
 
-            <!-- 4 Temel Kavram -->
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 text-xs">
-                <div class="p-3.5 bg-slate-800 rounded-xl border border-slate-700 space-y-1">
-                    <span class="font-black text-blue-400 block text-sm">1. DİJİTAL VATANDAŞ</span>
-                    <p class="text-slate-300">Teknolojiyi ahlaki, yasal ve güvenli kullanan bilinçli birey.</p>
-                </div>
-                <div class="p-3.5 bg-slate-800 rounded-xl border border-slate-700 space-y-1">
-                    <span class="font-black text-purple-400 block text-sm">2. DİJİTAL KİMLİK</span>
-                    <p class="text-slate-300">İnternette bizi temsil eden profil, hesap ve bilgilerin bütünü.</p>
-                </div>
-                <div class="p-3.5 bg-slate-800 rounded-xl border border-slate-700 space-y-1">
-                    <span class="font-black text-emerald-400 block text-sm">3. DİJİTAL AYAK İZİ</span>
-                    <p class="text-slate-300">İnternette yaptığımız her arama ve paylaşımla bıraktığımız kalıcı izler.</p>
-                </div>
-                <div class="p-3.5 bg-slate-800 rounded-xl border border-slate-700 space-y-1">
-                    <span class="font-black text-pink-400 block text-sm">4. DİJİTAL NEZAKET</span>
-                    <p class="text-slate-300">İnternet dünyasındaki görgü ve nezaket kuralları (Centilmenlik).</p>
+            <!-- Bölüm 1: Dijital Vatandaş Dedektifi -->
+            <div class="p-5 bg-slate-800/90 rounded-2xl border border-slate-700 space-y-3">
+                <h3 class="text-base font-bold text-cyan-300 flex items-center gap-2">
+                    <i class="fa-solid fa-user-secret text-cyan-400"></i> 1. Dijital Vatandaş Dedektifi (Uygun Davranış İlkeleri)
+                </h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
+                    <div class="p-3 bg-emerald-950/40 rounded-xl border border-emerald-500/40 space-y-1">
+                        <span class="font-bold text-emerald-400 flex items-center gap-1.5">
+                            <i class="fa-solid fa-circle-check"></i> UYGUN DAVRANIŞLAR:
+                        </span>
+                        <ul class="list-disc list-inside text-slate-300 space-y-0.5">
+                            <li>En az 8 karakterli, güçlü ve tahmin edilemez şifre oluşturmak.</li>
+                            <li>Güvenilir ve teyit edilmiş kaynaklardan araştırma yapmak.</li>
+                            <li>İnternette başkalarının fikirlerine, telif haklarına ve emeğine saygı duymak.</li>
+                        </ul>
+                    </div>
+                    <div class="p-3 bg-rose-950/40 rounded-xl border border-rose-500/40 space-y-1">
+                        <span class="font-bold text-rose-400 flex items-center gap-1.5">
+                            <i class="fa-solid fa-circle-xmark"></i> UYGUN OLMAYAN (RİSKLİ) DAVRANIŞLAR:
+                        </span>
+                        <ul class="list-disc list-inside text-slate-300 space-y-0.5">
+                            <li>Arkadaşımızın fotoğrafını veya videosunu izinsiz paylaşmak.</li>
+                            <li>Yazışmalarda hakaret, kaba söz kullanmak veya siber zorbalık yapmak.</li>
+                            <li>Tanımadığımız kişilerle T.C. kimlik, adres ve telefon bilgilerini paylaşmak.</li>
+                        </ul>
+                    </div>
                 </div>
             </div>
 
-            <!-- Dijital Vatandaşlık Uygulamaları Tablosu -->
+            <!-- Bölüm 2: Dijital Vatandaşlık Uygulamaları Tablosu -->
             <div class="space-y-3">
                 <h3 class="text-base font-bold text-yellow-400 flex items-center gap-2">
-                    <i class="fa-solid fa-table text-indigo-400"></i> Temel Dijital Vatandaşlık Uygulamaları
+                    <i class="fa-solid fa-table text-yellow-400"></i> 2. Temel Dijital Vatandaşlık Uygulamaları (7 Ana Kapı)
                 </h3>
                 <div class="overflow-x-auto">
                     <table class="w-full text-xs text-left border-collapse border border-slate-700">
@@ -1256,43 +1266,101 @@ window.WEEK3_CONTENT = {
                             <tr>
                                 <th class="p-3 border border-slate-700">Uygulama Adı</th>
                                 <th class="p-3 border border-slate-700">Alanı</th>
-                                <th class="p-3 border border-slate-700">Web Adresi</th>
-                                <th class="p-3 border border-slate-700">Sağladığı Temel Hizmet</th>
+                                <th class="p-3 border border-slate-700">Vatandaşın İhtiyacı & Sağlanan Hizmet</th>
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-slate-800 text-slate-200">
                             <tr class="hover:bg-slate-800/50">
-                                <td class="p-3 border border-slate-700 font-bold text-red-400">e-Devlet Kapısı</td>
-                                <td class="p-3 border border-slate-700">Kamu Hizmetleri</td>
-                                <td class="p-3 border border-slate-700">turkiye.gov.tr</td>
-                                <td class="p-3 border border-slate-700">Resmi belgeler, adli sicil, ikametgah, hat sorgulama vb.</td>
-                            </tr>
-                            <tr class="hover:bg-slate-800/50">
                                 <td class="p-3 border border-slate-700 font-bold text-blue-400">e-Okul</td>
                                 <td class="p-3 border border-slate-700">Eğitim</td>
-                                <td class="p-3 border border-slate-700">e-okul.meb.gov.tr</td>
-                                <td class="p-3 border border-slate-700">Sınav notları, devamsızlık durumu, karne ve ders çizelgesi.</td>
+                                <td class="p-3 border border-slate-700">Sınav notları, devamsızlık durumu, karne ve ders çizelgesine ulaşmak.</td>
                             </tr>
                             <tr class="hover:bg-slate-800/50">
-                                <td class="p-3 border border-slate-700 font-bold text-amber-400">EBA</td>
-                                <td class="p-3 border border-slate-700">Eğitim</td>
-                                <td class="p-3 border border-slate-700">eba.gov.tr</td>
-                                <td class="p-3 border border-slate-700">Ders videoları, konu anlatımları, interaktif testler, canlı ders.</td>
+                                <td class="p-3 border border-slate-700 font-bold text-red-400">e-Devlet Kapısı</td>
+                                <td class="p-3 border border-slate-700">Kamu Hizmetleri</td>
+                                <td class="p-3 border border-slate-700">Kimlik, ikametgah, adli sicil ve tüm resmi kamu işlemlerini tek şifreyle 7/24 yapmak.</td>
                             </tr>
                             <tr class="hover:bg-slate-800/50">
                                 <td class="p-3 border border-slate-700 font-bold text-emerald-400">e-Nabız</td>
                                 <td class="p-3 border border-slate-700">Sağlık</td>
-                                <td class="p-3 border border-slate-700">enabiz.gov.tr</td>
-                                <td class="p-3 border border-slate-700">Geçmiş muayeneler, tahlil sonuçları, aşı ve ilaç takibi.</td>
+                                <td class="p-3 border border-slate-700">Geçmiş muayeneler, tahlil sonuçları, aşı ve reçete bilgilerini görüntülemek.</td>
                             </tr>
                             <tr class="hover:bg-slate-800/50">
-                                <td class="p-3 border border-slate-700 font-bold text-teal-400">MHRS</td>
+                                <td class="p-3 border border-slate-700 font-bold text-teal-400">e-Randevu (MHRS)</td>
                                 <td class="p-3 border border-slate-700">Sağlık</td>
-                                <td class="p-3 border border-slate-700">mhrs.gov.tr (Alo 182)</td>
-                                <td class="p-3 border border-slate-700">Devlet hastanelerinden ve doktorlardan online randevu alma.</td>
+                                <td class="p-3 border border-slate-700">Devlet hastanelerinden hekim ve klinik seçerek sıra beklemeden muayene randevusu almak.</td>
+                            </tr>
+                            <tr class="hover:bg-slate-800/50">
+                                <td class="p-3 border border-slate-700 font-bold text-amber-400">e-Vergi</td>
+                                <td class="p-3 border border-slate-700">Maliye / Kamu</td>
+                                <td class="p-3 border border-slate-700">Vergi borcu sorgulama, harç yatırma ve vergi dairesi işlemlerini internetten yapmak.</td>
+                            </tr>
+                            <tr class="hover:bg-slate-800/50">
+                                <td class="p-3 border border-slate-700 font-bold text-purple-400">EBA</td>
+                                <td class="p-3 border border-slate-700">Eğitim</td>
+                                <td class="p-3 border border-slate-700">Ders videolarına, interaktif testlere, dijital kitaplara ve eğitim içeriklerine ulaşmak.</td>
+                            </tr>
+                            <tr class="hover:bg-slate-800/50">
+                                <td class="p-3 border border-slate-700 font-bold text-cyan-400">e-Bankacılık</td>
+                                <td class="p-3 border border-slate-700">Bankacılık</td>
+                                <td class="p-3 border border-slate-700">Para transferi, fatura ödeme ve bankacılık işlemlerini şubeye gitmeden gerçekleştirmek.</td>
                             </tr>
                         </tbody>
                     </table>
+                </div>
+            </div>
+
+            <!-- Bölüm 3 & 4: Dijital Kimlik & Ayak İzi -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+                <!-- Dijital Kimlik -->
+                <div class="p-4 bg-slate-800 rounded-2xl border border-indigo-400/40 space-y-2">
+                    <h4 class="font-bold text-indigo-300 text-sm flex items-center gap-1.5">
+                        <i class="fa-solid fa-id-card"></i> 3. Dijital Kimliğimi Tanıyorum
+                    </h4>
+                    <p class="text-slate-300">
+                        İnternette bizi temsil eden bilgilerin bütününe <strong>dijital kimlik</strong> denir:
+                    </p>
+                    <div class="grid grid-cols-2 gap-1.5 text-slate-200">
+                        <div class="p-1.5 bg-slate-900 rounded-lg">👤 Ad - Soyad</div>
+                        <div class="p-1.5 bg-slate-900 rounded-lg">🏷️ Kullanıcı Adı</div>
+                        <div class="p-1.5 bg-slate-900 rounded-lg">🖼️ Profil Fotoğrafı</div>
+                        <div class="p-1.5 bg-slate-900 rounded-lg">🎮 Oyun Hesabı</div>
+                        <div class="p-1.5 bg-slate-900 rounded-lg">📱 Sosyal Medya Profili</div>
+                        <div class="p-1.5 bg-slate-900 rounded-lg">✉️ E-posta Adresi</div>
+                    </div>
+                </div>
+
+                <!-- Aktif vs Pasif Ayak İzi -->
+                <div class="p-4 bg-slate-800 rounded-2xl border border-cyan-400/40 space-y-2">
+                    <h4 class="font-bold text-cyan-300 text-sm flex items-center gap-1.5">
+                        <i class="fa-solid fa-shoe-prints"></i> 4. Ayak İzini Yakala (Aktif vs. Pasif)
+                    </h4>
+                    <div class="space-y-1.5 text-slate-300">
+                        <div class="p-2 bg-blue-950/50 rounded-xl border border-blue-400/30">
+                            <span class="font-bold text-blue-300">🐾 Aktif Dijital Ayak İzi:</span>
+                            Kendi isteğimizle bilerek oluşturduğumuz izlerdir. (Fotoğraf/video yüklemek, yorum yazmak, e-posta atmak, beğeni yapmak).
+                        </div>
+                        <div class="p-2 bg-cyan-950/50 rounded-xl border border-cyan-400/30">
+                            <span class="font-bold text-cyan-300">🐾 Pasif Dijital Ayak İzi:</span>
+                            Farkında olmadan arkada kalan izlerdir. (Web sitelerini ziyaret etmek, arama motorunda aramak, çerezler, konum bilgisi).
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bölüm 5 & 6 & 7: Düşün Kuralı, Güvenlik Kalkanı & 5 Kural -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs">
+                <div class="p-3.5 bg-slate-850 rounded-xl border border-slate-700 space-y-1">
+                    <span class="font-bold text-yellow-300 block text-sm">5. Paylaşmadan Önce DÜŞÜN</span>
+                    <p class="text-slate-300 leading-snug">D: Doğru mu? Ü: Üretken mi? Ş: Şefkatli mi? Ü: Üzücü mü? N: Nazik mi? Kişisel veriler (TC No, şifre, adres) ASLA paylaşılmaz!</p>
+                </div>
+                <div class="p-3.5 bg-slate-850 rounded-xl border border-slate-700 space-y-1">
+                    <span class="font-bold text-emerald-300 block text-sm">6. Güvenlik Kalkanı</span>
+                    <p class="text-slate-300 leading-snug">En az 8 karakterli güçlü şifre belirle, gizlilik ayarlarını 'özel' yap, tanınmayan link ve e-posta eklerine tıklama!</p>
+                </div>
+                <div class="p-3.5 bg-slate-850 rounded-xl border border-slate-700 space-y-1">
+                    <span class="font-bold text-pink-300 block text-sm">7. Dijital Vatandaşın 5 Kuralı</span>
+                    <p class="text-slate-300 leading-snug">1) Saygılı ol, 2) Güvenli davran, 3) Sorumluluk al, 4) Düşünerek paylaş, 5) Bilinçli kullan.</p>
                 </div>
             </div>
         </div>
@@ -1301,28 +1369,68 @@ window.WEEK3_CONTENT = {
         <div class="printable-doc bg-slate-900 text-white rounded-3xl p-6 sm:p-10 border-4 border-indigo-500/50 shadow-2xl space-y-6">
             <div class="border-b-2 border-indigo-500/40 pb-4">
                 <span class="px-3 py-1 bg-indigo-500/30 text-indigo-300 font-black rounded-lg text-xs tracking-wider uppercase">3. Hafta Çalışma Kağıdı Soruları</span>
-                <h1 class="text-2xl font-black text-white mt-1">PEKİŞTİRME ETKİNLİĞİ & ÇALIŞMA SORULARI</h1>
+                <h1 class="text-2xl font-black text-white mt-1">DİJİTAL VATANDAŞLIK ETKİNLİK & PEKİŞTİRME SORULARI</h1>
             </div>
 
-            <!-- Bölüm A: Boşluk Doldurma -->
-            <div class="space-y-3">
-                <h3 class="text-sm font-black text-yellow-300 uppercase">A) Aşağıdaki cümlelerdeki boşlukları uygun kelimelerle doldurunuz:</h3>
-                <div class="space-y-2 text-xs text-slate-200">
-                    <p>1. İnternette arama yaparken ve web sitelerinde gezinirken arkamızda bıraktığımız kalıcı elektronik izlere ........................................ denir.</p>
-                    <p>2. Öğrencilerin sınav notlarını ve devamsızlık durumlarını takip ettikleri Millî Eğitim Bakanlığı sistemi ........................................ sistemidir.</p>
-                    <p>3. Hastanelerden sıra beklemeden online randevu almamızı sağlayan resmi sistemin adı ........................................'dir.</p>
-                    <p>4. İnternette yazışırken kelimelerin tamamını büyük harfle yazmak ........................................ anlamına gelir.</p>
+            <!-- Bölüm 1: Dedektif -->
+            <div class="space-y-2">
+                <h3 class="text-sm font-black text-cyan-300 uppercase">1. Dijital Vatandaş Dedektifi: Aşağıdaki davranışların yanına Uygun veya Uygun Değil yazınız:</h3>
+                <div class="space-y-1.5 text-xs text-slate-200">
+                    <p>1. Arkadaşımızın fotoğrafını izinsiz olarak sosyal medyada paylaşmak. ( ........................................ )</p>
+                    <p>2. Şifremizi en az 8 karakterli; büyük-küçük harf, sayı ve sembol içeren güçlü şifrelerden seçmek. ( ........................................ )</p>
+                    <p>3. İnternette fikirlerimizi belirtirken hakaret ve kaba sözler kullanmak. ( ........................................ )</p>
+                    <p>4. İnternette araştırma yaparken bilgiyi güvenilir ve doğrulanmış kaynaklardan almak. ( ........................................ )</p>
+                    <p>5. Sosyal medyada tanımadığımız kişilerle ev adresimizi ve kimlik numaramızı paylaşmak. ( ........................................ )</p>
+                    <p>6. Başkalarının fikirlerine, telif haklarına ve emeğine saygı göstermek. ( ........................................ )</p>
+                </div>
+            </div>
+
+            <!-- Bölüm 2: Eşleştirme -->
+            <div class="space-y-2 pt-3 border-t border-slate-800">
+                <h3 class="text-sm font-black text-yellow-300 uppercase">2. Dijital Vatandaşlık Uygulamasını Bul: Durumları doğru uygulamayla eşleştiriniz:</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-2 text-xs text-slate-200">
+                    <div class="space-y-1 bg-slate-800/80 p-3 rounded-xl border border-slate-700">
+                        <p class="font-bold text-yellow-300">Vatandaşın Durumu & İhtiyacı:</p>
+                        <p>1. Okul bilgilerime ulaşmak istiyorum.</p>
+                        <p>2. Kimlik ve resmi işlem yapmak istiyorum.</p>
+                        <p>3. Sağlık bilgilerimi görüntülemek istiyorum.</p>
+                        <p>4. Hastane randevusu almak istiyorum.</p>
+                        <p>5. Vergi işlemlerini yapmak istiyorum.</p>
+                        <p>6. Eğitim içeriklerine ulaşmak istiyorum.</p>
+                        <p>7. Banka işlemlerini yapmak istiyorum.</p>
+                    </div>
+                    <div class="space-y-1 bg-slate-800/80 p-3 rounded-xl border border-slate-700">
+                        <p class="font-bold text-emerald-300">Kullanılacak Dijital Uygulama:</p>
+                        <p>( ... ) e-Devlet</p>
+                        <p>( ... ) e-Okul</p>
+                        <p>( ... ) e-Nabız</p>
+                        <p>( ... ) e-Randevu (MHRS)</p>
+                        <p>( ... ) e-Vergi</p>
+                        <p>( ... ) EBA</p>
+                        <p>( ... ) e-Bankacılık</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bölüm 4: Aktif / Pasif Ayak İzi -->
+            <div class="space-y-2 pt-3 border-t border-slate-800">
+                <h3 class="text-sm font-black text-emerald-300 uppercase">3. Ayak İzini Yakala: Durumların yanına Aktif Ayak İzi mi, Pasif Ayak İzi mi olduğunu yazınız:</h3>
+                <div class="space-y-1.5 text-xs text-slate-200">
+                    <p>1. Kendi isteğimizle sosyal medyaya video yüklemek. ( ........................................ )</p>
+                    <p>2. Bir web sitesini ziyaret ettiğimizde arka planda çerezlerin kaydedilmesi. ( ........................................ )</p>
+                    <p>3. Arkadaşımızın paylaştığı fotoğrafın altına fikir belirten bir yorum yazmak. ( ........................................ )</p>
+                    <p>4. Arama motorunda '5. Sınıf Bilişim Konuları' şeklinde arama yapmak. ( ........................................ )</p>
                 </div>
             </div>
 
             <!-- Bölüm B: Doğru mu Yanlış mı? -->
-            <div class="space-y-3 pt-3 border-t border-slate-800">
-                <h3 class="text-sm font-black text-emerald-300 uppercase">B) İfadelerin başına Doğru için (D), Yanlış için (Y) koyunuz:</h3>
-                <div class="space-y-2 text-xs text-slate-200">
-                    <p>( ... ) 1. İnternete yüklediğimiz bir fotoğrafı daha sonra silsek bile başkaları tarafından kaydedilmiş olabilir.</p>
-                    <p>( ... ) 2. e-Devlet şifremizi güvenliğimiz için sosyal medyada arkadaşlarımızla paylaşmalıyız.</p>
-                    <p>( ... ) 3. Siber zorbalığa uğradığımızda o kişiye aynı şekilde kaba sözlerle cevap vermeliyiz.</p>
-                    <p>( ... ) 4. e-Nabız sistemi geçmiş tahlil ve aşı kayıtlarımıza ulaşmamızı sağlar.</p>
+            <div class="space-y-2 pt-3 border-t border-slate-800">
+                <h3 class="text-sm font-black text-pink-300 uppercase">4. Doğru mu? Yanlış mı?:</h3>
+                <div class="space-y-1.5 text-xs text-slate-200">
+                    <p>( ... ) 1. İnternete yüklediğimiz bir fotoğrafı silsek bile başkaları tarafından kaydedilmiş olabilir.</p>
+                    <p>( ... ) 2. e-Devlet şifremizi güvenliğimiz için arkadaşlarımızla ve sosyal medyada paylaşmalıyız.</p>
+                    <p>( ... ) 3. Mesaj yazarken KELİMELERİN TAMAMINI BÜYÜK HARFLE YAZMAK bağırmak anlamına gelir.</p>
+                    <p>( ... ) 4. e-Nabız geçmiş tahlil, röntgen ve aşı kayıtlarımıza ulaşmamızı sağlar.</p>
                 </div>
             </div>
         </div>
@@ -1331,25 +1439,54 @@ window.WEEK3_CONTENT = {
         <div class="printable-doc bg-slate-900 text-white rounded-3xl p-6 sm:p-10 border-4 border-emerald-500/50 shadow-2xl space-y-6">
             <div class="border-b-2 border-emerald-500/40 pb-4">
                 <span class="px-3 py-1 bg-emerald-500/30 text-emerald-300 font-black rounded-lg text-xs tracking-wider uppercase">Cevap Anahtarı</span>
-                <h1 class="text-2xl font-black text-white mt-1">3. HAFTA ÇALIŞMA KAĞIDI ÇÖZÜMLERİ</h1>
+                <h1 class="text-2xl font-black text-white mt-1">3. HAFTA ÇALIŞMA KAĞIDI RESMÎ ÇÖZÜMLERİ</h1>
             </div>
 
-            <div class="space-y-3">
-                <h3 class="text-sm font-black text-yellow-300 uppercase">A) Boşluk Doldurma Çözümleri:</h3>
+            <!-- 1. Dedektif Çözümleri -->
+            <div class="space-y-2">
+                <h3 class="text-sm font-black text-cyan-300 uppercase">1. Dijital Vatandaş Dedektifi Çözümleri:</h3>
                 <div class="space-y-1 text-xs text-slate-200">
-                    <p>1. <strong>Dijital Ayak İzi</strong></p>
-                    <p>2. <strong>e-Okul</strong></p>
-                    <p>3. <strong>MHRS</strong> (Merkezi Hekim Randevu Sistemi)</p>
-                    <p>4. <strong>Bağırmak</strong> (Kaba davranmak)</p>
+                    <p>1. İzinsiz fotoğraf paylaşmak ➔ <strong class="text-rose-400">Uygun Değil</strong> (Kişisel hak ihlali)</p>
+                    <p>2. Güçlü şifre oluşturmak ➔ <strong class="text-emerald-400">Uygun</strong> (Siber güvenlik)</p>
+                    <p>3. Hakaret ve kaba dil kullanmak ➔ <strong class="text-rose-400">Uygun Değil</strong> (Dijital nezakete aykırı)</p>
+                    <p>4. Güvenilir kaynaklardan araştırma yapmak ➔ <strong class="text-emerald-400">Uygun</strong> (Bilinçli kullanım)</p>
+                    <p>5. Tanımadığı kişilerle adres/kimlik paylaşmak ➔ <strong class="text-rose-400">Uygun Değil</strong> (Güvenlik tehlikesi)</p>
+                    <p>6. Başkalarının fikirlerine ve haklarına saygı duymak ➔ <strong class="text-emerald-400">Uygun</strong> (Vatandaşlık görevi)</p>
                 </div>
             </div>
 
-            <div class="space-y-3 pt-3 border-t border-slate-800">
-                <h3 class="text-sm font-black text-emerald-300 uppercase">B) Doğru / Yanlış Çözümleri:</h3>
+            <!-- 2. Eşleştirme Çözümleri -->
+            <div class="space-y-2 pt-3 border-t border-slate-800">
+                <h3 class="text-sm font-black text-yellow-300 uppercase">2. Dijital Vatandaşlık Uygulamasını Bul Çözümleri:</h3>
+                <div class="space-y-1 text-xs text-slate-200">
+                    <p>1. Okul bilgilerime ulaşmak istiyorum ➔ <strong class="text-blue-400">e-Okul</strong></p>
+                    <p>2. Kimlik ve resmi işlem yapmak istiyorum ➔ <strong class="text-red-400">e-Devlet</strong></p>
+                    <p>3. Sağlık bilgilerimi görüntülemek istiyorum ➔ <strong class="text-emerald-400">e-Nabız</strong></p>
+                    <p>4. Hastane randevusu almak istiyorum ➔ <strong class="text-teal-400">e-Randevu (MHRS)</strong></p>
+                    <p>5. Vergi işlemlerini yapmak istiyorum ➔ <strong class="text-amber-400">e-Vergi</strong></p>
+                    <p>6. Eğitim içeriklerine ulaşmak istiyorum ➔ <strong class="text-purple-400">EBA</strong></p>
+                    <p>7. Banka işlemlerini yapmak istiyorum ➔ <strong class="text-cyan-400">e-Bankacılık</strong></p>
+                </div>
+            </div>
+
+            <!-- 3. Ayak İzi Çözümleri -->
+            <div class="space-y-2 pt-3 border-t border-slate-800">
+                <h3 class="text-sm font-black text-emerald-300 uppercase">3. Ayak İzini Yakala Çözümleri:</h3>
+                <div class="space-y-1 text-xs text-slate-200">
+                    <p>1. Sosyal medyaya video yüklemek ➔ <strong class="text-blue-300">Aktif Dijital Ayak İzi</strong> (İsteğimizle oluşturuldu)</p>
+                    <p>2. Web sitesinde gezinirken çerez bırakmak ➔ <strong class="text-cyan-300">Pasif Dijital Ayak İzi</strong> (Arka planda kaydedildi)</p>
+                    <p>3. Fotoğraf altına yorum yazmak ➔ <strong class="text-blue-300">Aktif Dijital Ayak İzi</strong> (İsteğimizle oluşturuldu)</p>
+                    <p>4. Arama motorunda arama yapmak ➔ <strong class="text-cyan-300">Pasif Dijital Ayak İzi</strong> (Sistem geçmişe kaydetti)</p>
+                </div>
+            </div>
+
+            <!-- 4. Doğru / Yanlış Çözümleri -->
+            <div class="space-y-2 pt-3 border-t border-slate-800">
+                <h3 class="text-sm font-black text-pink-300 uppercase">4. Doğru / Yanlış Çözümleri:</h3>
                 <div class="space-y-1 text-xs text-slate-200">
                     <p>1. <strong>( D ) DOĞRU:</strong> İnternete yüklenen içerikler ekran görüntüsü alınarak saklanabilir, kalıcıdır.</p>
-                    <p>2. <strong>( Y ) YANLIŞ:</strong> e-Devlet ve tüm hesap şifreleri gizlidir, kimseyle paylaşılmaz.</p>
-                    <p>3. <strong>( Y ) YANLIŞ:</strong> Siber zorbalık yapan kişiye misilleme yapılmaz; engellenip yetişkine haber verilir.</p>
+                    <p>2. <strong>( Y ) YANLIŞ:</strong> e-Devlet şifresi gizlidir, anne-baba dışındaki kimseyle paylaşılmaz.</p>
+                    <p>3. <strong>( D ) DOĞRU:</strong> Büyük harflerle yazmak internet dilinde bağırmak anlamına gelir.</p>
                     <p>4. <strong>( D ) DOĞRU:</strong> e-Nabız Sağlık Bakanlığı'nın tahlil ve aşı takibi sistemidir.</p>
                 </div>
             </div>
@@ -1361,139 +1498,190 @@ window.WEEK3_CONTENT = {
     // ❓ 3. PEKİŞTİRME TESTİ & SORULARI
     // ========================================================
     questions: [
-        // 0. Çoktan Seçmeli Test Soruları
+        // 0. İndeks: Kavram & Durum Eşleştirme Etkinliği
         {
-            type: "quiz",
-            title: "3. Hafta: Dijital Vatandaşlık Testi",
-            desc: "10 soruluk interaktif pekiştirme testi. Başarılar!",
-            questions: [
+            id: 1,
+            type: "matching",
+            title: "Dijital Vatandaşlık Uygulamalarını Eşleştirme",
+            description: "Aşağıdaki vatandaşlık durumlarını kullanılması gereken resmi dijital uygulama ile eşleştiriniz:",
+            pairs: [
+                { left: "Okul bilgilerime, notlarıma ve devamsızlığıma ulaşmak istiyorum", right: "e-Okul Sistemi", leftIcon: "fa-solid fa-graduation-cap" },
+                { left: "Kimlik, ikametgah ve resmi kamu işlemlerimi tek noktadan yapmak istiyorum", right: "e-Devlet Kapısı", leftIcon: "fa-solid fa-landmark" },
+                { left: "Geçmiş tahlil, reçete ve aşı bilgilerimi görüntülemek istiyorum", right: "e-Nabız Sistemi", leftIcon: "fa-solid fa-heart-pulse" },
+                { left: "Devlet hastanesinden hekim seçerek randevu almak istiyorum", right: "e-Randevu (MHRS)", leftIcon: "fa-solid fa-calendar-check" },
+                { left: "Vergi borcu sorgulama ve harç ödeme işlemlerimi internetten yapmak istiyorum", right: "e-Vergi (İnteraktif Vergi Dairesi)", leftIcon: "fa-solid fa-file-invoice-dollar" },
+                { left: "Ders videolarına, interaktif testlere ve dijital kitaplara ulaşmak istiyorum", right: "EBA Portalı", leftIcon: "fa-solid fa-book-open-reader" },
+                { left: "Para transferi ve bankacılık işlemlerimi şubeye gitmeden yapmak istiyorum", right: "e-Bankacılık", leftIcon: "fa-solid fa-credit-card" }
+            ]
+        },
+
+        // 1. İndeks: Doğru mu? Yanlış mı? Testi (app.js renderQuiz() bu indeksi okur)
+        {
+            id: 2,
+            type: "true_false",
+            title: "Doğru mu? Yanlış mı? Pekiştirme Etkinliği",
+            description: "İfadeleri dikkatle okuyarak Doğru veya Yanlış butonuna dokununuz:",
+            items: [
                 {
-                    q: "Dijital dünyada haklarını ve sorumluluklarını bilen, teknolojiyi bilinçli, ahlaki ve güvenli kullanan bireye ne ad verilir?",
-                    options: ["Dijital Vatandaş", "Sanal Oyuncu", "Web Tasarımcısı", "İnternet Korsanı"],
-                    answer: 0,
-                    explanation: "Tebrikler! Dijital dünyadaki hak ve sorumluluklarını bilerek teknolojiyi doğru kullanan kişiye Dijital Vatandaş denir."
+                    statement: "Arkadaşımızın fotoğrafını kendisinden izin almadan sosyal medyada paylaşmak uygun bir davranıştır.",
+                    isCorrect: false,
+                    correct: false,
+                    explanation: "Yanlış! Başkalarının fotoğraflarını izinsiz paylaşmak kişisel hak ihlalidir; mutlaka izin alınmalıdır."
                 },
                 {
-                    q: "İnternette arama yaparken, siteleri gezerken ve paylaşım yaparken arkamızda bıraktığımız kalıcı verilere ne ad verilir?",
-                    options: ["Parmak İzi", "Dijital Ayak İzi", "Ekran Görüntüsü", "İnternet Şifresi"],
-                    answer: 1,
-                    explanation: "Doğru cevap! İnternetteki her işlemimiz geride kalıcı bir dijital ayak izi bırakır."
+                    statement: "e-Devlet kapısı (turkiye.gov.tr) birçok kamu ve resmi kimlik işlemine tek şifreyle 7/24 ulaşmamızı sağlar.",
+                    isCorrect: true,
+                    correct: true,
+                    explanation: "Doğru! e-Devlet resmi kamu işlemlerinin tek noktadan sunulduğu güvenli portaldır."
+                },
+                {
+                    statement: "İnternette arama yapmak ve web sitelerini ziyaret etmek 'Pasif Dijital Ayak İzi' oluşturur.",
+                    isCorrect: true,
+                    correct: true,
+                    explanation: "Doğru! Ziyaret edilen siteler, arama geçmişi ve çerezler pasif dijital ayak izidir."
+                },
+                {
+                    statement: "Sosyal medyaya kendi isteğimizle video yüklemek veya yorum yazmak 'Aktif Dijital Ayak İzi'dir.",
+                    isCorrect: true,
+                    correct: true,
+                    explanation: "Doğru! Kendi irademizle internete yüklediğimiz her paylaşım aktif ayak izini oluşturur."
+                },
+                {
+                    statement: "Hastanelerden doktor seçerek online muayene randevusu almak için e-Okul sistemi kullanılır.",
+                    isCorrect: false,
+                    correct: false,
+                    explanation: "Yanlış! Hastane randevusu e-Randevu (MHRS) üzerinden alınır. e-Okul ders ve notlar içindir."
+                },
+                {
+                    statement: "İnternete yüklediğimiz bir içeriği daha sonra silsek bile başkaları tarafından kaydedilmiş olabilir.",
+                    isCorrect: true,
+                    correct: true,
+                    explanation: "Doğru! Dijital ayak izi kalıcıdır; internete konulan bir içeriğin tamamen yok olması zordur."
+                },
+                {
+                    statement: "Güvenliğimiz için şifremizi '123456' veya doğum yılımız gibi basit kelimelerden oluşturmalıyız.",
+                    isCorrect: false,
+                    correct: false,
+                    explanation: "Yanlış! Güçlü şifre en az 8 karakterden oluşmalı; harf, rakam ve semboller içermelidir."
+                },
+                {
+                    statement: "e-Nabız sistemi geçmiş tahlil sonuçlarımızı, aşılarımızı ve reçetelerimizi incelememizi sağlar.",
+                    isCorrect: true,
+                    correct: true,
+                    explanation: "Doğru! e-Nabız Sağlık Bakanlığı'nın güvenli kişisel sağlık takip sistemidir."
+                },
+                {
+                    statement: "Vergi, harç ve borç ödeme işlemlerini internet üzerinden yapmak için e-Vergi sistemi kullanılır.",
+                    isCorrect: true,
+                    correct: true,
+                    explanation: "Doğru! e-Vergi (İnteraktif Vergi Dairesi) resmi maliye işlemlerini dijital ortamda sunar."
+                },
+                {
+                    statement: "Dijital vatandaş, internette farklı fikirlere saygı duyar ve siber zorbalık yapmaktan kaçınır.",
+                    isCorrect: true,
+                    correct: true,
+                    explanation: "Doğru! Başkalarının fikirlerine saygı duymak ve nazik davranmak dijital vatandaşlığın temelidir."
+                }
+            ]
+        },
+
+        // 2. İndeks: Çoktan Seçmeli Değerlendirme Testi (app.js renderQuiz() bu indeksi okur)
+        {
+            id: 3,
+            type: "multiple_choice",
+            title: "Çoktan Seçmeli Değerlendirme Testi",
+            questions: [
+                {
+                    q: "Dijital dünyada hak ve sorumluluklarını bilen, teknolojiyi ahlaki, yasal ve güvenli kullanan bireye ne ad verilir?",
+                    options: ["Dijital Vatandaş", "Sanal Oyuncu", "İnternet Korsanı", "Web Tasarımcısı"],
+                    answer: 0,
+                    explanation: "Teknolojiyi bilinçli, etik ve güvenli kullanan, hak ve sorumluluklarının farkında olan kişiye Dijital Vatandaş denir."
                 },
                 {
                     q: "Aşağıdakilerden hangisi bir 'Aktif Dijital Ayak İzi' örneğidir?",
                     options: [
                         "Kendi isteğimizle sosyal medyaya video yüklemek",
-                        "Ziyaret ettiğimiz sitenin çerezleri kaydetmesi",
-                        "Telefonun arka planda konum verisini tutması",
-                        "Bağlandığımız internetin IP adresini kaydetmesi"
+                        "Bir web sitesini ziyaret ettiğimizde arka planda çerez oluşması",
+                        "Arama motorunun yaptığımız aramaları geçmişe kaydetmesi",
+                        "Telefonumuzun arka planda konum verisi toplaması"
                     ],
                     answer: 0,
-                    explanation: "Kendi isteğimiz ve bilincimizle internete koyduğumuz paylaşımlar aktif dijital ayak izidir."
+                    explanation: "Kendi isteğimiz ve bilincimizle yüklediğimiz fotoğraflar, videolar ve yorumlar aktif dijital ayak izidir."
+                },
+                {
+                    q: "Aşağıdakilerden hangisi 'Pasif Dijital Ayak İzi'ne örnek olarak gösterilebilir?",
+                    options: [
+                        "İnternet sitelerinde gezinirken tarayıcının bıraktığı çerez (cookie) kayıtları",
+                        "Sosyal medya hesabına yeni profil fotoğrafı yüklemek",
+                        "Bir videonun altına yorum yazmak",
+                        "Arkadaşımıza e-posta göndermek"
+                    ],
+                    answer: 0,
+                    explanation: "Biz doğrudan içerik paylaşmasak da arkaplanda kaydedilen çerezler, konum ve arama kayıtları pasif ayak izidir."
                 },
                 {
                     q: "Öğrencilerin sınav notlarını, devamsızlık durumlarını ve karne bilgilerini takip edebildikleri MEB platformu hangisidir?",
-                    options: ["e-Nabız", "e-Okul", "MHRS", "e-Belediye"],
-                    answer: 1,
-                    explanation: "e-Okul, öğrenci ve velilerin okul bilgilerini takip ettiği resmi platformdur."
+                    options: ["e-Okul", "e-Nabız", "MHRS", "e-Belediye"],
+                    answer: 0,
+                    explanation: "e-Okul Veli Bilgilendirme Sistemi, öğrencilerin ders notları ve devamsızlık bilgilerini sunar."
                 },
                 {
                     q: "Geçmiş muayenelerimizi, tahlil sonuçlarımızı ve aşı takvimimizi güvenli şekilde incelememizi sağlayan dijital sağlık uygulaması hangisidir?",
-                    options: ["e-Nabız", "EBA", "ÖSYM", "e-Devlet"],
+                    options: ["e-Nabız", "EBA", "e-Vergi", "e-Devlet"],
                     answer: 0,
-                    explanation: "e-Nabız, kişisel sağlık kayıtlarımızı arşivleyen resmi sağlık uygulamasıdır."
+                    explanation: "e-Nabız, Sağlık Bakanlığı'nın kişisel sağlık kayıtlarını arşivleyen resmi uygulamasıdır."
                 },
                 {
-                    q: "Hastanelerde sıra beklemeden doktor ve klinik seçerek randevu almamızı sağlayan sistem hangisidir?",
-                    options: ["MHRS", "e-Okul", "EBA", "HGS"],
+                    q: "Devlet hastanelerinden doktor ve klinik seçerek sıra beklemeden muayene randevusu almamızı sağlayan sistem hangisidir?",
+                    options: ["e-Randevu (MHRS)", "e-Okul", "EBA", "e-Bankacılık"],
                     answer: 0,
                     explanation: "Merkezi Hekim Randevu Sistemi (MHRS - Alo 182), hastane randevusu almak için kullanılır."
                 },
                 {
-                    q: "İnternette mesajlaşırken veya yorum yazarken KELİMELERİN TAMAMINI BÜYÜK HARFLE YAZMAK ne anlama gelir?",
+                    q: "Resmi evrak, vergi borcu, harç ödeme ve beyanname işlemlerini internetten yapmamızı sağlayan dijital uygulama hangisidir?",
+                    options: ["e-Vergi (İnteraktif Vergi Dairesi)", "e-Okul", "e-Nabız", "MHRS"],
+                    answer: 0,
+                    explanation: "Vergi ve harç işlemleri e-Vergi (İnteraktif Vergi Dairesi) üzerinden gerçekleştirilir."
+                },
+                {
+                    q: "Para transferi, fatura ödeme ve bakiye sorgulama gibi işlemleri şubeye gitmeden yapmamızı sağlayan hizmet hangisidir?",
+                    options: ["e-Bankacılık", "EBA", "e-Okul", "e-Nabız"],
+                    answer: 0,
+                    explanation: "Banka işlemlerini internet veya mobil uygulama üzerinden yapmaya e-Bankacılık denir."
+                },
+                {
+                    q: "Ders videoları, etkileşimli konu anlatımları ve dijital kitaplara ulaşmamızı sağlayan MEB eğitim portalı hangisidir?",
+                    options: ["EBA (Eğitim Bilişim Ağı)", "e-Nabız", "MHRS", "e-Vergi"],
+                    answer: 0,
+                    explanation: "EBA, Millî Eğitim Bakanlığı'nın zengin ders içerikleri sunduğu resmi dijital eğitim ağıdır."
+                },
+                {
+                    q: "Aşağıdakilerden hangisi internette ASLA ve KESİNLİKLE paylaşılmaması gereken özel bilgilerden biridir?",
+                    options: [
+                        "T.C. Kimlik Numarası ve hesap şifreleri",
+                        "Okulda hazırladığımız fen bilimleri proje ödevi",
+                        "Beğendiğimiz eğitici bir bilim makalesi",
+                        "Telif hakkı serbest olan bir doğa resmi"
+                    ],
+                    answer: 0,
+                    explanation: "T.C. Kimlik numarası, ev adresi ve şifreler kişisel gizliliktir; internette asla yabancılarla paylaşılmamalıdır."
+                },
+                {
+                    q: "İnternette paylaşım yapmadan önce hatırlamamız gereken 'D.Ü.Ş.Ü.N.' kuralındaki 'D' harfi ne anlama gelir?",
+                    options: ["Doğru mu?", "Değerli mi?", "Dalgın mı?", "Deneme mi?"],
+                    answer: 0,
+                    explanation: "D.Ü.Ş.Ü.N. kuralında D harfi, paylaşacağımız bilginin 'Doğru mu?' olduğunu sorgulamamızı ifade eder."
+                },
+                {
+                    q: "İnternette mesajlaşırken veya sosyal medyada yorum yazarken KELİMELERİN TAMAMINI BÜYÜK HARFLE YAZMAK ne anlama gelir?",
                     options: [
                         "Karşı tarafa bağırmak ve kaba davranmak",
                         "Çok neşeli olduğunu göstermek",
-                        "Daha hızlı yazabilmek",
-                        "Gizli bir şifre göndermek"
+                        "Hızlı yazmak",
+                        "Önemli bir gizli şifre göndermek"
                     ],
                     answer: 0,
-                    explanation: "Dijital nezaket kurallarına göre büyük harfle yazmak bağırmak anlamına gelir."
-                },
-                {
-                    q: "İnternette tanımadığınız bir kişi sizi alaycı sözlerle rahatsız ederse (Siber Zorbalık) yapılması gereken İLK adım nedir?",
-                    options: [
-                        "Ona aynı kaba sözlerle cevap vermek",
-                        "Kişiye cevap vermeden engelleyip ailemize ve öğretmenimize bildirmek",
-                        "İnterneti ve bilgisayarı tamamen çöpe atmak",
-                        "Kişiye şifremizi göndermek"
-                    ],
-                    answer: 1,
-                    explanation: "Siber zorbalığa asla misilleme yapılmaz; kişi engellenir ve güvenilir bir yetişkine haber verilir."
-                },
-                {
-                    q: "Aşağıdakilerden hangisi dijital vatandaşın SORUMLULUKLARINDAN biridir?",
-                    options: [
-                        "Başkalarına ait fotoğraf ve ödevleri izinsiz kopyalamamak (Telif hakkına saygı)",
-                        "Arkadaşlarının şifrelerini ele geçirmeye çalışmak",
-                        "Her gördüğü haberi doğrulamadan yaymak",
-                        "Sadece büyük harflerle mesaj yazmak"
-                    ],
-                    answer: 0,
-                    explanation: "Telif haklarına saygı duymak ve başkalarının içeriklerini izinsiz almamak temel sorumluluktur."
-                },
-                {
-                    q: "İnternette bir paylaşım yapmadan önce aklımıza getirmemiz gereken 'DÜŞÜN' kuralındaki 'D' harfi neyi ifade eder?",
-                    options: ["Doğru mu?", "Değerli mi?", "Dalgın mı?", "Deneme mi?"],
-                    answer: 0,
-                    explanation: "D.Ü.Ş.Ü.N. kuralında D harfi bilginin 'Doğru mu?' olduğunu sorgulamamızı temsil eder."
-                }
-            ]
-        },
-
-        // 1. Doğru / Yanlış Etkinliği
-        {
-            type: "true_false",
-            title: "Doğru mu? Yanlış mı? Pekiştirme Etkinliği",
-            items: [
-                {
-                    statement: "İnternete yüklediğimiz bir fotoğrafı sildiğimizde internet dünyasından her zaman tamamen silinmiş olur.",
-                    correct: false,
-                    explanation: "Yanlış! Ekran görüntüsü alınmış olabilir veya arama motoru sunucularında kalmış olabilir."
-                },
-                {
-                    statement: "e-Devlet kapısı (turkiye.gov.tr) birçok kamu hizmetine tek şifreyle 7/24 ulaşmamızı sağlar.",
-                    correct: true,
-                    explanation: "Doğru! e-Devlet kapısı resmi devlet hizmetlerinin tek noktadan sunulduğu güvenli portaldır."
-                },
-                {
-                    statement: "Dijital vatandaş, internette yazışırken ve oyun oynarken dijital nezaket kurallarına dikkat eder.",
-                    correct: true,
-                    explanation: "Doğru! İnternette saygılı ve kibar bir dil kullanmak dijital vatandaşlığın gereğidir."
-                },
-                {
-                    statement: "e-Okul uygulaması hastanelerden tahlil sonuçlarımızı incelemek için kullanılır.",
-                    correct: false,
-                    explanation: "Yanlış! Tahlil sonuçları e-Nabız uygulamasından; okul notları ise e-Okul'dan incelenir."
-                },
-                {
-                    statement: "İnternette tamamı büyük harflerle yazılan bir mesaj bağırmak anlamına gelir.",
-                    correct: true,
-                    explanation: "Doğru! Büyük harfle yazmak sanal ortamda bağırmak ve saygısızlık olarak algılanır."
-                },
-                {
-                    statement: "Güvenliğimiz için ev adresimizi ve T.C. kimlik numaramızı sosyal medyada herkesle paylaşmalıyız.",
-                    correct: false,
-                    explanation: "Yanlış! Kişisel veriler gizli tutulmalı ve yabancılarla asla paylaşılmamalıdır."
-                },
-                {
-                    statement: "EBA platformu Millî Eğitim Bakanlığı'nın ders videoları ve dijital kitaplar sunduğu resmi eğitim ağıdır.",
-                    correct: true,
-                    explanation: "Doğru! EBA (Eğitim Bilişim Ağı) öğrenci ve öğretmenlere zengin ders içeriği sunar."
-                },
-                {
-                    statement: "Siber zorbalıkla karşılaştığımızda durumu ailemizden veya öğretmenimizden saklamalıyız.",
-                    correct: false,
-                    explanation: "Yanlış! Siber zorbalığa uğrandığında vakit kaybetmeden güvenilir bir yetişkine haber verilmelidir."
+                    explanation: "Dijital nezaket kurallarına göre büyük harflerle yazmak bağırmak ve saygısızlık olarak kabul edilir."
                 }
             ]
         }
@@ -1503,127 +1691,183 @@ window.WEEK3_CONTENT = {
     // 🎮 4. TEKRAR OYUNLARI VERİTABANI
     // ========================================================
     gameData: {
-        // Oyun 1: Çarkıfelek Soruları
+        // Oyun 1: Çarkıfelek Soruları (quiz_game.js: question & q, points & pts)
         wheelQuiz: [
             {
                 q: "Dijital dünyada haklarını ve sorumluluklarını bilen, teknolojiyi bilinçli kullanan bireye ne denir?",
+                question: "Dijital dünyada haklarını ve sorumluluklarını bilen, teknolojiyi bilinçli kullanan bireye ne denir?",
                 options: ["Dijital Vatandaş", "Sanal Oyuncu", "İnternet Korsanı", "Webmaster"],
                 answer: 0,
-                pts: 100
+                pts: 100,
+                points: 100
             },
             {
                 q: "İnternette attığımız her adımın ve aramanın arkasında bıraktığı kalıcı izlere ne ad verilir?",
+                question: "İnternette attığımız her adımın ve aramanın arkasında bıraktığı kalıcı izlere ne ad verilir?",
                 options: ["Parmak İzi", "Dijital Ayak İzi", "Ekran Görüntüsü", "İnternet Hızı"],
                 answer: 1,
-                pts: 200
+                pts: 200,
+                points: 200
+            },
+            {
+                q: "Kendi isteğimizle fotoğraf paylaşmak ve video yüklemek hangi ayak izi türüne örnektir?",
+                question: "Kendi isteğimizle fotoğraf paylaşmak ve video yüklemek hangi ayak izi türüne örnektir?",
+                options: ["Aktif Dijital Ayak İzi", "Pasif Dijital Ayak İzi", "Gizli Ayak İzi", "Geçici Ayak İzi"],
+                answer: 0,
+                pts: 250,
+                points: 250
             },
             {
                 q: "Resmi devlet hizmetlerine tek şifreyle 7/24 ulaşmamızı sağlayan resmi portal hangisidir?",
+                question: "Resmi devlet hizmetlerine tek şifreyle 7/24 ulaşmamızı sağlayan resmi portal hangisidir?",
                 options: ["e-Devlet", "Sosyal Medya", "Online Oyun", "Video Sitesi"],
                 answer: 0,
-                pts: 150
+                pts: 150,
+                points: 150
             },
             {
                 q: "Öğrencilerin sınav notlarını ve devamsızlık durumlarını takip ettikleri MEB sistemi hangisidir?",
+                question: "Öğrencilerin sınav notlarını ve devamsızlık durumlarını takip ettikleri MEB sistemi hangisidir?",
                 options: ["e-Nabız", "e-Okul", "MHRS", "e-Belediye"],
                 answer: 1,
-                pts: 300
+                pts: 300,
+                points: 300
             },
             {
-                q: "Hastanelerden sıra beklemeden randevu almamızı sağlayan sağlık sistemi hangisidir?",
-                options: ["MHRS", "e-Okul", "EBA", "ÖSYM"],
+                q: "Hastanelerden sıra beklemeden doktor seçip randevu almamızı sağlayan sağlık sistemi hangisidir?",
+                question: "Hastanelerden sıra beklemeden doktor seçip randevu almamızı sağlayan sağlık sistemi hangisidir?",
+                options: ["e-Randevu (MHRS)", "e-Okul", "EBA", "ÖSYM"],
                 answer: 0,
-                pts: 250
+                pts: 250,
+                points: 250
+            },
+            {
+                q: "Vergi borcu sorgulama, harç yatırma gibi resmi mali işlemleri internetten yapmaya yarayan sistem hangisidir?",
+                question: "Vergi borcu sorgulama, harç yatırma gibi resmi mali işlemleri internetten yapmaya yarayan sistem hangisidir?",
+                options: ["e-Vergi", "e-Okul", "e-Nabız", "EBA"],
+                answer: 0,
+                pts: 200,
+                points: 200
+            },
+            {
+                q: "Geçmiş tahlil sonuçlarımızı, reçetelerimizi ve aşı takvimimizi görmemizi sağlayan dijital sağlık uygulaması hangisidir?",
+                question: "Geçmiş tahlil sonuçlarımızı, reçetelerimizi ve aşı takvimimizi görmemizi sağlayan dijital sağlık uygulaması hangisidir?",
+                options: ["e-Nabız", "EBA", "e-Okul", "Haritalar"],
+                answer: 0,
+                pts: 150,
+                points: 150
             },
             {
                 q: "İnternette kelimelerin tamamını büyük harflerle yazmak ne anlama gelir?",
+                question: "İnternette kelimelerin tamamını büyük harflerle yazmak ne anlama gelir?",
                 options: ["Bağırmak & Kaba Davranmak", "Daha Hızlı Yazmak", "Neşeli Olmak", "Şifre Koymak"],
                 answer: 0,
-                pts: 200
-            },
-            {
-                q: "Geçmiş tahlil sonuçlarımızı ve aşı takvimimizi görmemizi sağlayan dijital sağlık uygulaması hangisidir?",
-                options: ["e-Nabız", "EBA", "e-Okul", "Haritalar"],
-                answer: 0,
-                pts: 150
+                pts: 200,
+                points: 200
             },
             {
                 q: "İnternette görgü ve nezaket kurallarına verilen isim hangisidir?",
+                question: "İnternette görgü ve nezaket kurallarına verilen isim hangisidir?",
                 options: ["Dijital Nezaket", "Spam", "Hacker", "Download"],
                 answer: 0,
-                pts: 500
+                pts: 500,
+                points: 500
             }
         ],
 
-        // Oyun 2: Kavram & Uygulama Eşleştirme (1'e 1 Net Eşleşme)
+        // Oyun 2: Kavram & Uygulama Eşleştirme (Bölüm 2: 7 Durum - 7 Uygulama + 2 Temel Kavram)
         matchConfig: {
-            leftTitle: "Dijital Vatandaşlık & Uygulamalar 📋",
-            rightTitle: "Hizmet Alanı & Açıklamaları 🎯",
-            instruction: "💡 <strong>Nasıl Oynanır?</strong> Soldaki kavrama dokunun, ardından sağdaki doğru hizmet açıklamasına dokunarak eşleştirin!"
+            leftTitle: "Vatandaşın Talebi & Durumu 📋",
+            rightTitle: "Resmi Dijital Hizmet & Kapı 🎯",
+            instruction: "💡 <strong>Nasıl Oynanır?</strong> Soldaki vatandaşın yapmak istediği resmi işleme dokunun, ardından sağdaki doğru dijital vatandaşlık uygulamasıyla eşleştirin!"
         },
         matchCards: [
             {
                 id: 1,
-                text: "e-Okul Sistemi",
-                category: "Öğrenci sınav notları, devamsızlık ve karne takibi (Eğitim)",
+                text: "Okul bilgilerime, sınav notlarıma ve devamsızlığıma ulaşmak istiyorum",
+                category: "e-Okul (MEB Veli Bilgilendirme Sistemi)",
                 icon: "fa-solid fa-graduation-cap",
                 rightIcon: "fa-solid fa-school"
             },
             {
                 id: 2,
-                text: "e-Nabız Sistemi",
-                category: "Geçmiş tahlil sonuçları, aşı ve reçete arşivi (Sağlık)",
-                icon: "fa-solid fa-heart-pulse",
-                rightIcon: "fa-solid fa-hospital"
-            },
-            {
-                id: 3,
-                text: "e-Devlet Kapısı",
-                category: "Tüm resmi kamu hizmetlerine tek şifreyle 7/24 erişim",
+                text: "Kimlik, ikametgah ve resmi kamu işlemlerimi tek noktadan yapmak istiyorum",
+                category: "e-Devlet Kapısı (turkiye.gov.tr)",
                 icon: "fa-solid fa-landmark",
                 rightIcon: "fa-solid fa-key"
             },
             {
+                id: 3,
+                text: "Geçmiş tahlil, röntgen, aşı ve reçete bilgilerimi görüntülemek istiyorum",
+                category: "e-Nabız (Kişisel Sağlık Kayıt Sistemi)",
+                icon: "fa-solid fa-heart-pulse",
+                rightIcon: "fa-solid fa-hospital"
+            },
+            {
                 id: 4,
-                text: "MHRS (Alo 182)",
-                category: "Hastanelerden doktor ve klinik seçerek randevu alma",
+                text: "Devlet hastanesinden hekim seçerek muayene randevusu almak istiyorum",
+                category: "e-Randevu / MHRS (Alo 182)",
                 icon: "fa-solid fa-calendar-check",
                 rightIcon: "fa-solid fa-user-doctor"
             },
             {
                 id: 5,
-                text: "EBA Portalı",
-                category: "Ders videoları, dijital kitaplar ve eğitici testler",
+                text: "Vergi borcu sorgulama, harç ödeme ve maliye işlemlerimi yapmak istiyorum",
+                category: "e-Vergi (İnteraktif Vergi Dairesi)",
+                icon: "fa-solid fa-file-invoice-dollar",
+                rightIcon: "fa-solid fa-receipt"
+            },
+            {
+                id: 6,
+                text: "Ders videolarına, interaktif testlere ve dijital kitaplara ulaşmak istiyorum",
+                category: "EBA Portalı (Eğitim Bilişim Ağı)",
                 icon: "fa-solid fa-book-open-reader",
                 rightIcon: "fa-solid fa-video"
             },
             {
-                id: 6,
-                text: "Dijital Ayak İzi",
-                category: "İnternette attığımız her adımla arkamızda kalan kalıcı izler",
-                icon: "fa-solid fa-shoe-prints",
-                rightIcon: "fa-solid fa-database"
-            },
-            {
                 id: 7,
-                text: "Dijital Kimlik",
-                category: "İnternette bizi temsil eden profil, hesap ve bilgiler bütünü",
-                icon: "fa-solid fa-id-card",
-                rightIcon: "fa-solid fa-user-check"
+                text: "Para transferi ve hesap işlemlerini bankaya gitmeden yapmak istiyorum",
+                category: "e-Bankacılık (Mobil & İnternet Bankacılığı)",
+                icon: "fa-solid fa-credit-card",
+                rightIcon: "fa-solid fa-building-columns"
             },
             {
                 id: 8,
-                text: "Dijital Nezaket",
-                category: "Sanal ortamda saygılı, kibar ve görgülü iletişim kuralları",
-                icon: "fa-solid fa-hand-holding-heart",
-                rightIcon: "fa-solid fa-comments"
+                text: "Kendi isteğimle fotoğraf paylaşmak, yorum yazmak ve video yüklemek",
+                category: "Aktif Dijital Ayak İzi (Bilinçli Bırakılan İz)",
+                icon: "fa-solid fa-shoe-prints",
+                rightIcon: "fa-solid fa-database"
             }
         ],
 
-        // Oyun 3: Hızlı Refleks Doğru / Yanlış İfadeleri
+        // Oyun 3: Hızlı Refleks Doğru / Yanlış İfadeleri (Bölüm 1 Dedektif + Bölüm 4 Ayak İzi + Bölüm 6 Güvenlik)
         reflexStatements: [
             {
-                text: "İnternette paylaşılan hiçbir şey tamamen silinmeyebilir.",
+                text: "Arkadaşımızın fotoğrafını izinsiz olarak sosyal medyada paylaşmak uygun bir davranıştır.",
+                correct: false
+            },
+            {
+                text: "e-Devlet kapısı birçok resmi kamu işlemine tek şifreyle 7/24 ulaşmamızı sağlar.",
+                correct: true
+            },
+            {
+                text: "İnternette arama yapmak ve web sitelerini gezmek 'Pasif Dijital Ayak İzi' oluşturur.",
+                correct: true
+            },
+            {
+                text: "Kendi isteğimizle sosyal medyaya video yüklemek veya yorum yazmak 'Aktif Dijital Ayak İzi'dir.",
+                correct: true
+            },
+            {
+                text: "Hastanelerden doktor seçerek randevu almak için e-Okul sistemi kullanılır.",
+                correct: false
+            },
+            {
+                text: "e-Nabız sistemi geçmiş tahlil, röntgen ve aşı kayıtlarımızı güvenle saklar.",
+                correct: true
+            },
+            {
+                text: "İnternete yüklediğimiz bir fotoğrafı silsek bile başkaları tarafından kaydedilmiş olabilir.",
                 correct: true
             },
             {
@@ -1631,60 +1875,78 @@ window.WEEK3_CONTENT = {
                 correct: false
             },
             {
-                text: "Mesajlarda kelimeleri tamamı büyük harflerle yazmak bağırmak anlamına gelir.",
+                text: "Vergi, harç ve borç ödeme işlemlerini internet üzerinden yapmak için e-Vergi sistemi kullanılır.",
                 correct: true
             },
             {
-                text: "e-Okul uygulaması hastanelerden doktor randevusu almak için kullanılır.",
+                text: "Mesajlarda kelimeleri tamamı BÜYÜK HARFLERLE yazmak bağırmak anlamına gelir.",
+                correct: true
+            },
+            {
+                text: "Dijital vatandaş, internette farklı fikirlere ve kişisel haklara saygı duyar.",
+                correct: true
+            },
+            {
+                text: "Siber zorbalığa uğradığımızda o kişiye küfür ve kaba sözlerle karşılık vermeliyiz.",
                 correct: false
             },
             {
-                text: "Dijital vatandaş, internette başkalarının haklarına ve fikirlerine saygı duyar.",
-                correct: true
-            },
-            {
-                text: "Siber zorbalığa uğradığımızda o kişiye küfürle karşılık vermeliyiz.",
+                text: "T.C. Kimlik numaramızı ve ev adresimizi sosyal medyada tanımadığımız kişilerle paylaşabiliriz.",
                 correct: false
             },
             {
-                text: "e-Nabız sistemi aşı kayıtlarımızı ve tahlil sonuçlarımızı güvenle saklar.",
-                correct: true
-            },
-            {
-                text: "İnternette doğru olup olmadığını bilmediğimiz haberleri yaymamalıyız.",
+                text: "Güçlü bir şifre en az 8 karakterden oluşmalı; harf, rakam ve sembol içermelidir.",
                 correct: true
             }
         ],
 
-        // Oyun 4: Sınıf Düellosu Soruları
+        // Oyun 4: Sınıf Düellosu Soruları (duel_game.js: q & question, options, answer)
         duelQuestions: [
             {
                 q: "Dijital dünyada haklarını ve sorumluluklarını bilen kişiye ne ad verilir?",
+                question: "Dijital dünyada haklarını ve sorumluluklarını bilen kişiye ne ad verilir?",
                 options: ["Sanal Oyuncu", "Dijital Vatandaş", "Bilgisayar Korsanı", "Sosyal Medyacı"],
                 answer: 1
             },
             {
                 q: "İnternette arkamızda bıraktığımız kalıcı arama ve paylaşım verilerine ne denir?",
+                question: "İnternette arkamızda bıraktığımız kalıcı arama ve paylaşım verilerine ne denir?",
                 options: ["Dijital Ayak İzi", "Ekran Parlaklığı", "İnternet Kotası", "Parmak İzi"],
                 answer: 0
             },
             {
                 q: "Tüm kamu hizmetlerine tek bir şifreyle ulaşmamızı sağlayan resmi devlet portalı hangisidir?",
+                question: "Tüm kamu hizmetlerine tek bir şifreyle ulaşmamızı sağlayan resmi devlet portalı hangisidir?",
                 options: ["Sosyal Ağ", "e-Devlet", "Video Kanalı", "Oyun Mağazası"],
                 answer: 1
             },
             {
                 q: "Öğrenci sınav notları ve devamsızlık durumları hangi MEB uygulamasından öğrenilir?",
+                question: "Öğrenci sınav notları ve devamsızlık durumları hangi MEB uygulamasından öğrenilir?",
                 options: ["e-Okul", "e-Nabız", "MHRS", "e-Belediye"],
                 answer: 0
             },
             {
                 q: "Hastanelerden online randevu almamızı sağlayan sağlık sistemi hangisidir?",
-                options: ["EBA", "MHRS", "e-Okul", "ÖSYM"],
+                question: "Hastanelerden online randevu almamızı sağlayan sağlık sistemi hangisidir?",
+                options: ["EBA", "MHRS (e-Randevu)", "e-Okul", "ÖSYM"],
+                answer: 1
+            },
+            {
+                q: "Vergi borcu sorgulama ve harç ödeme gibi maliye işlemlerini yapan sistem hangisidir?",
+                question: "Vergi borcu sorgulama ve harç ödeme gibi maliye işlemlerini yapan sistem hangisidir?",
+                options: ["e-Vergi", "e-Nabız", "MHRS", "EBA"],
+                answer: 0
+            },
+            {
+                q: "İnternette bir içeriği kendi isteğimizle paylaşmak hangi ayak izi türüdür?",
+                question: "İnternette bir içeriği kendi isteğimizle paylaşmak hangi ayak izi türüdür?",
+                options: ["Pasif Ayak İzi", "Aktif Ayak İzi", "Geçici İzi", "Gizli İzi"],
                 answer: 1
             },
             {
                 q: "İnternette yazışırken tamamı büyük harfle yazmak ne anlama gelir?",
+                question: "İnternette yazışırken tamamı büyük harfle yazmak ne anlama gelir?",
                 options: ["Neşeli Olmak", "Hızlı Yazmak", "Bağırmak & Kaba Davranmak", "Gizli Şifre"],
                 answer: 2
             }
