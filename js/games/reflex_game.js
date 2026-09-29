@@ -28,56 +28,56 @@ class ReflexGame {
         clearInterval(this.timerInterval);
 
         container.innerHTML = `
-            <div class="max-w-3xl mx-auto bg-slate-900 text-white rounded-3xl p-6 shadow-2xl border-4 border-cyan-500">
+            <div class="max-w-3xl mx-auto bg-slate-900 text-white rounded-2xl sm:rounded-3xl p-3 sm:p-6 shadow-2xl border-2 sm:border-4 border-cyan-500">
                 <!-- Üst Panel -->
-                <div class="flex items-center justify-between flex-wrap gap-4 pb-4 border-b border-slate-700">
+                <div class="flex items-center justify-between flex-wrap gap-2.5 sm:gap-4 pb-3 sm:pb-4 border-b border-slate-700">
                     <!-- Canlar -->
-                    <div class="flex items-center gap-2" id="reflex-lives">
+                    <div class="flex items-center gap-1.5 sm:gap-2" id="reflex-lives">
                         ${this.renderLives()}
                     </div>
 
                     <!-- Skor & Seri -->
-                    <div class="flex items-center gap-4">
+                    <div class="flex items-center gap-3 sm:gap-4">
                         <div class="text-center">
-                            <span class="text-xs text-slate-400 font-bold uppercase">Seri</span>
-                            <div id="reflex-streak" class="text-lg font-black text-amber-400 flex items-center gap-1">
+                            <span class="text-[10px] sm:text-xs text-slate-400 font-bold uppercase">Seri</span>
+                            <div id="reflex-streak" class="text-base sm:text-lg font-black text-amber-400 flex items-center gap-1">
                                 <i class="fa-solid fa-fire text-orange-500"></i> 0x
                             </div>
                         </div>
                         <div class="text-center">
-                            <span class="text-xs text-slate-400 font-bold uppercase">Skor</span>
-                            <div id="reflex-score" class="text-2xl font-black text-cyan-400">0</div>
+                            <span class="text-[10px] sm:text-xs text-slate-400 font-bold uppercase">Skor</span>
+                            <div id="reflex-score" class="text-lg sm:text-2xl font-black text-cyan-400">0</div>
                         </div>
                     </div>
 
-                    <button onclick="reflexGame.resetGame()" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 rounded-xl font-bold text-xs text-slate-300 transition-all">
+                    <button onclick="reflexGame.resetGame()" class="px-2.5 sm:px-3 py-1 sm:py-1.5 bg-slate-800 hover:bg-slate-700 rounded-xl font-bold text-xs text-slate-300 transition-all active:scale-95">
                         <i class="fa-solid fa-rotate-right"></i> Sıfırla
                     </button>
                 </div>
 
                 <!-- Süre Çubuğu -->
-                <div class="w-full bg-slate-800 h-2.5 rounded-full overflow-hidden my-4">
+                <div class="w-full bg-slate-800 h-2 sm:h-2.5 rounded-full overflow-hidden my-3 sm:my-4">
                     <div id="reflex-progress" class="bg-cyan-400 h-full w-full transition-all duration-100 ease-linear"></div>
                 </div>
 
                 <!-- Kart Alanı -->
-                <div id="reflex-card-area" class="my-6 min-h-[180px] flex items-center justify-center text-center p-6 bg-slate-800/80 rounded-3xl border-2 border-slate-700 shadow-inner">
-                    <div id="reflex-statement-text" class="text-xl sm:text-2xl font-extrabold text-white leading-relaxed">
+                <div id="reflex-card-area" class="my-4 sm:my-6 min-h-[140px] sm:min-h-[180px] flex items-center justify-center text-center p-3.5 sm:p-6 bg-slate-800/80 rounded-2xl sm:rounded-3xl border-2 border-slate-700 shadow-inner">
+                    <div id="reflex-statement-text" class="text-sm sm:text-xl md:text-2xl font-extrabold text-white leading-relaxed">
                         ${this.statements[0].text}
                     </div>
                 </div>
 
-                <!-- Cevap Butonları (Akıllı Tahtada Büyük Butonlar) -->
-                <div class="grid grid-cols-2 gap-4 sm:gap-6 mt-6">
-                    <button onclick="reflexGame.answer(false)" class="p-5 sm:p-6 bg-gradient-to-r from-rose-600 to-red-600 hover:from-rose-500 hover:to-red-500 text-white font-black text-2xl rounded-2xl shadow-xl flex items-center justify-center gap-3 active:scale-95 transition-all border-b-4 border-red-800">
-                        <i class="fa-solid fa-xmark text-3xl"></i> YANLIŞ
+                <!-- Cevap Butonları (Dokunmatik & Akıllı Tahta Büyük Butonlar) -->
+                <div class="grid grid-cols-2 gap-3 sm:gap-6 mt-4 sm:mt-6">
+                    <button onclick="reflexGame.answer(false)" class="p-3.5 sm:p-6 bg-gradient-to-r from-rose-600 to-red-600 hover:from-rose-500 hover:to-red-500 text-white font-black text-base sm:text-2xl rounded-xl sm:rounded-2xl shadow-xl flex items-center justify-center gap-2 sm:gap-3 active:scale-95 transition-all border-b-4 border-red-800">
+                        <i class="fa-solid fa-xmark text-xl sm:text-3xl"></i> YANLIŞ
                     </button>
-                    <button onclick="reflexGame.answer(true)" class="p-5 sm:p-6 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-black text-2xl rounded-2xl shadow-xl flex items-center justify-center gap-3 active:scale-95 transition-all border-b-4 border-emerald-800">
-                        <i class="fa-solid fa-check text-3xl"></i> DOĞRU
+                    <button onclick="reflexGame.answer(true)" class="p-3.5 sm:p-6 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-black text-base sm:text-2xl rounded-xl sm:rounded-2xl shadow-xl flex items-center justify-center gap-2 sm:gap-3 active:scale-95 transition-all border-b-4 border-emerald-800">
+                        <i class="fa-solid fa-check text-xl sm:text-3xl"></i> DOĞRU
                     </button>
                 </div>
 
-                <p class="text-xs text-slate-400 text-center mt-4">
+                <p class="text-[11px] sm:text-xs text-slate-400 text-center mt-3 sm:mt-4">
                     💡 Klavye ile oynamak için Sol Ok (Yanlış) ve Sağ Ok (Doğru) tuşlarını da kullanabilirsiniz.
                 </p>
             </div>
@@ -91,9 +91,9 @@ class ReflexGame {
         let html = "";
         for (let i = 0; i < this.maxLives; i++) {
             if (i < this.lives) {
-                html += `<i class="fa-solid fa-heart text-red-500 text-2xl animate-pulse"></i>`;
+                html += `<i class="fa-solid fa-heart text-red-500 text-lg sm:text-2xl animate-pulse"></i>`;
             } else {
-                html += `<i class="fa-regular fa-heart text-slate-600 text-2xl"></i>`;
+                html += `<i class="fa-regular fa-heart text-slate-600 text-lg sm:text-2xl"></i>`;
             }
         }
         return html;

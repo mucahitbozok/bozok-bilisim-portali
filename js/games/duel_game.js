@@ -25,36 +25,36 @@ class DuelGame {
         this.questions = [...(data.gameData?.duelQuestions || WEEK1_CONTENT.gameData.duelQuestions)].sort(() => Math.random() - 0.5);
 
         container.innerHTML = `
-            <div class="max-w-5xl mx-auto bg-slate-900 text-white rounded-3xl p-6 shadow-2xl border-4 border-purple-500">
+            <div class="max-w-5xl mx-auto bg-slate-900 text-white rounded-2xl sm:rounded-3xl p-3 sm:p-6 shadow-2xl border-2 sm:border-4 border-purple-500">
                 <!-- Üst Başlık & Skor Çubuğu -->
-                <div class="text-center pb-4 border-b border-slate-700">
-                    <div class="flex items-center justify-between flex-wrap gap-4">
+                <div class="text-center pb-3 sm:pb-4 border-b border-slate-700">
+                    <div class="flex items-center justify-between flex-wrap gap-2.5 sm:gap-4">
                         <!-- Takım A (Mavi) -->
-                        <div class="flex items-center gap-3 bg-blue-950/60 border-2 border-blue-500 px-5 py-3 rounded-2xl shadow-lg">
-                            <div class="w-12 h-12 rounded-xl bg-blue-500 flex items-center justify-center text-white text-2xl font-black">
+                        <div class="flex items-center gap-2 sm:gap-3 bg-blue-950/60 border-2 border-blue-500 px-3 sm:px-5 py-2 sm:py-3 rounded-xl sm:rounded-2xl shadow-lg">
+                            <div class="w-8 h-8 sm:w-12 sm:h-12 rounded-lg sm:rounded-xl bg-blue-500 flex items-center justify-center text-white text-base sm:text-2xl font-black shrink-0">
                                 A
                             </div>
                             <div class="text-left">
-                                <span class="text-xs font-bold text-blue-300 uppercase">1. Takım (Mavi)</span>
-                                <div id="duel-score-a" class="text-3xl font-black text-blue-400">0 Puan</div>
+                                <span class="text-[10px] sm:text-xs font-bold text-blue-300 uppercase">1. Takım (Mavi)</span>
+                                <div id="duel-score-a" class="text-lg sm:text-3xl font-black text-blue-400">0 Puan</div>
                             </div>
                         </div>
 
                         <!-- Ortadaki VS & Tur -->
                         <div class="flex flex-col items-center">
-                            <span class="px-4 py-1 bg-gradient-to-r from-blue-500 via-purple-500 to-rose-500 text-white font-black text-xl rounded-full shadow-lg animate-pulse">
+                            <span class="px-3 sm:px-4 py-0.5 sm:py-1 bg-gradient-to-r from-blue-500 via-purple-500 to-rose-500 text-white font-black text-xs sm:text-xl rounded-full shadow-lg animate-pulse">
                                 VS DÜELLO
                             </span>
-                            <span id="duel-round-info" class="text-xs text-slate-400 font-bold mt-1">Soru: 1 / ${this.questions.length}</span>
+                            <span id="duel-round-info" class="text-[10px] sm:text-xs text-slate-400 font-bold mt-1">Soru: 1 / ${this.questions.length}</span>
                         </div>
 
                         <!-- Takım B (Kırmızı) -->
-                        <div class="flex items-center gap-3 bg-rose-950/60 border-2 border-rose-500 px-5 py-3 rounded-2xl shadow-lg">
+                        <div class="flex items-center gap-2 sm:gap-3 bg-rose-950/60 border-2 border-rose-500 px-3 sm:px-5 py-2 sm:py-3 rounded-xl sm:rounded-2xl shadow-lg">
                             <div class="text-right">
-                                <span class="text-xs font-bold text-rose-300 uppercase">2. Takım (Kırmızı)</span>
-                                <div id="duel-score-b" class="text-3xl font-black text-rose-400">0 Puan</div>
+                                <span class="text-[10px] sm:text-xs font-bold text-rose-300 uppercase">2. Takım (Kırmızı)</span>
+                                <div id="duel-score-b" class="text-lg sm:text-3xl font-black text-rose-400">0 Puan</div>
                             </div>
-                            <div class="w-12 h-12 rounded-xl bg-rose-500 flex items-center justify-center text-white text-2xl font-black">
+                            <div class="w-8 h-8 sm:w-12 sm:h-12 rounded-lg sm:rounded-xl bg-rose-500 flex items-center justify-center text-white text-base sm:text-2xl font-black shrink-0">
                                 B
                             </div>
                         </div>
@@ -62,40 +62,40 @@ class DuelGame {
                 </div>
 
                 <!-- Ortak Soru Kutusu -->
-                <div class="my-6 text-center p-6 bg-slate-800 rounded-2xl border-2 border-purple-400/50 shadow-inner">
-                    <span class="text-xs font-bold text-yellow-400 uppercase tracking-widest block mb-1">DÜELLO SORUSU</span>
-                    <h3 id="duel-question-text" class="text-2xl sm:text-3xl font-black text-white">
+                <div class="my-3 sm:my-6 text-center p-3.5 sm:p-6 bg-slate-800 rounded-xl sm:rounded-2xl border-2 border-purple-400/50 shadow-inner">
+                    <span class="text-[10px] sm:text-xs font-bold text-yellow-400 uppercase tracking-widest block mb-1">DÜELLO SORUSU</span>
+                    <h3 id="duel-question-text" class="text-base sm:text-2xl md:text-3xl font-black text-white leading-snug">
                         ${this.questions[0].q}
                     </h3>
                 </div>
 
                 <!-- İkili Yarışma Butonları (Solda Takım A - Sağda Takım B) -->
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-8">
                     <!-- Takım A Butonları -->
-                    <div class="bg-blue-900/20 border-2 border-blue-500/40 rounded-3xl p-4 space-y-3">
-                        <div class="text-center font-bold text-blue-300 text-sm mb-2 flex items-center justify-center gap-2">
+                    <div class="bg-blue-900/20 border-2 border-blue-500/40 rounded-2xl sm:rounded-3xl p-3 sm:p-4 space-y-2.5 sm:space-y-3">
+                        <div class="text-center font-bold text-blue-300 text-xs sm:text-sm mb-2 flex items-center justify-center gap-2">
                             <i class="fa-solid fa-hand-pointer"></i> 1. TAKIM ALANI
                         </div>
-                        <div id="duel-options-a" class="space-y-2.5">
+                        <div id="duel-options-a" class="space-y-2 sm:space-y-2.5">
                             ${this.renderOptions("a")}
                         </div>
                     </div>
 
                     <!-- Takım B Butonları -->
-                    <div class="bg-rose-900/20 border-2 border-rose-500/40 rounded-3xl p-4 space-y-3">
-                        <div class="text-center font-bold text-rose-300 text-sm mb-2 flex items-center justify-center gap-2">
+                    <div class="bg-rose-900/20 border-2 border-rose-500/40 rounded-2xl sm:rounded-3xl p-3 sm:p-4 space-y-2.5 sm:space-y-3">
+                        <div class="text-center font-bold text-rose-300 text-xs sm:text-sm mb-2 flex items-center justify-center gap-2">
                             <i class="fa-solid fa-hand-pointer"></i> 2. TAKIM ALANI
                         </div>
-                        <div id="duel-options-b" class="space-y-2.5">
+                        <div id="duel-options-b" class="space-y-2 sm:space-y-2.5">
                             ${this.renderOptions("b")}
                         </div>
                     </div>
                 </div>
 
                 <!-- Alt Butonlar -->
-                <div class="flex justify-between items-center mt-6 pt-4 border-t border-slate-800">
-                    <p class="text-xs text-slate-400">💡 İlk doğru cevaba basan takım +100 puan kazanır!</p>
-                    <button onclick="duelGame.resetGame()" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 rounded-xl font-bold text-xs text-slate-300 transition-all">
+                <div class="flex justify-between items-center mt-4 sm:mt-6 pt-3 sm:pt-4 border-t border-slate-800 flex-wrap gap-2">
+                    <p class="text-[11px] sm:text-xs text-slate-400">💡 İlk doğru cevaba basan takım +100 puan kazanır!</p>
+                    <button onclick="duelGame.resetGame()" class="px-3 sm:px-4 py-1.5 sm:py-2 bg-slate-800 hover:bg-slate-700 rounded-xl font-bold text-xs text-slate-300 transition-all active:scale-95">
                         <i class="fa-solid fa-rotate-right"></i> Düelloyu Yeniden Başlat
                     </button>
                 </div>
@@ -107,12 +107,12 @@ class DuelGame {
         const q = this.questions[this.currentIndex];
         const isTeamA = team === "a";
         const btnClass = isTeamA
-            ? "w-full p-4 bg-slate-800 hover:bg-blue-600 border-2 border-blue-500/50 rounded-2xl text-left font-bold text-white transition-all active:scale-95 text-base flex items-center gap-3 shadow-md"
-            : "w-full p-4 bg-slate-800 hover:bg-rose-600 border-2 border-rose-500/50 rounded-2xl text-left font-bold text-white transition-all active:scale-95 text-base flex items-center gap-3 shadow-md";
+            ? "w-full p-2.5 sm:p-4 bg-slate-800 hover:bg-blue-600 border-2 border-blue-500/50 rounded-xl sm:rounded-2xl text-left font-bold text-white transition-all active:scale-95 text-xs sm:text-base flex items-center gap-2.5 sm:gap-3 shadow-md"
+            : "w-full p-2.5 sm:p-4 bg-slate-800 hover:bg-rose-600 border-2 border-rose-500/50 rounded-xl sm:rounded-2xl text-left font-bold text-white transition-all active:scale-95 text-xs sm:text-base flex items-center gap-2.5 sm:gap-3 shadow-md";
 
         return q.options.map((opt, i) => `
             <button id="duel-btn-${team}-${i}" onclick="duelGame.handleAnswer('${team}', ${i})" class="${btnClass}">
-                <span class="w-8 h-8 rounded-xl ${isTeamA ? 'bg-blue-500' : 'bg-rose-500'} text-white flex items-center justify-center font-black text-sm shrink-0">
+                <span class="w-6 h-6 sm:w-8 sm:h-8 rounded-lg sm:rounded-xl ${isTeamA ? 'bg-blue-500' : 'bg-rose-500'} text-white flex items-center justify-center font-black text-xs sm:text-sm shrink-0">
                     ${String.fromCharCode(65 + i)}
                 </span>
                 <span>${opt}</span>

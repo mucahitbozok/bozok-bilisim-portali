@@ -1817,6 +1817,7 @@ window.WEEK3_CONTENT = {
 
         // Oyun 2: Kavram & Durum Eşleştirme (Senaryo Bazlı Özgün Kartlar)
         matchConfig: {
+            timer: 90,
             leftTitle: "Gerçek Yaşam Senaryoları 📋",
             rightTitle: "Kullanılacak Dijital Sistem 🎯",
             instruction: "💡 <strong>Nasıl Oynanır?</strong> Soldaki vatandaşın gerçek yaşam durumuna dokunun, ardından sağdaki doğru dijital vatandaşlık uygulamasıyla eşleştirin!"

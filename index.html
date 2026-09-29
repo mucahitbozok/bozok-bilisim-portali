@@ -417,34 +417,34 @@
     </div>
 
     <!-- BAĞIMSIZ OYUN VE ETKİNLİK MODALI (TAM EKRAN VE İNTERAKTİF) -->
-    <div id="standalone-game-modal" class="hidden fixed inset-0 z-50 bg-slate-950/95 backdrop-blur-md flex flex-col p-2 sm:p-4">
+    <div id="standalone-game-modal" class="hidden fixed inset-0 z-50 bg-slate-950/95 backdrop-blur-md flex flex-col p-1.5 sm:p-4">
         <!-- Modal Üst Kontrol Çubuğu -->
-        <div class="flex items-center justify-between gap-4 p-3 bg-slate-900 border border-slate-800 rounded-2xl mb-2 shadow-2xl flex-wrap">
-            <div class="flex items-center gap-3">
-                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-amber-500 to-yellow-400 text-slate-950 flex items-center justify-center text-xl font-black shadow-lg">
-                    <i class="fa-solid fa-user-secret"></i>
+        <div class="flex items-center justify-between gap-2 sm:gap-4 p-2 sm:p-3 bg-slate-900 border border-slate-800 rounded-xl sm:rounded-2xl mb-1.5 sm:mb-2 shadow-2xl flex-nowrap">
+            <div class="flex items-center gap-2 sm:gap-3 min-w-0 flex-1">
+                <div class="w-8 h-8 sm:w-10 sm:h-10 rounded-lg sm:rounded-xl bg-gradient-to-tr from-amber-500 to-yellow-400 text-slate-950 flex items-center justify-center text-base sm:text-xl font-black shadow-lg shrink-0">
+                    <i class="fa-solid fa-gamepad"></i>
                 </div>
-                <div>
-                    <h3 id="standalone-game-title" class="text-sm sm:text-base font-black text-white">Bilişim Teknolojileri Dedektifleri</h3>
-                    <p class="text-[11px] text-amber-300 font-semibold">Öğretmen Bozok • Özel Sınıf Oyunu</p>
+                <div class="min-w-0">
+                    <h3 id="standalone-game-title" class="text-xs sm:text-base font-black text-white truncate leading-tight">Bilişim Oyunu</h3>
+                    <p class="text-[10px] text-amber-300 font-semibold hidden sm:block">Öğretmen Bozok • Özel Sınıf Oyunu</p>
                 </div>
             </div>
-            <div class="flex items-center gap-2">
-                <button id="standalone-fullscreen-btn" onclick="app.toggleStandaloneGameFullscreen()" class="px-3.5 py-2 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white font-black rounded-xl text-xs flex items-center gap-1.5 border border-purple-400 shadow transition-all hover:scale-105 active:scale-95" title="Akıllı Tahta Tam Ekran Yap">
+            <div class="flex items-center gap-1.5 sm:gap-2 shrink-0">
+                <button id="standalone-fullscreen-btn" onclick="app.toggleStandaloneGameFullscreen()" class="px-2.5 sm:px-3.5 py-1.5 sm:py-2 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white font-black rounded-lg sm:rounded-xl text-xs flex items-center gap-1.5 border border-purple-400 shadow transition-all hover:scale-105 active:scale-95" title="Akıllı Tahta Tam Ekran Yap">
                     <i id="standalone-fullscreen-icon" class="fa-solid fa-expand text-yellow-300"></i>
-                    <span id="standalone-fullscreen-text">Tam Ekran</span>
+                    <span id="standalone-fullscreen-text" class="hidden xs:inline">Tam Ekran</span>
                 </button>
-                <button onclick="window.open(document.getElementById('standalone-game-iframe').src, '_blank')" class="px-3.5 py-2 bg-slate-800 hover:bg-slate-700 text-white font-bold rounded-xl text-xs flex items-center gap-1.5 border border-slate-700 shadow transition-all hover:scale-105 active:scale-95">
-                    <i class="fa-solid fa-arrow-up-right-from-square text-amber-400"></i> Ayrı Sekmede Aç
+                <button onclick="window.open(document.getElementById('standalone-game-iframe').src, '_blank')" class="px-2.5 sm:px-3.5 py-1.5 sm:py-2 bg-slate-800 hover:bg-slate-700 text-white font-bold rounded-lg sm:rounded-xl text-xs flex items-center gap-1.5 border border-slate-700 shadow transition-all hover:scale-105 active:scale-95" title="Yeni Sekmede Aç">
+                    <i class="fa-solid fa-arrow-up-right-from-square text-amber-400"></i> <span class="hidden md:inline">Yeni Sekmede</span>
                 </button>
-                <button onclick="app.closeStandaloneGame()" class="w-9 h-9 bg-rose-600 hover:bg-rose-500 text-white rounded-xl flex items-center justify-center text-base transition-all shadow-md hover:scale-105 active:scale-95" title="Kapat">
+                <button onclick="app.closeStandaloneGame()" class="w-8 h-8 sm:w-9 sm:h-9 bg-rose-600 hover:bg-rose-500 text-white rounded-lg sm:rounded-xl flex items-center justify-center text-sm sm:text-base transition-all shadow-md hover:scale-105 active:scale-95" title="Kapat">
                     <i class="fa-solid fa-xmark"></i>
                 </button>
             </div>
         </div>
 
         <!-- Oyun Çerçevesi (Iframe) -->
-        <div class="flex-1 rounded-2xl overflow-hidden border-2 border-slate-800 bg-slate-950 shadow-2xl relative">
+        <div class="flex-1 rounded-xl sm:rounded-2xl overflow-hidden border border-slate-800 bg-slate-950 shadow-2xl relative">
             <iframe id="standalone-game-iframe" src="" class="w-full h-full border-0" allow="autoplay; fullscreen"></iframe>
         </div>
     </div>

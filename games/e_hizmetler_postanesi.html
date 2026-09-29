@@ -487,12 +487,12 @@
                             </div>
 
                             <!-- 5 HİZMET KAPISI BUTONLARI -->
-                            <div id="gates-container" class="grid grid-cols-1 sm:grid-cols-5 gap-3 pt-2">
-                                ${this.gates.map(gate => `
-                                    <button onclick="game.handleGate('${gate.id}')" class="dispatch-gate p-4 rounded-2xl bg-gradient-to-b ${gate.color} text-white font-bold text-center shadow-lg border-2 ${gate.border} flex flex-col items-center justify-center gap-2">
-                                        <i class="${gate.icon} text-2xl"></i>
-                                        <span class="text-sm font-black leading-tight">${gate.name}</span>
-                                        <span class="text-[10px] text-white/80 font-normal opacity-90">${gate.tag}</span>
+                            <div id="gates-container" class="grid grid-cols-2 sm:grid-cols-5 gap-2 sm:gap-3 pt-2">
+                                ${this.gates.map((gate, gIdx) => `
+                                    <button onclick="game.handleGate('${gate.id}')" class="dispatch-gate p-2.5 sm:p-4 rounded-xl sm:rounded-2xl bg-gradient-to-b ${gate.color} text-white font-bold text-center shadow-lg border-2 ${gate.border} flex flex-col items-center justify-center gap-1.5 sm:gap-2 active:scale-95 transition-all ${gIdx === 4 ? 'col-span-2 sm:col-span-1' : ''}">
+                                        <i class="${gate.icon} text-xl sm:text-2xl"></i>
+                                        <span class="text-xs sm:text-sm font-black leading-tight">${gate.name}</span>
+                                        <span class="text-[9px] sm:text-[10px] text-white/80 font-normal opacity-90">${gate.tag}</span>
                                     </button>
                                 `).join('')}
                             </div>

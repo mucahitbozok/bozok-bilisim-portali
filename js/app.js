@@ -1473,91 +1473,91 @@ class App {
         gameContainer.innerHTML = `
             <div class="max-w-5xl mx-auto space-y-8">
                 <!-- Oyunlar Başlık -->
-                <div class="text-center space-y-3">
-                    <span class="px-4 py-1.5 bg-yellow-400/20 text-yellow-300 font-extrabold text-xs uppercase tracking-widest rounded-full border border-yellow-400/30">
+                <div class="text-center space-y-2 sm:space-y-3">
+                    <span class="px-3.5 sm:px-4 py-1 sm:py-1.5 bg-yellow-400/20 text-yellow-300 font-extrabold text-[10px] sm:text-xs uppercase tracking-widest rounded-full border border-yellow-400/30">
                         🎮 Sınıf İçi Pekiştirme Oyunları
                     </span>
-                    <h2 class="text-3xl sm:text-4xl font-black text-white">${this.currentWeek}. Hafta Oyun Arenası (${totalGameCount} Farklı Oyun Modu 🎮)</h2>
-                    <p class="text-slate-400 text-sm max-w-xl mx-auto">
+                    <h2 class="text-2xl sm:text-4xl font-black text-white leading-tight">${this.currentWeek}. Hafta Oyun Arenası (${totalGameCount} Farklı Oyun Modu 🎮)</h2>
+                    <p class="text-slate-400 text-xs sm:text-sm max-w-xl mx-auto px-2">
                         Akıllı tahtada tüm sınıfla çarkıfelek oynayabilir, teknoloji mahkemesi kurabilir, maceralara atılabilir veya hızlı reflekslerini test edebilirsin!
                     </p>
                 </div>
 
                 <!-- Oyun Kartları Grid (1, 2, 3, 4, 5, 6... Sıralı) -->
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
 
                     <!-- 1. Oyun Modu: Çarkıfelek -->
-                    <div class="game-mode-card bg-gradient-to-br from-indigo-900/90 to-blue-900/90 rounded-3xl p-6 border-2 border-indigo-500/50 shadow-2xl flex flex-col justify-between space-y-4">
-                        <div class="flex items-center gap-4">
-                            <div class="w-14 h-14 rounded-2xl bg-indigo-500/30 text-yellow-400 flex items-center justify-center text-3xl shadow-inner shrink-0">
+                    <div class="game-mode-card bg-gradient-to-br from-indigo-900/90 to-blue-900/90 rounded-2xl sm:rounded-3xl p-4 sm:p-6 border-2 border-indigo-500/50 shadow-2xl flex flex-col justify-between space-y-3.5 sm:space-y-4">
+                        <div class="flex items-center gap-3 sm:gap-4">
+                            <div class="w-11 h-11 sm:w-14 sm:h-14 rounded-xl sm:rounded-2xl bg-indigo-500/30 text-yellow-400 flex items-center justify-center text-2xl sm:text-3xl shadow-inner shrink-0">
                                 <i class="fa-solid fa-dharmachakra"></i>
                             </div>
                             <div>
-                                <span class="text-xs font-bold text-indigo-300 uppercase">1. Oyun Modu</span>
-                                <h3 class="text-xl font-black text-white">Bilişim Çarkıfeleği</h3>
+                                <span class="text-[10px] sm:text-xs font-bold text-indigo-300 uppercase">1. Oyun Modu</span>
+                                <h3 class="text-lg sm:text-xl font-black text-white">Bilişim Çarkıfeleği</h3>
                             </div>
                         </div>
-                        <p class="text-sm text-indigo-100 flex-1">
+                        <p class="text-xs sm:text-sm text-indigo-100 flex-1 leading-relaxed">
                             Çarkı çevirerek puanları topla, jokerleri kullan ve sınıfın şampiyonu ol!
                         </p>
-                        <button onclick="app.launchGame('wheel')" class="w-full py-3.5 bg-gradient-to-r from-yellow-500 to-amber-500 hover:from-yellow-400 hover:to-amber-400 text-slate-950 font-black text-base rounded-2xl shadow-xl flex items-center justify-center gap-2 transition-all hover:scale-[1.02] active:scale-95">
+                        <button onclick="app.launchGame('wheel')" class="w-full py-3 sm:py-3.5 bg-gradient-to-r from-yellow-500 to-amber-500 hover:from-yellow-400 hover:to-amber-400 text-slate-950 font-black text-sm sm:text-base rounded-xl sm:rounded-2xl shadow-xl flex items-center justify-center gap-2 transition-all hover:scale-[1.02] active:scale-95">
                             <i class="fa-solid fa-play"></i> Çarkıfeleği Başlat
                         </button>
                     </div>
 
                     <!-- 2. Oyun Modu: Eşleştirme -->
-                    <div class="game-mode-card bg-gradient-to-br from-emerald-900/90 to-teal-900/90 rounded-3xl p-6 border-2 border-emerald-500/50 shadow-2xl flex flex-col justify-between space-y-4">
-                        <div class="flex items-center gap-4">
-                            <div class="w-14 h-14 rounded-2xl bg-emerald-500/30 text-emerald-300 flex items-center justify-center text-3xl shadow-inner shrink-0">
+                    <div class="game-mode-card bg-gradient-to-br from-emerald-900/90 to-teal-900/90 rounded-2xl sm:rounded-3xl p-4 sm:p-6 border-2 border-emerald-500/50 shadow-2xl flex flex-col justify-between space-y-3.5 sm:space-y-4">
+                        <div class="flex items-center gap-3 sm:gap-4">
+                            <div class="w-11 h-11 sm:w-14 sm:h-14 rounded-xl sm:rounded-2xl bg-emerald-500/30 text-emerald-300 flex items-center justify-center text-2xl sm:text-3xl shadow-inner shrink-0">
                                 <i class="fa-solid fa-puzzle-piece"></i>
                             </div>
                             <div>
-                                <span class="text-xs font-bold text-emerald-300 uppercase">2. Oyun Modu</span>
-                                <h3 class="text-xl font-black text-white">Kavram & Alan Eşleştirme</h3>
+                                <span class="text-[10px] sm:text-xs font-bold text-emerald-300 uppercase">2. Oyun Modu</span>
+                                <h3 class="text-lg sm:text-xl font-black text-white">Kavram & Alan Eşleştirme</h3>
                             </div>
                         </div>
-                        <p class="text-sm text-emerald-100 flex-1">
+                        <p class="text-xs sm:text-sm text-emerald-100 flex-1 leading-relaxed">
                             Bilişim teknolojilerini kullanım alanlarıyla en hızlı şekilde eşleştir, süreyi yen!
                         </p>
-                        <button onclick="app.launchGame('match')" class="w-full py-3.5 bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 text-white font-black text-base rounded-2xl shadow-xl flex items-center justify-center gap-2 transition-all hover:scale-[1.02] active:scale-95">
+                        <button onclick="app.launchGame('match')" class="w-full py-3 sm:py-3.5 bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 text-white font-black text-sm sm:text-base rounded-xl sm:rounded-2xl shadow-xl flex items-center justify-center gap-2 transition-all hover:scale-[1.02] active:scale-95">
                             <i class="fa-solid fa-play"></i> Eşleştirmeye Başla
                         </button>
                     </div>
 
                     <!-- 3. Oyun Modu: Refleks -->
-                    <div class="game-mode-card bg-gradient-to-br from-cyan-900/90 to-blue-950/90 rounded-3xl p-6 border-2 border-cyan-500/50 shadow-2xl flex flex-col justify-between space-y-4">
-                        <div class="flex items-center gap-4">
-                            <div class="w-14 h-14 rounded-2xl bg-cyan-500/30 text-cyan-300 flex items-center justify-center text-3xl shadow-inner shrink-0">
+                    <div class="game-mode-card bg-gradient-to-br from-cyan-900/90 to-blue-950/90 rounded-2xl sm:rounded-3xl p-4 sm:p-6 border-2 border-cyan-500/50 shadow-2xl flex flex-col justify-between space-y-3.5 sm:space-y-4">
+                        <div class="flex items-center gap-3 sm:gap-4">
+                            <div class="w-11 h-11 sm:w-14 sm:h-14 rounded-xl sm:rounded-2xl bg-cyan-500/30 text-cyan-300 flex items-center justify-center text-2xl sm:text-3xl shadow-inner shrink-0">
                                 <i class="fa-solid fa-bolt-lightning"></i>
                             </div>
                             <div>
-                                <span class="text-xs font-bold text-cyan-300 uppercase">3. Oyun Modu</span>
-                                <h3 class="text-xl font-black text-white">Hızlı Doğru mu Yanlış mı?</h3>
+                                <span class="text-[10px] sm:text-xs font-bold text-cyan-300 uppercase">3. Oyun Modu</span>
+                                <h3 class="text-lg sm:text-xl font-black text-white">Hızlı Doğru mu Yanlış mı?</h3>
                             </div>
                         </div>
-                        <p class="text-sm text-cyan-100 flex-1">
+                        <p class="text-xs sm:text-sm text-cyan-100 flex-1 leading-relaxed">
                             Hızla akan kartları değerlendir, seri yaparak kombo puanları topla!
                         </p>
-                        <button onclick="app.launchGame('reflex')" class="w-full py-3.5 bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-400 hover:to-blue-400 text-white font-black text-base rounded-2xl shadow-xl flex items-center justify-center gap-2 transition-all hover:scale-[1.02] active:scale-95">
+                        <button onclick="app.launchGame('reflex')" class="w-full py-3 sm:py-3.5 bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-400 hover:to-blue-400 text-white font-black text-sm sm:text-base rounded-xl sm:rounded-2xl shadow-xl flex items-center justify-center gap-2 transition-all hover:scale-[1.02] active:scale-95">
                             <i class="fa-solid fa-play"></i> Refleks Oyununu Başlat
                         </button>
                     </div>
 
                     <!-- 4. Oyun Modu: Düello -->
-                    <div class="game-mode-card bg-gradient-to-br from-purple-900/90 to-pink-900/90 rounded-3xl p-6 border-2 border-purple-500/50 shadow-2xl flex flex-col justify-between space-y-4">
-                        <div class="flex items-center gap-4">
-                            <div class="w-14 h-14 rounded-2xl bg-purple-500/30 text-pink-300 flex items-center justify-center text-3xl shadow-inner shrink-0">
+                    <div class="game-mode-card bg-gradient-to-br from-purple-900/90 to-pink-900/90 rounded-2xl sm:rounded-3xl p-4 sm:p-6 border-2 border-purple-500/50 shadow-2xl flex flex-col justify-between space-y-3.5 sm:space-y-4">
+                        <div class="flex items-center gap-3 sm:gap-4">
+                            <div class="w-11 h-11 sm:w-14 sm:h-14 rounded-xl sm:rounded-2xl bg-purple-500/30 text-pink-300 flex items-center justify-center text-2xl sm:text-3xl shadow-inner shrink-0">
                                 <i class="fa-solid fa-users"></i>
                             </div>
                             <div>
-                                <span class="text-xs font-bold text-purple-300 uppercase">4. Oyun Modu (Sınıf İçi)</span>
-                                <h3 class="text-xl font-black text-white">Akıllı Tahta İkili Düello</h3>
+                                <span class="text-[10px] sm:text-xs font-bold text-purple-300 uppercase">4. Oyun Modu (Sınıf İçi)</span>
+                                <h3 class="text-lg sm:text-xl font-black text-white">Akıllı Tahta İkili Düello</h3>
                             </div>
                         </div>
-                        <p class="text-sm text-purple-100 flex-1">
+                        <p class="text-xs sm:text-sm text-purple-100 flex-1 leading-relaxed">
                             Tahtayı ikiye bölen ve iki öğrencinin aynı anda canlı yarışabileceği sınıf modu!
                         </p>
-                        <button onclick="app.launchGame('duel')" class="w-full py-3.5 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white font-black text-base rounded-2xl shadow-xl flex items-center justify-center gap-2 transition-all hover:scale-[1.02] active:scale-95">
+                        <button onclick="app.launchGame('duel')" class="w-full py-3 sm:py-3.5 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white font-black text-sm sm:text-base rounded-xl sm:rounded-2xl shadow-xl flex items-center justify-center gap-2 transition-all hover:scale-[1.02] active:scale-95">
                             <i class="fa-solid fa-play"></i> Sınıf Düellosunu Başlat
                         </button>
                     </div>
@@ -1566,20 +1566,20 @@ class App {
                     ${extraGames.map((game, idx) => {
                         const gameNumber = 5 + idx;
                         return `
-                        <div class="game-mode-card bg-gradient-to-br ${game.cardGradient} rounded-3xl p-6 border-2 ${game.border} shadow-2xl flex flex-col justify-between space-y-4">
-                            <div class="flex items-center gap-4">
-                                <div class="w-14 h-14 rounded-2xl ${game.iconBg} flex items-center justify-center text-3xl shadow-inner shrink-0">
+                        <div class="game-mode-card bg-gradient-to-br ${game.cardGradient} rounded-2xl sm:rounded-3xl p-4 sm:p-6 border-2 ${game.border} shadow-2xl flex flex-col justify-between space-y-3.5 sm:space-y-4">
+                            <div class="flex items-center gap-3 sm:gap-4">
+                                <div class="w-11 h-11 sm:w-14 sm:h-14 rounded-xl sm:rounded-2xl ${game.iconBg} flex items-center justify-center text-2xl sm:text-3xl shadow-inner shrink-0">
                                     <i class="${game.icon}"></i>
                                 </div>
                                 <div>
-                                    <span class="text-xs font-bold ${game.badgeColor} uppercase">${gameNumber}. Oyun Modu (${game.badge})</span>
-                                    <h3 class="text-xl font-black text-white">${game.title}</h3>
+                                    <span class="text-[10px] sm:text-xs font-bold ${game.badgeColor} uppercase">${gameNumber}. Oyun Modu (${game.badge})</span>
+                                    <h3 class="text-lg sm:text-xl font-black text-white">${game.title}</h3>
                                 </div>
                             </div>
-                            <p class="text-sm ${game.descColor} flex-1">
+                            <p class="text-xs sm:text-sm ${game.descColor} flex-1 leading-relaxed">
                                 ${game.desc}
                             </p>
-                            <button onclick="${game.action}" class="w-full py-3.5 bg-gradient-to-r ${game.btnGradient} font-black text-base rounded-2xl shadow-xl flex items-center justify-center gap-2 transition-all hover:scale-[1.02] active:scale-95">
+                            <button onclick="${game.action}" class="w-full py-3 sm:py-3.5 bg-gradient-to-r ${game.btnGradient} font-black text-sm sm:text-base rounded-xl sm:rounded-2xl shadow-xl flex items-center justify-center gap-2 transition-all hover:scale-[1.02] active:scale-95">
                                 <i class="${game.btnIcon}"></i> ${game.btnText}
                             </button>
                         </div>

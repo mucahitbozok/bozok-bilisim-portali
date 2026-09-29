@@ -496,30 +496,32 @@
                             </div>
 
                             <!-- MATRİS TABLOSU -->
-                            <div class="inline-grid gap-1 sm:gap-1.5 p-2 bg-slate-950/80 rounded-2xl border border-slate-800" style="grid-template-columns: repeat(${this.gridSize}, minmax(0, 1fr));">
-                                ${this.grid.map((row, r) => row.map((letter, c) => {
-                                    const cellKey = `${r},${c}`;
-                                    const isSelected = this.selectedCells.includes(cellKey);
-                                    const isFound = this.foundCells.has(cellKey);
-                                    const isHint = (this.hintWord && this.hintWord.r === r && this.hintWord.c === c);
+                            <div class="w-full overflow-x-auto flex justify-center py-1">
+                                <div class="inline-grid gap-0.5 sm:gap-1.5 p-1.5 sm:p-2 bg-slate-950/80 rounded-xl sm:rounded-2xl border border-slate-800 touch-manipulation" style="grid-template-columns: repeat(${this.gridSize}, minmax(0, 1fr));">
+                                    ${this.grid.map((row, r) => row.map((letter, c) => {
+                                        const cellKey = `${r},${c}`;
+                                        const isSelected = this.selectedCells.includes(cellKey);
+                                        const isFound = this.foundCells.has(cellKey);
+                                        const isHint = (this.hintWord && this.hintWord.r === r && this.hintWord.c === c);
 
-                                    let classes = "w-7 h-7 sm:w-10 sm:h-10 rounded-lg sm:rounded-xl text-xs sm:text-base font-bold flex items-center justify-center cursor-pointer border border-slate-800/80 ";
-                                    if (isFound) {
-                                        classes += "found ";
-                                    } else if (isSelected) {
-                                        classes += "selected ";
-                                    } else if (isHint) {
-                                        classes += "hint-pulse ";
-                                    } else {
-                                        classes += "bg-slate-900/90 text-slate-300 hover:text-white ";
-                                    }
+                                        let classes = "w-6 h-6 xs:w-7 xs:h-7 sm:w-9 sm:h-9 md:w-10 md:h-10 rounded-md sm:rounded-xl text-[10px] xs:text-xs sm:text-base font-bold flex items-center justify-center cursor-pointer border border-slate-800/80 ";
+                                        if (isFound) {
+                                            classes += "found ";
+                                        } else if (isSelected) {
+                                            classes += "selected ";
+                                        } else if (isHint) {
+                                            classes += "hint-pulse ";
+                                        } else {
+                                            classes += "bg-slate-900/90 text-slate-300 hover:text-white ";
+                                        }
 
-                                    return `
-                                        <div onclick="game.handleCellClick(${r}, ${c})" class="grid-cell ${classes}">
-                                            ${letter}
-                                        </div>
-                                    `;
-                                }).join('')).join('')}
+                                        return `
+                                            <div onclick="game.handleCellClick(${r}, ${c})" class="grid-cell ${classes}">
+                                                ${letter}
+                                            </div>
+                                        `;
+                                    }).join('')).join('')}
+                                </div>
                             </div>
 
                             <p class="text-xs text-slate-400 text-center">

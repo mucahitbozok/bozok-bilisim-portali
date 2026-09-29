@@ -586,3 +586,34 @@ button, select, input, .match-card {
     color-scheme: dark;
 }
 
+/* ========================================================
+   MOBİL & DOKUNMATİK EKRAN OPTİMİZASYONU (360px - 768px)
+   Akıllı telefonlarda taşmayı önler, dokunma hedeflerini rahatlatır
+   ======================================================== */
+@media (max-width: 640px) {
+    /* Buton ve kartların dokunma hissi ve taşma koruması */
+    .match-card {
+        user-select: none;
+        -webkit-user-select: none;
+        touch-action: manipulation;
+    }
+    
+    /* Oyun alanlarının yatay taşmasını engelleme */
+    #game-container {
+        overflow-x: hidden;
+        width: 100%;
+        max-width: 100%;
+    }
+
+    /* Modal ekranında iframe alanı */
+    #standalone-game-modal {
+        padding: 0.35rem !important;
+    }
+
+    /* Çark ve oyun çemberi taşma koruması */
+    #wheel-canvas {
+        max-width: 100%;
+        height: auto;
+    }
+}
+

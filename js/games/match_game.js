@@ -10,6 +10,7 @@ class MatchGame {
         this.matchedPairs = [];
         this.score = 0;
         this.timer = 60;
+        this.initialTimer = 60;
         this.timerInterval = null;
         this.items = [];
     }
@@ -22,13 +23,15 @@ class MatchGame {
         this.selectedRight = null;
         this.matchedPairs = [];
         this.score = 0;
-        this.timer = 60;
         clearInterval(this.timerInterval);
 
         const data = (typeof app !== 'undefined' && app.getCurrentWeekData) ? app.getCurrentWeekData() : WEEK1_CONTENT;
         this.items = [...(data.gameData?.matchCards || WEEK1_CONTENT.gameData.matchCards)];
 
         const config = data.gameData?.matchConfig || {};
+        this.timer = (typeof config.timer === 'number') ? config.timer : (data.weekInfo?.weekNumber === 3 ? 90 : 60);
+        this.initialTimer = this.timer;
+
         const leftTitle = config.leftTitle || "Bilişim Teknolojileri";
         const rightTitle = config.rightTitle || "Kullanım Alanları";
         const instruction = config.instruction || "💡 <strong>Nasıl Oynanır?</strong> Soldan bir kavrama dokun, ardından sağdan ait olduğu doğru alana/açıklamaya dokunarak eşleştir!";
@@ -38,46 +41,46 @@ class MatchGame {
         const rightItems = [...this.items].sort(() => Math.random() - 0.5);
 
         container.innerHTML = `
-            <div class="max-w-5xl mx-auto bg-slate-900 text-white rounded-3xl p-6 shadow-2xl border-4 border-emerald-500">
+            <div class="max-w-5xl mx-auto bg-slate-900 text-white rounded-2xl sm:rounded-3xl p-3 sm:p-6 shadow-2xl border-2 sm:border-4 border-emerald-500">
                 <!-- Üst Bilgi Barı -->
-                <div class="flex items-center justify-between flex-wrap gap-4 pb-4 border-b border-slate-700">
-                    <div class="flex items-center gap-3">
-                        <div class="w-12 h-12 rounded-2xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-2xl">
+                <div class="flex items-center justify-between flex-wrap gap-2.5 sm:gap-4 pb-3 sm:pb-4 border-b border-slate-700">
+                    <div class="flex items-center gap-2 sm:gap-3">
+                        <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-xl sm:text-2xl shrink-0">
                             <i class="fa-solid fa-puzzle-piece"></i>
                         </div>
                         <div>
-                            <span class="text-xs text-slate-400 uppercase tracking-wider font-bold">Puan & Eşleşme</span>
-                            <div class="flex items-center gap-4">
-                                <span id="match-score" class="text-2xl font-black text-emerald-400">0 Puan</span>
-                                <span id="match-count" class="text-sm bg-slate-800 px-3 py-1 rounded-full text-slate-300">0 / ${this.items.length}</span>
+                            <span class="text-[10px] sm:text-xs text-slate-400 uppercase tracking-wider font-bold">Puan & Eşleşme</span>
+                            <div class="flex items-center gap-2 sm:gap-4">
+                                <span id="match-score" class="text-lg sm:text-2xl font-black text-emerald-400">0 Puan</span>
+                                <span id="match-count" class="text-xs sm:text-sm bg-slate-800 px-2 sm:px-3 py-0.5 sm:py-1 rounded-full text-slate-300">0 / ${this.items.length}</span>
                             </div>
                         </div>
                     </div>
 
-                    <div class="flex items-center gap-4">
-                        <div class="flex items-center gap-2 bg-slate-800 px-4 py-2 rounded-2xl border border-slate-700">
-                            <i class="fa-solid fa-stopwatch text-amber-400 text-xl"></i>
-                            <span id="match-timer" class="text-2xl font-black text-amber-400">60s</span>
+                    <div class="flex items-center gap-2 sm:gap-4">
+                        <div class="flex items-center gap-1.5 sm:gap-2 bg-slate-800 px-3 sm:px-4 py-1.5 sm:py-2 rounded-xl sm:rounded-2xl border border-slate-700">
+                            <i class="fa-solid fa-stopwatch text-amber-400 text-base sm:text-xl"></i>
+                            <span id="match-timer" class="text-lg sm:text-2xl font-black text-amber-400">${this.timer}s</span>
                         </div>
-                        <button onclick="matchGame.resetGame()" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 rounded-xl font-bold text-sm text-slate-300 flex items-center gap-2 transition-all">
-                            <i class="fa-solid fa-rotate-right"></i> Yeniden Başlat
+                        <button onclick="matchGame.resetGame()" class="px-3 sm:px-4 py-1.5 sm:py-2 bg-slate-800 hover:bg-slate-700 rounded-xl font-bold text-xs sm:text-sm text-slate-300 flex items-center gap-1.5 sm:gap-2 transition-all active:scale-95">
+                            <i class="fa-solid fa-rotate-right"></i> <span class="hidden xs:inline">Yeniden Başlat</span><span class="xs:hidden">Sıfırla</span>
                         </button>
                     </div>
                 </div>
 
                 <!-- Oyun Yönergesi -->
-                <div class="bg-emerald-950/50 border border-emerald-500/40 rounded-2xl p-4 my-4 text-center text-sm sm:text-base text-emerald-200 font-semibold shadow-inner">
+                <div class="bg-emerald-950/50 border border-emerald-500/40 rounded-xl sm:rounded-2xl p-3 sm:p-4 my-3 sm:my-4 text-center text-xs sm:text-sm md:text-base text-emerald-200 font-semibold shadow-inner">
                     ${instruction}
                 </div>
 
                 <!-- Eşleştirme Alanı -->
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4 relative">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 mt-3 sm:mt-4 relative">
                     <!-- Sol Kolon -->
-                    <div class="space-y-3.5" id="match-left-column">
-                        <h4 class="text-center font-black text-slate-200 text-sm sm:text-base tracking-wider uppercase mb-2 bg-slate-800/90 py-2.5 rounded-xl border border-slate-700">${leftTitle}</h4>
+                    <div class="space-y-2.5 sm:space-y-3.5" id="match-left-column">
+                        <h4 class="text-center font-black text-slate-200 text-xs sm:text-sm md:text-base tracking-wider uppercase mb-2 bg-slate-800/90 py-2 sm:py-2.5 rounded-xl border border-slate-700">${leftTitle}</h4>
                         ${leftItems.map(item => `
-                            <button id="left-${item.id}" onclick="matchGame.selectLeft(${item.id})" class="match-card w-full p-4 sm:p-5 bg-slate-800 hover:bg-slate-750 border-2 border-slate-700 hover:border-blue-400 rounded-2xl text-left font-bold text-white flex items-center gap-3.5 transition-all active:scale-95 shadow-md text-base sm:text-lg">
-                                <div class="w-12 h-12 rounded-xl bg-blue-500/20 text-blue-400 flex items-center justify-center text-2xl shrink-0">
+                            <button id="left-${item.id}" onclick="matchGame.selectLeft(${item.id})" class="match-card w-full p-3 sm:p-4 bg-slate-800 hover:bg-slate-750 border-2 border-slate-700 hover:border-blue-400 rounded-xl sm:rounded-2xl text-left font-bold text-white flex items-center gap-2.5 sm:gap-3.5 transition-all active:scale-95 shadow-md text-xs sm:text-sm md:text-base">
+                                <div class="w-9 h-9 sm:w-11 sm:h-11 rounded-lg sm:rounded-xl bg-blue-500/20 text-blue-400 flex items-center justify-center text-base sm:text-xl shrink-0">
                                     <i class="${item.icon}"></i>
                                 </div>
                                 <span class="leading-snug">${item.text}</span>
@@ -86,11 +89,11 @@ class MatchGame {
                     </div>
 
                     <!-- Sağ Kolon -->
-                    <div class="space-y-3.5" id="match-right-column">
-                        <h4 class="text-center font-black text-slate-200 text-sm sm:text-base tracking-wider uppercase mb-2 bg-slate-800/90 py-2.5 rounded-xl border border-slate-700">${rightTitle}</h4>
+                    <div class="space-y-2.5 sm:space-y-3.5" id="match-right-column">
+                        <h4 class="text-center font-black text-slate-200 text-xs sm:text-sm md:text-base tracking-wider uppercase mb-2 bg-slate-800/90 py-2 sm:py-2.5 rounded-xl border border-slate-700">${rightTitle}</h4>
                         ${rightItems.map(item => `
-                            <button id="right-${item.id}" onclick="matchGame.selectRight(${item.id})" class="match-card w-full p-4 sm:p-5 bg-slate-800 hover:bg-slate-750 border-2 border-slate-700 hover:border-emerald-400 rounded-2xl text-left font-bold text-white flex items-center gap-3.5 transition-all active:scale-95 shadow-md text-base sm:text-lg">
-                                <div class="w-12 h-12 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-2xl shrink-0">
+                            <button id="right-${item.id}" onclick="matchGame.selectRight(${item.id})" class="match-card w-full p-3 sm:p-4 bg-slate-800 hover:bg-slate-750 border-2 border-slate-700 hover:border-emerald-400 rounded-xl sm:rounded-2xl text-left font-bold text-white flex items-center gap-2.5 sm:gap-3.5 transition-all active:scale-95 shadow-md text-xs sm:text-sm md:text-base">
+                                <div class="w-9 h-9 sm:w-11 sm:h-11 rounded-lg sm:rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-base sm:text-xl shrink-0">
                                     <i class="${item.rightIcon || 'fa-solid fa-circle-check'}"></i>
                                 </div>
                                 <span class="leading-snug">${item.category}</span>
@@ -100,11 +103,11 @@ class MatchGame {
                 </div>
 
                 <!-- Tebrik Modalı (Tamamlanınca) -->
-                <div id="match-success-modal" class="hidden text-center py-10 space-y-4">
-                    <div class="text-7xl text-yellow-400 animate-bounce"><i class="fa-solid fa-trophy"></i></div>
-                    <h3 class="text-3xl font-black text-white">TÜM EŞLEŞTİRMELER TAMAMLANDI! 🎉</h3>
-                    <p class="text-emerald-300 text-lg" id="match-final-msg"></p>
-                    <button onclick="matchGame.resetGame()" class="px-8 py-3 bg-gradient-to-r from-emerald-500 to-teal-500 text-white font-black text-lg rounded-2xl shadow-xl hover:scale-105 transition-all">
+                <div id="match-success-modal" class="hidden text-center py-6 sm:py-10 space-y-4">
+                    <div class="text-5xl sm:text-7xl text-yellow-400 animate-bounce"><i class="fa-solid fa-trophy"></i></div>
+                    <h3 class="text-2xl sm:text-3xl font-black text-white">TÜM EŞLEŞTİRMELER TAMAMLANDI! 🎉</h3>
+                    <p class="text-emerald-300 text-sm sm:text-lg" id="match-final-msg"></p>
+                    <button onclick="matchGame.resetGame()" class="px-6 sm:px-8 py-2.5 sm:py-3 bg-gradient-to-r from-emerald-500 to-teal-500 text-white font-black text-sm sm:text-lg rounded-xl sm:rounded-2xl shadow-xl hover:scale-105 active:scale-95 transition-all">
                         Tekrar Oyna 🔄
                     </button>
                 </div>
@@ -183,6 +186,13 @@ class MatchGame {
 
         if (this.selectedRight) {
             this.checkMatch();
+        } else if (window.innerWidth < 768) {
+            // Mobilde öğrenci sol kartı seçtiğinde sağ sütuna yumuşak odaklanma sağla
+            const rightCol = document.getElementById("match-right-column");
+            if (rightCol) {
+                const targetY = rightCol.getBoundingClientRect().top + window.pageYOffset - 80;
+                window.scrollTo({ top: targetY, behavior: 'smooth' });
+            }
         }
     }
 
@@ -223,12 +233,12 @@ class MatchGame {
             this.score += 150;
 
             if (leftEl) {
-                leftEl.className = "w-full p-4 sm:p-5 bg-emerald-900/50 border-2 border-emerald-400 rounded-2xl font-bold text-emerald-200 flex items-center gap-3.5 pointer-events-none opacity-90 shadow-inner text-base sm:text-lg";
-                leftEl.innerHTML = `<i class="fa-solid fa-circle-check text-emerald-400 text-2xl shrink-0"></i> <span class="line-through opacity-80">${leftItem ? leftItem.text : leftEl.innerText}</span>`;
+                leftEl.className = "w-full p-3 sm:p-4 bg-emerald-900/50 border-2 border-emerald-400 rounded-xl sm:rounded-2xl font-bold text-emerald-200 flex items-center gap-2.5 sm:gap-3.5 pointer-events-none opacity-90 shadow-inner text-xs sm:text-sm md:text-base";
+                leftEl.innerHTML = `<i class="fa-solid fa-circle-check text-emerald-400 text-xl sm:text-2xl shrink-0"></i> <span class="line-through opacity-80">${leftItem ? leftItem.text : leftEl.innerText}</span>`;
             }
             if (rightEl) {
-                rightEl.className = "w-full p-4 sm:p-5 bg-emerald-900/50 border-2 border-emerald-400 rounded-2xl font-bold text-emerald-200 flex items-center gap-3.5 pointer-events-none opacity-90 shadow-inner text-base sm:text-lg";
-                rightEl.innerHTML = `<i class="fa-solid fa-circle-check text-emerald-400 text-2xl shrink-0"></i> <span class="line-through opacity-80">${rightItem ? rightItem.category : rightEl.innerText}</span>`;
+                rightEl.className = "w-full p-3 sm:p-4 bg-emerald-900/50 border-2 border-emerald-400 rounded-xl sm:rounded-2xl font-bold text-emerald-200 flex items-center gap-2.5 sm:gap-3.5 pointer-events-none opacity-90 shadow-inner text-xs sm:text-sm md:text-base";
+                rightEl.innerHTML = `<i class="fa-solid fa-circle-check text-emerald-400 text-xl sm:text-2xl shrink-0"></i> <span class="line-through opacity-80">${rightItem ? rightItem.category : rightEl.innerText}</span>`;
             }
 
             this.updateStats();
@@ -270,7 +280,8 @@ class MatchGame {
 
         if (leftCol) leftCol.classList.add("hidden");
         if (rightCol) rightCol.classList.add("hidden");
-        if (msg) msg.innerText = `Harika! ${60 - this.timer} saniyede toplam ${this.score} puan topladın! 🚀`;
+        const elapsed = (this.initialTimer || 60) - this.timer;
+        if (msg) msg.innerText = `Harika! ${elapsed} saniyede toplam ${this.score} puan topladın! 🚀`;
         if (modal) modal.classList.remove("hidden");
     }
 

@@ -41,42 +41,42 @@ class WheelQuizGame {
         this.lifelines = { fiftyFifty: true, doublePoints: false };
 
         container.innerHTML = `
-            <div class="max-w-4xl mx-auto bg-slate-900/90 text-white rounded-3xl p-6 shadow-2xl border-4 border-yellow-400">
+            <div class="max-w-4xl mx-auto bg-slate-900/90 text-white rounded-2xl sm:rounded-3xl p-3 sm:p-6 shadow-2xl border-2 sm:border-4 border-yellow-400">
                 <!-- Üst Bilgi Barı -->
-                <div class="flex items-center justify-between flex-wrap gap-4 pb-4 border-b border-slate-700">
-                    <div class="flex items-center gap-3">
-                        <div class="w-12 h-12 rounded-2xl bg-yellow-400/20 text-yellow-300 flex items-center justify-center text-2xl">
+                <div class="flex items-center justify-between flex-wrap gap-2.5 sm:gap-4 pb-3 sm:pb-4 border-b border-slate-700">
+                    <div class="flex items-center gap-2 sm:gap-3">
+                        <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl bg-yellow-400/20 text-yellow-300 flex items-center justify-center text-xl sm:text-2xl shrink-0">
                             <i class="fa-solid fa-trophy"></i>
                         </div>
                         <div>
-                            <span class="text-xs text-slate-400 uppercase tracking-wider font-bold">Toplam Puan</span>
-                            <div id="wheel-score" class="text-3xl font-black text-yellow-400">0</div>
+                            <span class="text-[10px] sm:text-xs text-slate-400 uppercase tracking-wider font-bold">Toplam Puan</span>
+                            <div id="wheel-score" class="text-2xl sm:text-3xl font-black text-yellow-400">0</div>
                         </div>
                     </div>
 
-                    <div class="flex items-center gap-3">
-                        <button id="btn-5050" onclick="wheelGame.useFiftyFifty()" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-500 rounded-xl font-bold text-sm flex items-center gap-2 border border-indigo-400 shadow-md transition-all">
+                    <div class="flex items-center gap-2 sm:gap-3">
+                        <button id="btn-5050" onclick="wheelGame.useFiftyFifty()" class="px-3 sm:px-4 py-1.5 sm:py-2 bg-indigo-600 hover:bg-indigo-500 rounded-xl font-bold text-xs sm:text-sm flex items-center gap-1.5 sm:gap-2 border border-indigo-400 shadow-md transition-all active:scale-95">
                             <i class="fa-solid fa-wand-magic"></i> %50 Joker
                         </button>
-                        <button onclick="wheelGame.resetGame()" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 rounded-xl font-bold text-sm text-slate-300 flex items-center gap-2 transition-all">
+                        <button onclick="wheelGame.resetGame()" class="px-3 sm:px-4 py-1.5 sm:py-2 bg-slate-800 hover:bg-slate-700 rounded-xl font-bold text-xs sm:text-sm text-slate-300 flex items-center gap-1.5 sm:gap-2 transition-all active:scale-95">
                             <i class="fa-solid fa-rotate-right"></i> Sıfırla
                         </button>
                     </div>
                 </div>
 
                 <!-- Oyun Alanı -->
-                <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center mt-6">
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 items-center mt-4 sm:mt-6">
                     <!-- Çark Alanı -->
                     <div class="lg:col-span-6 flex flex-col items-center justify-center relative">
-                        <div class="relative w-[320px] h-[320px] sm:w-[360px] sm:h-[360px]">
+                        <div class="relative w-[270px] h-[270px] xs:w-[310px] xs:h-[310px] sm:w-[360px] sm:h-[360px] max-w-full aspect-square">
                             <!-- Gösterge Oku -->
-                            <div class="absolute -top-4 left-1/2 -translate-x-1/2 z-20 text-yellow-400 text-4xl drop-shadow-md animate-bounce">
+                            <div class="absolute -top-3 sm:-top-4 left-1/2 -translate-x-1/2 z-20 text-yellow-400 text-3xl sm:text-4xl drop-shadow-md animate-bounce">
                                 <i class="fa-solid fa-caret-down"></i>
                             </div>
                             <!-- Canvas Çark -->
-                            <canvas id="wheel-canvas" width="360" height="360" class="rounded-full shadow-2xl border-4 border-slate-700"></canvas>
+                            <canvas id="wheel-canvas" width="360" height="360" class="w-full h-full rounded-full shadow-2xl border-4 border-slate-700 block"></canvas>
                             <!-- Merkez Buton -->
-                            <button id="spin-btn" onclick="wheelGame.spin()" class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-20 h-20 rounded-full bg-gradient-to-tr from-yellow-500 to-amber-300 text-slate-950 font-black text-lg shadow-2xl flex items-center justify-center border-4 border-white hover:scale-110 active:scale-95 transition-all z-10">
+                            <button id="spin-btn" onclick="wheelGame.spin()" class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-gradient-to-tr from-yellow-500 to-amber-300 text-slate-950 font-black text-sm sm:text-lg shadow-2xl flex items-center justify-center border-4 border-white hover:scale-110 active:scale-95 transition-all z-10">
                                 ÇEVİR!
                             </button>
                         </div>
@@ -85,12 +85,12 @@ class WheelQuizGame {
 
                     <!-- Soru / Durum Paneli -->
                     <div class="lg:col-span-6">
-                        <div id="wheel-question-box" class="bg-slate-800/80 rounded-2xl p-6 border-2 border-slate-700 min-h-[300px] flex flex-col justify-center items-center text-center">
-                            <div class="text-6xl text-yellow-400/30 mb-4 animate-pulse">
+                        <div id="wheel-question-box" class="bg-slate-800/80 rounded-2xl p-4 sm:p-6 border-2 border-slate-700 min-h-[260px] sm:min-h-[300px] flex flex-col justify-center items-center text-center">
+                            <div class="text-5xl sm:text-6xl text-yellow-400/30 mb-3 sm:mb-4 animate-pulse">
                                 <i class="fa-solid fa-dharmachakra"></i>
                             </div>
-                            <h3 class="text-xl font-bold text-white mb-2">Çarkı Çevirmeye Hazır mısın?</h3>
-                            <p class="text-slate-300 text-sm max-w-xs">
+                            <h3 class="text-lg sm:text-xl font-bold text-white mb-2">Çarkı Çevirmeye Hazır mısın?</h3>
+                            <p class="text-slate-300 text-xs sm:text-sm max-w-xs">
                                 Çarkı çevir, gelen puana göre sorulan bilişim sorusunu doğru bilerek puanları topla!
                             </p>
                         </div>
@@ -225,17 +225,17 @@ class WheelQuizGame {
                     </div>
                 ` : ''}
                 <div class="flex items-center justify-between">
-                    <span class="px-3 py-1 bg-yellow-400 text-slate-950 font-black rounded-lg text-xs">
+                    <span class="px-2.5 sm:px-3 py-1 bg-yellow-400 text-slate-950 font-black rounded-lg text-xs">
                         ÖDÜL: ${points} PUAN
                     </span>
-                    <span class="text-xs text-slate-400">1. Hafta Pekiştirme</span>
+                    <span class="text-xs text-slate-400">${data.weekInfo ? data.weekInfo.weekNumber + '. Hafta Pekiştirme' : 'Pekiştirme Sorusu'}</span>
                 </div>
-                <h4 class="text-lg font-bold text-white">${this.currentQuestion.question}</h4>
+                <h4 class="text-base sm:text-lg font-bold text-white">${this.currentQuestion.question}</h4>
 
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3" id="wheel-options-container">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 sm:gap-3" id="wheel-options-container">
                     ${this.currentQuestion.options.map((opt, i) => `
-                        <button id="wheel-opt-${i}" onclick="wheelGame.handleAnswer(${i})" class="p-3 bg-slate-700/80 hover:bg-indigo-600 rounded-xl text-left font-semibold text-white border border-slate-600 hover:border-indigo-400 transition-all flex items-center gap-3">
-                            <span class="w-7 h-7 rounded-lg bg-slate-800 flex items-center justify-center font-bold text-yellow-400 text-xs">${String.fromCharCode(65 + i)}</span>
+                        <button id="wheel-opt-${i}" onclick="wheelGame.handleAnswer(${i})" class="p-2.5 sm:p-3 bg-slate-700/80 hover:bg-indigo-600 rounded-xl text-left font-semibold text-white border border-slate-600 hover:border-indigo-400 transition-all flex items-center gap-2.5 sm:gap-3 text-xs sm:text-sm active:scale-95">
+                            <span class="w-6 h-6 sm:w-7 sm:h-7 rounded-lg bg-slate-800 flex items-center justify-center font-bold text-yellow-400 text-xs shrink-0">${String.fromCharCode(65 + i)}</span>
                             <span>${opt}</span>
                         </button>
                     `).join('')}

@@ -468,10 +468,10 @@
                             </h3>
 
                             <!-- SEÇENEKLER -->
-                            <div id="options-container" class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
+                            <div id="options-container" class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 sm:gap-3 pt-2">
                                 ${q.options.map((opt, idx) => `
-                                    <button onclick="game.handleAnswer(${idx})" class="option-btn p-4 rounded-2xl bg-slate-900/90 hover:bg-slate-800 border-2 border-slate-700 text-left font-bold text-sm sm:text-base text-slate-200 flex items-center gap-3">
-                                        <span class="w-8 h-8 rounded-xl bg-slate-800 border border-slate-700 text-yellow-400 font-black flex items-center justify-center text-xs shrink-0">
+                                    <button onclick="game.handleAnswer(${idx})" class="option-btn p-3 sm:p-4 rounded-xl sm:rounded-2xl bg-slate-900/90 hover:bg-slate-800 border-2 border-slate-700 text-left font-bold text-xs sm:text-base text-slate-200 flex items-center gap-2.5 sm:gap-3 active:scale-95 transition-all">
+                                        <span class="w-7 h-7 sm:w-8 sm:h-8 rounded-lg sm:rounded-xl bg-slate-800 border border-slate-700 text-yellow-400 font-black flex items-center justify-center text-xs shrink-0">
                                             ${String.fromCharCode(65 + idx)}
                                         </span>
                                         <span>${opt}</span>
