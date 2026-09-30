@@ -319,31 +319,22 @@ button, select, input, .match-card {
 
 /* --------------------------------------------------------
    1. AÇIK TEMA (LIGHT MODE - GÜNDÜZ / SINIF MODU)
+   Yüksek kontrast, kristal netliğinde tipografi ve okunabilirlik
    -------------------------------------------------------- */
-[data-theme="light"] {
+[data-theme="light"],
+html.light {
     color-scheme: light;
 }
 
-[data-theme="light"] body {
+[data-theme="light"] body,
+html.light body {
     background-color: #F8FAFC !important;
     color: #0F172A !important;
 }
 
-[data-theme="light"] header {
-    background-color: rgba(255, 255, 255, 0.95) !important;
-    border-color: #E2E8F0 !important;
-    box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05) !important;
-}
-
-[data-theme="light"] header h1 {
-    color: #0F172A !important;
-}
-
-[data-theme="light"] header p {
-    color: #4F46E5 !important;
-}
-
-[data-theme="light"] .bg-slate-950 {
+/* --- Genel Arka Planlar & Kartlar --- */
+[data-theme="light"] .bg-slate-950,
+html.light .bg-slate-950 {
     background-color: #F8FAFC !important;
     color: #0F172A !important;
 }
@@ -352,7 +343,12 @@ button, select, input, .match-card {
 [data-theme="light"] .bg-slate-900\/90,
 [data-theme="light"] .bg-slate-900\/85,
 [data-theme="light"] .bg-slate-900\/80,
-[data-theme="light"] .bg-slate-900\/70 {
+[data-theme="light"] .bg-slate-900\/70,
+html.light .bg-slate-900,
+html.light .bg-slate-900\/90,
+html.light .bg-slate-900\/85,
+html.light .bg-slate-900\/80,
+html.light .bg-slate-900\/70 {
     background-color: #FFFFFF !important;
     border-color: #E2E8F0 !important;
     color: #0F172A !important;
@@ -361,162 +357,599 @@ button, select, input, .match-card {
 
 [data-theme="light"] .bg-slate-800,
 [data-theme="light"] .bg-slate-800\/90,
-[data-theme="light"] .bg-slate-800\/80 {
+[data-theme="light"] .bg-slate-800\/80,
+[data-theme="light"] .bg-slate-800\/60,
+html.light .bg-slate-800,
+html.light .bg-slate-800\/90,
+html.light .bg-slate-800\/80,
+html.light .bg-slate-800\/60 {
     background-color: #F1F5F9 !important;
     color: #1E293B !important;
     border-color: #CBD5E1 !important;
 }
 
-[data-theme="light"] .bg-slate-800:hover {
+[data-theme="light"] .bg-slate-800:hover,
+html.light .bg-slate-800:hover {
     background-color: #E2E8F0 !important;
     color: #0F172A !important;
 }
 
-[data-theme="light"] .text-slate-100,
-[data-theme="light"] .text-slate-200 {
+[data-theme="light"] .bg-slate-750,
+html.light .bg-slate-750 {
+    background-color: #FFFFFF !important;
+    color: #0F172A !important;
+    border-color: #CBD5E1 !important;
+}
+
+[data-theme="light"] .bg-slate-750:hover,
+html.light .bg-slate-750:hover {
+    background-color: #F1F5F9 !important;
+    border-color: #94A3B8 !important;
+}
+
+[data-theme="light"] .bg-slate-700,
+[data-theme="light"] .bg-slate-700\/80,
+html.light .bg-slate-700,
+html.light .bg-slate-700\/80 {
+    background-color: #F1F5F9 !important;
     color: #1E293B !important;
+    border-color: #CBD5E1 !important;
 }
 
-[data-theme="light"] .text-slate-300 {
-    color: #334155 !important;
-}
-
-[data-theme="light"] .text-slate-400 {
-    color: #64748B !important;
+[data-theme="light"] .glass-panel,
+html.light .glass-panel {
+    background-color: #FFFFFF !important;
+    border-color: #E2E8F0 !important;
+    color: #0F172A !important;
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05) !important;
 }
 
 [data-theme="light"] .border-slate-800,
-[data-theme="light"] .border-slate-700 {
+[data-theme="light"] .border-slate-700,
+html.light .border-slate-800,
+html.light .border-slate-700 {
     border-color: #E2E8F0 !important;
 }
 
-[data-theme="light"] select#week-select-dropdown {
+/* --- Butonlar (bg-slate-800 olan butonlar açık modda netleşir) --- */
+[data-theme="light"] button.bg-slate-800,
+html.light button.bg-slate-800 {
+    background-color: #F1F5F9 !important;
+    color: #1E293B !important;
+    border-color: #CBD5E1 !important;
+}
+
+[data-theme="light"] button.bg-slate-800:hover,
+html.light button.bg-slate-800:hover {
+    background-color: #E2E8F0 !important;
+    color: #0F172A !important;
+}
+
+/* --- Tipografi & Beyaz Yazı Kontrast Çözümü --- */
+/* Slayt içi presentation alanı (#slide-display-area) DIŞINDAKİ tüm başlıklar koyu olmalı */
+[data-theme="light"] h1:not(#slide-display-area *):not(.keep-white),
+[data-theme="light"] h2:not(#slide-display-area *):not(.keep-white),
+[data-theme="light"] h3:not(#slide-display-area *):not(.keep-white):not(button *),
+[data-theme="light"] h4:not(#slide-display-area *):not(.keep-white):not(button *),
+html.light h1:not(#slide-display-area *):not(.keep-white),
+html.light h2:not(#slide-display-area *):not(.keep-white),
+html.light h3:not(#slide-display-area *):not(.keep-white):not(button *),
+html.light h4:not(#slide-display-area *):not(.keep-white):not(button *) {
+    color: #0F172A !important;
+}
+
+/* Slayt ve renkli butonlar DIŞINDAKİ tüm .text-white sınıfları açık temada koyu renge çevrilir */
+[data-theme="light"] .text-white:not(#slide-display-area *):not(.keep-white):not(button[class*="from-"]):not(button[class*="from-"] *):not(button[class*="bg-indigo-"]):not(button[class*="bg-indigo-"] *):not(button[class*="bg-blue-"]):not(button[class*="bg-blue-"] *):not(button[class*="bg-emerald-"]):not(button[class*="bg-emerald-"] *):not(button[class*="bg-rose-"]):not(button[class*="bg-rose-"] *):not(button[class*="bg-red-"]):not(button[class*="bg-red-"] *):not(button[class*="bg-purple-"]):not(button[class*="bg-purple-"] *):not(button[class*="bg-amber-"]):not(button[class*="bg-amber-"] *):not(a[class*="from-"]):not(a[class*="from-"] *):not(a[class*="bg-indigo-"]):not(a[class*="bg-indigo-"] *):not(a[class*="bg-rose-"]):not(a[class*="bg-rose-"] *):not(.tab-btn.active):not(.tab-btn.active *):not(.tf-btn-true):not(.tf-btn-true *):not(.tf-btn-false):not(.tf-btn-false *):not(#lightbox-modal *):not(#theme-nav-bar button.scale-\[1\.02\] *):not(#theme-nav-bar button.scale-\[1\.02\]),
+html.light .text-white:not(#slide-display-area *):not(.keep-white):not(button[class*="from-"]):not(button[class*="from-"] *):not(button[class*="bg-indigo-"]):not(button[class*="bg-indigo-"] *):not(button[class*="bg-blue-"]):not(button[class*="bg-blue-"] *):not(button[class*="bg-emerald-"]):not(button[class*="bg-emerald-"] *):not(button[class*="bg-rose-"]):not(button[class*="bg-rose-"] *):not(button[class*="bg-red-"]):not(button[class*="bg-red-"] *):not(button[class*="bg-purple-"]):not(button[class*="bg-purple-"] *):not(button[class*="bg-amber-"]):not(button[class*="bg-amber-"] *):not(a[class*="from-"]):not(a[class*="from-"] *):not(a[class*="bg-indigo-"]):not(a[class*="bg-indigo-"] *):not(a[class*="bg-rose-"]):not(a[class*="bg-rose-"] *):not(.tab-btn.active):not(.tab-btn.active *):not(.tf-btn-true):not(.tf-btn-true *):not(.tf-btn-false):not(.tf-btn-false *):not(#lightbox-modal *):not(#theme-nav-bar button.scale-\[1\.02\] *):not(#theme-nav-bar button.scale-\[1\.02\]) {
+    color: #0F172A !important;
+}
+
+[data-theme="light"] .text-slate-100:not(#slide-display-area *),
+[data-theme="light"] .text-slate-200:not(#slide-display-area *),
+html.light .text-slate-100:not(#slide-display-area *),
+html.light .text-slate-200:not(#slide-display-area *) {
+    color: #1E293B !important;
+}
+
+[data-theme="light"] .text-slate-300:not(#slide-display-area *),
+html.light .text-slate-300:not(#slide-display-area *) {
+    color: #334155 !important;
+}
+
+[data-theme="light"] .text-slate-400:not(#slide-display-area *),
+html.light .text-slate-400:not(#slide-display-area *) {
+    color: #64748B !important;
+}
+
+/* Sarı yazıları beyaz zeminde net okunsun diye amber tonuna çek */
+[data-theme="light"] .text-yellow-300:not(#slide-display-area *):not(button *):not(.theme-check):not(.scale-check),
+[data-theme="light"] .text-yellow-400:not(#slide-display-area *):not(button *):not(.theme-check):not(.scale-check),
+html.light .text-yellow-300:not(#slide-display-area *):not(button *):not(.theme-check):not(.scale-check),
+html.light .text-yellow-400:not(#slide-display-area *):not(button *):not(.theme-check):not(.scale-check) {
+    color: #B45309 !important;
+}
+
+/* --- Header & Navigasyon --- */
+[data-theme="light"] header,
+html.light header {
+    background-color: rgba(255, 255, 255, 0.95) !important;
+    border-color: #E2E8F0 !important;
+    box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05) !important;
+}
+
+[data-theme="light"] header h1,
+html.light header h1 {
+    color: #0F172A !important;
+}
+
+[data-theme="light"] header p,
+html.light header p {
+    color: #4F46E5 !important;
+}
+
+[data-theme="light"] select#week-select-dropdown,
+html.light select#week-select-dropdown {
     background-color: #FFFFFF !important;
     color: #0F172A !important;
     border-color: #CBD5E1 !important;
 }
 
 /* Hafta Bilgi Kartı */
-[data-theme="light"] #week-selector-bar {
+[data-theme="light"] #week-selector-bar,
+html.light #week-selector-bar {
     background: linear-gradient(135deg, #EEF2FF 0%, #F5F3FF 50%, #FAF5FF 100%) !important;
     border-color: #C7D2FE !important;
     box-shadow: 0 10px 25px -5px rgba(99, 102, 241, 0.1) !important;
 }
 
-[data-theme="light"] #week-selector-bar h2 {
+[data-theme="light"] #week-selector-bar h2,
+[data-theme="light"] #active-week-title,
+html.light #week-selector-bar h2,
+html.light #active-week-title {
     color: #1E1B4B !important;
 }
 
-/* 4 Ana Sekme Butonları */
-[data-theme="light"] .tab-btn:not(.active) {
-    background-color: #FFFFFF !important;
-    color: #475569 !important;
-    border-color: #E2E8F0 !important;
-}
-
-[data-theme="light"] .tab-btn:not(.active):hover {
-    background-color: #F1F5F9 !important;
-    color: #0F172A !important;
-    border-color: #CBD5E1 !important;
-}
-
-/* Slayt Kontrol Çubukları */
-[data-theme="light"] #slide-display-area {
-    box-shadow: 0 20px 35px -10px rgba(0, 0, 0, 0.15) !important;
-}
-
-[data-theme="light"] #slide-counter-badge {
-    background-color: #F8FAFC !important;
-    color: #B45309 !important;
-    border-color: #CBD5E1 !important;
-}
-
-[data-theme="light"] #slide-prev-btn {
-    background-color: #FFFFFF !important;
-    color: #1E293B !important;
-    border-color: #CBD5E1 !important;
-}
-
-[data-theme="light"] #slide-prev-btn:hover {
-    background-color: #F1F5F9 !important;
-}
-
-/* Modallar */
-[data-theme="light"] #curriculum-modal .bg-slate-900,
-[data-theme="light"] #slide-menu-modal .bg-slate-900,
-[data-theme="light"] #standalone-game-modal .bg-slate-900,
-[data-theme="light"] #theme-dropdown-menu,
-[data-theme="light"] #scale-dropdown-menu {
-    background-color: #FFFFFF !important;
-    border-color: #E2E8F0 !important;
-    color: #0F172A !important;
-    box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.15) !important;
-}
-
-[data-theme="light"] #active-week-badge {
+[data-theme="light"] #active-week-badge,
+html.light #active-week-badge {
     background-color: #EEF2FF !important;
     color: #4338CA !important;
     border-color: #A5B4FC !important;
 }
 
-[data-theme="light"] #view-lecture button.absolute {
+/* 4 Ana Sekme Butonları */
+[data-theme="light"] .tab-btn:not(.active),
+html.light .tab-btn:not(.active) {
+    background-color: #FFFFFF !important;
+    color: #475569 !important;
+    border-color: #E2E8F0 !important;
+}
+
+[data-theme="light"] .tab-btn:not(.active):hover,
+html.light .tab-btn:not(.active):hover {
+    background-color: #F1F5F9 !important;
+    color: #0F172A !important;
+    border-color: #CBD5E1 !important;
+}
+
+/* --- 1. DERS SUNUSU (#view-lecture) --- */
+[data-theme="light"] #slide-display-area,
+html.light #slide-display-area {
+    box-shadow: 0 20px 35px -10px rgba(0, 0, 0, 0.15) !important;
+}
+
+/* Slayt içindeki sunum metinleri zengin renkli gradyan üzerinde daima parlak ve net kalır */
+[data-theme="light"] #slide-display-area .text-white,
+html.light #slide-display-area .text-white {
+    color: #FFFFFF !important;
+}
+
+[data-theme="light"] #slide-counter-badge,
+html.light #slide-counter-badge {
+    background-color: #F8FAFC !important;
+    color: #B45309 !important;
+    border-color: #CBD5E1 !important;
+}
+
+[data-theme="light"] #slide-prev-btn,
+html.light #slide-prev-btn {
+    background-color: #FFFFFF !important;
+    color: #1E293B !important;
+    border-color: #CBD5E1 !important;
+}
+
+[data-theme="light"] #slide-prev-btn:hover,
+html.light #slide-prev-btn:hover {
+    background-color: #F1F5F9 !important;
+}
+
+[data-theme="light"] #view-lecture button.absolute,
+html.light #view-lecture button.absolute {
     background-color: rgba(255, 255, 255, 0.92) !important;
     color: #1E293B !important;
     border-color: #CBD5E1 !important;
     box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.15) !important;
 }
 
-[data-theme="light"] #view-lecture button.absolute:hover {
+[data-theme="light"] #view-lecture button.absolute:hover,
+html.light #view-lecture button.absolute:hover {
     background-color: #4F46E5 !important;
     color: #FFFFFF !important;
     border-color: #818CF8 !important;
 }
 
-[data-theme="light"] #slide-menu-list button:not(.bg-indigo-600) {
+/* --- 2. ÇALIŞMA KAĞIDI ALANI (#view-worksheet) --- */
+[data-theme="light"] #worksheet-render-area .bg-slate-900,
+html.light #worksheet-render-area .bg-slate-900 {
+    background-color: #FFFFFF !important;
+    border-color: #CBD5E1 !important;
+    color: #0F172A !important;
+}
+
+[data-theme="light"] #worksheet-render-area h2,
+html.light #worksheet-render-area h2 {
+    color: #0F172A !important;
+}
+
+[data-theme="light"] #worksheet-render-area p.text-indigo-300,
+html.light #worksheet-render-area p.text-indigo-300 {
+    color: #4F46E5 !important;
+}
+
+[data-theme="light"] #photo-zoom-val,
+html.light #photo-zoom-val {
+    color: #B45309 !important;
+    font-weight: 800 !important;
+}
+
+[data-theme="light"] #photo-container,
+html.light #photo-container {
+    background-color: #F8FAFC !important;
+}
+
+[data-theme="light"] .printable-doc,
+html.light .printable-doc {
+    background-color: #FFFFFF !important;
+    border-color: #CBD5E1 !important;
+    color: #0F172A !important;
+}
+
+[data-theme="light"] .printable-doc h1,
+[data-theme="light"] .printable-doc h2,
+[data-theme="light"] .printable-doc h3,
+[data-theme="light"] .printable-doc h4,
+html.light .printable-doc h1,
+html.light .printable-doc h2,
+html.light .printable-doc h3,
+html.light .printable-doc h4 {
+    color: #0F172A !important;
+}
+
+[data-theme="light"] .printable-doc p,
+[data-theme="light"] .printable-doc span,
+html.light .printable-doc p,
+html.light .printable-doc span {
+    color: #334155 !important;
+}
+
+[data-theme="light"] .printable-doc .bg-slate-800,
+[data-theme="light"] .printable-doc .bg-slate-800\/80,
+html.light .printable-doc .bg-slate-800,
+html.light .printable-doc .bg-slate-800\/80 {
     background-color: #F8FAFC !important;
     border-color: #E2E8F0 !important;
     color: #1E293B !important;
 }
 
-[data-theme="light"] #slide-menu-list button:not(.bg-indigo-600) .text-white {
+/* --- 3. PEKİŞTİRME TESTİ ALANI (#view-quiz) --- */
+[data-theme="light"] #quiz-render-area .bg-slate-900,
+html.light #quiz-render-area .bg-slate-900 {
+    background-color: #FFFFFF !important;
+    border-color: #CBD5E1 !important;
     color: #0F172A !important;
 }
 
-[data-theme="light"] #slide-menu-list button:not(.bg-indigo-600) .text-slate-400 {
-    color: #64748B !important;
+[data-theme="light"] #quiz-render-area h3,
+[data-theme="light"] #quiz-render-area h4,
+html.light #quiz-render-area h3,
+html.light #quiz-render-area h4 {
+    color: #0F172A !important;
 }
 
-[data-theme="light"] .theme-opt-btn,
-[data-theme="light"] .scale-opt-btn {
-    color: #1E293B !important;
+/* Doğru / Yanlış İfadeleri */
+[data-theme="light"] #quiz-render-area [id^="tf-item-"],
+html.light #quiz-render-area [id^="tf-item-"] {
+    background-color: #F8FAFC !important;
+    border-color: #E2E8F0 !important;
+    color: #0F172A !important;
 }
 
-[data-theme="light"] .theme-opt-btn:hover,
-[data-theme="light"] .scale-opt-btn:hover {
-    background-color: #F1F5F9 !important;
+[data-theme="light"] #quiz-render-area [id^="tf-item-"] div,
+[data-theme="light"] #quiz-render-area [id^="tf-item-"] .text-white,
+html.light #quiz-render-area [id^="tf-item-"] div,
+html.light #quiz-render-area [id^="tf-item-"] .text-white {
+    color: #0F172A !important;
+}
+
+/* Çoktan Seçmeli Test Şıkları */
+[data-theme="light"] #quiz-render-area [id^="mc-btn-"],
+html.light #quiz-render-area [id^="mc-btn-"] {
+    background-color: #FFFFFF !important;
+    border-color: #CBD5E1 !important;
+    color: #0F172A !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05) !important;
+}
+
+[data-theme="light"] #quiz-render-area [id^="mc-btn-"]:hover,
+html.light #quiz-render-area [id^="mc-btn-"]:hover {
+    background-color: #EEF2FF !important;
+    border-color: #818CF8 !important;
+    color: #1E1B4B !important;
+}
+
+[data-theme="light"] #quiz-render-area [id^="mc-btn-"] span,
+html.light #quiz-render-area [id^="mc-btn-"] span {
+    color: #0F172A !important;
+}
+
+[data-theme="light"] #quiz-render-area [id^="mc-btn-"] span:first-child,
+html.light #quiz-render-area [id^="mc-btn-"] span:first-child {
+    background-color: #EEF2FF !important;
     color: #4F46E5 !important;
 }
 
-/* Quiz Soru ve Seçenek Kartları */
-[data-theme="light"] .quiz-option-btn:not(.selected) {
+[data-theme="light"] #quiz-render-area [id^="mc-exp-"],
+html.light #quiz-render-area [id^="mc-exp-"] {
+    background-color: #EEF2FF !important;
+    border-color: #C7D2FE !important;
+    color: #1E1B4B !important;
+}
+
+[data-theme="light"] .quiz-option-btn:not(.selected),
+html.light .quiz-option-btn:not(.selected) {
     background-color: #FFFFFF !important;
     color: #1E293B !important;
     border-color: #CBD5E1 !important;
 }
 
-[data-theme="light"] .quiz-option-btn:not(.selected):hover {
+[data-theme="light"] .quiz-option-btn:not(.selected):hover,
+html.light .quiz-option-btn:not(.selected):hover {
     background-color: #F8FAFC !important;
     border-color: #6366F1 !important;
 }
 
+/* --- 4. TEKRAR OYUNLARI ARENASI (#view-games) --- */
+[data-theme="light"] #view-games h2,
+[data-theme="light"] #view-games h3,
+html.light #view-games h2,
+html.light #view-games h3 {
+    color: #0F172A !important;
+}
+
+[data-theme="light"] #view-games p.text-slate-400,
+html.light #view-games p.text-slate-400 {
+    color: #475569 !important;
+}
+
+[data-theme="light"] #games-hub-back-btn,
+html.light #games-hub-back-btn {
+    background-color: #FFFFFF !important;
+    color: #B45309 !important;
+    border-color: #CBD5E1 !important;
+}
+
+/* Eşleştirme Oyunu (Match Game) */
+[data-theme="light"] .match-card,
+html.light .match-card {
+    background-color: #FFFFFF !important;
+    border-color: #CBD5E1 !important;
+    color: #0F172A !important;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06) !important;
+}
+
+[data-theme="light"] .match-card:hover,
+html.light .match-card:hover {
+    background-color: #F8FAFC !important;
+    border-color: #3B82F6 !important;
+}
+
+[data-theme="light"] .match-card span,
+html.light .match-card span {
+    color: #0F172A !important;
+}
+
+[data-theme="light"] #match-left-column h4,
+[data-theme="light"] #match-right-column h4,
+html.light #match-left-column h4,
+html.light #match-right-column h4 {
+    background-color: #F1F5F9 !important;
+    color: #1E293B !important;
+    border-color: #CBD5E1 !important;
+}
+
+/* Refleks Oyunu (Reflex Game) */
+[data-theme="light"] #reflex-card-area,
+html.light #reflex-card-area {
+    background-color: #F8FAFC !important;
+    border-color: #CBD5E1 !important;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.04) !important;
+}
+
+[data-theme="light"] #reflex-statement-text,
+html.light #reflex-statement-text {
+    color: #0F172A !important;
+}
+
+/* Çarkıfelek & Bilgi Yarışması (Wheel Quiz) */
+[data-theme="light"] #wheel-question-box,
+html.light #wheel-question-box {
+    background-color: #F8FAFC !important;
+    border-color: #CBD5E1 !important;
+}
+
+[data-theme="light"] #wheel-question-box h3,
+[data-theme="light"] #wheel-question-box h4,
+html.light #wheel-question-box h3,
+html.light #wheel-question-box h4 {
+    color: #0F172A !important;
+}
+
+[data-theme="light"] #wheel-options-container button,
+html.light #wheel-options-container button {
+    background-color: #FFFFFF !important;
+    border-color: #CBD5E1 !important;
+    color: #0F172A !important;
+}
+
+[data-theme="light"] #wheel-options-container button:hover,
+html.light #wheel-options-container button:hover {
+    background-color: #EEF2FF !important;
+    border-color: #6366F1 !important;
+    color: #1E1B4B !important;
+}
+
+[data-theme="light"] #wheel-options-container button span:last-child,
+html.light #wheel-options-container button span:last-child {
+    color: #0F172A !important;
+}
+
+[data-theme="light"] #wheel-options-container button span:first-child,
+html.light #wheel-options-container button span:first-child {
+    background-color: #F1F5F9 !important;
+    color: #4F46E5 !important;
+}
+
+/* Düello Oyunu (Duel Game) */
+[data-theme="light"] #duel-question-text,
+html.light #duel-question-text {
+    color: #0F172A !important;
+}
+
+[data-theme="light"] [id^="duel-btn-"],
+html.light [id^="duel-btn-"] {
+    background-color: #FFFFFF !important;
+    border-color: #CBD5E1 !important;
+    color: #0F172A !important;
+}
+
+[data-theme="light"] [id^="duel-btn-"] span:last-child,
+html.light [id^="duel-btn-"] span:last-child {
+    color: #0F172A !important;
+}
+
+/* Bilgi Arenası (Arena Game) */
+[data-theme="light"] #arena-options-grid button,
+html.light #arena-options-grid button {
+    background-color: #FFFFFF !important;
+    border-color: #CBD5E1 !important;
+    color: #0F172A !important;
+}
+
+[data-theme="light"] #arena-options-grid button:hover,
+html.light #arena-options-grid button:hover {
+    background-color: #EEF2FF !important;
+    border-color: #6366F1 !important;
+}
+
+[data-theme="light"] #arena-options-grid button span,
+html.light #arena-options-grid button span {
+    color: #0F172A !important;
+}
+
+[data-theme="light"] #arena-options-grid button div:first-child,
+html.light #arena-options-grid button div:first-child {
+    background-color: #F1F5F9 !important;
+    color: #4F46E5 !important;
+}
+
+/* --- 5. KONU VİDEOLARI ALANI (#view-videos) --- */
+[data-theme="light"] #active-video-title,
+html.light #active-video-title {
+    color: #0F172A !important;
+}
+
+[data-theme="light"] #quick-video-input,
+html.light #quick-video-input {
+    background-color: #FFFFFF !important;
+    color: #0F172A !important;
+    border-color: #CBD5E1 !important;
+}
+
+/* --- MODALLAR VE MENÜLER --- */
+[data-theme="light"] #curriculum-modal .bg-slate-900,
+[data-theme="light"] #slide-menu-modal .bg-slate-900,
+[data-theme="light"] #standalone-game-modal .bg-slate-900,
+[data-theme="light"] #theme-dropdown-menu,
+[data-theme="light"] #scale-dropdown-menu,
+html.light #curriculum-modal .bg-slate-900,
+html.light #slide-menu-modal .bg-slate-900,
+html.light #standalone-game-modal .bg-slate-900,
+html.light #theme-dropdown-menu,
+html.light #scale-dropdown-menu {
+    background-color: #FFFFFF !important;
+    border-color: #E2E8F0 !important;
+    color: #0F172A !important;
+    box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.15) !important;
+}
+
+[data-theme="light"] #standalone-game-title,
+html.light #standalone-game-title {
+    color: #0F172A !important;
+}
+
+[data-theme="light"] #curriculum-modal-grid button,
+html.light #curriculum-modal-grid button {
+    background-color: #FFFFFF !important;
+    border-color: #CBD5E1 !important;
+}
+
+[data-theme="light"] #curriculum-modal-grid button .text-white,
+html.light #curriculum-modal-grid button .text-white {
+    color: #0F172A !important;
+}
+
+[data-theme="light"] #slide-menu-list button:not(.bg-indigo-600),
+html.light #slide-menu-list button:not(.bg-indigo-600) {
+    background-color: #F8FAFC !important;
+    border-color: #E2E8F0 !important;
+    color: #1E293B !important;
+}
+
+[data-theme="light"] #slide-menu-list button:not(.bg-indigo-600) .text-white,
+html.light #slide-menu-list button:not(.bg-indigo-600) .text-white {
+    color: #0F172A !important;
+}
+
+[data-theme="light"] #slide-menu-list button:not(.bg-indigo-600) .text-slate-400,
+html.light #slide-menu-list button:not(.bg-indigo-600) .text-slate-400 {
+    color: #64748B !important;
+}
+
+[data-theme="light"] .theme-opt-btn,
+[data-theme="light"] .scale-opt-btn,
+html.light .theme-opt-btn,
+html.light .scale-opt-btn {
+    color: #1E293B !important;
+}
+
+[data-theme="light"] .theme-opt-btn:hover,
+[data-theme="light"] .scale-opt-btn:hover,
+html.light .theme-opt-btn:hover,
+html.light .scale-opt-btn:hover {
+    background-color: #F1F5F9 !important;
+    color: #4F46E5 !important;
+}
+
 /* Scrollbar Açık Mod */
-[data-theme="light"] ::-webkit-scrollbar-track {
+[data-theme="light"] ::-webkit-scrollbar-track,
+html.light ::-webkit-scrollbar-track {
     background: #F1F5F9;
 }
-[data-theme="light"] ::-webkit-scrollbar-thumb {
+[data-theme="light"] ::-webkit-scrollbar-thumb,
+html.light ::-webkit-scrollbar-thumb {
     background: #CBD5E1;
 }
-[data-theme="light"] ::-webkit-scrollbar-thumb:hover {
+[data-theme="light"] ::-webkit-scrollbar-thumb:hover,
+html.light ::-webkit-scrollbar-thumb:hover {
     background: #94A3B8;
 }
 
