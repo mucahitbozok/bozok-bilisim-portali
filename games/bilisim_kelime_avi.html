@@ -222,20 +222,37 @@
 
         class WordHuntGame {
             constructor() {
-                this.gridSize = 11;
-                this.words = [
-                    { word: "EDEVLET", label: "e-Devlet", desc: "Tüm resmi kamu hizmetleri kapısı (turkiye.gov.tr)", found: false },
-                    { word: "EOKUL", label: "e-Okul", desc: "Öğrenci sınav notları ve devamsızlık sistemi", found: false },
-                    { word: "ENABIZ", label: "e-Nabız", desc: "Geçmiş tahlil, aşı ve sağlık kaydı portalı", found: false },
-                    { word: "MHRS", label: "MHRS", desc: "Hastanelerden doktor ve klinik randevusu alma", found: false },
-                    { word: "EBA", label: "EBA", desc: "Ders kitapları ve eğitici içerik portalı", found: false },
-                    { word: "AYAKIZI", label: "Ayak İzi", desc: "İnternette bıraktığımız kalıcı dijital izler", found: false },
-                    { word: "KIMLIK", label: "Dijital Kimlik", desc: "Sanal ortamda bizi temsil eden profil ve hesaplar", found: false },
-                    { word: "NEZAKET", label: "Dijital Nezaket", desc: "İnternette saygılı ve kibar iletişim kuralları", found: false },
-                    { word: "SIFRE", label: "Güçlü Şifre", desc: "Hesaplarımızı koruyan en az 8 haneli gizli anahtar", found: false },
-                    { word: "TELIF", label: "Telif Hakkı", desc: "Eser sahibinin emeğine saygı ve izinsiz almama", found: false }
+                this.gridSize = 12;
+                this.wordPool = [
+                    { word: "EDEVLET", label: "e-Devlet", desc: "Tüm resmi kamu hizmetleri kapısı (turkiye.gov.tr)" },
+                    { word: "EOKUL", label: "e-Okul", desc: "Öğrenci sınav notları ve devamsızlık sistemi" },
+                    { word: "ENABIZ", label: "e-Nabız", desc: "Geçmiş tahlil, aşı ve sağlık kaydı portalı" },
+                    { word: "MHRS", label: "MHRS", desc: "Hastanelerden doktor ve klinik randevusu alma" },
+                    { word: "EBA", label: "EBA", desc: "Ders kitapları ve eğitici içerik portalı" },
+                    { word: "AYAKIZI", label: "Ayak İzi", desc: "İnternette bıraktığımız kalıcı dijital izler" },
+                    { word: "KIMLIK", label: "Dijital Kimlik", desc: "Sanal ortamda bizi temsil eden profil ve hesaplar" },
+                    { word: "NEZAKET", label: "Dijital Nezaket", desc: "İnternette saygılı ve kibar iletişim kuralları" },
+                    { word: "SIFRE", label: "Güçlü Şifre", desc: "Hesaplarımızı koruyan en az 8 haneli gizli anahtar" },
+                    { word: "TELIF", label: "Telif Hakkı", desc: "Eser sahibinin emeğine saygı ve izinsiz almama" },
+                    { word: "ZORBALIK", label: "Siber Zorbalık", desc: "Sanal ortamda birini rahatsız veya tehdit etme" },
+                    { word: "GUVENLIK", label: "Siber Güvenlik", desc: "Cihaz ve verileri dijital saldırılardan koruma" },
+                    { word: "YAZILIM", label: "Yazılım", desc: "Bilgisayara ne yapacağını söyleyen kod ve programlar" },
+                    { word: "DONANIM", label: "Donanım", desc: "Bilgisayarın elle tutulup gözle görülen parçaları" },
+                    { word: "VIRUS", label: "Zararlı Yazılım", desc: "Dosyalara ve sistemlere zarar veren kötü amaçlı kod" },
+                    { word: "INTERNET", label: "İnternet Ağı", desc: "Dünya üzerindeki tüm bilgisayarları birbirine bağlayan ağ" },
+                    { word: "EPOSTA", label: "E-Posta", desc: "İnternet üzerinden gönderilen dijital mektup ve mesaj" },
+                    { word: "BILGISAYAR", label: "Bilgisayar", desc: "Verileri işleyen, saklayan ve sonuç üreten elektronik araç" },
+                    { word: "ETIK", label: "Bilişim Etiği", desc: "Teknoloji kullanırken doğru ve ahlaki davranış kuralları" },
+                    { word: "PAROLA", label: "Güçlü Parola", desc: "Kırılması zor, harf, rakam ve sembol içeren anahtar" },
+                    { word: "TARAYICI", label: "Web Tarayıcısı", desc: "Web sitelerini görüntülememizi sağlayan program" },
+                    { word: "ARAMA", label: "Arama Motoru", desc: "İnternette bilgiye hızlıca ulaşmamızı sağlayan servis" },
+                    { word: "GIZLILIK", label: "Kişisel Gizlilik", desc: "Özel bilgilerin korunması ve paylaşılmaması ilkesi" },
+                    { word: "KODLAMA", label: "Kodlama", desc: "Problemleri çözmek için algoritma ve komut yazma" },
+                    { word: "MEDYA", label: "Dijital Medya", desc: "İnternetteki video, ses, görsel ve haber içerikleri" },
+                    { word: "AVATAR", label: "Profil Avatarı", desc: "Sanal ortamlarda gerçek fotoğraf yerine kullanılan görsel" }
                 ];
 
+                this.words = [];
                 this.grid = [];
                 this.selectedStart = null; // {r, c}
                 this.selectedCells = [];
@@ -247,72 +264,104 @@
             }
 
             init() {
+                this.buildGrid();
                 this.render();
             }
 
             startGame() {
                 sounds.playClick();
-                this.words.forEach(w => w.found = false);
+                this.buildGrid();
                 this.foundCells.clear();
                 this.selectedStart = null;
                 this.selectedCells = [];
                 this.hintWord = null;
                 this.hintsUsed = 0;
                 this.score = 0;
-                this.buildGrid();
                 this.state = 'playing';
                 this.render();
             }
 
             buildGrid() {
-                // Boş ızgara oluştur
-                this.grid = Array(this.gridSize).fill(null).map(() => Array(this.gridSize).fill(''));
-
-                // Kelimeleri yerleştir
                 const alphabet = "ABCÇDEFGĞHIİJKLMNOÖPRSŞTUÜVYZ";
-                
-                // Önceden planlanmış koordinat yerleşimi (çakışmasız, garantili çözüm)
-                const placements = [
-                    // EDEVLET -> (0, 0) yatay sağa
-                    { word: "EDEVLET", r: 0, c: 0, dr: 0, dc: 1 },
-                    // EOKUL -> (2, 0) yatay sağa
-                    { word: "EOKUL", r: 2, c: 0, dr: 0, dc: 1 },
-                    // ENABIZ -> (4, 0) yatay sağa
-                    { word: "ENABIZ", r: 4, c: 0, dr: 0, dc: 1 },
-                    // MHRS -> (6, 0) yatay sağa
-                    { word: "MHRS", r: 6, c: 0, dr: 0, dc: 1 },
-                    // EBA -> (8, 0) yatay sağa
-                    { word: "EBA", r: 8, c: 0, dr: 0, dc: 1 },
-                    // AYAKIZI -> (0, 8) dikey aşağı
-                    { word: "AYAKIZI", r: 0, c: 8, dr: 1, dc: 0 },
-                    // KIMLIK -> (1, 10) dikey aşağı
-                    { word: "KIMLIK", r: 1, c: 10, dr: 1, dc: 0 },
-                    // NEZAKET -> (10, 0) yatay sağa
-                    { word: "NEZAKET", r: 10, c: 0, dr: 0, dc: 1 },
-                    // SIFRE -> (2, 6) dikey aşağı
-                    { word: "SIFRE", r: 2, c: 6, dr: 1, dc: 0 },
-                    // TELIF -> (3, 7) dikey aşağı
-                    { word: "TELIF", r: 3, c: 7, dr: 1, dc: 0 }
+                const directions = [
+                    { dr: 0, dc: 1 },  // Yatay sağa
+                    { dr: 1, dc: 0 },  // Dikey aşağı
+                    { dr: 1, dc: 1 },  // Çapraz sağa aşağı
+                    { dr: 1, dc: -1 }  // Çapraz sola aşağı
                 ];
 
-                placements.forEach(p => {
-                    const item = this.words.find(w => w.word === p.word);
-                    if (item) {
-                        item.r = p.r;
-                        item.c = p.c;
-                        item.dr = p.dr;
-                        item.dc = p.dc;
-                        item.cells = [];
-                        for (let i = 0; i < p.word.length; i++) {
-                            const curR = p.r + (p.dr * i);
-                            const curC = p.c + (p.dc * i);
-                            this.grid[curR][curC] = p.word[i];
-                            item.cells.push(`${curR},${curC}`);
+                // 26 kelimelik müfredat havuzundan her oyunda rastgele 10 farklı kelime seç
+                const shuffledPool = [...this.wordPool].sort(() => Math.random() - 0.5);
+                const selected = shuffledPool.slice(0, 10);
+                this.words = selected.map(w => ({ ...w, found: false, cells: [] }));
+
+                // Yerleşim algoritması: Uzun kelimelerden başlayarak yerleştir
+                const sortedWords = [...this.words].sort((a, b) => b.word.length - a.word.length);
+
+                let placedSuccessfully = false;
+                let attempts = 0;
+
+                while (!placedSuccessfully && attempts < 50) {
+                    attempts++;
+                    this.grid = Array(this.gridSize).fill(null).map(() => Array(this.gridSize).fill(''));
+                    let allPlaced = true;
+
+                    for (const item of sortedWords) {
+                        let placed = false;
+                        const shuffledDirs = [...directions].sort(() => Math.random() - 0.5);
+
+                        for (let tryCount = 0; tryCount < 200 && !placed; tryCount++) {
+                            const dir = shuffledDirs[tryCount % shuffledDirs.length];
+                            const r = Math.floor(Math.random() * this.gridSize);
+                            const c = Math.floor(Math.random() * this.gridSize);
+
+                            const endR = r + dir.dr * (item.word.length - 1);
+                            const endC = c + dir.dc * (item.word.length - 1);
+
+                            if (endR < 0 || endR >= this.gridSize || endC < 0 || endC >= this.gridSize) {
+                                continue;
+                            }
+
+                            // Çakışma kontrolü
+                            let canPlace = true;
+                            for (let i = 0; i < item.word.length; i++) {
+                                const curR = r + dir.dr * i;
+                                const curC = c + dir.dc * i;
+                                const existingChar = this.grid[curR][curC];
+                                if (existingChar !== '' && existingChar !== item.word[i]) {
+                                    canPlace = false;
+                                    break;
+                                }
+                            }
+
+                            if (canPlace) {
+                                item.r = r;
+                                item.c = c;
+                                item.dr = dir.dr;
+                                item.dc = dir.dc;
+                                item.cells = [];
+                                for (let i = 0; i < item.word.length; i++) {
+                                    const curR = r + dir.dr * i;
+                                    const curC = c + dir.dc * i;
+                                    this.grid[curR][curC] = item.word[i];
+                                    item.cells.push(`${curR},${curC}`);
+                                }
+                                placed = true;
+                            }
+                        }
+
+                        if (!placed) {
+                            allPlaced = false;
+                            break;
                         }
                     }
-                });
 
-                // Boş kalan yerleri rastgele harflerle doldur
+                    if (allPlaced) {
+                        placedSuccessfully = true;
+                    }
+                }
+
+                // Boş kalan yerleri rastgele Türkçe harflerle doldur
                 for (let r = 0; r < this.gridSize; r++) {
                     for (let c = 0; c < this.gridSize; c++) {
                         if (!this.grid[r][c]) {
@@ -504,7 +553,7 @@
                                         const isFound = this.foundCells.has(cellKey);
                                         const isHint = (this.hintWord && this.hintWord.r === r && this.hintWord.c === c);
 
-                                        let classes = "w-6 h-6 xs:w-7 xs:h-7 sm:w-9 sm:h-9 md:w-10 md:h-10 rounded-md sm:rounded-xl text-[10px] xs:text-xs sm:text-base font-bold flex items-center justify-center cursor-pointer border border-slate-800/80 ";
+                                        let classes = "w-6 h-6 sm:w-8 sm:h-8 md:w-9 md:h-9 lg:w-10 lg:h-10 rounded-md sm:rounded-xl text-[11px] sm:text-sm md:text-base font-bold flex items-center justify-center cursor-pointer border border-slate-800/80 ";
                                         if (isFound) {
                                             classes += "found ";
                                         } else if (isSelected) {

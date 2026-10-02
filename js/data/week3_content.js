@@ -1605,34 +1605,34 @@ window.WEEK3_CONTENT = {
                 {
                     q: "Aşağıdaki işlemlerden hangisi bir kişinin internette bilerek ve isteyerek oluşturduğu 'Aktif Dijital Ayak İzi'ne örnektir?",
                     options: [
-                        "Kendi hazırladığı robotik kodlama videosunu sosyal medyada paylaşmak",
                         "Ziyaret ettiği haber sitesinin bilgisayarına çerez bırakması",
                         "Arama motorunun daha önce aranan kelimeleri geçmişe kaydetmesi",
+                        "Kendi hazırladığı robotik kodlama videosunu sosyal medyada paylaşmak",
                         "Akıllı telefonun arka planda adım ve konum verisi toplaması"
                     ],
-                    answer: 0,
+                    answer: 2,
                     explanation: "Kendi irademizle ve isteyerek internete yüklediğimiz video, fotoğraf veya yorumlar aktif dijital ayak izidir."
                 },
                 {
                     q: "Burak internette spor ayakkabıları inceledikten sonra, ertesi gün girdiği bir oyun sitesinin kenarında aynı ayakkabının reklamını görmüştür. Bu durumun ortaya çıkmasının TEMEL SEBEBİ nedir?",
                     options: [
-                        "Gezinti sırasında arka planda oluşan pasif dijital ayak izi ve çerezler",
                         "Burak'ın bilgisayarına tehlikeli bir virüs bulaşmış olması",
+                        "Gezinti sırasında arka planda oluşan pasif dijital ayak izi ve çerezler",
                         "Ayakkabı mağazasının Burak'ın ailesine telefonla ulaşması",
                         "Oyun sitesinin Burak'ın kamerasından odasını izlemesi"
                     ],
-                    answer: 0,
+                    answer: 1,
                     explanation: "Siteler ziyaret edildiğinde arka planda kaydedilen çerezler ve arama geçmişi (pasif dijital ayak izi) kişiye özel reklamlar çıkarır."
                 },
                 {
                     q: "Yeni bir şehre taşınan Demir ailesi; ikametgah naklini yapmak, yeni evin elektrik-su abonelik başvurularını resmi kuruma gitmeden onaylatmak ve üzerlerindeki araç kayıtlarını görmek istemektedir. Demir ailesinin TÜM BU İŞLEMLERİ tek bir noktadan yapabileceği resmi platform hangisidir?",
                     options: [
-                        "e-Devlet Kapısı (turkiye.gov.tr)",
                         "e-Okul Veli Bilgilendirme Sistemi",
                         "MHRS Hastane Randevu Merkezi",
-                        "Çevrim içi video paylaşım platformu"
+                        "Çevrim içi video paylaşım platformu",
+                        "e-Devlet Kapısı (turkiye.gov.tr)"
                     ],
-                    answer: 0,
+                    answer: 3,
                     explanation: "e-Devlet kapısı (turkiye.gov.tr), tüm kamu kurumlarına ait yüzlerce resmi işlemi tek şifreyle 7/24 yapmamızı sağlar."
                 },
                 {
@@ -1649,45 +1649,45 @@ window.WEEK3_CONTENT = {
                 {
                     q: "Dedesi rahatsızlanan Mehmet, doktorun istediği '2 yıl önceki akciğer grafisi ve kan tahlili sonuçlarını' doktorun ekranına taşımak istemektedir. Sağlık geçmişini, aşı kartını ve reçeteleri arşivleyen sistem hangisidir?",
                     options: [
-                        "e-Nabız",
                         "e-Okul",
                         "EBA",
+                        "e-Nabız Kişisel Sağlık Sistemi",
                         "e-Belediye"
                     ],
-                    answer: 0,
+                    answer: 2,
                     explanation: "e-Nabız, vatandaşların geçmiş muayene, tahlil, röntgen, aşı ve reçete verilerini saklayan resmi sağlık sistemidir."
                 },
                 {
                     q: "Gözlerinde batma hisseden Zeynep için annesi devlet hastanesinden uzman bir göz hekimi seçip Cuma günü saat 14.30'a muayene saati almıştır. Annenin sıra beklemeden kullandığı sistem hangisidir?",
                     options: [
-                        "e-Randevu / MHRS (Alo 182)",
                         "e-Vergi Dairesi",
+                        "e-Randevu / MHRS (Alo 182)",
                         "e-Okul",
                         "EBA Canlı Ders"
                     ],
-                    answer: 0,
+                    answer: 1,
                     explanation: "Merkezi Hekim Randevu Sistemi (MHRS), hastanelerden doktor ve klinik seçerek randevu almayı sağlar."
                 },
                 {
                     q: "Kendi dükkanını işleten Serdar Bey, yıllık gelir vergisi beyannamesini vermek ve motorlu taşıtlar vergisini (MTV) kuyrukta beklemeden ödemek istemektedir. Serdar Bey hangi dijital vatandaşlık uygulamasını tercih etmelidir?",
                     options: [
-                        "e-Vergi (İnteraktif Vergi Dairesi)",
                         "e-Okul",
                         "e-Nabız",
-                        "MHRS"
+                        "MHRS",
+                        "e-Vergi (İnteraktif Vergi Dairesi)"
                     ],
-                    answer: 0,
+                    answer: 3,
                     explanation: "Vergi borcu sorgulama, harç yatırma ve maliye işlemleri e-Vergi (İnteraktif Vergi Dairesi) üzerinden yapılır."
                 },
                 {
                     q: "Köydeki anneannesine acil ilaç parası göndermek isteyen Hakan, banka şubesine gitmeden gece yarısı saat 23.30'da cep telefonundaki banka uygulamasıyla birkaç saniyede para transferini tamamlamıştır. Hakan'ın kullandığı hizmet hangisidir?",
                     options: [
-                        "e-Bankacılık (İnternet & Mobil Bankacılık)",
                         "e-Devlet Kapısı",
                         "EBA Kütüphanesi",
+                        "e-Bankacılık (İnternet & Mobil Bankacılık)",
                         "e-Nabız"
                     ],
-                    answer: 0,
+                    answer: 2,
                     explanation: "Para transferi, fatura ödeme ve bakiye takibini internet veya cep telefonu üzerinden yapmaya e-Bankacılık denir."
                 },
                 {
@@ -1704,23 +1704,23 @@ window.WEEK3_CONTENT = {
                 {
                     q: "Sosyal medyada gördüğü 'Yarın tüm okullar süresiz tatil edildi!' yazılı kaynağı belirsiz bir resmi hemen sınıf grubuna göndermek üzere olan Eren'e arkadaşı D.Ü.Ş.Ü.N. kuralını hatırlatmıştır. Eren'in paylaşmadan önce İLK yapması gereken nedir?",
                     options: [
-                        "Bilginin doğru ve MEB kaynaklı olup olmadığını sorgulamak",
                         "Hemen tüm okul arkadaşlarına ileterek haberi yaymak",
+                        "Bilginin doğru ve MEB kaynaklı olup olmadığını sorgulamak",
                         "Resmi kaydedip profil fotoğrafı yapmak",
                         "Tüm öğretmenleri arayıp dersleri iptal etmek"
                     ],
-                    answer: 0,
+                    answer: 1,
                     explanation: "D.Ü.Ş.Ü.N. kuralının ilk adımı 'D: Doğru mu?' sorusudur. Doğrulanmamış hiçbir bilgi internette paylaşılmamalıdır."
                 },
                 {
                     q: "Oynadığı çevrim içi oyunda takım arkadaşının yaptığı bir hata yüzünden maçı kaybeden Doruk'un sergilemesi gereken EN UYGUN dijital nezaket davranışı hangisidir?",
                     options: [
-                        "'Sağlık olsun, bir dahaki sefere daha iyi oynarız' diyerek yapıcı ve nazik olmak",
                         "Takım arkadaşına büyük harflerle hakaret ve kaba sözler yazmak",
                         "Arkadaşının kullanıcı adını ve profilini internette kötülemek",
-                        "Oyunu kapatıp bilgisayarın ekranına yumruk atmak"
+                        "Oyunu kapatıp bilgisayarın ekranına yumruk atmak",
+                        "'Sağlık olsun, bir dahaki sefere daha iyi oynarız' diyerek yapıcı ve nazik olmak"
                     ],
-                    answer: 0,
+                    answer: 3,
                     explanation: "Dijital nezaket, sanal ortamda da yüz yüze iletişimdeki gibi saygılı, anlayışlı ve centilmen olmayı gerektirir."
                 }
             ]

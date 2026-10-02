@@ -16,6 +16,15 @@ class App {
         this.activeVideoTitle = null;
         this.isVideoPlaying = false;
         this.currentScale = 'auto';
+        this.quizState = {};
+    }
+
+    getQuizState(weekNum) {
+        if (!this.quizState) this.quizState = {};
+        if (!this.quizState[weekNum]) {
+            this.quizState[weekNum] = { tf: {}, mc: {} };
+        }
+        return this.quizState[weekNum];
     }
 
     init() {
@@ -1145,22 +1154,84 @@ class App {
                     </div>
 
                     <div class="space-y-4 pt-2">
-                        ${questions[1].items.map((item, idx) => `
-                            <div id="tf-item-${idx}" class="p-4 bg-slate-800 rounded-2xl border border-slate-700 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 transition-all">
-                                <div class="text-sm font-semibold text-white leading-relaxed">
-                                    <span class="text-indigo-400 font-bold mr-2">${idx + 1}.</span>
-                                    ${item.statement}
+                        ${questions[1].items.map((item, idx) => {
+                            const tfState = this.getQuizState(this.currentWeek).tf[idx];
+                            const isAnswered = !!tfState;
+                            const isRight = isAnswered && tfState.isRight;
+                            const userAns = isAnswered ? tfState.userAns : null;
+
+                            let cardClass = "tf-card p-4 sm:p-5 bg-slate-800 rounded-2xl border border-slate-700 transition-all space-y-3";
+                            if (isAnswered) {
+                                cardClass += isRight 
+                                    ? " tf-answered-correct bg-emerald-950/40 border-emerald-500/70" 
+                                    : " tf-answered-wrong bg-rose-950/40 border-rose-500/70";
+                            }
+
+                            // True button state
+                            let trueBtnClass = "tf-btn-true px-4 py-2.5 rounded-xl font-black text-xs transition-all flex items-center gap-1.5 shadow-sm";
+                            let trueBtnContent = `<i class="fa-solid fa-check"></i> Doğru`;
+                            
+                            // False button state
+                            let falseBtnClass = "tf-btn-false px-4 py-2.5 rounded-xl font-black text-xs transition-all flex items-center gap-1.5 shadow-sm";
+                            let falseBtnContent = `<i class="fa-solid fa-xmark"></i> Yanlış`;
+
+                            if (isAnswered) {
+                                if (userAns === true) {
+                                    if (isRight) {
+                                        trueBtnClass += " active-correct !bg-emerald-600 !border-2 !border-emerald-400 !text-white ring-2 ring-emerald-400/50";
+                                        trueBtnContent = `<i class="fa-solid fa-circle-check text-sm"></i> Doğru ✓`;
+                                        falseBtnClass += " opacity-40 pointer-events-none bg-slate-700 text-slate-400";
+                                    } else {
+                                        trueBtnClass += " active-wrong !bg-rose-600 !border-2 !border-rose-400 !text-white ring-2 ring-rose-400/50";
+                                        trueBtnContent = `<i class="fa-solid fa-circle-xmark text-sm"></i> Doğru ✗`;
+                                        falseBtnClass += " correct-hint !bg-emerald-700/80 !border-2 !border-emerald-400 !text-emerald-100 font-bold";
+                                        falseBtnContent = `<i class="fa-solid fa-circle-check text-emerald-300"></i> Yanlış (Doğru Cevap)`;
+                                    }
+                                } else {
+                                    if (isRight) {
+                                        falseBtnClass += " active-correct !bg-emerald-600 !border-2 !border-emerald-400 !text-white ring-2 ring-emerald-400/50";
+                                        falseBtnContent = `<i class="fa-solid fa-circle-check text-sm"></i> Yanlış ✓`;
+                                        trueBtnClass += " opacity-40 pointer-events-none bg-slate-700 text-slate-400";
+                                    } else {
+                                        falseBtnClass += " active-wrong !bg-rose-600 !border-2 !border-rose-400 !text-white ring-2 ring-rose-400/50";
+                                        falseBtnContent = `<i class="fa-solid fa-circle-xmark text-sm"></i> Yanlış ✗`;
+                                        trueBtnClass += " correct-hint !bg-emerald-700/80 !border-2 !border-emerald-400 !text-emerald-100 font-bold";
+                                        trueBtnContent = `<i class="fa-solid fa-circle-check text-emerald-300"></i> Doğru (Doğru Cevap)`;
+                                    }
+                                }
+                            } else {
+                                trueBtnClass += " bg-slate-700 hover:bg-emerald-600 text-white active:scale-95";
+                                falseBtnClass += " bg-slate-700 hover:bg-rose-600 text-white active:scale-95";
+                            }
+
+                            return `
+                                <div id="tf-item-${idx}" class="${cardClass}">
+                                    <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                                        <div class="text-sm font-semibold text-white leading-relaxed flex-1">
+                                            <span class="text-indigo-400 font-bold mr-2">${idx + 1}.</span>
+                                            <span>${item.statement}</span>
+                                        </div>
+                                        <div class="flex items-center gap-2 shrink-0">
+                                            <button id="tf-btn-${idx}-true" onclick="app.checkTF(${idx}, true)" ${isAnswered ? 'disabled' : ''} class="${trueBtnClass}">
+                                                ${trueBtnContent}
+                                            </button>
+                                            <button id="tf-btn-${idx}-false" onclick="app.checkTF(${idx}, false)" ${isAnswered ? 'disabled' : ''} class="${falseBtnClass}">
+                                                ${falseBtnContent}
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div id="tf-exp-${idx}" class="${isAnswered ? '' : 'hidden '}p-3 rounded-xl text-xs font-medium border flex items-start gap-2.5 transition-all ${isRight ? 'tf-exp-correct bg-emerald-950/80 border-emerald-500/50 text-emerald-200' : 'tf-exp-wrong bg-rose-950/80 border-rose-500/50 text-rose-200'}">
+                                        <i class="fa-solid ${isRight ? 'fa-circle-check text-emerald-400' : 'fa-circle-exclamation text-rose-400'} text-base shrink-0 mt-0.5"></i>
+                                        <div class="space-y-0.5">
+                                            <div class="font-bold uppercase tracking-wider text-[11px] ${isRight ? 'text-emerald-400' : 'text-rose-400'}">
+                                                ${isRight ? 'Tebrikler! Doğru Cevap' : 'Dikkat! Yanlış Cevap'}
+                                            </div>
+                                            <p class="leading-relaxed">${item.explanation || (item.isCorrect ? 'Bu ifade doğrudur.' : 'Bu ifade yanlıştır.')}</p>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="flex items-center gap-2 shrink-0">
-                                    <button onclick="app.checkTF(${idx}, true)" class="tf-btn-true px-4 py-2 bg-slate-700 hover:bg-emerald-600 rounded-xl font-bold text-xs text-white transition-all flex items-center gap-1.5">
-                                        <i class="fa-solid fa-check"></i> Doğru
-                                    </button>
-                                    <button onclick="app.checkTF(${idx}, false)" class="tf-btn-false px-4 py-2 bg-slate-700 hover:bg-rose-600 rounded-xl font-bold text-xs text-white transition-all flex items-center gap-1.5">
-                                        <i class="fa-solid fa-xmark"></i> Yanlış
-                                    </button>
-                                </div>
-                            </div>
-                        `).join('')}
+                            `;
+                        }).join('')}
                     </div>
                 </div>
                 ` : ''}
@@ -1179,24 +1250,44 @@ class App {
                     </div>
 
                     <div class="space-y-6">
-                        ${questions[2].questions.map((q, qIdx) => `
-                            <div class="p-5 bg-slate-800/80 rounded-2xl border border-slate-700 space-y-3">
-                                <h4 class="text-base font-bold text-white leading-relaxed">
-                                    <span class="text-purple-400 font-bold">${qIdx + 1}.</span> ${q.q}
-                                </h4>
-                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-                                    ${q.options.map((opt, optIdx) => `
-                                        <button id="mc-btn-${qIdx}-${optIdx}" onclick="app.checkMC(${qIdx}, ${optIdx})" class="p-3 bg-slate-750 hover:bg-purple-600 border border-slate-700 rounded-xl text-left text-sm font-semibold text-white flex items-center gap-2.5 transition-all">
-                                            <span class="w-6 h-6 rounded-lg bg-slate-800 text-yellow-400 text-xs font-bold flex items-center justify-center shrink-0">
-                                                ${String.fromCharCode(65 + optIdx)}
-                                            </span>
-                                            <span>${opt}</span>
-                                        </button>
-                                    `).join('')}
+                        ${questions[2].questions.map((q, qIdx) => {
+                            const mcState = this.getQuizState(this.currentWeek).mc[qIdx];
+                            const isAnswered = !!mcState;
+                            const selectedOpt = isAnswered ? mcState.optIdx : null;
+
+                            return `
+                                <div class="p-5 bg-slate-800/80 rounded-2xl border border-slate-700 space-y-3">
+                                    <h4 class="text-base font-bold text-white leading-relaxed">
+                                        <span class="text-purple-400 font-bold">${qIdx + 1}.</span> ${q.q}
+                                    </h4>
+                                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                                        ${q.options.map((opt, optIdx) => {
+                                            let btnClasses = "p-3 bg-slate-750 hover:bg-purple-600 border border-slate-700 rounded-xl text-left text-sm font-semibold text-white flex items-center gap-2.5 transition-all";
+                                            if (isAnswered) {
+                                                if (optIdx === q.answer) {
+                                                    btnClasses += " !bg-emerald-600 !border-emerald-400 !text-white ring-2 ring-emerald-400/40";
+                                                } else if (optIdx === selectedOpt) {
+                                                    btnClasses += " !bg-rose-600 !border-rose-400 !text-white ring-2 ring-rose-400/40";
+                                                } else {
+                                                    btnClasses += " opacity-40 pointer-events-none";
+                                                }
+                                            }
+                                            return `
+                                                <button id="mc-btn-${qIdx}-${optIdx}" onclick="app.checkMC(${qIdx}, ${optIdx})" ${isAnswered ? 'disabled' : ''} class="${btnClasses}">
+                                                    <span class="w-6 h-6 rounded-lg bg-slate-800 text-yellow-400 text-xs font-bold flex items-center justify-center shrink-0">
+                                                        ${String.fromCharCode(65 + optIdx)}
+                                                    </span>
+                                                    <span>${opt}</span>
+                                                </button>
+                                            `;
+                                        }).join('')}
+                                    </div>
+                                    <div id="mc-exp-${qIdx}" class="${isAnswered ? '' : 'hidden '}p-3 bg-slate-900/80 rounded-xl text-xs text-indigo-200 border border-indigo-500/30">
+                                        ${isAnswered ? `<strong>Açıklama:</strong> ${q.explanation}` : ''}
+                                    </div>
                                 </div>
-                                <div id="mc-exp-${qIdx}" class="hidden p-3 bg-slate-900/80 rounded-xl text-xs text-indigo-200 border border-indigo-500/30"></div>
-                            </div>
-                        `).join('')}
+                            `;
+                        }).join('')}
                     </div>
                 </div>
                 ` : ''}
@@ -1235,19 +1326,78 @@ class App {
         const data = this.getCurrentWeekData();
         const item = data.questions?.[1]?.items?.[itemIdx];
         if (!item) return;
+
+        const isRight = (userAns === item.isCorrect);
+        const state = this.getQuizState(this.currentWeek);
+        state.tf[itemIdx] = { userAns, isRight };
+
         const container = document.getElementById(`tf-item-${itemIdx}`);
-        const isRight = userAns === item.isCorrect;
+        const btnTrue = document.getElementById(`tf-btn-${itemIdx}-true`);
+        const btnFalse = document.getElementById(`tf-btn-${itemIdx}-false`);
+        const expEl = document.getElementById(`tf-exp-${itemIdx}`);
 
         if (isRight) {
             sounds.playCorrect();
-            if (container) {
-                container.className = "p-4 bg-emerald-950/60 rounded-2xl border-2 border-emerald-500 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 transition-all";
-            }
         } else {
             sounds.playWrong();
-            if (container) {
-                container.className = "p-4 bg-rose-950/60 rounded-2xl border-2 border-rose-500 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 transition-all animate-shake";
+        }
+
+        if (container) {
+            container.classList.remove("tf-answered-correct", "tf-answered-wrong", "animate-shake");
+            void container.offsetWidth; // trigger reflow
+            if (isRight) {
+                container.classList.add("tf-answered-correct", "bg-emerald-950/40", "border-emerald-500/70");
+            } else {
+                container.classList.add("tf-answered-wrong", "bg-rose-950/40", "border-rose-500/70", "animate-shake");
             }
+        }
+
+        if (btnTrue && btnFalse) {
+            btnTrue.disabled = true;
+            btnFalse.disabled = true;
+
+            btnTrue.className = "tf-btn-true px-4 py-2.5 rounded-xl font-black text-xs transition-all flex items-center gap-1.5 shadow-sm";
+            btnFalse.className = "tf-btn-false px-4 py-2.5 rounded-xl font-black text-xs transition-all flex items-center gap-1.5 shadow-sm";
+
+            if (userAns === true) {
+                if (isRight) {
+                    btnTrue.className += " active-correct !bg-emerald-600 !border-2 !border-emerald-400 !text-white ring-2 ring-emerald-400/50";
+                    btnTrue.innerHTML = `<i class="fa-solid fa-circle-check text-sm"></i> Doğru ✓`;
+                    btnFalse.className += " opacity-40 pointer-events-none bg-slate-700 text-slate-400";
+                    btnFalse.innerHTML = `<i class="fa-solid fa-xmark"></i> Yanlış`;
+                } else {
+                    btnTrue.className += " active-wrong !bg-rose-600 !border-2 !border-rose-400 !text-white ring-2 ring-rose-400/50";
+                    btnTrue.innerHTML = `<i class="fa-solid fa-circle-xmark text-sm"></i> Doğru ✗`;
+                    btnFalse.className += " correct-hint !bg-emerald-700/80 !border-2 !border-emerald-400 !text-emerald-100 font-bold";
+                    btnFalse.innerHTML = `<i class="fa-solid fa-circle-check text-emerald-300"></i> Yanlış (Doğru Cevap)`;
+                }
+            } else {
+                if (isRight) {
+                    btnFalse.className += " active-correct !bg-emerald-600 !border-2 !border-emerald-400 !text-white ring-2 ring-emerald-400/50";
+                    btnFalse.innerHTML = `<i class="fa-solid fa-circle-check text-sm"></i> Yanlış ✓`;
+                    btnTrue.className += " opacity-40 pointer-events-none bg-slate-700 text-slate-400";
+                    btnTrue.innerHTML = `<i class="fa-solid fa-check"></i> Doğru`;
+                } else {
+                    btnFalse.className += " active-wrong !bg-rose-600 !border-2 !border-rose-400 !text-white ring-2 ring-rose-400/50";
+                    btnFalse.innerHTML = `<i class="fa-solid fa-circle-xmark text-sm"></i> Yanlış ✗`;
+                    btnTrue.className += " correct-hint !bg-emerald-700/80 !border-2 !border-emerald-400 !text-emerald-100 font-bold";
+                    btnTrue.innerHTML = `<i class="fa-solid fa-circle-check text-emerald-300"></i> Doğru (Doğru Cevap)`;
+                }
+            }
+        }
+
+        if (expEl) {
+            expEl.className = `p-3 rounded-xl text-xs font-medium border flex items-start gap-2.5 transition-all ${isRight ? 'tf-exp-correct bg-emerald-950/80 border-emerald-500/50 text-emerald-200' : 'tf-exp-wrong bg-rose-950/80 border-rose-500/50 text-rose-200'}`;
+            expEl.innerHTML = `
+                <i class="fa-solid ${isRight ? 'fa-circle-check text-emerald-400' : 'fa-circle-exclamation text-rose-400'} text-base shrink-0 mt-0.5"></i>
+                <div class="space-y-0.5">
+                    <div class="font-bold uppercase tracking-wider text-[11px] ${isRight ? 'text-emerald-400' : 'text-rose-400'}">
+                        ${isRight ? 'Tebrikler! Doğru Cevap' : 'Dikkat! Yanlış Cevap'}
+                    </div>
+                    <p class="leading-relaxed">${item.explanation || (item.isCorrect ? 'Bu ifade doğrudur.' : 'Bu ifade yanlıştır.')}</p>
+                </div>
+            `;
+            expEl.classList.remove("hidden");
         }
     }
 
@@ -1255,7 +1405,11 @@ class App {
         const data = this.getCurrentWeekData();
         const q = data.questions?.[2]?.questions?.[qIdx];
         if (!q) return;
-        const isRight = optIdx === q.answer;
+
+        const isRight = (optIdx === q.answer);
+        const state = this.getQuizState(this.currentWeek);
+        state.mc[qIdx] = { optIdx, isRight };
+
         const selectedBtn = document.getElementById(`mc-btn-${qIdx}-${optIdx}`);
         const correctBtn = document.getElementById(`mc-btn-${qIdx}-${q.answer}`);
         const expEl = document.getElementById(`mc-exp-${qIdx}`);
@@ -1263,16 +1417,21 @@ class App {
         // Disable options for this question
         for (let i = 0; i < q.options.length; i++) {
             const b = document.getElementById(`mc-btn-${qIdx}-${i}`);
-            if (b) b.disabled = true;
+            if (b) {
+                b.disabled = true;
+                if (i !== optIdx && i !== q.answer) {
+                    b.classList.add("opacity-40", "pointer-events-none");
+                }
+            }
         }
 
         if (isRight) {
             sounds.playCorrect();
-            if (selectedBtn) selectedBtn.classList.add("!bg-emerald-600", "!border-emerald-400");
+            if (selectedBtn) selectedBtn.classList.add("!bg-emerald-600", "!border-emerald-400", "!text-white", "ring-2", "ring-emerald-400/40");
         } else {
             sounds.playWrong();
-            if (selectedBtn) selectedBtn.classList.add("!bg-rose-600", "!border-rose-400");
-            if (correctBtn) correctBtn.classList.add("!bg-emerald-600", "!border-emerald-400");
+            if (selectedBtn) selectedBtn.classList.add("!bg-rose-600", "!border-rose-400", "!text-white", "ring-2", "ring-rose-400/40");
+            if (correctBtn) correctBtn.classList.add("!bg-emerald-600", "!border-emerald-400", "!text-white", "ring-2", "ring-emerald-400/40");
         }
 
         if (expEl) {

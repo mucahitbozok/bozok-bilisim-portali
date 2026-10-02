@@ -656,8 +656,8 @@ html.light #quiz-render-area h4 {
 }
 
 /* Doğru / Yanlış İfadeleri */
-[data-theme="light"] #quiz-render-area [id^="tf-item-"],
-html.light #quiz-render-area [id^="tf-item-"] {
+[data-theme="light"] #quiz-render-area [id^="tf-item-"]:not(.tf-answered-correct):not(.tf-answered-wrong),
+html.light #quiz-render-area [id^="tf-item-"]:not(.tf-answered-correct):not(.tf-answered-wrong) {
     background-color: #F8FAFC !important;
     border-color: #E2E8F0 !important;
     color: #0F172A !important;
@@ -668,6 +668,103 @@ html.light #quiz-render-area [id^="tf-item-"] {
 html.light #quiz-render-area [id^="tf-item-"] div,
 html.light #quiz-render-area [id^="tf-item-"] .text-white {
     color: #0F172A !important;
+}
+
+/* Cevaplanmış Doğru / Yanlış Kartları (Light Theme) */
+[data-theme="light"] #quiz-render-area [id^="tf-item-"].tf-answered-correct,
+html.light #quiz-render-area [id^="tf-item-"].tf-answered-correct {
+    background-color: #ECFDF5 !important;
+    border-color: #10B981 !important;
+    box-shadow: 0 4px 14px rgba(16, 185, 129, 0.15) !important;
+}
+
+[data-theme="light"] #quiz-render-area [id^="tf-item-"].tf-answered-wrong,
+html.light #quiz-render-area [id^="tf-item-"].tf-answered-wrong {
+    background-color: #FFF1F2 !important;
+    border-color: #F43F5E !important;
+    box-shadow: 0 4px 14px rgba(244, 63, 94, 0.15) !important;
+}
+
+/* Doğru / Yanlış Butonları (Light & Dark) */
+[data-theme="light"] #quiz-render-area .tf-btn-true:not(.active-correct):not(.active-wrong):not(.correct-hint),
+[data-theme="light"] #quiz-render-area .tf-btn-false:not(.active-correct):not(.active-wrong):not(.correct-hint),
+html.light #quiz-render-area .tf-btn-true:not(.active-correct):not(.active-wrong):not(.correct-hint),
+html.light #quiz-render-area .tf-btn-false:not(.active-correct):not(.active-wrong):not(.correct-hint) {
+    background-color: #F1F5F9 !important;
+    color: #1E293B !important;
+    border: 1px solid #CBD5E1 !important;
+}
+
+[data-theme="light"] #quiz-render-area .tf-btn-true:not(.active-correct):not(.active-wrong):hover,
+html.light #quiz-render-area .tf-btn-true:not(.active-correct):not(.active-wrong):hover {
+    background-color: #10B981 !important;
+    color: #FFFFFF !important;
+    border-color: #059669 !important;
+}
+
+[data-theme="light"] #quiz-render-area .tf-btn-false:not(.active-correct):not(.active-wrong):hover,
+html.light #quiz-render-area .tf-btn-false:not(.active-correct):not(.active-wrong):hover {
+    background-color: #EF4444 !important;
+    color: #FFFFFF !important;
+    border-color: #DC2626 !important;
+}
+
+/* Seçilen Doğru Butonu */
+#quiz-render-area .active-correct,
+[data-theme="light"] #quiz-render-area .active-correct,
+html.light #quiz-render-area .active-correct {
+    background-color: #10B981 !important;
+    color: #FFFFFF !important;
+    border-color: #059669 !important;
+    box-shadow: 0 0 12px rgba(16, 185, 129, 0.6) !important;
+}
+
+/* Seçilen Yanlış Butonu */
+#quiz-render-area .active-wrong,
+[data-theme="light"] #quiz-render-area .active-wrong,
+html.light #quiz-render-area .active-wrong {
+    background-color: #EF4444 !important;
+    color: #FFFFFF !important;
+    border-color: #DC2626 !important;
+    box-shadow: 0 0 12px rgba(239, 68, 68, 0.6) !important;
+}
+
+/* Doğru Cevap Göstergesi (Kullanıcı yanlış bastığında) */
+#quiz-render-area .correct-hint,
+[data-theme="light"] #quiz-render-area .correct-hint,
+html.light #quiz-render-area .correct-hint {
+    background-color: #047857 !important;
+    color: #FFFFFF !important;
+    border-color: #34D399 !important;
+}
+
+/* Doğru / Yanlış Açıklama Kutuları Light Theme */
+[data-theme="light"] #quiz-render-area .tf-exp-correct,
+html.light #quiz-render-area .tf-exp-correct {
+    background-color: #D1FAE5 !important;
+    border-color: #6EE7B7 !important;
+    color: #065F46 !important;
+}
+
+[data-theme="light"] #quiz-render-area .tf-exp-wrong,
+html.light #quiz-render-area .tf-exp-wrong {
+    background-color: #FFE4E6 !important;
+    border-color: #FDA4AF !important;
+    color: #9F1239 !important;
+}
+
+[data-theme="light"] #quiz-render-area .tf-exp-correct p,
+[data-theme="light"] #quiz-render-area .tf-exp-correct div,
+html.light #quiz-render-area .tf-exp-correct p,
+html.light #quiz-render-area .tf-exp-correct div {
+    color: #065F46 !important;
+}
+
+[data-theme="light"] #quiz-render-area .tf-exp-wrong p,
+[data-theme="light"] #quiz-render-area .tf-exp-wrong div,
+html.light #quiz-render-area .tf-exp-wrong p,
+html.light #quiz-render-area .tf-exp-wrong div {
+    color: #9F1239 !important;
 }
 
 /* Çoktan Seçmeli Test Şıkları */
