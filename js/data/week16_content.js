@@ -1,7 +1,7 @@
 // ==========================================
-// 16. Hafta: Dijital Ortamlarda Gizlilik ve Güvenlik
+// 16. Konu: Dijital Ortamlarda Gizlilik ve Güvenlik
 // Hazırlayan: Öğretmen Bozok
-// Durum: İlgili hafta gelince içerikler yüklenecektir
+// Durum: İlgili konu gelince içerikler yüklenecektir
 // ==========================================
 
 window.WEEK16_CONTENT = {
@@ -11,7 +11,7 @@ window.WEEK16_CONTENT = {
         code: "BTY.5.4.2. Dijital ortamlarda gizlilik ve güvenlik önlemlerini yönetebilme",
         theme: "4. Tema: Bilişim Etiği ve Siber Güvenlik",
         isPending: true,
-        message: "İlgili hafta gelince içerikler yüklenecektir"
+        message: "İlgili konu gelince içerikler yüklenecektir"
     },
     slides: [],
     worksheetDocs: null,

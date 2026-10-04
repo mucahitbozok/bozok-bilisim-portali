@@ -1,7 +1,7 @@
 // ==========================================
-// 5. Hafta: Bilgisayar Sistemlerinin Kullanımı
+// 5. Konu: Bilgisayar Sistemlerinin Kullanımı
 // Hazırlayan: Öğretmen Bozok
-// Durum: İlgili hafta gelince içerikler yüklenecektir
+// Durum: İlgili konu gelince içerikler yüklenecektir
 // ==========================================
 
 window.WEEK5_CONTENT = {
@@ -11,7 +11,7 @@ window.WEEK5_CONTENT = {
         code: "BTY.5.1.5. Bilgisayar sistemlerini çözümleyebilme",
         theme: "1. Tema: Bilişim Teknolojilerinin Hayatımızdaki Yeri",
         isPending: true,
-        message: "İlgili hafta gelince içerikler yüklenecektir"
+        message: "İlgili konu gelince içerikler yüklenecektir"
     },
     slides: [],
     worksheetDocs: null,

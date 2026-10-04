@@ -1,7 +1,7 @@
 // ==========================================
-// 8. Hafta: Görsel Tasarıma Yönelik Kurgu Oluşturma
+// 8. Konu: Görsel Tasarıma Yönelik Kurgu Oluşturma
 // Hazırlayan: Öğretmen Bozok
-// Durum: İlgili hafta gelince içerikler yüklenecektir
+// Durum: İlgili konu gelince içerikler yüklenecektir
 // ==========================================
 
 window.WEEK8_CONTENT = {
@@ -11,7 +11,7 @@ window.WEEK8_CONTENT = {
         code: "BTY.5.2.2 Görsel için kurgu oluşturabilme",
         theme: "2. Tema: Dijital Ürün Tasarımı ve Geliştirme",
         isPending: true,
-        message: "İlgili hafta gelince içerikler yüklenecektir"
+        message: "İlgili konu gelince içerikler yüklenecektir"
     },
     slides: [],
     worksheetDocs: null,

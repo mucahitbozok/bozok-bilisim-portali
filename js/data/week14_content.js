@@ -1,7 +1,7 @@
 // ==========================================
-// 14. Hafta: Bilgisayar Ağları ve Ağ Bileşenleri
+// 14. Konu: Bilgisayar Ağları ve Ağ Bileşenleri
 // Hazırlayan: Öğretmen Bozok
-// Durum: İlgili hafta gelince içerikler yüklenecektir
+// Durum: İlgili konu gelince içerikler yüklenecektir
 // ==========================================
 
 window.WEEK14_CONTENT = {
@@ -11,7 +11,7 @@ window.WEEK14_CONTENT = {
         code: "BTY.5.3.3. İnternet ile amacına uygun olarak çalışabilme",
         theme: "3. Tema: Bilgisayar Ağları ve İletişim",
         isPending: true,
-        message: "İlgili hafta gelince içerikler yüklenecektir"
+        message: "İlgili konu gelince içerikler yüklenecektir"
     },
     slides: [],
     worksheetDocs: null,

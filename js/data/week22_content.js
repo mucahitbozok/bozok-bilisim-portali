@@ -1,7 +1,7 @@
 // ==========================================
-// 22. Hafta: Problem Belirleme ve Algoritma Oluşturma
+// 22. Konu: Problem Belirleme ve Algoritma Oluşturma
 // Hazırlayan: Öğretmen Bozok
-// Durum: İlgili hafta gelince içerikler yüklenecektir
+// Durum: İlgili konu gelince içerikler yüklenecektir
 // ==========================================
 
 window.WEEK22_CONTENT = {
@@ -11,7 +11,7 @@ window.WEEK22_CONTENT = {
         code: "BTY.5.6.1. Problem çözümü için algoritmik düşünebilme",
         theme: "6. Tema: Yazılım Tasarımı ve Programlama (Algoritmalar)",
         isPending: true,
-        message: "İlgili hafta gelince içerikler yüklenecektir"
+        message: "İlgili konu gelince içerikler yüklenecektir"
     },
     slides: [],
     worksheetDocs: null,

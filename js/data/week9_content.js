@@ -1,7 +1,7 @@
 // ==========================================
-// 9. Hafta: Görsel Ürün Geliştirme
+// 9. Konu: Görsel Ürün Geliştirme
 // Hazırlayan: Öğretmen Bozok
-// Durum: İlgili hafta gelince içerikler yüklenecektir
+// Durum: İlgili konu gelince içerikler yüklenecektir
 // ==========================================
 
 window.WEEK9_CONTENT = {
@@ -11,7 +11,7 @@ window.WEEK9_CONTENT = {
         code: "BTY.5.2.3 Görsel dosyası geliştirebilme",
         theme: "2. Tema: Dijital Ürün Tasarımı ve Geliştirme",
         isPending: true,
-        message: "İlgili hafta gelince içerikler yüklenecektir"
+        message: "İlgili konu gelince içerikler yüklenecektir"
     },
     slides: [],
     worksheetDocs: null,

@@ -396,18 +396,18 @@ class ArenaGame {
 
         if (this.activeWeek === 3) {
             this.gameTitle = "Dijital Vatandaşlık Arenası";
-            this.gameSubtitle = "3. Hafta – Dijital Vatandaşlık Uygulamaları";
-            this.gameBadge = "🛡️ 3. Hafta Özel Süper Tekrar Oyunu";
+            this.gameSubtitle = "3. Konu – Dijital Vatandaşlık Uygulamaları";
+            this.gameBadge = "🛡️ 3. Konu Özel Süper Tekrar Oyunu";
             this.questions = this.week3Questions;
         } else if (this.activeWeek === 2) {
             this.gameTitle = "Teknoloji Dedektifleri Arenası";
-            this.gameSubtitle = "2. Hafta – Bilişim Teknolojilerinin Etkileri ve Dijital Sağlık";
-            this.gameBadge = "🕵️‍♂️ 2. Hafta Özel Süper Tekrar Oyunu";
+            this.gameSubtitle = "2. Konu – Bilişim Teknolojilerinin Etkileri ve Dijital Sağlık";
+            this.gameBadge = "🕵️‍♂️ 2. Konu Özel Süper Tekrar Oyunu";
             this.questions = this.week2Questions;
         } else {
             this.gameTitle = "Bilişim Teknolojileri Bilgi Arenası";
-            this.gameSubtitle = "1. Hafta – Bilişim Teknolojilerinin Günlük Yaşamdaki Önemi";
-            this.gameBadge = "⭐ 1. Hafta Özel Süper Tekrar Oyunu";
+            this.gameSubtitle = "1. Konu – Bilişim Teknolojilerinin Günlük Yaşamdaki Önemi";
+            this.gameBadge = "⭐ 1. Konu Özel Süper Tekrar Oyunu";
             this.questions = this.week1Questions;
         }
 

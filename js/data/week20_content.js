@@ -1,7 +1,7 @@
 // ==========================================
-// 20. Hafta: Yapay Zekâda Güvenlik
+// 20. Konu: Yapay Zekâda Güvenlik
 // Hazırlayan: Öğretmen Bozok
-// Durum: İlgili hafta gelince içerikler yüklenecektir
+// Durum: İlgili konu gelince içerikler yüklenecektir
 // ==========================================
 
 window.WEEK20_CONTENT = {
@@ -11,7 +11,7 @@ window.WEEK20_CONTENT = {
         code: "BTY.5.5.2. Yapay zekâya ilişkin etik ve güvenlik/gizlilik önlemlerini yönetebilme",
         theme: "5. Tema: Yapay Zekâ ve Geleceğin Teknolojileri",
         isPending: true,
-        message: "İlgili hafta gelince içerikler yüklenecektir"
+        message: "İlgili konu gelince içerikler yüklenecektir"
     },
     slides: [],
     worksheetDocs: null,

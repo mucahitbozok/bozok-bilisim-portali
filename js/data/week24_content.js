@@ -1,7 +1,7 @@
 // ==========================================
-// 24. Hafta: Algoritma Test Etme ve Geri Bildirim Alma
+// 24. Konu: Algoritma Test Etme ve Geri Bildirim Alma
 // Hazırlayan: Öğretmen Bozok
-// Durum: İlgili hafta gelince içerikler yüklenecektir
+// Durum: İlgili konu gelince içerikler yüklenecektir
 // ==========================================
 
 window.WEEK24_CONTENT = {
@@ -11,7 +11,7 @@ window.WEEK24_CONTENT = {
         code: "BTY.5.6.2. Algoritma oluşturmada test edebilme-hata ayıklayabilme",
         theme: "6. Tema: Yazılım Tasarımı ve Programlama (Algoritmalar)",
         isPending: true,
-        message: "İlgili hafta gelince içerikler yüklenecektir"
+        message: "İlgili konu gelince içerikler yüklenecektir"
     },
     slides: [],
     worksheetDocs: null,

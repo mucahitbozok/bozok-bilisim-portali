@@ -1,7 +1,7 @@
 // ==========================================
-// 13. Hafta: Bilgisayar Ağ Türleri ve Bağlanma Yöntemleri
+// 13. Konu: Bilgisayar Ağ Türleri ve Bağlanma Yöntemleri
 // Hazırlayan: Öğretmen Bozok
-// Durum: İlgili hafta gelince içerikler yüklenecektir
+// Durum: İlgili konu gelince içerikler yüklenecektir
 // ==========================================
 
 window.WEEK13_CONTENT = {
@@ -11,7 +11,7 @@ window.WEEK13_CONTENT = {
         code: "BTY.5.3.2. Bilgisayar ağları ve bağlanma yöntemlerini sınıflandırabilme",
         theme: "3. Tema: Bilgisayar Ağları ve İletişim",
         isPending: true,
-        message: "İlgili hafta gelince içerikler yüklenecektir"
+        message: "İlgili konu gelince içerikler yüklenecektir"
     },
     slides: [],
     worksheetDocs: null,

@@ -1,7 +1,7 @@
 // ==========================================
-// 7. Hafta: Görsel Düzenleme Programlarına Giriş
+// 7. Konu: Görsel Düzenleme Programlarına Giriş
 // Hazırlayan: Öğretmen Bozok
-// Durum: İlgili hafta gelince içerikler yüklenecektir
+// Durum: İlgili konu gelince içerikler yüklenecektir
 // ==========================================
 
 window.WEEK7_CONTENT = {
@@ -11,7 +11,7 @@ window.WEEK7_CONTENT = {
         code: "BTY.5.2.1 Görsel düzenleme programlarından yararlanabilme",
         theme: "2. Tema: Dijital Ürün Tasarımı ve Geliştirme",
         isPending: true,
-        message: "İlgili hafta gelince içerikler yüklenecektir"
+        message: "İlgili konu gelince içerikler yüklenecektir"
     },
     slides: [],
     worksheetDocs: null,

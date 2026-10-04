@@ -264,7 +264,7 @@ class App {
         }
     }
 
-    // --- MÜFREDAT & HAFTA SEÇİCİ ---
+    // --- MÜFREDAT & KONU SEÇİCİ ---
     renderWeekSelector() {
         const selector = document.getElementById("week-select-dropdown");
         const curriculumGrid = document.getElementById("curriculum-modal-grid");
@@ -279,7 +279,7 @@ class App {
                 theme.weeks.forEach(w => {
                     const opt = document.createElement("option");
                     opt.value = w.week;
-                    opt.innerText = `${w.week}. Hafta: ${w.title}`;
+                    opt.innerText = `${w.week}. Konu: ${w.title}`;
                     opt.selected = w.week === this.currentWeek;
                     optGroup.appendChild(opt);
                 });
@@ -309,7 +309,7 @@ class App {
                             ${theme.weeks.map(w => `
                                 <button onclick="app.selectWeekFromModal(${w.week})" class="p-3 bg-slate-750 hover:bg-indigo-600 rounded-xl text-left border ${w.week === this.currentWeek ? 'border-yellow-400 bg-indigo-950/80 ring-2 ring-yellow-400/50' : 'border-slate-700'} transition-all flex items-start justify-between gap-2 group">
                                     <div>
-                                        <div class="text-xs font-bold ${w.week === this.currentWeek ? 'text-yellow-400' : 'text-slate-400 group-hover:text-indigo-200'}">${w.week}. Hafta • ${w.code}</div>
+                                        <div class="text-xs font-bold ${w.week === this.currentWeek ? 'text-yellow-400' : 'text-slate-400 group-hover:text-indigo-200'}">${w.week}. Konu • ${w.code}</div>
                                         <div class="text-sm font-bold text-white leading-tight mt-0.5">${w.title}</div>
                                     </div>
                                     <span class="px-2 py-0.5 rounded text-[10px] font-extrabold ${w.isAvailable ? 'bg-emerald-500/30 text-emerald-300 border border-emerald-500/40' : 'bg-slate-800 text-amber-300/80 border border-slate-700'}">${w.isAvailable ? 'Hazır' : 'Yakında'}</span>
@@ -382,8 +382,8 @@ class App {
         const badgeEl = document.getElementById("active-week-badge");
         const bannerEl = document.getElementById("week-selector-bar");
 
-        const displayTitle = info.weekData ? info.weekData.title : (data.weekInfo?.title || `${weekNum}. Hafta Konusu`);
-        if (titleEl) titleEl.innerText = `${weekNum}. Hafta: ${displayTitle}`;
+        const displayTitle = info.weekData ? info.weekData.title : (data.weekInfo?.title || `${weekNum}. Konu`);
+        if (titleEl) titleEl.innerText = `${weekNum}. Konu: ${displayTitle}`;
         if (badgeEl) {
             badgeEl.innerHTML = `<i class="${info.themeIcon}"></i> ${info.themeTitle}`;
         }
@@ -495,7 +495,7 @@ class App {
         if (!container) return;
 
         const info = this.getCurriculumInfo(this.currentWeek);
-        const displayTitle = info.weekData ? info.weekData.title : `${this.currentWeek}. Hafta Konusu`;
+        const displayTitle = info.weekData ? info.weekData.title : `${this.currentWeek}. Konu`;
         const code = info.weekData ? info.weekData.code : '';
 
         container.className = "w-full min-h-[440px] flex items-center justify-center p-4";
@@ -507,7 +507,7 @@ class App {
                 
                 <div class="space-y-2">
                     <span class="px-4 py-1.5 bg-yellow-400/20 text-yellow-300 font-black rounded-xl text-xs uppercase tracking-widest border border-yellow-400/30">
-                        ${this.currentWeek}. Hafta • ${sectionName}
+                        ${this.currentWeek}. Konu • ${sectionName}
                     </span>
                     <h2 class="text-2xl sm:text-3xl font-black text-white leading-snug">
                         ${displayTitle}
@@ -518,10 +518,10 @@ class App {
                 <div class="p-6 bg-slate-900/90 rounded-2xl border-2 border-yellow-400/40 max-w-lg mx-auto shadow-xl space-y-2">
                     <div class="text-base sm:text-lg font-black text-yellow-300 flex items-center justify-center gap-2">
                         <i class="fa-solid fa-clock-rotate-left"></i>
-                        <span>İlgili hafta gelince içerikler yüklenecektir</span>
+                        <span>İlgili konu gelince içerikler yüklenecektir</span>
                     </div>
                     <p class="text-xs text-slate-300">
-                        Bu haftanın ders materyalleri MEB müfredat takvimine uygun olarak Öğretmen Bozok tarafından hazırlanıp ilgili hafta başında sisteme yüklenecektir.
+                        Bu ders konusunun materyalleri MEB müfredat takvimine uygun olarak Öğretmen Bozok tarafından hazırlanıp ilgili konu başında sisteme yüklenecektir.
                     </p>
                 </div>
 
@@ -880,19 +880,19 @@ class App {
         const imgMap = {
             konu: { 
                 src: this.resolveDocPath(images?.konu, this.currentWeek, 'konu'), 
-                title: `${this.currentWeek}. Hafta Konu Anlatımı & Çalışma Kağıdı`, 
+                title: `${this.currentWeek}. Konu Anlatımı & Çalışma Kağıdı`, 
                 icon: "fa-solid fa-book-open", 
                 badge: "Konu Özeti" 
             },
             soru: { 
                 src: this.resolveDocPath(images?.soru, this.currentWeek, 'soru'), 
-                title: `${this.currentWeek}. Hafta Pekiştirme Soruları & Etkinlikler`, 
+                title: `${this.currentWeek}. Konu Pekiştirme Soruları & Etkinlikler`, 
                 icon: "fa-solid fa-circle-question", 
                 badge: "Sorular & Görevler" 
             },
             cevap: { 
                 src: this.resolveDocPath(images?.cevap, this.currentWeek, 'cevap'), 
-                title: `${this.currentWeek}. Hafta Resmi Cevap Anahtarı`, 
+                title: `${this.currentWeek}. Konu Resmi Cevap Anahtarı`, 
                 icon: "fa-solid fa-key", 
                 badge: "Çözümler & Cevaplar" 
             }
@@ -914,7 +914,7 @@ class App {
                         </div>
                         <div>
                             <h2 class="text-xl sm:text-2xl font-black text-white">Çalışma Kağıtları, Sorular & Cevaplar</h2>
-                            <p class="text-xs text-indigo-300 font-semibold">Öğretmen Bozok • ${this.currentWeek}. Hafta Resmî Ders Belgeleri</p>
+                            <p class="text-xs text-indigo-300 font-semibold">Öğretmen Bozok • ${this.currentWeek}. Konu Resmî Ders Belgeleri</p>
                         </div>
                     </div>
 
@@ -1016,7 +1016,7 @@ class App {
                 ` : `
                     <!-- 2. DİJİTAL A4 METİN VE YAZDIRMA ALANI -->
                     <div id="active-printable-document" class="animate-pop">
-                        ${activeHtmlContent || '<div class="p-8 text-center text-slate-400 bg-slate-800/40 rounded-2xl border border-slate-700">Bu haftanın dijital belgesi hazırlanıyor. Üstteki butonla "Orijinal Belge Görseli" moduna geçebilirsiniz.</div>'}
+                        ${activeHtmlContent || '<div class="p-8 text-center text-slate-400 bg-slate-800/40 rounded-2xl border border-slate-700">Bu ders konusunun dijital belgesi hazırlanıyor. Üstteki butonla "Orijinal Belge Görseli" moduna geçebilirsiniz.</div>'}
                     </div>
                     <div class="pt-2 border-t border-slate-800 text-right">
                         <button onclick="app.setWorksheetViewMode('photo')" class="text-xs font-bold text-indigo-400 hover:text-indigo-300 underline flex items-center gap-1 inline-flex">
@@ -1292,7 +1292,7 @@ class App {
                 </div>
                 ` : ''}
 
-                <!-- 3. Etkinlik: Haftalık Öz Değerlendirme Emojileri -->
+                <!-- 3. Etkinlik: Konu Öz Değerlendirme Emojileri -->
                 <div class="bg-gradient-to-r from-indigo-900/60 to-purple-900/60 rounded-3xl p-6 border-2 border-indigo-400/40 text-center space-y-4 shadow-xl">
                     <h4 class="text-lg font-black text-white">Bu Konuyu Ne Kadar Anladım? 🌟</h4>
                     <div class="flex justify-center gap-4 sm:gap-8 flex-wrap">
@@ -1453,7 +1453,7 @@ class App {
                 badge: "Özel",
                 badgeColor: "text-yellow-300",
                 title: "Bilgi Arenası",
-                desc: "1. haftanın tüm kazanımlarını ve kullanım alanlarını kapsayan 10 soruluk interaktif yarışma arenası!",
+                desc: "1. konunun tüm kazanımlarını ve kullanım alanlarını kapsayan 10 soruluk interaktif yarışma arenası!",
                 icon: "fa-solid fa-crown",
                 iconBg: "bg-yellow-500/30 text-yellow-400",
                 cardGradient: "from-blue-900/90 to-indigo-950/90",
@@ -1636,7 +1636,7 @@ class App {
                     <span class="px-3.5 sm:px-4 py-1 sm:py-1.5 bg-yellow-400/20 text-yellow-300 font-extrabold text-[10px] sm:text-xs uppercase tracking-widest rounded-full border border-yellow-400/30">
                         🎮 Sınıf İçi Pekiştirme Oyunları
                     </span>
-                    <h2 class="text-2xl sm:text-4xl font-black text-white leading-tight">${this.currentWeek}. Hafta Oyun Arenası (${totalGameCount} Farklı Oyun Modu 🎮)</h2>
+                    <h2 class="text-2xl sm:text-4xl font-black text-white leading-tight">${this.currentWeek}. Konu Oyun Arenası (${totalGameCount} Farklı Oyun Modu 🎮)</h2>
                     <p class="text-slate-400 text-xs sm:text-sm max-w-xl mx-auto px-2">
                         Akıllı tahtada tüm sınıfla çarkıfelek oynayabilir, teknoloji mahkemesi kurabilir, maceralara atılabilir veya hızlı reflekslerini test edebilirsin!
                     </p>
@@ -1938,8 +1938,8 @@ class App {
                     <div class="w-16 h-16 rounded-2xl bg-slate-800 text-slate-400 flex items-center justify-center text-3xl mx-auto">
                         <i class="fa-solid fa-film"></i>
                     </div>
-                    <h3 class="text-xl font-bold text-white">Bu Hafta İçin Video Bulunmuyor</h3>
-                    <p class="text-sm text-slate-400">Bu haftanın konusuna ait video henüz eklenmemiştir.</p>
+                    <h3 class="text-xl font-bold text-white">Bu Konu İçin Video Bulunmuyor</h3>
+                    <p class="text-sm text-slate-400">Bu ders konusuna ait video henüz eklenmemiştir.</p>
                 </div>
             `;
             return;
@@ -1966,7 +1966,7 @@ class App {
                         <div>
                             <div class="flex items-center gap-2">
                                 <span class="px-3 py-1 bg-rose-500/20 text-rose-300 border border-rose-500/40 rounded-full text-xs font-black uppercase tracking-wider">
-                                    ${this.currentWeek}. Hafta • Akıllı Tahta Video Alanı
+                                    ${this.currentWeek}. Konu • Akıllı Tahta Video Alanı
                                 </span>
                             </div>
                             <h2 class="text-2xl sm:text-3xl md:text-4xl font-black text-white mt-1">Konu İle Alakalı Videolar 🎬</h2>

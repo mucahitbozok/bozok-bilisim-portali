@@ -47,7 +47,7 @@ window.WEEK3_CONTENT = {
         {
             id: 1,
             title: "5. SINIF BİLİŞİM TEKNOLOJİLERİ",
-            subtitle: "3. Hafta Ders Sunusu",
+            subtitle: "3. Konu Ders Sunusu",
             topic: "KAZANIM: BTY.5.1.3",
             badge: "KAZANIM: BTY.5.1.3",
             icon: "fa-solid fa-chalkboard-user",
@@ -57,10 +57,10 @@ window.WEEK3_CONTENT = {
                 <div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-center max-w-6xl mx-auto my-auto py-2">
                     <!-- Sol Bilgi Alanı -->
                     <div class="md:col-span-7 space-y-4 text-left">
-                        <!-- 5. Sınıf Bilişim Teknolojileri - 3. Hafta Rozeti -->
+                        <!-- 5. Sınıf Bilişim Teknolojileri - 3. Konu Rozeti -->
                         <div class="flex items-center gap-2 flex-wrap">
                             <span class="px-4 py-1.5 bg-yellow-400/20 text-yellow-300 font-extrabold text-sm sm:text-base uppercase tracking-wider rounded-full border border-yellow-400/40">
-                                5. Sınıf Bilişim Teknolojileri • 3. Hafta
+                                5. Sınıf Bilişim Teknolojileri • 3. Konu
                             </span>
                         </div>
 
@@ -1207,7 +1207,7 @@ window.WEEK3_CONTENT = {
             <div class="border-b-2 border-indigo-500/40 pb-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
                 <div>
                     <span class="px-3 py-1 bg-indigo-500/30 text-indigo-300 font-black rounded-lg text-xs tracking-wider uppercase">1. Tema: Bilişim Teknolojilerinin Hayatımızdaki Yeri</span>
-                    <h1 class="text-2xl sm:text-3xl font-black text-white mt-1">3. HAFTA: DİJİTAL VATANDAŞLIK UYGULAMALARI</h1>
+                    <h1 class="text-2xl sm:text-3xl font-black text-white mt-1">3. KONU: DİJİTAL VATANDAŞLIK UYGULAMALARI</h1>
                     <p class="text-xs text-indigo-200 font-semibold">T.C. Millî Eğitim Bakanlığı 5. Sınıf Bilişim Teknolojileri ve Yazılım Dersi</p>
                 </div>
                 <div class="text-right text-xs text-yellow-300 font-bold bg-slate-800/80 p-2.5 rounded-xl border border-slate-700">
@@ -1219,10 +1219,10 @@ window.WEEK3_CONTENT = {
             <!-- Konu Özeti -->
             <div class="bg-indigo-950/60 rounded-2xl p-5 border border-indigo-400/30 space-y-2">
                 <h3 class="text-lg font-bold text-yellow-300 flex items-center gap-2">
-                    <i class="fa-solid fa-book-open text-indigo-400"></i> Bu Hafta Ne Öğreniyoruz?
+                    <i class="fa-solid fa-book-open text-indigo-400"></i> Bu Konuda Ne Öğreniyoruz?
                 </h3>
                 <p class="text-sm text-indigo-100 leading-relaxed">
-                    İnternet ortamında haklarımızı, sorumluluklarımızı ve güvenliğimizi bilmek en temel vatandaşlık bilincidir. Bu hafta; dijital vatandaş ve dijital kimliğin ne olduğunu, internette bıraktığımız aktif ve pasif dijital ayak izlerini, e-Devlet, e-Okul, e-Nabız, MHRS, e-Vergi, EBA ve e-Bankacılık gibi resmi dijital vatandaşlık uygulamalarını ve dijital nezaket kurallarını öğreniyoruz.
+                    İnternet ortamında haklarımızı, sorumluluklarımızı ve güvenliğimizi bilmek en temel vatandaşlık bilincidir. Bu konuda; dijital vatandaş ve dijital kimliğin ne olduğunu, internette bıraktığımız aktif ve pasif dijital ayak izlerini, e-Devlet, e-Okul, e-Nabız, MHRS, e-Vergi, EBA ve e-Bankacılık gibi resmi dijital vatandaşlık uygulamalarını ve dijital nezaket kurallarını öğreniyoruz.
                 </p>
             </div>
 
@@ -1368,7 +1368,7 @@ window.WEEK3_CONTENT = {
         soruHtml: `
         <div class="printable-doc bg-slate-900 text-white rounded-3xl p-6 sm:p-10 border-4 border-indigo-500/50 shadow-2xl space-y-6">
             <div class="border-b-2 border-indigo-500/40 pb-4">
-                <span class="px-3 py-1 bg-indigo-500/30 text-indigo-300 font-black rounded-lg text-xs tracking-wider uppercase">3. Hafta Çalışma Kağıdı Soruları</span>
+                <span class="px-3 py-1 bg-indigo-500/30 text-indigo-300 font-black rounded-lg text-xs tracking-wider uppercase">3. Konu Çalışma Kağıdı Soruları</span>
                 <h1 class="text-2xl font-black text-white mt-1">DİJİTAL VATANDAŞLIK ETKİNLİK & PEKİŞTİRME SORULARI</h1>
             </div>
 
@@ -1439,7 +1439,7 @@ window.WEEK3_CONTENT = {
         <div class="printable-doc bg-slate-900 text-white rounded-3xl p-6 sm:p-10 border-4 border-emerald-500/50 shadow-2xl space-y-6">
             <div class="border-b-2 border-emerald-500/40 pb-4">
                 <span class="px-3 py-1 bg-emerald-500/30 text-emerald-300 font-black rounded-lg text-xs tracking-wider uppercase">Cevap Anahtarı</span>
-                <h1 class="text-2xl font-black text-white mt-1">3. HAFTA ÇALIŞMA KAĞIDI RESMÎ ÇÖZÜMLERİ</h1>
+                <h1 class="text-2xl font-black text-white mt-1">3. KONU ÇALIŞMA KAĞIDI RESMÎ ÇÖZÜMLERİ</h1>
             </div>
 
             <!-- 1. Dedektif Çözümleri -->

@@ -1,7 +1,7 @@
 // ==========================================
-// 27. Hafta: Yazılımda Kullanılan Bileşenler
+// 27. Konu: Yazılımda Kullanılan Bileşenler
 // Hazırlayan: Öğretmen Bozok
-// Durum: İlgili hafta gelince içerikler yüklenecektir
+// Durum: İlgili konu gelince içerikler yüklenecektir
 // ==========================================
 
 window.WEEK27_CONTENT = {
@@ -11,7 +11,7 @@ window.WEEK27_CONTENT = {
         code: "BTY.5.6.3. Yazılım geliştirme sürecinde kullanılan bileşenlerden yararlanabilme",
         theme: "6. Tema: Yazılım Tasarımı ve Programlama (Algoritmalar)",
         isPending: true,
-        message: "İlgili hafta gelince içerikler yüklenecektir"
+        message: "İlgili konu gelince içerikler yüklenecektir"
     },
     slides: [],
     worksheetDocs: null,

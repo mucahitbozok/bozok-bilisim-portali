@@ -1,7 +1,7 @@
 // ==========================================
-// 11. Hafta: Sunum Programlarına Giriş, Sunum Dosyası Oluşturma
+// 11. Konu: Sunum Programlarına Giriş, Sunum Dosyası Oluşturma
 // Hazırlayan: Öğretmen Bozok
-// Durum: İlgili hafta gelince içerikler yüklenecektir
+// Durum: İlgili konu gelince içerikler yüklenecektir
 // ==========================================
 
 window.WEEK11_CONTENT = {
@@ -11,7 +11,7 @@ window.WEEK11_CONTENT = {
         code: "BTY.5.2.6 Sunum programlarından yararlanabilme, BTY.5.2.7 Sunum dosyası geliştirebilme",
         theme: "2. Tema: Dijital Ürün Tasarımı ve Geliştirme",
         isPending: true,
-        message: "İlgili hafta gelince içerikler yüklenecektir"
+        message: "İlgili konu gelince içerikler yüklenecektir"
     },
     slides: [],
     worksheetDocs: null,
