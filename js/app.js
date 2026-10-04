@@ -279,7 +279,7 @@ class App {
                 theme.weeks.forEach(w => {
                     const opt = document.createElement("option");
                     opt.value = w.week;
-                    opt.innerText = `${w.week}. Konu: ${w.title}`;
+                    opt.innerText = w.customLabel ? `${w.customLabel}: ${w.title}` : `${w.week}. Konu: ${w.title}`;
                     opt.selected = w.week === this.currentWeek;
                     optGroup.appendChild(opt);
                 });
@@ -309,7 +309,7 @@ class App {
                             ${theme.weeks.map(w => `
                                 <button onclick="app.selectWeekFromModal(${w.week})" class="p-3 bg-slate-750 hover:bg-indigo-600 rounded-xl text-left border ${w.week === this.currentWeek ? 'border-yellow-400 bg-indigo-950/80 ring-2 ring-yellow-400/50' : 'border-slate-700'} transition-all flex items-start justify-between gap-2 group">
                                     <div>
-                                        <div class="text-xs font-bold ${w.week === this.currentWeek ? 'text-yellow-400' : 'text-slate-400 group-hover:text-indigo-200'}">${w.week}. Konu • ${w.code}</div>
+                                        <div class="text-xs font-bold ${w.week === this.currentWeek ? 'text-yellow-400' : 'text-slate-400 group-hover:text-indigo-200'}">${w.customLabel ? w.customLabel : `${w.week}. Konu`} • ${w.code}</div>
                                         <div class="text-sm font-bold text-white leading-tight mt-0.5">${w.title}</div>
                                     </div>
                                     <span class="px-2 py-0.5 rounded text-[10px] font-extrabold ${w.isAvailable ? 'bg-emerald-500/30 text-emerald-300 border border-emerald-500/40' : 'bg-slate-800 text-amber-300/80 border border-slate-700'}">${w.isAvailable ? 'Hazır' : 'Yakında'}</span>
@@ -382,8 +382,8 @@ class App {
         const badgeEl = document.getElementById("active-week-badge");
         const bannerEl = document.getElementById("week-selector-bar");
 
-        const displayTitle = info.weekData ? info.weekData.title : (data.weekInfo?.title || `${weekNum}. Konu`);
-        if (titleEl) titleEl.innerText = `${weekNum}. Konu: ${displayTitle}`;
+        const displayTitle = info.weekData ? (info.weekData.customHeaderTitle || (info.weekData.customLabel ? `${info.weekData.customLabel}: ${info.weekData.title}` : `${weekNum}. Konu: ${info.weekData.title}`)) : (data.weekInfo?.title || `${weekNum}. Konu`);
+        if (titleEl) titleEl.innerText = displayTitle;
         if (badgeEl) {
             badgeEl.innerHTML = `<i class="${info.themeIcon}"></i> ${info.themeTitle}`;
         }
@@ -1600,6 +1600,82 @@ class App {
                 btnIcon: "fa-solid fa-crosshairs",
                 btnGradient: "from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white",
                 action: "app.openStandaloneGame('games/bilisim_kelime_avi.html', 'Bilişim Kelime Avı | Öğretmen Bozok')"
+            });
+        } else if (weekNum === 4) {
+            extra.push({
+                badge: "Takım",
+                badgeColor: "text-rose-300",
+                title: "Bilişim Takım Yarışı",
+                desc: "Mavi ve Kırmızı takım akıllı tahtada yarışıyor! 1, 2 ve 3. konu sorularını bil, roketini hedefe ilk ulaştır!",
+                icon: "fa-solid fa-rocket",
+                iconBg: "bg-rose-500/30 text-rose-300",
+                cardGradient: "from-blue-900/80 via-indigo-950/90 to-rose-900/80",
+                border: "border-rose-500/50",
+                descColor: "text-indigo-100",
+                btnText: "Yarışı Başlat!",
+                btnIcon: "fa-solid fa-flag-checkered",
+                btnGradient: "from-blue-600 via-indigo-600 to-rose-600 hover:from-blue-500 hover:to-rose-500 text-white",
+                action: "app.openStandaloneGame('games/bilisim_takim_yarisi.html', 'Bilişim Takım Yarışı | Öğretmen Bozok')"
+            });
+            extra.push({
+                badge: "Dedektif",
+                badgeColor: "text-cyan-300",
+                title: "Dijital Ayak İzi Temizlikçisi",
+                desc: "Öğrencinin sanal profilini büyüteçle incele; tehlikeli izleri süpür, güvenli izleri koru ve puanları topla!",
+                icon: "fa-solid fa-broom",
+                iconBg: "bg-cyan-500/30 text-cyan-300",
+                cardGradient: "from-cyan-900/90 to-blue-950/90",
+                border: "border-cyan-500/50",
+                descColor: "text-cyan-100",
+                btnText: "İzleri Temizle!",
+                btnIcon: "fa-solid fa-magnifying-glass",
+                btnGradient: "from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white",
+                action: "app.openStandaloneGame('games/dijital_ayak_izi_temizlikcisi.html', 'Dijital Ayak İzi Temizlikçisi | Öğretmen Bozok')"
+            });
+            extra.push({
+                badge: "e-Hizmet",
+                badgeColor: "text-amber-300",
+                title: "e-Hizmetler Postanesi",
+                desc: "Vatandaşların resmi evrak ve işlemlerini e-Devlet, e-Okul, e-Nabız, MHRS ve EBA kapılarına hızla ulaştır!",
+                icon: "fa-solid fa-envelope-open-text",
+                iconBg: "bg-amber-500/30 text-amber-300",
+                cardGradient: "from-amber-900/90 to-yellow-950/90",
+                border: "border-amber-500/50",
+                descColor: "text-amber-100",
+                btnText: "Postaneyi Aç!",
+                btnIcon: "fa-solid fa-building-columns",
+                btnGradient: "from-amber-500 to-yellow-500 hover:from-amber-400 hover:to-yellow-400 text-slate-950",
+                action: "app.openStandaloneGame('games/e_hizmetler_postanesi.html', 'e-Hizmetler Postanesi | Öğretmen Bozok')"
+            });
+            extra.push({
+                badge: "Labirent",
+                badgeColor: "text-purple-300",
+                title: "Bilişim Kelime Avı",
+                desc: "1, 2 ve 3. konuların kavramlarını harf matrisinde dedektif gibi bul, siber labirenti kelime bilginle çöz!",
+                icon: "fa-solid fa-puzzle-piece",
+                iconBg: "bg-purple-500/30 text-purple-300",
+                cardGradient: "from-purple-900/90 to-indigo-950/90",
+                border: "border-purple-500/50",
+                descColor: "text-purple-100",
+                btnText: "Kelime Avına Başla!",
+                btnIcon: "fa-solid fa-crosshairs",
+                btnGradient: "from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white",
+                action: "app.openStandaloneGame('games/bilisim_kelime_avi.html', 'Bilişim Kelime Avı | Öğretmen Bozok')"
+            });
+            extra.push({
+                badge: "Büyük Arena",
+                badgeColor: "text-emerald-300",
+                title: "1-2-3. Konular Büyük Bilgi Arenası",
+                desc: "Bilişim alanları, dijital sağlık/ergonomi ve dijital vatandaşlığı kapsayan 10 soruluk büyük bilgi arenası!",
+                icon: "fa-solid fa-crown",
+                iconBg: "bg-emerald-500/30 text-emerald-400",
+                cardGradient: "from-emerald-900/90 via-teal-950/90 to-blue-950/90",
+                border: "border-emerald-500/50",
+                descColor: "text-emerald-100",
+                btnText: "Büyük Arenaya Gir!",
+                btnIcon: "fa-solid fa-rocket",
+                btnGradient: "from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white",
+                action: "app.launchGame('arena')"
             });
         }
 

@@ -379,6 +379,80 @@ class ArenaGame {
             }
         ];
 
+        // 4. HAFTA (3. KONU - 2) SORULARI: 1, 2 VE 3. KONULAR BÜYÜK BİLGİ ARENASI
+        this.week4Questions = [
+            {
+                topic: "💡 BİLİŞİM VE GÜNLÜK YAŞAM (1. KONU)",
+                question: "“Bilgi” ve “İletişim” kelimelerinin birleşimiyle oluşan; bilginin toplanması, işlenmesi ve aktarılmasını sağlayan araçların bütününe ne ad verilir?",
+                options: ["Bilişim Teknolojileri", "Sadece Bilgisayar Oyunu", "Sosyal Medya Hesabı", "Antivirüs Programı"],
+                correct: 0,
+                explanation: "Bilgi + İletişim = Bilişim'dir. Günlük yaşamdaki tüm bilgi akışını sağlayan teknolojilere Bilişim Teknolojileri denir."
+            },
+            {
+                topic: "🚗 BİLİŞİMİN KULLANIM ALANLARI (1. KONU)",
+                question: "Ahmet ailesiyle tatile giderken otomobilde harita ve navigasyon açmış, otoyol gişelerinden HGS sistemiyle beklemeden geçmiştir. Bu durum hangi bilişim alanına örnektir?",
+                options: ["Sağlık", "Ulaşım", "Sinema ve Eğlence", "Tarım"],
+                correct: 1,
+                explanation: "Navigasyon, harita uygulamaları ve HGS/OGS geçiş sistemleri Ulaşım alanındaki bilişim teknolojileridir."
+            },
+            {
+                topic: "⚖️ FAYDA VE ZARAR DENGESİ (2. KONU)",
+                question: "Aşağıdakilerden hangisi bilişim teknolojilerinin aşırı ve bilinçsiz kullanımının ortaya çıkardığı OLUMSUZ bir etkidir?",
+                options: ["Bilgiye saniyeler içinde ulaşmak", "Hareketsizlik sebebiyle duruş bozukluğu ve göz yorgunluğu", "Uzaktaki akrabalarla görüntülü konuşmak", "Faturaları internetten ödeyerek zaman kazanmak"],
+                correct: 1,
+                explanation: "Aşırı ekran süresi hareketsizliğe, omurga rahatsızlıklarına ve göz sağlığının bozulmasına yol açar."
+            },
+            {
+                topic: "🪑 ERGONOMİ VE DİJİTAL SAĞLIK (2. KONU)",
+                question: "Bilgisayar başında çalışırken ekrana olan mesafemiz yaklaşık ne kadar olmalı ve sırt duruşumuz nasıl ayarlanmalıdır?",
+                options: ["Ekrana 10 cm mesafe ve sırt kambur olmalı", "Bir kol boyu (50-70 cm) mesafe ve sırt dik durmalı", "Yatarak ekrana bakılmalı", "Ekran baş seviyesinin çok yukarısında olmalı"],
+                correct: 1,
+                explanation: "Ergonomi kuralına göre ekranla göz mesafesi 50-70 cm (bir kol boyu) olmalı ve sırt dik durarak bel desteklenmelidir."
+            },
+            {
+                topic: "👀 20-20-20 KURALI (2. KONU)",
+                question: "Göz sağlığımızı korumak için uygulanan '20-20-20 Kuralı' ne anlama gelmektedir?",
+                options: ["20 saat oyun oyna, 20 dakika uyu", "Her 20 dakikada bir, 20 fit (yaklaşık 6 metre) uzağa 20 saniye bak", "Günde 20 video izle, 20 soru çöz", "Bilgisayarı 20 derecelik açıyla tut"],
+                correct: 1,
+                explanation: "20-20-20 kuralı: Her 20 dakikada bir, en az 20 saniye boyunca 20 fit (yaklaşık 6 metre) uzağa bakarak göz kaslarını dinlendirmektir."
+            },
+            {
+                topic: "🆔 DİJİTAL KİMLİK (3. KONU)",
+                question: "İnternette ve çevrim içi platformlarda bizi temsil eden kullanıcı adı, avatar, profil bilgileri ve şifrelerin bütününe ne ad verilir?",
+                options: ["Dijital Kimlik", "Ekran Kartı", "Klavye Düzeni", "Arama Motoru"],
+                correct: 0,
+                explanation: "Sanal ortamda varlığımızı ve bizi temsil eden tüm profil/hesap unsurlarına Dijital Kimlik denir."
+            },
+            {
+                topic: "🐾 AKTİF VE PASİF AYAK İZİ (3. KONU)",
+                question: "Ela'nın kendi hazırladığı robotik kodlama videosunu internete yüklemesi ile ziyaret ettiği sitelerin arkada bıraktığı çerezler sırasıyla hangi ayak izleridir?",
+                options: ["Pasif Ayak İzi - Aktif Ayak İzi", "Aktif Ayak İzi - Pasif Ayak İzi", "Geçici İz - Gizli İz", "Yanlış İz - Doğru İz"],
+                correct: 1,
+                explanation: "Kendi isteğimizle paylaştığımız video Aktif, arka planda kaydedilen çerezler ve geçmiş ise Pasif dijital ayak izidir."
+            },
+            {
+                topic: "🏛️ e-DEVLET KAPISI (3. KONU)",
+                question: "Tüm resmi kamu kurumlarına ait yüzlerce hizmete (ikametgah, tapu, adli sicil) tek bir şifreyle 7/24 ulaşabildiğimiz devlet portalı hangisidir?",
+                options: ["e-Devlet Kapısı (turkiye.gov.tr)", "Sosyal Medya Platformu", "Oyun Sunucusu", "Video Sitesi"],
+                correct: 0,
+                explanation: "turkiye.gov.tr adresi e-Devlet kapısıdır ve resmi kamu hizmetlerini güvenle tek çatı altında sunar."
+            },
+            {
+                topic: "🏥 SAĞLIK VE EĞİTİMDE e-HİZMETLER (3. KONU)",
+                question: "Öğrencilerin sınav notlarını incelediği sistem ile hastaneden doktor randevusu aldığımız sistem sırasıyla hangileridir?",
+                options: ["e-Nabız - e-Vergi", "e-Okul - MHRS (Alo 182)", "EBA - e-Bankacılık", "MHRS - e-Okul"],
+                correct: 1,
+                explanation: "Öğrenci notları e-Okul'dan, hastane randevusu ise MHRS (Merkezi Hekim Randevu Sistemi) üzerinden alınır."
+            },
+            {
+                topic: "🛡️ DİJİTAL GÜVENLİK KALKANI (3. KONU)",
+                question: "Bilinçli bir dijital vatandaş, internette şifre belirlerken ve paylaşım yaparken hangi kurala DİKKAT ETMELİDİR?",
+                options: ["Şifresini '123456' yapmalı ve herkese söylemelidir", "En az 8 karakterli karmaşık şifre seçmeli ve DÜŞÜN kuralına uymalıdır", "Karşılaştığı her linke hemen tıklamalıdır", "Tanımadığı yabancılara ev adresini göndermelidir"],
+                correct: 1,
+                explanation: "Güçlü şifre (harf, rakam, sembol) ve paylaşmadan önce DÜŞÜN kuralı (Doğru mu, Nazik mi vs.) dijital güvenliğin temelidir."
+            }
+        ];
+
         this.questions = this.week1Questions;
         this.currentIndex = 0;
         this.score = 0;
@@ -394,7 +468,12 @@ class ArenaGame {
         const week = (typeof app !== 'undefined' && app.currentWeek) ? app.currentWeek : 1;
         this.activeWeek = week;
 
-        if (this.activeWeek === 3) {
+        if (this.activeWeek === 4) {
+            this.gameTitle = "1-2-3. Konular Büyük Bilgi Arenası";
+            this.gameSubtitle = "3. Konu - 2: Bilişim & Dijital Vatandaşlık Genel Tekrarı";
+            this.gameBadge = "🏆 1, 2 ve 3. Konular Büyük Bilgi Arenası";
+            this.questions = this.week4Questions;
+        } else if (this.activeWeek === 3) {
             this.gameTitle = "Dijital Vatandaşlık Arenası";
             this.gameSubtitle = "3. Konu – Dijital Vatandaşlık Uygulamaları";
             this.gameBadge = "🛡️ 3. Konu Özel Süper Tekrar Oyunu";
@@ -417,12 +496,13 @@ class ArenaGame {
     renderLobby() {
         if (!this.container) return;
 
+        const isWeek4 = (this.activeWeek === 4);
         const isWeek2 = (this.activeWeek === 2);
         const isWeek3 = (this.activeWeek === 3);
-        const borderClass = isWeek3 ? 'border-blue-500/70' : (isWeek2 ? 'border-yellow-400' : 'border-indigo-500/50');
-        const iconClass = isWeek3 ? 'fa-shield-halved' : (isWeek2 ? 'fa-magnifying-glass' : 'fa-crown');
-        const iconGradient = isWeek3 ? 'from-blue-500 to-indigo-400' : (isWeek2 ? 'from-amber-500 to-yellow-300' : 'from-yellow-500 to-amber-300');
-        const targetBadge = isWeek3 ? 'Dijital Vatandaşlık Ustası' : (isWeek2 ? 'Teknoloji Dedektifi Ustası' : 'Bilişim Uzmanı');
+        const borderClass = isWeek4 ? 'border-emerald-500/70' : (isWeek3 ? 'border-blue-500/70' : (isWeek2 ? 'border-yellow-400' : 'border-indigo-500/50'));
+        const iconClass = isWeek4 ? 'fa-crown' : (isWeek3 ? 'fa-shield-halved' : (isWeek2 ? 'fa-magnifying-glass' : 'fa-crown'));
+        const iconGradient = isWeek4 ? 'from-emerald-400 to-teal-400' : (isWeek3 ? 'from-blue-500 to-indigo-400' : (isWeek2 ? 'from-amber-500 to-yellow-300' : 'from-yellow-500 to-amber-300'));
+        const targetBadge = isWeek4 ? 'Büyük Bilişim Şampiyonu' : (isWeek3 ? 'Dijital Vatandaşlık Ustası' : (isWeek2 ? 'Teknoloji Dedektifi Ustası' : 'Bilişim Uzmanı'));
 
         this.container.innerHTML = `
             <div class="max-w-3xl mx-auto bg-slate-900 text-white rounded-3xl p-6 sm:p-10 shadow-2xl border-4 ${borderClass} space-y-8 animate-pop">
@@ -431,7 +511,7 @@ class ArenaGame {
                     <button onclick="app.renderGameHub()" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-xl font-bold text-xs flex items-center gap-2 transition-all">
                         <i class="fa-solid fa-arrow-left"></i> Oyunlar Menüsüne Dön
                     </button>
-                    <span class="px-3 py-1 ${isWeek3 ? 'bg-blue-500/20 text-blue-300 border-blue-400/40' : (isWeek2 ? 'bg-amber-500/20 text-yellow-300 border-amber-400/40' : 'bg-yellow-400/20 text-yellow-300 border-yellow-400/30')} font-extrabold text-xs rounded-full border">
+                    <span class="px-3 py-1 ${isWeek4 ? 'bg-emerald-500/20 text-emerald-300 border-emerald-400/40' : (isWeek3 ? 'bg-blue-500/20 text-blue-300 border-blue-400/40' : (isWeek2 ? 'bg-amber-500/20 text-yellow-300 border-amber-400/40' : 'bg-yellow-400/20 text-yellow-300 border-yellow-400/30'))} font-extrabold text-xs rounded-full border">
                         ${this.gameBadge}
                     </span>
                 </div>
@@ -636,29 +716,30 @@ class ArenaGame {
         sounds.playFanfare();
         if (!this.container) return;
 
+        const isWeek4 = (this.activeWeek === 4);
         const isWeek2 = (this.activeWeek === 2);
         const isWeek3 = (this.activeWeek === 3);
         let badge = "";
         let badgeColor = "";
 
         if (this.score >= 90) {
-            badge = isWeek3 ? "Dijital Vatandaşlık Ustası! 🛡️🥇" : (isWeek2 ? "Teknoloji Dedektifi Ustası! 🕵️‍♂️🥇" : "Bilişim Arenası Şampiyonu! 🏆");
+            badge = isWeek4 ? "Büyük Bilişim Şampiyonu! 🏆🥇" : (isWeek3 ? "Dijital Vatandaşlık Ustası! 🛡️🥇" : (isWeek2 ? "Teknoloji Dedektifi Ustası! 🕵️‍♂️🥇" : "Bilişim Arenası Şampiyonu! 🏆"));
             badgeColor = "from-yellow-400 to-amber-500 text-slate-950";
         } else if (this.score >= 70) {
-            badge = isWeek3 ? "Bilinçli Dijital Vatandaş! 🥈" : (isWeek2 ? "Çok İyi Dedektif! 🥈" : "Bilişim Kıdemli Kaptanı! 🥈");
+            badge = isWeek4 ? "Kıdemli Bilişim Ustası! 🥈" : (isWeek3 ? "Bilinçli Dijital Vatandaş! 🥈" : (isWeek2 ? "Çok İyi Dedektif! 🥈" : "Bilişim Kıdemli Kaptanı! 🥈"));
             badgeColor = "from-cyan-400 to-blue-500 text-white";
         } else if (this.score >= 50) {
-            badge = isWeek3 ? "Gelişmekte Olan Vatandaş! 🥉" : (isWeek2 ? "İyi Gidiyorsun! 🥉" : "Bilişim Kaşifi! 🥉");
+            badge = isWeek4 ? "Başarılı Bilişim Kaşifi! 🥉" : (isWeek3 ? "Gelişmekte Olan Vatandaş! 🥉" : (isWeek2 ? "İyi Gidiyorsun! 🥉" : "Bilişim Kaşifi! 🥉"));
             badgeColor = "from-emerald-400 to-teal-500 text-slate-950";
         } else {
             badge = "Bir Kez Daha Tekrar Edelim! 🔄";
             badgeColor = "from-rose-500 to-orange-500 text-white";
         }
 
-        const borderClass = isWeek3 ? 'border-blue-500/70' : (isWeek2 ? 'border-yellow-400' : 'border-indigo-500/50');
-        const reportBadge = isWeek3 ? 'DİJİTAL VATANDAŞLIK RAPORU' : (isWeek2 ? 'DEDEKTİF RAPORU' : 'ARENA SONUÇ RAPORU');
-        const reportTitle = isWeek3 ? 'DİJİTAL VATANDAŞLIK RAPORUN' : (isWeek2 ? 'TEKNOLOJİ DEDEKTİFİ RAPORUN' : 'Tebrikler! Arena Tamamlandı!');
-        const headerIcon = isWeek3 ? 'fa-shield-halved' : (isWeek2 ? 'fa-award' : 'fa-trophy');
+        const borderClass = isWeek4 ? 'border-emerald-500/70' : (isWeek3 ? 'border-blue-500/70' : (isWeek2 ? 'border-yellow-400' : 'border-indigo-500/50'));
+        const reportBadge = isWeek4 ? '1-2-3. KONULAR BÜYÜK DEĞERLENDİRME RAPORU' : (isWeek3 ? 'DİJİTAL VATANDAŞLIK RAPORU' : (isWeek2 ? 'DEDEKTİF RAPORU' : 'ARENA SONUÇ RAPORU'));
+        const reportTitle = isWeek4 ? 'BÜYÜK BİLİŞİM ARENASI RAPORUN' : (isWeek3 ? 'DİJİTAL VATANDAŞLIK RAPORUN' : (isWeek2 ? 'TEKNOLOJİ DEDEKTİFİ RAPORUN' : 'Tebrikler! Arena Tamamlandı!'));
+        const headerIcon = isWeek4 ? 'fa-crown' : (isWeek3 ? 'fa-shield-halved' : (isWeek2 ? 'fa-award' : 'fa-trophy'));
 
         this.container.innerHTML = `
             <div class="max-w-3xl mx-auto bg-slate-900 text-white rounded-3xl p-6 sm:p-10 shadow-2xl border-4 ${borderClass} text-center space-y-6 animate-pop">

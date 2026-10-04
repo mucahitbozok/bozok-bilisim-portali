@@ -28,19 +28,21 @@ const CURRICULUM_DATA = [
             },
             {
                 "week": 3,
-                "title": "Dijital Vatandaşlık Uygulamaları",
-                "code": "BTY.5.1.3. Dijital vatandaşlık uygulamalarını sınıflandırabilme",
-                "outcome": "a) Dijital kimlik kavramını belirler. b) Dijital ayak izinin etkilerini bilişim teknolojilerinin kullanım alanları ile ilişkilendirir. c) Dijital vatandaşlık uygulamalarını kullanım alanlarına göre gruplandır",
+                "title": "Dijital Vatandaşlık Uygulamaları - 1",
+                "code": "BTY.5.1.3. Dijital vatandaşlık uygulamalarını sınıflandırabilme (1. Hafta)",
+                "outcome": "a) Dijital kimlik kavramını belirler. b) Dijital ayak izinin etkilerini bilişim teknolojilerinin kullanım alanları ile ilişkilendirir. c) Dijital vatandaşlık uygulamalarını kullanım alanlarına göre gruplandırır.",
                 "isAvailable": true,
                 "badge": "Hazır"
             },
             {
                 "week": 4,
-                "title": "Yapay Zekâda Temel Kavram ve Özellikler",
-                "code": "BTY.5.1.4. Yapay zekâ ile ilgili temel kavramları ve özellikleri sorgulayabilme",
-                "outcome": "a) Yapay zekâ ile ilgili temel kavram ve özelliklere ilişkin merak ettiği konuları tanımlar. b) Yapay zekâ ile ilgili temel kavram ve özellikleri hakkında sorular sorar. c) Yapay zekâ ile ilgili temel kavram ve özellikleri hakkında bilgi toplar. ç) Yapay zekâ ile ilgili temel kavram ve özellikleri hakkında toplanan bilgilerin doğruluğunu değerlendirir. d) Yapay zekânın olası etkilerine ilişkin topladığı bilgiler üzerinden çıkarım yapar.",
-                "isAvailable": false,
-                "badge": "Yakında"
+                "title": "Dijital Vatandaşlık Uygulamaları - 2 (Genel Tekrar)",
+                "code": "BTY.5.1.3 – 1, 2 ve 3. Konular Kapsamlı Tekrar & Pekiştirme",
+                "outcome": "a) 1, 2 ve 3. konuların (bilişim alanları, dijital sağlık, ergonomi, dijital vatandaşlık) kazanımlarını 2 sayfalık etkinlik kağıdı ile sentezler. b) 5 farklı oyun modu ile bilgileri pekiştirir.",
+                "isAvailable": true,
+                "badge": "Hazır",
+                "customLabel": "3. Konu - 2",
+                "customHeaderTitle": "3. Konu: Dijital Vatandaşlık Uygulamaları - 2 (Genel Tekrar)"
             },
             {
                 "week": 5,
