@@ -427,6 +427,7 @@ class App {
 
         // Reset views and ensure no background video is playing
         this.currentSlideIndex = 0;
+        this.activePhotoDoc = null;
         this.stopAllVideos();
         this.renderSlides();
         this.renderWorksheet();
@@ -834,7 +835,20 @@ class App {
         const defaultMap = {
             1: { konu: 'assets/worksheets/1.1_konu.png', soru: 'assets/worksheets/1.1_soru.png', cevap: 'assets/worksheets/1.1_cevap.png' },
             2: { konu: 'assets/worksheets/1.2_konu.png', soru: 'assets/worksheets/1.2_soru.png', cevap: 'assets/worksheets/1.2_cevap.png' },
-            3: { konu: 'assets/worksheets/1.3_konu.png', soru: 'assets/worksheets/1.3_soru.png', cevap: 'assets/worksheets/1.3_cevap.png' }
+            3: { konu: 'assets/worksheets/1.3_konu.png', soru: 'assets/worksheets/1.3_soru.png', cevap: 'assets/worksheets/1.3_cevap.png' },
+            4: { 
+                kagit1: 'assets/worksheets/1.4_sayfa1_soru.png',
+                kagit1_cevap: 'assets/worksheets/1.4_sayfa1_cevap.png',
+                kagit2: 'assets/worksheets/1.4_sayfa2_soru.png',
+                kagit2_cevap: 'assets/worksheets/1.4_sayfa2_cevap.png',
+                sayfa1_soru: 'assets/worksheets/1.4_sayfa1_soru.png',
+                sayfa1_cevap: 'assets/worksheets/1.4_sayfa1_cevap.png',
+                sayfa2_soru: 'assets/worksheets/1.4_sayfa2_soru.png',
+                sayfa2_cevap: 'assets/worksheets/1.4_sayfa2_cevap.png',
+                konu: 'assets/worksheets/1.4_konu.png',
+                soru: 'assets/worksheets/1.4_sayfa1_soru.png',
+                cevap: 'assets/worksheets/1.4_sayfa1_cevap.png'
+            }
         };
         if (defaultMap[weekNum] && defaultMap[weekNum][docType]) {
             return defaultMap[weekNum][docType];
@@ -867,17 +881,59 @@ class App {
         const images = data.weekInfo?.images || data.worksheetDocs?.images;
         const docs = data.worksheetDocs || {};
 
-        if (!this.activePhotoDoc) this.activePhotoDoc = 'konu'; // 'konu', 'soru', 'cevap'
+        const isFourTabs = !!(docs.hasTwoPages || docs.kagit1Html || (images && (images.kagit1 || images.sayfa1_soru)) || this.currentWeek === 4);
+
+        if (!this.activePhotoDoc) {
+            this.activePhotoDoc = isFourTabs ? 'kagit1' : 'konu';
+        } else if (isFourTabs) {
+            if (this.activePhotoDoc === 'soru') this.activePhotoDoc = 'kagit1';
+            if (this.activePhotoDoc === 'cevap') this.activePhotoDoc = 'kagit1_cevap';
+        } else {
+            if (this.activePhotoDoc === 'kagit1' || this.activePhotoDoc === 'kagit2') this.activePhotoDoc = 'soru';
+            if (this.activePhotoDoc === 'kagit1_cevap' || this.activePhotoDoc === 'kagit2_cevap') this.activePhotoDoc = 'cevap';
+        }
+
         if (!this.worksheetViewMode) this.worksheetViewMode = 'photo'; // 'photo' veya 'digital'
         if (!this.photoZoom) this.photoZoom = 1.0;
 
         // Henüz içeriği yüklenmemiş ileri haftalar
-        if (data.weekInfo?.isPending || (!images && !docs.konuHtml)) {
+        if (data.weekInfo?.isPending || (!images && !docs.konuHtml && !docs.kagit1Html)) {
             this.renderPendingPlaceholder("worksheet-render-area", "Çalışma Kağıtları & Cevap Anahtarı", "fa-solid fa-file-lines");
             return;
         }
 
-        const imgMap = {
+        const imgMap = isFourTabs ? {
+            kagit1: { 
+                src: this.resolveDocPath(images?.kagit1 || images?.sayfa1_soru, this.currentWeek, 'kagit1'), 
+                title: "1. Kağıt (Etkinlik Kağıdı 1 - Bilişim Alanları & Dijital Sağlık)", 
+                icon: "fa-solid fa-file-lines", 
+                badge: "1. Kağıt" 
+            },
+            kagit1_cevap: { 
+                src: this.resolveDocPath(images?.kagit1_cevap || images?.sayfa1_cevap, this.currentWeek, 'kagit1_cevap'), 
+                title: "1. Kağıt Resmî Cevap Anahtarı", 
+                icon: "fa-solid fa-key", 
+                badge: "1. Kağıt Çözümleri" 
+            },
+            kagit2: { 
+                src: this.resolveDocPath(images?.kagit2 || images?.sayfa2_soru, this.currentWeek, 'kagit2'), 
+                title: "2. Kağıt (Etkinlik Kağıdı 2 - Dijital Ayak İzi, e-Devlet & Test)", 
+                icon: "fa-solid fa-file-circle-check", 
+                badge: "2. Kağıt" 
+            },
+            kagit2_cevap: { 
+                src: this.resolveDocPath(images?.kagit2_cevap || images?.sayfa2_cevap, this.currentWeek, 'kagit2_cevap'), 
+                title: "2. Kağıt Resmî Cevap Anahtarı", 
+                icon: "fa-solid fa-key", 
+                badge: "2. Kağıt Çözümleri" 
+            },
+            konu: { 
+                src: this.resolveDocPath(images?.konu, this.currentWeek, 'konu'), 
+                title: "1, 2 ve 3. Konular Genel Tekrar Rehberi", 
+                icon: "fa-solid fa-book-open", 
+                badge: "Konu Özeti" 
+            }
+        } : {
             konu: { 
                 src: this.resolveDocPath(images?.konu, this.currentWeek, 'konu'), 
                 title: `${this.currentWeek}. Konu Anlatımı & Çalışma Kağıdı`, 
@@ -898,11 +954,19 @@ class App {
             }
         };
 
-        const currentDoc = imgMap[this.activePhotoDoc] || imgMap.konu;
+        const currentDoc = imgMap[this.activePhotoDoc] || (isFourTabs ? imgMap.kagit1 : imgMap.konu);
 
         let activeHtmlContent = docs.konuHtml;
-        if (this.activePhotoDoc === 'soru') activeHtmlContent = docs.soruHtml;
-        if (this.activePhotoDoc === 'cevap') activeHtmlContent = docs.cevapHtml;
+        if (isFourTabs) {
+            if (this.activePhotoDoc === 'kagit1') activeHtmlContent = docs.kagit1Html || docs.sayfa1_soruHtml || docs.soruHtml;
+            else if (this.activePhotoDoc === 'kagit1_cevap') activeHtmlContent = docs.kagit1_cevapHtml || docs.sayfa1_cevapHtml || docs.cevapHtml;
+            else if (this.activePhotoDoc === 'kagit2') activeHtmlContent = docs.kagit2Html || docs.sayfa2_soruHtml || docs.soruHtml;
+            else if (this.activePhotoDoc === 'kagit2_cevap') activeHtmlContent = docs.kagit2_cevapHtml || docs.sayfa2_cevapHtml || docs.cevapHtml;
+            else if (this.activePhotoDoc === 'konu') activeHtmlContent = docs.konuHtml;
+        } else {
+            if (this.activePhotoDoc === 'soru') activeHtmlContent = docs.soruHtml;
+            if (this.activePhotoDoc === 'cevap') activeHtmlContent = docs.cevapHtml;
+        }
 
         wsContainer.innerHTML = `
             <div class="bg-slate-900 text-white rounded-3xl p-4 sm:p-8 border-4 border-indigo-500/50 shadow-2xl space-y-6">
@@ -918,20 +982,43 @@ class App {
                         </div>
                     </div>
 
-                    <!-- 3 Ana Belge Butonu (1. Konu, 2. Sorular, 3. Cevap Anahtarı) -->
-                    <div class="flex items-center gap-2 bg-slate-800 p-1.5 rounded-2xl border border-slate-700 flex-wrap justify-center">
-                        <button onclick="app.setPhotoDoc('konu')" class="px-4 py-2.5 rounded-xl font-bold text-xs sm:text-sm flex items-center gap-2 transition-all ${this.activePhotoDoc === 'konu' ? 'bg-indigo-600 text-white shadow-lg ring-2 ring-indigo-400' : 'text-slate-300 hover:bg-slate-700'}">
-                            <i class="fa-solid fa-book-open text-yellow-400"></i>
-                            <span>1. Konu Kağıdı</span>
-                        </button>
-                        <button onclick="app.setPhotoDoc('soru')" class="px-4 py-2.5 rounded-xl font-bold text-xs sm:text-sm flex items-center gap-2 transition-all ${this.activePhotoDoc === 'soru' ? 'bg-blue-600 text-white shadow-lg ring-2 ring-blue-400' : 'text-slate-300 hover:bg-slate-700'}">
-                            <i class="fa-solid fa-circle-question text-cyan-400"></i>
-                            <span>2. Pekiştirme Soruları</span>
-                        </button>
-                        <button onclick="app.setPhotoDoc('cevap')" class="px-4 py-2.5 rounded-xl font-bold text-xs sm:text-sm flex items-center gap-2 transition-all ${this.activePhotoDoc === 'cevap' ? 'bg-emerald-600 text-white shadow-lg ring-2 ring-emerald-400' : 'text-slate-300 hover:bg-slate-700'}">
-                            <i class="fa-solid fa-key text-yellow-300"></i>
-                            <span>3. Cevap Anahtarı</span>
-                        </button>
+                    <!-- Belge Butonları -->
+                    <div class="flex items-center gap-1.5 sm:gap-2 bg-slate-800 p-1.5 rounded-2xl border border-slate-700 flex-wrap justify-center">
+                        ${isFourTabs ? `
+                            <button onclick="app.setPhotoDoc('kagit1')" class="px-3 sm:px-4 py-2 sm:py-2.5 rounded-xl font-bold text-xs sm:text-sm flex items-center gap-2 transition-all ${this.activePhotoDoc === 'kagit1' ? 'bg-indigo-600 text-white shadow-lg ring-2 ring-indigo-400' : 'text-slate-300 hover:bg-slate-700'}">
+                                <i class="fa-solid fa-file-lines text-yellow-400"></i>
+                                <span>1. Kağıt</span>
+                            </button>
+                            <button onclick="app.setPhotoDoc('kagit1_cevap')" class="px-3 sm:px-4 py-2 sm:py-2.5 rounded-xl font-bold text-xs sm:text-sm flex items-center gap-2 transition-all ${this.activePhotoDoc === 'kagit1_cevap' ? 'bg-emerald-600 text-white shadow-lg ring-2 ring-emerald-400' : 'text-slate-300 hover:bg-slate-700'}">
+                                <i class="fa-solid fa-key text-yellow-300"></i>
+                                <span>1. Kağıt Cevap Anahtarı</span>
+                            </button>
+                            <button onclick="app.setPhotoDoc('kagit2')" class="px-3 sm:px-4 py-2 sm:py-2.5 rounded-xl font-bold text-xs sm:text-sm flex items-center gap-2 transition-all ${this.activePhotoDoc === 'kagit2' ? 'bg-blue-600 text-white shadow-lg ring-2 ring-blue-400' : 'text-slate-300 hover:bg-slate-700'}">
+                                <i class="fa-solid fa-file-circle-check text-cyan-400"></i>
+                                <span>2. Kağıt</span>
+                            </button>
+                            <button onclick="app.setPhotoDoc('kagit2_cevap')" class="px-3 sm:px-4 py-2 sm:py-2.5 rounded-xl font-bold text-xs sm:text-sm flex items-center gap-2 transition-all ${this.activePhotoDoc === 'kagit2_cevap' ? 'bg-emerald-600 text-white shadow-lg ring-2 ring-emerald-400' : 'text-slate-300 hover:bg-slate-700'}">
+                                <i class="fa-solid fa-key text-yellow-300"></i>
+                                <span>2. Kağıt Cevap Anahtarı</span>
+                            </button>
+                            <button onclick="app.setPhotoDoc('konu')" class="px-3 sm:px-4 py-2 sm:py-2.5 rounded-xl font-bold text-xs sm:text-sm flex items-center gap-2 transition-all ${this.activePhotoDoc === 'konu' ? 'bg-purple-600 text-white shadow-lg ring-2 ring-purple-400' : 'text-slate-300 hover:bg-slate-700'}">
+                                <i class="fa-solid fa-book-open text-purple-300"></i>
+                                <span>Konu Özeti</span>
+                            </button>
+                        ` : `
+                            <button onclick="app.setPhotoDoc('konu')" class="px-4 py-2.5 rounded-xl font-bold text-xs sm:text-sm flex items-center gap-2 transition-all ${this.activePhotoDoc === 'konu' ? 'bg-indigo-600 text-white shadow-lg ring-2 ring-indigo-400' : 'text-slate-300 hover:bg-slate-700'}">
+                                <i class="fa-solid fa-book-open text-yellow-400"></i>
+                                <span>1. Konu Kağıdı</span>
+                            </button>
+                            <button onclick="app.setPhotoDoc('soru')" class="px-4 py-2.5 rounded-xl font-bold text-xs sm:text-sm flex items-center gap-2 transition-all ${this.activePhotoDoc === 'soru' ? 'bg-blue-600 text-white shadow-lg ring-2 ring-blue-400' : 'text-slate-300 hover:bg-slate-700'}">
+                                <i class="fa-solid fa-circle-question text-cyan-400"></i>
+                                <span>2. Pekiştirme Soruları</span>
+                            </button>
+                            <button onclick="app.setPhotoDoc('cevap')" class="px-4 py-2.5 rounded-xl font-bold text-xs sm:text-sm flex items-center gap-2 transition-all ${this.activePhotoDoc === 'cevap' ? 'bg-emerald-600 text-white shadow-lg ring-2 ring-emerald-400' : 'text-slate-300 hover:bg-slate-700'}">
+                                <i class="fa-solid fa-key text-yellow-300"></i>
+                                <span>3. Cevap Anahtarı</span>
+                            </button>
+                        `}
                     </div>
                 </div>
 
@@ -999,7 +1086,7 @@ class App {
                                  alt="${currentDoc.title}" 
                                  class="max-w-full h-auto rounded-xl shadow-2xl cursor-zoom-in border border-slate-700" 
                                  onclick="app.openPhotoLightbox('${currentDoc.src}', '${currentDoc.title}')"
-                                 onerror="if (!this.src.includes('1.1_') && !this.src.includes('1.2_')) { this.src = '${currentDoc.src}'.replace('.png', '').replace(/\\s+/g, '_') + '.png'; }">
+                                 onerror="app.handlePhotoError(this, '${currentDoc.src}', '${currentDoc.title}', '${this.activePhotoDoc}')">
                         </div>
                     </div>
 
@@ -1026,6 +1113,79 @@ class App {
                 `}
             </div>
         `;
+    }
+
+    handlePhotoError(imgEl, originalSrc, title, docType) {
+        if (!imgEl) return;
+        if (!imgEl.dataset.triedAlternates) {
+            imgEl.dataset.triedAlternates = "1";
+            const candidatePaths = {
+                kagit1: [
+                    'assets/worksheets/1.4_sayfa1_soru.png',
+                    'assets/worksheets/1.4_1.kagit.png',
+                    'assets/worksheets/1.4_kagit1.png',
+                    'assets/worksheets/1.4 1.kagit.png',
+                    'assets/worksheets/1.4_sayfa1_soru.jpg'
+                ],
+                kagit1_cevap: [
+                    'assets/worksheets/1.4_sayfa1_cevap.png',
+                    'assets/worksheets/1.4_1.kagit_cevap.png',
+                    'assets/worksheets/1.4_kagit1_cevap.png',
+                    'assets/worksheets/1.4 1.kagit cevap.png',
+                    'assets/worksheets/1.4_sayfa1_cevap.jpg'
+                ],
+                kagit2: [
+                    'assets/worksheets/1.4_sayfa2_soru.png',
+                    'assets/worksheets/1.4_2.kagit.png',
+                    'assets/worksheets/1.4_kagit2.png',
+                    'assets/worksheets/1.4 2.kagit.png',
+                    'assets/worksheets/1.4_sayfa2_soru.jpg'
+                ],
+                kagit2_cevap: [
+                    'assets/worksheets/1.4_sayfa2_cevap.png',
+                    'assets/worksheets/1.4_2.kagit_cevap.png',
+                    'assets/worksheets/1.4_kagit2_cevap.png',
+                    'assets/worksheets/1.4 2.kagit cevap.png',
+                    'assets/worksheets/1.4_sayfa2_cevap.jpg'
+                ]
+            };
+            const candidates = candidatePaths[docType];
+            if (candidates && candidates.length > 0) {
+                const nextSrc = candidates.find(p => p !== originalSrc && !imgEl.src.endsWith(p));
+                if (nextSrc) {
+                    imgEl.src = nextSrc;
+                    return;
+                }
+            }
+        }
+
+        const container = imgEl.parentElement;
+        if (container) {
+            const fileName = (originalSrc || '').split('/').pop() || 'belge.png';
+            container.innerHTML = `
+                <div class="p-8 sm:p-12 text-center bg-slate-900/95 border-2 border-dashed border-indigo-500/50 rounded-3xl max-w-xl mx-auto space-y-5 shadow-2xl animate-pop">
+                    <div class="w-16 h-16 rounded-2xl bg-indigo-500/20 text-yellow-300 flex items-center justify-center text-3xl mx-auto shadow-inner">
+                        <i class="fa-solid fa-file-arrow-up"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-lg sm:text-xl font-black text-white">${title || "Çalışma Belgesi"}</h3>
+                        <p class="text-xs text-slate-300 mt-1">Orijinal taranmış belge görseli henüz klasöre eklenmedi.</p>
+                    </div>
+                    <div class="p-4 bg-slate-950/80 rounded-2xl border border-slate-800 text-left text-xs space-y-2 font-mono">
+                        <div class="text-slate-400 font-sans font-bold">📁 Görseli Ekleyeceğiniz Klasör:</div>
+                        <div class="text-yellow-300 font-black bg-slate-900 p-2.5 rounded-xl border border-slate-800 break-all select-all">assets/worksheets/</div>
+                        <div class="text-slate-400 font-sans font-bold mt-2">📄 Önerilen Dosya Adı:</div>
+                        <div class="text-emerald-400 font-black bg-slate-900 p-2.5 rounded-xl border border-slate-800 break-all select-all">${fileName}</div>
+                    </div>
+                    <div class="pt-2">
+                        <button onclick="app.setWorksheetViewMode('digital')" class="w-full sm:w-auto px-6 py-3 bg-gradient-to-r from-indigo-600 to-blue-600 hover:from-indigo-500 hover:to-blue-500 text-white font-black rounded-xl text-xs flex items-center justify-center gap-2 shadow-lg transition-all active:scale-95 mx-auto">
+                            <i class="fa-solid fa-file-lines text-yellow-300 text-sm"></i>
+                            <span>Yazdırılabilir A4 Metin Olarak Gör / Çöz ➔</span>
+                        </button>
+                    </div>
+                </div>
+            `;
+        }
     }
 
     zoomPhoto(delta) {

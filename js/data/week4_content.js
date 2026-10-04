@@ -19,9 +19,17 @@ window.WEEK4_CONTENT = {
             "1, 2 ve 3. konuları kapsayan 2 sayfalık büyük etkinlik kağıdı ve 5 farklı oyun moduyla bilgilerimi pekiştireceğim."
         ],
         images: {
-            konu: "assets/worksheets/1.3_konu.png",
-            soru: "assets/worksheets/1.3_soru.png",
-            cevap: "assets/worksheets/1.3_cevap.png"
+            kagit1: "assets/worksheets/1.4_sayfa1_soru.png",
+            kagit1_cevap: "assets/worksheets/1.4_sayfa1_cevap.png",
+            kagit2: "assets/worksheets/1.4_sayfa2_soru.png",
+            kagit2_cevap: "assets/worksheets/1.4_sayfa2_cevap.png",
+            konu: "assets/worksheets/1.4_konu.png",
+            sayfa1_soru: "assets/worksheets/1.4_sayfa1_soru.png",
+            sayfa1_cevap: "assets/worksheets/1.4_sayfa1_cevap.png",
+            sayfa2_soru: "assets/worksheets/1.4_sayfa2_soru.png",
+            sayfa2_cevap: "assets/worksheets/1.4_sayfa2_cevap.png",
+            soru: "assets/worksheets/1.4_sayfa1_soru.png",
+            cevap: "assets/worksheets/1.4_sayfa1_cevap.png"
         }
     },
 
@@ -970,6 +978,323 @@ window.WEEK4_CONTENT = {
     // 📄 2. ÇALIŞMA KAĞIDI (2 Sayfa Etkinlik & Çalışma Kağıdı)
     // ========================================================
     worksheetDocs: {
+        hasTwoPages: true,
+
+        // ==========================================
+        // 📄 1. KAĞIT: SAYFA 1 ETKİNLİK KAĞIDI
+        // ==========================================
+        kagit1Html: `
+        <div class="printable-doc bg-slate-900 text-white rounded-3xl p-6 sm:p-10 border-4 border-indigo-500/50 shadow-2xl space-y-8">
+            <div class="worksheet-page space-y-6">
+                <div class="border-b-2 border-indigo-500/40 pb-4 flex items-center justify-between flex-wrap gap-2">
+                    <div>
+                        <span class="px-3 py-1 bg-indigo-500/30 text-indigo-300 font-black rounded-lg text-xs tracking-wider uppercase">
+                            5. Sınıf Bilişim Teknolojileri • 1. Etkinlik & Çalışma Kağıdı
+                        </span>
+                        <h1 class="text-xl sm:text-2xl font-black text-white mt-1">
+                            1. KAĞIT: BİLİŞİM ALANLARI VE DİJİTAL SAĞLIK ETKİNLİKLERİ
+                        </h1>
+                    </div>
+                    <span class="px-3 py-1 bg-yellow-400/20 text-yellow-300 border border-yellow-400/40 rounded-xl text-xs font-black">
+                        1. Kağıt (Sayfa 1 / 1)
+                    </span>
+                </div>
+
+                <!-- Öğrenci Bilgi Kutusu -->
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs p-3 bg-slate-850 rounded-xl border border-slate-700">
+                    <div><strong>Adı Soyadı:</strong> .....................................</div>
+                    <div><strong>Sınıfı / No:</strong> ............. / .............</div>
+                    <div><strong>Tarih:</strong> ...... / ...... / 2026</div>
+                    <div><strong>Aldığı Not:</strong> ....................</div>
+                </div>
+
+                <!-- BÖLÜM A: BİLİŞİM ALANLARI VAKA DEDEKTİFİ -->
+                <div class="space-y-3">
+                    <h3 class="text-sm font-black text-cyan-300 uppercase">
+                        Bölüm A) Bilişim Alanı Dedektifi: Aşağıdaki durumların hangi bilişim alanına girdiğini parantez içine yazınız:
+                    </h3>
+                    <p class="text-[11px] text-slate-400">(Kullanılacak Alanlar: Sağlık, Eğitim, Ulaşım, Bankacılık, Güvenlik, Sanayi/Üretim, İletişim)</p>
+                    <div class="space-y-2 text-xs text-slate-200">
+                        <p>1. Ahmet'in bilmediği bir adrese giderken cep telefonundan harita uygulamasını açıp rota çizmesi. ( ........................................ )</p>
+                        <p>2. Ayşe'nin fen dersinde mikroskop ile çektiği hücre fotoğraflarını akıllı tahtaya aktarması. ( ........................................ )</p>
+                        <p>3. Doktorun hastasının geçmiş akciğer grafisini ve kan tahlili sonuçlarını bilgisayar ekranından incelemesi. ( ........................................ )</p>
+                        <p>4. Annemin elektrik faturasını bankaya gitmeden cep telefonu mobil uygulamasından ödemesi. ( ........................................ )</p>
+                        <p>5. Şehir merkezindeki kavşakta kırmızı ışıkta geçen aracın MOBESE kamerası tarafından tespit edilmesi. ( ........................................ )</p>
+                        <p>6. Otomobil fabrikasında insan gücü yerine robotik kolların araç gövdesini kaynak yapması. ( ........................................ )</p>
+                        <p>7. Yurt dışında yaşayan teyzemizle internet üzerinden görüntülü olarak bayramlaşmamız. ( ........................................ )</p>
+                    </div>
+                </div>
+
+                <!-- BÖLÜM B: DİJİTAL SAĞLIK DOĞRU / YANLIŞ -->
+                <div class="space-y-3 pt-4 border-t border-slate-800">
+                    <h3 class="text-sm font-black text-yellow-300 uppercase">
+                        Bölüm B) Dijital Sağlık ve Ergonomi: İfadelerin başına Doğru ise ( D ), Yanlış ise ( Y ) yazınız:
+                    </h3>
+                    <div class="space-y-2 text-xs text-slate-200">
+                        <p>( ... ) 1. Bilgisayar ekranına olan mesafemiz yaklaşık 50-70 cm (bir kol boyu) olmalıdır.</p>
+                        <p>( ... ) 2. Boyun ve omurga sağlığımız için yatarak ve kucağımızda bilgisayarla çalışmak en sağlıklı yöntemdir.</p>
+                        <p>( ... ) 3. 20-20-20 kuralı; her 20 dakikada bir, 20 saniye boyunca 20 fit (6 metre) uzağa bakarak gözleri dinlendirmektir.</p>
+                        <p>( ... ) 4. Sandalyede otururken sırt dik olmalı ve bel desteği kullanılmalıdır.</p>
+                        <p>( ... ) 5. Ekran başında günde 8 saat hiç mola vermeden oyun oynamak beden sağlığımızı olumlu etkiler.</p>
+                        <p>( ... ) 6. Bilgisayar ekranının üst kenarı yaklaşık olarak göz hizamızda olmalıdır.</p>
+                    </div>
+                </div>
+
+                <!-- BÖLÜM C: OLUMLU MU OLUMSUZ MU? -->
+                <div class="space-y-3 pt-4 border-t border-slate-800">
+                    <h3 class="text-sm font-black text-emerald-300 uppercase">
+                        Bölüm C) Olumlu mu, Olumsuz mu?: Durumların yanına ( + ) veya ( - ) işareti koyunuz:
+                    </h3>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs text-slate-200">
+                        <p>1. Uzaktaki akrabalarla görüntülü konuşarak hasret gidermek. ( ..... )</p>
+                        <p>2. Sürekli ekrana bakmaktan dolayı arkadaşlarıyla oynamamak. ( ..... )</p>
+                        <p>3. Faturaları online ödeyerek saatlerce kuyrukta beklemekten kurtulmak. ( ..... )</p>
+                        <p>4. Uzun süre hareketsiz oturmaktan dolayı aşırı kilo (obezite) almak. ( ..... )</p>
+                        <p>5. Ödevimiz için kütüphaneye gitmeden güvenilir bilgiye saniyeler içinde ulaşmak. ( ..... )</p>
+                        <p>6. Bilgisayar oyununu bırakamadığı için gece geç saatlere kadar uykusuz kalmak. ( ..... )</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        `,
+
+        // ==========================================
+        // 🔑 1. KAĞIT CEVAP ANAHTARI
+        // ==========================================
+        kagit1_cevapHtml: `
+        <div class="printable-doc bg-slate-900 text-white rounded-3xl p-6 sm:p-10 border-4 border-emerald-500/50 shadow-2xl space-y-8">
+            <div class="worksheet-page space-y-6">
+                <div class="border-b-2 border-emerald-500/40 pb-4 flex items-center justify-between flex-wrap gap-2">
+                    <div>
+                        <span class="px-3 py-1 bg-emerald-500/30 text-emerald-300 font-black rounded-lg text-xs tracking-wider uppercase">
+                            Resmî Çözüm Anahtarı
+                        </span>
+                        <h1 class="text-xl sm:text-2xl font-black text-white mt-1">
+                            1. KAĞIT RESMÎ ÇÖZÜM ANAHTARI
+                        </h1>
+                    </div>
+                    <span class="px-3 py-1 bg-emerald-400/20 text-emerald-300 border border-emerald-400/40 rounded-xl text-xs font-black">
+                        1. Kağıt Çözümleri
+                    </span>
+                </div>
+
+                <!-- Bölüm A Çözümleri -->
+                <div class="p-4 bg-slate-850 rounded-2xl border border-slate-700 space-y-2">
+                    <h3 class="text-sm font-black text-cyan-300 uppercase">Bölüm A) Bilişim Alanı Dedektifi Çözümleri:</h3>
+                    <div class="space-y-1.5 text-xs text-slate-200">
+                        <p>1. Harita uygulamasından rota çizmek ➔ <strong class="text-cyan-400">Ulaşım</strong></p>
+                        <p>2. Hücre fotoğraflarını akıllı tahtaya aktarmak ➔ <strong class="text-purple-400">Eğitim</strong></p>
+                        <p>3. Röntgen ve tahlil sonuçlarını incelemek ➔ <strong class="text-emerald-400">Sağlık</strong></p>
+                        <p>4. Elektrik faturasını mobil bankacılıktan ödemek ➔ <strong class="text-amber-400">Bankacılık</strong></p>
+                        <p>5. Kırmızı ışık ihlalini MOBESE kamerasının yakalaması ➔ <strong class="text-rose-400">Güvenlik</strong></p>
+                        <p>6. Otomobil fabrikasındaki montaj robotları ➔ <strong class="text-yellow-400">Sanayi / Üretim</strong></p>
+                        <p>7. İnternetten uzaktaki akrabayla görüntülü görüşmek ➔ <strong class="text-teal-400">İletişim</strong></p>
+                    </div>
+                </div>
+
+                <!-- Bölüm B Çözümleri -->
+                <div class="p-4 bg-slate-850 rounded-2xl border border-slate-700 space-y-2">
+                    <h3 class="text-sm font-black text-yellow-300 uppercase">Bölüm B) Dijital Sağlık ve Ergonomi Çözümleri:</h3>
+                    <div class="space-y-1 text-xs text-slate-200">
+                        <p>1. <strong>( D ) DOĞRU:</strong> Ekrana 50-70 cm (bir kol boyu) mesafede durulmalıdır.</p>
+                        <p>2. <strong>( Y ) YANLIŞ:</strong> Yatarak bilgisayar kullanmak omurga ve boyun eğriliğine sebep olur.</p>
+                        <p>3. <strong>( D ) DOĞRU:</strong> 20-20-20 kuralı göz kaslarını dinlendirerek göz yorgunluğunu önler.</p>
+                        <p>4. <strong>( D ) DOĞRU:</strong> Sırt dik ve bel destekli olmalıdır.</p>
+                        <p>5. <strong>( Y ) YANLIŞ:</strong> Günde 8 saat mola vermeden oynamak bağımlılık ve bedensel rahatsızlık yaratır.</p>
+                        <p>6. <strong>( D ) DOĞRU:</strong> Ekran üst kenarı yaklaşık göz hizasında olmalıdır.</p>
+                    </div>
+                </div>
+
+                <!-- Bölüm C Çözümleri -->
+                <div class="p-4 bg-slate-850 rounded-2xl border border-slate-700 space-y-2">
+                    <h3 class="text-sm font-black text-emerald-300 uppercase">Bölüm C) Olumlu / Olumsuz Çözümleri:</h3>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs text-slate-200">
+                        <p>1. Görüntülü hasret gidermek ➔ <strong class="text-emerald-400">( + ) Olumlu</strong></p>
+                        <p>2. Arkadaşlarıyla oynamamak ➔ <strong class="text-rose-400">( - ) Olumsuz</strong></p>
+                        <p>3. Online fatura ödemek ➔ <strong class="text-emerald-400">( + ) Olumlu</strong></p>
+                        <p>4. Aşırı kilo (obezite) almak ➔ <strong class="text-rose-400">( - ) Olumsuz</strong></p>
+                        <p>5. Bilgiye saniyeler içinde ulaşmak ➔ <strong class="text-emerald-400">( + ) Olumlu</strong></p>
+                        <p>6. Gece uykusuz kalmak ➔ <strong class="text-rose-400">( - ) Olumsuz</strong></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        `,
+
+        // ==========================================
+        // 📄 2. KAĞIT: SAYFA 2 ETKİNLİK KAĞIDI
+        // ==========================================
+        kagit2Html: `
+        <div class="printable-doc bg-slate-900 text-white rounded-3xl p-6 sm:p-10 border-4 border-blue-500/50 shadow-2xl space-y-8">
+            <div class="worksheet-page space-y-6">
+                <div class="border-b-2 border-blue-500/40 pb-4 flex items-center justify-between flex-wrap gap-2">
+                    <div>
+                        <span class="px-3 py-1 bg-blue-500/30 text-blue-300 font-black rounded-lg text-xs tracking-wider uppercase">
+                            5. Sınıf Bilişim Teknolojileri • 2. Etkinlik & Çalışma Kağıdı
+                        </span>
+                        <h1 class="text-xl sm:text-2xl font-black text-white mt-1">
+                            2. KAĞIT: DİJİTAL AYAK İZİ, e-DEVLET VE TEST
+                        </h1>
+                    </div>
+                    <span class="px-3 py-1 bg-yellow-400/20 text-yellow-300 border border-yellow-400/40 rounded-xl text-xs font-black">
+                        2. Kağıt (Sayfa 1 / 1)
+                    </span>
+                </div>
+
+                <!-- Öğrenci Bilgi Kutusu -->
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs p-3 bg-slate-850 rounded-xl border border-slate-700">
+                    <div><strong>Adı Soyadı:</strong> .....................................</div>
+                    <div><strong>Sınıfı / No:</strong> ............. / .............</div>
+                    <div><strong>Tarih:</strong> ...... / ...... / 2026</div>
+                    <div><strong>Aldığı Not:</strong> ....................</div>
+                </div>
+
+                <!-- BÖLÜM D: DİJİTAL AYAK İZİ DEDEKTİFİ -->
+                <div class="space-y-3">
+                    <h3 class="text-sm font-black text-cyan-300 uppercase">
+                        Bölüm D) Dijital Ayak İzi Dedektifi: Durumların yanına Aktif Ayak İzi mi, Pasif Ayak İzi mi olduğunu yazınız:
+                    </h3>
+                    <div class="space-y-2 text-xs text-slate-200">
+                        <p>1. Ela'nın kendi yaptığı resmin fotoğrafını sosyal medya hesabında paylaşması. ( ........................................ )</p>
+                        <p>2. Ziyaret ettiğimiz haber sitesinin bilgisayarımıza reklam çerezleri bırakması. ( ........................................ )</p>
+                        <p>3. YouTube'da izlediğimiz bir ders videosunun altına teşekkür yorumu yazmak. ( ........................................ )</p>
+                        <p>4. Harita uygulamasını açtığımızda telefonun arka planda geçtiğimiz caddeleri kaydetmesi. ( ........................................ )</p>
+                        <p>5. Arama motorunda '5. Sınıf Bilişim Konuları' şeklinde arama yaptığımızda aramanın kaydedilmesi. ( ........................................ )</p>
+                        <p>6. Öğretmenimize hazırladığımız proje ödevini e-posta eki olarak göndermek. ( ........................................ )</p>
+                    </div>
+                </div>
+
+                <!-- BÖLÜM E: e-HİZMETLER EŞLEŞTİRMESİ -->
+                <div class="space-y-3 pt-4 border-t border-slate-800">
+                    <h3 class="text-sm font-black text-yellow-300 uppercase">
+                        Bölüm E) e-Hizmetler Postanesi: Durumları doğru dijital kapı ile eşleştiriniz:
+                    </h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs text-slate-200">
+                        <div class="p-3 bg-slate-850 rounded-xl border border-slate-700 space-y-1">
+                            <p class="font-bold text-yellow-300 mb-1">Vatandaşın Talebi & Durumu:</p>
+                            <p>1. Dönem sonu karneme ve sınav notlarıma bakmak istiyorum.</p>
+                            <p>2. İkametgah belgesi ve resmi tapu kaydımı çıkarmak istiyorum.</p>
+                            <p>3. Geçmiş aşı kartımı ve tahlil sonuçlarımı görmek istiyorum.</p>
+                            <p>4. Devlet hastanesinden göz muayenesi randevusu almak istiyorum.</p>
+                            <p>5. Bilişim dersi için eğitici video ve animasyonları izlemek istiyorum.</p>
+                            <p>6. Otomobilimin motorlu taşıtlar vergisini (MTV) ödemek istiyorum.</p>
+                            <p>7. Gece yarısı bankaya gitmeden para transferi yapmak istiyorum.</p>
+                        </div>
+                        <div class="p-3 bg-slate-850 rounded-xl border border-slate-700 space-y-1">
+                            <p class="font-bold text-emerald-300 mb-1">Kullanılacak Dijital Sistem:</p>
+                            <p>( ... ) e-Devlet Kapısı (turkiye.gov.tr)</p>
+                            <p>( ... ) e-Okul Veli Bilgilendirme Sistemi</p>
+                            <p>( ... ) e-Nabız Kişisel Sağlık Sistemi</p>
+                            <p>( ... ) MHRS (Merkezi Hekim Randevu Sistemi)</p>
+                            <p>( ... ) EBA Portalı (Eğitim Bilişim Ağı)</p>
+                            <p>( ... ) e-Vergi (İnteraktif Vergi Dairesi)</p>
+                            <p>( ... ) e-Bankacılık (Mobil Bankacılık)</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- BÖLÜM F: 1-2-3 BÜYÜK DEĞERLENDİRME TESTİ (6 SORU) -->
+                <div class="space-y-4 pt-4 border-t border-slate-800">
+                    <h3 class="text-sm font-black text-pink-300 uppercase">
+                        Bölüm F) 1, 2 ve 3. Konular Çoktan Seçmeli Değerlendirme Testi:
+                    </h3>
+                    <div class="space-y-3 text-xs text-slate-200">
+                        <div class="p-3 bg-slate-850 rounded-xl border border-slate-700 space-y-1.5">
+                            <p class="font-bold text-white">1. “Bilgi” ve “İletişim” kelimelerinin bir araya gelmesiyle oluşan temel kavram hangisidir?</p>
+                            <p>A) Algoritma &nbsp;&nbsp;&nbsp;&nbsp; B) Bilişim &nbsp;&nbsp;&nbsp;&nbsp; C) Donanım &nbsp;&nbsp;&nbsp;&nbsp; D) Yazılım</p>
+                        </div>
+                        <div class="p-3 bg-slate-850 rounded-xl border border-slate-700 space-y-1.5">
+                            <p class="font-bold text-white">2. Bilgisayar başında çalışırken ekrana olan mesafemiz yaklaşık ne kadar olmalıdır?</p>
+                            <p>A) 10-15 cm çok yakın &nbsp;&nbsp;&nbsp;&nbsp; B) 50-70 cm (bir kol boyu) &nbsp;&nbsp;&nbsp;&nbsp; C) 2 metre uzakta &nbsp;&nbsp;&nbsp;&nbsp; D) Fark etmez</p>
+                        </div>
+                        <div class="p-3 bg-slate-850 rounded-xl border border-slate-700 space-y-1.5">
+                            <p class="font-bold text-white">3. İnternette isteğimizle paylaştığımız fotoğraflar, videolar ve yorumlar hangi ayak izidir?</p>
+                            <p>A) Pasif Dijital Ayak İzi &nbsp;&nbsp;&nbsp;&nbsp; B) Geçici Ayak İzi &nbsp;&nbsp;&nbsp;&nbsp; C) Aktif Dijital Ayak İzi &nbsp;&nbsp;&nbsp;&nbsp; D) Gizli Ayak İzi</p>
+                        </div>
+                        <div class="p-3 bg-slate-850 rounded-xl border border-slate-700 space-y-1.5">
+                            <p class="font-bold text-white">4. Tüm kamu kurumlarına ait yüzlerce resmi hizmete tek bir şifreyle 7/24 ulaştığımız kapı hangisidir?</p>
+                            <p>A) e-Devlet Kapısı &nbsp;&nbsp;&nbsp;&nbsp; B) Sosyal Medya &nbsp;&nbsp;&nbsp;&nbsp; C) Arama Motoru &nbsp;&nbsp;&nbsp;&nbsp; D) Video Kanalı</p>
+                        </div>
+                        <div class="p-3 bg-slate-850 rounded-xl border border-slate-700 space-y-1.5">
+                            <p class="font-bold text-white">5. Aşağıdakilerden hangisi GÜÇLÜ bir şifre örneğidir?</p>
+                            <p>A) 12345678 &nbsp;&nbsp;&nbsp;&nbsp; B) ahmet2014 &nbsp;&nbsp;&nbsp;&nbsp; C) B1l!s!m#2026 &nbsp;&nbsp;&nbsp;&nbsp; D) sifrem123</p>
+                        </div>
+                        <div class="p-3 bg-slate-850 rounded-xl border border-slate-700 space-y-1.5">
+                            <p class="font-bold text-white">6. Sanal ortamda birisi sizi rahatsız ettiğinde yapılması gereken İLK doğru davranış nedir?</p>
+                            <p>A) Ona küfürle karşılık vermek &nbsp;&nbsp;&nbsp;&nbsp; B) Şifremizi ona göndermek &nbsp;&nbsp;&nbsp;&nbsp; C) Engellemek ve güvenilir bir yetişkine bildirmek &nbsp;&nbsp;&nbsp;&nbsp; D) Hiç kimseye söylememek</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        `,
+
+        // ==========================================
+        // 🔑 2. KAĞIT CEVAP ANAHTARI
+        // ==========================================
+        kagit2_cevapHtml: `
+        <div class="printable-doc bg-slate-900 text-white rounded-3xl p-6 sm:p-10 border-4 border-emerald-500/50 shadow-2xl space-y-8">
+            <div class="worksheet-page space-y-6">
+                <div class="border-b-2 border-emerald-500/40 pb-4 flex items-center justify-between flex-wrap gap-2">
+                    <div>
+                        <span class="px-3 py-1 bg-purple-500/30 text-purple-300 font-black rounded-lg text-xs tracking-wider uppercase">
+                            Resmî Çözüm Anahtarı
+                        </span>
+                        <h1 class="text-xl sm:text-2xl font-black text-white mt-1">
+                            2. KAĞIT RESMÎ ÇÖZÜM ANAHTARI
+                        </h1>
+                    </div>
+                    <span class="px-3 py-1 bg-emerald-400/20 text-emerald-300 border border-emerald-400/40 rounded-xl text-xs font-black">
+                        2. Kağıt Çözümleri
+                    </span>
+                </div>
+
+                <!-- Bölüm D Çözümleri -->
+                <div class="p-4 bg-slate-850 rounded-2xl border border-slate-700 space-y-2">
+                    <h3 class="text-sm font-black text-cyan-300 uppercase">Bölüm D) Dijital Ayak İzi Çözümleri:</h3>
+                    <div class="space-y-1.5 text-xs text-slate-200">
+                        <p>1. Sosyal medyaya resim yüklemek ➔ <strong class="text-blue-300">Aktif Dijital Ayak İzi</strong> (İsteğimizle paylaşıldı)</p>
+                        <p>2. Ziyaret edilen sitenin çerez bırakması ➔ <strong class="text-cyan-300">Pasif Dijital Ayak İzi</strong> (Arka planda kaydedildi)</p>
+                        <p>3. Videonun altına yorum yazmak ➔ <strong class="text-blue-300">Aktif Dijital Ayak İzi</strong> (İsteğimizle paylaşıldı)</p>
+                        <p>4. Haritanın arka planda konumu kaydetmesi ➔ <strong class="text-cyan-300">Pasif Dijital Ayak İzi</strong> (Otomatik toplandı)</p>
+                        <p>5. Arama motorundaki arama kayıtları ➔ <strong class="text-cyan-300">Pasif Dijital Ayak İzi</strong> (Geçmişe kaydedildi)</p>
+                        <p>6. E-posta ile ödev göndermek ➔ <strong class="text-blue-300">Aktif Dijital Ayak İzi</strong> (İsteğimizle gönderildi)</p>
+                    </div>
+                </div>
+
+                <!-- Bölüm E Çözümleri -->
+                <div class="p-4 bg-slate-850 rounded-2xl border border-slate-700 space-y-2">
+                    <h3 class="text-sm font-black text-yellow-300 uppercase">Bölüm E) e-Hizmetler Postanesi Çözümleri:</h3>
+                    <div class="space-y-1 text-xs text-slate-200">
+                        <p>1. Karne ve sınav notlarına bakmak ➔ <strong class="text-blue-400">e-Okul</strong></p>
+                        <p>2. İkametgah ve resmi tapu kaydı çıkarmak ➔ <strong class="text-red-400">e-Devlet</strong></p>
+                        <p>3. Aşı kartı ve tahlil sonuçlarını görmek ➔ <strong class="text-emerald-400">e-Nabız</strong></p>
+                        <p>4. Hastaneden muayene randevusu almak ➔ <strong class="text-teal-400">MHRS</strong></p>
+                        <p>5. Eğitici video ve animasyonları izlemek ➔ <strong class="text-purple-400">EBA</strong></p>
+                        <p>6. Motorlu taşıtlar vergisini (MTV) ödemek ➔ <strong class="text-amber-400">e-Vergi</strong></p>
+                        <p>7. Gece yarısı para transferi yapmak ➔ <strong class="text-cyan-400">e-Bankacılık</strong></p>
+                    </div>
+                </div>
+
+                <!-- Bölüm F Çözümleri -->
+                <div class="p-4 bg-slate-850 rounded-2xl border border-slate-700 space-y-2">
+                    <h3 class="text-sm font-black text-pink-300 uppercase">Bölüm F) Çoktan Seçmeli Test Çözümleri:</h3>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs text-slate-200">
+                        <p>1. Doğru Cevap: <strong class="text-yellow-300">B (Bilişim)</strong></p>
+                        <p>2. Doğru Cevap: <strong class="text-yellow-300">B (50-70 cm - bir kol boyu)</strong></p>
+                        <p>3. Doğru Cevap: <strong class="text-yellow-300">C (Aktif Dijital Ayak İzi)</strong></p>
+                        <p>4. Doğru Cevap: <strong class="text-yellow-300">A (e-Devlet Kapısı)</strong></p>
+                        <p>5. Doğru Cevap: <strong class="text-yellow-300">C (B1l!s!m#2026 - harf, rakam ve sembol)</strong></p>
+                        <p>6. Doğru Cevap: <strong class="text-yellow-300">C (Engellemek ve güvenilir yetişkine bildirmek)</strong></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        `,
+
+        // ==========================================
+        // 📖 KONU ÖZETİ (1, 2 VE 3. KONULAR GENEL TEKRAR REHBERİ)
+        // ==========================================
         konuHtml: `
         <div class="printable-doc bg-slate-900 text-white rounded-3xl p-6 sm:p-10 border-4 border-indigo-500/50 shadow-2xl space-y-8">
             <!-- SAYFA 1: 1. VE 2. KONULAR ÖZETİ -->
