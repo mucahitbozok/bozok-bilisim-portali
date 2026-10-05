@@ -230,9 +230,9 @@ class App {
 
         navBar.innerHTML = data.map(theme => {
             const isActive = (theme.id === currentInfo.themeId);
-            const startWeek = theme.weeks[0]?.week || 1;
-            const endWeek = theme.weeks[theme.weeks.length - 1]?.week || 1;
-            const weekRange = (startWeek === endWeek) ? `${startWeek}. Hf` : `${startWeek}-${endWeek}. Hf`;
+            const startLabel = theme.weeks[0]?.customLabel || `${theme.weeks[0]?.week || 1}. Kn`;
+            const endLabel = theme.weeks[theme.weeks.length - 1]?.customLabel || `${theme.weeks[theme.weeks.length - 1]?.week || 1}. Kn`;
+            const weekRange = (theme.weeks.length <= 1) ? startLabel : `${startLabel} - ${endLabel}`;
             const fullTitle = theme.title || theme.themeTitle || `Tema ${theme.id}`;
             const shortTitle = fullTitle.replace(/^\d+\.\s*Tema:\s*/i, '');
             const iconClass = theme.icon || theme.themeIcon || 'fa-solid fa-layer-group';

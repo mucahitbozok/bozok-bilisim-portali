@@ -16,7 +16,9 @@ const CURRICULUM_DATA = [
                 "code": "BTY.5.1.1. Günlük yaşamda kullanılan bilişim teknolojilerini sınıflandırabilme",
                 "outcome": "a) Bilişim teknolojilerine ilişkin temel kavramları belirler. b) Geçmişten günümüze bilişim teknolojilerindeki benzerlikleri ve farklılıkları ilişkilendirir. c) Bilişim teknolojilerini kullanım alanlarına göre gruplandırır.",
                 "isAvailable": true,
-                "badge": "Hazır"
+                "badge": "Hazır",
+                "customLabel": "1. Konu",
+                "customHeaderTitle": "1. Konu: Bilişim Teknolojilerinin Günlük Yaşamdaki Önemi"
             },
             {
                 "week": 2,
@@ -24,15 +26,19 @@ const CURRICULUM_DATA = [
                 "code": "BTY.5.1.2. Bilişim teknolojilerinin birey ve toplum üzerindeki etkilerini özetleyebilme",
                 "outcome": "a) Farklı bilişim teknolojilerinin olumlu ve olumsuz yönleri ile ilgili çözümleme yapar. b) Farklı bilişim teknolojilerinin kullanımına göre fiziksel güvenlik önlemleri ile ilgili sınıflandırma yapar. c) Bilişim teknolojilerini kullanmanın beden ve ruh sağlığı üzerindeki etkilerini kendi cümleleriyle ifade eder.",
                 "isAvailable": true,
-                "badge": "Hazır"
+                "badge": "Hazır",
+                "customLabel": "2. Konu",
+                "customHeaderTitle": "2. Konu: Bilişim Teknolojilerinin Etkileri ve Dijital Sağlık"
             },
             {
                 "week": 3,
                 "title": "Dijital Vatandaşlık Uygulamaları - 1",
-                "code": "BTY.5.1.3. Dijital vatandaşlık uygulamalarını sınıflandırabilme (1. Hafta)",
+                "code": "BTY.5.1.3. Dijital vatandaşlık uygulamalarını sınıflandırabilme (1. Bölüm)",
                 "outcome": "a) Dijital kimlik kavramını belirler. b) Dijital ayak izinin etkilerini bilişim teknolojilerinin kullanım alanları ile ilişkilendirir. c) Dijital vatandaşlık uygulamalarını kullanım alanlarına göre gruplandırır.",
                 "isAvailable": true,
-                "badge": "Hazır"
+                "badge": "Hazır",
+                "customLabel": "3. Konu",
+                "customHeaderTitle": "3. Konu: Dijital Vatandaşlık Uygulamaları - 1"
             },
             {
                 "week": 4,
@@ -46,11 +52,13 @@ const CURRICULUM_DATA = [
             },
             {
                 "week": 5,
-                "title": "Bilgisayar Sistemlerinin Kullanımı",
-                "code": "BTY.5.1.5. Bilgisayar sistemlerini çözümleyebilme",
-                "outcome": "a) Bilgisayar sistemlerinin temel bileşenlerini belirler. b) Bilgisayar sistemlerinin temel bileşenleri arasındaki ilişkileri belirler.",
-                "isAvailable": false,
-                "badge": "Yakında"
+                "title": "Yapay Zekâda Temel Kavram ve Özellikler",
+                "code": "BTY.5.1.4. Yapay zekâda temel kavram ve özellikleri çözümleyebilme",
+                "outcome": "a) Yapay zekâya ilişkin temel kavramları (veri, makine öğrenmesi, algoritma, karar verme) belirler. b) Doğal zekâ ile yapay zekâ arasındaki farkları karşılaştırır. c) Günlük yaşamda kullanılan yapay zekâ uygulamalarının temel özelliklerini ve kullanım alanlarını sınıflandırır.",
+                "isAvailable": true,
+                "badge": "Hazır",
+                "customLabel": "4. Konu",
+                "customHeaderTitle": "4. Konu: Yapay Zekâda Temel Kavram ve Özellikler"
             },
             {
                 "week": 6,
@@ -58,7 +66,9 @@ const CURRICULUM_DATA = [
                 "code": "BTY.5.1.6. Dosya ve klasör yönetimi ile ilgili temel işlemlerle çalışabilme",
                 "outcome": "a) Temel dosya ve klasör düzenleme işlemlerini belirler.\nb) Temel dosya ve klasör düzenleme işlemlerini kullanır.\nc) Dosya ve klasör sıkıştırma işlemlerini verimlilik kapsamında değerlendirir.",
                 "isAvailable": false,
-                "badge": "Yakında"
+                "badge": "Yakında",
+                "customLabel": "5. Konu",
+                "customHeaderTitle": "5. Konu: Dosya ve Klasör Yönetimi"
             }
         ],
         "themeTitle": "1. Tema: Bilişim Teknolojilerinin Hayatımızdaki Yeri",
