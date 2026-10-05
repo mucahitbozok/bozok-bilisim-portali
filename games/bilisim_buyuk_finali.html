@@ -1,0 +1,1601 @@
+<!--
+================================================================================
+PROMPT / OYUN BELİRTİMİ:
+5. sınıf Bilişim Teknolojileri dersi için sınıfça oynanabilecek,
+çok bölümlü ve puanlamalı bir final oyunu geliştir.
+
+OYUN ADI:
+BİLİŞİM BÜYÜK FİNALİ
+
+AMAÇ:
+1, 2 ve 3. haftalarda öğrenilen tüm bilgileri kullanarak
+öğrencilerin takım halinde problem çözmesini sağlamak.
+
+SINIF KULLANIMI:
+Öğretmen sınıfı 2, 3 veya 4 takıma ayırabilsin.
+
+Ekranda takım isimleri ve puanları görünsün.
+
+--------------------------------------------------
+
+AŞAMA 1 — HIZLI HATIRLA
+
+10 kısa soru.
+
+Konular:
+- Bilişim teknolojileri
+- Kullanım alanları
+- Faydaları
+- Teknoloji ve sağlık
+- Dijital vatandaşlık
+- Dijital kimlik
+- Dijital ayak izi
+
+Her doğru:
++10 puan.
+
+--------------------------------------------------
+
+AŞAMA 2 — GÖRSELİ YAKALA
+
+Ekranda bir görsel göster.
+
+Takım görselin hangi konuyla ilgili olduğunu bulsun.
+
+Örneğin:
+Bilgisayar + yanlış oturuş
+→ Dijital sağlık
+
+Ayak izi + internet
+→ Dijital ayak izi
+
+Kilit + kullanıcı profili
+→ Güvenli dijital davranış
+
+--------------------------------------------------
+
+AŞAMA 3 — HATAYI BUL
+
+Bir dijital davranış senaryosu göster.
+
+Takım:
+1. Hatayı bulsun.
+2. Neden yanlış olduğunu açıklasın.
+3. Doğru davranışı söylesin.
+
+--------------------------------------------------
+
+AŞAMA 4 — KARAR ANI
+
+Senaryolar göster:
+
+“Tanımadığım bir bağlantı geldi.”
+“Arkadaşım şifremi istiyor.”
+“Başkasının fotoğrafını paylaşmak istiyorum.”
+“Bilgisayar başında boynum ağrıyor.”
+
+Takım doğru kararı versin ve nedenini açıklasın.
+
+--------------------------------------------------
+
+AŞAMA 5 — BÜYÜK FİNAL
+
+Her takıma bir “Büyük Soru” ver.
+
+Örnek:
+
+“Bilinçli bir dijital vatandaş olmak neden önemlidir?”
+
+Takım kendi cevabını oluştursun.
+
+Öğretmen cevabı değerlendirsin.
+
++20 puan.
+
+--------------------------------------------------
+
+FİNAL PUAN TABLOSU:
+
+Takım 1
+Takım 2
+Takım 3
+Takım 4
+
+Puanlar oyun boyunca ekranda güncellensin.
+
+SON EKRAN:
+
+“BİLİŞİM BÜYÜK FİNALİ TAMAMLANDI!”
+
+“1, 2 ve 3. haftada öğrendiklerini başarıyla kullandın.”
+
+Takımları yalnızca puanlarıyla göster.
+“En iyi / en kötü” gibi ifadeler kullanma.
+
+TASARIM:
+- TV yarışması + macera oyunu havası
+- Büyük puan göstergeleri
+- Büyük butonlar
+- Büyük yazılar
+- Akıllı tahta uyumlu
+- Türkçe
+- 5. sınıf seviyesinde
+- Öğretmen kontrolünde ilerleyebilecek yapı
+
+Öğretmen Bozok markasını ekle.
+================================================================================
+-->
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Bilişim Büyük Finali | Öğretmen Bozok</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        arena: {
+                            gold: '#fbbf24',
+                            blue: '#3b82f6',
+                            rose: '#f43f5e',
+                            emerald: '#10b981',
+                            purple: '#a855f7'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Outfit', 'Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- FontAwesome 6 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- Google Fonts: Outfit & Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Outfit', sans-serif;
+            user-select: none;
+            -webkit-user-select: none;
+            touch-action: manipulation;
+        }
+        .arena-glow {
+            text-shadow: 0 0 25px rgba(251, 191, 36, 0.6);
+        }
+        .active-team-glow {
+            box-shadow: 0 0 25px rgba(245, 158, 11, 0.7);
+        }
+        @keyframes pulse-live {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.85; transform: scale(1.02); }
+        }
+        .animate-live {
+            animation: pulse-live 2s infinite ease-in-out;
+        }
+    </style>
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col justify-between overflow-x-hidden">
+
+    <!-- ÜST YARIŞMA ÇUBUĞU (TV ARENA BAŞLIĞI & CANLI TAKIM SKORLARI) -->
+    <header class="w-full bg-slate-900/95 backdrop-blur-md border-b-2 border-amber-500/40 px-3 sm:px-6 py-2.5 sticky top-0 z-40 shadow-2xl">
+        <div class="max-w-7xl mx-auto flex flex-col lg:flex-row items-center justify-between gap-3">
+            
+            <!-- Logo ve Başlık -->
+            <div class="flex items-center gap-3 w-full lg:w-auto justify-between lg:justify-start">
+                <div class="flex items-center gap-2.5">
+                    <div class="w-11 h-11 rounded-2xl bg-gradient-to-tr from-amber-400 via-orange-500 to-rose-600 flex items-center justify-center text-slate-950 text-2xl font-black shadow-lg shadow-amber-500/30">
+                        <i class="fa-solid fa-trophy"></i>
+                    </div>
+                    <div>
+                        <div class="flex items-center gap-2">
+                            <span class="px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 font-extrabold text-[10px] uppercase tracking-wider border border-amber-500/30">
+                                1, 2 VE 3. HAFTA BÜYÜK FİNALİ
+                            </span>
+                            <span class="px-2 py-0.5 rounded bg-white/10 text-slate-300 font-bold text-[10px]">
+                                Öğretmen Bozok
+                            </span>
+                        </div>
+                        <h1 class="text-xl sm:text-2xl font-black tracking-tight text-white flex items-center gap-2">
+                            BİLİŞİM BÜYÜK FİNALİ
+                        </h1>
+                    </div>
+                </div>
+
+                <!-- Çıkış Butonu (Mobil) -->
+                <button onclick="window.parent && window.parent.app ? window.parent.app.closeStandaloneModal() : window.close()" 
+                        class="lg:hidden px-3 py-1.5 rounded-xl bg-rose-500/20 text-rose-300 border border-rose-500/30 text-xs font-bold">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <!-- CANLI TAKIM SKOR TABLOLARI (HER AN GÜNCEL) -->
+            <div id="liveTeamScoreboard" class="flex items-center gap-2 sm:gap-3 w-full lg:w-auto overflow-x-auto pb-1 lg:pb-0 justify-center">
+                <!-- JavaScript ile dinamik takımlar oluşturulur -->
+            </div>
+
+            <!-- Sağ: Kontroller ve Masaüstü Çıkış -->
+            <div class="hidden lg:flex items-center gap-2">
+                <button onclick="openScoreAdjustModal()" 
+                        class="px-3 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-amber-300 border border-amber-500/30 text-xs font-black flex items-center gap-1.5 transition-all"
+                        title="Öğretmen Manuel Puan Düzenleme">
+                    <i class="fa-solid fa-sliders"></i>
+                    <span>Öğretmen Paneli</span>
+                </button>
+                <button onclick="window.parent && window.parent.app ? window.parent.app.closeStandaloneModal() : window.close()" 
+                        class="px-3.5 py-2 rounded-xl bg-rose-500/20 hover:bg-rose-500/40 text-rose-300 hover:text-white border border-rose-500/30 font-bold text-xs flex items-center gap-1.5 transition-all">
+                    <i class="fa-solid fa-xmark"></i>
+                    <span>Kapat</span>
+                </button>
+            </div>
+
+        </div>
+    </header>
+
+    <!-- 5 AŞAMA GEÇİŞ ÇUBUĞU -->
+    <div class="bg-slate-900/80 border-b border-slate-800 px-3 py-2">
+        <div class="max-w-5xl mx-auto flex items-center justify-between gap-1 sm:gap-2 overflow-x-auto no-scrollbar">
+            <button onclick="jumpToStage(1)" id="stageNav-1" class="stage-nav-btn flex-1 py-1.5 px-2 rounded-xl text-xs font-black transition-all flex items-center justify-center gap-1.5 bg-amber-500 text-slate-950 shadow-md">
+                <span>1</span>
+                <span class="hidden sm:inline">Hızlı Hatırla</span>
+            </button>
+            <button onclick="jumpToStage(2)" id="stageNav-2" class="stage-nav-btn flex-1 py-1.5 px-2 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-1.5 bg-slate-800 text-slate-400 hover:text-white">
+                <span>2</span>
+                <span class="hidden sm:inline">Görseli Yakala</span>
+            </button>
+            <button onclick="jumpToStage(3)" id="stageNav-3" class="stage-nav-btn flex-1 py-1.5 px-2 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-1.5 bg-slate-800 text-slate-400 hover:text-white">
+                <span>3</span>
+                <span class="hidden sm:inline">Hatayı Bul</span>
+            </button>
+            <button onclick="jumpToStage(4)" id="stageNav-4" class="stage-nav-btn flex-1 py-1.5 px-2 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-1.5 bg-slate-800 text-slate-400 hover:text-white">
+                <span>4</span>
+                <span class="hidden sm:inline">Karar Anı</span>
+            </button>
+            <button onclick="jumpToStage(5)" id="stageNav-5" class="stage-nav-btn flex-1 py-1.5 px-2 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-1.5 bg-slate-800 text-slate-400 hover:text-white">
+                <span>5</span>
+                <span class="hidden sm:inline">Büyük Final</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- ANA ARENA İÇERİK ALANI -->
+    <main class="max-w-6xl mx-auto w-full px-4 py-5 flex-1 flex flex-col justify-center">
+
+        <!-- 1. GİRİŞ VE TAKIM KURULUM EKRANI -->
+        <div id="setupScreen" class="bg-slate-900/90 border-2 border-amber-500/40 rounded-3xl p-6 sm:p-10 shadow-2xl backdrop-blur-md text-center space-y-6">
+            <div class="inline-flex p-4 bg-amber-500/20 text-amber-400 rounded-3xl text-5xl mb-2 shadow-inner border border-amber-500/30">
+                <i class="fa-solid fa-users-viewfinder"></i>
+            </div>
+
+            <div class="space-y-2">
+                <span class="px-3.5 py-1 bg-amber-400/20 text-amber-300 text-xs font-black tracking-widest rounded-full uppercase border border-amber-400/30">
+                    Sınıf İçi Takım Turnuvası
+                </span>
+                <h2 class="text-3xl sm:text-5xl font-black text-white arena-glow">BİLİŞİM BÜYÜK FİNALİ</h2>
+                <p class="text-slate-300 max-w-2xl mx-auto text-sm sm:text-base leading-relaxed">
+                    1, 2 ve 3. haftada öğrendiğimiz tüm bilişim konularını kullanarak takımlar halinde yarışıyoruz! 
+                    Öğretmenimiz sınıfı takımlara ayırsın, büyük final heyecanı başlasın!
+                </p>
+            </div>
+
+            <!-- Takım Sayısı Seçimi -->
+            <div class="space-y-3 max-w-md mx-auto">
+                <div class="text-xs font-black text-amber-400 uppercase tracking-wider">
+                    Sınıf Kaç Takıma Ayrılsın?
+                </div>
+                <div class="grid grid-cols-3 gap-3">
+                    <button onclick="setTeamCount(2)" id="btnTeam2" class="py-3 px-4 rounded-2xl border-2 border-indigo-500/50 bg-indigo-950/40 hover:bg-indigo-600 font-black text-lg transition-all">
+                        2 Takım
+                    </button>
+                    <button onclick="setTeamCount(3)" id="btnTeam3" class="py-3 px-4 rounded-2xl border-2 border-indigo-500/50 bg-indigo-950/40 hover:bg-indigo-600 font-black text-lg transition-all">
+                        3 Takım
+                    </button>
+                    <button onclick="setTeamCount(4)" id="btnTeam4" class="py-3 px-4 rounded-2xl border-2 border-amber-400 bg-amber-500 text-slate-950 font-black text-lg shadow-lg transition-all">
+                        4 Takım
+                    </button>
+                </div>
+            </div>
+
+            <!-- Takım İsimleri Önizlemesi -->
+            <div id="teamNameInputsContainer" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 max-w-4xl mx-auto text-left">
+                <!-- JS Dinamik Oluşturacak -->
+            </div>
+
+            <!-- Başlama Düğmesi -->
+            <div class="pt-4 flex justify-center">
+                <button onclick="startTournament()" class="px-8 py-4 rounded-2xl bg-gradient-to-r from-amber-500 via-orange-500 to-rose-600 hover:from-amber-400 hover:to-rose-500 text-slate-950 font-black text-xl shadow-2xl hover:scale-105 active:scale-95 transition-all flex items-center gap-3">
+                    <span>TURNUVAYI BAŞLAT!</span>
+                    <i class="fa-solid fa-play text-2xl"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- 2. ARENA AKTİF AŞAMA ALANI -->
+        <div id="arenaScreen" class="hidden space-y-4">
+            
+            <!-- Aşama Başlık Bannerı ve Aktif Takım Bildirimi -->
+            <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-4 flex flex-col sm:flex-row items-center justify-between gap-3 shadow-xl">
+                <div class="flex items-center gap-3 text-center sm:text-left">
+                    <span id="stageBadge" class="px-3 py-1 rounded-xl bg-amber-500/20 text-amber-300 font-black text-xs uppercase border border-amber-500/30">
+                        AŞAMA 1
+                    </span>
+                    <div>
+                        <h3 id="stageTitle" class="text-lg sm:text-xl font-black text-white">
+                            Hızlı Hatırla (10 Soru)
+                        </h3>
+                        <p id="stageSubtitle" class="text-xs text-slate-400">
+                            Soruyu doğru bilen takım +10 puan kazanır.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Sıradaki / Cevaplayan Takımı Seçme Kutusu -->
+                <div class="flex items-center gap-2 bg-slate-950/80 px-3 py-1.5 rounded-xl border border-slate-700">
+                    <span class="text-[11px] font-bold text-slate-400 uppercase">Cevaplayan Takım:</span>
+                    <select id="activeTeamSelector" onchange="setActiveTeam(parseInt(this.value))" class="bg-slate-800 text-amber-300 font-black text-xs px-2.5 py-1 rounded-lg border border-amber-500/30 outline-none">
+                        <!-- JS Dinamik Dolduracak -->
+                    </select>
+                </div>
+            </div>
+
+            <!-- AŞAMA 1: HIZLI HATIRLA ALANI -->
+            <div id="stage1Area" class="hidden space-y-4">
+                <div class="bg-slate-900/90 border-2 border-indigo-500/40 rounded-3xl p-5 sm:p-7 shadow-2xl space-y-5">
+                    <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+                        <div class="flex items-center gap-2">
+                            <span class="w-8 h-8 rounded-lg bg-indigo-500/20 text-indigo-400 flex items-center justify-center font-black text-sm">
+                                <i class="fa-solid fa-bolt"></i>
+                            </span>
+                            <span id="s1QuestionCounter" class="text-sm font-black text-indigo-300 uppercase tracking-widest">
+                                Soru 1 / 10
+                            </span>
+                        </div>
+                        <span id="s1TopicBadge" class="text-xs px-3 py-1 rounded-full bg-slate-800 text-slate-300 font-bold">
+                            Bilişim Teknolojileri
+                        </span>
+                    </div>
+
+                    <h4 id="s1QuestionText" class="text-xl sm:text-2xl font-black text-white leading-snug">
+                        Bilgi ve iletişimin dijital ortamda üretilmesini, saklanmasını ve aktarılmasını sağlayan araçların tümüne ne ad verilir?
+                    </h4>
+
+                    <!-- Seçenekler -->
+                    <div id="s1OptionsContainer" class="grid grid-cols-1 md:grid-cols-2 gap-3.5 pt-2">
+                        <!-- Dinamik Yüklenecek -->
+                    </div>
+
+                    <!-- Geri Bildirim ve Puan Verme -->
+                    <div id="s1FeedbackBox" class="hidden p-4 rounded-2xl border-2 space-y-2">
+                        <!-- JS Dolduracak -->
+                    </div>
+
+                    <div class="pt-2 flex justify-between items-center">
+                        <button onclick="prevS1Question()" id="btnPrevS1" class="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-bold flex items-center gap-1.5">
+                            <i class="fa-solid fa-arrow-left"></i> Önceki Soru
+                        </button>
+                        <button onclick="nextS1Question()" id="btnNextS1" class="px-6 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-black text-sm shadow-lg flex items-center gap-2">
+                            <span>Sonraki Soru</span> <i class="fa-solid fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- AŞAMA 2: GÖRSELİ YAKALA ALANI -->
+            <div id="stage2Area" class="hidden space-y-4">
+                <div class="bg-slate-900/90 border-2 border-emerald-500/40 rounded-3xl p-5 sm:p-7 shadow-2xl space-y-5">
+                    <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+                        <span id="s2Counter" class="text-sm font-black text-emerald-400 uppercase tracking-widest">
+                            Görsel Senaryosu 1 / 4
+                        </span>
+                        <span class="text-xs px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-300 font-bold border border-emerald-500/30">
+                            +10 Puan
+                        </span>
+                    </div>
+
+                    <!-- Büyük Görsel Kartı -->
+                    <div class="bg-slate-950 p-6 rounded-2xl border border-slate-800 flex flex-col md:flex-row items-center gap-6 text-center md:text-left">
+                        <div id="s2VisualIconContainer" class="w-32 h-32 rounded-3xl bg-gradient-to-tr from-emerald-500 to-teal-700 flex items-center justify-center text-slate-950 text-6xl shadow-xl shrink-0">
+                            <i id="s2VisualIcon" class="fa-solid fa-chair"></i>
+                        </div>
+                        <div class="space-y-2">
+                            <span class="text-xs font-bold text-amber-400 uppercase tracking-wider">Ekrana Gelen Bilişim Simgesi</span>
+                            <h4 id="s2VisualTitle" class="text-2xl font-black text-white">
+                                Bilgisayar + Yanlış Oturuş + Boyun Ağrısı
+                            </h4>
+                            <p id="s2VisualDesc" class="text-sm text-slate-300">
+                                Bu görsel ve simge grubu 1, 2 veya 3. haftadaki hangi temel konu alanı ile doğrudan ilgilidir?
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Konu Seçenekleri -->
+                    <div id="s2OptionsContainer" class="grid grid-cols-1 md:grid-cols-2 gap-3.5">
+                        <!-- JS Dinamik Yükler -->
+                    </div>
+
+                    <!-- Geri Bildirim -->
+                    <div id="s2FeedbackBox" class="hidden p-4 rounded-2xl border-2 space-y-2">
+                        <!-- JS Doldurur -->
+                    </div>
+
+                    <div class="pt-2 flex justify-end">
+                        <button onclick="nextS2Question()" id="btnNextS2" class="px-6 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-black text-sm shadow-lg flex items-center gap-2">
+                            <span>Sonraki Görsele Geç</span> <i class="fa-solid fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- AŞAMA 3: HATAYI BUL ALANI -->
+            <div id="stage3Area" class="hidden space-y-4">
+                <div class="bg-slate-900/90 border-2 border-rose-500/40 rounded-3xl p-5 sm:p-7 shadow-2xl space-y-5">
+                    <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+                        <span id="s3Counter" class="text-sm font-black text-rose-400 uppercase tracking-widest">
+                            Davranış İncelemesi 1 / 3
+                        </span>
+                        <span class="text-xs px-3 py-1 rounded-full bg-rose-500/20 text-rose-300 font-bold border border-rose-500/30">
+                            3 Adımlı Analiz
+                        </span>
+                    </div>
+
+                    <!-- Senaryo Hikayesi -->
+                    <div class="bg-rose-950/40 border border-rose-500/40 p-5 rounded-2xl space-y-2">
+                        <div class="flex items-center gap-2 text-rose-400 text-xs font-black uppercase">
+                            <i class="fa-solid fa-triangle-exclamation"></i>
+                            İncelenecek Dijital Davranış Senaryosu
+                        </div>
+                        <h4 id="s3ScenarioTitle" class="text-xl sm:text-2xl font-black text-white">
+                            Ali Herkese Açık Grupta Ev Adresini ve Telefonunu Paylaştı
+                        </h4>
+                        <p id="s3ScenarioDesc" class="text-sm text-slate-300 leading-relaxed">
+                            Ali çok sevdiği bir online oyunun herkese açık sohbet odasında arkadaşlarını eve davet etmek için ev adresini, ev telefonunu ve okul saatlerini yazdı.
+                        </p>
+                    </div>
+
+                    <!-- 3 Adımlı Görev Kartları -->
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+                        <div class="p-4 rounded-xl bg-slate-800/80 border border-slate-700 space-y-1">
+                            <div class="text-xs font-black text-amber-400 uppercase flex items-center gap-1.5">
+                                <i class="fa-solid fa-1"></i> Hatayı Bul
+                            </div>
+                            <p id="s3Step1Text" class="text-xs text-slate-300">
+                                Kişisel ve hassas verileri tanımadığı kişilerin olduğu grupta paylaşmak.
+                            </p>
+                        </div>
+                        <div class="p-4 rounded-xl bg-slate-800/80 border border-slate-700 space-y-1">
+                            <div class="text-xs font-black text-rose-400 uppercase flex items-center gap-1.5">
+                                <i class="fa-solid fa-2"></i> Neden Yanlış?
+                            </div>
+                            <p id="s3Step2Text" class="text-xs text-slate-300">
+                                Kötü niyetli kişilerin fiziksel ve dijital güvenliğini tehdit etmesine yol açabilir.
+                            </p>
+                        </div>
+                        <div class="p-4 rounded-xl bg-slate-800/80 border border-slate-700 space-y-1">
+                            <div class="text-xs font-black text-emerald-400 uppercase flex items-center gap-1.5">
+                                <i class="fa-solid fa-3"></i> Doğru Davranış
+                            </div>
+                            <p id="s3Step3Text" class="text-xs text-slate-300">
+                                Kişisel verileri gizli tutmak, tanımadığı ortamlarda asla özel bilgi paylaşmamak.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Öğretmen Değerlendirme Butonları -->
+                    <div class="pt-2 flex flex-wrap items-center justify-between gap-3 border-t border-slate-800">
+                        <div class="flex items-center gap-2">
+                            <span class="text-xs font-bold text-slate-400">Takımın Açıklaması:</span>
+                            <button onclick="awardActiveTeam(10, 'Hatayı Doğru Açıkladı')" class="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-black text-xs shadow flex items-center gap-1.5">
+                                <i class="fa-solid fa-check"></i> +10 Puan Ver
+                            </button>
+                            <button onclick="awardActiveTeam(15, 'Mükemmel 3 Adımlı Çözüm')" class="px-4 py-2 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-black text-xs shadow flex items-center gap-1.5">
+                                <i class="fa-solid fa-star"></i> +15 Puan (Eksiksiz Çözüm)
+                            </button>
+                        </div>
+                        <button onclick="nextS3Question()" class="px-6 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-black text-xs shadow flex items-center gap-2">
+                            <span>Sonraki Senaryo</span> <i class="fa-solid fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- AŞAMA 4: KARAR ANI ALANI -->
+            <div id="stage4Area" class="hidden space-y-4">
+                <div class="bg-slate-900/90 border-2 border-purple-500/40 rounded-3xl p-5 sm:p-7 shadow-2xl space-y-5">
+                    <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+                        <span id="s4Counter" class="text-sm font-black text-purple-400 uppercase tracking-widest">
+                            Kritik Karar 1 / 4
+                        </span>
+                        <span class="text-xs px-3 py-1 rounded-full bg-purple-500/20 text-purple-300 font-bold border border-purple-500/30">
+                            Takım Tartışması
+                        </span>
+                    </div>
+
+                    <!-- Durum Kartı -->
+                    <div class="bg-purple-950/40 border border-purple-500/40 p-5 rounded-2xl flex items-start gap-4">
+                        <div class="w-14 h-14 rounded-2xl bg-purple-500/20 text-purple-300 flex items-center justify-center text-3xl shrink-0 border border-purple-500/30">
+                            <i id="s4Icon" class="fa-solid fa-link"></i>
+                        </div>
+                        <div>
+                            <span class="text-xs font-bold text-amber-400 uppercase tracking-wider">Durum Senaryosu</span>
+                            <h4 id="s4ScenarioText" class="text-xl sm:text-2xl font-black text-white">
+                                “Tanımadığım bir bağlantı (link) geldi: 'Ücretsiz tablet kazandınız, hemen tıklayın!'”
+                            </h4>
+                        </div>
+                    </div>
+
+                    <!-- Karar Seçenekleri -->
+                    <div id="s4OptionsContainer" class="grid grid-cols-1 md:grid-cols-2 gap-3.5">
+                        <!-- JS Dinamik Dolduracak -->
+                    </div>
+
+                    <!-- Geri Bildirim -->
+                    <div id="s4FeedbackBox" class="hidden p-4 rounded-2xl border-2 space-y-2">
+                        <!-- JS Dolduracak -->
+                    </div>
+
+                    <div class="pt-2 flex justify-end">
+                        <button onclick="nextS4Question()" id="btnNextS4" class="px-6 py-2.5 rounded-xl bg-purple-600 hover:bg-purple-500 text-white font-black text-sm shadow-lg flex items-center gap-2">
+                            <span>Sonraki Karar Anı</span> <i class="fa-solid fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- AŞAMA 5: BÜYÜK FİNAL ALANI -->
+            <div id="stage5Area" class="hidden space-y-4">
+                <div class="bg-slate-900/90 border-2 border-amber-500/50 rounded-3xl p-5 sm:p-7 shadow-2xl space-y-5">
+                    <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+                        <div class="flex items-center gap-2">
+                            <span class="w-8 h-8 rounded-lg bg-amber-500/20 text-amber-400 flex items-center justify-center font-black text-sm">
+                                <i class="fa-solid fa-crown"></i>
+                            </span>
+                            <span class="text-sm font-black text-amber-400 uppercase tracking-widest">
+                                BÜYÜK FİNAL SORULARI (+20 PUAN)
+                            </span>
+                        </div>
+                        <span class="text-xs px-3 py-1 rounded-full bg-amber-500/20 text-amber-300 font-bold border border-amber-500/30">
+                            Öğretmen Değerlendirmesi
+                        </span>
+                    </div>
+
+                    <!-- Takım Seçimli Büyük Soru Kartı -->
+                    <div class="space-y-3">
+                        <div class="text-xs font-bold text-slate-400 uppercase tracking-wider">
+                            Hangi Takımın Büyük Sorusu Ekrana Gelsin?
+                        </div>
+                        <div id="bigQuestionTeamTabs" class="flex flex-wrap gap-2">
+                            <!-- JS Doldurur -->
+                        </div>
+                    </div>
+
+                    <div class="bg-amber-950/30 border-2 border-amber-500/40 p-6 rounded-2xl space-y-4">
+                        <div class="flex items-center gap-2 text-amber-400 text-xs font-black uppercase">
+                            <i class="fa-solid fa-sparkles"></i>
+                            <span id="bigQuestionTeamLabel">1. Takım İçin Büyük Soru</span>
+                        </div>
+                        <h4 id="bigQuestionText" class="text-2xl sm:text-3xl font-black text-white leading-relaxed">
+                            “Bilinçli bir dijital vatandaş olmak toplum ve geleceğimiz için neden çok önemlidir?”
+                        </h4>
+                        <div class="p-3 bg-slate-900/80 rounded-xl text-xs text-slate-300 border border-slate-700">
+                            💡 <strong>İpucu:</strong> Hak ve sorumluluklar, başkalarına saygı, güvenli internet ve dijital ayak izi kavramlarını içeren kapsamlı bir cevap veriniz.
+                        </div>
+                    </div>
+
+                    <!-- Öğretmen Puan Verme -->
+                    <div class="pt-2 flex flex-wrap items-center justify-between gap-3 border-t border-slate-800">
+                        <div class="flex items-center gap-2">
+                            <span class="text-xs font-bold text-slate-400">Öğretmen Kararı:</span>
+                            <button onclick="awardActiveTeam(20, 'Büyük Final Sorusunu Başarıyla Açıkladı')" class="px-5 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-black text-sm shadow-xl flex items-center gap-2">
+                                <i class="fa-solid fa-trophy"></i> +20 Puan Ver!
+                            </button>
+                            <button onclick="awardActiveTeam(10, 'Kısmi Doğru Cevap')" class="px-4 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold text-xs border border-slate-600">
+                                +10 Puan
+                            </button>
+                        </div>
+                        <button onclick="finishTournament()" class="px-6 py-2.5 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-400 hover:to-teal-500 text-white font-black text-sm shadow-xl flex items-center gap-2">
+                            <span>Turnuvayı Tamamla ve Sonuçları Gör</span>
+                            <i class="fa-solid fa-flag-checkered"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- 3. TURNUVA SONUÇ EKRANI (TAMAMLAMA) -->
+        <div id="finalScoreScreen" class="hidden space-y-6">
+            <div class="bg-slate-900/90 border-2 border-amber-500/50 rounded-3xl p-6 sm:p-10 shadow-2xl text-center space-y-6">
+                <!-- Şampiyonluk İkonu -->
+                <div class="w-24 h-24 mx-auto rounded-3xl bg-gradient-to-tr from-amber-400 via-orange-500 to-yellow-500 flex items-center justify-center text-slate-950 text-5xl shadow-2xl shadow-amber-500/40 animate-bounce">
+                    <i class="fa-solid fa-medal"></i>
+                </div>
+
+                <div class="space-y-2">
+                    <span class="px-4 py-1 rounded-full bg-amber-500/20 text-amber-300 font-extrabold text-xs tracking-wider uppercase border border-amber-500/30">
+                        BİLİŞİM BÜYÜK FİNALİ TAMAMLANDI!
+                    </span>
+                    <h2 class="text-3xl sm:text-4xl font-black text-white arena-glow">
+                        Tüm Takımlara Kocaman Tebrikler!
+                    </h2>
+                    <p class="text-slate-300 max-w-xl mx-auto text-sm sm:text-base leading-relaxed">
+                        1, 2 ve 3. haftada öğrendiklerini başarıyla kullandın. Bilişim teknolojileri, sağlık ve dijital vatandaşlıkta harika bir takım çalışması sergilediniz!
+                    </p>
+                </div>
+
+                <!-- Takım Puan Tablosu (Prompt kuralı: Yalnızca puanlarıyla göster, "En iyi / en kötü" gibi ifadeler kullanma) -->
+                <div class="max-w-2xl mx-auto space-y-3 pt-2">
+                    <div class="text-xs font-black text-slate-400 uppercase tracking-widest text-left">
+                        Final Puan Tablosu
+                    </div>
+                    <div id="finalRankList" class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        <!-- JS Dinamik Takımları ve puanlarını yerleştirecek -->
+                    </div>
+                </div>
+
+                <!-- Butonlar -->
+                <div class="pt-4 flex flex-wrap justify-center gap-3">
+                    <button onclick="resetTournament()" class="px-6 py-3 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-black text-sm shadow-xl flex items-center gap-2 transition-all">
+                        <i class="fa-solid fa-rotate-left"></i>
+                        <span>Yeni Turnuva Başlat</span>
+                    </button>
+                    <button onclick="window.parent && window.parent.app ? window.parent.app.closeStandaloneModal() : window.close()" class="px-6 py-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-bold text-sm border border-slate-600 transition-all flex items-center gap-2">
+                        <i class="fa-solid fa-xmark"></i>
+                        <span>Pencereyi Kapat</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- ÖĞRETMEN MANUEL PUAN DÜZENLEME MODALI -->
+    <div id="scoreAdjustModal" class="hidden fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+        <div class="bg-slate-900 border-2 border-indigo-500/50 rounded-3xl max-w-md w-full p-6 space-y-4 shadow-2xl">
+            <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+                <h4 class="text-lg font-black text-white flex items-center gap-2">
+                    <i class="fa-solid fa-sliders text-amber-400"></i>
+                    Öğretmen Puan Masası
+                </h4>
+                <button onclick="closeScoreAdjustModal()" class="text-slate-400 hover:text-white">
+                    <i class="fa-solid fa-xmark text-lg"></i>
+                </button>
+            </div>
+            <p class="text-xs text-slate-300">
+                Akıllı tahtada sınıf içi ek puan vermek veya düzeltme yapmak için takımların butonlarını kullanabilirsiniz.
+            </p>
+            <div id="adjustModalTeamList" class="space-y-2.5">
+                <!-- JS Dinamik Doldurur -->
+            </div>
+            <div class="pt-2 flex justify-end">
+                <button onclick="closeScoreAdjustModal()" class="px-5 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-black text-xs">
+                    Tamam
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ALT BİLGİ & MARKA -->
+    <footer class="w-full bg-slate-950 border-t border-slate-800/80 py-3 px-4 text-center">
+        <p class="text-xs text-slate-400 font-medium flex items-center justify-center gap-2">
+            <i class="fa-solid fa-graduation-cap text-amber-400"></i>
+            <span>5. Sınıf Bilişim Teknolojileri • <strong>Öğretmen Bozok</strong> • Bozok Bilişim Portalı</span>
+        </p>
+    </footer>
+
+    <!-- SES SENTEZLEYİCİ & TURNUVA MANTIĞI -->
+    <script>
+        const SoundFX = {
+            ctx: null,
+            init() {
+                if (!this.ctx) {
+                    const AudioContext = window.AudioContext || window.webkitAudioContext;
+                    if (AudioContext) this.ctx = new AudioContext();
+                }
+            },
+            play(type) {
+                try {
+                    this.init();
+                    if (!this.ctx) return;
+                    if (this.ctx.state === 'suspended') this.ctx.resume();
+
+                    const now = this.ctx.currentTime;
+                    const osc = this.ctx.createOscillator();
+                    const gain = this.ctx.createGain();
+                    osc.connect(gain);
+                    gain.connect(this.ctx.destination);
+
+                    if (type === 'point') {
+                        // Coşkulu puan sesi
+                        osc.type = 'triangle';
+                        osc.frequency.setValueAtTime(440, now);
+                        osc.frequency.setValueAtTime(880, now + 0.1);
+                        gain.gain.setValueAtTime(0.25, now);
+                        gain.gain.exponentialRampToValueAtTime(0.01, now + 0.35);
+                        osc.start(now);
+                        osc.stop(now + 0.35);
+                    } else if (type === 'wrong') {
+                        osc.type = 'sawtooth';
+                        osc.frequency.setValueAtTime(200, now);
+                        osc.frequency.linearRampToValueAtTime(130, now + 0.25);
+                        gain.gain.setValueAtTime(0.2, now);
+                        gain.gain.exponentialRampToValueAtTime(0.01, now + 0.3);
+                        osc.start(now);
+                        osc.stop(now + 0.3);
+                    } else if (type === 'fanfare') {
+                        [523.25, 659.25, 783.99, 1046.50].forEach((freq, i) => {
+                            const subOsc = this.ctx.createOscillator();
+                            const subGain = this.ctx.createGain();
+                            subOsc.connect(subGain);
+                            subGain.connect(this.ctx.destination);
+                            subOsc.type = 'triangle';
+                            subOsc.frequency.setValueAtTime(freq, now + i * 0.1);
+                            subGain.gain.setValueAtTime(0.2, now + i * 0.1);
+                            subGain.gain.exponentialRampToValueAtTime(0.001, now + i * 0.1 + 0.5);
+                            subOsc.start(now + i * 0.1);
+                            subOsc.stop(now + i * 0.1 + 0.5);
+                        });
+                    }
+                } catch (e) {
+                    console.warn("Ses sentezlenemedi:", e);
+                }
+            }
+        };
+
+        // ========================================================
+        // TURNUVA VERİLERİ (5 AŞAMA)
+        // ========================================================
+
+        // AŞAMA 1: Hızlı Hatırla (10 Soru)
+        const STAGE1_QUESTIONS = [
+            {
+                q: "Bilgi ve iletişimin dijital ortamda üretilmesini, saklanmasını ve aktarılmasını sağlayan araçların tümüne ne ad verilir?",
+                topic: "Bilişim Teknolojileri",
+                options: [
+                    { text: "Bilişim Teknolojileri", correct: true },
+                    { text: "El Yazması Matbaa", correct: false },
+                    { text: "Mekanik Fabrika", correct: false },
+                    { text: "Telgraf Kablosu", correct: false }
+                ]
+            },
+            {
+                q: "Hastanelerde sıra beklemeden randevu almayı sağlayan e-Devlet sağlık uygulaması hangisidir?",
+                topic: "Kullanım Alanları",
+                options: [
+                    { text: "MHRS (Merkezi Hekim Randevu Sistemi)", correct: true },
+                    { text: "EBA Portalı", correct: false },
+                    { text: "Google Haritalar", correct: false },
+                    { text: "e-Okul Veli Bilgilendirme", correct: false }
+                ]
+            },
+            {
+                q: "Bilişim teknolojilerinin en önemli faydalarından biri hangisidir?",
+                topic: "Faydaları",
+                options: [
+                    { text: "Bilgiye hızlı ve kolay erişim ile zamandan tasarruf sağlaması", correct: true },
+                    { text: "İnsanları sürekli hareketsiz bırakması", correct: false },
+                    { text: "Daha çok elektrik harcatması", correct: false },
+                    { text: "Yalnızca video oyunları oynatması", correct: false }
+                ]
+            },
+            {
+                q: "Bilgisayar başında göz sağlığını korumak için uygulanan '20-20-20 kuralı' nedir?",
+                topic: "Teknoloji ve Sağlık",
+                options: [
+                    { text: "Her 20 dakikada bir, 20 saniye boyunca 20 fit (6 metre) uzağa bakmak", correct: true },
+                    { text: "Günde 20 saat aralıksız oyun oynamak", correct: false },
+                    { text: "20 metre mesafeden monitöre bakmak", correct: false },
+                    { text: "20 kez ekranın ışığını açıp kapatmak", correct: false }
+                ]
+            },
+            {
+                q: "İnternet ve dijital ortamda haklarını, sorumluluklarını ve etik kuralları bilen kişiye ne ad verilir?",
+                topic: "Dijital Vatandaşlık",
+                options: [
+                    { text: "Bilinçli Dijital Vatandaş", correct: true },
+                    { text: "Siber Korsan (Hacker)", correct: false },
+                    { text: "Anonim Ziyaretçi", correct: false },
+                    { text: "Oyun Botu", correct: false }
+                ]
+            },
+            {
+                q: "İnternette kim olduğumuzu gösteren kullanıcı adı, profil fotoğrafı ve biyografi gibi unsurların bütününe ne denir?",
+                topic: "Dijital Kimlik",
+                options: [
+                    { text: "Dijital Kimlik", correct: true },
+                    { text: "Bilgisayar Donanımı", correct: false },
+                    { text: "Sabit Disk", correct: false },
+                    { text: "İnternet Modemi", correct: false }
+                ]
+            },
+            {
+                q: "İnternette bilerek paylaştığımız fotoğraflar, videolar ve yaptığımız yorumlar hangi ayak izidir?",
+                topic: "Dijital Ayak İzi",
+                options: [
+                    { text: "Aktif Dijital Ayak İzi", correct: true },
+                    { text: "Pasif Dijital Ayak İzi", correct: false },
+                    { text: "Toprak Ayak İzi", correct: false },
+                    { text: "Sanal Çöp İzi", correct: false }
+                ]
+            },
+            {
+                q: "Web sitelerinin arkada gizlice topladığı çerezler, IP adresi ve tıklama kayıtları hangi ayak izine girer?",
+                topic: "Dijital Ayak İzi",
+                options: [
+                    { text: "Pasif Dijital Ayak İzi", correct: true },
+                    { text: "Aktif Dijital Ayak İzi", correct: false },
+                    { text: "Mekanik İz", correct: false },
+                    { text: "Baskılı Belge", correct: false }
+                ]
+            },
+            {
+                q: "Aşağıdakilerden hangisi güçlü ve güvenli bir şifre kuralıdır?",
+                topic: "Güvenli Davranış",
+                options: [
+                    { text: "Büyük-küçük harf, rakam ve özel karakter içeren en az 8-12 karakterli karmaşık şifre", correct: true },
+                    { text: "Doğum yılı veya '123456' gibi kolay tahmin edilen şifreler", correct: false },
+                    { text: "Şifreyi okul panosuna ya da monitörün kenarına yapıştırmak", correct: false },
+                    { text: "Bütün hesaplarda aynı basit şifreyi kullanmak", correct: false }
+                ]
+            },
+            {
+                q: "Milli Eğitim Bakanlığı'nın öğrencilere ücretsiz sunduğu dijital eğitim platformu hangisidir?",
+                topic: "e-Hizmetler",
+                options: [
+                    { text: "EBA (Eğitim Bilişim Ağı)", correct: true },
+                    { text: "Ticari Alışveriş Sitesi", correct: false },
+                    { text: "Sosyal Medya Uygulaması", correct: false },
+                    { text: "Online Dizi Platformu", correct: false }
+                ]
+            }
+        ];
+
+        // AŞAMA 2: Görseli Yakala (4 Görsel Senaryosu)
+        const STAGE2_QUESTIONS = [
+            {
+                title: "Bilgisayar + Yanlış Oturuş + Sırt Eğriliği",
+                desc: "Kambur duruş, ekrana 10 cm yaklaşma ve boyun ağrısı çeken bir öğrenci simgesi.",
+                icon: "fa-solid fa-child-reaching",
+                bgGradient: "from-amber-500 to-rose-600",
+                correctTopic: "Dijital Sağlık & Ergonomi",
+                options: [
+                    { text: "Dijital Sağlık & Ergonomi", correct: true },
+                    { text: "Bilişimde Ağ Cihazları", correct: false },
+                    { text: "e-Devlet Hizmetleri", correct: false },
+                    { text: "Bankacılık Teknolojileri", correct: false }
+                ]
+            },
+            {
+                title: "Ayak İzi + Dünya / İnternet Ağı",
+                desc: "İnternet üzerinde tıklandıkça geride silinmeyen parmak ve ayak izleri simgesi.",
+                icon: "fa-solid fa-shoe-prints",
+                bgGradient: "from-purple-500 to-indigo-600",
+                correctTopic: "Dijital Ayak İzi",
+                options: [
+                    { text: "Dijital Ayak İzi", correct: true },
+                    { text: "Donanım Parçaları", correct: false },
+                    { text: "Yazıcıdan Çıktı Alma", correct: false },
+                    { text: "Ergonomik Klavye Tasarımı", correct: false }
+                ]
+            },
+            {
+                title: "Kilit + Kullanıcı Profili + Güvenlik Kalkanı",
+                desc: "Şifrelenmiş koruma kalkanı, iki adımlı doğrulama ve kullanıcı güvenliği simgesi.",
+                icon: "fa-solid fa-user-shield",
+                bgGradient: "from-emerald-500 to-teal-700",
+                correctTopic: "Güvenli Dijital Davranış",
+                options: [
+                    { text: "Güvenli Dijital Davranış", correct: true },
+                    { text: "Dijital Bağımlılık", correct: false },
+                    { text: "Göz Bozuklukları", correct: false },
+                    { text: "Sosyal Medya Beğenisi", correct: false }
+                ]
+            },
+            {
+                title: "TC Cumhurbaşkanlığı Kapısı + Dijital Belge",
+                desc: "Resmi devlet logosu, barkodlu öğrenci belgesi ve kamu hizmet portalı simgesi.",
+                icon: "fa-solid fa-building-columns",
+                bgGradient: "from-blue-600 to-indigo-800",
+                correctTopic: "e-Devlet Kamu Hizmetleri",
+                options: [
+                    { text: "e-Devlet Kamu Hizmetleri", correct: true },
+                    { text: "Çevrimiçi Oyun Mağazası", correct: false },
+                    { text: "Göz Sağlığı Testi", correct: false },
+                    { text: "Ekran Ergonomisi", correct: false }
+                ]
+            }
+        ];
+
+        // AŞAMA 3: Hatayı Bul (3 Senaryo)
+        const STAGE3_SCENARIOS = [
+            {
+                title: "Ali Herkese Açık Grupta Ev Adresini ve Telefonunu Paylaştı",
+                desc: "Ali çok sevdiği bir online oyunun herkese açık sohbet odasında arkadaşlarını eve davet etmek için ev adresini, ev telefonunu ve okul saatlerini yazdı.",
+                step1: "Kişisel ve hassas verileri tanımadığı kişilerin olduğu açık grupta paylaşmak.",
+                step2: "Kötü niyetli kişilerin fiziksel güvenliği tehdit etmesine ve dolandırıcılığa zemin hazırlar.",
+                step3: "Kişisel veriler asla umumi platformlarda paylaşılmaz; sadece veli/öğretmen kontrolünde gizli tutulur."
+            },
+            {
+                title: "Zeynep Okul Kütüphanesindeki Bilgisayarda Şifresini Kaydetti",
+                desc: "Zeynep ortak kullanılan kütüphane bilgisayarında e-posta hesabına girerken 'Beni Hatırla' butonuna bastı ve çıkış yapmadan masadan kalktı.",
+                step1: "Ortak bilgisayarda şifreyi tarayıcıya kaydetmek ve 'Çıkış Yap' demeden ayrılmak.",
+                step2: "Bir sonraki öğrenci veya yabancı kişi Zeynep'in tüm özel mesajlarına ve hesaplarına erişebilir.",
+                step3: "Ortak cihazlarda asla 'Beni Hatırla' denmez ve iş bitince mutlaka 'Oturumu Kapat' yapılır."
+            },
+            {
+                title: "Can Arkadaşına Şaka Yapmak İçin Sahte Profil Açtı",
+                desc: "Can sınıftaki arkadaşının fotoğrafını izinsiz alıp onun adıyla sahte bir sosyal medya hesabı açtı ve komik olduğunu düşündüğü yazılar paylaştı.",
+                step1: "Başkası adına izinsiz sahte kimlik açmak ve izinsiz fotoğraf paylaşmak.",
+                step2: "Kişilik haklarına saldırıdır, siber zorbalıktır ve kanunen suç teşkil eder.",
+                step3: "Başkalarının kimliğine saygı duymak, izinsiz hiçbir görsel veya profil üretmemek."
+            }
+        ];
+
+        // AŞAMA 4: Karar Anı (4 Kritik Karar)
+        const STAGE4_DECISIONS = [
+            {
+                title: "“Tanımadığım bir bağlantı (link) geldi: 'Ücretsiz tablet kazandınız, hemen tıklayın!'”",
+                icon: "fa-solid fa-link-slash",
+                options: [
+                    {
+                        text: "ASLA TIKLAMA! Bu bir oltalama (phishing) tuzağıdır; mesajı sil ve yetişkinlere bildir.",
+                        correct: true,
+                        rationale: "Harika karar! Bedava hediye vaat eden sahte bağlantılar virüs bulaştırmak veya şifre çalmak için kurulmuş tuzaklardır."
+                    },
+                    {
+                        text: "Hemen tıkla ve formu doldur, belki gerçekten hediye verirler.",
+                        correct: false,
+                        rationale: "Çok tehlikeli! Kimlik bilgileriniz ve telefonunuz siber korsanların eline geçebilir."
+                    }
+                ]
+            },
+            {
+                title: "“En yakın arkadaşım oyun şifremi istiyor: 'Sadece 10 dakika girip çıkacağım.'”",
+                icon: "fa-solid fa-key",
+                options: [
+                    {
+                        text: "VERME! Şifreler kişiye özeldir; en yakın arkadaşımız bile olsa şifre paylaşılmaz.",
+                        correct: true,
+                        rationale: "Doğru dijital güvenlik kararı! Şifre kişiye özeldir ve yalnızca ailemiz/velimiz ile paylaşılabilir."
+                    },
+                    {
+                        text: "Hemen ver, arkadaşlık şifreden daha önemlidir.",
+                        correct: false,
+                        rationale: "Yanlış! Arkadaşınız istemeden hesabınızı riske atabilir veya ceza almanıza yol açabilir."
+                    }
+                ]
+            },
+            {
+                title: "“Başkasının komik bir fotoğrafını kendi sosyal medyamda paylaşmak istiyorum.”",
+                icon: "fa-solid fa-camera",
+                options: [
+                    {
+                        text: "PAYLAŞMA! Fotoğraftaki kişiden açık izin almadan kimsenin görüntüsü paylaşılamaz.",
+                        correct: true,
+                        rationale: "Mükemmel etik bilinci! Özel hayatın gizliliği ve dijital nezaket gereği izinsiz görsel paylaşılamaz."
+                    },
+                    {
+                        text: "Hemen paylaş, çok beğeni toplarız.",
+                        correct: false,
+                        rationale: "Yanlış! Arkadaşınızı zor durumda bırakabilir ve siber zorbalığa neden olabilir."
+                    }
+                ]
+            },
+            {
+                title: "“Bilgisayar başında 2 saattir oyun oynuyorum ve boynum çok ağrıyor.”",
+                icon: "fa-solid fa-person-walking-arrow-right",
+                options: [
+                    {
+                        text: "BİLGİSAYARI KAPAT / MOLA VER! Esneme hareketleri yap, dik duruşa geç ve gözlerini dinlendir.",
+                        correct: true,
+                        rationale: "Sağlık her şeyden önce gelir! Dijital sağlık ve ergonomi için mola şarttır."
+                    },
+                    {
+                        text: "Ağrıyı unutana kadar oynamaya devam et, ekrana daha çok yaklaş.",
+                        correct: false,
+                        rationale: "Çok zararlı! Omurga eğriliğine ve kalıcı görme problemlerine yol açar."
+                    }
+                ]
+            }
+        ];
+
+        // AŞAMA 5: Büyük Final Soruları (+20 Puan)
+        const BIG_FINAL_QUESTIONS = [
+            {
+                teamIdx: 0,
+                teamLabel: "1. Takım İçin Büyük Soru",
+                q: "“Bilinçli bir dijital vatandaş olmak toplum ve geleceğimiz için neden çok önemlidir?”",
+                hint: "Hak ve sorumluluklar, başkalarına saygı, güvenli internet ve dijital ayak izi kavramlarını içeren kapsamlı bir cevap veriniz."
+            },
+            {
+                teamIdx: 1,
+                teamLabel: "2. Takım İçin Büyük Soru",
+                q: "“Gelecekte teknolojiyi hem üretken hem de sağlığımızı bozmadan nasıl dengeli kullanmalıyız?”",
+                hint: "Dijital bağımlılık, 20-20-20 kuralı, ergonomik çalışma alanı ve teknolojiyi sadece tüketen değil üreten birey olma ilkelerinden bahsediniz."
+            },
+            {
+                teamIdx: 2,
+                teamLabel: "3. Takım İçin Büyük Soru",
+                q: "“İnternette bıraktığımız dijital ayak izi ilerideki eğitim ve meslek hayatımızı nasıl etkileyebilir?”",
+                hint: "Aktif ve pasif dijital ayak izi, internette paylaşılanların kalıcılığı ve olumlu dijital itibar oluşturma konularına değininiz."
+            },
+            {
+                teamIdx: 3,
+                teamLabel: "4. Takım İçin Büyük Soru",
+                q: "“e-Devlet, e-Okul ve EBA gibi kamu bilişim sistemleri olmasaydı günlük hayatımızda neler aksardı?”",
+                hint: "Kullanım alanları, resmi evrak işlemleri, kağıt ve zaman tasarrufu ile hızlı kamu hizmetlerine erişimi açıklayınız."
+            }
+        ];
+
+        // ========================================================
+        // OYUN VE TAKIM DURUMU (STATE)
+        // ========================================================
+        let teamCount = 4;
+        let teams = [
+            { id: 1, name: "Siber Kaplanlar", score: 0, color: "blue", bg: "bg-blue-600", text: "text-blue-300", border: "border-blue-500" },
+            { id: 2, name: "Kod Yıldızları", score: 0, color: "rose", bg: "bg-rose-600", text: "text-rose-300", border: "border-rose-500" },
+            { id: 3, name: "Bilişim Kartalları", score: 0, color: "emerald", bg: "bg-emerald-600", text: "text-emerald-300", border: "border-emerald-500" },
+            { id: 4, name: "Dijital Roketler", score: 0, color: "amber", bg: "bg-amber-600", text: "text-amber-300", border: "border-amber-500" }
+        ];
+
+        let activeTeamId = 1;
+        let currentStage = 1;
+
+        // Aşama indeksleri
+        let s1Index = 0;
+        let s2Index = 0;
+        let s3Index = 0;
+        let s4Index = 0;
+        let s5SelectedTeam = 0;
+
+        window.addEventListener('DOMContentLoaded', () => {
+            renderTeamInputs();
+            renderLiveScoreboard();
+        });
+
+        // Takım Sayısını Ayarla (2, 3 veya 4)
+        function setTeamCount(count) {
+            teamCount = count;
+            [2, 3, 4].forEach(c => {
+                const btn = document.getElementById(`btnTeam${c}`);
+                if (!btn) return;
+                if (c === count) {
+                    btn.className = "py-3 px-4 rounded-2xl border-2 border-amber-400 bg-amber-500 text-slate-950 font-black text-lg shadow-lg transition-all";
+                } else {
+                    btn.className = "py-3 px-4 rounded-2xl border-2 border-indigo-500/50 bg-indigo-950/40 hover:bg-indigo-600 text-white font-black text-lg transition-all";
+                }
+            });
+            renderTeamInputs();
+        }
+
+        // Takım İsim Girişlerini Çiz
+        function renderTeamInputs() {
+            const container = document.getElementById('teamNameInputsContainer');
+            if (!container) return;
+            container.innerHTML = '';
+
+            for (let i = 0; i < teamCount; i++) {
+                const t = teams[i];
+                const card = document.createElement('div');
+                card.className = "p-3.5 rounded-2xl bg-slate-800/80 border border-slate-700 space-y-1.5";
+                card.innerHTML = `
+                    <div class="flex items-center gap-2 ${t.text} font-black text-xs uppercase">
+                        <i class="fa-solid fa-shield"></i>
+                        <span>${i + 1}. Takım</span>
+                    </div>
+                    <input type="text" id="inputTeamName-${i}" value="${t.name}" 
+                           class="w-full bg-slate-900 border border-slate-600 rounded-xl px-3 py-2 text-sm font-bold text-white outline-none focus:border-amber-400">
+                `;
+                container.appendChild(card);
+            }
+        }
+
+        // Turnuvayı Başlat
+        function startTournament() {
+            SoundFX.play('fanfare');
+
+            // İsimleri kaydet
+            for (let i = 0; i < teamCount; i++) {
+                const input = document.getElementById(`inputTeamName-${i}`);
+                if (input && input.value.trim() !== '') {
+                    teams[i].name = input.value.trim();
+                }
+                teams[i].score = 0;
+            }
+
+            activeTeamId = teams[0].id;
+
+            document.getElementById('setupScreen').classList.add('hidden');
+            document.getElementById('finalScoreScreen').classList.add('hidden');
+            document.getElementById('arenaScreen').classList.remove('hidden');
+
+            renderLiveScoreboard();
+            renderActiveTeamSelector();
+            jumpToStage(1);
+        }
+
+        // Canlı Skor Tablosu
+        function renderLiveScoreboard() {
+            const board = document.getElementById('liveTeamScoreboard');
+            if (!board) return;
+            board.innerHTML = '';
+
+            for (let i = 0; i < teamCount; i++) {
+                const t = teams[i];
+                const isActive = t.id === activeTeamId;
+                const card = document.createElement('div');
+                card.onclick = () => setActiveTeam(t.id);
+                card.className = `cursor-pointer flex items-center gap-2 px-3 py-1.5 rounded-xl border transition-all ${
+                    isActive 
+                        ? 'bg-amber-500/20 border-amber-400 active-team-glow scale-105' 
+                        : 'bg-slate-800/80 border-slate-700 hover:border-slate-500'
+                }`;
+                card.innerHTML = `
+                    <div class="w-3 h-3 rounded-full ${t.bg}"></div>
+                    <div class="text-left">
+                        <div class="text-[10px] font-bold text-slate-300 leading-none truncate max-w-[100px]">${t.name}</div>
+                        <div class="text-sm font-black text-amber-300 leading-tight">${t.score} P</div>
+                    </div>
+                `;
+                board.appendChild(card);
+            }
+        }
+
+        // Aktif Takım Seçici (Dropdown)
+        function renderActiveTeamSelector() {
+            const sel = document.getElementById('activeTeamSelector');
+            if (!sel) return;
+            sel.innerHTML = '';
+            for (let i = 0; i < teamCount; i++) {
+                const t = teams[i];
+                const opt = document.createElement('option');
+                opt.value = t.id;
+                opt.innerText = t.name;
+                if (t.id === activeTeamId) opt.selected = true;
+                sel.appendChild(opt);
+            }
+        }
+
+        // Aktif Takımı Değiştir
+        function setActiveTeam(id) {
+            activeTeamId = id;
+            renderLiveScoreboard();
+            const sel = document.getElementById('activeTeamSelector');
+            if (sel) sel.value = id;
+        }
+
+        // Aktif Takıma Puan Ekle
+        function awardActiveTeam(points, reason) {
+            const team = teams.find(t => t.id === activeTeamId);
+            if (!team) return;
+            team.score += points;
+            SoundFX.play('point');
+            renderLiveScoreboard();
+
+            // Bildirim
+            alert(`${team.name} takımına +${points} Puan eklendi!\nSebep: ${reason}`);
+        }
+
+        // Aşamaya Geçiş
+        function jumpToStage(stageNum) {
+            currentStage = stageNum;
+
+            // Nav butonlarını güncelle
+            [1, 2, 3, 4, 5].forEach(s => {
+                const nav = document.getElementById(`stageNav-${s}`);
+                if (!nav) return;
+                if (s === stageNum) {
+                    nav.className = "stage-nav-btn flex-1 py-1.5 px-2 rounded-xl text-xs font-black transition-all flex items-center justify-center gap-1.5 bg-amber-500 text-slate-950 shadow-md";
+                } else {
+                    nav.className = "stage-nav-btn flex-1 py-1.5 px-2 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-1.5 bg-slate-800 text-slate-400 hover:text-white";
+                }
+
+                const area = document.getElementById(`stage${s}Area`);
+                if (area) {
+                    if (s === stageNum) area.classList.remove('hidden');
+                    else area.classList.add('hidden');
+                }
+            });
+
+            // Başlık ve Altyazı
+            const badge = document.getElementById('stageBadge');
+            const title = document.getElementById('stageTitle');
+            const sub = document.getElementById('stageSubtitle');
+
+            if (stageNum === 1) {
+                badge.innerText = "AŞAMA 1";
+                title.innerText = "Hızlı Hatırla (10 Kısa Soru)";
+                sub.innerText = "Doğru bilen takım +10 puan kazanır.";
+                loadS1Question(s1Index);
+            } else if (stageNum === 2) {
+                badge.innerText = "AŞAMA 2";
+                title.innerText = "Görseli Yakala (4 Görsel Analizi)";
+                sub.innerText = "Görselin hangi konuyla ilgili olduğunu bulan takım +10 puan kazanır.";
+                loadS2Question(s2Index);
+            } else if (stageNum === 3) {
+                badge.innerText = "AŞAMA 3";
+                title.innerText = "Hatayı Bul (3 Davranış İncelemesi)";
+                sub.innerText = "Hatayı bulan, sebebini ve doğru çözümü açıklayan takım +15 puana kadar kazanır.";
+                loadS3Question(s3Index);
+            } else if (stageNum === 4) {
+                badge.innerText = "AŞAMA 4";
+                title.innerText = "Karar Anı (4 Kritik Senaryo)";
+                sub.innerText = "En doğru dijital kararı veren takım +10 puan kazanır.";
+                loadS4Question(s4Index);
+            } else if (stageNum === 5) {
+                badge.innerText = "AŞAMA 5";
+                title.innerText = "Büyük Final (Açık Uçlu Takım Soruları)";
+                sub.innerText = "Takım kendi cevabını oluştursun, öğretmen değerlendirsin: +20 puan!";
+                renderBigQuestionTabs();
+                loadBigQuestion(s5SelectedTeam);
+            }
+        }
+
+        // ========================================================
+        // AŞAMA 1 FONKSİYONLARI
+        // ========================================================
+        function loadS1Question(idx) {
+            s1Index = idx;
+            const q = STAGE1_QUESTIONS[idx];
+            if (!q) return;
+
+            document.getElementById('s1QuestionCounter').innerText = `Soru ${idx + 1} / 10`;
+            document.getElementById('s1TopicBadge').innerText = q.topic;
+            document.getElementById('s1QuestionText').innerText = q.q;
+
+            const fBox = document.getElementById('s1FeedbackBox');
+            fBox.classList.add('hidden');
+
+            const container = document.getElementById('s1OptionsContainer');
+            container.innerHTML = '';
+
+            const letters = ['A', 'B', 'C', 'D'];
+            q.options.forEach((opt, optIdx) => {
+                const btn = document.createElement('button');
+                btn.className = "s1-btn w-full text-left p-4 rounded-2xl bg-slate-800/90 hover:bg-slate-750 border-2 border-slate-700 hover:border-indigo-400 text-white font-medium transition-all shadow-md flex items-start gap-3";
+                btn.innerHTML = `
+                    <span class="w-8 h-8 rounded-xl bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 flex items-center justify-center font-black text-sm shrink-0">
+                        ${letters[optIdx]}
+                    </span>
+                    <span class="text-sm sm:text-base leading-snug flex-1">${opt.text}</span>
+                `;
+                btn.onclick = () => selectS1Option(opt, btn);
+                container.appendChild(btn);
+            });
+        }
+
+        function selectS1Option(opt, btn) {
+            document.querySelectorAll('.s1-btn').forEach(b => b.disabled = true);
+            const isCorrect = opt.correct === true;
+            const fBox = document.getElementById('s1FeedbackBox');
+            fBox.classList.remove('hidden');
+
+            if (isCorrect) {
+                SoundFX.play('point');
+                btn.classList.add('bg-emerald-950/80', 'border-emerald-400', 'text-emerald-200');
+                const team = teams.find(t => t.id === activeTeamId);
+                if (team) team.score += 10;
+                renderLiveScoreboard();
+
+                fBox.className = "p-4 rounded-2xl border-2 bg-emerald-950/70 border-emerald-500 text-emerald-200";
+                fBox.innerHTML = `<strong>Tebrikler!</strong> Doğru cevap. ${team ? team.name : 'Takım'} +10 puan kazandı.`;
+            } else {
+                SoundFX.play('wrong');
+                btn.classList.add('bg-rose-950/80', 'border-rose-400', 'text-rose-200');
+                fBox.className = "p-4 rounded-2xl border-2 bg-rose-950/70 border-rose-500 text-rose-200";
+                fBox.innerHTML = `<strong>Yanlış Seçenek!</strong> Doğru cevap yeşille gösterilen seçenektir.`;
+
+                // Doğru olanı yak / işaretle
+                document.querySelectorAll('.s1-btn').forEach((b, i) => {
+                    if (STAGE1_QUESTIONS[s1Index].options[i].correct) {
+                        b.classList.add('bg-emerald-950/60', 'border-emerald-400', 'text-emerald-200');
+                    }
+                });
+            }
+        }
+
+        function prevS1Question() {
+            if (s1Index > 0) loadS1Question(s1Index - 1);
+        }
+
+        function nextS1Question() {
+            if (s1Index + 1 < STAGE1_QUESTIONS.length) {
+                loadS1Question(s1Index + 1);
+            } else {
+                alert("Aşama 1 tamamlandı! Şimdi Aşama 2: Görseli Yakala bölümüne geçiyoruz.");
+                jumpToStage(2);
+            }
+        }
+
+        // ========================================================
+        // AŞAMA 2 FONKSİYONLARI
+        // ========================================================
+        function loadS2Question(idx) {
+            s2Index = idx;
+            const q = STAGE2_QUESTIONS[idx];
+            if (!q) return;
+
+            document.getElementById('s2Counter').innerText = `Görsel Senaryosu ${idx + 1} / 4`;
+            document.getElementById('s2VisualTitle').innerText = q.title;
+            document.getElementById('s2VisualDesc').innerText = q.desc;
+            document.getElementById('s2VisualIcon').className = q.icon;
+            document.getElementById('s2VisualIconContainer').className = `w-32 h-32 rounded-3xl bg-gradient-to-tr ${q.bgGradient} flex items-center justify-center text-slate-950 text-6xl shadow-xl shrink-0`;
+
+            const fBox = document.getElementById('s2FeedbackBox');
+            fBox.classList.add('hidden');
+
+            const container = document.getElementById('s2OptionsContainer');
+            container.innerHTML = '';
+
+            q.options.forEach((opt, optIdx) => {
+                const btn = document.createElement('button');
+                btn.className = "s2-btn w-full text-left p-4 rounded-2xl bg-slate-800/90 hover:bg-slate-750 border-2 border-slate-700 hover:border-emerald-400 text-white font-black transition-all shadow-md flex items-center gap-3";
+                btn.innerHTML = `
+                    <span class="w-8 h-8 rounded-xl bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 flex items-center justify-center font-black text-sm shrink-0">
+                        ${optIdx + 1}
+                    </span>
+                    <span class="text-sm sm:text-base flex-1">${opt.text}</span>
+                `;
+                btn.onclick = () => selectS2Option(opt, btn);
+                container.appendChild(btn);
+            });
+        }
+
+        function selectS2Option(opt, btn) {
+            document.querySelectorAll('.s2-btn').forEach(b => b.disabled = true);
+            const isCorrect = opt.correct === true;
+            const fBox = document.getElementById('s2FeedbackBox');
+            fBox.classList.remove('hidden');
+
+            if (isCorrect) {
+                SoundFX.play('point');
+                btn.classList.add('bg-emerald-950/80', 'border-emerald-400', 'text-emerald-200');
+                const team = teams.find(t => t.id === activeTeamId);
+                if (team) team.score += 10;
+                renderLiveScoreboard();
+
+                fBox.className = "p-4 rounded-2xl border-2 bg-emerald-950/70 border-emerald-500 text-emerald-200";
+                fBox.innerHTML = `<strong>Tebrikler!</strong> Görselin konusu doğru bulundu. ${team ? team.name : 'Takım'} +10 puan kazandı.`;
+            } else {
+                SoundFX.play('wrong');
+                btn.classList.add('bg-rose-950/80', 'border-rose-400', 'text-rose-200');
+                fBox.className = "p-4 rounded-2xl border-2 bg-rose-950/70 border-rose-500 text-rose-200";
+                fBox.innerHTML = `<strong>Yanlış Konu!</strong> Doğru alan yeşil ile işaretlendi.`;
+
+                document.querySelectorAll('.s2-btn').forEach((b, i) => {
+                    if (STAGE2_QUESTIONS[s2Index].options[i].correct) {
+                        b.classList.add('bg-emerald-950/60', 'border-emerald-400', 'text-emerald-200');
+                    }
+                });
+            }
+        }
+
+        function nextS2Question() {
+            if (s2Index + 1 < STAGE2_QUESTIONS.length) {
+                loadS2Question(s2Index + 1);
+            } else {
+                alert("Aşama 2 tamamlandı! Şimdi Aşama 3: Hatayı Bul bölümüne geçiyoruz.");
+                jumpToStage(3);
+            }
+        }
+
+        // ========================================================
+        // AŞAMA 3 FONKSİYONLARI
+        // ========================================================
+        function loadS3Question(idx) {
+            s3Index = idx;
+            const sc = STAGE3_SCENARIOS[idx];
+            if (!sc) return;
+
+            document.getElementById('s3Counter').innerText = `Davranış İncelemesi ${idx + 1} / 3`;
+            document.getElementById('s3ScenarioTitle').innerText = sc.title;
+            document.getElementById('s3ScenarioDesc').innerText = sc.desc;
+            document.getElementById('s3Step1Text').innerText = sc.step1;
+            document.getElementById('s3Step2Text').innerText = sc.step2;
+            document.getElementById('s3Step3Text').innerText = sc.step3;
+        }
+
+        function nextS3Question() {
+            if (s3Index + 1 < STAGE3_SCENARIOS.length) {
+                loadS3Question(s3Index + 1);
+            } else {
+                alert("Aşama 3 tamamlandı! Şimdi Aşama 4: Karar Anı bölümüne geçiyoruz.");
+                jumpToStage(4);
+            }
+        }
+
+        // ========================================================
+        // AŞAMA 4 FONKSİYONLARI
+        // ========================================================
+        function loadS4Question(idx) {
+            s4Index = idx;
+            const dec = STAGE4_DECISIONS[idx];
+            if (!dec) return;
+
+            document.getElementById('s4Counter').innerText = `Kritik Karar ${idx + 1} / 4`;
+            document.getElementById('s4ScenarioText').innerText = dec.title;
+            document.getElementById('s4Icon').className = dec.icon;
+
+            const fBox = document.getElementById('s4FeedbackBox');
+            fBox.classList.add('hidden');
+
+            const container = document.getElementById('s4OptionsContainer');
+            container.innerHTML = '';
+
+            dec.options.forEach((opt, optIdx) => {
+                const btn = document.createElement('button');
+                btn.className = "s4-btn w-full text-left p-4 rounded-2xl bg-slate-800/90 hover:bg-slate-750 border-2 border-slate-700 hover:border-purple-400 text-white font-bold transition-all shadow-md flex items-start gap-3";
+                btn.innerHTML = `
+                    <span class="w-8 h-8 rounded-xl bg-purple-500/20 text-purple-300 border border-purple-500/30 flex items-center justify-center font-black text-sm shrink-0">
+                        ${optIdx + 1}
+                    </span>
+                    <span class="text-sm sm:text-base flex-1">${opt.text}</span>
+                `;
+                btn.onclick = () => selectS4Option(opt, btn, dec);
+                container.appendChild(btn);
+            });
+        }
+
+        function selectS4Option(opt, btn, dec) {
+            document.querySelectorAll('.s4-btn').forEach(b => b.disabled = true);
+            const isCorrect = opt.correct === true;
+            const fBox = document.getElementById('s4FeedbackBox');
+            fBox.classList.remove('hidden');
+
+            if (isCorrect) {
+                SoundFX.play('point');
+                btn.classList.add('bg-emerald-950/80', 'border-emerald-400', 'text-emerald-200');
+                const team = teams.find(t => t.id === activeTeamId);
+                if (team) team.score += 10;
+                renderLiveScoreboard();
+
+                fBox.className = "p-4 rounded-2xl border-2 bg-emerald-950/70 border-emerald-500 text-emerald-200";
+                fBox.innerHTML = `<strong>Tebrikler!</strong> Doğru Karar. (+10 Puan)<br><span class="text-xs text-slate-300 mt-1 block">${opt.rationale}</span>`;
+            } else {
+                SoundFX.play('wrong');
+                btn.classList.add('bg-rose-950/80', 'border-rose-400', 'text-rose-200');
+                fBox.className = "p-4 rounded-2xl border-2 bg-rose-950/70 border-rose-500 text-rose-200";
+                fBox.innerHTML = `<strong>Sakıncalı Karar!</strong><br><span class="text-xs text-slate-300 mt-1 block">${opt.rationale}</span>`;
+
+                document.querySelectorAll('.s4-btn').forEach((b, i) => {
+                    if (dec.options[i].correct) {
+                        b.classList.add('bg-emerald-950/60', 'border-emerald-400', 'text-emerald-200');
+                    }
+                });
+            }
+        }
+
+        function nextS4Question() {
+            if (s4Index + 1 < STAGE4_DECISIONS.length) {
+                loadS4Question(s4Index + 1);
+            } else {
+                alert("Aşama 4 tamamlandı! Şimdi Aşama 5: Büyük Final bölümüne geçiyoruz.");
+                jumpToStage(5);
+            }
+        }
+
+        // ========================================================
+        // AŞAMA 5 FONKSİYONLARI (BÜYÜK FİNAL)
+        // ========================================================
+        function renderBigQuestionTabs() {
+            const tabsContainer = document.getElementById('bigQuestionTeamTabs');
+            if (!tabsContainer) return;
+            tabsContainer.innerHTML = '';
+
+            for (let i = 0; i < teamCount; i++) {
+                const t = teams[i];
+                const btn = document.createElement('button');
+                btn.className = `px-4 py-2 rounded-xl text-xs font-black transition-all border ${
+                    i === s5SelectedTeam 
+                        ? 'bg-amber-500 text-slate-950 border-amber-400 shadow-md' 
+                        : 'bg-slate-800 text-slate-300 border-slate-700 hover:border-slate-500'
+                }`;
+                btn.innerText = `${t.name} Sorusu`;
+                btn.onclick = () => {
+                    s5SelectedTeam = i;
+                    setActiveTeam(t.id);
+                    renderBigQuestionTabs();
+                    loadBigQuestion(i);
+                };
+                tabsContainer.appendChild(btn);
+            }
+        }
+
+        function loadBigQuestion(teamIndex) {
+            const bq = BIG_FINAL_QUESTIONS[teamIndex] || BIG_FINAL_QUESTIONS[0];
+            const team = teams[teamIndex] || teams[0];
+
+            document.getElementById('bigQuestionTeamLabel').innerText = `${team.name} İçin Büyük Soru`;
+            document.getElementById('bigQuestionText').innerText = bq.q;
+        }
+
+        // ========================================================
+        // FİNAL SKOR EKRANI (TAMAMLAMA)
+        // Prompt Kuralı: "Takımları yalnızca puanlarıyla göster. 'En iyi / en kötü' gibi ifadeler kullanma."
+        // ========================================================
+        function finishTournament() {
+            SoundFX.play('fanfare');
+
+            document.getElementById('arenaScreen').classList.add('hidden');
+            document.getElementById('finalScoreScreen').classList.remove('hidden');
+
+            const list = document.getElementById('finalRankList');
+            list.innerHTML = '';
+
+            for (let i = 0; i < teamCount; i++) {
+                const t = teams[i];
+                const card = document.createElement('div');
+                card.className = "p-4 rounded-2xl bg-slate-800/90 border-2 border-slate-700 flex items-center justify-between gap-3 shadow-lg";
+                card.innerHTML = `
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-xl ${t.bg} flex items-center justify-center text-white text-lg font-black shadow-md">
+                            <i class="fa-solid fa-users"></i>
+                        </div>
+                        <div class="text-left">
+                            <div class="text-sm font-black text-white">${t.name}</div>
+                            <div class="text-[11px] text-slate-400 font-bold uppercase">5. Sınıf Takımı</div>
+                        </div>
+                    </div>
+                    <div class="px-4 py-1.5 rounded-xl bg-amber-500/20 text-amber-300 font-black text-lg border border-amber-500/30">
+                        ${t.score} Puan
+                    </div>
+                `;
+                list.appendChild(card);
+            }
+        }
+
+        function resetTournament() {
+            document.getElementById('finalScoreScreen').classList.add('hidden');
+            document.getElementById('arenaScreen').classList.add('hidden');
+            document.getElementById('setupScreen').classList.remove('hidden');
+        }
+
+        // ========================================================
+        // ÖĞRETMEN MANUEL DÜZENLEME MODALI
+        // ========================================================
+        function openScoreAdjustModal() {
+            const modal = document.getElementById('scoreAdjustModal');
+            const list = document.getElementById('adjustModalTeamList');
+            list.innerHTML = '';
+
+            for (let i = 0; i < teamCount; i++) {
+                const t = teams[i];
+                const row = document.createElement('div');
+                row.className = "flex items-center justify-between p-2.5 rounded-xl bg-slate-800 border border-slate-700";
+                row.innerHTML = `
+                    <div>
+                        <div class="text-xs font-black text-white">${t.name}</div>
+                        <div class="text-xs font-bold text-amber-400" id="modalScoreDisplay-${t.id}">${t.score} P</div>
+                    </div>
+                    <div class="flex items-center gap-1.5">
+                        <button onclick="manualAdjustScore(${t.id}, -5)" class="w-7 h-7 rounded-lg bg-rose-500/30 hover:bg-rose-500 text-rose-200 font-bold text-xs">-5</button>
+                        <button onclick="manualAdjustScore(${t.id}, 5)" class="w-7 h-7 rounded-lg bg-emerald-500/30 hover:bg-emerald-500 text-emerald-200 font-bold text-xs">+5</button>
+                        <button onclick="manualAdjustScore(${t.id}, 10)" class="w-7 h-7 rounded-lg bg-amber-500/30 hover:bg-amber-500 text-amber-200 font-bold text-xs">+10</button>
+                    </div>
+                `;
+                list.appendChild(row);
+            }
+
+            modal.classList.remove('hidden');
+        }
+
+        function closeScoreAdjustModal() {
+            document.getElementById('scoreAdjustModal').classList.add('hidden');
+        }
+
+        function manualAdjustScore(teamId, delta) {
+            const team = teams.find(t => t.id === teamId);
+            if (!team) return;
+            team.score = Math.max(0, team.score + delta);
+            renderLiveScoreboard();
+            const disp = document.getElementById(`modalScoreDisplay-${teamId}`);
+            if (disp) disp.innerText = `${team.score} P`;
+        }
+    </script>
+</body>
+</html>

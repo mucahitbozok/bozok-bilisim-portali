@@ -1,0 +1,844 @@
+<!--
+================================================================================
+PROMPT / OYUN BELİRTİMİ:
+5. sınıf Bilişim Teknolojileri dersi için kavramlar arasında ilişki
+kurmayı sağlayan interaktif bir akıllı tahta oyunu geliştir.
+
+OYUN ADI:
+3 HAFTAYI BİRLEŞTİR
+
+AMAÇ:
+Öğrencinin 1, 2 ve 3. haftalarda öğrendiği kavramları sadece
+ezberlemek yerine aralarındaki ilişkiyi kurmasını sağlamak.
+
+--------------------------------------------------
+
+OYUN MEKANİĞİ:
+
+Ekranın ortasında büyük bir “BİLİŞİM TEKNOLOJİLERİ” kartı olsun.
+
+Etrafında hareket ettirilebilen kavram kartları bulunsun.
+
+KARTLAR:
+
+Günlük yaşam
+Eğitim
+Sağlık
+İletişim
+Faydalar
+Olumsuz etkiler
+Dijital sağlık
+Dijital vatandaşlık
+Dijital kimlik
+Dijital ayak izi
+Aktif ayak izi
+Pasif ayak izi
+Güvenli dijital davranış
+Dijital hizmetler
+
+--------------------------------------------------
+
+1. GÖREV:
+
+“Bilişim teknolojilerinin kullanım alanlarını bul.”
+
+Öğrenci doğru kartları sürükleyerek ilgili alana bıraksın.
+
+--------------------------------------------------
+
+2. GÖREV:
+
+“Teknolojinin sağlığımızla ilişkili kavramlarını bul.”
+
+Öğrenci:
+Dijital sağlık
+Doğru oturuş
+Göz sağlığı
+
+kartlarını seçsin.
+
+--------------------------------------------------
+
+3. GÖREV:
+
+“Dijital vatandaşlıkla ilişkili kavramları bul.”
+
+Öğrenci:
+Dijital kimlik
+Dijital ayak izi
+Güvenli dijital davranış
+Dijital hizmetler
+
+kartlarını seçsin.
+
+--------------------------------------------------
+
+4. GÖREV:
+
+“Aktif ve pasif dijital ayak izlerini ayır.”
+
+Kartları iki bölüme sürükle.
+
+AKTİF
+PASİF
+
+--------------------------------------------------
+
+5. GÖREV:
+
+“Bir öğrencinin günlük hayatında teknoloji kullanımıyla
+ilgili aşağıdaki kavramları doğru sıraya yerleştir.”
+
+--------------------------------------------------
+
+OYUNDA:
+- Sürükle bırak
+- Bağlantı çizgileri
+- Kart eşleştirme
+- Kavram gruplama
+- Doğru/yanlış geri bildirimleri
+
+kullan.
+
+Her doğru görev:
++20 puan
+
+Toplam 100 puan üzerinden değerlendirme yap.
+
+Tasarım:
+- Beyin haritası / kavram haritası görünümü
+- Büyük kartlar
+- Büyük yazılar
+- Akıllı tahta uyumlu
+- Türkçe
+- 5. sınıf seviyesinde
+
+Öğretmen Bozok markasını ekle.
+================================================================================
+-->
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3 Haftayı Birleştir | Kavram Haritası Oyunu | Öğretmen Bozok</title>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Confetti -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <style>
+        * { box-sizing: border-box; font-family: 'Poppins', sans-serif; -webkit-tap-highlight-color: transparent; }
+        @media (min-width: 1921px) {
+            html:not([data-scale]), html[data-scale="auto"] {
+                font-size: calc(100vw / 120) !important;
+            }
+            .max-w-5xl, .max-w-4xl {
+                max-width: min(85rem, 92vw) !important;
+            }
+        }
+        body { background-color: #080f21; color: #f8fafc; min-height: 100vh; overflow-x: hidden; }
+        .glass-panel { background: rgba(13, 23, 48, 0.92); backdrop-filter: blur(16px); border: 2px solid rgba(14, 165, 233, 0.3); }
+        .card-node { transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); cursor: pointer; }
+        .card-node:hover:not(:disabled) { transform: translateY(-3px) scale(1.03); }
+        .card-node:active:not(:disabled) { transform: scale(0.97); }
+        @keyframes popIn { 0% { transform: scale(0.92); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
+        .animate-pop { animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+    </style>
+</head>
+<body class="flex flex-col justify-between p-3 sm:p-6 select-none">
+
+    <!-- ÜST ÇUBUK -->
+    <header class="max-w-5xl w-full mx-auto flex items-center justify-between gap-4 pb-4 border-b border-slate-800">
+        <div class="flex items-center gap-3">
+            <div class="w-12 h-12 rounded-2xl bg-gradient-to-tr from-cyan-500 to-blue-600 text-white flex items-center justify-center text-2xl shadow-lg shadow-cyan-500/20">
+                <i class="fa-solid fa-diagram-project"></i>
+            </div>
+            <div>
+                <span class="px-2.5 py-0.5 bg-cyan-400/20 text-cyan-300 font-black rounded-lg text-[10px] tracking-wider uppercase border border-cyan-400/30">
+                    5. SINIF • KAVRAM HARİTASI & BEYİN AĞI
+                </span>
+                <h1 class="text-lg sm:text-xl font-black text-white flex items-center gap-2">
+                    3 Haftayı Birleştir
+                    <span class="hidden sm:inline-block text-xs px-2.5 py-0.5 rounded-full bg-blue-500/20 text-blue-300 border border-blue-400/30 font-semibold">5 Büyük Görev</span>
+                </h1>
+            </div>
+        </div>
+
+        <div class="flex items-center gap-2 sm:gap-3">
+            <div class="bg-slate-900/90 border border-slate-800 rounded-xl px-3 py-1.5 flex items-center gap-2 text-xs font-bold text-slate-300">
+                <i class="fa-solid fa-chalkboard-user text-cyan-400 text-sm"></i>
+                <span class="hidden sm:inline">Öğretmen:</span>
+                <span class="text-white font-black">Bozok</span>
+            </div>
+            <button onclick="game.toggleAudio()" class="w-10 h-10 rounded-xl bg-slate-900 border border-slate-700 text-yellow-400 flex items-center justify-center transition-all hover:bg-slate-800" title="Ses">
+                <i id="audio-icon" class="fa-solid fa-volume-high text-lg"></i>
+            </button>
+            <button onclick="game.toggleFullscreen()" class="w-10 h-10 rounded-xl bg-slate-900 border border-slate-700 text-slate-300 flex items-center justify-center transition-all hover:bg-slate-800" title="Tam Ekran">
+                <i class="fa-solid fa-expand text-lg"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- ANA İÇERİK ALANI -->
+    <main id="game-container" class="max-w-5xl w-full mx-auto my-auto py-6">
+        <!-- JS ile render edilir -->
+    </main>
+
+    <!-- ALT BİLGİ -->
+    <footer class="max-w-5xl w-full mx-auto text-center pt-4 border-t border-slate-800/80 text-xs text-slate-500 flex flex-col sm:flex-row items-center justify-between gap-2">
+        <div class="flex items-center gap-2">
+            <i class="fa-solid fa-brain text-cyan-400"></i>
+            <span>BTY.5.1.1 - 5.1.2 - 5.1.3 İlişkisel Bilişim Ağı</span>
+        </div>
+        <div class="text-slate-400">
+            Bozok Bilişim Portalı &copy; 2026 - Tüm Hakları Saklıdır
+        </div>
+    </footer>
+
+    <!-- JS OYUN MOTORU -->
+    <script>
+        class SoundEngine {
+            constructor() {
+                this.ctx = null;
+                this.muted = false;
+            }
+            init() {
+                if (!this.ctx) {
+                    const AudioCtx = window.AudioContext || window.webkitAudioContext;
+                    if (AudioCtx) this.ctx = new AudioCtx();
+                }
+            }
+            playBeep(freq, type, duration, gainVal = 0.15) {
+                if (this.muted) return;
+                this.init();
+                if (!this.ctx) return;
+                try {
+                    const osc = this.ctx.createOscillator();
+                    const gain = this.ctx.createGain();
+                    osc.type = type;
+                    osc.frequency.setValueAtTime(freq, this.ctx.currentTime);
+                    gain.gain.setValueAtTime(gainVal, this.ctx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.0001, this.ctx.currentTime + duration);
+                    osc.connect(gain);
+                    gain.connect(this.ctx.destination);
+                    osc.start();
+                    osc.stop(this.ctx.currentTime + duration);
+                } catch(e) {}
+            }
+            playClick() { this.playBeep(520, 'sine', 0.08, 0.1); }
+            playCorrect() {
+                this.playBeep(440, 'triangle', 0.1, 0.2);
+                setTimeout(() => this.playBeep(587, 'triangle', 0.12, 0.2), 90);
+                setTimeout(() => this.playBeep(880, 'triangle', 0.25, 0.25), 180);
+            }
+            playWrong() {
+                this.playBeep(240, 'sawtooth', 0.15, 0.25);
+                setTimeout(() => this.playBeep(180, 'sawtooth', 0.25, 0.25), 120);
+            }
+            playFanfare() {
+                const notes = [523, 659, 784, 1046, 1318];
+                notes.forEach((freq, idx) => {
+                    setTimeout(() => this.playBeep(freq, 'triangle', 0.35, 0.25), idx * 120);
+                });
+            }
+        }
+
+        const sounds = new SoundEngine();
+
+        class ConnectWeeksGame {
+            constructor() {
+                this.state = 'intro'; // 'intro', 'mission', 'result'
+                this.score = 0;
+                this.currentMissionIndex = 0;
+
+                this.missions = [
+                    // 1. GÖREV: KULLANIM ALANLARI
+                    {
+                        title: "1. GÖREV: KULLANIM ALANLARINI BAĞLA",
+                        instruction: "Merkezdeki <strong>BİLİŞİM TEKNOLOJİLERİ</strong> çekirdeğine bağlı olan <strong>Kullanım Alanları</strong> kartlarını bularak seç ve ağa bağla!",
+                        badge: "1. Hafta Kavramları",
+                        targetCount: 4,
+                        cards: [
+                            { id: 1, text: "🏥 Sağlık Alanı (e-Nabız & MHRS)", isTarget: true, icon: "fa-solid fa-hospital" },
+                            { id: 2, text: "🎓 Eğitim Alanı (EBA & Akıllı Tahta)", isTarget: true, icon: "fa-solid fa-graduation-cap" },
+                            { id: 3, text: "🚗 Ulaşım Alanı (Navigasyon & HGS)", isTarget: true, icon: "fa-solid fa-car" },
+                            { id: 4, text: "💳 Bankacılık Alanı (ATM & Mobil)", isTarget: true, icon: "fa-solid fa-credit-card" },
+                            { id: 5, text: "⛺ Mağara İçi Avcılık", isTarget: false, icon: "fa-solid fa-campground" },
+                            { id: 6, text: "🪨 Taş Yontma Yöntemleri", isTarget: false, icon: "fa-solid fa-gem" }
+                        ],
+                        feedbackCorrect: "Tebrikler! Sağlık, eğitim, ulaşım ve bankacılık bilişim teknolojisinin ana kullanım alanlarıdır.",
+                        feedbackWrong: "Dikkat! Taş devri avcılığı veya taş yontma bilişim teknolojisi alanı değildir."
+                    },
+                    // 2. GÖREV: DİJİTAL SAĞLIK KAVRAMLARI
+                    {
+                        title: "2. GÖREV: TEKNOLOJİ VE SAĞLIK KAVRAMLARI",
+                        instruction: "Teknolojinin <strong>insan sağlığı ve ergonomisiyle</strong> doğrudan ilişkili olan 3 temel kavram kartını bulup işaretle!",
+                        badge: "2. Hafta Kavramları",
+                        targetCount: 3,
+                        cards: [
+                            { id: 1, text: "🪑 Doğru Oturuş & Ergonomi (90° Kuralı)", isTarget: true, icon: "fa-solid fa-chair" },
+                            { id: 2, text: "👁️ Göz Sağlığı & 20-20-20 Kuralı", isTarget: true, icon: "fa-solid fa-eye" },
+                            { id: 3, text: "🧘 Dijital Sağlık & Mola Verme", isTarget: true, icon: "fa-solid fa-heart-pulse" },
+                            { id: 4, text: "🎮 Günde 12 Saat Aralıksız Oyun", isTarget: false, icon: "fa-solid fa-gamepad" },
+                            { id: 5, text: "⚡ Bilgisayarın Ekran Kartı", isTarget: false, icon: "fa-solid fa-microchip" }
+                        ],
+                        feedbackCorrect: "Harika! Doğru oturuş, göz sağlığı (20-20-20 kuralı) ve dijital sağlık bedenimizi teknolojinin zararlarından korur.",
+                        feedbackWrong: "Aralıksız 12 saat oyun oynamak sağlığa çok zararlıdır. Ekran kartı ise donanım bileşenidir."
+                    },
+                    // 3. GÖREV: DİJİTAL VATANDAŞLIK KAVRAMLARI
+                    {
+                        title: "3. GÖREV: DİJİTAL VATANDAŞLIK AĞI",
+                        instruction: "İnternette bilinçli bir <strong>Dijital Vatandaş</strong> olmakla ilgili olan 4 kavram kartını seçerek bağlantıyı kur!",
+                        badge: "3. Hafta Kavramları",
+                        targetCount: 4,
+                        cards: [
+                            { id: 1, text: "🆔 Dijital Kimlik & Profil", isTarget: true, icon: "fa-solid fa-id-badge" },
+                            { id: 2, text: "👣 Dijital Ayak İzi", isTarget: true, icon: "fa-solid fa-shoe-prints" },
+                            { id: 3, text: "🛡️ Güvenli Dijital Davranış & Nezaket", isTarget: true, icon: "fa-solid fa-user-shield" },
+                            { id: 4, text: "🏛️ e-Devlet & Resmi Kamu Hizmetleri", isTarget: true, icon: "fa-solid fa-landmark" },
+                            { id: 5, text: "💻 Bilgisayarın Klavye Tuşları", isTarget: false, icon: "fa-solid fa-keyboard" },
+                            { id: 6, text: "🔌 Güç Kablosu", isTarget: false, icon: "fa-solid fa-plug" }
+                        ],
+                        feedbackCorrect: "Mükemmel! Dijital kimlik, ayak izi, güvenli davranış ve e-Devlet dijital vatandaşlığın ana sütunlarıdır.",
+                        feedbackWrong: "Klavye ve güç kablosu fiziki donanım parçalarıdır; dijital vatandaşlık kavramı değildir."
+                    },
+                    // 4. GÖREV: AKTİF VE PASİF AYAK İZİNİ AYIR
+                    {
+                        title: "4. GÖREV: AKTİF VE PASİF AYAK İZİ SINIFLANDIRMASI",
+                        instruction: "Aşağıdaki eylemleri <strong>AKTİF</strong> (kendi isteğimizle) ve <strong>PASİF</strong> (arkada otomatik bırakılan) kutularına doğru yerleştir!",
+                        badge: "Sınıflandırma Görevi",
+                        isCategorize: true,
+                        items: [
+                            { id: 1, text: "İnternete kendi çektiğin doğa fotoğrafını yüklemek", type: "aktif" },
+                            { id: 2, text: "Ziyaret ettiğin haber sitesinin çerez (cookie) bırakması", type: "pasif" },
+                            { id: 3, text: "YouTube videosunun altına teşekkür yorumu yazmak", type: "aktif" },
+                            { id: 4, text: "Harita uygulamasının arka planda GPS konumunu kaydetmesi", type: "pasif" }
+                        ],
+                        feedbackCorrect: "Kusursuz ayrım! İsteğimizle yüklediklerimiz AKTİF, arka planda kaydedilenler PASİF ayak izidir.",
+                        feedbackWrong: "Unutma: Kendi irademizle yaptığımız paylaşımlar AKTİF; sistemlerin arka planda bıraktığı izler PASİF izdir."
+                    },
+                    // 5. GÖREV: ÖĞRENCİNİN TEKNOLOJİ GÜNÜ SIRALAMASI
+                    {
+                        title: "5. GÖREV: DİJİTAL GÜNLÜK AKIŞI SIRALAMA",
+                        instruction: "Bir 5. sınıf öğrencisinin gün boyunca teknoloji kullanımındaki en sağlıklı ve bilinçli adımlarını doğru sıraya diz!",
+                        badge: "Sıralama Görevi",
+                        isSequence: true,
+                        steps: [
+                            { order: 1, text: "1. Adım: Sabah e-Okul'dan ders programına ve sınav tarihlerine bakmak." },
+                            { order: 2, text: "2. Adım: Bilgisayar başında 50-70 cm mesafede ve dik oturarak EBA dersini dinlemek." },
+                            { order: 3, text: "3. Adım: 20 dakikada bir mola verip 20 saniye uzağa bakarak gözleri dinlendirmek." },
+                            { order: 4, text: "4. Adım: Sosyal medyada D.Ü.Ş.Ü.N. kuralına uyup kişisel bilgilerini koruyarak çıkış yapmak." }
+                        ],
+                        feedbackCorrect: "Tebrikler! 1, 2 ve 3. haftaların tüm kurallarını kusursuz bir mantık sırasıyla birleştirdin!",
+                        feedbackWrong: "Adımları günlük yaşam akışına (Sabah e-Okul -> Doğru oturuşla ders -> Mola/Göz sağlığı -> Güvenli çıkış) göre düşünmelisin."
+                    }
+                ];
+
+                this.selectedIds = [];
+                this.catAnswers = {};
+                this.seqOrder = [];
+            }
+
+            init() {
+                this.render();
+            }
+
+            render() {
+                const container = document.getElementById("game-container");
+                if (!container) return;
+
+                if (this.state === 'intro') {
+                    container.innerHTML = this.getIntroHTML();
+                } else if (this.state === 'mission') {
+                    container.innerHTML = this.getMissionHTML();
+                } else if (this.state === 'result') {
+                    container.innerHTML = this.getResultHTML();
+                }
+            }
+
+            getIntroHTML() {
+                return `
+                    <div class="glass-panel p-6 sm:p-10 rounded-3xl text-center space-y-6 animate-pop shadow-2xl">
+                        <!-- MERKEZ BEYİN ÇEKİRDEĞİ -->
+                        <div class="relative w-28 h-28 mx-auto flex items-center justify-center">
+                            <div class="absolute inset-0 bg-cyan-500/20 rounded-full animate-ping"></div>
+                            <div class="w-24 h-24 rounded-3xl bg-gradient-to-tr from-cyan-500 to-blue-600 text-white text-5xl flex items-center justify-center shadow-xl shadow-cyan-500/30">
+                                <i class="fa-solid fa-diagram-project"></i>
+                            </div>
+                        </div>
+
+                        <div class="space-y-3">
+                            <span class="px-4 py-1.5 rounded-full bg-cyan-500/20 text-cyan-300 font-extrabold text-xs sm:text-sm uppercase tracking-wider border border-cyan-400/40">
+                                🧠 İLİŞKİSEL KAVRAM HARİTASI
+                            </span>
+                            <h2 class="text-2xl sm:text-4xl font-black text-white">3 Haftayı Birleştir!</h2>
+                            <p class="text-sm sm:text-base text-slate-300 max-w-2xl mx-auto leading-relaxed">
+                                Bu oyunda ezber yapmak yok! 1, 2 ve 3. haftada öğrendiğin tüm kavramları birbiriyle eşleştirecek, beyin haritasını tamamlayarak <strong>100 tam puan</strong> kazanacaksın!
+                            </p>
+                        </div>
+
+                        <!-- 5 GÖREV ÖZETİ -->
+                        <div class="grid grid-cols-1 sm:grid-cols-5 gap-3 max-w-4xl mx-auto text-left pt-2">
+                            <div class="p-3 bg-slate-900/80 rounded-2xl border border-slate-800 text-center">
+                                <div class="text-cyan-400 text-lg mb-1"><i class="fa-solid fa-map-location-dot"></i></div>
+                                <div class="text-xs font-bold text-white">1. Görev</div>
+                                <div class="text-[10px] text-slate-400">Kullanım Alanları</div>
+                            </div>
+                            <div class="p-3 bg-slate-900/80 rounded-2xl border border-slate-800 text-center">
+                                <div class="text-emerald-400 text-lg mb-1"><i class="fa-solid fa-heart-pulse"></i></div>
+                                <div class="text-xs font-bold text-white">2. Görev</div>
+                                <div class="text-[10px] text-slate-400">Dijital Sağlık</div>
+                            </div>
+                            <div class="p-3 bg-slate-900/80 rounded-2xl border border-slate-800 text-center">
+                                <div class="text-purple-400 text-lg mb-1"><i class="fa-solid fa-shield-halved"></i></div>
+                                <div class="text-xs font-bold text-white">3. Görev</div>
+                                <div class="text-[10px] text-slate-400">Vatandaşlık</div>
+                            </div>
+                            <div class="p-3 bg-slate-900/80 rounded-2xl border border-slate-800 text-center">
+                                <div class="text-amber-400 text-lg mb-1"><i class="fa-solid fa-shoe-prints"></i></div>
+                                <div class="text-xs font-bold text-white">4. Görev</div>
+                                <div class="text-[10px] text-slate-400">Aktif vs Pasif</div>
+                            </div>
+                            <div class="p-3 bg-slate-900/80 rounded-2xl border border-slate-800 text-center">
+                                <div class="text-blue-400 text-lg mb-1"><i class="fa-solid fa-arrow-down-1-9"></i></div>
+                                <div class="text-xs font-bold text-white">5. Görev</div>
+                                <div class="text-[10px] text-slate-400">Günlük Sıralama</div>
+                            </div>
+                        </div>
+
+                        <div class="pt-4">
+                            <button onclick="game.startMissions()" class="card-node px-10 py-4 bg-gradient-to-r from-cyan-500 via-blue-500 to-indigo-600 hover:from-cyan-400 hover:to-blue-400 text-white font-black text-lg sm:text-xl rounded-2xl shadow-xl shadow-cyan-500/30 flex items-center gap-3 mx-auto border-2 border-cyan-300">
+                                <i class="fa-solid fa-circle-play"></i>
+                                <span>Kavram Haritasını Başlat!</span>
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }
+
+            getMissionHTML() {
+                const mission = this.missions[this.currentMissionIndex];
+
+                return `
+                    <div class="space-y-6 animate-pop">
+                        <!-- ÜST BİLGİ -->
+                        <div class="flex items-center justify-between gap-4 bg-slate-900/90 p-4 rounded-2xl border border-slate-800">
+                            <div class="flex items-center gap-3">
+                                <span class="px-3 py-1 rounded-xl bg-gradient-to-r from-cyan-600 to-blue-700 text-white font-black text-xs sm:text-sm">
+                                    ${mission.title}
+                                </span>
+                                <span class="text-xs font-bold text-cyan-300 hidden sm:inline">${mission.badge}</span>
+                            </div>
+                            <div class="flex items-center gap-4">
+                                <div class="text-sm font-black text-yellow-400 flex items-center gap-1.5">
+                                    <i class="fa-solid fa-trophy"></i>
+                                    <span>Puan: ${this.score} / 100</span>
+                                </div>
+                                <span class="text-xs font-bold text-slate-400">${this.currentMissionIndex + 1} / ${this.missions.length}</span>
+                            </div>
+                        </div>
+
+                        <!-- GÖREV PANELİ -->
+                        <div class="glass-panel p-6 sm:p-8 rounded-3xl space-y-6 border-2 border-cyan-500/50 shadow-2xl">
+                            <!-- YÖNERGE -->
+                            <div class="p-4 bg-slate-950/80 rounded-2xl border border-slate-800 flex items-center gap-3">
+                                <div class="w-10 h-10 rounded-xl bg-cyan-500/20 text-cyan-300 flex items-center justify-center text-xl shrink-0">
+                                    <i class="fa-solid fa-lightbulb"></i>
+                                </div>
+                                <p class="text-sm sm:text-base font-semibold text-slate-200">${mission.instruction}</p>
+                            </div>
+
+                            <!-- ETKİLEŞİM ALANI -->
+                            <div id="mission-interaction">
+                                ${this.renderMissionContent(mission)}
+                            </div>
+
+                            <!-- GERİ BİLDİRİM -->
+                            <div id="mission-feedback" class="hidden"></div>
+                        </div>
+                    </div>
+                `;
+            }
+
+            renderMissionContent(mission) {
+                if (mission.cards) {
+                    return `
+                        <div class="space-y-4">
+                            <!-- MERKEZ ÇEKİRDEK -->
+                            <div class="p-4 bg-gradient-to-r from-cyan-900/60 to-blue-900/60 rounded-2xl border-2 border-cyan-400 text-center max-w-md mx-auto shadow-lg">
+                                <div class="text-xs font-black uppercase text-cyan-300 tracking-wider">MERKEZ KAVRAM</div>
+                                <div class="text-lg sm:text-xl font-black text-white">BİLİŞİM TEKNOLOJİLERİ</div>
+                            </div>
+
+                            <!-- SEÇİLECEK KARTLAR -->
+                            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 pt-2">
+                                ${mission.cards.map(c => `
+                                    <button id="card-${c.id}" onclick="game.toggleCard(${c.id})" class="card-node p-4 rounded-2xl bg-slate-900/90 border-2 border-slate-700 text-left flex items-center justify-between gap-3 text-white transition-all">
+                                        <div class="flex items-center gap-3">
+                                            <div class="w-9 h-9 rounded-xl bg-slate-800 text-cyan-400 flex items-center justify-center text-base shrink-0">
+                                                <i class="${c.icon || 'fa-solid fa-cube'}"></i>
+                                            </div>
+                                            <span class="text-xs sm:text-sm font-bold">${c.text}</span>
+                                        </div>
+                                        <div id="check-${c.id}" class="w-6 h-6 rounded-lg border-2 border-slate-600 flex items-center justify-center text-xs shrink-0"></div>
+                                    </button>
+                                `).join('')}
+                            </div>
+
+                            <div class="text-center pt-3">
+                                <button onclick="game.checkCardSelection()" class="card-node px-8 py-3.5 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white font-black text-sm sm:text-base rounded-xl shadow-lg border border-cyan-400">
+                                    <i class="fa-solid fa-link mr-2"></i> Kavramları Ağa Bağla ve Doğrula!
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                } else if (mission.isCategorize) {
+                    return `
+                        <div class="space-y-4">
+                            <div class="space-y-3">
+                                ${mission.items.map((item, idx) => `
+                                    <div class="p-4 bg-slate-900/90 rounded-2xl border border-slate-800 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+                                        <div class="text-xs sm:text-sm font-semibold text-white flex items-center gap-2">
+                                            <i class="fa-solid fa-arrow-right text-cyan-400 text-xs"></i>
+                                            <span>${item.text}</span>
+                                        </div>
+                                        <div class="flex items-center gap-2 shrink-0 w-full sm:w-auto justify-end">
+                                            <button id="cat-${item.id}-aktif" onclick="game.setCategoryChoice(${item.id}, 'aktif')" class="px-4 py-2 rounded-xl text-xs font-black border border-blue-500/40 bg-slate-800 text-blue-300 transition-all">
+                                                🐾 AKTİF İZ
+                                            </button>
+                                            <button id="cat-${item.id}-pasif" onclick="game.setCategoryChoice(${item.id}, 'pasif')" class="px-4 py-2 rounded-xl text-xs font-black border border-cyan-500/40 bg-slate-800 text-cyan-300 transition-all">
+                                                🐾 PASİF İZ
+                                            </button>
+                                        </div>
+                                    </div>
+                                `).join('')}
+                            </div>
+
+                            <div class="text-center pt-2">
+                                <button onclick="game.checkCategorization()" class="card-node px-8 py-3.5 bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-black text-sm sm:text-base rounded-xl shadow-lg border border-cyan-400">
+                                    <i class="fa-solid fa-check-double mr-2"></i> Sınıflandırmayı Onayla!
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                } else if (mission.isSequence) {
+                    return `
+                        <div class="space-y-4">
+                            <p class="text-xs text-slate-300">Aşağıdaki adımlara sırasıyla basarak <strong>1'den 4'e kadar</strong> mantıklı bir teknoloji günü sırası oluştur:</p>
+                            <div class="space-y-2.5">
+                                ${mission.steps.map((st, idx) => `
+                                    <button id="seq-btn-${idx}" onclick="game.toggleSequenceItem(${idx})" class="card-node w-full p-4 rounded-2xl bg-slate-900/90 border-2 border-slate-700 text-left flex items-center justify-between gap-3 text-white transition-all">
+                                        <span class="text-xs sm:text-sm font-semibold">${st.text}</span>
+                                        <span id="seq-badge-${idx}" class="w-8 h-8 rounded-xl bg-slate-800 text-slate-500 font-black text-sm flex items-center justify-center shrink-0">-</span>
+                                    </button>
+                                `).join('')}
+                            </div>
+
+                            <div class="flex justify-center gap-3 pt-2">
+                                <button onclick="game.resetSequence()" class="card-node px-5 py-3 bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold text-xs rounded-xl border border-slate-700">
+                                    <i class="fa-solid fa-rotate-left mr-1"></i> Sıralamayı Sıfırla
+                                </button>
+                                <button onclick="game.checkSequence()" class="card-node px-8 py-3 bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-black text-sm rounded-xl shadow-lg border border-cyan-400">
+                                    <i class="fa-solid fa-circle-check mr-2"></i> Sıralamayı Kontrol Et!
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                }
+            }
+
+            toggleCard(id) {
+                sounds.playClick();
+                const pos = this.selectedIds.indexOf(id);
+                if (pos > -1) {
+                    this.selectedIds.splice(pos, 1);
+                } else {
+                    this.selectedIds.push(id);
+                }
+
+                const btn = document.getElementById(`card-${id}`);
+                const check = document.getElementById(`check-${id}`);
+                if (btn && check) {
+                    const isSelected = this.selectedIds.includes(id);
+                    if (isSelected) {
+                        btn.classList.add('border-cyan-400', 'bg-cyan-950/40');
+                        check.className = "w-6 h-6 rounded-lg bg-cyan-400 border-2 border-cyan-300 text-slate-950 flex items-center justify-center text-xs font-black";
+                        check.innerHTML = '<i class="fa-solid fa-check"></i>';
+                    } else {
+                        btn.classList.remove('border-cyan-400', 'bg-cyan-950/40');
+                        check.className = "w-6 h-6 rounded-lg border-2 border-slate-600 flex items-center justify-center text-xs";
+                        check.innerHTML = '';
+                    }
+                }
+            }
+
+            checkCardSelection() {
+                const mission = this.missions[this.currentMissionIndex];
+                let allCorrect = true;
+
+                mission.cards.forEach(c => {
+                    const isSelected = this.selectedIds.includes(c.id);
+                    if (c.isTarget && !isSelected) allCorrect = false;
+                    if (!c.isTarget && isSelected) allCorrect = false;
+                });
+
+                if (allCorrect) {
+                    sounds.playCorrect();
+                    this.score += 20;
+                } else {
+                    sounds.playWrong();
+                }
+
+                this.showFeedback(allCorrect, allCorrect ? mission.feedbackCorrect : mission.feedbackWrong);
+            }
+
+            setCategoryChoice(id, type) {
+                sounds.playClick();
+                this.catAnswers[id] = type;
+                const btnAktif = document.getElementById(`cat-${id}-aktif`);
+                const btnPasif = document.getElementById(`cat-${id}-pasif`);
+
+                if (type === 'aktif') {
+                    btnAktif.className = "px-4 py-2 rounded-xl text-xs font-black border-2 border-blue-400 bg-blue-600 text-white shadow-md";
+                    btnPasif.className = "px-4 py-2 rounded-xl text-xs font-black border border-slate-700 bg-slate-800 text-slate-400";
+                } else {
+                    btnPasif.className = "px-4 py-2 rounded-xl text-xs font-black border-2 border-cyan-400 bg-cyan-600 text-white shadow-md";
+                    btnAktif.className = "px-4 py-2 rounded-xl text-xs font-black border border-slate-700 bg-slate-800 text-slate-400";
+                }
+            }
+
+            checkCategorization() {
+                const mission = this.missions[this.currentMissionIndex];
+                if (Object.keys(this.catAnswers).length < mission.items.length) {
+                    alert("Lütfen tüm maddeleri Aktif veya Pasif olarak işaretleyiniz!");
+                    return;
+                }
+
+                let allCorrect = true;
+                mission.items.forEach(item => {
+                    if (this.catAnswers[item.id] !== item.type) allCorrect = false;
+                });
+
+                if (allCorrect) {
+                    sounds.playCorrect();
+                    this.score += 20;
+                } else {
+                    sounds.playWrong();
+                }
+
+                this.showFeedback(allCorrect, allCorrect ? mission.feedbackCorrect : mission.feedbackWrong);
+            }
+
+            toggleSequenceItem(idx) {
+                sounds.playClick();
+                const pos = this.seqOrder.indexOf(idx);
+                if (pos > -1) {
+                    this.seqOrder.splice(pos, 1);
+                } else {
+                    if (this.seqOrder.length < 4) {
+                        this.seqOrder.push(idx);
+                    }
+                }
+                this.updateSequenceUI();
+            }
+
+            resetSequence() {
+                sounds.playClick();
+                this.seqOrder = [];
+                this.updateSequenceUI();
+            }
+
+            updateSequenceUI() {
+                for (let i = 0; i < 4; i++) {
+                    const btn = document.getElementById(`seq-btn-${i}`);
+                    const badge = document.getElementById(`seq-badge-${i}`);
+                    const orderIdx = this.seqOrder.indexOf(i);
+
+                    if (btn && badge) {
+                        if (orderIdx > -1) {
+                            btn.classList.add('border-cyan-400', 'bg-cyan-950/40');
+                            badge.className = "w-8 h-8 rounded-xl bg-cyan-500 text-white font-black text-sm flex items-center justify-center shadow";
+                            badge.innerText = `${orderIdx + 1}.`;
+                        } else {
+                            btn.classList.remove('border-cyan-400', 'bg-cyan-950/40');
+                            badge.className = "w-8 h-8 rounded-xl bg-slate-800 text-slate-500 font-black text-sm flex items-center justify-center";
+                            badge.innerText = `-`;
+                        }
+                    }
+                }
+            }
+
+            checkSequence() {
+                if (this.seqOrder.length < 4) {
+                    alert("Lütfen 4 adımı da sırayla seçerek sıralayınız!");
+                    return;
+                }
+
+                // Doğru sıra: 0, 1, 2, 3
+                let allCorrect = true;
+                for (let i = 0; i < 4; i++) {
+                    if (this.seqOrder[i] !== i) allCorrect = false;
+                }
+
+                const mission = this.missions[this.currentMissionIndex];
+                if (allCorrect) {
+                    sounds.playCorrect();
+                    this.score += 20;
+                } else {
+                    sounds.playWrong();
+                }
+
+                this.showFeedback(allCorrect, allCorrect ? mission.feedbackCorrect : mission.feedbackWrong);
+            }
+
+            showFeedback(isCorrect, msg) {
+                const fb = document.getElementById("mission-feedback");
+                if (!fb) return;
+
+                fb.classList.remove("hidden");
+                fb.innerHTML = `
+                    <div class="p-5 rounded-2xl border-2 ${isCorrect ? 'bg-emerald-950/90 border-emerald-500 text-emerald-200' : 'bg-rose-950/90 border-rose-500 text-rose-200'} space-y-3 animate-pop shadow-xl">
+                        <div class="flex items-center gap-3">
+                            <i class="fa-solid ${isCorrect ? 'fa-circle-check text-emerald-400' : 'fa-circle-exclamation text-rose-400'} text-2xl"></i>
+                            <div>
+                                <span class="text-xs font-black uppercase tracking-wider block">${isCorrect ? 'GÖREV BAŞARIYLA BAĞLANDI! (+20 PUAN)' : 'BAĞLANTI HATASI / İPUCU'}</span>
+                                <p class="text-sm font-semibold">${msg}</p>
+                            </div>
+                        </div>
+
+                        <div class="text-right pt-2 border-t ${isCorrect ? 'border-emerald-500/30' : 'border-rose-500/30'}">
+                            <button onclick="game.nextMission()" class="card-node px-6 py-2.5 bg-white text-slate-950 font-black rounded-xl text-xs sm:text-sm shadow-md inline-flex items-center gap-2">
+                                <span>${this.currentMissionIndex < this.missions.length - 1 ? 'Sonraki Göreve Geç ➔' : 'Kavram Haritasını Tamamla 🏆'}</span>
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }
+
+            nextMission() {
+                sounds.playClick();
+                this.selectedIds = [];
+                this.catAnswers = {};
+                this.seqOrder = [];
+
+                if (this.currentMissionIndex < this.missions.length - 1) {
+                    this.currentMissionIndex++;
+                    this.render();
+                } else {
+                    this.finishGame();
+                }
+            }
+
+            startMissions() {
+                sounds.playClick();
+                this.state = 'mission';
+                this.currentMissionIndex = 0;
+                this.score = 0;
+                this.selectedIds = [];
+                this.catAnswers = {};
+                this.seqOrder = [];
+                this.render();
+            }
+
+            finishGame() {
+                sounds.playFanfare();
+                if (typeof confetti === 'function') {
+                    confetti({ particleCount: 120, spread: 80, origin: { y: 0.6 } });
+                }
+                this.state = 'result';
+                this.render();
+            }
+
+            getResultHTML() {
+                let badgeTitle = "Bilişim Çırağı";
+                let badgeDesc = "Kavramları bağlamaya başladın! Bir kez daha deneyerek 100 tam puana ulaşabilirsin.";
+                let badgeColor = "from-blue-600 to-indigo-700";
+
+                if (this.score >= 100) {
+                    badgeTitle = "🏆 Usta Kavram Mimarı";
+                    badgeDesc = "Olağanüstü zihinsel harita! 1, 2 ve 3. konular arasındaki tüm mantık bağlarını eksiksiz kurdun!";
+                    badgeColor = "from-cyan-500 to-emerald-400 text-slate-950";
+                } else if (this.score >= 60) {
+                    badgeTitle = "🎖️ Bilişim Ağı Uzmanı";
+                    badgeDesc = "Çok başarılı! Kavramların büyük çoğunluğunu doğru ilişkilendirdin.";
+                    badgeColor = "from-cyan-600 to-blue-600";
+                }
+
+                return `
+                    <div class="glass-panel p-6 sm:p-10 rounded-3xl text-center space-y-6 animate-pop shadow-2xl border-2 border-cyan-400/50">
+                        <div class="inline-flex p-6 rounded-3xl bg-gradient-to-tr ${badgeColor} text-5xl sm:text-6xl shadow-2xl">
+                            <i class="fa-solid fa-network-wired"></i>
+                        </div>
+
+                        <div class="space-y-2">
+                            <span class="px-4 py-1 rounded-full bg-cyan-500/20 text-cyan-300 font-extrabold text-xs uppercase tracking-widest border border-cyan-400/40">
+                                🧠 KAVRAM HARİTASI TAMAMLANDI
+                            </span>
+                            <h2 class="text-2xl sm:text-4xl font-black text-white">${badgeTitle}</h2>
+                            <p class="text-sm sm:text-base text-slate-200 max-w-xl mx-auto leading-relaxed">${badgeDesc}</p>
+                        </div>
+
+                        <!-- PUAN KARTLARI -->
+                        <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 max-w-lg mx-auto">
+                            <div class="bg-slate-900/90 p-4 rounded-2xl border border-slate-800">
+                                <div class="text-[10px] text-slate-400 font-bold uppercase">Toplam Puan</div>
+                                <div class="text-3xl font-black text-yellow-400">${this.score} / 100</div>
+                            </div>
+                            <div class="bg-slate-900/90 p-4 rounded-2xl border border-slate-800">
+                                <div class="text-[10px] text-slate-400 font-bold uppercase">Tamamlanan Görev</div>
+                                <div class="text-3xl font-black text-emerald-400">5 / 5</div>
+                            </div>
+                            <div class="bg-slate-900/90 p-4 rounded-2xl border border-slate-800 col-span-2 sm:col-span-1">
+                                <div class="text-[10px] text-slate-400 font-bold uppercase">Başarı Durumu</div>
+                                <div class="text-base font-black text-cyan-300 mt-1">${this.score === 100 ? 'Kusursuz 🌟' : 'Başarılı 👍'}</div>
+                            </div>
+                        </div>
+
+                        <!-- BUTONLAR -->
+                        <div class="flex justify-center gap-4 flex-wrap pt-2">
+                            <button onclick="game.startMissions()" class="card-node px-8 py-3.5 bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-black text-sm sm:text-base rounded-2xl shadow-xl flex items-center gap-2 border-2 border-cyan-300">
+                                <i class="fa-solid fa-rotate-right"></i>
+                                <span>Yeniden Bağla</span>
+                            </button>
+                            <button onclick="game.state = 'intro'; game.render();" class="card-node px-8 py-3.5 bg-slate-800 hover:bg-slate-700 text-white font-bold text-sm sm:text-base rounded-2xl shadow-lg flex items-center gap-2 border border-slate-700">
+                                <i class="fa-solid fa-house"></i>
+                                <span>Ana Menü</span>
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }
+
+            toggleAudio() {
+                sounds.muted = !sounds.muted;
+                const icon = document.getElementById('audio-icon');
+                if (icon) {
+                    icon.className = sounds.muted ? "fa-solid fa-volume-xmark text-rose-400" : "fa-solid fa-volume-high text-yellow-400";
+                }
+            }
+
+            toggleFullscreen() {
+                sounds.playClick();
+                if (!document.fullscreenElement) {
+                    if (document.documentElement.requestFullscreen) {
+                        document.documentElement.requestFullscreen();
+                    }
+                } else {
+                    if (document.exitFullscreen) {
+                        document.exitFullscreen();
+                    }
+                }
+            }
+        }
+
+        const game = new ConnectWeeksGame();
+        window.onload = () => game.init();
+    </script>
+</body>
+</html>

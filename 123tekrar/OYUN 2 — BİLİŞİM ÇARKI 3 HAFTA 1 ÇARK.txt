@@ -1,0 +1,134 @@
+5. sınıf Bilişim Teknolojileri dersi için akıllı tahtada oynanabilecek
+interaktif bir bilgi ve görev çarkı oluştur.
+
+OYUN ADI:
+BİLİŞİM ÇARKI – 3 HAFTA 1 ÇARK
+
+AMAÇ:
+1, 2 ve 3. haftalarda öğrenilen konuları eğlenceli görevlerle tekrar etmek.
+
+ÇARKTA 6 KATEGORİ BULUNSUN:
+
+1. BİLİŞİM TEKNOLOJİLERİ
+2. KULLANIM ALANLARI
+3. TEKNOLOJİ VE SAĞLIK
+4. DİJİTAL VATANDAŞLIK
+5. DİJİTAL KİMLİK
+6. DİJİTAL AYAK İZİ
+
+--------------------------------------------------
+
+OYUN MEKANİĞİ:
+
+Ortada büyük bir dönen çark olsun.
+
+“ÇARKI ÇEVİR” butonu bulunsun.
+
+Çark rastgele bir kategori seçsin.
+
+Kategori seçildikten sonra o kategoriye ait bir görev açılsın.
+
+Öğrenci görevi cevaplasın.
+
+Doğru cevap:
++10 puan
+
+Yanlış cevap:
+Tekrar deneme + kısa ipucu.
+
+--------------------------------------------------
+
+GÖREV TİPLERİ:
+
+Sadece çoktan seçmeli soru kullanma.
+
+Görevleri çeşitlendir:
+
+- Çoktan seçmeli
+- Doğru/yanlış
+- Görseli yorumlama
+- Kavramı tahmin etme
+- Eksik kelimeyi tamamlama
+- Aktif/pasif sınıflandırma
+- Dijital davranış hakkında karar verme
+- Kısa cevap
+
+--------------------------------------------------
+
+ÖRNEK:
+
+KATEGORİ:
+TEKNOLOJİ VE SAĞLIK
+
+Görev:
+“Bilgisayar kullanırken doğru oturuş için aşağıdakilerden
+hangisini yapmalıyız?”
+
+A) Sürekli öne eğilmek
+B) Ekrana çok yaklaşmak
+C) Doğru oturuş pozisyonunu korumak
+D) Uzun süre hiç ara vermemek
+
+Doğru: C
+
+--------------------------------------------------
+
+KATEGORİ:
+DİJİTAL AYAK İZİ
+
+Görev:
+“Yorum yazmak aktif mi pasif mi?”
+
+Doğru:
+AKTİF
+
+--------------------------------------------------
+
+KATEGORİ:
+DİJİTAL KİMLİK
+
+Görev:
+“Hangisi dijital kimliğimizin bir parçası olabilir?”
+
+A) Kullanıcı adı
+B) Sınıftaki sıra
+C) Okulun bahçesi
+D) Kalem
+
+Doğru: A
+
+--------------------------------------------------
+
+EN AZ:
+Her kategoride 8 farklı görev oluştur.
+
+Toplam en az 48 görev olsun.
+
+Aynı soru tekrar tekrar gelmesin.
+
+--------------------------------------------------
+
+FİNAL:
+
+Oyuncunun toplam puanını göster.
+
+0–150:
+Bilişim Kaşifi
+
+160–300:
+Bilişim Uzmanı
+
+310+:
+Bilişim Ustası
+
+TASARIM:
+- Büyük çark
+- Renkli ekran
+- Büyük yazılar
+- Büyük butonlar
+- Akıllı tahta uyumlu
+- 5. sınıf seviyesinde
+- Türkçe
+- Eğlenceli ses ve animasyonlar
+
+Öğretmen Bozok markasını uygun bir köşede kullan.

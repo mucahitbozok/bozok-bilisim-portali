@@ -1,0 +1,1054 @@
+<!--
+================================================================================
+PROMPT / OYUN BELİRTİMİ:
+5. sınıf Bilişim Teknolojileri dersi için hikâye tabanlı interaktif
+bir akıllı tahta oyunu oluştur.
+
+OYUN ADI:
+BİR GÜNÜMÜZDE BİLİŞİM
+
+AMAÇ:
+Bir öğrencinin günlük yaşamı üzerinden 1, 2 ve 3. haftadaki
+konuları tekrar ettirmek.
+
+--------------------------------------------------
+
+HİKÂYE:
+
+Oyuncu “Efe” adlı bir öğrencinin bir gününü takip etsin.
+
+Sabah uyanmasından gece uyumasına kadar farklı olaylar ortaya çıksın.
+
+--------------------------------------------------
+
+SAHNE 1 — SABAH
+
+Efe telefonundaki alarm ile uyanıyor.
+
+Soru:
+“Burada hangi teknoloji kullanılıyor?”
+
+--------------------------------------------------
+
+SAHNE 2 — OKULA GİDİŞ
+
+Efe ulaşım teknolojisini kullanıyor.
+
+Soru:
+“Bilişim teknolojileri hangi alanlarda kullanılabilir?”
+
+--------------------------------------------------
+
+SAHNE 3 — DERS
+
+Efe EBA üzerinden ders çalışıyor.
+
+Soru:
+“Bu hangi dijital hizmete örnektir?”
+
+--------------------------------------------------
+
+SAHNE 4 — ARAŞTIRMA
+
+Efe internetten araştırma yapıyor.
+
+Görev:
+“Güvenilir bilgiye ulaşmak için ne yapmalıyız?”
+
+--------------------------------------------------
+
+SAHNE 5 — SOSYAL MEDYA
+
+Efe arkadaşının fotoğrafını paylaşmak istiyor.
+
+Seçenekler:
+
+PAYLAŞ
+ÖNCE DÜŞÜN
+PAYLAŞMA
+
+Öğrenci doğru kararı versin.
+
+--------------------------------------------------
+
+SAHNE 6 — BİLGİSAYAR KULLANIMI
+
+Efe bilgisayar başında uzun süre yanlış oturuyor.
+
+Soru:
+“Efe ne yapmalı?”
+
+--------------------------------------------------
+
+SAHNE 7 — DİJİTAL AYAK İZİ
+
+Efe yorum yazıyor.
+
+Soru:
+“Bu aktif mi pasif mi dijital ayak izidir?”
+
+--------------------------------------------------
+
+SAHNE 8 — GECE
+
+Efe hesabından çıkış yapmadan ortak bilgisayarı bırakıyor.
+
+Soru:
+“Bu davranış güvenli mi?”
+
+--------------------------------------------------
+
+FİNAL:
+
+“Efe'nin gününü başarıyla tamamladın!”
+
+Ardından öğrencinin hangi konularda doğru karar verdiğini göster.
+
+PUAN:
+Her doğru karar +10.
+
+Tasarım:
+- Günlük yaşam çizgi hikâyesi
+- Karakter animasyonları
+- Büyük butonlar
+- Büyük yazılar
+- Akıllı tahta uyumlu
+- 5. sınıf seviyesinde
+- Türkçe
+
+Öğretmen Bozok markasını kullan.
+================================================================================
+-->
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Bir Günümüzde Bilişim | Öğretmen Bozok</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#eef2ff',
+                            100: '#e0e7ff',
+                            500: '#6366f1',
+                            600: '#4f46e5',
+                            700: '#4338ca',
+                            900: '#1e1b4b',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Outfit', 'Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- FontAwesome 6 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- Google Fonts: Outfit & Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Outfit', sans-serif;
+            user-select: none;
+            -webkit-user-select: none;
+            touch-action: manipulation;
+        }
+        .text-glow {
+            text-shadow: 0 0 20px rgba(99, 102, 241, 0.6);
+        }
+        .sun-ray {
+            background: radial-gradient(circle, rgba(251, 191, 36, 0.25) 0%, rgba(251, 191, 36, 0) 70%);
+        }
+        @keyframes float-slow {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-8px) rotate(1deg); }
+        }
+        .animate-float {
+            animation: float-slow 4s ease-in-out infinite;
+        }
+        @keyframes pulse-ring {
+            0% { transform: scale(0.95); opacity: 0.8; }
+            50% { transform: scale(1.05); opacity: 1; }
+            100% { transform: scale(0.95); opacity: 0.8; }
+        }
+        .pulse-subtle {
+            animation: pulse-ring 3s ease-in-out infinite;
+        }
+    </style>
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col justify-between overflow-x-hidden">
+
+    <!-- ÜST BİLGİ & AKILLI TAHTA ÇUBUĞU -->
+    <header class="w-full bg-slate-900/90 backdrop-blur-md border-b border-indigo-500/30 px-4 py-3 sticky top-0 z-30 shadow-lg">
+        <div class="max-w-6xl mx-auto flex items-center justify-between gap-3">
+            <!-- Sol Logo ve Başlık -->
+            <div class="flex items-center gap-3">
+                <div class="w-12 h-12 rounded-2xl bg-gradient-to-tr from-amber-500 via-orange-500 to-indigo-600 flex items-center justify-center text-white text-2xl shadow-lg shadow-orange-500/20">
+                    <i class="fa-solid fa-clock"></i>
+                </div>
+                <div>
+                    <div class="flex items-center gap-2">
+                        <span class="px-2 py-0.5 rounded bg-indigo-500/20 text-indigo-300 font-extrabold text-[11px] tracking-wider uppercase border border-indigo-500/30">
+                            1-2-3. HAFTA TEKRAR OYUNU
+                        </span>
+                        <span class="hidden sm:inline-block px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 font-bold text-[11px]">
+                            Öğretmen Bozok
+                        </span>
+                    </div>
+                    <h1 class="text-xl sm:text-2xl font-black tracking-tight text-white flex items-center gap-2">
+                        BİR GÜNÜMÜZDE BİLİŞİM
+                    </h1>
+                </div>
+            </div>
+
+            <!-- Sağ: Puan, Zaman ve Kapat Butonu -->
+            <div class="flex items-center gap-3">
+                <!-- Dijital Saat Göstergesi -->
+                <div class="hidden md:flex items-center gap-2 px-3 py-1.5 rounded-xl bg-slate-800/80 border border-slate-700">
+                    <i class="fa-regular fa-clock text-amber-400"></i>
+                    <span id="headerClock" class="font-black text-amber-300 text-sm tracking-widest font-mono">07:00</span>
+                </div>
+
+                <!-- Puan Kartı -->
+                <div class="flex items-center gap-2 px-4 py-1.5 rounded-xl bg-gradient-to-r from-amber-500/20 to-yellow-500/20 border border-amber-500/40 shadow-inner">
+                    <i class="fa-solid fa-star text-amber-400 text-lg"></i>
+                    <div class="text-left">
+                        <div class="text-[10px] text-amber-300/80 font-bold uppercase leading-none">Toplam Puan</div>
+                        <div id="scoreDisplay" class="text-lg font-black text-amber-300 leading-tight">0 P</div>
+                    </div>
+                </div>
+
+                <!-- Çıkış / Pencereyi Kapat -->
+                <button onclick="window.parent && window.parent.app ? window.parent.app.closeStandaloneModal() : window.close()" 
+                        class="px-3 py-2 rounded-xl bg-rose-500/20 hover:bg-rose-500/40 text-rose-300 hover:text-white border border-rose-500/30 transition-all font-bold text-sm flex items-center gap-1.5"
+                        title="Pencereyi Kapat">
+                    <i class="fa-solid fa-xmark"></i>
+                    <span class="hidden sm:inline">Kapat</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- SAHNE YOLCULUK HARİTASI (İLERLEME ÇUBUĞU) -->
+    <div class="bg-slate-900/60 border-b border-slate-800 py-2.5 px-4">
+        <div class="max-w-6xl mx-auto flex items-center justify-between gap-1 overflow-x-auto no-scrollbar">
+            <!-- 8 Adım Düğmeleri -->
+            <div id="stepPillsContainer" class="flex items-center justify-between w-full min-w-[620px] gap-2">
+                <!-- JavaScript tarafından dinamik oluşturulacak -->
+            </div>
+        </div>
+    </div>
+
+    <!-- ANA İÇERİK ALANI -->
+    <main class="max-w-5xl mx-auto w-full px-4 py-6 flex-1 flex flex-col justify-center">
+
+        <!-- GİRİŞ EKRANI (BAŞLANGIÇ) -->
+        <div id="introScreen" class="bg-slate-900/80 border-2 border-indigo-500/40 rounded-3xl p-6 sm:p-10 shadow-2xl backdrop-blur-md text-center space-y-6 animate-float">
+            <div class="inline-flex p-4 bg-indigo-500/20 text-indigo-400 rounded-3xl text-5xl mb-2 shadow-inner border border-indigo-500/30">
+                <i class="fa-solid fa-street-view"></i>
+            </div>
+            
+            <div class="space-y-2">
+                <span class="px-3 py-1 bg-amber-400/20 text-amber-300 text-xs font-black tracking-widest rounded-full uppercase border border-amber-400/30">
+                    Hikâye Tabanlı İnteraktif Macera
+                </span>
+                <h2 class="text-3xl sm:text-5xl font-black text-white">Efe’nin 24 Saatlik Bilişim Günü</h2>
+                <p class="text-base sm:text-lg text-slate-300 max-w-2xl mx-auto leading-relaxed">
+                    Efe sabah saat 07:00’de uyanıp gece uyuyana kadar teknolojiyi kullanıyor. 
+                    1, 2 ve 3. haftada öğrendiğin <span class="text-amber-400 font-bold">bilişim teknolojileri, sağlık, dijital vatandaşlık ve güvenlik</span> bilgilerini kullanarak Efe'ye en doğru kararları aldırmaya hazır mısın?
+                </p>
+            </div>
+
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 max-w-2xl mx-auto text-left">
+                <div class="p-3 bg-slate-800/80 rounded-2xl border border-slate-700 flex items-center gap-3">
+                    <span class="text-2xl text-blue-400"><i class="fa-solid fa-mobile-screen"></i></span>
+                    <div>
+                        <div class="text-[11px] text-slate-400 font-bold uppercase">1. Hafta</div>
+                        <div class="text-xs font-black text-white">Kullanım Alanları</div>
+                    </div>
+                </div>
+                <div class="p-3 bg-slate-800/80 rounded-2xl border border-slate-700 flex items-center gap-3">
+                    <span class="text-2xl text-emerald-400"><i class="fa-solid fa-shield-halved"></i></span>
+                    <div>
+                        <div class="text-[11px] text-slate-400 font-bold uppercase">e-Devlet</div>
+                        <div class="text-xs font-black text-white">EBA & e-Hizmetler</div>
+                    </div>
+                </div>
+                <div class="p-3 bg-slate-800/80 rounded-2xl border border-slate-700 flex items-center gap-3">
+                    <span class="text-2xl text-rose-400"><i class="fa-solid fa-person-walking"></i></span>
+                    <div>
+                        <div class="text-[11px] text-slate-400 font-bold uppercase">2. Hafta</div>
+                        <div class="text-xs font-black text-white">Dijital Sağlık</div>
+                    </div>
+                </div>
+                <div class="p-3 bg-slate-800/80 rounded-2xl border border-slate-700 flex items-center gap-3">
+                    <span class="text-2xl text-purple-400"><i class="fa-solid fa-shoe-prints"></i></span>
+                    <div>
+                        <div class="text-[11px] text-slate-400 font-bold uppercase">3. Hafta</div>
+                        <div class="text-xs font-black text-white">Ayak İzi & Güvenlik</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pt-4 flex justify-center">
+                <button onclick="startGame()" class="px-8 py-4 rounded-2xl bg-gradient-to-r from-amber-500 via-orange-500 to-indigo-600 hover:from-amber-400 hover:to-indigo-500 text-slate-950 font-black text-xl shadow-xl hover:scale-105 active:scale-95 transition-all flex items-center gap-3">
+                    <span>GÜNE BAŞLA (07:00)</span>
+                    <i class="fa-solid fa-sun text-2xl animate-spin" style="animation-duration: 10s;"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- SAHNE OYNATICI (ANA OYUN ALANI) -->
+        <div id="gameScreen" class="hidden space-y-6">
+
+            <!-- Sahne Kartı Başlığı & Karakter Durumu -->
+            <div class="bg-slate-900/90 border-2 border-indigo-500/40 rounded-3xl p-5 sm:p-7 shadow-2xl relative overflow-hidden">
+                <!-- Arka plan parlaklığı -->
+                <div id="sceneGlow" class="absolute -top-20 -right-20 w-64 h-64 rounded-full sun-ray pointer-events-none"></div>
+
+                <div class="relative z-10 flex flex-col md:flex-row items-center gap-6">
+                    <!-- Karakter Avatarı & Duygu Kutusu -->
+                    <div class="flex flex-col items-center text-center shrink-0">
+                        <div id="characterCard" class="w-24 h-24 sm:w-28 sm:h-28 rounded-3xl bg-gradient-to-tr from-indigo-600 to-amber-500 p-1 shadow-2xl flex items-center justify-center transform transition-transform hover:scale-105">
+                            <div class="w-full h-full bg-slate-900 rounded-[22px] flex items-center justify-center text-4xl sm:text-5xl text-amber-300">
+                                <i id="characterIcon" class="fa-solid fa-bell"></i>
+                            </div>
+                        </div>
+                        <span class="mt-2 text-xs font-black tracking-widest text-slate-400 uppercase">EFE (5. SINIF)</span>
+                        <span id="sceneTimeBadge" class="mt-0.5 px-3 py-0.5 rounded-full bg-amber-500/20 text-amber-300 font-mono font-bold text-xs border border-amber-500/30">
+                            07:00 • SABAH
+                        </span>
+                    </div>
+
+                    <!-- Sahne Hikayesi ve Açıklaması -->
+                    <div class="flex-1 text-center md:text-left space-y-2">
+                        <div class="flex items-center justify-center md:justify-start gap-2">
+                            <span id="sceneCategoryBadge" class="px-3 py-1 rounded-lg bg-indigo-500/20 text-indigo-300 font-extrabold text-xs uppercase tracking-wider border border-indigo-500/30">
+                                SAHNE 1 — SABAH
+                            </span>
+                            <span id="sceneWeekBadge" class="px-2.5 py-1 rounded-lg bg-slate-800 text-slate-300 font-bold text-xs">
+                                1. Hafta Kazanımı
+                            </span>
+                        </div>
+                        <h3 id="sceneTitle" class="text-2xl sm:text-3xl font-black text-white leading-tight">
+                            Efe Telefonundaki Alarm ile Uyanıyor
+                        </h3>
+                        <p id="sceneNarrative" class="text-slate-300 text-sm sm:text-base leading-relaxed">
+                            Sabah oldu! Efe'nin akıllı telefonundaki melodili alarm çalıyor. Efe uykulu gözlerle telefonu eline alıp alarmı kapatıyor ve yeni güne hazırlanıyor.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SORU & KARAR ALANI -->
+            <div class="bg-slate-900/90 border-2 border-indigo-500/30 rounded-3xl p-5 sm:p-7 shadow-2xl space-y-5">
+                <div class="flex items-center gap-3 border-b border-slate-800 pb-3">
+                    <div class="w-10 h-10 rounded-xl bg-amber-500/20 text-amber-400 flex items-center justify-center text-xl">
+                        <i class="fa-solid fa-circle-question"></i>
+                    </div>
+                    <div>
+                        <span class="text-xs font-black text-amber-400 uppercase tracking-widest">AKILLI TAHTA GÖREVİ & SORUSU</span>
+                        <h4 id="questionText" class="text-lg sm:text-xl font-black text-white">
+                            Burada hangi teknoloji kullanılmaktadır?
+                        </h4>
+                    </div>
+                </div>
+
+                <!-- Seçenekler Listesi (Büyük Butonlar) -->
+                <div id="optionsContainer" class="grid grid-cols-1 md:grid-cols-2 gap-3.5">
+                    <!-- JS Tarafından dinamik butonlar yüklenecek -->
+                </div>
+
+                <!-- Geri Bildirim ve Açıklama Paneli -->
+                <div id="feedbackBox" class="hidden p-4 sm:p-5 rounded-2xl border-2 transition-all space-y-3">
+                    <div class="flex items-start gap-3">
+                        <div id="feedbackIcon" class="w-10 h-10 rounded-xl flex items-center justify-center text-2xl shrink-0"></div>
+                        <div class="flex-1">
+                            <h5 id="feedbackTitle" class="text-base sm:text-lg font-black"></h5>
+                            <p id="feedbackText" class="text-xs sm:text-sm mt-1 leading-relaxed"></p>
+                        </div>
+                    </div>
+                    <div class="pt-2 flex justify-end">
+                        <button id="btnNextScene" onclick="nextScene()" class="px-6 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-black text-sm shadow-lg flex items-center gap-2 transition-all">
+                            <span>Sonraki Sahneye Geç</span>
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- FİNAL VE GELİŞİM KARNESİ EKRANI -->
+        <div id="finalScreen" class="hidden space-y-6">
+            <div class="bg-slate-900/90 border-2 border-amber-500/50 rounded-3xl p-6 sm:p-8 shadow-2xl text-center space-y-6">
+                <!-- Şampiyonluk İkonu -->
+                <div class="w-24 h-24 mx-auto rounded-3xl bg-gradient-to-tr from-yellow-400 via-amber-500 to-orange-500 flex items-center justify-center text-slate-950 text-5xl shadow-2xl shadow-amber-500/40 animate-bounce">
+                    <i class="fa-solid fa-award"></i>
+                </div>
+
+                <div class="space-y-2">
+                    <span class="px-4 py-1 rounded-full bg-amber-500/20 text-amber-300 font-extrabold text-xs tracking-wider uppercase border border-amber-500/30">
+                        GÜN BAŞARIYLA TAMAMLANDI!
+                    </span>
+                    <h2 class="text-3xl sm:text-4xl font-black text-white">
+                        Tebrikler Bilişim Yıldızı!
+                    </h2>
+                    <p class="text-slate-300 max-w-xl mx-auto text-sm sm:text-base">
+                        Efe'nin 24 saatlik gününde bilişim teknolojilerini, sağlığı, dijital vatandaşlığı ve internet güvenliğini başarıyla yönettin.
+                    </p>
+                </div>
+
+                <!-- Puan Özeti -->
+                <div class="inline-flex items-center gap-4 px-6 py-3 rounded-2xl bg-amber-500/10 border-2 border-amber-500/30">
+                    <div>
+                        <div class="text-xs font-bold text-amber-400 uppercase">Kazanılan Puan</div>
+                        <div id="finalScoreText" class="text-4xl font-black text-amber-300">80 / 80</div>
+                    </div>
+                    <div class="h-10 w-px bg-amber-500/30"></div>
+                    <div>
+                        <div class="text-xs font-bold text-indigo-400 uppercase">Başarı Durumu</div>
+                        <div id="finalStatusBadge" class="text-base font-black text-emerald-400">Örnek Dijital Vatandaş</div>
+                    </div>
+                </div>
+
+                <!-- 8 Sahnenin Analiz Karnesi -->
+                <div class="text-left space-y-3 pt-2">
+                    <div class="flex items-center justify-between">
+                        <h4 class="text-sm font-black text-slate-200 uppercase tracking-wider flex items-center gap-2">
+                            <i class="fa-solid fa-list-check text-amber-400"></i>
+                            Günün Konu Analizi & Gelişim Karnesi
+                        </h4>
+                        <span class="text-xs text-slate-400 font-medium">8 Sahne Sonucu</span>
+                    </div>
+
+                    <div id="summaryCardsContainer" class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                        <!-- JS dinamik kartları dolduracak -->
+                    </div>
+                </div>
+
+                <!-- Yeniden Oyna / Pencereyi Kapat -->
+                <div class="pt-4 flex flex-wrap justify-center gap-3">
+                    <button onclick="startGame()" class="px-6 py-3 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-black text-sm shadow-xl flex items-center gap-2 transition-all">
+                        <i class="fa-solid fa-rotate-left"></i>
+                        <span>Günü Yeniden Yaşa</span>
+                    </button>
+                    <button onclick="window.parent && window.parent.app ? window.parent.app.closeStandaloneModal() : window.close()" class="px-6 py-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-bold text-sm border border-slate-600 transition-all flex items-center gap-2">
+                        <i class="fa-solid fa-xmark"></i>
+                        <span>Etkinliği Kapat</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- ALT BİLGİ & MARKA -->
+    <footer class="w-full bg-slate-950 border-t border-slate-800/80 py-3 px-4 text-center">
+        <p class="text-xs text-slate-400 font-medium flex items-center justify-center gap-2">
+            <i class="fa-solid fa-graduation-cap text-amber-400"></i>
+            <span>5. Sınıf Bilişim Teknolojileri • <strong>Öğretmen Bozok</strong> • Bozok Bilişim Portalı</span>
+        </p>
+    </footer>
+
+    <!-- SES SENTEZLEYİCİ (WEB AUDIO API) -->
+    <script>
+        const SoundFX = {
+            ctx: null,
+            init() {
+                if (!this.ctx) {
+                    const AudioContext = window.AudioContext || window.webkitAudioContext;
+                    if (AudioContext) this.ctx = new AudioContext();
+                }
+            },
+            play(type) {
+                try {
+                    this.init();
+                    if (!this.ctx) return;
+                    if (this.ctx.state === 'suspended') this.ctx.resume();
+
+                    const now = this.ctx.currentTime;
+                    const osc = this.ctx.createOscillator();
+                    const gain = this.ctx.createGain();
+                    osc.connect(gain);
+                    gain.connect(this.ctx.destination);
+
+                    if (type === 'correct') {
+                        // Mutlu başarı akoru
+                        osc.type = 'triangle';
+                        osc.frequency.setValueAtTime(523.25, now); // C5
+                        osc.frequency.setValueAtTime(659.25, now + 0.1); // E5
+                        osc.frequency.setValueAtTime(783.99, now + 0.2); // G5
+                        gain.gain.setValueAtTime(0.2, now);
+                        gain.gain.exponentialRampToValueAtTime(0.01, now + 0.45);
+                        osc.start(now);
+                        osc.stop(now + 0.45);
+                    } else if (type === 'wrong') {
+                        // Uyarı bas sesi
+                        osc.type = 'sawtooth';
+                        osc.frequency.setValueAtTime(220, now);
+                        osc.frequency.linearRampToValueAtTime(140, now + 0.3);
+                        gain.gain.setValueAtTime(0.25, now);
+                        gain.gain.exponentialRampToValueAtTime(0.01, now + 0.35);
+                        osc.start(now);
+                        osc.stop(now + 0.35);
+                    } else if (type === 'alarm') {
+                        // Alarm sesi (bip bip)
+                        osc.type = 'sine';
+                        osc.frequency.setValueAtTime(880, now);
+                        osc.frequency.setValueAtTime(1760, now + 0.1);
+                        gain.gain.setValueAtTime(0.2, now);
+                        gain.gain.exponentialRampToValueAtTime(0.01, now + 0.3);
+                        osc.start(now);
+                        osc.stop(now + 0.3);
+                    } else if (type === 'finish') {
+                        // Zafer arpej
+                        [523, 659, 784, 1046].forEach((freq, idx) => {
+                            const subOsc = this.ctx.createOscillator();
+                            const subGain = this.ctx.createGain();
+                            subOsc.connect(subGain);
+                            subGain.connect(this.ctx.destination);
+                            subOsc.type = 'triangle';
+                            subOsc.frequency.setValueAtTime(freq, now + idx * 0.12);
+                            subGain.gain.setValueAtTime(0.18, now + idx * 0.12);
+                            subGain.gain.exponentialRampToValueAtTime(0.001, now + idx * 0.12 + 0.4);
+                            subOsc.start(now + idx * 0.12);
+                            subOsc.stop(now + idx * 0.12 + 0.4);
+                        });
+                    }
+                } catch (e) {
+                    console.warn("Ses sentezlenemedi:", e);
+                }
+            }
+        };
+
+        // ========================================================
+        // 8 SAHNENİN VERİ YAPISI
+        // ========================================================
+        const SCENES = [
+            {
+                id: 1,
+                time: "07:00",
+                period: "SABAH",
+                title: "Efe Telefonundaki Alarm ile Uyanıyor",
+                narrative: "Sabah saat 07:00! Efe'nin akıllı telefonundaki dijital alarm çalıyor. Efe uyanıp ekrana dokunarak alarmı kapatıyor.",
+                category: "1. HAFTA: Bilişim & Donanım/Yazılım",
+                icon: "fa-solid fa-bell",
+                characterEmotion: "fa-solid fa-face-smile",
+                question: "Burada hangi teknoloji kullanılıyor?",
+                options: [
+                    {
+                        text: "Bilişim ve Mobil İletişim Teknolojisi (Donanım + Yazılım)",
+                        correct: true,
+                        rationale: "Akıllı telefonlar içindeki işletim sistemi ve alarm yazılımıyla donanımın birlikte çalıştığı modern bilişim teknolojileridir."
+                    },
+                    {
+                        text: "Yalnızca Mekanik Yay ve Dişli Teknolojisi",
+                        correct: false,
+                        rationale: "Mekanik saatler eski yaylı sistemlerdir; akıllı telefon dijital bilişim teknolojisidir."
+                    },
+                    {
+                        text: "Buhar Gücü Teknolojisi",
+                        correct: false,
+                        rationale: "Buhar gücü sanayi devriminde trenlerde ve makinelerde kullanılmıştır."
+                    },
+                    {
+                        text: "İlkel Tarım Teknolojisi",
+                        correct: false,
+                        rationale: "Tarım teknolojisi tarla ve ziraat işlerinde kullanılır."
+                    }
+                ]
+            },
+            {
+                id: 2,
+                time: "08:00",
+                period: "OKULA GİDİŞ",
+                title: "Efe Ulaşım Teknolojisini Kullanıyor",
+                narrative: "Efe belediye otobüsüne binerken akıllı kent kartını validatöre okutuyor ve duraktaki dijital ekrandan otobüsün varış süresini kontrol ediyor.",
+                category: "1. HAFTA: Bilişim Teknolojileri Kullanım Alanları",
+                icon: "fa-solid fa-bus-simple",
+                characterEmotion: "fa-solid fa-id-card",
+                question: "Bilişim teknolojileri günlük yaşamda hangi alanlarda kullanılabilir?",
+                options: [
+                    {
+                        text: "Ulaşım, Eğitim, Sağlık, Güvenlik, Bankacılık ve İletişim gibi hayatın her alanında",
+                        correct: true,
+                        rationale: "Bilişim teknolojileri; ulaşımda akıllı kart ve GPS'ten sağlıkta MHRS'ye, eğitimde EBA'dan bankacılıkta ATM'ye kadar her alanda kullanılır!"
+                    },
+                    {
+                        text: "Yalnızca bilgisayar oyunları oynamak ve video izlemek için",
+                        correct: false,
+                        rationale: "Bilişim sadece eğlence için değil, kamu ve günlük hayatın tüm hizmetlerinde kullanılır."
+                    },
+                    {
+                        text: "Sadece uzay araştırmalarında astronotlar tarafından",
+                        correct: false,
+                        rationale: "Uzayda da kullanılır ancak günlük yaşamımızın tamamını kolaylaştıran teknolojilerdir."
+                    },
+                    {
+                        text: "Yalnızca kağıt ve kalem yerine kullanılan basit çizimler için",
+                        correct: false,
+                        rationale: "Bilişim çok daha geniş bir bilgi işlem ve veri yönetim ağıdır."
+                    }
+                ]
+            },
+            {
+                id: 3,
+                time: "10:30",
+                period: "DERS",
+                title: "Efe EBA Üzerinden Ders Çalışıyor",
+                narrative: "Bilişim dersinde Efe ve arkadaşları akıllı tahta ve tabletleriyle MEB EBA portalına giriş yapıp ders materyallerini inceliyor.",
+                category: "3. HAFTA: Dijital Vatandaşlık & e-Hizmetler",
+                icon: "fa-solid fa-chalkboard-user",
+                characterEmotion: "fa-solid fa-graduation-cap",
+                question: "Efe'nin kullandığı EBA ve e-Okul hangi dijital hizmet türüne örnektir?",
+                options: [
+                    {
+                        text: "Resmi Dijital Eğitim ve e-Devlet Kamu Hizmetleri",
+                        correct: true,
+                        rationale: "EBA, e-Okul ve MEBBİS; Milli Eğitim Bakanlığı ve e-Devlet tarafından sunulan güvenli, resmi çevrimiçi kamu eğitim hizmetleridir."
+                    },
+                    {
+                        text: "Ticari Online Alışveriş ve Reklam Sayfası",
+                        correct: false,
+                        rationale: "EBA ticari bir alışveriş sitesi değil, tamamen ücretsiz resmi bir eğitim kapısıdır."
+                    },
+                    {
+                        text: "Ücretli Dijital Oyun Satış Mağazası",
+                        correct: false,
+                        rationale: "EBA bir oyun mağazası değildir; eğitim bilişim ağıdır."
+                    },
+                    {
+                        text: "Sosyal Medya Magazin Portalı",
+                        correct: false,
+                        rationale: "EBA kamu güvencesinde resmi bir eğitim platformudur."
+                    }
+                ]
+            },
+            {
+                id: 4,
+                time: "14:30",
+                period: "ARAŞTIRMA",
+                title: "Efe İnternetten Araştırma Yapıyor",
+                narrative: "Öğretmeni Efe'ye 'Yapay Zekânın Sağlıktaki Yeri' konulu bir araştırma görevi verdi. Efe bilgisayarında arama motorunu açtı.",
+                category: "3. HAFTA: Güvenilir Bilgiye Erişim & Dijital Okuryazarlık",
+                icon: "fa-solid fa-magnifying-glass",
+                characterEmotion: "fa-solid fa-lightbulb",
+                question: "Güvenilir ve doğru bilgiye ulaşmak için Efe ne yapmalıdır?",
+                options: [
+                    {
+                        text: ".gov.tr ve .edu.tr uzantılı resmi kaynaklara bakmalı, bilgiyi en az 2-3 siteden teyit etmeli",
+                        correct: true,
+                        rationale: "Devlet kurumları (.gov) ve üniversiteler (.edu) güvenilirdir. Bilinçli öğrenci bilgiyi çapraz kontrol eder ve güncelliğini inceler."
+                    },
+                    {
+                        text: "Aramada ilk çıkan ve çok reklamlı her siteye hemen inanıp kopyalamalı",
+                        correct: false,
+                        rationale: "İlk çıkan siteler bazen reklam veya yanıltıcı bilgi içerebilir; mutlaka sorgulanmalıdır."
+                    },
+                    {
+                        text: "Yazarı ve tarihi belli olmayan anonim forum yazılarını doğru kabul etmeli",
+                        correct: false,
+                        rationale: "Kaynağı belirsiz yazılar güvenilir bilgi sayılmaz."
+                    },
+                    {
+                        text: "Sosyal medyadaki doğrulanmamış söylenti gönderilerini kaynak almalı",
+                        correct: false,
+                        rationale: "Sosyal medyada bilgi kirliliği çok yüksektir; resmi akademik kaynaklara bakılmalıdır."
+                    }
+                ]
+            },
+            {
+                id: 5,
+                time: "16:30",
+                period: "SOSYAL MEDYA",
+                title: "Efe Arkadaşının Fotoğrafını Çekti",
+                narrative: "Teneffüste arkadaşının komik bir anını telefonla çeken Efe, bu fotoğrafı sosyal medyada paylaşmak istiyor fakat arkadaşı henüz görmedi.",
+                category: "3. HAFTA: Dijital Etik & Kişisel Verilerin Mahremiyeti",
+                icon: "fa-solid fa-camera",
+                characterEmotion: "fa-solid fa-users",
+                question: "Efe bu durumda ne yapmalı? Doğru dijital vatandaş kararı hangisidir?",
+                options: [
+                    {
+                        text: "PAYLAŞMA: Arkadaşının iznini almadan kişisel verisini ve fotoğrafını asla paylaşmamalı!",
+                        correct: true,
+                        rationale: "Harika karar! Bir başkasının fotoğrafını izinsiz paylaşmak özel hayatın gizliliğini ihlal eder ve kötü bir dijital ayak izi bırakır."
+                    },
+                    {
+                        text: "PAYLAŞ: Çok komik ve çok beğeni alacağı için sormadan hemen paylaşmalı",
+                        correct: false,
+                        rationale: "Yanlış! İzin almadan paylaşım yapmak dijital nezakete ve yasalara aykırıdır; arkadaşını incitebilir."
+                    },
+                    {
+                        text: "GİZLİ HESAPTAN PAYLAŞ: Arkadaşının adı yerine lakap yazıp gizlice paylaşmalı",
+                        correct: false,
+                        rationale: "Gizlice de olsa bir başkasının mahremiyetini ihlal etmek doğru bir dijital davranış değildir."
+                    },
+                    {
+                        text: "HERKESE AÇIK GRUBA GÖNDER: Sınıf grubuna atıp arkadaşlarının dalga geçmesini sağlamalı",
+                        correct: false,
+                        rationale: "Bu davranış siber zorbalığa girer ve okul kurallarına da dijital etik kurallarına da tamamen terstir."
+                    }
+                ]
+            },
+            {
+                id: 6,
+                time: "18:30",
+                period: "BİLGİSAYAR KULLANIMI",
+                title: "Efe Bilgisayar Başında Yanlış Oturuyor",
+                narrative: "Efe 2 saattir aralıksız ekrana çok yakından bakıyor, sırtı kamburlaşmış, boynu öne bükük ve boynunda ağrı hissetmeye başladı.",
+                category: "2. HAFTA: Dijital Sağlık & Ergonomi",
+                icon: "fa-solid fa-laptop",
+                characterEmotion: "fa-solid fa-child-reaching",
+                question: "Efe sağlığını korumak için ne yapmalıdır?",
+                options: [
+                    {
+                        text: "Dik oturmalı, ekranı 50-70 cm mesafede göz hizasına almalı ve 20-20-20 kuralıyla mola vermeli",
+                        correct: true,
+                        rationale: "Ergonomi kurallarına uymak şarttır! Dik oturuş, koltuk desteği ve her 20 dakikada bir 20 saniye 20 fit (6 metre) uzağa bakmak sağlığımızı korur."
+                    },
+                    {
+                        text: "Ağrıyı görmezden gelip ekrana daha da yaklaşarak oynamaya devam etmeli",
+                        correct: false,
+                        rationale: "Bu durum kalıcı bel/boyun fıtığına ve ciddi göz bozulmalarına yol açabilir."
+                    },
+                    {
+                        text: "Işıkları tamamen kapatıp zifiri karanlıkta ekrana bakmalıdır",
+                        correct: false,
+                        rationale: "Karanlıkta parlayan ekrana bakmak göz kaslarını aşırı yorar ve göz kuruluğunu artırır."
+                    },
+                    {
+                        text: "Yatağa sırtüstü uzanıp dizüstü bilgisayarı göğsünün üzerine koymalı",
+                        correct: false,
+                        rationale: "Yatarak bilgisayar kullanmak omurga sağlığı için son derece sakıncalıdır."
+                    }
+                ]
+            },
+            {
+                id: 7,
+                time: "20:00",
+                period: "DİJİTAL AYAK İZİ",
+                title: "Efe Bir Videoya Düşünceli Bir Yorum Yazıyor",
+                narrative: "Efe izlediği bilim belgeselinin altına 'Harika bir içerik, teşekkürler' şeklinde kendi hesabıyla kibar bir yorum gönderdi.",
+                category: "3. HAFTA: Aktif ve Pasif Dijital Ayak İzi",
+                icon: "fa-solid fa-shoe-prints",
+                characterEmotion: "fa-solid fa-comment-dots",
+                question: "Efe'nin kendi isteğiyle yazdığı bu yorum hangi dijital ayak izi türüne girer?",
+                options: [
+                    {
+                        text: "Aktif Dijital Ayak İzi (Kendi isteği ve bilinciyle internette iz bıraktı)",
+                        correct: true,
+                        rationale: "Kullanıcının bilerek paylaştığı fotoğraflar, gönderiler, attığı tweetler ve yazdığı yorumlar AKTİF dijital ayak izidir."
+                    },
+                    {
+                        text: "Pasif Dijital Ayak İzi (İsteksizce arkada toplanan çerez veya IP bilgisi)",
+                        correct: false,
+                        rationale: "Pasif ayak izi; web sitelerinin sizden habersiz topladığı çerezler, IP adresi ve tıklama geçmişidir."
+                    },
+                    {
+                        text: "Sanal Çöp İzi",
+                        correct: false,
+                        rationale: "Bilişimde böyle bir resmi terim bulunmaz."
+                    },
+                    {
+                        text: "Donanım Mekanik İzi",
+                        correct: false,
+                        rationale: "Yorum yazmak yazılımsal ve dijital bir ayak izidir."
+                    }
+                ]
+            },
+            {
+                id: 8,
+                time: "21:30",
+                period: "GECE",
+                title: "Efe Ortak Bilgisayardan Kalkmak Üzere",
+                narrative: "Efe kütüphanedeki ortak bilgisayarda araştırmasını bitirdi, uykusu geldi ve hesabından çıkış yapmadan doğrudan kalkmak istiyor.",
+                category: "3. HAFTA: Güvenli Dijital Davranış & Hesap Güvenliği",
+                icon: "fa-solid fa-moon",
+                characterEmotion: "fa-solid fa-user-lock",
+                question: "Efe'nin hesabından çıkış yapmadan kalkması güvenli bir davranış mıdır?",
+                options: [
+                    {
+                        text: "Hayır, kesinlikle güvensizdir! 'Oturumu Kapat / Çıkış Yap' diyerek hesabını kapatmalıdır.",
+                        correct: true,
+                        rationale: "Mükemmel güvenlik bilinci! Ortak bilgisayarlarda çıkış yapılmazsa bir sonraki kişi Efe'nin hesabına erişebilir, kişisel verilerini çalabilir."
+                    },
+                    {
+                        text: "Evet, güvenlidir çünkü bilgisayar kapandığında her şey otomatik silinir",
+                        correct: false,
+                        rationale: "Yanlış! Tarayıcıda oturum açık kalabilir ve hesap çalınma riski çok büyüktür."
+                    },
+                    {
+                        text: "Evet, nasıl olsa bir sonraki kullanıcı da öğrencidir, kötü niyetli olamaz",
+                        correct: false,
+                        rationale: "Siber güvenlikte tanımadığımız cihazlara ve kullanıcılara güvenilmez; şifre ve oturumlar daima kapatılır."
+                    },
+                    {
+                        text: "Sadece monitörün güç düğmesine basıp ekranı karartmak yeterlidir",
+                        correct: false,
+                        rationale: "Monitörü kapatmak bilgisayarı veya oturumu kapatmaz! Mutlaka 'Çıkış Yap' tıklanmalıdır."
+                    }
+                ]
+            }
+        ];
+
+        // ========================================================
+        // OYUN DURUMU (STATE)
+        // ========================================================
+        let currentSceneIndex = 0;
+        let score = 0;
+        let sceneResults = []; // { sceneId, correct, selectedOption }
+
+        // Sayfa Yüklendiğinde
+        window.addEventListener('DOMContentLoaded', () => {
+            renderStepPills();
+        });
+
+        // Üst Adım Hapları (Pills) Oluşturma
+        function renderStepPills() {
+            const container = document.getElementById('stepPillsContainer');
+            if (!container) return;
+            container.innerHTML = '';
+
+            SCENES.forEach((scene, idx) => {
+                const pill = document.createElement('div');
+                pill.id = `pill-step-${idx}`;
+                pill.className = `flex-1 flex items-center justify-center gap-1.5 py-1 px-2 rounded-xl text-xs font-bold transition-all border ${
+                    idx === currentSceneIndex 
+                        ? 'bg-amber-500 text-slate-950 border-amber-400 shadow-md font-black' 
+                        : 'bg-slate-800/80 text-slate-400 border-slate-700'
+                }`;
+                pill.innerHTML = `
+                    <span class="text-[10px] opacity-75">${scene.time}</span>
+                    <i class="${scene.icon} text-[11px]"></i>
+                    <span class="hidden lg:inline text-[11px]">${scene.period}</span>
+                `;
+                container.appendChild(pill);
+            });
+        }
+
+        // Oyunu Başlat
+        function startGame() {
+            SoundFX.play('alarm');
+            currentSceneIndex = 0;
+            score = 0;
+            sceneResults = [];
+            updateScoreDisplay();
+
+            document.getElementById('introScreen').classList.add('hidden');
+            document.getElementById('finalScreen').classList.add('hidden');
+            document.getElementById('gameScreen').classList.remove('hidden');
+
+            loadScene(0);
+        }
+
+        // Sahneyi Yükle
+        function loadScene(index) {
+            currentSceneIndex = index;
+            const scene = SCENES[index];
+            if (!scene) {
+                showFinalScreen();
+                return;
+            }
+
+            // Saat ve zaman güncelle
+            document.getElementById('headerClock').innerText = scene.time;
+            document.getElementById('sceneTimeBadge').innerText = `${scene.time} • ${scene.period}`;
+            document.getElementById('sceneCategoryBadge').innerText = `SAHNE ${scene.id} — ${scene.period}`;
+            document.getElementById('sceneWeekBadge').innerText = scene.category;
+
+            // Başlık & Hikaye
+            document.getElementById('sceneTitle').innerText = scene.title;
+            document.getElementById('sceneNarrative').innerText = scene.narrative;
+            document.getElementById('characterIcon').className = scene.icon;
+
+            // Soru
+            document.getElementById('questionText').innerText = scene.question;
+
+            // Geri Bildirimi Gizle
+            const feedbackBox = document.getElementById('feedbackBox');
+            feedbackBox.classList.add('hidden');
+            feedbackBox.className = 'hidden p-4 sm:p-5 rounded-2xl border-2 transition-all space-y-3';
+
+            // Seçenekleri Doldur
+            const optionsContainer = document.getElementById('optionsContainer');
+            optionsContainer.innerHTML = '';
+
+            // Seçenekleri karıştır (isteğe bağlı ama 1. seçenek doğruysa harflendir)
+            const letters = ['A', 'B', 'C', 'D'];
+            scene.options.forEach((opt, optIdx) => {
+                const btn = document.createElement('button');
+                btn.className = `option-btn w-full text-left p-4 rounded-2xl bg-slate-800/90 hover:bg-slate-750 border-2 border-slate-700 hover:border-indigo-400 text-white font-medium transition-all shadow-md flex items-start gap-3 active:scale-[0.98]`;
+                btn.innerHTML = `
+                    <span class="w-8 h-8 rounded-xl bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 flex items-center justify-center font-black text-sm shrink-0">
+                        ${letters[optIdx] || (optIdx + 1)}
+                    </span>
+                    <span class="text-sm sm:text-base leading-snug flex-1">${opt.text}</span>
+                `;
+                btn.onclick = () => selectOption(opt, btn, scene);
+                optionsContainer.appendChild(btn);
+            });
+
+            // Adım haplarını güncelle
+            SCENES.forEach((_, idx) => {
+                const pill = document.getElementById(`pill-step-${idx}`);
+                if (!pill) return;
+                if (idx === currentSceneIndex) {
+                    pill.className = 'flex-1 flex items-center justify-center gap-1.5 py-1 px-2 rounded-xl text-xs font-black transition-all border bg-amber-500 text-slate-950 border-amber-400 shadow-md';
+                } else if (idx < currentSceneIndex) {
+                    const res = sceneResults[idx];
+                    const isSuccess = res && res.correct;
+                    pill.className = `flex-1 flex items-center justify-center gap-1.5 py-1 px-2 rounded-xl text-xs font-bold transition-all border ${
+                        isSuccess ? 'bg-emerald-500/30 text-emerald-300 border-emerald-500/50' : 'bg-rose-500/30 text-rose-300 border-rose-500/50'
+                    }`;
+                } else {
+                    pill.className = 'flex-1 flex items-center justify-center gap-1.5 py-1 px-2 rounded-xl text-xs font-bold transition-all border bg-slate-800/80 text-slate-400 border-slate-700';
+                }
+            });
+        }
+
+        // Seçenek Seçildiğinde
+        function selectOption(selectedOpt, btnElement, scene) {
+            // Butonları kilitle
+            const allBtns = document.querySelectorAll('.option-btn');
+            allBtns.forEach(b => {
+                b.disabled = true;
+                b.classList.add('cursor-not-allowed', 'opacity-70');
+            });
+
+            const isCorrect = selectedOpt.correct === true;
+            if (isCorrect) {
+                score += 10;
+                SoundFX.play('correct');
+                btnElement.classList.remove('bg-slate-800/90', 'border-slate-700', 'opacity-70');
+                btnElement.classList.add('bg-emerald-950/80', 'border-emerald-400', 'text-emerald-200', 'shadow-emerald-500/20');
+            } else {
+                SoundFX.play('wrong');
+                btnElement.classList.remove('bg-slate-800/90', 'border-slate-700', 'opacity-70');
+                btnElement.classList.add('bg-rose-950/80', 'border-rose-400', 'text-rose-200');
+
+                // Doğru olanı yeşil yap
+                allBtns.forEach((b, i) => {
+                    if (scene.options[i] && scene.options[i].correct) {
+                        b.classList.remove('opacity-70');
+                        b.classList.add('bg-emerald-950/50', 'border-emerald-500/60', 'text-emerald-200');
+                    }
+                });
+            }
+
+            updateScoreDisplay();
+
+            // Sonucu kaydet
+            sceneResults.push({
+                sceneId: scene.id,
+                title: scene.title,
+                category: scene.category,
+                correct: isCorrect,
+                rationale: selectedOpt.rationale
+            });
+
+            // Geri Bildirim Kutusunu Göster
+            showFeedback(isCorrect, selectedOpt.rationale);
+        }
+
+        // Geri Bildirim Göster
+        function showFeedback(isCorrect, rationale) {
+            const box = document.getElementById('feedbackBox');
+            const icon = document.getElementById('feedbackIcon');
+            const title = document.getElementById('feedbackTitle');
+            const text = document.getElementById('feedbackText');
+
+            box.classList.remove('hidden');
+
+            if (isCorrect) {
+                box.className = 'p-4 sm:p-5 rounded-2xl border-2 bg-emerald-950/70 border-emerald-500/80 text-emerald-200 space-y-3';
+                icon.className = 'w-10 h-10 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-2xl shrink-0';
+                icon.innerHTML = '<i class="fa-solid fa-circle-check"></i>';
+                title.innerText = 'Harika Karar! (+10 Puan)';
+                title.className = 'text-base sm:text-lg font-black text-emerald-300';
+            } else {
+                box.className = 'p-4 sm:p-5 rounded-2xl border-2 bg-rose-950/70 border-rose-500/80 text-rose-200 space-y-3';
+                icon.className = 'w-10 h-10 rounded-xl bg-rose-500/20 text-rose-400 flex items-center justify-center text-2xl shrink-0';
+                icon.innerHTML = '<i class="fa-solid fa-triangle-exclamation"></i>';
+                title.innerText = 'Dikkat Efe! Bu Davranış Sakıncalı';
+                title.className = 'text-base sm:text-lg font-black text-rose-300';
+            }
+
+            text.innerText = rationale;
+        }
+
+        // Sonraki Sahneye Geçiş
+        function nextScene() {
+            if (currentSceneIndex + 1 < SCENES.length) {
+                loadScene(currentSceneIndex + 1);
+            } else {
+                showFinalScreen();
+            }
+        }
+
+        // Skor Göstergesini Güncelle
+        function updateScoreDisplay() {
+            const el = document.getElementById('scoreDisplay');
+            if (el) el.innerText = `${score} P`;
+        }
+
+        // Final Ekranı
+        function showFinalScreen() {
+            SoundFX.play('finish');
+
+            document.getElementById('gameScreen').classList.add('hidden');
+            document.getElementById('finalScreen').classList.remove('hidden');
+
+            document.getElementById('finalScoreText').innerText = `${score} / 80`;
+
+            const statusBadge = document.getElementById('finalStatusBadge');
+            if (score >= 70) {
+                statusBadge.innerText = '🏆 Usta Dijital Vatandaş';
+                statusBadge.className = 'text-base font-black text-emerald-400';
+            } else if (score >= 50) {
+                statusBadge.innerText = '🌟 Bilinçli Bilişim Kaşifi';
+                statusBadge.className = 'text-base font-black text-amber-400';
+            } else {
+                statusBadge.innerText = '📚 Konuları Tekrar Etmelisin';
+                statusBadge.className = 'text-base font-black text-blue-400';
+            }
+
+            // 8 Konuluk Özet Listesi
+            const container = document.getElementById('summaryCardsContainer');
+            container.innerHTML = '';
+
+            sceneResults.forEach((res, i) => {
+                const item = document.createElement('div');
+                item.className = `p-3 rounded-xl border flex items-center justify-between gap-3 ${
+                    res.correct 
+                        ? 'bg-emerald-950/30 border-emerald-500/40 text-emerald-200' 
+                        : 'bg-rose-950/30 border-rose-500/40 text-rose-200'
+                }`;
+                item.innerHTML = `
+                    <div class="flex items-center gap-2.5 overflow-hidden">
+                        <span class="w-6 h-6 rounded-lg ${res.correct ? 'bg-emerald-500/20 text-emerald-400' : 'bg-rose-500/20 text-rose-400'} flex items-center justify-center text-xs shrink-0 font-bold">
+                            <i class="fa-solid ${res.correct ? 'fa-check' : 'fa-xmark'}"></i>
+                        </span>
+                        <div class="truncate">
+                            <div class="text-[11px] font-bold text-slate-400 truncate">${res.category}</div>
+                            <div class="text-xs font-black text-white truncate">${res.title}</div>
+                        </div>
+                    </div>
+                    <span class="text-xs font-black px-2 py-0.5 rounded ${res.correct ? 'bg-emerald-500/20 text-emerald-300' : 'bg-rose-500/20 text-rose-300'} shrink-0">
+                        ${res.correct ? '+10 P' : '0 P'}
+                    </span>
+                `;
+                container.appendChild(item);
+            });
+        }
+    </script>
+</body>
+</html>
