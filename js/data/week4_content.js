@@ -32,20 +32,8 @@ window.WEEK4_CONTENT = {
         }
     },
 
-    // 🎬 KONU İLE ALAKALI VİDEOLAR (Öğretmen Bozok Video Arşivi)
-    videos: [
-        {
-            id: 1,
-            title: "1, 2 ve 3. Konular Kapsamlı Tekrar & Soru Çözümü",
-            desc: "Bilişim alanları, dijital sağlık, ergonomi, dijital ayak izi ve e-Devlet uygulamalarını baştan sona özetleyen süper tekrar ders videosu.",
-            url: "https://www.youtube.com/watch?v=1QVvGxxjw_4",
-            youtubeId: "1QVvGxxjw_4",
-            duration: "Genel Tekrar",
-            badge: "1-2-3 Genel Tekrar",
-            author: "Öğretmen Bozok Arşivi",
-            icon: "fa-solid fa-graduation-cap"
-        }
-    ],
+    // 🎬 KONU İLE ALAKALI VİDEOLAR (Bu konu için video bulunmuyor)
+    videos: [],
 
     // ========================================================
     // 🖥️ 1. İNTERAKTİF DERS SUNUSU (Akıllı Tahta Modu - 20 Slayt)
