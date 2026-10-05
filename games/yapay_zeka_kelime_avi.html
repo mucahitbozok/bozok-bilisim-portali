@@ -101,17 +101,17 @@
         .animate-pop { animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
     </style>
 </head>
-<body class="flex flex-col justify-between p-3 sm:p-6 select-none">
+<body class="flex flex-col justify-between p-2 sm:p-4 select-none min-h-screen">
 
     <!-- ÜST ÇUBUK -->
-    <header class="max-w-6xl w-full mx-auto flex items-center justify-between gap-4 pb-4 border-b border-slate-800">
+    <header class="max-w-6xl w-full mx-auto flex items-center justify-between gap-4 pb-2 sm:pb-3 border-b border-slate-800">
         <div class="flex items-center gap-3">
-            <div class="w-12 h-12 rounded-2xl bg-gradient-to-tr from-cyan-600 via-blue-600 to-indigo-600 text-white flex items-center justify-center text-2xl shadow-lg shadow-cyan-500/25">
+            <div class="w-10 h-10 sm:w-11 sm:h-11 rounded-2xl bg-gradient-to-tr from-cyan-600 via-blue-600 to-indigo-600 text-white flex items-center justify-center text-xl sm:text-2xl shadow-lg shadow-cyan-500/25">
                 <i class="fa-solid fa-brain"></i>
             </div>
             <div>
-                <span class="px-2.5 py-0.5 bg-cyan-400/20 text-cyan-300 font-black rounded-lg text-[10px] tracking-wider uppercase border border-cyan-400/30">4. KONU LABİRENT OYUNU</span>
-                <h1 class="text-lg sm:text-xl font-black text-white flex items-center gap-2">
+                <span class="px-2 py-0.5 bg-cyan-400/20 text-cyan-300 font-black rounded-lg text-[9px] sm:text-[10px] tracking-wider uppercase border border-cyan-400/30">4. KONU LABİRENT OYUNU</span>
+                <h1 class="text-base sm:text-lg font-black text-white flex items-center gap-2">
                     Yapay Zekâ Kelime Avı
                     <span class="hidden sm:inline-block text-xs px-2 py-0.5 rounded-full bg-cyan-400/20 text-cyan-300 border border-cyan-400/30 font-semibold">Temel Kavramlar</span>
                 </h1>
@@ -119,31 +119,31 @@
         </div>
 
         <!-- SAĞ KONTROLLER -->
-        <div class="flex items-center gap-2 sm:gap-3">
-            <div class="bg-slate-900/90 border border-slate-800 rounded-xl px-3 py-1.5 flex items-center gap-2 text-xs font-bold text-slate-300">
+        <div class="flex items-center gap-1.5 sm:gap-2">
+            <div class="bg-slate-900/90 border border-slate-800 rounded-xl px-2.5 py-1 flex items-center gap-1.5 text-xs font-bold text-slate-300">
                 <i class="fa-solid fa-chalkboard-user text-cyan-400"></i>
                 <span class="hidden sm:inline">Öğretmen:</span>
                 <span class="text-white">Bozok</span>
             </div>
-            <button onclick="game.openHelpModal()" class="w-10 h-10 rounded-xl bg-slate-900 border border-slate-700 hover:border-cyan-400/50 text-cyan-300 flex items-center justify-center transition-all hover:bg-slate-800" title="Nasıl Oynanır?">
-                <i class="fa-solid fa-circle-question text-lg"></i>
+            <button onclick="game.openHelpModal()" class="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-slate-900 border border-slate-700 hover:border-cyan-400/50 text-cyan-300 flex items-center justify-center transition-all hover:bg-slate-800" title="Nasıl Oynanır?">
+                <i class="fa-solid fa-circle-question text-base"></i>
             </button>
-            <button onclick="game.toggleAudio()" class="w-10 h-10 rounded-xl bg-slate-900 border border-slate-700 hover:border-yellow-400/50 text-yellow-400 flex items-center justify-center transition-all hover:bg-slate-800" title="Ses Aç/Kapat">
-                <i id="audio-icon" class="fa-solid fa-volume-high text-lg"></i>
+            <button onclick="game.toggleAudio()" class="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-slate-900 border border-slate-700 hover:border-yellow-400/50 text-yellow-400 flex items-center justify-center transition-all hover:bg-slate-800" title="Ses Aç/Kapat">
+                <i id="audio-icon" class="fa-solid fa-volume-high text-base"></i>
             </button>
-            <button onclick="game.toggleFullscreen()" class="w-10 h-10 rounded-xl bg-slate-900 border border-slate-700 hover:border-cyan-400/50 text-slate-300 flex items-center justify-center transition-all hover:bg-slate-800" title="Tam Ekran">
-                <i class="fa-solid fa-expand text-lg"></i>
+            <button onclick="game.toggleFullscreen()" class="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-slate-900 border border-slate-700 hover:border-cyan-400/50 text-slate-300 flex items-center justify-center transition-all hover:bg-slate-800" title="Tam Ekran">
+                <i class="fa-solid fa-expand text-base"></i>
             </button>
         </div>
     </header>
 
     <!-- ANA OYUN ALANI -->
-    <main id="game-container" class="max-w-6xl w-full mx-auto my-auto py-5">
+    <main id="game-container" class="max-w-6xl w-full mx-auto my-auto py-2 sm:py-3">
         <!-- JS ile dinamik render edilecek -->
     </main>
 
     <!-- ALT BİLGİ -->
-    <footer class="max-w-6xl w-full mx-auto text-center pt-4 border-t border-slate-800/80 text-xs text-slate-500 flex flex-col sm:flex-row items-center justify-between gap-2">
+    <footer class="max-w-6xl w-full mx-auto text-center pt-2 sm:pt-3 border-t border-slate-800/80 text-[11px] sm:text-xs text-slate-500 flex flex-col sm:flex-row items-center justify-between gap-1 sm:gap-2">
         <div class="flex items-center gap-2">
             <i class="fa-solid fa-robot text-cyan-400"></i>
             <span>BTY.5.1.4 - Yapay Zekâda Temel Kavram ve Özellikler & Dinamik Kelime Matrisi</span>
@@ -582,73 +582,69 @@
                 const progressPct = Math.round((foundCount / totalCount) * 100);
 
                 return `
-                    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+                    <div class="grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-5 items-start">
                         <!-- SOL / ÜST: BİLGİ & KELİME LİSTESİ (Lg: 5 Kolon) -->
-                        <div class="lg:col-span-5 space-y-4">
+                        <div class="lg:col-span-5 space-y-3">
                             <!-- Skor & İlerleme Kartı -->
-                            <div class="glass-panel rounded-3xl p-4 sm:p-5 border border-cyan-500/30 shadow-xl space-y-3">
+                            <div class="glass-panel rounded-2xl p-3 sm:p-3.5 border border-cyan-500/30 shadow-xl space-y-2.5">
                                 <div class="flex items-center justify-between">
                                     <div>
-                                        <div class="text-[11px] uppercase tracking-wider font-extrabold text-cyan-400">İLERLEME</div>
-                                        <div class="text-2xl font-black text-white">${foundCount} / ${totalCount} <span class="text-xs font-semibold text-slate-400">Kelime</span></div>
+                                        <div class="text-[10px] uppercase tracking-wider font-extrabold text-cyan-400">İLERLEME</div>
+                                        <div class="text-xl sm:text-2xl font-black text-white">${foundCount} / ${totalCount} <span class="text-xs font-semibold text-slate-400">Kelime</span></div>
                                     </div>
                                     <div class="text-right">
-                                        <div class="text-[11px] uppercase tracking-wider font-extrabold text-yellow-400">SKOR</div>
-                                        <div class="text-2xl font-black text-yellow-300">${this.score} <span class="text-xs font-semibold text-yellow-500/80">Puan</span></div>
+                                        <div class="text-[10px] uppercase tracking-wider font-extrabold text-yellow-400">SKOR</div>
+                                        <div class="text-xl sm:text-2xl font-black text-yellow-300">${this.score} <span class="text-xs font-semibold text-yellow-500/80">Puan</span></div>
                                     </div>
                                 </div>
                                 <!-- Progress Bar -->
-                                <div class="w-full h-3 rounded-full bg-slate-900 border border-slate-700 overflow-hidden">
+                                <div class="w-full h-2 rounded-full bg-slate-900 border border-slate-700 overflow-hidden">
                                     <div class="h-full bg-gradient-to-r from-cyan-500 via-blue-500 to-emerald-400 transition-all duration-300" style="width: ${progressPct}%"></div>
                                 </div>
-                                <div class="flex flex-wrap items-center justify-between pt-1 gap-2">
-                                    <button onclick="game.giveHint()" class="btn-touch px-3 py-1.5 rounded-xl bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 border border-amber-500/30 font-bold text-xs flex items-center gap-1.5 transition-all">
+                                <div class="flex flex-wrap items-center justify-between pt-0.5 gap-2">
+                                    <button onclick="game.giveHint()" class="btn-touch px-2.5 py-1 rounded-xl bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 border border-amber-500/30 font-bold text-xs flex items-center gap-1.5 transition-all">
                                         <i class="fa-solid fa-lightbulb"></i>
                                         <span>İpucu Al</span>
                                     </button>
-                                    <button onclick="game.toggleSolution()" class="btn-touch px-3.5 py-1.5 rounded-xl ${this.showSolution ? 'bg-purple-600 hover:bg-purple-500 text-white border border-purple-400 shadow-lg shadow-purple-600/40' : 'bg-purple-500/20 hover:bg-purple-500/30 text-purple-300 border border-purple-500/30'} font-bold text-xs flex items-center gap-1.5 transition-all">
+                                    <button onclick="game.toggleSolution()" class="btn-touch px-3 py-1 rounded-xl ${this.showSolution ? 'bg-purple-600 hover:bg-purple-500 text-white border border-purple-400 shadow-md shadow-purple-600/30' : 'bg-purple-500/20 hover:bg-purple-500/30 text-purple-300 border border-purple-500/30'} font-bold text-xs flex items-center gap-1.5 transition-all">
                                         <i class="fa-solid ${this.showSolution ? 'fa-eye-slash' : 'fa-key'}"></i>
                                         <span>${this.showSolution ? 'Çözümü Gizle' : 'Çözümü Göster'}</span>
                                     </button>
-                                    <button onclick="game.startGame()" class="btn-touch px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 font-bold text-xs flex items-center gap-1.5 transition-all">
+                                    <button onclick="game.startGame()" class="btn-touch px-2.5 py-1 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 font-bold text-xs flex items-center gap-1.5 transition-all">
                                         <i class="fa-solid fa-arrows-rotate"></i>
                                         <span>Yeni Bulmaca</span>
                                     </button>
                                 </div>
                             </div>
 
-                            <!-- Hedef Kelimeler Listesi -->
-                            <div class="glass-panel rounded-3xl p-4 sm:p-5 border border-slate-800 shadow-xl space-y-3">
-                                <div class="flex items-center justify-between pb-2 border-b border-slate-800">
-                                    <h3 class="text-sm font-black text-white flex items-center gap-2">
+                            <!-- Hedef Kelimeler Listesi (Kompakt ve Kaydırmasız Tek Ekrana Sığan Görünüm) -->
+                            <div class="glass-panel rounded-2xl p-3 sm:p-3.5 border border-slate-800 shadow-xl space-y-2">
+                                <div class="flex items-center justify-between pb-1.5 border-b border-slate-800">
+                                    <h3 class="text-xs sm:text-sm font-black text-white flex items-center gap-1.5">
                                         <i class="fa-solid fa-bullseye text-cyan-400"></i>
                                         <span>Tabloda Bulunacak Kelimeler</span>
                                     </h3>
                                     <span class="text-[11px] font-bold text-slate-400">${totalCount - foundCount} Kaldı</span>
                                 </div>
 
-                                <div class="text-[11px] text-cyan-300/90 bg-cyan-950/40 p-2 rounded-xl border border-cyan-500/20 font-semibold flex items-center gap-2">
-                                    <i class="fa-solid fa-magnifying-glass text-cyan-400"></i>
-                                    <span>Aşağıdaki kelimeleri tabloda arayın:</span>
-                                </div>
-
-                                <div class="grid grid-cols-2 gap-2 max-h-[360px] overflow-y-auto pr-1">
+                                <!-- 10 Kelime 2 Kolonda Kompakt Hap/Kutucuk (5 satır, tam sığar, sayfa kaydırmaz) -->
+                                <div class="grid grid-cols-2 gap-1.5 sm:gap-2">
                                     ${this.words.map(w => `
-                                        <div class="p-2.5 rounded-xl border transition-all ${w.found 
+                                        <div class="p-1.5 sm:p-2 rounded-xl border transition-all ${w.found 
                                             ? 'bg-emerald-950/40 border-emerald-500/40 text-emerald-300' 
-                                            : (this.showSolution ? 'bg-purple-950/30 border-purple-500/40 text-slate-200' : 'bg-slate-900/80 border-slate-800 text-slate-200 hover:border-cyan-500/30')} flex flex-col justify-between">
-                                            <div class="flex items-center justify-between gap-1">
-                                                <span class="font-mono font-black text-xs sm:text-sm tracking-wider ${w.found ? 'text-emerald-400 line-through' : 'text-cyan-300'}">${w.word}</span>
-                                                ${w.found ? '<i class="fa-solid fa-circle-check text-emerald-400 text-xs shrink-0"></i>' : `<span class="text-[9px] px-1.5 py-0.5 rounded bg-cyan-950/80 text-cyan-400 border border-cyan-800 font-bold shrink-0">${w.word.length} Harf</span>`}
+                                            : (this.showSolution ? 'bg-purple-950/30 border-purple-500/40 text-slate-200' : 'bg-slate-900/80 border-slate-800 text-slate-200 hover:border-cyan-500/30')} flex items-center justify-between gap-1.5" title="${w.desc} (${w.label})">
+                                            <div class="min-w-0 flex-1">
+                                                <div class="font-mono font-black text-xs sm:text-sm tracking-wider truncate ${w.found ? 'text-emerald-400 line-through' : 'text-cyan-300'}">${w.word}</div>
+                                                <div class="text-[10px] text-slate-400 font-medium truncate leading-tight">${w.label}</div>
+                                                ${this.showSolution && !w.found ? `
+                                                    <div class="text-[9px] font-extrabold text-purple-300 truncate">${w.r + 1}.Sat &bull; ${w.dirName || ''}</div>
+                                                ` : ''}
                                             </div>
-                                            <div class="text-[11px] font-bold text-slate-300 mt-1 line-clamp-1">${w.label}</div>
-                                            <div class="text-[10px] text-slate-400 line-clamp-1">${w.desc}</div>
-                                            ${this.showSolution && !w.found ? `
-                                                <div class="mt-1.5 pt-1.5 border-t border-purple-500/30 text-[10px] font-extrabold text-purple-300 flex items-center gap-1">
-                                                    <i class="fa-solid fa-location-dot text-purple-400"></i>
-                                                    <span>${w.r + 1}. Satır &bull; ${w.dirName || 'Düz'}</span>
-                                                </div>
-                                            ` : ''}
+                                            <div class="shrink-0 flex items-center">
+                                                ${w.found 
+                                                    ? '<i class="fa-solid fa-circle-check text-emerald-400 text-xs sm:text-sm"></i>' 
+                                                    : `<span class="text-[9px] px-1 py-0.5 rounded bg-cyan-950/80 text-cyan-400 border border-cyan-800 font-bold">${w.word.length}H</span>`}
+                                            </div>
                                         </div>
                                     `).join('')}
                                 </div>
@@ -658,29 +654,29 @@
                         <!-- SAĞ: 12x12 HARF MATRİSİ (Lg: 7 Kolon) -->
                         <div class="lg:col-span-7 flex flex-col items-center">
                             ${this.showSolution ? `
-                                <div class="w-full max-w-[540px] mb-3 p-3 rounded-2xl bg-purple-950/85 border-2 border-purple-400 text-purple-200 text-xs sm:text-sm font-bold flex flex-col sm:flex-row items-center justify-between gap-2.5 animate-pop shadow-xl shadow-purple-950/50">
-                                    <div class="flex items-center gap-2">
-                                        <i class="fa-solid fa-key text-purple-400 text-base animate-bounce"></i>
-                                        <span><strong>Çözüm Modu Aktif:</strong> Bulunamayan tüm kelimeler mor renkle parlatıldı!</span>
+                                <div class="w-full max-w-[460px] sm:max-w-[480px] mb-2 p-2 sm:p-2.5 rounded-2xl bg-purple-950/85 border border-purple-400 text-purple-200 text-xs font-bold flex items-center justify-between gap-2 shadow-lg animate-pop">
+                                    <div class="flex items-center gap-1.5 truncate">
+                                        <i class="fa-solid fa-key text-purple-400 animate-bounce"></i>
+                                        <span class="truncate">Çözümler mor renkle işaretlendi</span>
                                     </div>
-                                    <div class="flex items-center gap-2 shrink-0">
-                                        <button onclick="game.solveAllAndFinish()" class="btn-touch px-3 py-1.5 bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-400 hover:to-pink-400 text-white font-black rounded-xl text-xs shadow-md flex items-center gap-1.5 transition-all">
+                                    <div class="flex items-center gap-1.5 shrink-0">
+                                        <button onclick="game.solveAllAndFinish()" class="btn-touch px-2.5 py-1 bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-400 hover:to-pink-400 text-white font-black rounded-lg text-xs shadow-md flex items-center gap-1">
                                             <i class="fa-solid fa-check-double"></i>
-                                            <span>Tümünü Tamamla</span>
+                                            <span>Tamamla</span>
                                         </button>
-                                        <button onclick="game.toggleSolution()" class="btn-touch px-2.5 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold rounded-xl text-xs border border-slate-700 transition-all">
+                                        <button onclick="game.toggleSolution()" class="btn-touch px-2 py-1 bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold rounded-lg text-xs border border-slate-700">
                                             Kapat
                                         </button>
                                     </div>
                                 </div>
                             ` : ''}
 
-                            <div class="glass-panel rounded-3xl p-3 sm:p-5 border border-cyan-500/30 shadow-2xl flex flex-col items-center w-full">
-                                <div class="text-xs text-slate-400 font-semibold mb-3 flex items-center gap-2">
+                            <div class="glass-panel rounded-3xl p-2.5 sm:p-4 border border-cyan-500/30 shadow-2xl flex flex-col items-center w-full max-w-[460px] sm:max-w-[480px]">
+                                <div class="text-[11px] sm:text-xs text-slate-400 font-semibold mb-2 flex items-center gap-1.5">
                                     <i class="fa-solid fa-circle-info text-cyan-400"></i>
-                                    <span>Kelimenin <strong>ilk harfine</strong>, ardından <strong>son harfine</strong> dokun!</span>
+                                    <span>Kelimenin <strong>ilk</strong> ve <strong>son</strong> harfine dokun!</span>
                                 </div>
-                                <div id="grid-board" class="grid grid-cols-12 gap-1 sm:gap-1.5 w-full max-w-[540px] aspect-square p-2 bg-slate-950/80 rounded-2xl border border-slate-800">
+                                <div id="grid-board" class="grid grid-cols-12 gap-1 sm:gap-1.5 w-full aspect-square p-1.5 sm:p-2 bg-slate-950/80 rounded-2xl border border-slate-800">
                                     ${this.renderGridCells()}
                                 </div>
                             </div>
