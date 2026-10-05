@@ -571,6 +571,16 @@
 
         const hub = new MissionHub();
 
+        // Rastgele şık karıştırıcı yardımcı fonksiyon
+        function shuffleList(list) {
+            const copy = [...list];
+            for (let i = copy.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [copy[i], copy[j]] = [copy[j], copy[i]];
+            }
+            return copy;
+        }
+
         // =========================================================================
         // 🎮 OYUN 1: ALGORİTMAYI KANDIR
         // =========================================================================
@@ -585,15 +595,15 @@
                             userData: ["⚽ Futbol Maçı Özeti", "⚽ Futbol Taktikleri", "💻 Bilgisayar Toplama", "⚽ Penaltı Kurtarışları"],
                             question: "Yapay zekâ sistemi bu kullanıcının geçmişine bakarak ana sayfada EN ÇOK hangi videoyu önerir?",
                             options: [
-                                { text: "Dünyanın En İyi Golleri (Futbol)", correct: true },
                                 { text: "Pratik Yemek Tarifleri", correct: false },
+                                { text: "Dünyanın En İyi Golleri (Futbol)", correct: true },
                                 { text: "Bahçe Bakımı ve Çiçekler", correct: false }
                             ],
                             whyQuestion: "Yapay zekâ neden bu videoyu önerdi?",
                             whyOptions: [
-                                { text: "Geçmiş verilerin %75'i futbol ile ilgili olduğu için", correct: true },
                                 { text: "Kullanıcının yaşını bildiği için", correct: false },
-                                { text: "Rastgele tahmin yürüttüğü için", correct: false }
+                                { text: "Rastgele tahmin yürüttüğü için", correct: false },
+                                { text: "Geçmiş verilerin %75'i futbol ile ilgili olduğu için", correct: true }
                             ]
                         },
                         phase2: {
@@ -601,8 +611,8 @@
                             newData: ["🍳 Pratik Omlet", "🍕 Evde Pizza Yapımı", "🍔 Hamburger Sosu", "🍰 Çilekli Pasta", "🍜 Ramen Tarifi"],
                             question: "Veri kümesi böyle değişince yapay zekânın YENİ önerisi ne olur?",
                             options: [
-                                { text: "Masterchef Özel Yemek Taktikleri", correct: true },
                                 { text: "Futbol Maçı Özeti", correct: false },
+                                { text: "Masterchef Özel Yemek Taktikleri", correct: true },
                                 { text: "Balık Tutma Teknikleri", correct: false }
                             ],
                             conclusion: "Harika! Gördüğün gibi yapay zekâ kendi zevklerine göre değil; BİZE AİT VERİLERİN AĞIRLIĞINA göre kararını hemen güncelledi!"
@@ -616,14 +626,14 @@
                             userData: ["🎸 Elektro Gitar Dersi", "🎸 Rock Müzik Çalma Listesi", "🎸 Anadolu Rock Klasikleri", "🎹 Piyano Melodisi"],
                             question: "Yapay zekâ kullanıcının 'Haftalık Keşif' listesine hangi şarkıyı ekler?",
                             options: [
-                                { text: "Barış Manço - Dönence (Rock)", correct: true },
                                 { text: "Hafif Uyku Ninnileri", correct: false },
-                                { text: "Klasik Opera Dinletisi", correct: false }
+                                { text: "Klasik Opera Dinletisi", correct: false },
+                                { text: "Barış Manço - Dönence (Rock)", correct: true }
                             ],
                             whyQuestion: "Algoritmanın bu şarkıyı seçme mantığı nedir?",
                             whyOptions: [
-                                { text: "Kullanıcının gitar ve rock şarkılarındaki yüksek dinleme oranı", correct: true },
                                 { text: "O gün havanın yağmurlu olması", correct: false },
+                                { text: "Kullanıcının gitar ve rock şarkılarındaki yüksek dinleme oranı", correct: true },
                                 { text: "Şarkının çok eski olması", correct: false }
                             ]
                         },
@@ -632,9 +642,9 @@
                             newData: ["🎹 Odaklanma Piyanosu", "🎧 Lofi Hip Hop Beats", "🎹 Sakin Gece Melodisi", "🎧 Beyin Dalgaları", "🎹 Dinlendirici Akorlar"],
                             question: "Veriler değişti! Yapay zekâ artık kullanıcının yeni müzik zevkini ne olarak tahmin eder?",
                             options: [
-                                { text: "Sakin Akustik Piyano ve Çalışma Müzikleri", correct: true },
                                 { text: "Ağır Metal Gitar Solosu", correct: false },
-                                { text: "Korna ve Siren Sesleri", correct: false }
+                                { text: "Korna ve Siren Sesleri", correct: false },
+                                { text: "Sakin Akustik Piyano ve Çalışma Müzikleri", correct: true }
                             ],
                             conclusion: "Tebrikler! Müzik algoritmaları sabit kalmaz; kullanıcının anlık ruh haline ve dinleme geçmişi verilerine göre sürekli eğitilir!"
                         }
@@ -647,14 +657,14 @@
                             userData: ["📚 5. Sınıf Soru Bankası", "✏️ Renkli Fosforlu Kalem Seti", "📐 Geometri Cetvel Takımı", "🎒 Okul Çantası"],
                             question: "Yapay zekâ bu kullanıcıya sepet aşamasında 'Bunu da beğenebilirsiniz' diye neyi önerir?",
                             options: [
-                                { text: "Kaliteli Silgi ve Uçlu Kalem", correct: true },
                                 { text: "Otomobil Kış Lastiği", correct: false },
+                                { text: "Kaliteli Silgi ve Uçlu Kalem", correct: true },
                                 { text: "Bahçe Çim Biçme Makinesi", correct: false }
                             ],
                             whyQuestion: "Yapay zekâ neden silgi ve kalem önerdi?",
                             whyOptions: [
-                                { text: "Önceki alışveriş verilerinin okul ve kırtasiye ihtiyacını göstermesi", correct: true },
                                 { text: "Silgilerin çok ucuz olması", correct: false },
+                                { text: "Önceki alışveriş verilerinin okul ve kırtasiye ihtiyacını göstermesi", correct: true },
                                 { text: "Sadece rastgele eşya seçmesi", correct: false }
                             ]
                         },
@@ -663,9 +673,9 @@
                             newData: ["🐱 Yavru Kedi Maması", "🧶 Kedi Tırmalama Tahtası", "🐈 Kedi Taşıma Çantası"],
                             question: "Yapay zekânın yeni sepet önerisi ne olur?",
                             options: [
-                                { text: "Kedi Tarağı ve Su Kabı", correct: true },
                                 { text: "Kırtasiye Defteri", correct: false },
-                                { text: "Bisiklet Kaskı", correct: false }
+                                { text: "Bisiklet Kaskı", correct: false },
+                                { text: "Kedi Tarağı ve Su Kabı", correct: true }
                             ],
                             conclusion: "Harika çıkarım! Alışveriş sitelerindeki yapay zekâlar, sepete yeni giren her veriyle birlikte müşteri profilini anında yeniden hesaplar!"
                         }
@@ -676,10 +686,18 @@
                 this.selectedAnswer = null;
             }
 
+            prepareCurrentScenario() {
+                const s = this.scenarios[this.currentIndex];
+                s.phase1.currentOptions = shuffleList(s.phase1.options);
+                s.phase1.currentWhyOptions = shuffleList(s.phase1.whyOptions);
+                s.phase2.currentOptions = shuffleList(s.phase2.options);
+            }
+
             start() {
                 sound.click();
                 this.currentIndex = 0;
                 this.stage = 1;
+                this.prepareCurrentScenario();
                 this.render();
             }
 
@@ -716,6 +734,7 @@
 
             renderBodyContent(s) {
                 if (this.stage === 1) {
+                    const opts = s.phase1.currentOptions || s.phase1.options;
                     return `
                         <div class="grid grid-cols-1 md:grid-cols-12 gap-5 items-start">
                             <!-- SOL: Kullanıcı Verileri -->
@@ -744,7 +763,7 @@
                                     <h4 class="text-base sm:text-lg font-black text-white leading-snug">${s.phase1.question}</h4>
                                 </div>
                                 <div class="space-y-2.5 pt-2">
-                                    ${s.phase1.options.map((opt, idx) => `
+                                    ${opts.map((opt, idx) => `
                                         <button onclick="game1.choosePhase1(${idx})" class="btn-touch w-full p-4 rounded-2xl bg-slate-900/90 hover:bg-slate-800 border-2 border-slate-800 hover:border-cyan-400/60 text-left flex items-center justify-between text-sm sm:text-base font-bold text-white transition-all">
                                             <span>${opt.text}</span>
                                             <i class="fa-solid fa-chevron-right text-slate-500"></i>
@@ -755,6 +774,7 @@
                         </div>
                     `;
                 } else if (this.stage === 2) {
+                    const whyOpts = s.phase1.currentWhyOptions || s.phase1.whyOptions;
                     return `
                         <div class="glass-panel rounded-3xl p-6 sm:p-8 border border-cyan-500/30 text-center space-y-5">
                             <div class="w-16 h-16 rounded-2xl bg-emerald-500/20 text-emerald-400 text-3xl mx-auto flex items-center justify-center">
@@ -765,7 +785,7 @@
                                 <h4 class="text-xl sm:text-2xl font-black text-white max-w-xl mx-auto">${s.phase1.whyQuestion}</h4>
                             </div>
                             <div class="grid grid-cols-1 gap-3 max-w-xl mx-auto pt-2">
-                                ${s.phase1.whyOptions.map((opt, idx) => `
+                                ${whyOpts.map((opt, idx) => `
                                     <button onclick="game1.chooseWhy(${idx})" class="btn-touch p-4 rounded-2xl bg-slate-900/90 hover:bg-slate-800 border-2 border-slate-800 hover:border-purple-400 text-left text-sm sm:text-base font-bold text-slate-200 transition-all flex items-center justify-between">
                                         <span>${opt.text}</span>
                                         <i class="fa-solid fa-brain text-purple-400"></i>
@@ -775,6 +795,7 @@
                         </div>
                     `;
                 } else if (this.stage === 3) {
+                    const p2Opts = s.phase2.currentOptions || s.phase2.options;
                     return `
                         <div class="grid grid-cols-1 md:grid-cols-12 gap-5 items-start">
                             <!-- SOL: Değişen Yeni Veriler -->
@@ -803,7 +824,7 @@
                                     <h4 class="text-base sm:text-lg font-black text-white leading-snug">${s.phase2.question}</h4>
                                 </div>
                                 <div class="space-y-2.5 pt-2">
-                                    ${s.phase2.options.map((opt, idx) => `
+                                    ${p2Opts.map((opt, idx) => `
                                         <button onclick="game1.choosePhase2(${idx})" class="btn-touch w-full p-4 rounded-2xl bg-slate-900/90 hover:bg-slate-800 border-2 border-slate-800 hover:border-purple-400 text-left flex items-center justify-between text-sm sm:text-base font-bold text-white transition-all">
                                             <span>${opt.text}</span>
                                             <i class="fa-solid fa-rotate text-purple-400"></i>
@@ -839,7 +860,8 @@
 
             choosePhase1(idx) {
                 const s = this.scenarios[this.currentIndex];
-                if (s.phase1.options[idx].correct) {
+                const opts = s.phase1.currentOptions || s.phase1.options;
+                if (opts[idx].correct) {
                     sound.success();
                     this.stage = 2;
                     this.render();
@@ -851,7 +873,8 @@
 
             chooseWhy(idx) {
                 const s = this.scenarios[this.currentIndex];
-                if (s.phase1.whyOptions[idx].correct) {
+                const whyOpts = s.phase1.currentWhyOptions || s.phase1.whyOptions;
+                if (whyOpts[idx].correct) {
                     sound.success();
                     this.stage = 3;
                     this.render();
@@ -863,7 +886,8 @@
 
             choosePhase2(idx) {
                 const s = this.scenarios[this.currentIndex];
-                if (s.phase2.options[idx].correct) {
+                const p2Opts = s.phase2.currentOptions || s.phase2.options;
+                if (p2Opts[idx].correct) {
                     sound.success();
                     this.stage = 4;
                     this.render();
@@ -878,6 +902,7 @@
                 if (this.currentIndex < this.scenarios.length - 1) {
                     this.currentIndex++;
                     this.stage = 1;
+                    this.prepareCurrentScenario();
                     this.render();
                 } else {
                     hub.unlockBadge('dataMaster', 50);
@@ -901,8 +926,8 @@
                         correctDecision: "GÜVENİLEMEZ", // GÜVENİLEMEZ, KONTROL ET, GÜVENİLİR
                         why: "Tarihi ve bilimsel bir gerçeği tamamen yanlış (halüsinasyon) üretti. İnsanlar Ay'a 1969'da Apollo 11 ile gitmiştir, 1923 ise Cumhuriyetimizin kuruluş yılıdır!",
                         howToCheck: [
-                            { text: "Tarih ve fen ders kitaplarından ya da güvenilir ansiklopedilerden kontrol ederim.", correct: true },
                             { text: "Yapay zekâ söylediyse doğrudur, hiç araştırmam.", correct: false },
+                            { text: "Tarih ve fen ders kitaplarından ya da güvenilir ansiklopedilerden kontrol ederim.", correct: true },
                             { text: "Sosyal medyadaki ilk yoruma inanırım.", correct: false }
                         ],
                         hint: "1923 yılı Türkiye Cumhuriyeti tarihi için çok önemlidir. İnsanlığın Ay'a ilk ayak basışı ise soğuk savaş döneminde (1969) gerçekleşmiştir."
@@ -914,8 +939,9 @@
                         correctDecision: "GÜVENİLEMEZ",
                         why: "Hızlı hesaplama yapmak ile bilginin doğruluğu aynı şey değildir! Yapay zekâ emin olmadığı konularda da çok akıcı şekilde yalan/uydurma (halüsinasyon) üretebilir.",
                         howToCheck: [
-                            { text: "Hızına değil, bilginin kaynaklarına ve kanıtlarına bakarım.", correct: true },
-                            { text: "Hızlı cevap veren her şeye inanırım.", correct: false }
+                            { text: "Hızlı cevap veren her şeye şartsız inanırım.", correct: false },
+                            { text: "Hızına değil, bilginin kaynaklarına, bilimsel kanıtlarına ve mantığına bakarım.", correct: true },
+                            { text: "İlk gelen sonucu sorgulamadan ödevime yazarım.", correct: false }
                         ],
                         hint: "Hızlı konuşan biri her zaman doğruyu söylemeyebilir. Bilgisayarlar da hızlıca yanlış bilgi üretebilir."
                     },
@@ -926,22 +952,24 @@
                         correctDecision: "GÜVENİLEMEZ",
                         why: "Yapay zekâ bir tıp doktoru değildir! Yanlış bir ilaç tavsiyesi insan hayatını tehlikeye sokabilir. Sağlık konularında mutlaka gerçek doktorlara başvurulmalıdır.",
                         howToCheck: [
-                            { text: "İlaç kullanmadan önce aileme ve uzman bir tıp doktoruna danışırım.", correct: true },
-                            { text: "Hemen yapay zekânın dediği ilacı içerim.", correct: false }
+                            { text: "Hemen yapay zekânın dediği ilacı içerim.", correct: false },
+                            { text: "İnternetteki rastgele forumlara bakar ilacı alırım.", correct: false },
+                            { text: "İlaç kullanmadan önce aileme ve uzman bir tıp doktoruna danışırım.", correct: true }
                         ],
                         hint: "Sağlık ve ilaç tavsiyeleri sadece gerçek doktorlar tarafından yapılmalıdır."
                     },
                     {
                         id: 4,
-                        title: "Var Olmayan Şiir ve Şair Dosyası",
-                        aiOutput: "“Mehmet Akif Ersoy 2020 yılında akıllı telefonlar hakkında 'Dijital Dünya' adında bir şiir yazmıştır.”",
-                        correctDecision: "GÜVENİLEMEZ",
-                        why: "Mehmet Akif Ersoy 1936 yılında vefat etmiştir! Akıllı telefonlar ise çok daha sonra icat edilmiştir. Bu klasik bir yapay zekâ halüsinasyonudur.",
+                        title: "Resmi ve Doğrulanmış Tarih Dosyası",
+                        aiOutput: "“Türkiye Cumhuriyeti'nin başkenti Ankara'dır ve Cumhuriyetimiz 29 Ekim 1923'te ilan edilmiştir.”",
+                        correctDecision: "GÜVENİLİR",
+                        why: "Yapay zekânın verdiği bu bilgi resmi tarih belgeleri, anayasa ve güvenilir kaynaklarla %100 uyuşmaktadır. Bu tür kesin ve doğrulanabilir temel bilgiler güvenilirdir.",
                         howToCheck: [
-                            { text: "Edebiyat kaynaklarından ve kütüphaneden şairin ölüm yılını ve eserlerini kontrol ederim.", correct: true },
-                            { text: "Şiiri hemen ezberlerim.", correct: false }
+                            { text: "Yapay zekâ söylediyse kesin yanlıştır deyip inanmam.", correct: false },
+                            { text: "Tarih kitapları ve resmi devlet kaynaklarından bilginin doğruluğunu teyit ederim.", correct: true },
+                            { text: "Sosyal medyadaki dedikodulara bakarım.", correct: false }
                         ],
-                        hint: "İstiklal Marşı şairimiz Mehmet Akif Ersoy hangi yıllarda yaşamıştır? Telefonlar o zaman var mıydı?"
+                        hint: "Türkiye'nin başkenti ve cumhuriyetin ilan tarihi tüm resmi kaynaklarda kesin olarak yer alan değişmez bir gerçektir."
                     },
                     {
                         id: 5,
@@ -950,8 +978,9 @@
                         correctDecision: "KONTROL ET",
                         why: "Yapay zekâ canlı radar ve meteoroloji verilerini kullanıyor olabilir ancak hava durumu tahminleri anlık değişebilir. Çıkmadan önce resmi Meteoroloji (MGM) sayfasından kontrol etmek gerekir.",
                         howToCheck: [
-                            { text: "Meteoroloji Genel Müdürlüğü (MGM) resmi sitesinden ve canlı trafik haritasından teyit ederim.", correct: true },
-                            { text: "Hemen şemsiyesiz dışarı koşarım.", correct: false }
+                            { text: "Hemen şemsiyesiz ve plansız dışarı koşarım.", correct: false },
+                            { text: "Arkadaşımın tahminine göre hareket ederim.", correct: false },
+                            { text: "Meteoroloji Genel Müdürlüğü (MGM) resmi sitesinden ve canlı trafik haritasından teyit ederim.", correct: true }
                         ],
                         hint: "Hava ve yol durumu anlık değişir. Resmi kurumların canlı verilerini kontrol etmek en güvenli yoldur."
                     }
@@ -961,11 +990,17 @@
                 this.showHint = false;
             }
 
+            prepareCurrentCase() {
+                const c = this.cases[this.currentIndex];
+                c.currentHowToCheck = shuffleList(c.howToCheck);
+            }
+
             start() {
                 sound.click();
                 this.currentIndex = 0;
                 this.step = 1;
                 this.showHint = false;
+                this.prepareCurrentCase();
                 this.render();
             }
 
@@ -1050,6 +1085,7 @@
                         </div>
                     `;
                 } else if (this.step === 2) {
+                    const opts = c.currentHowToCheck || c.howToCheck;
                     return `
                         <div class="space-y-4 pt-2 animate-pop">
                             <div class="p-3.5 rounded-2xl bg-emerald-950/40 border border-emerald-500/40 text-emerald-300 text-xs sm:text-sm font-bold flex items-center gap-2">
@@ -1057,7 +1093,7 @@
                                 <span>Doğru Mühür! Peki bu bilgiyi nasıl teyit edip kontrol edersin?</span>
                             </div>
                             <div class="space-y-2.5">
-                                ${c.howToCheck.map((opt, idx) => `
+                                ${opts.map((opt, idx) => `
                                     <button onclick="game2.chooseVerification(${idx})" class="btn-touch w-full p-4 rounded-2xl bg-slate-900 hover:bg-slate-800 border-2 border-slate-800 hover:border-amber-400 text-left flex items-center justify-between text-sm sm:text-base font-bold text-slate-200 transition-all">
                                         <span>${opt.text}</span>
                                         <i class="fa-solid fa-arrow-right text-slate-500"></i>
@@ -1089,14 +1125,14 @@
 
             stampDecision(dec) {
                 const c = this.cases[this.currentIndex];
-                // Eğer doğru karar veya kabul edilebilir şüpheci kararsa (KONTROL ET veya GÜVENİLEMEZ)
-                if (dec === c.correctDecision || (c.correctDecision === "GÜVENİLEMEZ" && dec === "KONTROL ET")) {
+                // Eğer doğru karar veya kabul edilebilir şüpheci kararsa (KONTROL ET her zaman geçerli bir dedektif reflexidir)
+                if (dec === c.correctDecision || dec === "KONTROL ET") {
                     sound.success();
                     this.step = 2;
                     this.render();
                 } else {
                     sound.warn();
-                    alert("Şüpheli bir durum var! Yapay zekâ bazen tamamen uydurma (halüsinasyon) üretebilir. İpucunu oku ve tekrar düşün!");
+                    alert("Bu kararı tekrar gözden geçir! İpucunu oku ve bilginin doğruluğunu / riskini tekrar değerlendir.");
                     this.showHint = true;
                     this.render();
                 }
@@ -1104,7 +1140,8 @@
 
             chooseVerification(idx) {
                 const c = this.cases[this.currentIndex];
-                if (c.howToCheck[idx].correct) {
+                const opts = c.currentHowToCheck || c.howToCheck;
+                if (opts[idx].correct) {
                     sound.success();
                     this.step = 3;
                     this.render();
@@ -1126,6 +1163,7 @@
                     this.currentIndex++;
                     this.step = 1;
                     this.showHint = false;
+                    this.prepareCurrentCase();
                     this.render();
                 } else {
                     hub.unlockBadge('truthDetective', 50);
@@ -1153,15 +1191,15 @@
                         ],
                         inferenceQuestion: "Tüm bu verileri işlemciye besledik. Robot süpürge şimdi ne yapmalıdır?",
                         options: [
-                            { text: "Koltuk ayağına çarpmadan sola dönüp haritaya göre temizliğe devam etmeli", correct: true },
                             { text: "Hemen kendini kapatıp uyumalı", correct: false },
+                            { text: "Koltuk ayağına çarpmadan sola dönüp haritaya göre temizliğe devam etmeli", correct: true },
                             { text: "Bütün gücüyle koltuğa çarpmalı", correct: false }
                         ],
                         cognitionQuestion: "Bu işlem yapay zekânın hangi temel çalışma özelliğini gösterir?",
                         cognitionOptions: [
-                            { text: "KARAR VERİR (Sensör verilerini analiz ederek en uygun hareketi seçer)", correct: true },
                             { text: "DUYGU HİSSEDER (Koltuktan korktuğu için kaçar)", correct: false },
-                            { text: "HAYAL KURAR (Güzel rüyalar görür)", correct: false }
+                            { text: "HAYAL KURAR (Güzel rüyalar görür)", correct: false },
+                            { text: "KARAR VERİR (Sensör verilerini analiz ederek en uygun hareketi seçer)", correct: true }
                         ]
                     },
                     {
@@ -1175,14 +1213,14 @@
                         ],
                         inferenceQuestion: "Merkezi yapay zekâ beyni bu verileri birleştirdiğinde motorlara hangi komutu verir?",
                         options: [
-                            { text: "Fren sistemini devreye sok ve aracı güvenle durdur", correct: true },
                             { text: "Gaza bas ve hızlan", correct: false },
-                            { text: "Kornaya basıp yoluna devam et", correct: false }
+                            { text: "Kornaya basıp yoluna devam et", correct: false },
+                            { text: "Fren sistemini devreye sok ve aracı güvenle durdur", correct: true }
                         ],
                         cognitionQuestion: "Yapay zekâ burada insan beynindeki hangi yeteneği taklit etmektedir?",
                         cognitionOptions: [
-                            { text: "ÖĞRENİLEN KURALLARA GÖRE KARAR VERME", correct: true },
                             { text: "VİCDAN VE ACIKMA HİSSİ", correct: false },
+                            { text: "ÖĞRENİLEN KURALLARA GÖRE KARAR VERME", correct: true },
                             { text: "BİYOLOJİK YORGUNLUK", correct: false }
                         ]
                     },
@@ -1197,14 +1235,14 @@
                         ],
                         inferenceQuestion: "Pikseller ile kayıtlı fotoğraf %99 oranında eşleştiğinde yapay zekâ ne yapar?",
                         options: [
-                            { text: "Okul kapısındaki kilidi açar ve 'Hoş geldin Ali' der", correct: true },
                             { text: "Kamerayı tamamen bozar", correct: false },
+                            { text: "Okul kapısındaki kilidi açar ve 'Hoş geldin Ali' der", correct: true },
                             { text: "Rastgele alarm çalar", correct: false }
                         ],
                         cognitionQuestion: "Görüntüdeki yüz hatlarını sayılara döküp veritabanıyla kıyaslama işlemine ne denir?",
                         cognitionOptions: [
-                            { text: "GÖRÜNTÜ İŞLEME VE ÖRÜNTÜ TANIMA", correct: true },
                             { text: "SADECE FOTOĞRAF ÇEKME", correct: false },
+                            { text: "GÖRÜNTÜ İŞLEME VE ÖRÜNTÜ TANIMA", correct: true },
                             { text: "YAZICI ÇIKTISI ALMA", correct: false }
                         ]
                     }
@@ -1214,10 +1252,17 @@
                 this.phase = 1; // 1: Kartları Beyne Besle, 2: İnference, 3: Cognition, 4: Done
             }
 
+            prepareCurrentMission() {
+                const m = this.missions[this.currentIndex];
+                m.currentOptions = shuffleList(m.options);
+                m.currentCognitionOptions = shuffleList(m.cognitionOptions);
+            }
+
             start() {
                 sound.click();
                 this.currentIndex = 0;
                 this.resetMission();
+                this.prepareCurrentMission();
                 this.render();
             }
 
@@ -1315,6 +1360,7 @@
                         </div>
                     `;
                 } else if (this.phase === 2) {
+                    const opts = m.currentOptions || m.options;
                     return `
                         <div class="glass-panel rounded-3xl p-6 sm:p-8 border border-purple-500/40 text-center space-y-5 animate-pop">
                             <div class="w-16 h-16 rounded-2xl bg-cyan-500/20 text-cyan-400 text-3xl mx-auto flex items-center justify-center">
@@ -1325,7 +1371,7 @@
                                 <h4 class="text-lg sm:text-2xl font-black text-white max-w-xl mx-auto">${m.inferenceQuestion}</h4>
                             </div>
                             <div class="grid grid-cols-1 gap-3 max-w-xl mx-auto pt-2">
-                                ${m.options.map((opt, idx) => `
+                                ${opts.map((opt, idx) => `
                                     <button onclick="game3.chooseInference(${idx})" class="btn-touch p-4 rounded-2xl bg-slate-900/90 hover:bg-slate-800 border-2 border-slate-800 hover:border-cyan-400 text-left text-sm sm:text-base font-bold text-slate-200 transition-all flex items-center justify-between">
                                         <span>${opt.text}</span>
                                         <i class="fa-solid fa-chevron-right text-cyan-400"></i>
@@ -1335,6 +1381,7 @@
                         </div>
                     `;
                 } else if (this.phase === 3) {
+                    const cogOpts = m.currentCognitionOptions || m.cognitionOptions;
                     return `
                         <div class="glass-panel rounded-3xl p-6 sm:p-8 border border-purple-500/40 text-center space-y-5 animate-pop">
                             <div class="w-16 h-16 rounded-2xl bg-purple-500/20 text-purple-400 text-3xl mx-auto flex items-center justify-center">
@@ -1345,7 +1392,7 @@
                                 <h4 class="text-lg sm:text-2xl font-black text-white max-w-xl mx-auto">${m.cognitionQuestion}</h4>
                             </div>
                             <div class="grid grid-cols-1 gap-3 max-w-xl mx-auto pt-2">
-                                ${m.cognitionOptions.map((opt, idx) => `
+                                ${cogOpts.map((opt, idx) => `
                                     <button onclick="game3.chooseCognition(${idx})" class="btn-touch p-4 rounded-2xl bg-slate-900/90 hover:bg-slate-800 border-2 border-slate-800 hover:border-purple-400 text-left text-sm sm:text-base font-bold text-slate-200 transition-all flex items-center justify-between">
                                         <span>${opt.text}</span>
                                         <i class="fa-solid fa-check text-purple-400"></i>
@@ -1380,7 +1427,8 @@
 
             chooseInference(idx) {
                 const m = this.missions[this.currentIndex];
-                if (m.options[idx].correct) {
+                const opts = m.currentOptions || m.options;
+                if (opts[idx].correct) {
                     sound.success();
                     this.phase = 3;
                     this.render();
@@ -1392,7 +1440,8 @@
 
             chooseCognition(idx) {
                 const m = this.missions[this.currentIndex];
-                if (m.cognitionOptions[idx].correct) {
+                const cogOpts = m.currentCognitionOptions || m.cognitionOptions;
+                if (cogOpts[idx].correct) {
                     sound.success();
                     this.phase = 4;
                     this.render();
@@ -1407,6 +1456,7 @@
                 if (this.currentIndex < this.missions.length - 1) {
                     this.currentIndex++;
                     this.resetMission();
+                    this.prepareCurrentMission();
                     this.render();
                 } else {
                     hub.unlockBadge('aiAnalyst', 50);
