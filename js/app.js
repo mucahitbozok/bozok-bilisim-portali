@@ -888,6 +888,7 @@ class App {
         } else if (isFourTabs) {
             if (this.activePhotoDoc === 'soru') this.activePhotoDoc = 'kagit1';
             if (this.activePhotoDoc === 'cevap') this.activePhotoDoc = 'kagit1_cevap';
+            if (this.activePhotoDoc === 'konu') this.activePhotoDoc = 'kagit1';
         } else {
             if (this.activePhotoDoc === 'kagit1' || this.activePhotoDoc === 'kagit2') this.activePhotoDoc = 'soru';
             if (this.activePhotoDoc === 'kagit1_cevap' || this.activePhotoDoc === 'kagit2_cevap') this.activePhotoDoc = 'cevap';
@@ -926,12 +927,6 @@ class App {
                 title: "2. Kağıt Resmî Cevap Anahtarı", 
                 icon: "fa-solid fa-key", 
                 badge: "2. Kağıt Çözümleri" 
-            },
-            konu: { 
-                src: this.resolveDocPath(images?.konu, this.currentWeek, 'konu'), 
-                title: "1, 2 ve 3. Konular Genel Tekrar Rehberi", 
-                icon: "fa-solid fa-book-open", 
-                badge: "Konu Özeti" 
             }
         } : {
             konu: { 
@@ -956,14 +951,14 @@ class App {
 
         const currentDoc = imgMap[this.activePhotoDoc] || (isFourTabs ? imgMap.kagit1 : imgMap.konu);
 
-        let activeHtmlContent = docs.konuHtml;
+        let activeHtmlContent = isFourTabs ? (docs.kagit1Html || docs.sayfa1_soruHtml || docs.soruHtml) : docs.konuHtml;
         if (isFourTabs) {
             if (this.activePhotoDoc === 'kagit1') activeHtmlContent = docs.kagit1Html || docs.sayfa1_soruHtml || docs.soruHtml;
             else if (this.activePhotoDoc === 'kagit1_cevap') activeHtmlContent = docs.kagit1_cevapHtml || docs.sayfa1_cevapHtml || docs.cevapHtml;
             else if (this.activePhotoDoc === 'kagit2') activeHtmlContent = docs.kagit2Html || docs.sayfa2_soruHtml || docs.soruHtml;
             else if (this.activePhotoDoc === 'kagit2_cevap') activeHtmlContent = docs.kagit2_cevapHtml || docs.sayfa2_cevapHtml || docs.cevapHtml;
-            else if (this.activePhotoDoc === 'konu') activeHtmlContent = docs.konuHtml;
         } else {
+            if (this.activePhotoDoc === 'konu') activeHtmlContent = docs.konuHtml;
             if (this.activePhotoDoc === 'soru') activeHtmlContent = docs.soruHtml;
             if (this.activePhotoDoc === 'cevap') activeHtmlContent = docs.cevapHtml;
         }
@@ -1000,10 +995,6 @@ class App {
                             <button onclick="app.setPhotoDoc('kagit2_cevap')" class="px-3 sm:px-4 py-2 sm:py-2.5 rounded-xl font-bold text-xs sm:text-sm flex items-center gap-2 transition-all ${this.activePhotoDoc === 'kagit2_cevap' ? 'bg-emerald-600 text-white shadow-lg ring-2 ring-emerald-400' : 'text-slate-300 hover:bg-slate-700'}">
                                 <i class="fa-solid fa-key text-yellow-300"></i>
                                 <span>2. Kağıt Cevap Anahtarı</span>
-                            </button>
-                            <button onclick="app.setPhotoDoc('konu')" class="px-3 sm:px-4 py-2 sm:py-2.5 rounded-xl font-bold text-xs sm:text-sm flex items-center gap-2 transition-all ${this.activePhotoDoc === 'konu' ? 'bg-purple-600 text-white shadow-lg ring-2 ring-purple-400' : 'text-slate-300 hover:bg-slate-700'}">
-                                <i class="fa-solid fa-book-open text-purple-300"></i>
-                                <span>Konu Özeti</span>
                             </button>
                         ` : `
                             <button onclick="app.setPhotoDoc('konu')" class="px-4 py-2.5 rounded-xl font-bold text-xs sm:text-sm flex items-center gap-2 transition-all ${this.activePhotoDoc === 'konu' ? 'bg-indigo-600 text-white shadow-lg ring-2 ring-indigo-400' : 'text-slate-300 hover:bg-slate-700'}">

@@ -23,7 +23,6 @@ window.WEEK4_CONTENT = {
             kagit1_cevap: "assets/worksheets/1.4_sayfa1_cevap.png",
             kagit2: "assets/worksheets/1.4_sayfa2_soru.png",
             kagit2_cevap: "assets/worksheets/1.4_sayfa2_cevap.png",
-            konu: "assets/worksheets/1.4_konu.png",
             sayfa1_soru: "assets/worksheets/1.4_sayfa1_soru.png",
             sayfa1_cevap: "assets/worksheets/1.4_sayfa1_cevap.png",
             sayfa2_soru: "assets/worksheets/1.4_sayfa2_soru.png",
