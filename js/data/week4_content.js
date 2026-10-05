@@ -2374,9 +2374,24 @@ window.WEEK4_CONTENT = {
     },
 
     // ========================================================
-    // 🌟 5. ÖZEL EK OYUNLAR (4. Konu Kapsamında Hazırlanan 2 Yeni Oyun)
+    // 🌟 5. ÖZEL EK OYUNLAR (4. Konu Kapsamında Hazırlanan 3 Yeni Oyun)
     // ========================================================
     extraGames: [
+        {
+            badge: "Görev İstasyonu",
+            badgeColor: "text-purple-300",
+            title: "Yapay Zekâ Görev Merkezi",
+            desc: "BTY.5.1.4 kazanımı için 5 farklı sorgulama görevi! Algoritmayı kandır, olay yerini incele, YZ beynine gir, alarm ver ve kendi sistemini tasarla!",
+            icon: "fa-solid fa-satellite-dish",
+            iconBg: "bg-purple-500/30 text-purple-300",
+            cardGradient: "from-purple-950/90 via-indigo-950/90 to-slate-900",
+            border: "border-purple-400/50",
+            descColor: "text-purple-100",
+            btnText: "Görev Merkezine Gir!",
+            btnIcon: "fa-solid fa-rocket",
+            btnGradient: "from-purple-600 via-indigo-600 to-cyan-500 hover:from-purple-500 hover:to-cyan-400 text-white font-black",
+            action: "app.openStandaloneGame('games/yapay_zeka_gorev_merkezi.html', 'Yapay Zekâ Görev Merkezi | Öğretmen Bozok')"
+        },
         {
             badge: "Kelime Avı",
             badgeColor: "text-cyan-300",

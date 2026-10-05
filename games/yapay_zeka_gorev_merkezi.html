@@ -1,0 +1,2061 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yapay Zekâ Görev Merkezi | Öğretmen Bozok</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Poppins:wght@400;500;600;700;800;900&family=Orbitron:wght@600;800;900&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- Tailwind CSS (CDN) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Canvas Confetti -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Poppins', 'Fredoka', 'sans-serif'],
+                        tech: ['Orbitron', 'sans-serif']
+                    },
+                    colors: {
+                        lab: {
+                            dark: '#050813',
+                            panel: '#0c1322',
+                            card: '#121b2f',
+                            border: '#1e293b',
+                            cyan: '#06b6d4',
+                            sky: '#38bdf8',
+                            purple: '#a855f7',
+                            amber: '#f59e0b',
+                            emerald: '#10b981',
+                            rose: '#f43f5e'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        * { box-sizing: border-box; font-family: 'Poppins', sans-serif; -webkit-tap-highlight-color: transparent; }
+        @media (min-width: 1921px) {
+            html:not([data-scale]), html[data-scale="auto"] {
+                font-size: calc(100vw / 120) !important;
+            }
+            .max-w-6xl, .max-w-5xl, .max-w-4xl {
+                max-width: min(88rem, 94vw) !important;
+            }
+        }
+        html[data-scale="100"] { font-size: 16px !important; }
+        html[data-scale="115"] { font-size: max(18.4px, calc(100vw / 104)) !important; }
+        html[data-scale="130"] { font-size: max(20.8px, calc(100vw / 92)) !important; }
+        html[data-scale="150"] { font-size: max(24px, calc(100vw / 80)) !important; }
+        html[data-scale="200"] { font-size: 32px !important; }
+        body { background-color: #050813; color: #f8fafc; min-height: 100vh; overflow-x: hidden; }
+        .glass-panel { background: rgba(12, 19, 34, 0.94); backdrop-filter: blur(16px); border: 2px solid rgba(6, 182, 212, 0.25); }
+        .glass-card { background: rgba(18, 27, 47, 0.88); backdrop-filter: blur(12px); border: 1.5px solid rgba(255, 255, 255, 0.08); }
+        .tech-font { font-family: 'Orbitron', 'Poppins', sans-serif; }
+        
+        .pulse-border-cyan { animation: borderPulseCyan 2s infinite; }
+        @keyframes borderPulseCyan {
+            0%, 100% { border-color: rgba(6, 182, 212, 0.4); box-shadow: 0 0 15px rgba(6, 182, 212, 0.2); }
+            50% { border-color: rgba(6, 182, 212, 0.9); box-shadow: 0 0 30px rgba(6, 182, 212, 0.5); }
+        }
+        .pulse-border-amber { animation: borderPulseAmber 2s infinite; }
+        @keyframes borderPulseAmber {
+            0%, 100% { border-color: rgba(245, 158, 11, 0.4); box-shadow: 0 0 15px rgba(245, 158, 11, 0.2); }
+            50% { border-color: rgba(245, 158, 11, 0.9); box-shadow: 0 0 30px rgba(245, 158, 11, 0.5); }
+        }
+        @keyframes popIn { 0% { transform: scale(0.94); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
+        .animate-pop { animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        @keyframes shake { 0%, 100% { transform: translateX(0); } 20%, 60% { transform: translateX(-6px); } 40%, 80% { transform: translateX(6px); } }
+        .animate-shake { animation: shake 0.4s ease-in-out; }
+        .btn-touch { user-select: none; touch-action: manipulation; transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); }
+        .btn-touch:hover:not(:disabled) { transform: translateY(-2px); }
+        .btn-touch:active:not(:disabled) { transform: scale(0.97); }
+    </style>
+</head>
+<body class="flex flex-col justify-between p-3 sm:p-6 select-none min-h-screen">
+
+    <!-- ÜST KONTROL PANELİ -->
+    <header class="max-w-6xl w-full mx-auto flex flex-wrap items-center justify-between gap-4 pb-4 border-b border-slate-800">
+        <div class="flex items-center gap-3">
+            <div class="w-12 h-12 rounded-2xl bg-gradient-to-tr from-cyan-600 via-blue-600 to-purple-600 text-white flex items-center justify-center text-2xl shadow-lg shadow-cyan-500/25">
+                <i class="fa-solid fa-satellite-dish"></i>
+            </div>
+            <div>
+                <span class="px-2.5 py-0.5 bg-cyan-400/20 text-cyan-300 font-black rounded-lg text-[10px] tracking-wider uppercase border border-cyan-400/30">BTY.5.1.4 SORGULAMA VE KARAR MERKEZİ</span>
+                <h1 class="text-lg sm:text-2xl font-black text-white tracking-tight flex items-center gap-2">
+                    YAPAY ZEKÂ GÖREV MERKEZİ
+                    <span class="hidden md:inline-block text-xs px-2.5 py-0.5 rounded-full bg-purple-500/20 text-purple-300 border border-purple-500/30 font-bold tech-font">MISSION CONTROL</span>
+                </h1>
+            </div>
+        </div>
+
+        <!-- SAĞ BUTONLAR -->
+        <div class="flex items-center gap-2 sm:gap-3">
+            <button onclick="hub.openTeacherModal()" class="px-3 py-2 rounded-xl bg-purple-900/60 hover:bg-purple-800 border border-purple-500/40 text-purple-200 text-xs font-black flex items-center gap-2 transition-all shadow" title="Öğretmen Kontrol Paneli">
+                <i class="fa-solid fa-graduation-cap text-purple-300"></i>
+                <span class="hidden sm:inline">Öğretmen Modu</span>
+            </button>
+            <div class="bg-slate-900/90 border border-slate-800 rounded-xl px-3 py-2 flex items-center gap-2 text-xs font-bold text-slate-300">
+                <i class="fa-solid fa-chalkboard-user text-cyan-400"></i>
+                <span class="hidden sm:inline">Öğretmen:</span>
+                <span class="text-white">Bozok</span>
+            </div>
+            <button onclick="hub.toggleAudio()" class="w-10 h-10 rounded-xl bg-slate-900 border border-slate-700 hover:border-yellow-400/50 text-yellow-400 flex items-center justify-center transition-all hover:bg-slate-800" title="Ses Aç/Kapat">
+                <i id="audio-icon" class="fa-solid fa-volume-high text-lg"></i>
+            </button>
+            <button onclick="hub.toggleFullscreen()" class="w-10 h-10 rounded-xl bg-slate-900 border border-slate-700 hover:border-cyan-400/50 text-slate-300 flex items-center justify-center transition-all hover:bg-slate-800" title="Tam Ekran">
+                <i class="fa-solid fa-expand text-lg"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- ANA İÇERİK KONTEYNERİ -->
+    <main id="app-container" class="max-w-6xl w-full mx-auto my-auto py-5 flex-1 flex flex-col justify-center">
+        <!-- JS dinamik olarak Ana Menü veya Oyun Ekranlarını yükleyecek -->
+    </main>
+
+    <!-- ALT BİLGİ VE KAZANIM BANDI -->
+    <footer class="max-w-6xl w-full mx-auto text-center pt-4 border-t border-slate-800/80 text-xs text-slate-500 flex flex-col sm:flex-row items-center justify-between gap-2">
+        <div class="flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-cyan-400 animate-ping"></span>
+            <span>BTY.5.1.4: Yapay zekâ ile ilgili temel kavramları ve özellikleri sorgulayabilme (Veri → Karar → Etik)</span>
+        </div>
+        <div class="text-slate-400">
+            Bozok Bilişim Portalı &copy; 2026 &bull; Akıllı Tahta İnteraktif Görev İstasyonu
+        </div>
+    </footer>
+
+    <!-- MODAL: ÖĞRETMEN KONTROL MODU -->
+    <div id="modal-teacher" class="hidden fixed inset-0 z-50 bg-slate-950/85 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="bg-slate-900 border-2 border-purple-500/50 rounded-3xl max-w-lg w-full flex flex-col shadow-2xl overflow-hidden animate-pop">
+            <div class="p-5 border-b border-slate-800 flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-xl bg-purple-500/20 text-purple-300 flex items-center justify-center text-xl">
+                        <i class="fa-solid fa-graduation-cap"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-black text-white">Öğretmen Kontrol Paneli</h3>
+                        <p class="text-xs text-slate-400">Ders akışı ve akıllı tahta sınıf yönetimi araçları</p>
+                    </div>
+                </div>
+                <button onclick="hub.closeTeacherModal()" class="w-9 h-9 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 flex items-center justify-center">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <div class="p-6 space-y-4 text-sm text-slate-200">
+                <div class="space-y-2">
+                    <button onclick="hub.teacherUnlockAll()" class="w-full p-3 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-700 text-left flex items-center justify-between transition-all">
+                        <div class="flex items-center gap-3">
+                            <i class="fa-solid fa-key text-yellow-400"></i>
+                            <span class="font-bold">Tüm 5 Görevin Rozetlerini Aç</span>
+                        </div>
+                        <span class="text-xs text-yellow-300 font-semibold">Tümünü Tamamla</span>
+                    </button>
+                    <button onclick="hub.teacherResetAll()" class="w-full p-3 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-700 text-left flex items-center justify-between transition-all">
+                        <div class="flex items-center gap-3">
+                            <i class="fa-solid fa-rotate-left text-rose-400"></i>
+                            <span class="font-bold">Görev İlerlemelerini ve Puanları Sıfırla</span>
+                        </div>
+                        <span class="text-xs text-rose-300 font-semibold">Sıfırla</span>
+                    </button>
+                    <button onclick="hub.toggleTeacherHints()" class="w-full p-3 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-700 text-left flex items-center justify-between transition-all">
+                        <div class="flex items-center gap-3">
+                            <i class="fa-solid fa-lightbulb text-cyan-400"></i>
+                            <span class="font-bold">Öğretmen Pedagojik İpuçlarını Aç/Kapat</span>
+                        </div>
+                        <span id="teacher-hint-status" class="text-xs text-cyan-300 font-semibold">Açık</span>
+                    </button>
+                </div>
+                <div class="p-3.5 rounded-xl bg-purple-950/40 border border-purple-500/30 text-xs text-purple-200">
+                    💡 <strong>Öğretmen Tavsiyesi:</strong> Her görev sınıfla tartışma ortamı yaratarak 4-6 dakikada oynanabilir. Öğrencilere doğrudan cevap vermek yerine <em>"Bu veriyi değiştirirsek algoritma neye karar verir?"</em> sorusunu yöneltin.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SES MOTORU & MERKEZİ UYGULAMA MANTIĞI -->
+    <script>
+        class SoundEngine {
+            constructor() {
+                this.ctx = null;
+                this.muted = false;
+            }
+            init() {
+                if (!this.ctx) {
+                    const AudioCtx = window.AudioContext || window.webkitAudioContext;
+                    if (AudioCtx) this.ctx = new AudioCtx();
+                }
+            }
+            playTone(freq, type, duration, gainVal = 0.15) {
+                if (this.muted) return;
+                this.init();
+                if (!this.ctx) return;
+                try {
+                    const osc = this.ctx.createOscillator();
+                    const gain = this.ctx.createGain();
+                    osc.type = type;
+                    osc.frequency.setValueAtTime(freq, this.ctx.currentTime);
+                    gain.gain.setValueAtTime(gainVal, this.ctx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.0001, this.ctx.currentTime + duration);
+                    osc.connect(gain);
+                    gain.connect(this.ctx.destination);
+                    osc.start();
+                    osc.stop(this.ctx.currentTime + duration);
+                } catch(e) {}
+            }
+            click() { this.playTone(650, 'sine', 0.05, 0.1); }
+            success() {
+                this.playTone(523, 'triangle', 0.1, 0.2);
+                setTimeout(() => this.playTone(659, 'triangle', 0.1, 0.2), 70);
+                setTimeout(() => this.playTone(784, 'triangle', 0.15, 0.2), 140);
+                setTimeout(() => this.playTone(1046, 'triangle', 0.25, 0.25), 210);
+            }
+            alarm() {
+                this.playTone(300, 'sawtooth', 0.12, 0.25);
+                setTimeout(() => this.playTone(450, 'sawtooth', 0.12, 0.25), 100);
+            }
+            warn() {
+                this.playTone(280, 'sawtooth', 0.18, 0.2);
+            }
+            fanfare() {
+                const notes = [523, 659, 784, 880, 1046, 1318];
+                notes.forEach((n, idx) => {
+                    setTimeout(() => this.playTone(n, 'triangle', 0.2, 0.25), idx * 110);
+                });
+            }
+        }
+
+        const sound = new SoundEngine();
+
+        // MERKEZİ GÖREV MERKEZİ HUB SINIFI
+        class MissionHub {
+            constructor() {
+                this.badges = {
+                    dataMaster: false,      // Oyun 1: VERİ USTASI
+                    truthDetective: false,  // Oyun 2: BİLGİ DEDEKTİFİ
+                    aiAnalyst: false,       // Oyun 3: YAPAY ZEKÂ ANALİSTİ
+                    securityExpert: false,  // Oyun 4: GÜVENLİK UZMANI
+                    aiDesigner: false       // Oyun 5: AI TASARIMCISI
+                };
+                this.totalPoints = 0;
+                this.currentMission = null;
+                this.teacherHints = true;
+            }
+
+            init() {
+                this.renderHub();
+            }
+
+            unlockBadge(badgeKey, points = 25) {
+                if (!this.badges[badgeKey]) {
+                    this.badges[badgeKey] = true;
+                    this.totalPoints += points;
+                    sound.fanfare();
+                    if (typeof confetti === 'function') {
+                        confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
+                    }
+                }
+                // Tüm 5 rozet açıldıysa şampiyon ekranı
+                if (this.allBadgesUnlocked()) {
+                    setTimeout(() => this.renderMasterVictory(), 600);
+                }
+            }
+
+            allBadgesUnlocked() {
+                return Object.values(this.badges).every(b => b === true);
+            }
+
+            // ==========================================
+            // 🏠 ANA MENÜ GÖRÜNÜMÜ
+            // ==========================================
+            renderHub() {
+                this.currentMission = null;
+                const container = document.getElementById("app-container");
+                if (!container) return;
+
+                const earnedCount = Object.values(this.badges).filter(Boolean).length;
+
+                container.innerHTML = `
+                    <div class="space-y-6 animate-pop">
+                        <!-- HOŞ GELDİN & ROZETLER PANELİ -->
+                        <div class="glass-panel rounded-3xl p-5 sm:p-6 border border-cyan-500/30 shadow-2xl flex flex-col md:flex-row items-center justify-between gap-5">
+                            <div class="space-y-1 text-center md:text-left">
+                                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/20 text-cyan-300 border border-cyan-500/30 text-xs font-black">
+                                    <i class="fa-solid fa-microchip"></i>
+                                    <span>İSTASYON DURUMU: AKTİF</span>
+                                </div>
+                                <h2 class="text-2xl sm:text-3xl font-black text-white">Yapay Zekâ Araştırma İstasyonu</h2>
+                                <p class="text-xs sm:text-sm text-slate-300 max-w-xl">
+                                    Klasik testleri unut! Verileri incele, algoritmaları çöz, sahte bilgileri yakala ve kendi yapay zekâ sistemini tasarla!
+                                </p>
+                            </div>
+
+                            <!-- ROZET RAFİ -->
+                            <div class="flex items-center gap-2 sm:gap-3 bg-slate-950/70 p-3 rounded-2xl border border-slate-800">
+                                <div class="text-center px-1">
+                                    <div class="text-[10px] uppercase tracking-wider text-slate-400 font-extrabold">ROZETLER</div>
+                                    <div class="text-lg font-black text-cyan-300">${earnedCount} / 5</div>
+                                </div>
+                                <div class="w-px h-8 bg-slate-800"></div>
+                                <div class="flex items-center gap-1.5 sm:gap-2">
+                                    <div title="Veri Ustası" class="w-10 h-10 rounded-xl flex items-center justify-center text-lg border transition-all ${this.badges.dataMaster ? 'bg-cyan-500/30 border-cyan-400 text-cyan-300 shadow-lg shadow-cyan-500/40 animate-bounce' : 'bg-slate-900 border-slate-800 text-slate-600'}">
+                                        <i class="fa-solid fa-chart-pie"></i>
+                                    </div>
+                                    <div title="Bilgi Dedektifi" class="w-10 h-10 rounded-xl flex items-center justify-center text-lg border transition-all ${this.badges.truthDetective ? 'bg-amber-500/30 border-amber-400 text-amber-300 shadow-lg shadow-amber-500/40 animate-bounce' : 'bg-slate-900 border-slate-800 text-slate-600'}">
+                                        <i class="fa-solid fa-user-secret"></i>
+                                    </div>
+                                    <div title="Yapay Zekâ Analisti" class="w-10 h-10 rounded-xl flex items-center justify-center text-lg border transition-all ${this.badges.aiAnalyst ? 'bg-purple-500/30 border-purple-400 text-purple-300 shadow-lg shadow-purple-500/40 animate-bounce' : 'bg-slate-900 border-slate-800 text-slate-600'}">
+                                        <i class="fa-solid fa-brain"></i>
+                                    </div>
+                                    <div title="Güvenlik Uzmanı" class="w-10 h-10 rounded-xl flex items-center justify-center text-lg border transition-all ${this.badges.securityExpert ? 'bg-rose-500/30 border-rose-400 text-rose-300 shadow-lg shadow-rose-500/40 animate-bounce' : 'bg-slate-900 border-slate-800 text-slate-600'}">
+                                        <i class="fa-solid fa-shield-halved"></i>
+                                    </div>
+                                    <div title="AI Tasarımcısı" class="w-10 h-10 rounded-xl flex items-center justify-center text-lg border transition-all ${this.badges.aiDesigner ? 'bg-emerald-500/30 border-emerald-400 text-emerald-300 shadow-lg shadow-emerald-500/40 animate-bounce' : 'bg-slate-900 border-slate-800 text-slate-600'}">
+                                        <i class="fa-solid fa-flask"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 5 FARKLI GÖREV KARTLARI -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                            <!-- Görev 1 -->
+                            <div class="glass-card rounded-3xl p-5 border border-cyan-500/30 hover:border-cyan-400 transition-all flex flex-col justify-between space-y-4 shadow-xl group">
+                                <div class="space-y-3">
+                                    <div class="flex items-center justify-between">
+                                        <span class="px-2.5 py-1 rounded-lg bg-cyan-500/20 text-cyan-300 text-xs font-black border border-cyan-500/30">GÖREV 1</span>
+                                        ${this.badges.dataMaster ? '<span class="text-xs text-emerald-400 font-black"><i class="fa-solid fa-circle-check"></i> Tamamlandı</span>' : '<span class="text-xs text-slate-500 font-bold">Hazır</span>'}
+                                    </div>
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-12 h-12 rounded-2xl bg-cyan-500/20 text-cyan-300 flex items-center justify-center text-2xl group-hover:scale-110 transition-transform">
+                                            <i class="fa-solid fa-arrows-split-up-and-left"></i>
+                                        </div>
+                                        <div>
+                                            <h3 class="text-lg font-black text-white group-hover:text-cyan-300 transition-colors">ALGORİTMAYI KANDIR</h3>
+                                            <p class="text-[11px] text-cyan-200/80 font-semibold">Veri Değişirse Karar Nasıl Değişir?</p>
+                                        </div>
+                                    </div>
+                                    <p class="text-xs text-slate-300 leading-relaxed">
+                                        Kullanıcının izleme verilerini incele! Öneri algoritmasının tahminini bul ve veriyi değiştirerek yapay zekânın kararını yönlendir.
+                                    </p>
+                                </div>
+                                <button onclick="game1.start()" class="btn-touch w-full py-3.5 rounded-2xl bg-gradient-to-r from-cyan-600 via-blue-600 to-indigo-600 hover:from-cyan-500 hover:to-indigo-500 text-white font-black text-sm shadow-lg shadow-cyan-600/30 flex items-center justify-center gap-2">
+                                    <i class="fa-solid fa-play"></i>
+                                    <span>Göreve Başla</span>
+                                </button>
+                            </div>
+
+                            <!-- Görev 2 -->
+                            <div class="glass-card rounded-3xl p-5 border border-amber-500/30 hover:border-amber-400 transition-all flex flex-col justify-between space-y-4 shadow-xl group">
+                                <div class="space-y-3">
+                                    <div class="flex items-center justify-between">
+                                        <span class="px-2.5 py-1 rounded-lg bg-amber-500/20 text-amber-300 text-xs font-black border border-amber-500/30">GÖREV 2</span>
+                                        ${this.badges.truthDetective ? '<span class="text-xs text-emerald-400 font-black"><i class="fa-solid fa-circle-check"></i> Tamamlandı</span>' : '<span class="text-xs text-slate-500 font-bold">Hazır</span>'}
+                                    </div>
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-12 h-12 rounded-2xl bg-amber-500/20 text-amber-300 flex items-center justify-center text-2xl group-hover:scale-110 transition-transform">
+                                            <i class="fa-solid fa-user-secret"></i>
+                                        </div>
+                                        <div>
+                                            <h3 class="text-lg font-black text-white group-hover:text-amber-300 transition-colors">YAPAY ZEKÂ OLAY YERİ</h3>
+                                            <p class="text-[11px] text-amber-200/80 font-semibold">Dedektif Soruşturması & Doğrulama</p>
+                                        </div>
+                                    </div>
+                                    <p class="text-xs text-slate-300 leading-relaxed">
+                                        Yapay zekânın verdiği cevapları incele! Güvenilir mi, şüpheli mi yoksa uydurma mı? Kanıtları değerlendirip kararı mühürle!
+                                    </p>
+                                </div>
+                                <button onclick="game2.start()" class="btn-touch w-full py-3.5 rounded-2xl bg-gradient-to-r from-amber-500 via-orange-500 to-yellow-500 hover:from-amber-400 hover:to-yellow-400 text-slate-950 font-black text-sm shadow-lg shadow-amber-500/30 flex items-center justify-center gap-2">
+                                    <i class="fa-solid fa-magnifying-glass"></i>
+                                    <span>Olay Yerini İncele</span>
+                                </button>
+                            </div>
+
+                            <!-- Görev 3 -->
+                            <div class="glass-card rounded-3xl p-5 border border-purple-500/30 hover:border-purple-400 transition-all flex flex-col justify-between space-y-4 shadow-xl group">
+                                <div class="space-y-3">
+                                    <div class="flex items-center justify-between">
+                                        <span class="px-2.5 py-1 rounded-lg bg-purple-500/20 text-purple-300 text-xs font-black border border-purple-500/30">GÖREV 3</span>
+                                        ${this.badges.aiAnalyst ? '<span class="text-xs text-emerald-400 font-black"><i class="fa-solid fa-circle-check"></i> Tamamlandı</span>' : '<span class="text-xs text-slate-500 font-bold">Hazır</span>'}
+                                    </div>
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-12 h-12 rounded-2xl bg-purple-500/20 text-purple-300 flex items-center justify-center text-2xl group-hover:scale-110 transition-transform">
+                                            <i class="fa-solid fa-brain"></i>
+                                        </div>
+                                        <div>
+                                            <h3 class="text-lg font-black text-white group-hover:text-purple-300 transition-colors">YZ'NİN BEYNİNE GİR</h3>
+                                            <p class="text-[11px] text-purple-200/80 font-semibold">Veri ➔ Analiz ➔ Sonuç Hattı</p>
+                                        </div>
+                                    </div>
+                                    <p class="text-xs text-slate-300 leading-relaxed">
+                                        Veri kartlarını yapay zekânın işlem merkezine besle! Örüntüleri keşfet ve bu işlemin "Öğrenme", "Düşünme" ya da "Karar" olduğunu analiz et.
+                                    </p>
+                                </div>
+                                <button onclick="game3.start()" class="btn-touch w-full py-3.5 rounded-2xl bg-gradient-to-r from-purple-600 via-indigo-600 to-blue-600 hover:from-purple-500 hover:to-blue-500 text-white font-black text-sm shadow-lg shadow-purple-600/30 flex items-center justify-center gap-2">
+                                    <i class="fa-solid fa-network-wired"></i>
+                                    <span>Zihne Bağlan</span>
+                                </button>
+                            </div>
+
+                            <!-- Görev 4 -->
+                            <div class="glass-card rounded-3xl p-5 border border-rose-500/30 hover:border-rose-400 transition-all flex flex-col justify-between space-y-4 shadow-xl group">
+                                <div class="space-y-3">
+                                    <div class="flex items-center justify-between">
+                                        <span class="px-2.5 py-1 rounded-lg bg-rose-500/20 text-rose-300 text-xs font-black border border-rose-500/30">GÖREV 4</span>
+                                        ${this.badges.securityExpert ? '<span class="text-xs text-emerald-400 font-black"><i class="fa-solid fa-circle-check"></i> Tamamlandı</span>' : '<span class="text-xs text-slate-500 font-bold">Hazır</span>'}
+                                    </div>
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-12 h-12 rounded-2xl bg-rose-500/20 text-rose-300 flex items-center justify-center text-2xl group-hover:scale-110 transition-transform">
+                                            <i class="fa-solid fa-bell"></i>
+                                        </div>
+                                        <div>
+                                            <h3 class="text-lg font-black text-white group-hover:text-rose-300 transition-colors">YAPAY ZEKÂ ALARMI</h3>
+                                            <p class="text-[11px] text-rose-200/80 font-semibold">Refleksli Güvenlik Kontrolü</p>
+                                        </div>
+                                    </div>
+                                    <p class="text-xs text-slate-300 leading-relaxed">
+                                        Ekrana gelen davranışları anında tara! Şifre paylaşımı, körü körüne inanma gibi tehlikelerde ALARM ver, bilinçli adımları ONAYLA!
+                                    </p>
+                                </div>
+                                <button onclick="game4.start()" class="btn-touch w-full py-3.5 rounded-2xl bg-gradient-to-r from-rose-600 via-red-600 to-amber-600 hover:from-rose-500 hover:to-red-500 text-white font-black text-sm shadow-lg shadow-rose-600/30 flex items-center justify-center gap-2">
+                                    <i class="fa-solid fa-shield-halved"></i>
+                                    <span>Alarm Merkezine Gir</span>
+                                </button>
+                            </div>
+
+                            <!-- Görev 5 (Final) -->
+                            <div class="glass-card rounded-3xl p-5 border border-emerald-500/40 hover:border-emerald-400 transition-all flex flex-col justify-between space-y-4 shadow-xl group md:col-span-2 lg:col-span-2 bg-gradient-to-r from-emerald-950/20 via-slate-900 to-teal-950/20">
+                                <div class="space-y-3">
+                                    <div class="flex items-center justify-between">
+                                        <span class="px-2.5 py-1 rounded-lg bg-emerald-500/20 text-emerald-300 text-xs font-black border border-emerald-500/30">BÜYÜK FİNAL GÖREVİ</span>
+                                        ${this.badges.aiDesigner ? '<span class="text-xs text-emerald-400 font-black"><i class="fa-solid fa-circle-check"></i> Tamamlandı</span>' : '<span class="text-xs text-emerald-400/80 font-bold">Tasarım İstasyonu</span>'}
+                                    </div>
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-12 h-12 rounded-2xl bg-emerald-500/20 text-emerald-300 flex items-center justify-center text-2xl group-hover:scale-110 transition-transform">
+                                            <i class="fa-solid fa-flask"></i>
+                                        </div>
+                                        <div>
+                                            <h3 class="text-lg font-black text-white group-hover:text-emerald-300 transition-colors">YAPAY ZEKÂ LABORATUVARI</h3>
+                                            <p class="text-[11px] text-emerald-200/80 font-semibold">Kendi Akıllı Sistemini Tasarla</p>
+                                        </div>
+                                    </div>
+                                    <p class="text-xs text-slate-300 leading-relaxed">
+                                        Eğitim, Sağlık, Tarım veya Ulaşım alanını seç! Hangi verileri toplayacağını, yapay zekânın neye karar vereceğini ve hangi etik riskleri önleyeceğini belirleyip sistemini kur!
+                                    </p>
+                                </div>
+                                <button onclick="game5.start()" class="btn-touch w-full py-3.5 rounded-2xl bg-gradient-to-r from-emerald-600 via-teal-600 to-cyan-600 hover:from-emerald-500 hover:to-cyan-500 text-slate-950 font-black text-sm shadow-lg shadow-emerald-600/30 flex items-center justify-center gap-2">
+                                    <i class="fa-solid fa-compass-drafting"></i>
+                                    <span>Laboratuvara Gir & Tasarla</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+
+            // ==========================================
+            // 🏆 ŞAMPİYONLUK EKRANI (5 ROZET BİTTİĞİNDE)
+            // ==========================================
+            renderMasterVictory() {
+                const container = document.getElementById("app-container");
+                if (!container) return;
+
+                container.innerHTML = `
+                    <div class="glass-panel rounded-3xl p-6 sm:p-10 max-w-2xl mx-auto text-center space-y-6 shadow-2xl animate-pop border-2 border-cyan-400">
+                        <div class="w-24 h-24 mx-auto rounded-3xl bg-gradient-to-tr from-cyan-500 via-blue-500 to-purple-600 text-white flex items-center justify-center text-5xl shadow-xl shadow-cyan-500/30 animate-bounce">
+                            <i class="fa-solid fa-trophy"></i>
+                        </div>
+                        <div class="space-y-2">
+                            <span class="px-3.5 py-1 bg-cyan-400/20 text-cyan-300 font-extrabold rounded-full text-xs uppercase tracking-wider border border-cyan-400/30">
+                                TÜM GÖREVLER BAŞARIYLA TAMAMLANDI
+                            </span>
+                            <h2 class="text-2xl sm:text-4xl font-black text-white">YAPAY ZEKÂ UZMANI ÜNVANI</h2>
+                            <p class="text-sm sm:text-base text-slate-300 max-w-lg mx-auto">
+                                Tebrikler! 5. Sınıf Bilişim Görev İstasyonundaki 5 kritik görevin tamamını çözdün. Veriyi yorumladın, uydurma bilgileri eledin, güvenliği sağladın ve harika bir yapay zekâ sistemi tasarladın!
+                            </p>
+                        </div>
+
+                        <!-- 5 Rozet Vitrini -->
+                        <div class="grid grid-cols-5 gap-2 sm:gap-3 py-3">
+                            <div class="p-2 sm:p-3 rounded-2xl bg-slate-900 border border-cyan-500/40 text-center">
+                                <div class="text-xl sm:text-2xl text-cyan-400 mb-1"><i class="fa-solid fa-chart-pie"></i></div>
+                                <div class="text-[10px] sm:text-xs font-bold text-white">Veri Ustası</div>
+                            </div>
+                            <div class="p-2 sm:p-3 rounded-2xl bg-slate-900 border border-amber-500/40 text-center">
+                                <div class="text-xl sm:text-2xl text-amber-400 mb-1"><i class="fa-solid fa-user-secret"></i></div>
+                                <div class="text-[10px] sm:text-xs font-bold text-white">Bilgi Dedektifi</div>
+                            </div>
+                            <div class="p-2 sm:p-3 rounded-2xl bg-slate-900 border border-purple-500/40 text-center">
+                                <div class="text-xl sm:text-2xl text-purple-400 mb-1"><i class="fa-solid fa-brain"></i></div>
+                                <div class="text-[10px] sm:text-xs font-bold text-white">YZ Analisti</div>
+                            </div>
+                            <div class="p-2 sm:p-3 rounded-2xl bg-slate-900 border border-rose-500/40 text-center">
+                                <div class="text-xl sm:text-2xl text-rose-400 mb-1"><i class="fa-solid fa-shield-halved"></i></div>
+                                <div class="text-[10px] sm:text-xs font-bold text-white">Güvenlik Uzmanı</div>
+                            </div>
+                            <div class="p-2 sm:p-3 rounded-2xl bg-slate-900 border border-emerald-500/40 text-center">
+                                <div class="text-xl sm:text-2xl text-emerald-400 mb-1"><i class="fa-solid fa-flask"></i></div>
+                                <div class="text-[10px] sm:text-xs font-bold text-white">AI Tasarımcısı</div>
+                            </div>
+                        </div>
+
+                        <div class="flex flex-col sm:flex-row gap-3 justify-center pt-2">
+                            <button onclick="hub.renderHub()" class="btn-touch px-8 py-3.5 rounded-2xl bg-gradient-to-r from-cyan-600 to-indigo-600 hover:from-cyan-500 hover:to-indigo-500 text-white font-black text-sm shadow-lg shadow-cyan-600/30 flex items-center justify-center gap-2">
+                                <i class="fa-solid fa-arrow-left"></i>
+                                <span>Görev Merkezine Dön</span>
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }
+
+            openTeacherModal() {
+                sound.click();
+                const m = document.getElementById("modal-teacher");
+                if (m) m.classList.remove("hidden");
+            }
+            closeTeacherModal() {
+                sound.click();
+                const m = document.getElementById("modal-teacher");
+                if (m) m.classList.add("hidden");
+            }
+            teacherUnlockAll() {
+                sound.fanfare();
+                this.badges.dataMaster = true;
+                this.badges.truthDetective = true;
+                this.badges.aiAnalyst = true;
+                this.badges.securityExpert = true;
+                this.badges.aiDesigner = true;
+                this.closeTeacherModal();
+                this.renderHub();
+            }
+            teacherResetAll() {
+                sound.click();
+                this.badges.dataMaster = false;
+                this.badges.truthDetective = false;
+                this.badges.aiAnalyst = false;
+                this.badges.securityExpert = false;
+                this.badges.aiDesigner = false;
+                this.totalPoints = 0;
+                this.closeTeacherModal();
+                this.renderHub();
+            }
+            toggleTeacherHints() {
+                sound.click();
+                this.teacherHints = !this.teacherHints;
+                const el = document.getElementById("teacher-hint-status");
+                if (el) el.textContent = this.teacherHints ? "Açık" : "Kapalı";
+            }
+            toggleAudio() {
+                sound.muted = !sound.muted;
+                const icon = document.getElementById("audio-icon");
+                if (icon) {
+                    icon.className = sound.muted ? "fa-solid fa-volume-xmark text-lg text-slate-500" : "fa-solid fa-volume-high text-lg text-yellow-400";
+                }
+            }
+            toggleFullscreen() {
+                if (!document.fullscreenElement) {
+                    document.documentElement.requestFullscreen().catch(() => {});
+                } else {
+                    document.exitFullscreen().catch(() => {});
+                }
+            }
+        }
+
+        const hub = new MissionHub();
+
+        // =========================================================================
+        // 🎮 OYUN 1: ALGORİTMAYI KANDIR
+        // =========================================================================
+        class Game1TrickAlgorithm {
+            constructor() {
+                this.scenarios = [
+                    {
+                        title: "YouTube Öneri Algoritması",
+                        systemIcon: "fa-brands fa-youtube text-red-500",
+                        systemName: "YouTube Video Öneri Motoru",
+                        phase1: {
+                            userData: ["⚽ Futbol Maçı Özeti", "⚽ Futbol Taktikleri", "💻 Bilgisayar Toplama", "⚽ Penaltı Kurtarışları"],
+                            question: "Yapay zekâ sistemi bu kullanıcının geçmişine bakarak ana sayfada EN ÇOK hangi videoyu önerir?",
+                            options: [
+                                { text: "Dünyanın En İyi Golleri (Futbol)", correct: true },
+                                { text: "Pratik Yemek Tarifleri", correct: false },
+                                { text: "Bahçe Bakımı ve Çiçekler", correct: false }
+                            ],
+                            whyQuestion: "Yapay zekâ neden bu videoyu önerdi?",
+                            whyOptions: [
+                                { text: "Geçmiş verilerin %75'i futbol ile ilgili olduğu için", correct: true },
+                                { text: "Kullanıcının yaşını bildiği için", correct: false },
+                                { text: "Rastgele tahmin yürüttüğü için", correct: false }
+                            ]
+                        },
+                        phase2: {
+                            changeText: "🔄 Kullanıcı arka arkaya 5 adet 'Kolay Yemek Tarifleri' videosu izledi!",
+                            newData: ["🍳 Pratik Omlet", "🍕 Evde Pizza Yapımı", "🍔 Hamburger Sosu", "🍰 Çilekli Pasta", "🍜 Ramen Tarifi"],
+                            question: "Veri kümesi böyle değişince yapay zekânın YENİ önerisi ne olur?",
+                            options: [
+                                { text: "Masterchef Özel Yemek Taktikleri", correct: true },
+                                { text: "Futbol Maçı Özeti", correct: false },
+                                { text: "Balık Tutma Teknikleri", correct: false }
+                            ],
+                            conclusion: "Harika! Gördüğün gibi yapay zekâ kendi zevklerine göre değil; BİZE AİT VERİLERİN AĞIRLIĞINA göre kararını hemen güncelledi!"
+                        }
+                    },
+                    {
+                        title: "Müzik Uygulaması (Spotify) Algoritması",
+                        systemIcon: "fa-brands fa-spotify text-emerald-500",
+                        systemName: "Müzik Keşif Robotu",
+                        phase1: {
+                            userData: ["🎸 Elektro Gitar Dersi", "🎸 Rock Müzik Çalma Listesi", "🎸 Anadolu Rock Klasikleri", "🎹 Piyano Melodisi"],
+                            question: "Yapay zekâ kullanıcının 'Haftalık Keşif' listesine hangi şarkıyı ekler?",
+                            options: [
+                                { text: "Barış Manço - Dönence (Rock)", correct: true },
+                                { text: "Hafif Uyku Ninnileri", correct: false },
+                                { text: "Klasik Opera Dinletisi", correct: false }
+                            ],
+                            whyQuestion: "Algoritmanın bu şarkıyı seçme mantığı nedir?",
+                            whyOptions: [
+                                { text: "Kullanıcının gitar ve rock şarkılarındaki yüksek dinleme oranı", correct: true },
+                                { text: "O gün havanın yağmurlu olması", correct: false },
+                                { text: "Şarkının çok eski olması", correct: false }
+                            ]
+                        },
+                        phase2: {
+                            changeText: "🔄 Kullanıcı ders çalışırken arka arkaya 5 adet 'Sakin Çalışma Piyano & Lofi' parçası dinledi!",
+                            newData: ["🎹 Odaklanma Piyanosu", "🎧 Lofi Hip Hop Beats", "🎹 Sakin Gece Melodisi", "🎧 Beyin Dalgaları", "🎹 Dinlendirici Akorlar"],
+                            question: "Veriler değişti! Yapay zekâ artık kullanıcının yeni müzik zevkini ne olarak tahmin eder?",
+                            options: [
+                                { text: "Sakin Akustik Piyano ve Çalışma Müzikleri", correct: true },
+                                { text: "Ağır Metal Gitar Solosu", correct: false },
+                                { text: "Korna ve Siren Sesleri", correct: false }
+                            ],
+                            conclusion: "Tebrikler! Müzik algoritmaları sabit kalmaz; kullanıcının anlık ruh haline ve dinleme geçmişi verilerine göre sürekli eğitilir!"
+                        }
+                    },
+                    {
+                        title: "Akıllı Alışveriş Algoritması",
+                        systemIcon: "fa-solid fa-cart-shopping text-amber-500",
+                        systemName: "E-Ticaret Akıllı Sepet Motoru",
+                        phase1: {
+                            userData: ["📚 5. Sınıf Soru Bankası", "✏️ Renkli Fosforlu Kalem Seti", "📐 Geometri Cetvel Takımı", "🎒 Okul Çantası"],
+                            question: "Yapay zekâ bu kullanıcıya sepet aşamasında 'Bunu da beğenebilirsiniz' diye neyi önerir?",
+                            options: [
+                                { text: "Kaliteli Silgi ve Uçlu Kalem", correct: true },
+                                { text: "Otomobil Kış Lastiği", correct: false },
+                                { text: "Bahçe Çim Biçme Makinesi", correct: false }
+                            ],
+                            whyQuestion: "Yapay zekâ neden silgi ve kalem önerdi?",
+                            whyOptions: [
+                                { text: "Önceki alışveriş verilerinin okul ve kırtasiye ihtiyacını göstermesi", correct: true },
+                                { text: "Silgilerin çok ucuz olması", correct: false },
+                                { text: "Sadece rastgele eşya seçmesi", correct: false }
+                            ]
+                        },
+                        phase2: {
+                            changeText: "🔄 Kullanıcı sepetine evcil hayvan maması ve kedi oyuncağı ekledi!",
+                            newData: ["🐱 Yavru Kedi Maması", "🧶 Kedi Tırmalama Tahtası", "🐈 Kedi Taşıma Çantası"],
+                            question: "Yapay zekânın yeni sepet önerisi ne olur?",
+                            options: [
+                                { text: "Kedi Tarağı ve Su Kabı", correct: true },
+                                { text: "Kırtasiye Defteri", correct: false },
+                                { text: "Bisiklet Kaskı", correct: false }
+                            ],
+                            conclusion: "Harika çıkarım! Alışveriş sitelerindeki yapay zekâlar, sepete yeni giren her veriyle birlikte müşteri profilini anında yeniden hesaplar!"
+                        }
+                    }
+                ];
+                this.currentIndex = 0;
+                this.stage = 1; // 1: Phase1 soru, 2: Phase1 why, 3: Phase2 change, 4: Result
+                this.selectedAnswer = null;
+            }
+
+            start() {
+                sound.click();
+                this.currentIndex = 0;
+                this.stage = 1;
+                this.render();
+            }
+
+            render() {
+                const container = document.getElementById("app-container");
+                if (!container) return;
+                const s = this.scenarios[this.currentIndex];
+
+                container.innerHTML = `
+                    <div class="space-y-5 animate-pop max-w-4xl mx-auto w-full">
+                        <!-- ÜST BİLGİ BANDI -->
+                        <div class="glass-panel rounded-3xl p-4 sm:p-5 border border-cyan-500/30 flex items-center justify-between">
+                            <div class="flex items-center gap-3">
+                                <button onclick="hub.renderHub()" class="w-10 h-10 rounded-xl bg-slate-900 hover:bg-slate-800 text-slate-300 flex items-center justify-center border border-slate-800">
+                                    <i class="fa-solid fa-arrow-left"></i>
+                                </button>
+                                <div>
+                                    <div class="text-[10px] text-cyan-400 font-extrabold uppercase tracking-wider">GÖREV 1 &bull; SENARYO ${this.currentIndex + 1} / ${this.scenarios.length}</div>
+                                    <h3 class="text-base sm:text-xl font-black text-white">${s.title}</h3>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <div class="w-10 h-10 rounded-2xl bg-cyan-500/20 text-cyan-300 flex items-center justify-center text-xl">
+                                    <i class="${s.systemIcon}"></i>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- OYUN GÖVDE -->
+                        ${this.renderBodyContent(s)}
+                    </div>
+                `;
+            }
+
+            renderBodyContent(s) {
+                if (this.stage === 1) {
+                    return `
+                        <div class="grid grid-cols-1 md:grid-cols-12 gap-5 items-start">
+                            <!-- SOL: Kullanıcı Verileri -->
+                            <div class="md:col-span-5 glass-card rounded-3xl p-5 border border-slate-800 space-y-3">
+                                <div class="text-xs font-black uppercase text-cyan-300 flex items-center gap-2">
+                                    <i class="fa-solid fa-database"></i>
+                                    <span>Kullanıcının İzleme/Arama Verileri</span>
+                                </div>
+                                <div class="space-y-2">
+                                    ${s.phase1.userData.map(d => `
+                                        <div class="p-3 rounded-xl bg-slate-900/90 border border-slate-800 text-xs font-bold text-slate-200 flex items-center gap-2.5">
+                                            <i class="fa-solid fa-circle-dot text-cyan-400 text-[10px]"></i>
+                                            <span>${d}</span>
+                                        </div>
+                                    `).join('')}
+                                </div>
+                                <div class="text-[11px] text-slate-400 bg-slate-950/60 p-2.5 rounded-xl border border-slate-800/80">
+                                    📌 Yapay zekâ bu geçmiş verilere bakarak kullanıcının ilgi alanını öğrenmeye çalışır.
+                                </div>
+                            </div>
+
+                            <!-- SAĞ: Tahmin Sorusu -->
+                            <div class="md:col-span-7 glass-panel rounded-3xl p-5 sm:p-6 border border-cyan-500/30 space-y-4">
+                                <div class="space-y-1">
+                                    <span class="text-xs font-extrabold text-cyan-400 uppercase">AŞAMA 1: KARAR TAHMİNİ</span>
+                                    <h4 class="text-base sm:text-lg font-black text-white leading-snug">${s.phase1.question}</h4>
+                                </div>
+                                <div class="space-y-2.5 pt-2">
+                                    ${s.phase1.options.map((opt, idx) => `
+                                        <button onclick="game1.choosePhase1(${idx})" class="btn-touch w-full p-4 rounded-2xl bg-slate-900/90 hover:bg-slate-800 border-2 border-slate-800 hover:border-cyan-400/60 text-left flex items-center justify-between text-sm sm:text-base font-bold text-white transition-all">
+                                            <span>${opt.text}</span>
+                                            <i class="fa-solid fa-chevron-right text-slate-500"></i>
+                                        </button>
+                                    `).join('')}
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                } else if (this.stage === 2) {
+                    return `
+                        <div class="glass-panel rounded-3xl p-6 sm:p-8 border border-cyan-500/30 text-center space-y-5">
+                            <div class="w-16 h-16 rounded-2xl bg-emerald-500/20 text-emerald-400 text-3xl mx-auto flex items-center justify-center">
+                                <i class="fa-solid fa-check"></i>
+                            </div>
+                            <div class="space-y-2">
+                                <span class="text-xs font-black text-emerald-400 uppercase">DOĞRU TAHMİN! (+10 PUAN)</span>
+                                <h4 class="text-xl sm:text-2xl font-black text-white max-w-xl mx-auto">${s.phase1.whyQuestion}</h4>
+                            </div>
+                            <div class="grid grid-cols-1 gap-3 max-w-xl mx-auto pt-2">
+                                ${s.phase1.whyOptions.map((opt, idx) => `
+                                    <button onclick="game1.chooseWhy(${idx})" class="btn-touch p-4 rounded-2xl bg-slate-900/90 hover:bg-slate-800 border-2 border-slate-800 hover:border-purple-400 text-left text-sm sm:text-base font-bold text-slate-200 transition-all flex items-center justify-between">
+                                        <span>${opt.text}</span>
+                                        <i class="fa-solid fa-brain text-purple-400"></i>
+                                    </button>
+                                `).join('')}
+                            </div>
+                        </div>
+                    `;
+                } else if (this.stage === 3) {
+                    return `
+                        <div class="grid grid-cols-1 md:grid-cols-12 gap-5 items-start">
+                            <!-- SOL: Değişen Yeni Veriler -->
+                            <div class="md:col-span-5 glass-card rounded-3xl p-5 border border-purple-500/40 space-y-3 bg-purple-950/20">
+                                <div class="text-xs font-black uppercase text-purple-300 flex items-center gap-2">
+                                    <i class="fa-solid fa-wand-magic-sparkles"></i>
+                                    <span>Algoritmayı Şaşırtan Yeni Veri!</span>
+                                </div>
+                                <div class="p-3 rounded-2xl bg-purple-900/40 border border-purple-500/30 text-xs font-bold text-purple-200">
+                                    ${s.phase2.changeText}
+                                </div>
+                                <div class="space-y-1.5 pt-1">
+                                    ${s.phase2.newData.map(d => `
+                                        <div class="p-2.5 rounded-xl bg-slate-900/90 border border-purple-500/20 text-xs font-bold text-slate-200 flex items-center gap-2">
+                                            <i class="fa-solid fa-plus text-purple-400 text-[10px]"></i>
+                                            <span>${d}</span>
+                                        </div>
+                                    `).join('')}
+                                </div>
+                            </div>
+
+                            <!-- SAĞ: Değişen Karar Tahmini -->
+                            <div class="md:col-span-7 glass-panel rounded-3xl p-5 sm:p-6 border border-purple-500/30 space-y-4">
+                                <div class="space-y-1">
+                                    <span class="text-xs font-extrabold text-purple-400 uppercase">AŞAMA 2: VERİ DEĞİŞİMİNİN SONUCU</span>
+                                    <h4 class="text-base sm:text-lg font-black text-white leading-snug">${s.phase2.question}</h4>
+                                </div>
+                                <div class="space-y-2.5 pt-2">
+                                    ${s.phase2.options.map((opt, idx) => `
+                                        <button onclick="game1.choosePhase2(${idx})" class="btn-touch w-full p-4 rounded-2xl bg-slate-900/90 hover:bg-slate-800 border-2 border-slate-800 hover:border-purple-400 text-left flex items-center justify-between text-sm sm:text-base font-bold text-white transition-all">
+                                            <span>${opt.text}</span>
+                                            <i class="fa-solid fa-rotate text-purple-400"></i>
+                                        </button>
+                                    `).join('')}
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                } else if (this.stage === 4) {
+                    return `
+                        <div class="glass-panel rounded-3xl p-6 sm:p-8 border border-emerald-500/40 text-center space-y-5">
+                            <div class="w-16 h-16 rounded-2xl bg-emerald-500/20 text-emerald-400 text-3xl mx-auto flex items-center justify-center shadow-lg shadow-emerald-500/20">
+                                <i class="fa-solid fa-trophy"></i>
+                            </div>
+                            <div class="space-y-2">
+                                <span class="text-xs font-black text-emerald-400 uppercase">SENARYO ÇÖZÜLDÜ! (+25 PUAN)</span>
+                                <h4 class="text-xl sm:text-2xl font-black text-white">Yapay Zekânın Mantığını Kandırdın!</h4>
+                                <p class="text-sm text-slate-300 max-w-lg mx-auto leading-relaxed">
+                                    ${s.phase2.conclusion}
+                                </p>
+                            </div>
+                            <div class="pt-2">
+                                <button onclick="game1.nextScenario()" class="btn-touch px-8 py-3.5 rounded-2xl bg-gradient-to-r from-cyan-600 via-blue-600 to-indigo-600 hover:from-cyan-500 hover:to-indigo-500 text-white font-black text-sm shadow-lg shadow-cyan-600/30 inline-flex items-center gap-2">
+                                    <span>${this.currentIndex < this.scenarios.length - 1 ? 'Sonraki Senaryoya Geç' : 'Görevi Tamamla ve Rozeti Al'}</span>
+                                    <i class="fa-solid fa-arrow-right"></i>
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                }
+            }
+
+            choosePhase1(idx) {
+                const s = this.scenarios[this.currentIndex];
+                if (s.phase1.options[idx].correct) {
+                    sound.success();
+                    this.stage = 2;
+                    this.render();
+                } else {
+                    sound.warn();
+                    alert("İpucu: Kullanıcının izlediği verilerde hangi konu daha fazla yer tutuyor? Tekrar bak!");
+                }
+            }
+
+            chooseWhy(idx) {
+                const s = this.scenarios[this.currentIndex];
+                if (s.phase1.whyOptions[idx].correct) {
+                    sound.success();
+                    this.stage = 3;
+                    this.render();
+                } else {
+                    sound.warn();
+                    alert("İpucu: Yapay zekâ hislerle değil, geçmişteki sayısal veriler ve örüntülerle karar verir!");
+                }
+            }
+
+            choosePhase2(idx) {
+                const s = this.scenarios[this.currentIndex];
+                if (s.phase2.options[idx].correct) {
+                    sound.success();
+                    this.stage = 4;
+                    this.render();
+                } else {
+                    sound.warn();
+                    alert("İpucu: Son eklenen 5 yeni veriyi incele! Hangi konu öne çıktı?");
+                }
+            }
+
+            nextScenario() {
+                sound.click();
+                if (this.currentIndex < this.scenarios.length - 1) {
+                    this.currentIndex++;
+                    this.stage = 1;
+                    this.render();
+                } else {
+                    hub.unlockBadge('dataMaster', 50);
+                    hub.renderHub();
+                }
+            }
+        }
+
+        const game1 = new Game1TrickAlgorithm();
+
+        // =========================================================================
+        // 🕵️ OYUN 2: YAPAY ZEKÂ OLAY YERİ (BİLGİ DEDEKTİFİ)
+        // =========================================================================
+        class Game2CrimeScene {
+            constructor() {
+                this.cases = [
+                    {
+                        id: 1,
+                        title: "Ay'a Yolculuk Dosyası",
+                        aiOutput: "“1923 yılında insanlar Ay'a gitmiştir ve orada ilk bayrağı dikmişlerdir.”",
+                        correctDecision: "GÜVENİLEMEZ", // GÜVENİLEMEZ, KONTROL ET, GÜVENİLİR
+                        why: "Tarihi ve bilimsel bir gerçeği tamamen yanlış (halüsinasyon) üretti. İnsanlar Ay'a 1969'da Apollo 11 ile gitmiştir, 1923 ise Cumhuriyetimizin kuruluş yılıdır!",
+                        howToCheck: [
+                            { text: "Tarih ve fen ders kitaplarından ya da güvenilir ansiklopedilerden kontrol ederim.", correct: true },
+                            { text: "Yapay zekâ söylediyse doğrudur, hiç araştırmam.", correct: false },
+                            { text: "Sosyal medyadaki ilk yoruma inanırım.", correct: false }
+                        ],
+                        hint: "1923 yılı Türkiye Cumhuriyeti tarihi için çok önemlidir. İnsanlığın Ay'a ilk ayak basışı ise soğuk savaş döneminde (1969) gerçekleşmiştir."
+                    },
+                    {
+                        id: 2,
+                        title: "Her Şeyi Bilen Yapay Zekâ İddiası",
+                        aiOutput: "“Yapay zekâ çok hızlı cevap verdiğine göre verdiği tüm cevaplar kesinlikle doğrudur.”",
+                        correctDecision: "GÜVENİLEMEZ",
+                        why: "Hızlı hesaplama yapmak ile bilginin doğruluğu aynı şey değildir! Yapay zekâ emin olmadığı konularda da çok akıcı şekilde yalan/uydurma (halüsinasyon) üretebilir.",
+                        howToCheck: [
+                            { text: "Hızına değil, bilginin kaynaklarına ve kanıtlarına bakarım.", correct: true },
+                            { text: "Hızlı cevap veren her şeye inanırım.", correct: false }
+                        ],
+                        hint: "Hızlı konuşan biri her zaman doğruyu söylemeyebilir. Bilgisayarlar da hızlıca yanlış bilgi üretebilir."
+                    },
+                    {
+                        id: 3,
+                        title: "Sağlık ve İlaç Tavsiyesi Dosyası",
+                        aiOutput: "“Karnın ağrıyorsa hemen şu ilacı içmelisin, doktora gitmene hiç gerek yok.”",
+                        correctDecision: "GÜVENİLEMEZ",
+                        why: "Yapay zekâ bir tıp doktoru değildir! Yanlış bir ilaç tavsiyesi insan hayatını tehlikeye sokabilir. Sağlık konularında mutlaka gerçek doktorlara başvurulmalıdır.",
+                        howToCheck: [
+                            { text: "İlaç kullanmadan önce aileme ve uzman bir tıp doktoruna danışırım.", correct: true },
+                            { text: "Hemen yapay zekânın dediği ilacı içerim.", correct: false }
+                        ],
+                        hint: "Sağlık ve ilaç tavsiyeleri sadece gerçek doktorlar tarafından yapılmalıdır."
+                    },
+                    {
+                        id: 4,
+                        title: "Var Olmayan Şiir ve Şair Dosyası",
+                        aiOutput: "“Mehmet Akif Ersoy 2020 yılında akıllı telefonlar hakkında 'Dijital Dünya' adında bir şiir yazmıştır.”",
+                        correctDecision: "GÜVENİLEMEZ",
+                        why: "Mehmet Akif Ersoy 1936 yılında vefat etmiştir! Akıllı telefonlar ise çok daha sonra icat edilmiştir. Bu klasik bir yapay zekâ halüsinasyonudur.",
+                        howToCheck: [
+                            { text: "Edebiyat kaynaklarından ve kütüphaneden şairin ölüm yılını ve eserlerini kontrol ederim.", correct: true },
+                            { text: "Şiiri hemen ezberlerim.", correct: false }
+                        ],
+                        hint: "İstiklal Marşı şairimiz Mehmet Akif Ersoy hangi yıllarda yaşamıştır? Telefonlar o zaman var mıydı?"
+                    },
+                    {
+                        id: 5,
+                        title: "Trafik ve Hava Durumu Dosyası",
+                        aiOutput: "“Bugün saat 15:00'te İstanbul Kadıköy'de yağmur yağma ihtimali %85'tir ve sahil yolu trafiği yoğundur.”",
+                        correctDecision: "KONTROL ET",
+                        why: "Yapay zekâ canlı radar ve meteoroloji verilerini kullanıyor olabilir ancak hava durumu tahminleri anlık değişebilir. Çıkmadan önce resmi Meteoroloji (MGM) sayfasından kontrol etmek gerekir.",
+                        howToCheck: [
+                            { text: "Meteoroloji Genel Müdürlüğü (MGM) resmi sitesinden ve canlı trafik haritasından teyit ederim.", correct: true },
+                            { text: "Hemen şemsiyesiz dışarı koşarım.", correct: false }
+                        ],
+                        hint: "Hava ve yol durumu anlık değişir. Resmi kurumların canlı verilerini kontrol etmek en güvenli yoldur."
+                    }
+                ];
+                this.currentIndex = 0;
+                this.step = 1; // 1: Karar Mühürleme, 2: Nasıl Kontrol Ederim?, 3: Çözüldü
+                this.showHint = false;
+            }
+
+            start() {
+                sound.click();
+                this.currentIndex = 0;
+                this.step = 1;
+                this.showHint = false;
+                this.render();
+            }
+
+            render() {
+                const container = document.getElementById("app-container");
+                if (!container) return;
+                const c = this.cases[this.currentIndex];
+
+                container.innerHTML = `
+                    <div class="space-y-5 animate-pop max-w-4xl mx-auto w-full">
+                        <!-- ÜST DEDEKTİF DOSYASI BAŞLIĞI -->
+                        <div class="glass-panel rounded-3xl p-4 sm:p-5 border border-amber-500/30 flex items-center justify-between">
+                            <div class="flex items-center gap-3">
+                                <button onclick="hub.renderHub()" class="w-10 h-10 rounded-xl bg-slate-900 hover:bg-slate-800 text-slate-300 flex items-center justify-center border border-slate-800">
+                                    <i class="fa-solid fa-arrow-left"></i>
+                                </button>
+                                <div>
+                                    <div class="text-[10px] text-amber-400 font-extrabold uppercase tracking-wider">GÖREV 2 &bull; OLAY DOSYASI #${c.id} / ${this.cases.length}</div>
+                                    <h3 class="text-base sm:text-xl font-black text-white">${c.title}</h3>
+                                </div>
+                            </div>
+                            <button onclick="game2.toggleHint()" class="px-3 py-1.5 rounded-xl bg-amber-500/20 text-amber-300 border border-amber-500/40 text-xs font-bold flex items-center gap-1.5">
+                                <i class="fa-solid fa-lightbulb"></i>
+                                <span>Dedektif İpucu</span>
+                            </button>
+                        </div>
+
+                        <!-- İPUCU PANELİ (Açıksa) -->
+                        ${this.showHint ? `
+                            <div class="p-4 rounded-2xl bg-amber-950/60 border border-amber-500/40 text-amber-200 text-xs sm:text-sm flex items-start gap-3 animate-pop">
+                                <div class="w-8 h-8 rounded-xl bg-amber-500/30 text-amber-300 flex items-center justify-center shrink-0">
+                                    <i class="fa-solid fa-user-secret"></i>
+                                </div>
+                                <div>
+                                    <strong class="text-amber-300">Dedektif İpucu:</strong> ${c.hint}
+                                </div>
+                            </div>
+                        ` : ''}
+
+                        <!-- DOSYA İÇERİĞİ -->
+                        <div class="glass-card rounded-3xl p-6 sm:p-8 border border-slate-800 space-y-6 relative overflow-hidden">
+                            <div class="space-y-2">
+                                <span class="px-3 py-1 rounded-full bg-slate-900 border border-slate-700 text-slate-300 text-xs font-bold inline-flex items-center gap-2">
+                                    <i class="fa-solid fa-robot text-cyan-400"></i>
+                                    <span>Yapay Zekânın Ürettiği Cevap</span>
+                                </span>
+                                <div class="p-5 rounded-2xl bg-slate-950/90 border border-slate-800 text-base sm:text-xl font-bold text-cyan-200 italic leading-relaxed">
+                                    ${c.aiOutput}
+                                </div>
+                            </div>
+
+                            ${this.renderStepContent(c)}
+                        </div>
+                    </div>
+                `;
+            }
+
+            renderStepContent(c) {
+                if (this.step === 1) {
+                    return `
+                        <div class="space-y-4 pt-2">
+                            <h4 class="text-sm sm:text-base font-black text-white text-center">
+                                Dedektif, bu bilgiye ilk bakışta nasıl yaklaşmalıyız?
+                            </h4>
+                            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                                <button onclick="game2.stampDecision('GÜVENİLEMEZ')" class="btn-touch p-4 sm:p-5 rounded-2xl bg-rose-950/40 hover:bg-rose-900/60 border-2 border-rose-500/60 text-center space-y-1">
+                                    <div class="text-2xl text-rose-400"><i class="fa-solid fa-triangle-exclamation"></i></div>
+                                    <div class="text-base font-black text-rose-200">🔴 GÜVENİLEMEZ</div>
+                                    <div class="text-[11px] text-rose-300/80">Mantıksız ya da uydurma</div>
+                                </button>
+                                <button onclick="game2.stampDecision('KONTROL ET')" class="btn-touch p-4 sm:p-5 rounded-2xl bg-amber-950/40 hover:bg-amber-900/60 border-2 border-amber-500/60 text-center space-y-1">
+                                    <div class="text-2xl text-amber-400"><i class="fa-solid fa-magnifying-glass"></i></div>
+                                    <div class="text-base font-black text-amber-200">🟡 KONTROL ET</div>
+                                    <div class="text-[11px] text-amber-300/80">Doğrulamadan inanma</div>
+                                </button>
+                                <button onclick="game2.stampDecision('GÜVENİLİR')" class="btn-touch p-4 sm:p-5 rounded-2xl bg-emerald-950/40 hover:bg-emerald-900/60 border-2 border-emerald-500/60 text-center space-y-1">
+                                    <div class="text-2xl text-emerald-400"><i class="fa-solid fa-circle-check"></i></div>
+                                    <div class="text-base font-black text-emerald-200">🟢 GÜVENİLİR</div>
+                                    <div class="text-[11px] text-emerald-300/80">Kesin ve teyitli</div>
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                } else if (this.step === 2) {
+                    return `
+                        <div class="space-y-4 pt-2 animate-pop">
+                            <div class="p-3.5 rounded-2xl bg-emerald-950/40 border border-emerald-500/40 text-emerald-300 text-xs sm:text-sm font-bold flex items-center gap-2">
+                                <i class="fa-solid fa-check-double text-base"></i>
+                                <span>Doğru Mühür! Peki bu bilgiyi nasıl teyit edip kontrol edersin?</span>
+                            </div>
+                            <div class="space-y-2.5">
+                                ${c.howToCheck.map((opt, idx) => `
+                                    <button onclick="game2.chooseVerification(${idx})" class="btn-touch w-full p-4 rounded-2xl bg-slate-900 hover:bg-slate-800 border-2 border-slate-800 hover:border-amber-400 text-left flex items-center justify-between text-sm sm:text-base font-bold text-slate-200 transition-all">
+                                        <span>${opt.text}</span>
+                                        <i class="fa-solid fa-arrow-right text-slate-500"></i>
+                                    </button>
+                                `).join('')}
+                            </div>
+                        </div>
+                    `;
+                } else if (this.step === 3) {
+                    return `
+                        <div class="space-y-4 pt-2 text-center animate-pop">
+                            <div class="p-4 rounded-2xl bg-amber-950/30 border border-amber-500/40 text-left space-y-2">
+                                <div class="text-xs font-black text-amber-400 uppercase flex items-center gap-2">
+                                    <i class="fa-solid fa-file-circle-check"></i>
+                                    <span>Dedektif Raporu: Olay Dosyası Kapatıldı</span>
+                                </div>
+                                <p class="text-xs sm:text-sm text-slate-200 leading-relaxed">
+                                    ${c.why}
+                                </p>
+                            </div>
+                            <button onclick="game2.nextCase()" class="btn-touch px-8 py-3.5 rounded-2xl bg-gradient-to-r from-amber-500 via-orange-500 to-yellow-400 hover:from-amber-400 hover:to-yellow-300 text-slate-950 font-black text-sm shadow-lg shadow-amber-500/30 inline-flex items-center gap-2">
+                                <span>${this.currentIndex < this.cases.length - 1 ? 'Sonraki Dosyayı İncele' : 'Tüm Dosyaları Çöz & Rozeti Al'}</span>
+                                <i class="fa-solid fa-arrow-right"></i>
+                            </button>
+                        </div>
+                    `;
+                }
+            }
+
+            stampDecision(dec) {
+                const c = this.cases[this.currentIndex];
+                // Eğer doğru karar veya kabul edilebilir şüpheci kararsa (KONTROL ET veya GÜVENİLEMEZ)
+                if (dec === c.correctDecision || (c.correctDecision === "GÜVENİLEMEZ" && dec === "KONTROL ET")) {
+                    sound.success();
+                    this.step = 2;
+                    this.render();
+                } else {
+                    sound.warn();
+                    alert("Şüpheli bir durum var! Yapay zekâ bazen tamamen uydurma (halüsinasyon) üretebilir. İpucunu oku ve tekrar düşün!");
+                    this.showHint = true;
+                    this.render();
+                }
+            }
+
+            chooseVerification(idx) {
+                const c = this.cases[this.currentIndex];
+                if (c.howToCheck[idx].correct) {
+                    sound.success();
+                    this.step = 3;
+                    this.render();
+                } else {
+                    sound.warn();
+                    alert("Bilgi araştırmadan veya sadece ilk gördüğün şeye inanarak doğrulanmaz! Güvenilir kaynaklara bakmalısın.");
+                }
+            }
+
+            toggleHint() {
+                sound.click();
+                this.showHint = !this.showHint;
+                this.render();
+            }
+
+            nextCase() {
+                sound.click();
+                if (this.currentIndex < this.cases.length - 1) {
+                    this.currentIndex++;
+                    this.step = 1;
+                    this.showHint = false;
+                    this.render();
+                } else {
+                    hub.unlockBadge('truthDetective', 50);
+                    hub.renderHub();
+                }
+            }
+        }
+
+        const game2 = new Game2CrimeScene();
+
+        // =========================================================================
+        // 🧠 OYUN 3: YAPAY ZEKÂNIN BEYNİNE GİR (VERİ ➔ ANALİZ ➔ KARAR)
+        // =========================================================================
+        class Game3BrainInspection {
+            constructor() {
+                this.missions = [
+                    {
+                        title: "Akıllı Robot Süpürge Zihni",
+                        targetDevice: "Robot Süpürge İşlemcisi",
+                        deviceIcon: "fa-solid fa-robot text-cyan-400",
+                        cards: [
+                            { id: 1, text: "Koltuk ayağına 5 cm mesafe (Sensör Verisi)", icon: "fa-solid fa-ruler" },
+                            { id: 2, text: "Oda duvarlarının köşe koordinatları", icon: "fa-solid fa-map-location-dot" },
+                            { id: 3, text: "Zemindeki toz yoğunluğu algılayıcısı", icon: "fa-solid fa-broom" }
+                        ],
+                        inferenceQuestion: "Tüm bu verileri işlemciye besledik. Robot süpürge şimdi ne yapmalıdır?",
+                        options: [
+                            { text: "Koltuk ayağına çarpmadan sola dönüp haritaya göre temizliğe devam etmeli", correct: true },
+                            { text: "Hemen kendini kapatıp uyumalı", correct: false },
+                            { text: "Bütün gücüyle koltuğa çarpmalı", correct: false }
+                        ],
+                        cognitionQuestion: "Bu işlem yapay zekânın hangi temel çalışma özelliğini gösterir?",
+                        cognitionOptions: [
+                            { text: "KARAR VERİR (Sensör verilerini analiz ederek en uygun hareketi seçer)", correct: true },
+                            { text: "DUYGU HİSSEDER (Koltuktan korktuğu için kaçar)", correct: false },
+                            { text: "HAYAL KURAR (Güzel rüyalar görür)", correct: false }
+                        ]
+                    },
+                    {
+                        title: "Otonom Araç (Sürücüsüz Otomobil) Zihni",
+                        targetDevice: "Otonom Araç Merkezi Beyni",
+                        deviceIcon: "fa-solid fa-car text-purple-400",
+                        cards: [
+                            { id: 1, text: "Kamera: Yaya geçidinde bekleyen öğrenci", icon: "fa-solid fa-person" },
+                            { id: 2, text: "Radar: Öndeki araçla 30 metre mesafe", icon: "fa-solid fa-satellite" },
+                            { id: 3, text: "Trafik Lambası Sensörü: Kırmızı Işık", icon: "fa-solid fa-traffic-light" }
+                        ],
+                        inferenceQuestion: "Merkezi yapay zekâ beyni bu verileri birleştirdiğinde motorlara hangi komutu verir?",
+                        options: [
+                            { text: "Fren sistemini devreye sok ve aracı güvenle durdur", correct: true },
+                            { text: "Gaza bas ve hızlan", correct: false },
+                            { text: "Kornaya basıp yoluna devam et", correct: false }
+                        ],
+                        cognitionQuestion: "Yapay zekâ burada insan beynindeki hangi yeteneği taklit etmektedir?",
+                        cognitionOptions: [
+                            { text: "ÖĞRENİLEN KURALLARA GÖRE KARAR VERME", correct: true },
+                            { text: "VİCDAN VE ACIKMA HİSSİ", correct: false },
+                            { text: "BİYOLOJİK YORGUNLUK", correct: false }
+                        ]
+                    },
+                    {
+                        title: "Yüz Tanıma Güvenlik Sistemi",
+                        targetDevice: "Biyometrik Kamera Zihni",
+                        deviceIcon: "fa-solid fa-id-badge text-emerald-400",
+                        cards: [
+                            { id: 1, text: "İki göz bebeği arasındaki piksel mesafesi", icon: "fa-solid fa-eye" },
+                            { id: 2, text: "Burun ve çene hattı eğriliği", icon: "fa-solid fa-face-smile" },
+                            { id: 3, text: "Veritabanındaki kayıtlı okul öğrencisi profili", icon: "fa-solid fa-database" }
+                        ],
+                        inferenceQuestion: "Pikseller ile kayıtlı fotoğraf %99 oranında eşleştiğinde yapay zekâ ne yapar?",
+                        options: [
+                            { text: "Okul kapısındaki kilidi açar ve 'Hoş geldin Ali' der", correct: true },
+                            { text: "Kamerayı tamamen bozar", correct: false },
+                            { text: "Rastgele alarm çalar", correct: false }
+                        ],
+                        cognitionQuestion: "Görüntüdeki yüz hatlarını sayılara döküp veritabanıyla kıyaslama işlemine ne denir?",
+                        cognitionOptions: [
+                            { text: "GÖRÜNTÜ İŞLEME VE ÖRÜNTÜ TANIMA", correct: true },
+                            { text: "SADECE FOTOĞRAF ÇEKME", correct: false },
+                            { text: "YAZICI ÇIKTISI ALMA", correct: false }
+                        ]
+                    }
+                ];
+                this.currentIndex = 0;
+                this.fedCards = [];
+                this.phase = 1; // 1: Kartları Beyne Besle, 2: İnference, 3: Cognition, 4: Done
+            }
+
+            start() {
+                sound.click();
+                this.currentIndex = 0;
+                this.resetMission();
+                this.render();
+            }
+
+            resetMission() {
+                this.fedCards = [];
+                this.phase = 1;
+            }
+
+            feedCard(id) {
+                if (this.fedCards.includes(id)) return;
+                sound.click();
+                this.fedCards.push(id);
+                const m = this.missions[this.currentIndex];
+                if (this.fedCards.length === m.cards.length) {
+                    sound.success();
+                    this.phase = 2;
+                }
+                this.render();
+            }
+
+            render() {
+                const container = document.getElementById("app-container");
+                if (!container) return;
+                const m = this.missions[this.currentIndex];
+
+                container.innerHTML = `
+                    <div class="space-y-5 animate-pop max-w-4xl mx-auto w-full">
+                        <!-- ÜST BİLGİ -->
+                        <div class="glass-panel rounded-3xl p-4 sm:p-5 border border-purple-500/30 flex items-center justify-between">
+                            <div class="flex items-center gap-3">
+                                <button onclick="hub.renderHub()" class="w-10 h-10 rounded-xl bg-slate-900 hover:bg-slate-800 text-slate-300 flex items-center justify-center border border-slate-800">
+                                    <i class="fa-solid fa-arrow-left"></i>
+                                </button>
+                                <div>
+                                    <div class="text-[10px] text-purple-400 font-extrabold uppercase tracking-wider">GÖREV 3 &bull; ZİHİN ANALİZİ #${this.currentIndex + 1} / ${this.missions.length}</div>
+                                    <h3 class="text-base sm:text-xl font-black text-white">${m.title}</h3>
+                                </div>
+                            </div>
+                            <div class="w-10 h-10 rounded-2xl bg-purple-500/20 text-purple-300 flex items-center justify-center text-xl">
+                                <i class="${m.deviceIcon}"></i>
+                            </div>
+                        </div>
+
+                        ${this.renderPhaseContent(m)}
+                    </div>
+                `;
+            }
+
+            renderPhaseContent(m) {
+                if (this.phase === 1) {
+                    return `
+                        <div class="grid grid-cols-1 md:grid-cols-12 gap-5 items-center">
+                            <!-- SOL: Veri Kartları (Beslenecek) -->
+                            <div class="md:col-span-6 space-y-3">
+                                <div class="text-xs font-black text-cyan-300 uppercase flex items-center gap-2">
+                                    <i class="fa-solid fa-hand-pointer"></i>
+                                    <span>Sensör ve Veri Kartlarına Dokunarak Beyne Gönder:</span>
+                                </div>
+                                <div class="space-y-2.5">
+                                    ${m.cards.map(card => {
+                                        const isFed = this.fedCards.includes(card.id);
+                                        return `
+                                            <button onclick="game3.feedCard(${card.id})" ${isFed ? 'disabled' : ''} class="btn-touch w-full p-4 rounded-2xl border-2 text-left flex items-center justify-between transition-all ${isFed ? 'bg-purple-950/40 border-purple-500/30 text-purple-400/50 line-through' : 'bg-slate-900 border-slate-800 hover:border-cyan-400 text-slate-200'}">
+                                                <div class="flex items-center gap-3">
+                                                    <div class="w-9 h-9 rounded-xl ${isFed ? 'bg-slate-800 text-slate-600' : 'bg-cyan-500/20 text-cyan-300'} flex items-center justify-center text-base">
+                                                        <i class="${card.icon}"></i>
+                                                    </div>
+                                                    <span class="text-xs sm:text-sm font-bold">${card.text}</span>
+                                                </div>
+                                                ${isFed ? '<i class="fa-solid fa-check text-emerald-400"></i>' : '<i class="fa-solid fa-arrow-right text-slate-600"></i>'}
+                                            </button>
+                                        `;
+                                    }).join('')}
+                                </div>
+                            </div>
+
+                            <!-- SAĞ: Yapay Zekâ İşlemci Çekirdeği (Görsel Zihin) -->
+                            <div class="md:col-span-6 glass-panel rounded-3xl p-6 sm:p-8 border-2 border-purple-500/50 text-center space-y-4 pulse-border-cyan">
+                                <div class="w-20 h-20 rounded-3xl bg-gradient-to-tr from-purple-600 via-indigo-600 to-cyan-500 text-white flex items-center justify-center text-4xl mx-auto shadow-xl shadow-purple-500/30">
+                                    <i class="fa-solid fa-microchip"></i>
+                                </div>
+                                <div class="space-y-1">
+                                    <div class="text-xs font-black text-purple-300 uppercase">${m.targetDevice}</div>
+                                    <div class="text-sm text-slate-300 font-semibold">
+                                        Beslenen Veri: <span class="text-cyan-300 font-black">${this.fedCards.length} / ${m.cards.length}</span>
+                                    </div>
+                                </div>
+                                <div class="w-full h-3 rounded-full bg-slate-900 overflow-hidden border border-slate-700">
+                                    <div class="h-full bg-gradient-to-r from-cyan-500 to-purple-500 transition-all duration-300" style="width: ${(this.fedCards.length / m.cards.length) * 100}%"></div>
+                                </div>
+                                <p class="text-[11px] text-slate-400">
+                                    Tüm veriler çekirdeğe ulaştığında yapay zekâ analiz aşamasına geçecektir.
+                                </p>
+                            </div>
+                        </div>
+                    `;
+                } else if (this.phase === 2) {
+                    return `
+                        <div class="glass-panel rounded-3xl p-6 sm:p-8 border border-purple-500/40 text-center space-y-5 animate-pop">
+                            <div class="w-16 h-16 rounded-2xl bg-cyan-500/20 text-cyan-400 text-3xl mx-auto flex items-center justify-center">
+                                <i class="fa-solid fa-cogs"></i>
+                            </div>
+                            <div class="space-y-2">
+                                <span class="text-xs font-black text-cyan-400 uppercase">AŞAMA 2: VERİLER BİRLEŞTİRİLDİ</span>
+                                <h4 class="text-lg sm:text-2xl font-black text-white max-w-xl mx-auto">${m.inferenceQuestion}</h4>
+                            </div>
+                            <div class="grid grid-cols-1 gap-3 max-w-xl mx-auto pt-2">
+                                ${m.options.map((opt, idx) => `
+                                    <button onclick="game3.chooseInference(${idx})" class="btn-touch p-4 rounded-2xl bg-slate-900/90 hover:bg-slate-800 border-2 border-slate-800 hover:border-cyan-400 text-left text-sm sm:text-base font-bold text-slate-200 transition-all flex items-center justify-between">
+                                        <span>${opt.text}</span>
+                                        <i class="fa-solid fa-chevron-right text-cyan-400"></i>
+                                    </button>
+                                `).join('')}
+                            </div>
+                        </div>
+                    `;
+                } else if (this.phase === 3) {
+                    return `
+                        <div class="glass-panel rounded-3xl p-6 sm:p-8 border border-purple-500/40 text-center space-y-5 animate-pop">
+                            <div class="w-16 h-16 rounded-2xl bg-purple-500/20 text-purple-400 text-3xl mx-auto flex items-center justify-center">
+                                <i class="fa-solid fa-brain"></i>
+                            </div>
+                            <div class="space-y-2">
+                                <span class="text-xs font-black text-purple-400 uppercase">AŞAMA 3: BİLİŞSEL ÖZELLİK ANALİZİ</span>
+                                <h4 class="text-lg sm:text-2xl font-black text-white max-w-xl mx-auto">${m.cognitionQuestion}</h4>
+                            </div>
+                            <div class="grid grid-cols-1 gap-3 max-w-xl mx-auto pt-2">
+                                ${m.cognitionOptions.map((opt, idx) => `
+                                    <button onclick="game3.chooseCognition(${idx})" class="btn-touch p-4 rounded-2xl bg-slate-900/90 hover:bg-slate-800 border-2 border-slate-800 hover:border-purple-400 text-left text-sm sm:text-base font-bold text-slate-200 transition-all flex items-center justify-between">
+                                        <span>${opt.text}</span>
+                                        <i class="fa-solid fa-check text-purple-400"></i>
+                                    </button>
+                                `).join('')}
+                            </div>
+                        </div>
+                    `;
+                } else if (this.phase === 4) {
+                    return `
+                        <div class="glass-panel rounded-3xl p-6 sm:p-8 border border-emerald-500/40 text-center space-y-5 animate-pop">
+                            <div class="w-16 h-16 rounded-2xl bg-emerald-500/20 text-emerald-400 text-3xl mx-auto flex items-center justify-center">
+                                <i class="fa-solid fa-circle-check"></i>
+                            </div>
+                            <div class="space-y-2">
+                                <span class="text-xs font-black text-emerald-400 uppercase">ZİHİN HATTI ÇÖZÜLDÜ! (+25 PUAN)</span>
+                                <h4 class="text-xl sm:text-2xl font-black text-white">Veri ➔ Analiz ➔ Karar Döngüsü Tamamlandı</h4>
+                                <p class="text-sm text-slate-300 max-w-lg mx-auto">
+                                    Yapay zekânın sensörlerden topladığı verileri nasıl birleştirip insan gibi mantıklı bir eyleme dönüştürdüğünü adım adım kanıtladın!
+                                </p>
+                            </div>
+                            <div class="pt-2">
+                                <button onclick="game3.nextMission()" class="btn-touch px-8 py-3.5 rounded-2xl bg-gradient-to-r from-purple-600 via-indigo-600 to-cyan-600 hover:from-purple-500 hover:to-cyan-500 text-white font-black text-sm shadow-lg shadow-purple-600/30 inline-flex items-center gap-2">
+                                    <span>${this.currentIndex < this.missions.length - 1 ? 'Sonraki Cihaza Bağlan' : 'Görevi Tamamla & Rozeti Al'}</span>
+                                    <i class="fa-solid fa-arrow-right"></i>
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                }
+            }
+
+            chooseInference(idx) {
+                const m = this.missions[this.currentIndex];
+                if (m.options[idx].correct) {
+                    sound.success();
+                    this.phase = 3;
+                    this.render();
+                } else {
+                    sound.warn();
+                    alert("İpucu: Sensörlerden gelen tehlike ve engel bilgilerine bak! Güvenli olan hareket nedir?");
+                }
+            }
+
+            chooseCognition(idx) {
+                const m = this.missions[this.currentIndex];
+                if (m.cognitionOptions[idx].correct) {
+                    sound.success();
+                    this.phase = 4;
+                    this.render();
+                } else {
+                    sound.warn();
+                    alert("İpucu: Yapay zekâda duygu veya vicdan yoktur; öğrenilen verilerle kurallı karar verir!");
+                }
+            }
+
+            nextMission() {
+                sound.click();
+                if (this.currentIndex < this.missions.length - 1) {
+                    this.currentIndex++;
+                    this.resetMission();
+                    this.render();
+                } else {
+                    hub.unlockBadge('aiAnalyst', 50);
+                    hub.renderHub();
+                }
+            }
+        }
+
+        const game3 = new Game3BrainInspection();
+
+        // =========================================================================
+        // 🚨 OYUN 4: YAPAY ZEKÂ ALARMI (REFLEKSLİ GÜVENLİK KONTROL MERKEZİ)
+        // =========================================================================
+        class Game4AIAlarm {
+            constructor() {
+                this.events = [
+                    {
+                        text: "“Ev adresimi ve okul numaramı sohbet botuyla paylaştım.”",
+                        isAlarm: true,
+                        rationale: "ALARM! Kişisel verilerin (adres, telefon, kimlik) yapay zekâyla paylaşılması güvenlik ve mahremiyet açısından çok tehlikelidir!"
+                    },
+                    {
+                        text: "“Yapay zekânın verdiği bilgiyi ders kitabımdan ve güvendiğim bir ansiklopediden kontrol ettim.”",
+                        isAlarm: false,
+                        rationale: "GÜVENLİ! Yapay zekâ cevaplarını başka güvenilir kaynaklardan teyit etmek bilinçli bir dijital vatandaşlık davranışıdır."
+                    },
+                    {
+                        text: "“Sosyal medya şifremi unuttuğum için yapay zekâya şifremi verip bana hatırlatmasını istedim.”",
+                        isAlarm: true,
+                        rationale: "ALARM! Şifreler ve parolalar ASLA yapay zekâ veya tanınmayan sistemlerle paylaşılmamalıdır!"
+                    },
+                    {
+                        text: "“Fen ödevimi yaparken yapay zekânın yazdığı metni hiç okumadan doğrudan öğretmenime teslim ettim.”",
+                        isAlarm: true,
+                        rationale: "ALARM! Yapay zekânın uydurma (halüsinasyon) yazma ihtimali vardır ve ödev öğrencinin kendi emeğiyle hazırlanmalıdır!"
+                    },
+                    {
+                        text: "“Fotoğrafımın arkasındaki dağınık odayı temizlemek için bir yapay zekâ görsel düzenleme aracından faydalandım.”",
+                        isAlarm: false,
+                        rationale: "GÜVENLİ! Görsel düzenleme araçlarını yaratıcılık ve fayda için kurallara uygun kullanmak güvenlidir."
+                    },
+                    {
+                        text: "“Yapay zekâ kesin ve hızlı cevap verdiğine göre cevabın %100 doğru olduğuna inandım.”",
+                        isAlarm: true,
+                        rationale: "ALARM! Hızlı cevap vermek doğruluğu garanti etmez! Her zaman sorgulayıcı olmalıyız."
+                    },
+                    {
+                        text: "“Yapay zekâdan matematik probleminin çözüm adımlarını bana açıklamasını istedim ve mantığını kavradım.”",
+                        isAlarm: false,
+                        rationale: "GÜVENLİ! Yapay zekâyı öğrenmeyi destekleyen bir yardımcı ve öğretmen gibi kullanmak çok değerlidir."
+                    },
+                    {
+                        text: "“Arkadaşımın izni olmadan onun fotoğrafını yapay zekâya yükleyip komik bir videoya dönüştürdüm ve internette paylaştım.”",
+                        isAlarm: true,
+                        rationale: "ALARM! Başkalarının kişisel verilerini ve fotoğraflarını izinsiz kullanmak hem dijital nezakete hem de bilişim etiğine aykırıdır!"
+                    }
+                ];
+                this.currentIndex = 0;
+                this.scoreAlarm = 0;
+                this.scoreSafe = 0;
+                this.correctDecisions = 0;
+                this.wrongDecisions = 0;
+                this.state = 'playing'; // 'playing', 'feedback', 'result'
+                this.lastFeedback = null;
+            }
+
+            start() {
+                sound.click();
+                this.currentIndex = 0;
+                this.correctDecisions = 0;
+                this.wrongDecisions = 0;
+                this.state = 'playing';
+                this.lastFeedback = null;
+                this.render();
+            }
+
+            render() {
+                const container = document.getElementById("app-container");
+                if (!container) return;
+
+                if (this.state === 'result') {
+                    this.renderResultView(container);
+                    return;
+                }
+
+                const ev = this.events[this.currentIndex];
+
+                container.innerHTML = `
+                    <div class="space-y-5 animate-pop max-w-3xl mx-auto w-full">
+                        <!-- ÜST KONTROL RADARI -->
+                        <div class="glass-panel rounded-3xl p-4 sm:p-5 border border-rose-500/40 flex items-center justify-between">
+                            <div class="flex items-center gap-3">
+                                <button onclick="hub.renderHub()" class="w-10 h-10 rounded-xl bg-slate-900 hover:bg-slate-800 text-slate-300 flex items-center justify-center border border-slate-800">
+                                    <i class="fa-solid fa-arrow-left"></i>
+                                </button>
+                                <div>
+                                    <div class="text-[10px] text-rose-400 font-extrabold uppercase tracking-wider">GÖREV 4 &bull; RADAR TARAMASI ${this.currentIndex + 1} / ${this.events.length}</div>
+                                    <h3 class="text-base sm:text-xl font-black text-white">Yapay Zekâ Alarm Kontrolü</h3>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-3 text-xs font-black">
+                                <span class="text-emerald-400"><i class="fa-solid fa-check"></i> ${this.correctDecisions} Doğru</span>
+                                <span class="text-rose-400"><i class="fa-solid fa-triangle-exclamation"></i> ${this.wrongDecisions} Hata</span>
+                            </div>
+                        </div>
+
+                        <!-- DURUM EKRANI (RADAR) -->
+                        <div class="glass-card rounded-3xl p-6 sm:p-10 border-2 ${this.state === 'feedback' ? (this.lastFeedback.isCorrect ? 'border-emerald-400/80 bg-emerald-950/20' : 'border-rose-400/80 bg-rose-950/20') : 'border-slate-800'} text-center space-y-6">
+                            <div class="space-y-3">
+                                <span class="px-3 py-1 rounded-full bg-slate-900 border border-slate-700 text-xs font-extrabold text-amber-400 inline-flex items-center gap-2">
+                                    <i class="fa-solid fa-satellite-dish animate-pulse"></i>
+                                    <span>Taranan Kullanıcı Davranışı</span>
+                                </span>
+                                <div class="text-lg sm:text-2xl font-black text-white leading-relaxed max-w-2xl mx-auto">
+                                    ${ev.text}
+                                </div>
+                            </div>
+
+                            ${this.state === 'feedback' ? `
+                                <div class="p-4 rounded-2xl ${this.lastFeedback.isCorrect ? 'bg-emerald-950/60 border border-emerald-500/40 text-emerald-200' : 'bg-rose-950/60 border border-rose-500/40 text-rose-200'} text-xs sm:text-sm font-bold text-left animate-pop flex items-start gap-3">
+                                    <div class="text-2xl mt-0.5">
+                                        <i class="fa-solid ${this.lastFeedback.isCorrect ? 'fa-circle-check text-emerald-400' : 'fa-circle-xmark text-rose-400'}"></i>
+                                    </div>
+                                    <div>
+                                        <div class="font-black text-sm ${this.lastFeedback.isCorrect ? 'text-emerald-300' : 'text-rose-300'} mb-1">
+                                            ${this.lastFeedback.isCorrect ? 'DOĞRU REFLEKS!' : 'DİKKAT! YANLIŞ KARAR!'}
+                                        </div>
+                                        <div>${ev.rationale}</div>
+                                    </div>
+                                </div>
+                                <button onclick="game4.nextEvent()" class="btn-touch px-8 py-3.5 rounded-2xl bg-slate-100 hover:bg-white text-slate-950 font-black text-sm shadow-xl inline-flex items-center gap-2">
+                                    <span>${this.currentIndex < this.events.length - 1 ? 'Sonraki Taramaya Geç' : 'Sonuçları Gör'}</span>
+                                    <i class="fa-solid fa-arrow-right"></i>
+                                </button>
+                            ` : `
+                                <!-- 2 BÜYÜK REFLEKS BUTONU -->
+                                <div class="grid grid-cols-2 gap-4 pt-2">
+                                    <button onclick="game4.decide(true)" class="btn-touch p-5 sm:p-6 rounded-3xl bg-gradient-to-br from-rose-600 to-red-700 hover:from-rose-500 hover:to-red-600 text-white border-2 border-rose-400 shadow-xl shadow-rose-600/30 flex flex-col items-center justify-center gap-2">
+                                        <div class="text-3xl sm:text-4xl"><i class="fa-solid fa-triangle-exclamation"></i></div>
+                                        <div class="text-base sm:text-xl font-black">🚨 ALARM!</div>
+                                        <div class="text-[11px] text-rose-200 font-semibold hidden sm:block">Güvensiz veya Riskli</div>
+                                    </button>
+                                    <button onclick="game4.decide(false)" class="btn-touch p-5 sm:p-6 rounded-3xl bg-gradient-to-br from-emerald-600 to-teal-700 hover:from-emerald-500 hover:to-teal-600 text-white border-2 border-emerald-400 shadow-xl shadow-emerald-600/30 flex flex-col items-center justify-center gap-2">
+                                        <div class="text-3xl sm:text-4xl"><i class="fa-solid fa-shield-check"></i></div>
+                                        <div class="text-base sm:text-xl font-black">✅ GÜVENLİ</div>
+                                        <div class="text-[11px] text-emerald-200 font-semibold hidden sm:block">Bilinçli ve Doğru</div>
+                                    </button>
+                                </div>
+                            `}
+                        </div>
+                    </div>
+                `;
+            }
+
+            decide(userChoseAlarm) {
+                const ev = this.events[this.currentIndex];
+                const isCorrect = (userChoseAlarm === ev.isAlarm);
+
+                if (isCorrect) {
+                    sound.success();
+                    this.correctDecisions++;
+                } else {
+                    sound.alarm();
+                    this.wrongDecisions++;
+                }
+
+                this.state = 'feedback';
+                this.lastFeedback = { isCorrect, userChoseAlarm };
+                this.render();
+            }
+
+            nextEvent() {
+                sound.click();
+                if (this.currentIndex < this.events.length - 1) {
+                    this.currentIndex++;
+                    this.state = 'playing';
+                    this.lastFeedback = null;
+                    this.render();
+                } else {
+                    this.state = 'result';
+                    sound.fanfare();
+                    hub.unlockBadge('securityExpert', 50);
+                    this.render();
+                }
+            }
+
+            renderResultView(container) {
+                const total = this.events.length;
+                const pct = Math.round((this.correctDecisions / total) * 100);
+
+                container.innerHTML = `
+                    <div class="glass-panel rounded-3xl p-6 sm:p-10 max-w-xl mx-auto text-center space-y-6 shadow-2xl animate-pop border-2 border-rose-500/50">
+                        <div class="w-20 h-20 mx-auto rounded-3xl bg-gradient-to-tr from-rose-600 via-red-500 to-amber-400 text-white flex items-center justify-center text-4xl shadow-xl shadow-rose-500/30">
+                            <i class="fa-solid fa-shield-halved"></i>
+                        </div>
+                        <div class="space-y-2">
+                            <span class="px-3.5 py-1 bg-rose-500/20 text-rose-300 font-black rounded-full text-xs uppercase tracking-wider border border-rose-500/30">
+                                GÜVENLİK TARAMASI TAMAMLANDI
+                            </span>
+                            <h3 class="text-2xl sm:text-3xl font-black text-white">Güvenlik Uzmanı Rozeti Kazanıldı!</h3>
+                            <p class="text-xs sm:text-sm text-slate-300">
+                                8 farklı senaryoda kişisel bilgilerin korunması ve eleştirel düşünme reflekslerini başarıyla gösterdin!
+                            </p>
+                        </div>
+
+                        <div class="grid grid-cols-3 gap-3 bg-slate-900/90 rounded-2xl p-4 border border-slate-800">
+                            <div>
+                                <div class="text-[11px] text-slate-400 font-bold">Doğru Karar</div>
+                                <div class="text-2xl font-black text-emerald-400">${this.correctDecisions}</div>
+                            </div>
+                            <div class="border-x border-slate-800">
+                                <div class="text-[11px] text-slate-400 font-bold">Kaçırılanlar</div>
+                                <div class="text-2xl font-black text-rose-400">${this.wrongDecisions}</div>
+                            </div>
+                            <div>
+                                <div class="text-[11px] text-slate-400 font-bold">Güvenlik Skoru</div>
+                                <div class="text-2xl font-black text-cyan-300">%${pct}</div>
+                            </div>
+                        </div>
+
+                        <div class="pt-2">
+                            <button onclick="hub.renderHub()" class="btn-touch px-8 py-3.5 rounded-2xl bg-gradient-to-r from-rose-600 to-amber-600 hover:from-rose-500 hover:to-amber-500 text-white font-black text-sm shadow-lg shadow-rose-600/30 inline-flex items-center gap-2">
+                                <i class="fa-solid fa-arrow-left"></i>
+                                <span>Görev Merkezine Dön</span>
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }
+        }
+
+        const game4 = new Game4AIAlarm();
+
+        // =========================================================================
+        // 🧪 OYUN 5: YAPAY ZEKÂ LABORATUVARI (SİSTEM TASARIMCISI - BÜYÜK FİNAL)
+        // =========================================================================
+        class Game5AILab {
+            constructor() {
+                this.domains = [
+                    {
+                        id: 'egitim',
+                        name: 'EĞİTİM',
+                        icon: 'fa-solid fa-graduation-cap',
+                        color: 'from-blue-600 to-indigo-600',
+                        systemName: 'Akıllı Öğrenme Rehberi AI',
+                        dataOptions: [
+                            'Öğrencinin çözdüğü soru sayısı ve test sonuçları',
+                            'En çok yanlış yapılan ders kazanımları ve soru türleri',
+                            'Konuları öğrenirken harcanan süre ve tekrar sıklığı'
+                        ],
+                        decisionOptions: [
+                            'Öğrencinin eksik kaldığı konuyu tespit edip ona özel kısa video ve alıştırma önermek',
+                            'Öğrencinin güçlü olduğu alanlara göre ileri düzey soru ve projeler sunmak'
+                        ],
+                        cautionOptions: [
+                            'Öğrencinin kişisel sınav ve okul verilerinin gizliliğini korumak',
+                            'Yapay zekânın sadece öneri sunduğunu, asıl rehberin öğretmen olduğunu unutmamak'
+                        ]
+                    },
+                    {
+                        id: 'saglik',
+                        name: 'SAĞLIK',
+                        icon: 'fa-solid fa-heart-pulse',
+                        color: 'from-rose-600 to-red-600',
+                        systemName: 'Tıbbi Teşhis ve Röntgen Destek AI',
+                        dataOptions: [
+                            'Röntgen, MR ve ultrason görüntü pikselleri',
+                            'Kan tahlili laboratuvar sayısal değerleri',
+                            'Hastanın geçmiş tansiyon ve nabız kayıtları'
+                        ],
+                        decisionOptions: [
+                            'Doktorun gözünden kaçabilecek mikroskobik hastalık işaretlerini önceden işaretlemek',
+                            'Acil müdahale gereken hastaları öncelikli sıraya almak'
+                        ],
+                        cautionOptions: [
+                            'Yapay zekânın reçete yazamayacağını, son kararı mutlaka uzman tıp doktorunun vermesi gerektiğini bilmek',
+                            'Hasta mahremiyeti ve sağlık verisi gizliliğini en üst düzeyde tutmak'
+                        ]
+                    },
+                    {
+                        id: 'ulasim',
+                        name: 'ULAŞIM',
+                        icon: 'fa-solid fa-car-side',
+                        color: 'from-amber-600 to-orange-600',
+                        systemName: 'Otonom Trafik ve Sürüş Yöneticisi AI',
+                        dataOptions: [
+                            'Kavşaklardaki kameralardan alınan anlık araç yoğunluğu',
+                            'Otomobillerin hız sensörleri ve GPS konumları',
+                            'Yoldaki yayaların ve trafik lambalarının canlı görüntüleri'
+                        ],
+                        decisionOptions: [
+                            'Trafik sıkışıklığını önlemek için yeşil ışık sürelerini otomatik ayarlamak',
+                            'Sürücülere en hızlı ve en güvenli alternatif rotayı çizmek'
+                        ],
+                        cautionOptions: [
+                            'Sensörlerin yağmur veya sis gibi kötü hava şartlarında yanılabileceğini hesaba katmak',
+                            'Acil durumlarda insan kontrolünün (direksiyon müdahalesi) her zaman devrede olmasını sağlamak'
+                        ]
+                    },
+                    {
+                        id: 'tarim',
+                        name: 'TARIM',
+                        icon: 'fa-solid fa-seedling',
+                        color: 'from-emerald-600 to-green-600',
+                        systemName: 'Akıllı Çiftlik ve Hasat Koruyucu AI',
+                        dataOptions: [
+                            'Toprak nem sensörleri ve mineral değerleri',
+                            'Dron kameralarından bitki yapraklarındaki sararma ve hastalık görüntüleri',
+                            'Bölgenin haftalık meteoroloji ve yağış tahmin verileri'
+                        ],
+                        decisionOptions: [
+                            'Sadece kuruyan veya hasta olan bitkileri noktasal olarak sulamak ve ilaçlamak',
+                            'En verimli hasat zamanını belirleyip çiftçiye bildirmek'
+                        ],
+                        cautionOptions: [
+                            'Aşırı ilaç kullanımını önleyerek doğayı ve su kaynaklarını korumak',
+                            'Sensör pillerini ve bağlantılarını düzenli kontrol etmek'
+                        ]
+                    },
+                    {
+                        id: 'eglence',
+                        name: 'EĞLENCE & OYUN',
+                        icon: 'fa-solid fa-gamepad',
+                        color: 'from-purple-600 to-pink-600',
+                        systemName: 'Dinamik Oyun ve Müzik Mimarı AI',
+                        dataOptions: [
+                            'Oyuncunun oyundaki refleks süresi ve takıldığı bölümler',
+                            'En çok dinlenen müzik türleri ve tempo tercihleri',
+                            'Kullanıcının oyunda en çok kullandığı karakter ve eşyalar'
+                        ],
+                        decisionOptions: [
+                            'Oyunun zorluk derecesini oyuncunun becerisine göre anlık olarak dengelemek',
+                            'Kişiselleştirilmiş maceralar ve çalma listeleri üretmek'
+                        ],
+                        cautionOptions: [
+                            'Ekran bağımlılığı oluşturmayacak şekilde mola hatırlatıcıları eklemek',
+                            'Telif haklarına uygun, etik içerikler üretmek'
+                        ]
+                    },
+                    {
+                        id: 'gunluk',
+                        name: 'GÜNLÜK YAŞAM',
+                        icon: 'fa-solid fa-house-laptop',
+                        color: 'from-cyan-600 to-teal-600',
+                        systemName: 'Akıllı Ev ve Enerji Asistanı AI',
+                        dataOptions: [
+                            'Evdeki oda sıcaklığı ve ışık sensörleri',
+                            'Aile bireylerinin eve geliş-gidiş saatleri',
+                            'Elektrik ve su tüketim sayaçlarının saatlik verileri'
+                        ],
+                        decisionOptions: [
+                            'Kimse yokken kombi ve ışıkları kapatıp enerji tasarrufu sağlamak',
+                            'Hırsızlık veya gaz kaçağı anında telefona uyarı gönderip vanaları kapatmak'
+                        ],
+                        cautionOptions: [
+                            'Ev içi mikrofon ve kameraların internet korsanlarına karşı güvenliğini sağlamak',
+                            'Kullanıcı şifrelerini asla üçüncü taraflarla paylaşmamak'
+                        ]
+                    }
+                ];
+
+                this.step = 1; // 1: Alan Seçimi, 2: Veri Seçimi, 3: Karar Seçimi, 4: Dikkat Seçimi, 5: Nihai Hologram Akış Şeması
+                this.selectedDomain = null;
+                this.chosenData = [];
+                this.chosenDecision = null;
+                this.chosenCaution = null;
+            }
+
+            start() {
+                sound.click();
+                this.step = 1;
+                this.selectedDomain = null;
+                this.chosenData = [];
+                this.chosenDecision = null;
+                this.chosenCaution = null;
+                this.render();
+            }
+
+            render() {
+                const container = document.getElementById("app-container");
+                if (!container) return;
+
+                container.innerHTML = `
+                    <div class="space-y-5 animate-pop max-w-4xl mx-auto w-full">
+                        <!-- ÜST BİLGİ -->
+                        <div class="glass-panel rounded-3xl p-4 sm:p-5 border border-emerald-500/40 flex items-center justify-between">
+                            <div class="flex items-center gap-3">
+                                <button onclick="hub.renderHub()" class="w-10 h-10 rounded-xl bg-slate-900 hover:bg-slate-800 text-slate-300 flex items-center justify-center border border-slate-800">
+                                    <i class="fa-solid fa-arrow-left"></i>
+                                </button>
+                                <div>
+                                    <div class="text-[10px] text-emerald-400 font-extrabold uppercase tracking-wider">GÖREV 5 &bull; BÜYÜK FİNAL &bull; AŞAMA ${this.step} / 5</div>
+                                    <h3 class="text-base sm:text-xl font-black text-white">Yapay Zekâ Laboratuvarı</h3>
+                                </div>
+                            </div>
+                            <div class="text-xs font-black text-emerald-400 bg-emerald-500/20 px-3 py-1.5 rounded-xl border border-emerald-500/30">
+                                Sistem Tasarımcısı Modu
+                            </div>
+                        </div>
+
+                        ${this.renderStepContent()}
+                    </div>
+                `;
+            }
+
+            renderStepContent() {
+                if (this.step === 1) {
+                    return `
+                        <div class="glass-card rounded-3xl p-6 sm:p-8 border border-slate-800 space-y-6">
+                            <div class="text-center space-y-1">
+                                <span class="text-xs font-black text-cyan-400 uppercase">1. ADIM: UYGULAMA ALANINI SEÇ</span>
+                                <h4 class="text-xl sm:text-2xl font-black text-white">Hangi alanda bir yapay zekâ sistemi tasarlamak istersin?</h4>
+                                <p class="text-xs text-slate-400">Akıllı tahtada sınıfça bir alan seçin ve dokunun!</p>
+                            </div>
+
+                            <div class="grid grid-cols-2 sm:grid-cols-3 gap-3.5 pt-2">
+                                ${this.domains.map(d => `
+                                    <button onclick="game5.selectDomain('${d.id}')" class="btn-touch p-5 rounded-2xl bg-slate-900/90 hover:bg-slate-800 border-2 border-slate-800 hover:border-emerald-400 text-center space-y-2 transition-all group">
+                                        <div class="w-12 h-12 rounded-2xl bg-gradient-to-tr ${d.color} text-white flex items-center justify-center text-2xl mx-auto shadow-lg group-hover:scale-110 transition-transform">
+                                            <i class="${d.icon}"></i>
+                                        </div>
+                                        <div class="text-sm sm:text-base font-black text-white group-hover:text-emerald-300">${d.name}</div>
+                                        <div class="text-[10px] text-slate-400 font-semibold line-clamp-1">${d.systemName}</div>
+                                    </button>
+                                `).join('')}
+                            </div>
+                        </div>
+                    `;
+                } else if (this.step === 2) {
+                    const d = this.selectedDomain;
+                    return `
+                        <div class="glass-card rounded-3xl p-6 sm:p-8 border border-cyan-500/30 space-y-6 animate-pop">
+                            <div class="space-y-1">
+                                <span class="text-xs font-black text-cyan-400 uppercase">2. ADIM: VERİ KAYNAKLARINI BELİRLE (${d.name})</span>
+                                <h4 class="text-lg sm:text-xl font-black text-white">Yapay zekânın öğrenebilmesi için sisteme hangi verileri toplamalısın?</h4>
+                                <p class="text-xs text-slate-400">En az 1 veya istediğin verileri seç, ardından onayla!</p>
+                            </div>
+
+                            <div class="space-y-3 pt-2">
+                                ${d.dataOptions.map((opt, idx) => {
+                                    const isSel = this.chosenData.includes(opt);
+                                    return `
+                                        <button onclick="game5.toggleData('${opt.replace(/'/g, "\\'")}')" class="btn-touch w-full p-4 rounded-2xl border-2 text-left flex items-center justify-between text-xs sm:text-sm font-bold transition-all ${isSel ? 'bg-cyan-950/60 border-cyan-400 text-cyan-200' : 'bg-slate-900 border-slate-800 text-slate-300 hover:border-cyan-500/40'}">
+                                            <div class="flex items-center gap-3">
+                                                <div class="w-7 h-7 rounded-lg ${isSel ? 'bg-cyan-500 text-slate-950 font-black' : 'bg-slate-800 text-slate-500'} flex items-center justify-center text-xs">
+                                                    <i class="fa-solid fa-database"></i>
+                                                </div>
+                                                <span>${opt}</span>
+                                            </div>
+                                            ${isSel ? '<i class="fa-solid fa-circle-check text-cyan-400 text-lg"></i>' : '<i class="fa-regular fa-circle text-slate-600 text-lg"></i>'}
+                                        </button>
+                                    `;
+                                }).join('')}
+                            </div>
+
+                            <button onclick="game5.confirmStep2()" ${this.chosenData.length === 0 ? 'disabled' : ''} class="btn-touch w-full py-4 rounded-2xl bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 disabled:opacity-40 disabled:cursor-not-allowed text-white font-black text-sm shadow-xl flex items-center justify-center gap-2">
+                                <span>Karar Aşamasına İlerle (${this.chosenData.length} Veri Seçildi)</span>
+                                <i class="fa-solid fa-arrow-right"></i>
+                            </button>
+                        </div>
+                    `;
+                } else if (this.step === 3) {
+                    const d = this.selectedDomain;
+                    return `
+                        <div class="glass-card rounded-3xl p-6 sm:p-8 border border-purple-500/30 space-y-6 animate-pop">
+                            <div class="space-y-1">
+                                <span class="text-xs font-black text-purple-400 uppercase">3. ADIM: YAPAY ZEKÂ NE YAPACAK? (KARAR & EYLEM)</span>
+                                <h4 class="text-lg sm:text-xl font-black text-white">Yapay zekâ topladığı bu verileri analiz ederek hangi kararı üretsin?</h4>
+                                <p class="text-xs text-slate-400">Sisteminin ana amacını belirle:</p>
+                            </div>
+
+                            <div class="space-y-3 pt-2">
+                                ${d.decisionOptions.map(opt => `
+                                    <button onclick="game5.selectDecision('${opt.replace(/'/g, "\\'")}')" class="btn-touch w-full p-4 sm:p-5 rounded-2xl border-2 text-left flex items-center justify-between text-xs sm:text-sm font-bold transition-all ${this.chosenDecision === opt ? 'bg-purple-950/60 border-purple-400 text-purple-200' : 'bg-slate-900 border-slate-800 text-slate-300 hover:border-purple-400'}">
+                                        <div class="flex items-center gap-3">
+                                            <div class="w-8 h-8 rounded-xl bg-purple-500/20 text-purple-300 flex items-center justify-center text-sm shrink-0">
+                                                <i class="fa-solid fa-brain"></i>
+                                            </div>
+                                            <span>${opt}</span>
+                                        </div>
+                                        <i class="fa-solid fa-chevron-right text-purple-400"></i>
+                                    </button>
+                                `).join('')}
+                            </div>
+                        </div>
+                    `;
+                } else if (this.step === 4) {
+                    const d = this.selectedDomain;
+                    return `
+                        <div class="glass-card rounded-3xl p-6 sm:p-8 border border-amber-500/30 space-y-6 animate-pop">
+                            <div class="space-y-1">
+                                <span class="text-xs font-black text-amber-400 uppercase">4. ADIM: ETİK & GÜVENLİK KORUMASI</span>
+                                <h4 class="text-lg sm:text-xl font-black text-white">Bu akıllı sistemi kullanırken en çok neye dikkat etmeliyiz?</h4>
+                                <p class="text-xs text-slate-400">Sistemin insana zarar vermemesi ve adil çalışması için güvenlik kalkanını seç:</p>
+                            </div>
+
+                            <div class="space-y-3 pt-2">
+                                ${d.cautionOptions.map(opt => `
+                                    <button onclick="game5.selectCaution('${opt.replace(/'/g, "\\'")}')" class="btn-touch w-full p-4 sm:p-5 rounded-2xl border-2 text-left flex items-center justify-between text-xs sm:text-sm font-bold transition-all ${this.chosenCaution === opt ? 'bg-amber-950/60 border-amber-400 text-amber-200' : 'bg-slate-900 border-slate-800 text-slate-300 hover:border-amber-400'}">
+                                        <div class="flex items-center gap-3">
+                                            <div class="w-8 h-8 rounded-xl bg-amber-500/20 text-amber-300 flex items-center justify-center text-sm shrink-0">
+                                                <i class="fa-solid fa-shield-halved"></i>
+                                            </div>
+                                            <span>${opt}</span>
+                                        </div>
+                                        <i class="fa-solid fa-chevron-right text-amber-400"></i>
+                                    </button>
+                                `).join('')}
+                            </div>
+                        </div>
+                    `;
+                } else if (this.step === 5) {
+                    const d = this.selectedDomain;
+                    return `
+                        <div class="glass-panel rounded-3xl p-6 sm:p-8 border-2 border-emerald-400 text-center space-y-6 animate-pop shadow-2xl">
+                            <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 text-xs font-black tracking-wider uppercase">
+                                <i class="fa-solid fa-circle-check"></i>
+                                <span>YAPAY ZEKÂ SİSTEMİN HAZIR VE ÇALIŞIYOR!</span>
+                            </div>
+
+                            <div class="space-y-1">
+                                <h3 class="text-2xl sm:text-3xl font-black text-white">${d.systemName}</h3>
+                                <p class="text-xs sm:text-sm text-slate-300 font-semibold">${d.name} ALANI İÇİN ÖZEL MİMARİ</p>
+                            </div>
+
+                            <!-- HOLOGRAM AKIŞ ŞEMASI -->
+                            <div class="bg-slate-950/90 rounded-3xl p-5 sm:p-6 border border-slate-800 space-y-4 text-left">
+                                <!-- Blok 1: VERİ -->
+                                <div class="p-4 rounded-2xl bg-cyan-950/30 border border-cyan-500/40 space-y-2">
+                                    <div class="text-xs font-black text-cyan-300 flex items-center gap-2 uppercase">
+                                        <i class="fa-solid fa-database"></i>
+                                        <span>1. VERİ GİRİŞİ (INPUT)</span>
+                                    </div>
+                                    <ul class="text-xs sm:text-sm text-slate-200 list-disc list-inside space-y-1">
+                                        ${this.chosenData.map(v => `<li>${v}</li>`).join('')}
+                                    </ul>
+                                </div>
+
+                                <div class="text-center text-cyan-400 text-lg"><i class="fa-solid fa-arrow-down"></i></div>
+
+                                <!-- Blok 2: YAPAY ZEKÂ ÇEKİRDEĞİ -->
+                                <div class="p-4 rounded-2xl bg-purple-950/30 border border-purple-500/40 space-y-2">
+                                    <div class="text-xs font-black text-purple-300 flex items-center gap-2 uppercase">
+                                        <i class="fa-solid fa-brain"></i>
+                                        <span>2. ANALİZ VE ÇIKARIM (MODEL)</span>
+                                    </div>
+                                    <p class="text-xs sm:text-sm text-slate-200">
+                                        Örüntü tanıma ve makine öğrenmesi algoritmaları bu verileri saniyeler içinde işler.
+                                    </p>
+                                </div>
+
+                                <div class="text-center text-purple-400 text-lg"><i class="fa-solid fa-arrow-down"></i></div>
+
+                                <!-- Blok 3: TAHMİN / KARAR -->
+                                <div class="p-4 rounded-2xl bg-emerald-950/30 border border-emerald-500/40 space-y-2">
+                                    <div class="text-xs font-black text-emerald-300 flex items-center gap-2 uppercase">
+                                        <i class="fa-solid fa-lightbulb"></i>
+                                        <span>3. TAHMİN / KARAR / EYLEM (OUTPUT)</span>
+                                    </div>
+                                    <p class="text-xs sm:text-sm text-slate-100 font-bold">
+                                        ${this.chosenDecision}
+                                    </p>
+                                </div>
+
+                                <div class="text-center text-emerald-400 text-lg"><i class="fa-solid fa-arrow-down"></i></div>
+
+                                <!-- Blok 4: DİKKAT VE ETİK -->
+                                <div class="p-4 rounded-2xl bg-amber-950/30 border border-amber-500/40 space-y-2">
+                                    <div class="text-xs font-black text-amber-300 flex items-center gap-2 uppercase">
+                                        <i class="fa-solid fa-shield-halved"></i>
+                                        <span>4. GÜVENLİK KALKANI & DİKKAT EDİLECEKLER</span>
+                                    </div>
+                                    <p class="text-xs sm:text-sm text-amber-200 font-semibold">
+                                        ${this.chosenCaution}
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="flex flex-col sm:flex-row gap-3 justify-center pt-2">
+                                <button onclick="game5.finish()" class="btn-touch px-8 py-3.5 rounded-2xl bg-gradient-to-r from-emerald-600 via-teal-600 to-cyan-600 hover:from-emerald-500 hover:to-cyan-500 text-slate-950 font-black text-sm shadow-xl inline-flex items-center justify-center gap-2">
+                                    <i class="fa-solid fa-medal"></i>
+                                    <span>Tasarımı Onayla & Rozeti Al!</span>
+                                </button>
+                                <button onclick="game5.start()" class="btn-touch px-6 py-3.5 rounded-2xl bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold text-sm border border-slate-700 flex items-center justify-center gap-2">
+                                    <i class="fa-solid fa-rotate-left"></i>
+                                    <span>Farklı Alan Tasarla</span>
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                }
+            }
+
+            selectDomain(id) {
+                sound.click();
+                this.selectedDomain = this.domains.find(d => d.id === id);
+                this.chosenData = [];
+                this.step = 2;
+                this.render();
+            }
+
+            toggleData(val) {
+                sound.click();
+                if (this.chosenData.includes(val)) {
+                    this.chosenData = this.chosenData.filter(v => v !== val);
+                } else {
+                    this.chosenData.push(val);
+                }
+                this.render();
+            }
+
+            confirmStep2() {
+                if (this.chosenData.length === 0) return;
+                sound.success();
+                this.step = 3;
+                this.render();
+            }
+
+            selectDecision(opt) {
+                sound.success();
+                this.chosenDecision = opt;
+                this.step = 4;
+                this.render();
+            }
+
+            selectCaution(opt) {
+                sound.success();
+                this.chosenCaution = opt;
+                this.step = 5;
+                sound.fanfare();
+                if (typeof confetti === 'function') {
+                    confetti({ particleCount: 120, spread: 80, origin: { y: 0.6 } });
+                }
+                this.render();
+            }
+
+            finish() {
+                sound.fanfare();
+                hub.unlockBadge('aiDesigner', 60);
+                hub.renderHub();
+            }
+        }
+
+        const game5 = new Game5AILab();
+
+        // Sayfa yüklendiğinde Görev Merkezini başlat
+        window.addEventListener("DOMContentLoaded", () => {
+            hub.init();
+        });
+    </script>
+</body>
+</html>
