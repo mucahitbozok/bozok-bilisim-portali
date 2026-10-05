@@ -855,7 +855,7 @@ class App {
             1: { konu: 'assets/worksheets/1.1_konu.png', soru: 'assets/worksheets/1.1_soru.png', cevap: 'assets/worksheets/1.1_cevap.png' },
             2: { konu: 'assets/worksheets/1.2_konu.png', soru: 'assets/worksheets/1.2_soru.png', cevap: 'assets/worksheets/1.2_cevap.png' },
             3: { konu: 'assets/worksheets/1.3_konu.png', soru: 'assets/worksheets/1.3_soru.png', cevap: 'assets/worksheets/1.3_cevap.png' },
-            4: { 
+            '3_2': {
                 kagit1: 'assets/worksheets/1.4_sayfa1_soru.png',
                 kagit1_cevap: 'assets/worksheets/1.4_sayfa1_cevap.png',
                 kagit2: 'assets/worksheets/1.4_sayfa2_soru.png',
@@ -864,9 +864,17 @@ class App {
                 sayfa1_cevap: 'assets/worksheets/1.4_sayfa1_cevap.png',
                 sayfa2_soru: 'assets/worksheets/1.4_sayfa2_soru.png',
                 sayfa2_cevap: 'assets/worksheets/1.4_sayfa2_cevap.png',
-                konu: 'assets/worksheets/1.4_konu.png',
                 soru: 'assets/worksheets/1.4_sayfa1_soru.png',
                 cevap: 'assets/worksheets/1.4_sayfa1_cevap.png'
+            },
+            4: {
+                sayfa1: 'assets/worksheets/1.4_sayfa1.png',
+                sayfa2: 'assets/worksheets/1.4_sayfa2.png',
+                sayfa3: 'assets/worksheets/1.4_sayfa3.png',
+                sayfa4: 'assets/worksheets/1.4_sayfa4.png',
+                cevap: 'assets/worksheets/1.4_cevap.png',
+                konu: 'assets/worksheets/1.4_sayfa1.png',
+                soru: 'assets/worksheets/1.4_sayfa2.png'
             }
         };
         if (defaultMap[weekNum] && defaultMap[weekNum][docType]) {
@@ -900,29 +908,66 @@ class App {
         const images = data.weekInfo?.images || data.worksheetDocs?.images;
         const docs = data.worksheetDocs || {};
 
-        const isFourTabs = !!(docs.hasTwoPages || docs.kagit1Html || (images && (images.kagit1 || images.sayfa1_soru)) || this.currentWeek === 4);
+        const isFiveTabs = !!(images?.sayfa4 || images?.sayfa3 || (this.currentWeek === 4 && images?.sayfa1));
+        const isFourTabs = !isFiveTabs && !!(docs.hasTwoPages || docs.kagit1Html || (images && (images.kagit1 || images.sayfa1_soru)) || this.currentWeek === '3_2');
 
         if (!this.activePhotoDoc) {
-            this.activePhotoDoc = isFourTabs ? 'kagit1' : 'konu';
+            this.activePhotoDoc = isFiveTabs ? 'sayfa1' : (isFourTabs ? 'kagit1' : 'konu');
+        } else if (isFiveTabs) {
+            if (!['sayfa1', 'sayfa2', 'sayfa3', 'sayfa4', 'cevap'].includes(this.activePhotoDoc)) {
+                this.activePhotoDoc = 'sayfa1';
+            }
         } else if (isFourTabs) {
-            if (this.activePhotoDoc === 'soru') this.activePhotoDoc = 'kagit1';
-            if (this.activePhotoDoc === 'cevap') this.activePhotoDoc = 'kagit1_cevap';
-            if (this.activePhotoDoc === 'konu') this.activePhotoDoc = 'kagit1';
+            if (!['kagit1', 'kagit1_cevap', 'kagit2', 'kagit2_cevap'].includes(this.activePhotoDoc)) {
+                this.activePhotoDoc = 'kagit1';
+            }
         } else {
-            if (this.activePhotoDoc === 'kagit1' || this.activePhotoDoc === 'kagit2') this.activePhotoDoc = 'soru';
-            if (this.activePhotoDoc === 'kagit1_cevap' || this.activePhotoDoc === 'kagit2_cevap') this.activePhotoDoc = 'cevap';
+            if (!['konu', 'soru', 'cevap'].includes(this.activePhotoDoc)) {
+                this.activePhotoDoc = 'konu';
+            }
         }
 
         if (!this.worksheetViewMode) this.worksheetViewMode = 'photo'; // 'photo' veya 'digital'
         if (!this.photoZoom) this.photoZoom = 1.0;
 
         // Henüz içeriği yüklenmemiş ileri haftalar
-        if (data.weekInfo?.isPending || (!images && !docs.konuHtml && !docs.kagit1Html)) {
+        if (data.weekInfo?.isPending || (!images && !docs.konuHtml && !docs.kagit1Html && !docs.sayfa1Html)) {
             this.renderPendingPlaceholder("worksheet-render-area", "Çalışma Kağıtları & Cevap Anahtarı", "fa-solid fa-file-lines");
             return;
         }
 
-        const imgMap = isFourTabs ? {
+        const imgMap = isFiveTabs ? {
+            sayfa1: { 
+                src: this.resolveDocPath(images?.sayfa1, this.currentWeek, 'sayfa1'), 
+                title: "1. Sayfa (Yapay Zekâ Temelleri & Kavramlar)", 
+                icon: "fa-solid fa-file-lines", 
+                badge: "1. Sayfa" 
+            },
+            sayfa2: { 
+                src: this.resolveDocPath(images?.sayfa2, this.currentWeek, 'sayfa2'), 
+                title: "2. Sayfa (Yapay Zekâ Kullanım Alanları & Örnekler)", 
+                icon: "fa-solid fa-file-lines", 
+                badge: "2. Sayfa" 
+            },
+            sayfa3: { 
+                src: this.resolveDocPath(images?.sayfa3, this.currentWeek, 'sayfa3'), 
+                title: "3. Sayfa (Pekiştirme Soruları & Etkinlikler)", 
+                icon: "fa-solid fa-file-lines", 
+                badge: "3. Sayfa" 
+            },
+            sayfa4: { 
+                src: this.resolveDocPath(images?.sayfa4, this.currentWeek, 'sayfa4'), 
+                title: "4. Sayfa (Etik, Güvenlik & Değerlendirme)", 
+                icon: "fa-solid fa-file-circle-check", 
+                badge: "4. Sayfa" 
+            },
+            cevap: { 
+                src: this.resolveDocPath(images?.cevap, this.currentWeek, 'cevap'), 
+                title: "Resmî Cevap Anahtarı (1-4. Sayfalar)", 
+                icon: "fa-solid fa-key", 
+                badge: "Cevap Anahtarı" 
+            }
+        } : (isFourTabs ? {
             kagit1: { 
                 src: this.resolveDocPath(images?.kagit1 || images?.sayfa1_soru, this.currentWeek, 'kagit1'), 
                 title: "1. Kağıt (Etkinlik Kağıdı 1 - Bilişim Alanları & Dijital Sağlık)", 
@@ -966,12 +1011,14 @@ class App {
                 icon: "fa-solid fa-key", 
                 badge: "Çözümler & Cevaplar" 
             }
-        };
+        });
 
-        const currentDoc = imgMap[this.activePhotoDoc] || (isFourTabs ? imgMap.kagit1 : imgMap.konu);
+        const currentDoc = imgMap[this.activePhotoDoc] || (isFiveTabs ? imgMap.sayfa1 : (isFourTabs ? imgMap.kagit1 : imgMap.konu));
 
-        let activeHtmlContent = isFourTabs ? (docs.kagit1Html || docs.sayfa1_soruHtml || docs.soruHtml) : docs.konuHtml;
-        if (isFourTabs) {
+        let activeHtmlContent = docs.konuHtml;
+        if (isFiveTabs) {
+            activeHtmlContent = docs[this.activePhotoDoc + 'Html'] || docs[this.activePhotoDoc] || docs.soruHtml || docs.konuHtml;
+        } else if (isFourTabs) {
             if (this.activePhotoDoc === 'kagit1') activeHtmlContent = docs.kagit1Html || docs.sayfa1_soruHtml || docs.soruHtml;
             else if (this.activePhotoDoc === 'kagit1_cevap') activeHtmlContent = docs.kagit1_cevapHtml || docs.sayfa1_cevapHtml || docs.cevapHtml;
             else if (this.activePhotoDoc === 'kagit2') activeHtmlContent = docs.kagit2Html || docs.sayfa2_soruHtml || docs.soruHtml;
@@ -998,7 +1045,28 @@ class App {
 
                     <!-- Belge Butonları -->
                     <div class="flex items-center gap-1.5 sm:gap-2 bg-slate-800 p-1.5 rounded-2xl border border-slate-700 flex-wrap justify-center">
-                        ${isFourTabs ? `
+                        ${isFiveTabs ? `
+                            <button onclick="app.setPhotoDoc('sayfa1')" class="px-3 sm:px-4 py-2 sm:py-2.5 rounded-xl font-bold text-xs sm:text-sm flex items-center gap-2 transition-all ${this.activePhotoDoc === 'sayfa1' ? 'bg-indigo-600 text-white shadow-lg ring-2 ring-indigo-400' : 'text-slate-300 hover:bg-slate-700'}">
+                                <i class="fa-solid fa-file-lines text-yellow-400"></i>
+                                <span>1. Sayfa</span>
+                            </button>
+                            <button onclick="app.setPhotoDoc('sayfa2')" class="px-3 sm:px-4 py-2 sm:py-2.5 rounded-xl font-bold text-xs sm:text-sm flex items-center gap-2 transition-all ${this.activePhotoDoc === 'sayfa2' ? 'bg-indigo-600 text-white shadow-lg ring-2 ring-indigo-400' : 'text-slate-300 hover:bg-slate-700'}">
+                                <i class="fa-solid fa-file-lines text-cyan-400"></i>
+                                <span>2. Sayfa</span>
+                            </button>
+                            <button onclick="app.setPhotoDoc('sayfa3')" class="px-3 sm:px-4 py-2 sm:py-2.5 rounded-xl font-bold text-xs sm:text-sm flex items-center gap-2 transition-all ${this.activePhotoDoc === 'sayfa3' ? 'bg-indigo-600 text-white shadow-lg ring-2 ring-indigo-400' : 'text-slate-300 hover:bg-slate-700'}">
+                                <i class="fa-solid fa-file-lines text-amber-400"></i>
+                                <span>3. Sayfa</span>
+                            </button>
+                            <button onclick="app.setPhotoDoc('sayfa4')" class="px-3 sm:px-4 py-2 sm:py-2.5 rounded-xl font-bold text-xs sm:text-sm flex items-center gap-2 transition-all ${this.activePhotoDoc === 'sayfa4' ? 'bg-indigo-600 text-white shadow-lg ring-2 ring-indigo-400' : 'text-slate-300 hover:bg-slate-700'}">
+                                <i class="fa-solid fa-file-circle-check text-purple-400"></i>
+                                <span>4. Sayfa</span>
+                            </button>
+                            <button onclick="app.setPhotoDoc('cevap')" class="px-3 sm:px-4 py-2 sm:py-2.5 rounded-xl font-bold text-xs sm:text-sm flex items-center gap-2 transition-all ${this.activePhotoDoc === 'cevap' ? 'bg-emerald-600 text-white shadow-lg ring-2 ring-emerald-400' : 'text-slate-300 hover:bg-slate-700'}">
+                                <i class="fa-solid fa-key text-yellow-300"></i>
+                                <span>Cevap Anahtarı</span>
+                            </button>
+                        ` : (isFourTabs ? `
                             <button onclick="app.setPhotoDoc('kagit1')" class="px-3 sm:px-4 py-2 sm:py-2.5 rounded-xl font-bold text-xs sm:text-sm flex items-center gap-2 transition-all ${this.activePhotoDoc === 'kagit1' ? 'bg-indigo-600 text-white shadow-lg ring-2 ring-indigo-400' : 'text-slate-300 hover:bg-slate-700'}">
                                 <i class="fa-solid fa-file-lines text-yellow-400"></i>
                                 <span>1. Kağıt</span>
@@ -1028,7 +1096,7 @@ class App {
                                 <i class="fa-solid fa-key text-yellow-300"></i>
                                 <span>3. Cevap Anahtarı</span>
                             </button>
-                        `}
+                        `)}
                     </div>
                 </div>
 
