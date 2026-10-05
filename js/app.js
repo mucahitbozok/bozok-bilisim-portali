@@ -280,7 +280,7 @@ class App {
                     const opt = document.createElement("option");
                     opt.value = w.week;
                     opt.innerText = w.customLabel ? `${w.customLabel}: ${w.title}` : `${w.week}. Konu: ${w.title}`;
-                    opt.selected = w.week === this.currentWeek;
+                    opt.selected = String(w.week) === String(this.currentWeek);
                     optGroup.appendChild(opt);
                 });
                 selector.appendChild(optGroup);
@@ -288,7 +288,8 @@ class App {
 
             selector.onchange = (e) => {
                 sounds.playClick();
-                this.loadWeek(parseInt(e.target.value));
+                const val = isNaN(e.target.value) ? e.target.value : parseInt(e.target.value);
+                this.loadWeek(val);
             };
         }
 
@@ -307,9 +308,9 @@ class App {
                         </div>
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
                             ${theme.weeks.map(w => `
-                                <button onclick="app.selectWeekFromModal(${w.week})" class="p-3 bg-slate-750 hover:bg-indigo-600 rounded-xl text-left border ${w.week === this.currentWeek ? 'border-yellow-400 bg-indigo-950/80 ring-2 ring-yellow-400/50' : 'border-slate-700'} transition-all flex items-start justify-between gap-2 group">
+                                <button onclick="app.selectWeekFromModal('${w.week}')" class="p-3 bg-slate-750 hover:bg-indigo-600 rounded-xl text-left border ${String(w.week) === String(this.currentWeek) ? 'border-yellow-400 bg-indigo-950/80 ring-2 ring-yellow-400/50' : 'border-slate-700'} transition-all flex items-start justify-between gap-2 group">
                                     <div>
-                                        <div class="text-xs font-bold ${w.week === this.currentWeek ? 'text-yellow-400' : 'text-slate-400 group-hover:text-indigo-200'}">${w.customLabel ? w.customLabel : `${w.week}. Konu`} • ${w.code}</div>
+                                        <div class="text-xs font-bold ${String(w.week) === String(this.currentWeek) ? 'text-yellow-400' : 'text-slate-400 group-hover:text-indigo-200'}">${w.customLabel ? w.customLabel : `${w.week}. Konu`} • ${w.code}</div>
                                         <div class="text-sm font-bold text-white leading-tight mt-0.5">${w.title}</div>
                                     </div>
                                     <span class="px-2 py-0.5 rounded text-[10px] font-extrabold ${w.isAvailable ? 'bg-emerald-500/30 text-emerald-300 border border-emerald-500/40' : 'bg-slate-800 text-amber-300/80 border border-slate-700'}">${w.isAvailable ? 'Hazır' : 'Yakında'}</span>
@@ -325,7 +326,8 @@ class App {
     selectWeekFromModal(weekNum) {
         sounds.playClick();
         this.closeCurriculumModal();
-        this.loadWeek(weekNum);
+        const val = isNaN(weekNum) ? weekNum : parseInt(weekNum);
+        this.loadWeek(val);
     }
 
     openCurriculumModal() {
@@ -340,11 +342,16 @@ class App {
         if (modal) modal.classList.add("hidden");
     }
 
+    getTopicTitleLabel(weekNum = this.currentWeek) {
+        const info = this.getCurriculumInfo(weekNum);
+        return info.weekData?.customLabel || `${weekNum}. Konu`;
+    }
+
     getCurriculumInfo(weekNum) {
         const data = (typeof CURRICULUM_DATA !== 'undefined') ? CURRICULUM_DATA : (window.CURRICULUM_DATA || []);
         if (data && data.length) {
             for (const theme of data) {
-                const w = theme.weeks.find(x => x.week === weekNum);
+                const w = theme.weeks.find(x => String(x.week) === String(weekNum));
                 if (w) {
                     return {
                         themeId: theme.id,
@@ -412,6 +419,18 @@ class App {
         const actionBtnContainer = document.getElementById("week-action-buttons");
         if (actionBtnContainer) {
             actionBtnContainer.innerHTML = `
+                ${String(this.currentWeek) === '3' ? `
+                    <button onclick="app.loadWeek('3_2')" class="px-3.5 py-2 bg-gradient-to-r from-amber-500 to-yellow-500 hover:from-amber-400 hover:to-yellow-400 text-slate-950 font-black text-xs rounded-xl shadow-lg flex items-center gap-1.5 transition-all hover:scale-105 active:scale-95" title="3. Konu - 2 (1-2-3 Genel Tekrar ve Çalışma Kağıtları)">
+                        <i class="fa-solid fa-file-circle-check"></i>
+                        <span>3. Konu - 2'ye Geç 👉</span>
+                    </button>
+                ` : ''}
+                ${String(this.currentWeek) === '3_2' ? `
+                    <button onclick="app.loadWeek(3)" class="px-3.5 py-2 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-black text-xs rounded-xl shadow-lg flex items-center gap-1.5 transition-all hover:scale-105 active:scale-95" title="3. Konu - 1 (Ders Sunumu ve Materyaller)">
+                        <i class="fa-solid fa-arrow-left"></i>
+                        <span>3. Konu - 1'e Dön</span>
+                    </button>
+                ` : ''}
                 ${hasVideos ? `
                     <button onclick="app.switchTab('videos')" class="px-4 py-2 bg-gradient-to-r from-rose-600 to-red-600 hover:from-rose-500 hover:to-red-500 text-white font-black text-xs rounded-xl shadow-lg flex items-center gap-2 transition-all hover:scale-105 active:scale-95" title="Konu Videoları">
                         <i class="fa-solid fa-circle-play"></i>
@@ -496,7 +515,7 @@ class App {
         if (!container) return;
 
         const info = this.getCurriculumInfo(this.currentWeek);
-        const displayTitle = info.weekData ? info.weekData.title : `${this.currentWeek}. Konu`;
+        const displayTitle = info.weekData ? (info.weekData.customHeaderTitle || (info.weekData.customLabel ? `${info.weekData.customLabel}: ${info.weekData.title}` : `${this.currentWeek}. Konu: ${info.weekData.title}`)) : `${this.currentWeek}. Konu`;
         const code = info.weekData ? info.weekData.code : '';
 
         container.className = "w-full min-h-[440px] flex items-center justify-center p-4";
@@ -508,7 +527,7 @@ class App {
                 
                 <div class="space-y-2">
                     <span class="px-4 py-1.5 bg-yellow-400/20 text-yellow-300 font-black rounded-xl text-xs uppercase tracking-widest border border-yellow-400/30">
-                        ${this.currentWeek}. Konu • ${sectionName}
+                        ${this.getTopicTitleLabel()} • ${sectionName}
                     </span>
                     <h2 class="text-2xl sm:text-3xl font-black text-white leading-snug">
                         ${displayTitle}
@@ -931,19 +950,19 @@ class App {
         } : {
             konu: { 
                 src: this.resolveDocPath(images?.konu, this.currentWeek, 'konu'), 
-                title: `${this.currentWeek}. Konu Anlatımı & Çalışma Kağıdı`, 
+                title: `${this.getTopicTitleLabel()} Anlatımı & Çalışma Kağıdı`, 
                 icon: "fa-solid fa-book-open", 
                 badge: "Konu Özeti" 
             },
             soru: { 
                 src: this.resolveDocPath(images?.soru, this.currentWeek, 'soru'), 
-                title: `${this.currentWeek}. Konu Pekiştirme Soruları & Etkinlikler`, 
+                title: `${this.getTopicTitleLabel()} Pekiştirme Soruları & Etkinlikler`, 
                 icon: "fa-solid fa-circle-question", 
                 badge: "Sorular & Görevler" 
             },
             cevap: { 
                 src: this.resolveDocPath(images?.cevap, this.currentWeek, 'cevap'), 
-                title: `${this.currentWeek}. Konu Resmi Cevap Anahtarı`, 
+                title: `${this.getTopicTitleLabel()} Resmi Cevap Anahtarı`, 
                 icon: "fa-solid fa-key", 
                 badge: "Çözümler & Cevaplar" 
             }
@@ -973,7 +992,7 @@ class App {
                         </div>
                         <div>
                             <h2 class="text-xl sm:text-2xl font-black text-white">Çalışma Kağıtları, Sorular & Cevaplar</h2>
-                            <p class="text-xs text-indigo-300 font-semibold">Öğretmen Bozok • ${this.currentWeek}. Konu Resmî Ders Belgeleri</p>
+                            <p class="text-xs text-indigo-300 font-semibold">Öğretmen Bozok • ${this.getTopicTitleLabel()} Resmî Ders Belgeleri</p>
                         </div>
                     </div>
 
@@ -1866,7 +1885,7 @@ class App {
                     <span class="px-3.5 sm:px-4 py-1 sm:py-1.5 bg-yellow-400/20 text-yellow-300 font-extrabold text-[10px] sm:text-xs uppercase tracking-widest rounded-full border border-yellow-400/30">
                         🎮 Sınıf İçi Pekiştirme Oyunları
                     </span>
-                    <h2 class="text-2xl sm:text-4xl font-black text-white leading-tight">${this.currentWeek}. Konu Oyun Arenası (${totalGameCount} Farklı Oyun Modu 🎮)</h2>
+                    <h2 class="text-2xl sm:text-4xl font-black text-white leading-tight">${this.getTopicTitleLabel()} Oyun Arenası (${totalGameCount} Farklı Oyun Modu 🎮)</h2>
                     <p class="text-slate-400 text-xs sm:text-sm max-w-xl mx-auto px-2">
                         Akıllı tahtada tüm sınıfla çarkıfelek oynayabilir, teknoloji mahkemesi kurabilir, maceralara atılabilir veya hızlı reflekslerini test edebilirsin!
                     </p>
@@ -2196,7 +2215,7 @@ class App {
                         <div>
                             <div class="flex items-center gap-2">
                                 <span class="px-3 py-1 bg-rose-500/20 text-rose-300 border border-rose-500/40 rounded-full text-xs font-black uppercase tracking-wider">
-                                    ${this.currentWeek}. Konu • Akıllı Tahta Video Alanı
+                                    ${this.getTopicTitleLabel()} • Akıllı Tahta Video Alanı
                                 </span>
                             </div>
                             <h2 class="text-2xl sm:text-3xl md:text-4xl font-black text-white mt-1">Konu İle Alakalı Videolar 🎬</h2>

@@ -41,7 +41,7 @@ const CURRICULUM_DATA = [
                 "customHeaderTitle": "3. Konu: Dijital Vatandaşlık Uygulamaları - 1"
             },
             {
-                "week": 4,
+                "week": "3_2",
                 "title": "Dijital Vatandaşlık Uygulamaları - 2 (Genel Tekrar)",
                 "code": "BTY.5.1.3 – 1, 2 ve 3. Konular Kapsamlı Tekrar & Pekiştirme",
                 "outcome": "a) 1, 2 ve 3. konuların (bilişim alanları, dijital sağlık, ergonomi, dijital vatandaşlık) kazanımlarını 2 sayfalık etkinlik kağıdı ile sentezler. b) 5 farklı oyun modu ile bilgileri pekiştirir.",
@@ -51,14 +51,24 @@ const CURRICULUM_DATA = [
                 "customHeaderTitle": "3. Konu: Dijital Vatandaşlık Uygulamaları - 2 (Genel Tekrar)"
             },
             {
-                "week": 5,
+                "week": 4,
                 "title": "Yapay Zekâda Temel Kavram ve Özellikler",
-                "code": "BTY.5.1.4. Yapay zekâda temel kavram ve özellikleri çözümleyebilme",
-                "outcome": "a) Yapay zekâya ilişkin temel kavramları (veri, makine öğrenmesi, algoritma, karar verme) belirler. b) Doğal zekâ ile yapay zekâ arasındaki farkları karşılaştırır. c) Günlük yaşamda kullanılan yapay zekâ uygulamalarının temel özelliklerini ve kullanım alanlarını sınıflandırır.",
+                "code": "BTY.5.1.4. Yapay zekâ ile ilgili temel kavramları ve özellikleri sorgulayabilme",
+                "outcome": "a) Yapay zekâ ile ilgili temel kavram ve özelliklere ilişkin merak ettiği konuları tanımlar. b) Yapay zekâ ile ilgili temel kavram ve özellikleri hakkında sorular sorar. c) Yapay zekâ ile ilgili temel kavram ve özellikleri hakkında bilgi toplar. ç) Yapay zekâ ile ilgili temel kavram ve özellikleri hakkında toplanan bilgilerin doğruluğunu değerlendirir. d) Yapay zekânın olası etkilerine ilişkin topladığı bilgiler üzerinden çıkarım yapar.",
                 "isAvailable": true,
                 "badge": "Hazır",
                 "customLabel": "4. Konu",
                 "customHeaderTitle": "4. Konu: Yapay Zekâda Temel Kavram ve Özellikler"
+            },
+            {
+                "week": 5,
+                "title": "Bilgisayar Sistemlerinin Kullanımı",
+                "code": "BTY.5.1.5. Bilgisayar sistemlerini çözümleyebilme",
+                "outcome": "a) Bilgisayar sistemlerinin temel bileşenlerini belirler. b) Bilgisayar sistemlerinin temel bileşenleri arasındaki ilişkileri belirler.",
+                "isAvailable": false,
+                "badge": "Yakında",
+                "customLabel": "5. Konu",
+                "customHeaderTitle": "5. Konu: Bilgisayar Sistemlerinin Kullanımı"
             },
             {
                 "week": 6,
@@ -67,8 +77,8 @@ const CURRICULUM_DATA = [
                 "outcome": "a) Temel dosya ve klasör düzenleme işlemlerini belirler.\nb) Temel dosya ve klasör düzenleme işlemlerini kullanır.\nc) Dosya ve klasör sıkıştırma işlemlerini verimlilik kapsamında değerlendirir.",
                 "isAvailable": false,
                 "badge": "Yakında",
-                "customLabel": "5. Konu",
-                "customHeaderTitle": "5. Konu: Dosya ve Klasör Yönetimi"
+                "customLabel": "6. Konu",
+                "customHeaderTitle": "6. Konu: Dosya ve Klasör Yönetimi"
             }
         ],
         "themeTitle": "1. Tema: Bilişim Teknolojilerinin Hayatımızdaki Yeri",
