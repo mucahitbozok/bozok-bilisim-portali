@@ -2082,140 +2082,103 @@ window.WEEK4_CONTENT = {
     // 🎮 4. TEKRAR OYUNLARI VERİTABANI
     // ========================================================
     gameData: {
-        // Oyun 1: Çarkıfelek Soruları (16 Soru)
+        // Oyun 1: Çarkıfelek Soruları (Senaryo & Kazanım Temelli Özgün Sorular)
         wheelQuiz: [
             {
-                q: "Yapay zekâ aşağıdakilerden hangisini taklit etmeye çalışır?",
-                question: "Yapay zekâ aşağıdakilerden hangisini taklit etmeye çalışır?",
-                options: [
-                    "İnsanların düşünme, öğrenme ve karar verme becerilerini",
-                    "Bilgisayarın fiziksel parçalarını",
-                    "İnternet bağlantısını",
-                    "Elektrik üretimini"
-                ],
+                q: "Sürücüsüz bir otomobil (otonom araç), yoldaki yayaları ve trafik ışıklarını öncelikle hangi donanımla algılar?",
+                question: "Sürücüsüz bir otomobil (otonom araç), yoldaki yayaları ve trafik ışıklarını öncelikle hangi donanımla algılar?",
+                options: ["Kameralar ve Sensörler", "Egzoz Borusu", "Radyo Anteni", "Silecek Motoru"],
                 answer: 0,
                 pts: 200,
                 points: 200
             },
             {
-                q: "Aşağıdakilerden hangisi yapay zekânın yapabildiği işlemlerden biridir?",
-                question: "Aşağıdakilerden hangisi yapay zekânın yapabildiği işlemlerden biridir?",
-                options: ["Öğrenme", "Uyuma", "Acıkma", "Üşüme"],
-                answer: 0,
-                pts: 150,
-                points: 150
-            },
-            {
-                q: "Aşağıdakilerden hangisi yapay zekâ kullanımına örnektir?",
-                question: "Aşağıdakilerden hangisi yapay zekâ kullanımına örnektir?",
-                options: ["Telefonun yüz tanıma özelliği", "Kalem açmak", "Deftere yazı yazmak", "Kitap sayfasını çevirmek"],
-                answer: 0,
-                pts: 200,
-                points: 200
-            },
-            {
-                q: "YouTube’un izlediğimiz videolara göre yeni videolar önermesi neye örnektir?",
-                question: "YouTube’un izlediğimiz videolara göre yeni videolar önermesi neye örnektir?",
-                options: ["Yapay zekâ ile öneri sistemi", "Dosya sıkıştırma", "Yazıcı kullanımı", "Klavye kullanımı"],
+                q: "1950 yılında 'Makineler düşünebilir mi?' sorusunu ortaya atarak yapay zekâ testini tasarlayan dahi kimdir?",
+                question: "1950 yılında 'Makineler düşünebilir mi?' sorusunu ortaya atarak yapay zekâ testini tasarlayan dahi kimdir?",
+                options: ["Alan Turing", "Alexander Graham Bell", "Thomas Edison", "Isaac Newton"],
                 answer: 0,
                 pts: 250,
                 points: 250
             },
             {
-                q: "İnsan zekâsı ve yapay zekânın ortak özelliklerinden biri hangisidir?",
-                question: "İnsan zekâsı ve yapay zekânın ortak özelliklerinden biri hangisidir?",
-                options: ["İkisinin de öğrenebilmesi", "İkisinin de duygularının olması", "İkisinin de uyuması", "İkisinin de hayal kurması"],
-                answer: 0,
-                pts: 200,
-                points: 200
-            },
-            {
-                q: "İnsan zekâsı ile yapay zekâ arasındaki farklardan biri hangisidir?",
-                question: "İnsan zekâsı ile yapay zekâ arasındaki farklardan biri hangisidir?",
-                options: ["İnsanlar duygulara sahiptir, yapay zekâ sahip değildir", "İkisi de karar verebilir", "İkisi de hata yapabilir", "İkisi de yeni şeyler keşfedebilir"],
+                q: "1959 yılında Atatürk Üniversitesi'nde 'Makineler Düşünebilir mi ve Nasıl Düşünebilir?' konferansını veren ünlü Türk matematikçi kimdir?",
+                question: "1959 yılında Atatürk Üniversitesi'nde 'Makineler Düşünebilir mi ve Nasıl Düşünebilir?' konferansını veren ünlü Türk matematikçi kimdir?",
+                options: ["Cahit Arf", "Ali Kuşçu", "Uluğ Bey", "Harezmi"],
                 answer: 0,
                 pts: 300,
                 points: 300
             },
             {
-                q: "İnsan zekâsı nasıl öğrenir?",
-                question: "İnsan zekâsı nasıl öğrenir?",
-                options: ["Deneyimle", "Sadece sayılarla", "Kodlarla", "Yalnızca internetten"],
-                answer: 0,
-                pts: 150,
-                points: 150
-            },
-            {
-                q: "Yapay zekâ nasıl öğrenir?",
-                question: "Yapay zekâ nasıl öğrenir?",
-                options: ["Verilerle", "Duygularla", "Hayallerle", "Sezgilerle"],
-                answer: 0,
-                pts: 200,
-                points: 200
-            },
-            {
-                q: "İnsanlar karar verirken aşağıdakilerden hangisini kullanabilir?",
-                question: "İnsanlar karar verirken aşağıdakilerden hangisini kullanabilir?",
-                options: ["Duygular ve bilgi", "Sadece sensörler", "Sadece kod", "Yalnızca rastgele seçim"],
+                q: "1997 yılında dünya satranç şampiyonu Garry Kasparov'u mağlup eden ünlü süper bilgisayarın adı nedir?",
+                question: "1997 yılında dünya satranç şampiyonu Garry Kasparov'u mağlup eden ünlü süper bilgisayarın adı nedir?",
+                options: ["Deep Blue", "AlphaGo", "Siri", "ChatGPT"],
                 answer: 0,
                 pts: 250,
                 points: 250
             },
             {
-                q: "Yapay zekânın insana göre daha güçlü olduğu alan hangisidir?",
-                question: "Yapay zekânın insana göre daha güçlü olduğu alan hangisidir?",
-                options: ["Çok hızlı hesaplama", "Duygu hissetme", "Hayal kurma", "Arkadaşlık kurma"],
-                answer: 0,
-                pts: 300,
-                points: 300
-            },
-            {
-                q: "Aşağıdakilerden hangisi yapay zekânın kullanım alanlarından biri değildir?",
-                question: "Aşağıdakilerden hangisi yapay zekânın kullanım alanlarından biri değildir?",
-                options: ["Kalem kutuları", "Hastaneler", "Oyunlar", "Alışveriş siteleri"],
-                answer: 0,
-                pts: 100,
-                points: 100
-            },
-            {
-                q: "Otonom sürüş aşağıdaki alanlardan hangisiyle ilgilidir?",
-                question: "Otonom sürüş aşağıdaki alanlardan hangisiyle ilgilidir?",
-                options: ["Arabalar (Ulaşım)", "Hastaneler", "Eğitim", "Alışveriş"],
-                answer: 0,
-                pts: 200,
-                points: 200
-            },
-            {
-                q: "Hastanelerde yapay zekâ hangisi için kullanılabilir?",
-                question: "Hastanelerde yapay zekâ hangisi için kullanılabilir?",
-                options: ["Hastalık tahmini", "Video oyunu oynama", "Sınıf yoklaması", "Müzik dinleme"],
-                answer: 0,
-                pts: 250,
-                points: 250
-            },
-            {
-                q: "Yapay zekâ sistemlerini kullanırken hangisine dikkat etmeliyiz?",
-                question: "Yapay zekâ sistemlerini kullanırken hangisine dikkat etmeliyiz?",
-                options: ["Bilgilerin güvenliğine", "Ekran renginin güzel olmasına", "Masanın rengine", "Klavyenin büyüklüğüne"],
-                answer: 0,
-                pts: 200,
-                points: 200
-            },
-            {
-                q: "Yapay zekânın verdiği her bilgiye hemen inanmak yerine ne yapmalıyız?",
-                question: "Yapay zekânın verdiği her bilgiye hemen inanmak yerine ne yapmalıyız?",
-                options: ["Bilgiyi kontrol etmeliyiz", "Her zaman doğru kabul etmeliyiz", "Sadece ilk cevabı kullanmalıyız", "Kimseye sormamalıyız"],
+                q: "Yapay zekâ kesin bilmediği bir soruya sanki doğruymuş gibi gerçek dışı veya uydurma cevap ürettiğinde bu duruma ne ad verilir?",
+                question: "Yapay zekâ kesin bilmediği bir soruya sanki doğruymuş gibi gerçek dışı veya uydurma cevap ürettiğinde bu duruma ne ad verilir?",
+                options: ["Halüsinasyon (Yanılsama)", "Ekran Donması", "Güç Tasarrufu", "Ağ Bağlantısı Hatası"],
                 answer: 0,
                 pts: 350,
                 points: 350
             },
             {
-                q: "Yapay zekâ yanlış bilgi verdiğinde en doğru davranış hangisidir?",
-                question: "Yapay zekâ yanlış bilgi verdiğinde en doğru davranış hangisidir?",
-                options: ["Bilgiyi başka güvenilir kaynaklardan kontrol etmek", "Yanlış bilgiyi hemen paylaşmak", "Kontrol etmeden ödevde kullanmak", "Her zaman doğru olduğunu düşünmek"],
+                q: "Akıllı bir robot süpürgenin evdeki koltuk ve masa bacaklarına çarpmadan harita çıkarabilmesini ne sağlar?",
+                question: "Akıllı bir robot süpürgenin evdeki koltuk ve masa bacaklarına çarpmadan harita çıkarabilmesini ne sağlar?",
+                options: ["Lidar / Mesafe Sensörleri ve Haritalama", "Toz Torbası Büyüklüğü", "Tekerlek Rengi", "Priz Kablosu"],
                 answer: 0,
-                pts: 500,
-                points: 500
+                pts: 200,
+                points: 200
+            },
+            {
+                q: "Bir yapay zekâ modelinin öğrenmesi ve doğru kararlar verebilmesi için en çok neye ihtiyacı vardır?",
+                question: "Bir yapay zekâ modelinin öğrenmesi ve doğru kararlar verebilmesi için en çok neye ihtiyacı vardır?",
+                options: ["Çok miktarda kaliteli veriye (Data)", "Çok pahalı bir monitöre", "Hızlı bir yazıcıya", "Renkli bir mouse pad'e"],
+                answer: 0,
+                pts: 250,
+                points: 250
+            },
+            {
+                q: "Hastanelerde doktorlara yardımcı olan yapay zekâ yazılımları en çok hangi alanda kullanılır?",
+                question: "Hastanelerde doktorlara yardımcı olan yapay zekâ yazılımları en çok hangi alanda kullanılır?",
+                options: ["Röntgen ve MR görüntülerinden hastalık teşhisi", "Hastane bahçesini sulamak", "Yemekhane menüsü seçmek", "Oda perdelerini takmak"],
+                answer: 0,
+                pts: 200,
+                points: 200
+            },
+            {
+                q: "Yapay zekânın ürettiği bir bilgiyi derslerimizde veya ödevlerimizde kullanırken en doğru davranış nedir?",
+                question: "Yapay zekânın ürettiği bir bilgiyi derslerimizde veya ödevlerimizde kullanırken en doğru davranış nedir?",
+                options: ["Güvenilir kaynaklardan ve kitaplardan doğrulamak", "Hiç okumadan hemen kopyalayıp yapıştırmak", "Her dediğini tartışmasız doğru saymak", "Öğretmenden gizlemek"],
+                answer: 0,
+                pts: 300,
+                points: 300
+            },
+            {
+                q: "İnsan beyni ve zekâsını yapay zekâdan ayıran ve makinelerde ASLA bulunmayan özellik hangisidir?",
+                question: "İnsan beyni ve zekâsını yapay zekâdan ayıran ve makinelerde ASLA bulunmayan özellik hangisidir?",
+                options: ["Duygular, vicdan, empati ve hisler", "Hızlı hesaplama yapabilme", "Veri depolama kapasitesi", "Elektrikle çalışma"],
+                answer: 0,
+                pts: 250,
+                points: 250
+            },
+            {
+                q: "Spotify veya YouTube gibi platformların tam da bizim zevkimize uyan müzik ve videolar önermesini sağlayan sistem nedir?",
+                question: "Spotify veya YouTube gibi platformların tam da bizim zevkimize uyan müzik ve videolar önermesini sağlayan sistem nedir?",
+                options: ["Tavsiye & Öneri Algoritmaları", "Ekran Kartı Fanı", "Ses Açma Düğmesi", "İnternet Modemi"],
+                answer: 0,
+                pts: 200,
+                points: 200
+            },
+            {
+                q: "Telefonumuzun ön kamerasını açtığımızda bizi tanıyıp ekran kilidini açması hangi yapay zekâ alanına girer?",
+                question: "Telefonumuzun ön kamerasını açtığımızda bizi tanıyıp ekran kilidini açması hangi yapay zekâ alanına girer?",
+                options: ["Görüntü İşleme & Yüz Tanıma", "Sesli Mesajlaşma", "Kablosuz Şarj", "Batarya Göstergesi"],
+                answer: 0,
+                pts: 200,
+                points: 200
             }
         ],
 
@@ -2345,109 +2308,104 @@ window.WEEK4_CONTENT = {
             }
         ],
 
-        // Oyun 4: Sınıf Düellosu Soruları (16 Soru)
+        // Oyun 4: Sınıf Düellosu Soruları (10 Dinamik Düello Sorusu)
         duelQuestions: [
             {
-                q: "Yapay zekâ aşağıdakilerden hangisini taklit etmeye çalışır?",
-                question: "Yapay zekâ aşağıdakilerden hangisini taklit etmeye çalışır?",
-                options: [
-                    "İnsanların düşünme, öğrenme ve karar verme becerilerini",
-                    "Bilgisayarın fiziksel parçalarını",
-                    "İnternet bağlantısını",
-                    "Elektrik üretimini"
-                ],
+                q: "1997'de dünya satranç şampiyonu Kasparov'u mağlup eden yapay zekâ süper bilgisayarı hangisidir?",
+                question: "1997'de dünya satranç şampiyonu Kasparov'u mağlup eden yapay zekâ süper bilgisayarı hangisidir?",
+                options: ["Deep Blue", "AlphaGo", "ChatGPT", "Watson"],
                 answer: 0
             },
             {
-                q: "Aşağıdakilerden hangisi yapay zekânın yapabildiği işlemlerden biridir?",
-                question: "Aşağıdakilerden hangisi yapay zekânın yapabildiği işlemlerden biridir?",
-                options: ["Öğrenme", "Uyuma", "Acıkma", "Üşüme"],
+                q: "1959'da Erzurum'da 'Makineler Düşünebilir mi?' konferansını veren Türk matematik öncümüz kimdir?",
+                question: "1959'da Erzurum'da 'Makineler Düşünebilir mi?' konferansını veren Türk matematik öncümüz kimdir?",
+                options: ["Cahit Arf", "Ali Kuşçu", "Aziz Sancar", "Oktay Sinanoğlu"],
                 answer: 0
             },
             {
-                q: "Aşağıdakilerden hangisi yapay zekâ kullanımına örnektir?",
-                question: "Aşağıdakilerden hangisi yapay zekâ kullanımına örnektir?",
-                options: ["Telefonun yüz tanıma özelliği", "Kalem açmak", "Deftere yazı yazmak", "Kitap sayfasını çevirmek"],
+                q: "Yapay zekânın bilmediği konuda uydurma veya hatalı bilgi üretmesine ne ad verilir?",
+                question: "Yapay zekânın bilmediği konuda uydurma veya hatalı bilgi üretmesine ne ad verilir?",
+                options: ["Halüsinasyon (Yanılsama)", "Format Atma", "Çökme", "Güncelleme"],
                 answer: 0
             },
             {
-                q: "YouTube’un izlediğimiz videolara göre yeni videolar önermesi neye örnektir?",
-                question: "YouTube’un izlediğimiz videolara göre yeni videolar önermesi neye örnektir?",
-                options: ["Yapay zekâ ile öneri sistemi", "Dosya sıkıştırma", "Yazıcı kullanımı", "Klavye kullanımı"],
+                q: "Sürücüsüz otonom araçların yolu, şeritleri ve yayaları algılamak için kullandığı en önemli organ nedir?",
+                question: "Sürücüsüz otonom araçların yolu, şeritleri ve yayaları algılamak için kullandığı en önemli organ nedir?",
+                options: ["Sensörler, Radar ve Kameralar", "Radyo Anteni", "Korna", "Vites Kolu"],
                 answer: 0
             },
             {
-                q: "İnsan zekâsı ve yapay zekânın ortak özelliklerinden biri hangisidir?",
-                question: "İnsan zekâsı ve yapay zekânın ortak özelliklerinden biri hangisidir?",
-                options: ["İkisinin de öğrenebilmesi", "İkisinin de duygularının olması", "İkisinin de uyuması", "İkisinin de hayal kurması"],
+                q: "İnsan zekâsı yaşayarak ve deneyimle öğrenirken, yapay zekâ modelleri neyle öğrenir?",
+                question: "İnsan zekâsı yaşayarak ve deneyimle öğrenirken, yapay zekâ modelleri neyle öğrenir?",
+                options: ["Milyonlarca Veri Kümesiyle (Data)", "Rüyalarla", "Duygularla", "Sezgilerle"],
                 answer: 0
             },
             {
-                q: "İnsan zekâsı ile yapay zekâ arasındaki farklardan biri hangisidir?",
-                question: "İnsan zekâsı ile yapay zekâ arasındaki farklardan biri hangisidir?",
-                options: ["İnsanlar duygulara sahiptir, yapay zekâ sahip değildir", "İkisi de karar verebilir", "İkisi de hata yapabilir", "İkisi de yeni şeyler keşfedebilir"],
+                q: "Aşağıdakilerden hangisi yapay zekânın insanlardan çok daha üstün olduğu bir alandır?",
+                question: "Aşağıdakilerden hangisi yapay zekânın insanlardan çok daha üstün olduğu bir alandır?",
+                options: ["Saniyede milyarlarca veriyi çok hızlı hesaplama", "Empati ve sevgi duyma", "Vicdanlı karar verme", "Hayal kurma"],
                 answer: 0
             },
             {
-                q: "İnsan zekâsı nasıl öğrenir?",
-                question: "İnsan zekâsı nasıl öğrenir?",
-                options: ["Deneyimle", "Sadece sayılarla", "Kodlarla", "Yalnızca internetten"],
+                q: "Google Lens veya telefon kamerasının bir bitkiyi ya da köpeğin cinsini tanıması hangi yapay zekâ dalıdır?",
+                question: "Google Lens veya telefon kamerasının bir bitkiyi ya da köpeğin cinsini tanıması hangi yapay zekâ dalıdır?",
+                options: ["Görüntü İşleme", "Metin Çevirisi", "Bluetooth Paylaşımı", "Pil Tasarrufu"],
                 answer: 0
             },
             {
-                q: "Yapay zekâ nasıl öğrenir?",
-                question: "Yapay zekâ nasıl öğrenir?",
-                options: ["Verilerle", "Duygularla", "Hayallerle", "Sezgilerle"],
+                q: "Yapay zekânın bize sunduğu bir cevabı ödevde kullanmadan önce ne yapmalıyız?",
+                question: "Yapay zekânın bize sunduğu bir cevabı ödevde kullanmadan önce ne yapmalıyız?",
+                options: ["Güvenilir kaynaklardan doğrulamalıyız", "Olduğu gibi hemen teslim etmeliyiz", "Hiç okumadan kabul etmeliyiz", "Kimseye göstermemeliyiz"],
                 answer: 0
             },
             {
-                q: "İnsanlar karar verirken aşağıdakilerden hangisini kullanabilir?",
-                question: "İnsanlar karar verirken aşağıdakilerden hangisini kullanabilir?",
-                options: ["Duygular ve bilgi", "Sadece sensörler", "Sadece kod", "Yalnızca rastgele seçim"],
+                q: "1950'de makinelerin insan gibi düşünüp düşünemediğini anlamak için Turing Testi'ni geliştiren dahi kimdir?",
+                question: "1950'de makinelerin insan gibi düşünüp düşünemediğini anlamak için Turing Testi'ni geliştiren dahi kimdir?",
+                options: ["Alan Turing", "Steve Jobs", "Bill Gates", "Nikola Tesla"],
                 answer: 0
             },
             {
-                q: "Yapay zekânın insana göre daha güçlü olduğu alan hangisidir?",
-                question: "Yapay zekânın insana göre daha güçlü olduğu alan hangisidir?",
-                options: ["Çok hızlı hesaplama", "Duygu hissetme", "Hayal kurma", "Arkadaşlık kurma"],
-                answer: 0
-            },
-            {
-                q: "Aşağıdakilerden hangisi yapay zekânın kullanım alanlarından biri değildir?",
-                question: "Aşağıdakilerden hangisi yapay zekânın kullanım alanlarından biri değildir?",
-                options: ["Kalem kutuları", "Hastaneler", "Oyunlar", "Alışveriş siteleri"],
-                answer: 0
-            },
-            {
-                q: "Otonom sürüş aşağıdaki alanlardan hangisiyle ilgilidir?",
-                question: "Otonom sürüş aşağıdaki alanlardan hangisiyle ilgilidir?",
-                options: ["Arabalar (Ulaşım)", "Hastaneler", "Eğitim", "Alışveriş"],
-                answer: 0
-            },
-            {
-                q: "Hastanelerde yapay zekâ hangisi için kullanılabilir?",
-                question: "Hastanelerde yapay zekâ hangisi için kullanılabilir?",
-                options: ["Hastalık tahmini", "Video oyunu oynama", "Sınıf yoklaması", "Müzik dinleme"],
-                answer: 0
-            },
-            {
-                q: "Yapay zekâ sistemlerini kullanırken hangisine dikkat etmeliyiz?",
-                question: "Yapay zekâ sistemlerini kullanırken hangisine dikkat etmeliyiz?",
-                options: ["Bilgilerin güvenliğine", "Ekran renginin güzel olmasına", "Masanın rengine", "Klavyenin büyüklüğüne"],
-                answer: 0
-            },
-            {
-                q: "Yapay zekânın verdiği her bilgiye hemen inanmak yerine ne yapmalıyız?",
-                question: "Yapay zekânın verdiği her bilgiye hemen inanmak yerine ne yapmalıyız?",
-                options: ["Bilgiyi kontrol etmeliyiz", "Her zaman doğru kabul etmeliyiz", "Sadece ilk cevabı kullanmalıyız", "Kimseye sormamalıyız"],
-                answer: 0
-            },
-            {
-                q: "Yapay zekâ yanlış bilgi verdiğinde en doğru davranış hangisidir?",
-                question: "Yapay zekâ yanlış bilgi verdiğinde en doğru davranış hangisidir?",
-                options: ["Bilgiyi başka güvenilir kaynaklardan kontrol etmek", "Yanlış bilgiyi hemen paylaşmak", "Kontrol etmeden ödevde kullanmak", "Her zaman doğru olduğunu düşünmek"],
+                q: "Akıllı süpürgelerin ve otonom araçların çevreyi anlamasını sağlayan teknolojiye ne ad verilir?",
+                question: "Akıllı süpürgelerin ve otonom araçların çevreyi anlamasını sağlayan teknolojiye ne ad verilir?",
+                options: ["Ortam Algılama ve Haritalama", "Şarj Tüketimi", "Müzik Çalma", "Ekran Kaydı"],
                 answer: 0
             }
         ]
-    }
+    },
+
+    // ========================================================
+    // 🌟 5. ÖZEL EK OYUNLAR (4. Konu Kapsamında Hazırlanan 2 Yeni Oyun)
+    // ========================================================
+    extraGames: [
+        {
+            badge: "Kelime Avı",
+            badgeColor: "text-cyan-300",
+            title: "Yapay Zekâ Kelime Avı",
+            desc: "12x12 harf matrisinde gizlenen 10 yapay zekâ kavramını bul! Her oyunda kelimelerin yerleri ve harfler rastgele değişir!",
+            icon: "fa-solid fa-puzzle-piece",
+            iconBg: "bg-cyan-500/30 text-cyan-300",
+            cardGradient: "from-blue-900/90 via-indigo-950/90 to-purple-900/90",
+            border: "border-cyan-500/50",
+            descColor: "text-cyan-100",
+            btnText: "Kelime Avına Başla!",
+            btnIcon: "fa-solid fa-crosshairs",
+            btnGradient: "from-cyan-600 via-blue-600 to-indigo-600 hover:from-cyan-500 hover:to-indigo-500 text-white font-black",
+            action: "app.openStandaloneGame('games/yapay_zeka_kelime_avi.html', 'Yapay Zekâ Kelime Avı | Öğretmen Bozok')"
+        },
+        {
+            badge: "Özel Tekrar",
+            badgeColor: "text-yellow-300",
+            title: "16 Soruluk Yapay Zekâ Tekrar Oyunu",
+            desc: "4. Konu çalışma kâğıtları için hazırlanan 16 özel soruluk akıllı tahta yarışması! Soruları bil, puanları topla ve yapay zekâ uzmanı ol!",
+            icon: "fa-solid fa-trophy",
+            iconBg: "bg-yellow-500/30 text-yellow-300",
+            cardGradient: "from-indigo-950/90 via-slate-900 to-purple-950/90",
+            border: "border-yellow-400/50",
+            descColor: "text-yellow-100",
+            btnText: "Tekrar Oyununu Başlat!",
+            btnIcon: "fa-solid fa-gamepad",
+            btnGradient: "from-yellow-500 via-amber-500 to-orange-600 hover:from-yellow-400 hover:to-orange-500 text-slate-950 font-black",
+            action: "app.openStandaloneGame('games/yapay_zeka_tekrar_oyunu.html', '16 Soruluk Yapay Zekâ Tekrar Oyunu | Öğretmen Bozok')"
+        }
+    ]
 };

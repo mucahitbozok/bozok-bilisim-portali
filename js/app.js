@@ -1839,7 +1839,7 @@ class App {
                 btnGradient: "from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white",
                 action: "app.openStandaloneGame('games/bilisim_kelime_avi.html', 'Bilişim Kelime Avı | Öğretmen Bozok')"
             });
-        } else if (weekNum === 4) {
+        } else if (weekNum === '3_2' || weekNum === '3-2') {
             // Eğer data.extraGames mevcut değilse varsayılan 5 oyunu kullan
             if (!data || !Array.isArray(data.extraGames) || data.extraGames.length === 0) {
                 extra.push({
@@ -1916,6 +1916,39 @@ class App {
                     btnIcon: "fa-solid fa-flag-checkered",
                     btnGradient: "from-amber-500 via-orange-500 to-rose-600 hover:from-amber-400 hover:to-rose-500 text-slate-950 font-black",
                     action: "app.openStandaloneGame('games/bilisim_buyuk_finali.html', 'Bilişim Büyük Finali | Öğretmen Bozok')"
+                });
+            }
+        } else if (weekNum === 4) {
+            if (!data || !Array.isArray(data.extraGames) || data.extraGames.length === 0) {
+                extra.push({
+                    badge: "Kelime Avı",
+                    badgeColor: "text-cyan-300",
+                    title: "Yapay Zekâ Kelime Avı",
+                    desc: "Harf matrisinde gizlenen 10 yapay zekâ kavramını bul! Her oyuna girdiğinde kelimelerin yeri ve harfler rastgele değişir!",
+                    icon: "fa-solid fa-puzzle-piece",
+                    iconBg: "bg-cyan-500/30 text-cyan-300",
+                    cardGradient: "from-blue-900/90 via-indigo-950/90 to-purple-900/90",
+                    border: "border-cyan-500/50",
+                    descColor: "text-cyan-100",
+                    btnText: "Kelime Avına Başla!",
+                    btnIcon: "fa-solid fa-crosshairs",
+                    btnGradient: "from-cyan-600 via-blue-600 to-indigo-600 hover:from-cyan-500 hover:to-indigo-500 text-white font-black",
+                    action: "app.openStandaloneGame('games/yapay_zeka_kelime_avi.html', 'Yapay Zekâ Kelime Avı | Öğretmen Bozok')"
+                });
+                extra.push({
+                    badge: "Özel Tekrar",
+                    badgeColor: "text-yellow-300",
+                    title: "16 Soruluk Yapay Zekâ Tekrar Oyunu",
+                    desc: "4. Konu için hazırlanan 16 özel soruluk akıllı tahta yarışması! Soruları bil, puanları topla ve yapay zekâ uzmanı ol!",
+                    icon: "fa-solid fa-trophy",
+                    iconBg: "bg-yellow-500/30 text-yellow-300",
+                    cardGradient: "from-indigo-950/90 via-slate-900 to-purple-950/90",
+                    border: "border-yellow-400/50",
+                    descColor: "text-yellow-100",
+                    btnText: "Tekrar Oyununu Başlat!",
+                    btnIcon: "fa-solid fa-gamepad",
+                    btnGradient: "from-yellow-500 via-amber-500 to-orange-600 hover:from-yellow-400 hover:to-orange-500 text-slate-950 font-black",
+                    action: "app.openStandaloneGame('games/yapay_zeka_tekrar_oyunu.html', '16 Soruluk Yapay Zekâ Tekrar Oyunu | Öğretmen Bozok')"
                 });
             }
         }
