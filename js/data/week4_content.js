@@ -245,17 +245,17 @@ window.WEEK4_CONTENT = {
                             <span>ETKİLEŞİMLİ SORU: Bir insan yeni bir oyunu nasıl öğrenebilir?</span>
                         </div>
                         <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
-                            <button onclick="document.getElementById('slide3-fb').innerHTML = '<div class=\'p-3 bg-emerald-500/20 border border-emerald-400 rounded-xl text-emerald-300 font-bold text-sm\'>🎉 DOĞRU! İnsanlar oynayarak, kuralları deneyimleyerek ve duygularıyla öğrenirler.</div>'; sounds.playCorrect();" class="p-3 bg-slate-850 hover:bg-indigo-900 border border-slate-700 hover:border-yellow-400 rounded-xl text-xs sm:text-sm font-bold text-white text-left transition-all">
+                            <button onclick="window.handleSlideOption('slide3-fb', true, 'İnsanlar oynayarak, kuralları deneyimleyerek ve duygularıyla öğrenirler.', this)" class="p-3 bg-slate-850 hover:bg-indigo-900 border border-slate-700 hover:border-yellow-400 rounded-xl text-xs sm:text-sm font-bold text-white text-left transition-all">
                                 A) Oynayıp deneyimleyerek ve kuralları keşfederek
                             </button>
-                            <button onclick="document.getElementById('slide3-fb').innerHTML = '<div class=\'p-3 bg-rose-500/20 border border-rose-400 rounded-xl text-rose-300 font-bold text-sm\'>🤔 Tekrar düşün! İnsanlar kod ezberlemez, yaşayarak öğrenir.</div>'; sounds.playWrong();" class="p-3 bg-slate-850 hover:bg-indigo-900 border border-slate-700 hover:border-yellow-400 rounded-xl text-xs sm:text-sm font-bold text-white text-left transition-all">
+                            <button onclick="window.handleSlideOption('slide3-fb', false, 'İnsanlar kod ezberlemez, yaşayarak ve deneyimleyerek öğrenir.', this)" class="p-3 bg-slate-850 hover:bg-indigo-900 border border-slate-700 hover:border-yellow-400 rounded-xl text-xs sm:text-sm font-bold text-white text-left transition-all">
                                 B) Milyonlarca satır kod ezberleyerek
                             </button>
-                            <button onclick="document.getElementById('slide3-fb').innerHTML = '<div class=\'p-3 bg-rose-500/20 border border-rose-400 rounded-xl text-rose-300 font-bold text-sm\'>🤔 İnsanlar elektrikle şarj olmaz, canlıdır!</div>'; sounds.playWrong();" class="p-3 bg-slate-850 hover:bg-indigo-900 border border-slate-700 hover:border-yellow-400 rounded-xl text-xs sm:text-sm font-bold text-white text-left transition-all">
+                            <button onclick="window.handleSlideOption('slide3-fb', false, 'İnsanlar elektrikle şarj olmaz, canlı ve biyolojik bir zekâya sahiptir!', this)" class="p-3 bg-slate-850 hover:bg-indigo-900 border border-slate-700 hover:border-yellow-400 rounded-xl text-xs sm:text-sm font-bold text-white text-left transition-all">
                                 C) Elektrik prizine bağlanıp şarj olarak
                             </button>
                         </div>
-                        <div id="slide3-fb"></div>
+                        <div id="slide3-fb" class="min-h-[20px]"></div>
                     </div>
                 </div>
             `
@@ -313,17 +313,17 @@ window.WEEK4_CONTENT = {
                             <span>HANGİSİ YAPAY ZEKÂYA ÖRNEK OLABİLİR?</span>
                         </div>
                         <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
-                            <button onclick="document.getElementById('slide4-fb').innerHTML = '<div class=\'p-3 bg-emerald-500/20 border border-emerald-400 rounded-xl text-emerald-300 font-bold text-sm\'>🎉 TEBRİKLER! Telefonun kamerası yüz hatlarını analiz eder ve kilidi açar. Bu bir yapay zekâ uygulamasıdır!</div>'; sounds.playCorrect();" class="p-3 bg-slate-800 hover:bg-slate-700 border border-slate-600 hover:border-yellow-400 rounded-xl text-xs sm:text-sm font-bold text-white text-left transition-all">
+                            <button onclick="window.handleSlideOption('slide4-fb', true, 'Telefonun kamerası yüz hatlarını analiz eder ve kilidi açar. Bu bir yapay zekâ uygulamasıdır!', this)" class="p-3 bg-slate-800 hover:bg-slate-700 border border-slate-600 hover:border-yellow-400 rounded-xl text-xs sm:text-sm font-bold text-white text-left transition-all">
                                 📱 Telefonun bizi yüzümüzden tanıyarak kilidi açması
                             </button>
-                            <button onclick="document.getElementById('slide4-fb').innerHTML = '<div class=\'p-3 bg-rose-500/20 border border-rose-400 rounded-xl text-rose-300 font-bold text-sm\'>❌ Kurşun kalem mekanik bir araçtır, yapay zekâ içermez.</div>'; sounds.playWrong();" class="p-3 bg-slate-800 hover:bg-slate-700 border border-slate-600 hover:border-yellow-400 rounded-xl text-xs sm:text-sm font-bold text-white text-left transition-all">
+                            <button onclick="window.handleSlideOption('slide4-fb', false, 'Kurşun kalem mekanik bir araçtır, yapay zekâ veya yazılım içermez.', this)" class="p-3 bg-slate-800 hover:bg-slate-700 border border-slate-600 hover:border-yellow-400 rounded-xl text-xs sm:text-sm font-bold text-white text-left transition-all">
                                 ✏️ Kurşun kalem ile deftere yazı yazmak
                             </button>
-                            <button onclick="document.getElementById('slide4-fb').innerHTML = '<div class=\'p-3 bg-rose-500/20 border border-rose-400 rounded-xl text-rose-300 font-bold text-sm\'>❌ Kitap sayfaları kâğıttır, akıllı bir program değildir.</div>'; sounds.playWrong();" class="p-3 bg-slate-800 hover:bg-slate-700 border border-slate-600 hover:border-yellow-400 rounded-xl text-xs sm:text-sm font-bold text-white text-left transition-all">
+                            <button onclick="window.handleSlideOption('slide4-fb', false, 'Kitap sayfaları kâğıttır, akıllı bir program veya algoritma değildir.', this)" class="p-3 bg-slate-800 hover:bg-slate-700 border border-slate-600 hover:border-yellow-400 rounded-xl text-xs sm:text-sm font-bold text-white text-left transition-all">
                                 📖 Okunan kitabın sayfasını el ile çevirmek
                             </button>
                         </div>
-                        <div id="slide4-fb"></div>
+                        <div id="slide4-fb" class="min-h-[20px]"></div>
                     </div>
                 </div>
             `
@@ -528,7 +528,7 @@ window.WEEK4_CONTENT = {
                                 </ul>
                             </div>
 
-                            <button id="slide7-btn" onclick="const s = document.getElementById('slide7-secret'); s.classList.toggle('hidden'); this.innerHTML = s.classList.contains('hidden') ? '<i class=\'fa-solid fa-eye\'></i> Cevabı Göster' : '<i class=\'fa-solid fa-eye-slash\'></i> Cevabı Gizle'; sounds.playClick();" class="w-full py-3 bg-indigo-600 hover:bg-indigo-500 text-white font-black rounded-2xl text-sm flex items-center justify-center gap-2 transition-all shadow-lg active:scale-95">
+                            <button id="slide7-btn" onclick="window.toggleSlideAnswer('slide7-secret', 'slide7-btn', 'Cevabı Göster', 'Cevabı Gizle')" class="w-full py-3 bg-indigo-600 hover:bg-indigo-500 text-white font-black rounded-2xl text-sm flex items-center justify-center gap-2 transition-all shadow-lg active:scale-95">
                                 <i class="fa-solid fa-eye"></i> Cevabı Göster
                             </button>
                         </div>
@@ -814,20 +814,37 @@ window.WEEK4_CONTENT = {
 
                     <!-- Etkileşim -->
                     <div class="p-4 bg-slate-900/90 rounded-2xl border-2 border-yellow-400/50 shadow-xl text-center space-y-3">
-                        <span class="text-xs font-bold text-yellow-300 uppercase tracking-widest">🤔 SINIF ETKİLEŞİMİ</span>
+                        <div class="flex items-center justify-between flex-wrap gap-2">
+                            <span class="text-xs font-bold text-yellow-300 uppercase tracking-widest">🤔 SINIF ETKİLEŞİMİ</span>
+                            <button id="slide11-expert-btn" onclick="window.toggleSlideAnswer('slide11-expert-box', 'slide11-expert-btn', 'Örnek Okul Çözümlerini Gör 💡', 'Çözümleri Gizle')" class="px-3 py-1 bg-yellow-400/20 hover:bg-yellow-400/30 text-yellow-300 border border-yellow-400/40 rounded-xl text-xs font-extrabold flex items-center gap-1.5 transition-all">
+                                <i class="fa-solid fa-eye"></i> Örnek Okul Çözümlerini Gör 💡
+                            </button>
+                        </div>
                         <h4 class="text-base sm:text-lg font-black text-white">“Sen olsan yapay zekâyı okulda nerede kullanırdın?”</h4>
                         <div class="grid grid-cols-1 sm:grid-cols-3 gap-2">
-                            <button onclick="document.getElementById('slide11-fb').innerText = '🎉 Harika fikir! Yapay zekâ her öğrencinin zayıf konusunu tespit edip ona özel alıştırma verebilir.'; sounds.playClick();" class="p-2.5 bg-slate-800 hover:bg-slate-700 border border-slate-700 hover:border-yellow-400 rounded-xl text-xs font-bold text-white transition-all">
+                            <button onclick="window.handleSlide11Choice(0, this)" class="p-2.5 bg-slate-800 hover:bg-slate-700 border border-slate-700 hover:border-yellow-400 rounded-xl text-xs font-bold text-white transition-all text-left">
                                 📚 Anlamadığım konularda bana özel test hazırlasın
                             </button>
-                            <button onclick="document.getElementById('slide11-fb').innerText = '🎉 Çok yaratıcı! Kantin veya yemekhane kuyruğunu kamera analiziyle tahmin edebilir.'; sounds.playClick();" class="p-2.5 bg-slate-800 hover:bg-slate-700 border border-slate-700 hover:border-yellow-400 rounded-xl text-xs font-bold text-white transition-all">
+                            <button onclick="window.handleSlide11Choice(1, this)" class="p-2.5 bg-slate-800 hover:bg-slate-700 border border-slate-700 hover:border-yellow-400 rounded-xl text-xs font-bold text-white transition-all text-left">
                                 🥪 Yemekhane sırasını tahmin edip yoğunluğu azaltsın
                             </button>
-                            <button onclick="document.getElementById('slide11-fb').innerText = '🎉 Güzel bir hayal! Kütüphanedeki binlerce kitap arasından tam istediğimiz cümleyi bulabilir.'; sounds.playClick();" class="p-2.5 bg-slate-850 hover:bg-slate-700 border border-slate-700 hover:border-yellow-400 rounded-xl text-xs font-bold text-white transition-all">
+                            <button onclick="window.handleSlide11Choice(2, this)" class="p-2.5 bg-slate-850 hover:bg-slate-700 border border-slate-700 hover:border-yellow-400 rounded-xl text-xs font-bold text-white transition-all text-left">
                                 📖 Kütüphanede aradığım kitabı ve sayfayı anında bulsun
                             </button>
                         </div>
-                        <div id="slide11-fb" class="text-xs font-bold text-emerald-300 min-h-[20px]"></div>
+                        <div id="slide11-fb" class="min-h-[24px]"></div>
+
+                        <!-- Uzman Çözümleri Açılır Paneli -->
+                        <div id="slide11-expert-box" class="hidden text-left p-4 bg-indigo-950/80 border-2 border-indigo-400/50 rounded-2xl space-y-2 animate-pop">
+                            <h5 class="text-xs font-black text-yellow-300 uppercase flex items-center gap-2">
+                                <i class="fa-solid fa-award"></i> MEB BİLİŞİM UZMANI DEĞERLENDİRMESİ
+                            </h5>
+                            <ul class="text-xs text-slate-200 space-y-1.5 font-medium">
+                                <li class="flex items-center gap-2"><i class="fa-solid fa-circle-check text-emerald-400"></i> <strong>Bireysel Hız:</strong> Her öğrencinin anlama hızına göre interaktif soru üretimi sağlar.</li>
+                                <li class="flex items-center gap-2"><i class="fa-solid fa-circle-check text-emerald-400"></i> <strong>Zaman Tasarrufu:</strong> Akıllı kantin/yemekhane sistemleri kuyrukları önler, teneffüs verimini artırır.</li>
+                                <li class="flex items-center gap-2"><i class="fa-solid fa-circle-check text-emerald-400"></i> <strong>Derin Araştırma:</strong> Kütüphane asistanları öğrencilere en doğru kaynakları saniyeler içinde sunar.</li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
             `
@@ -1365,8 +1382,8 @@ window.WEEK4_CONTENT = {
                         <p class="text-xs text-yellow-300 font-semibold">
                             ❓ Buradaki temel problem nedir ve bu bilgiye neden hemen güvenmemeliyiz?
                         </p>
-                        <button onclick="document.getElementById('slide20-ans').classList.toggle('hidden'); sounds.playClick();" class="px-4 py-2 bg-rose-600 hover:bg-rose-500 text-white font-bold rounded-xl text-xs flex items-center gap-2 transition-all">
-                            <i class="fa-solid fa-lightbulb"></i> Çözüm ve Analizi Göster
+                        <button id="slide20-btn" onclick="window.toggleSlideAnswer('slide20-ans', 'slide20-btn', 'Çözüm ve Analizi Göster 💡', 'Analizi Gizle')" class="px-4 py-2 bg-rose-600 hover:bg-rose-500 text-white font-bold rounded-xl text-xs flex items-center gap-2 transition-all">
+                            <i class="fa-solid fa-lightbulb"></i> Çözüm ve Analizi Göster 💡
                         </button>
                         <div id="slide20-ans" class="hidden p-3 bg-rose-950/80 rounded-xl border border-rose-400 text-xs sm:text-sm text-slate-100 space-y-1">
                             <strong>Analiz:</strong> Buna yapay zekâda <em>"Halüsinasyon (bilgi uydurma)"</em> denir. Yapay zekâ mantıklı cümleler kurabilir ama gerçeği bilmez, sadece kelime tahmin eder. Bu yüzden verilen bilgileri mutlaka kitaplardan ve güvenilir ansiklopedilerden doğrulamalıyız!
@@ -1394,7 +1411,7 @@ window.WEEK4_CONTENT = {
                             “Yapay zekâ bize çok hızlı ve kendinden emin bir cevap verdi. Bu cevap KESİNLİKLE doğru mudur?”
                         </h2>
                         <div class="pt-2">
-                            <button id="slide21-btn" onclick="const a = document.getElementById('slide21-ans'); a.classList.toggle('hidden'); this.innerHTML = a.classList.contains('hidden') ? '<i class=\'fa-solid fa-eye\'></i> Cevabı ve Rehberi Aç' : '<i class=\'fa-solid fa-eye-slash\'></i> Rehberi Gizle'; sounds.playFanfare();" class="px-6 py-3 bg-yellow-400 hover:bg-yellow-300 text-slate-950 font-black rounded-2xl text-base shadow-xl transition-all active:scale-95">
+                            <button id="slide21-btn" onclick="window.toggleSlideAnswer('slide21-ans', 'slide21-btn', 'Cevabı ve Rehberi Aç', 'Rehberi Gizle')" class="px-6 py-3 bg-yellow-400 hover:bg-yellow-300 text-slate-950 font-black rounded-2xl text-base shadow-xl transition-all active:scale-95">
                                 <i class="fa-solid fa-eye"></i> Cevabı ve Rehberi Aç
                             </button>
                         </div>
@@ -1469,20 +1486,20 @@ window.WEEK4_CONTENT = {
                             <span class="text-xs font-bold text-yellow-300">SENARYO 1:</span>
                             <p class="text-xs sm:text-sm font-bold text-white">“Yapay zekâ sohbet robotu sana daha iyi yardım etmek için telefon numaranı ve ev adresini istedi.”</p>
                             <div class="flex gap-2 pt-1">
-                                <button onclick="document.getElementById('sc1-fb').innerHTML = '<span class=\'text-emerald-400 font-bold\'>🎉 Bravo! Kişisel veriler asla yapay zekâya girilmez.</span>'; sounds.playCorrect();" class="px-3 py-1.5 bg-emerald-600 hover:bg-emerald-500 rounded-lg text-xs font-bold text-white">Asla paylaşmam</button>
-                                <button onclick="document.getElementById('sc1-fb').innerHTML = '<span class=\'text-rose-400 font-bold\'>⚠️ Tehlikeli! Kişisel veriler gizli kalmalıdır.</span>'; sounds.playWrong();" class="px-3 py-1.5 bg-rose-600 hover:bg-rose-500 rounded-lg text-xs font-bold text-white">Yazarım</button>
+                                <button onclick="window.handleSlideOption('sc1-fb', true, 'Kişisel veriler asla yapay zekâya girilmez.', this)" class="px-3 py-1.5 bg-emerald-600 hover:bg-emerald-500 rounded-lg text-xs font-bold text-white transition-all">Asla paylaşmam</button>
+                                <button onclick="window.handleSlideOption('sc1-fb', false, 'Kişisel veriler gizli kalmalıdır, yabancı sistemlere asla yazılmaz.', this)" class="px-3 py-1.5 bg-rose-600 hover:bg-rose-500 rounded-lg text-xs font-bold text-white transition-all">Yazarım</button>
                             </div>
-                            <div id="sc1-fb" class="text-xs min-h-[16px]"></div>
+                            <div id="sc1-fb" class="text-xs min-h-[20px]"></div>
                         </div>
 
                         <div class="p-4 bg-slate-900 rounded-2xl border border-indigo-400/40 space-y-2">
                             <span class="text-xs font-bold text-yellow-300">SENARYO 2:</span>
                             <p class="text-xs sm:text-sm font-bold text-white">“Yapay zekâ sana internette başka hiçbir yerde yazmayan inanılmaz bir bilimsel buluş söyledi.”</p>
                             <div class="flex gap-2 pt-1">
-                                <button onclick="document.getElementById('sc2-fb').innerHTML = '<span class=\'text-emerald-400 font-bold\'>🎉 Harika! Bilimsel kitap ve öğretmen teyidi şarttır.</span>'; sounds.playCorrect();" class="px-3 py-1.5 bg-emerald-600 hover:bg-emerald-500 rounded-lg text-xs font-bold text-white">Farklı kaynaklardan teyit ederim</button>
-                                <button onclick="document.getElementById('sc2-fb').innerHTML = '<span class=\'text-rose-400 font-bold\'>⚠️ Yanlış! Uydurma bir bilgi olabilir, kontrol etmelisin.</span>'; sounds.playWrong();" class="px-3 py-1.5 bg-rose-600 hover:bg-rose-500 rounded-lg text-xs font-bold text-white">Hemen inanırım</button>
+                                <button onclick="window.handleSlideOption('sc2-fb', true, 'Bilimsel kitap, güvenilir kaynak ve öğretmen teyidi şarttır.', this)" class="px-3 py-1.5 bg-emerald-600 hover:bg-emerald-500 rounded-lg text-xs font-bold text-white transition-all">Farklı kaynaklardan teyit ederim</button>
+                                <button onclick="window.handleSlideOption('sc2-fb', false, 'Uydurma veya halüsinasyon bir bilgi olabilir, mutlaka kontrol etmelisin.', this)" class="px-3 py-1.5 bg-rose-600 hover:bg-rose-500 rounded-lg text-xs font-bold text-white transition-all">Hemen inanırım</button>
                             </div>
-                            <div id="sc2-fb" class="text-xs min-h-[16px]"></div>
+                            <div id="sc2-fb" class="text-xs min-h-[20px]"></div>
                         </div>
                     </div>
                 </div>

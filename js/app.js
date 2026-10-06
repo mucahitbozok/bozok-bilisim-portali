@@ -729,6 +729,44 @@ class App {
         }
     }
 
+    handleSlideOption(targetId, isCorrect, msg, btn) {
+        if (typeof sounds !== 'undefined') {
+            if (isCorrect) sounds.playCorrect();
+            else sounds.playWrong();
+        }
+        const el = document.getElementById(targetId);
+        if (el) {
+            el.classList.remove('hidden');
+            el.innerHTML = isCorrect
+                ? `<div class="p-3.5 bg-emerald-950/90 border-2 border-emerald-500 rounded-2xl text-emerald-200 font-bold text-sm sm:text-base animate-pop flex items-center gap-3 shadow-lg text-left">
+                     <i class="fa-solid fa-circle-check text-emerald-400 text-2xl shrink-0"></i>
+                     <div>
+                       <span class="text-emerald-400 font-black uppercase text-xs block">🎉 HARİKA! DOĞRU TESPİT</span>
+                       <span>${msg}</span>
+                     </div>
+                   </div>`
+                : `<div class="p-3.5 bg-rose-950/90 border-2 border-rose-500 rounded-2xl text-rose-200 font-bold text-sm sm:text-base animate-pop flex items-center gap-3 shadow-lg text-left">
+                     <i class="fa-solid fa-circle-xmark text-rose-400 text-2xl shrink-0"></i>
+                     <div>
+                       <span class="text-rose-400 font-black uppercase text-xs block">⚠️ DİKKAT! TEKRAR DÜŞÜN</span>
+                       <span>${msg}</span>
+                     </div>
+                   </div>`;
+        }
+
+        if (btn && btn.parentElement) {
+            const siblings = btn.parentElement.querySelectorAll('button');
+            siblings.forEach(b => {
+                b.classList.remove('ring-4', 'ring-emerald-400', 'ring-rose-400', 'border-emerald-400', 'border-rose-400');
+            });
+            if (isCorrect) {
+                btn.classList.add('ring-4', 'ring-emerald-400/60', 'border-emerald-400');
+            } else {
+                btn.classList.add('ring-4', 'ring-rose-400/60', 'border-rose-400');
+            }
+        }
+    }
+
     togglePresentationFullscreen() {
         sounds.playClick();
         const elem = document.getElementById("view-lecture");
@@ -2516,4 +2554,64 @@ class App {
 }
 
 const app = new App();
+window.app = app;
+
+window.handleSlideOption = function(targetId, isCorrect, msg, btn) {
+    if (window.app) window.app.handleSlideOption(targetId, isCorrect, msg, btn);
+};
+
+window.toggleSlideAnswer = function(answerId, buttonId, showText = 'Cevabı Göster', hideText = 'Cevabı Gizle') {
+    const ans = document.getElementById(answerId);
+    const btn = buttonId ? document.getElementById(buttonId) : null;
+    if (!ans) return;
+    ans.classList.toggle('hidden');
+    const isHidden = ans.classList.contains('hidden');
+    if (btn) {
+        btn.innerHTML = isHidden 
+            ? `<i class="fa-solid fa-eye"></i> ${showText}` 
+            : `<i class="fa-solid fa-eye-slash"></i> ${hideText}`;
+    }
+    if (typeof sounds !== 'undefined') {
+        if (isHidden) sounds.playClick();
+        else sounds.playFanfare();
+    }
+};
+
+window.handleSlide11Choice = function(choiceIdx, btn) {
+    if (typeof sounds !== 'undefined') sounds.playCorrect();
+    const fb = document.getElementById('slide11-fb');
+    const responses = [
+        {
+            title: 'KİŞİYE ÖZEL ÇALIŞMA PLANI',
+            desc: '🎉 Harika fikir! Yapay zekâ her öğrencinin çözdüğü soruları analiz edip eksiğine özel test ve konu anlatımı hazırlar.'
+        },
+        {
+            title: 'AKILLI KAMERA & YOĞUNLUK TAHMİNİ',
+            desc: '🎉 Çok yaratıcı! Kantin veya yemekhane kameraları kuyruk yoğunluğunu önceden hesaplayarak öğrencileri boş saatlerde yönlendirir.'
+        },
+        {
+            title: 'AKILLI KÜTÜPHANE ASİSTANI',
+            desc: '🎉 Güzel bir hayal! Kütüphanedeki binlerce kitap taranıp ödevinde aradığın tam paragraf veya sayfa saniyeler içinde bulunur.'
+        }
+    ];
+    const item = responses[choiceIdx] || responses[0];
+    if (fb) {
+        fb.classList.remove('hidden');
+        fb.innerHTML = `
+            <div class="p-3.5 bg-emerald-950/90 border-2 border-emerald-500 rounded-2xl text-emerald-200 font-bold text-sm sm:text-base animate-pop flex items-start gap-3 shadow-lg text-left">
+                <i class="fa-solid fa-lightbulb text-yellow-300 text-2xl shrink-0 mt-0.5"></i>
+                <div>
+                    <span class="text-yellow-300 font-black text-xs uppercase block">${item.title}</span>
+                    <span>${item.desc}</span>
+                </div>
+            </div>
+        `;
+    }
+    if (btn && btn.parentElement) {
+        const siblings = btn.parentElement.querySelectorAll('button');
+        siblings.forEach(b => b.classList.remove('ring-4', 'ring-yellow-400', 'bg-indigo-900', 'border-yellow-400'));
+        btn.classList.add('ring-4', 'ring-yellow-400/80', 'bg-indigo-900', 'border-yellow-400');
+    }
+};
+
 window.onload = () => app.init();
