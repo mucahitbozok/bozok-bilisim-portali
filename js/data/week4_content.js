@@ -25,6 +25,7 @@ window.WEEK4_CONTENT = {
             sayfa2: "assets/worksheets/1.4_sayfa2.png",
             sayfa3: "assets/worksheets/1.4_sayfa3.png",
             sayfa4: "assets/worksheets/1.4_sayfa4.png",
+            sayfa5: "assets/worksheets/1.4_sayfa5.png",
             cevap: "assets/worksheets/1.4_cevap.png"
         }
     },
@@ -1650,7 +1651,7 @@ window.WEEK4_CONTENT = {
     ],
 
     // ========================================================
-    // 📄 2. YAZDIRILABİLİR DİJİTAL METİN (4 Sayfa + Cevap Anahtarı)
+    // 📄 2. YAZDIRILABİLİR DİJİTAL METİN (5 Sayfa + Cevap Anahtarı)
     // ========================================================
     worksheetDocs: {
         hasTwoPages: false,
@@ -1666,7 +1667,7 @@ window.WEEK4_CONTENT = {
                         </h1>
                     </div>
                     <span class="px-3 py-1 bg-yellow-400/20 text-yellow-300 border border-yellow-400/40 rounded-xl text-xs font-black">
-                        Sayfa: 1 / 4
+                        Sayfa: 1 / 5
                     </span>
                 </div>
 
@@ -1707,7 +1708,7 @@ window.WEEK4_CONTENT = {
                         </h1>
                     </div>
                     <span class="px-3 py-1 bg-yellow-400/20 text-yellow-300 border border-yellow-400/40 rounded-xl text-xs font-black">
-                        Sayfa: 2 / 4
+                        Sayfa: 2 / 5
                     </span>
                 </div>
 
@@ -1739,7 +1740,7 @@ window.WEEK4_CONTENT = {
                         </h1>
                     </div>
                     <span class="px-3 py-1 bg-yellow-400/20 text-yellow-300 border border-yellow-400/40 rounded-xl text-xs font-black">
-                        Sayfa: 3 / 4
+                        Sayfa: 3 / 5
                     </span>
                 </div>
 
@@ -1764,7 +1765,7 @@ window.WEEK4_CONTENT = {
                         </h1>
                     </div>
                     <span class="px-3 py-1 bg-yellow-400/20 text-yellow-300 border border-yellow-400/40 rounded-xl text-xs font-black">
-                        Sayfa: 4 / 4
+                        Sayfa: 4 / 5
                     </span>
                 </div>
 
@@ -1773,6 +1774,62 @@ window.WEEK4_CONTENT = {
                     <p>1. Kişisel bilgilerini (TC no, telefon, adres) asla yapay zekâ ile paylaşma.</p>
                     <p>2. Yapay zekânın verdiği her bilgiye hemen inanma, farklı kaynaklardan teyit et.</p>
                     <p>3. Şüpheli bir durum olduğunda öğretmenine veya güvenilir bir yetişkine danış.</p>
+                </div>
+            </div>
+        `,
+        sayfa5Html: `
+            <div class="space-y-6 text-slate-100 print:text-black">
+                <div class="border-b-2 border-indigo-500/40 pb-4 flex items-center justify-between flex-wrap gap-2">
+                    <div>
+                        <span class="px-3 py-1 bg-indigo-500/30 text-indigo-300 font-black rounded-lg text-xs tracking-wider uppercase">
+                            4. KONU • BTY.5.1.4
+                        </span>
+                        <h1 class="text-xl sm:text-2xl font-black text-white mt-1">
+                            SAYFA 5: YAPAY ZEKÂNIN KISA TARİHİ
+                        </h1>
+                    </div>
+                    <span class="px-3 py-1 bg-yellow-400/20 text-yellow-300 border border-yellow-400/40 rounded-xl text-xs font-black">
+                        Sayfa: 5 / 5
+                    </span>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-3 text-xs">
+                    <div class="p-4 bg-purple-950/70 border-2 border-purple-500/40 rounded-2xl space-y-2 text-center shadow-lg">
+                        <span class="px-3 py-1 bg-purple-500/30 text-purple-200 font-black text-sm rounded-full inline-block border border-purple-400/40">1950</span>
+                        <h4 class="font-black text-white text-sm">ALAN TURING</h4>
+                        <p class="text-slate-300 text-[11px] leading-relaxed">“Makine düşünebilir mi?” sorusunu ortaya koydu ve Turing Testi fikrini geliştirdi.</p>
+                    </div>
+
+                    <div class="p-4 bg-blue-950/70 border-2 border-blue-500/40 rounded-2xl space-y-2 text-center shadow-lg">
+                        <span class="px-3 py-1 bg-blue-500/30 text-blue-200 font-black text-sm rounded-full inline-block border border-blue-400/40">1959</span>
+                        <h4 class="font-black text-white text-sm">CAHİT ARF</h4>
+                        <p class="text-slate-300 text-[11px] leading-relaxed">“Makine düşünebilir mi ve nasıl düşünebilir?” sorusu üzerine Türkiye'de ilk öncü çalışmaları yaptı.</p>
+                    </div>
+
+                    <div class="p-4 bg-amber-950/70 border-2 border-amber-500/40 rounded-2xl space-y-2 text-center shadow-lg">
+                        <span class="px-3 py-1 bg-amber-500/30 text-amber-200 font-black text-sm rounded-full inline-block border border-amber-400/40">1997</span>
+                        <h4 class="font-black text-white text-sm">IBM DEEP BLUE</h4>
+                        <p class="text-slate-300 text-[11px] leading-relaxed">Satrançta dünya şampiyonu Garry Kasparov'u yenerek yapay zekânın gücünü dünyaya kanıtladı.</p>
+                    </div>
+
+                    <div class="p-4 bg-teal-950/70 border-2 border-teal-500/40 rounded-2xl space-y-2 text-center shadow-lg">
+                        <span class="px-3 py-1 bg-teal-500/30 text-teal-200 font-black text-sm rounded-full inline-block border border-teal-400/40">2016</span>
+                        <h4 class="font-black text-white text-sm">GOOGLE ALPHAGO</h4>
+                        <p class="text-slate-300 text-[11px] leading-relaxed">Strateji oyunu Go'da dünyanın en iyi şampiyonlarından birini yenerek derin öğrenmenin zirvesini gösterdi.</p>
+                    </div>
+
+                    <div class="p-4 bg-rose-950/70 border-2 border-rose-500/40 rounded-2xl space-y-2 text-center shadow-lg">
+                        <span class="px-3 py-1 bg-rose-500/30 text-rose-200 font-black text-sm rounded-full inline-block border border-rose-400/40">BUGÜN</span>
+                        <h4 class="font-black text-white text-sm">GÜNLÜK YAŞAM</h4>
+                        <p class="text-slate-300 text-[11px] leading-relaxed">Eğitim, sağlık, ulaşım, eğlence, tarım, sanayi ve güvenlik gibi hayatımızın her alanında hızla gelişmeye devam ediyor.</p>
+                    </div>
+                </div>
+
+                <div class="p-4 bg-slate-850 rounded-2xl border border-indigo-500/30 space-y-2">
+                    <h3 class="text-sm font-black text-yellow-300 uppercase">💡 Tarihçe Çıkarımı:</h3>
+                    <p class="text-xs text-slate-200 leading-relaxed">
+                        Yapay zekâ birdenbire ortaya çıkmamış, Alan Turing ve Cahit Arf'ın felsefi sorularıyla başlayıp Deep Blue ve AlphaGo gibi akıllı sistemlerin geliştirilmesiyle günümüzdeki devrimsel haline ulaşmıştır.
+                    </p>
                 </div>
             </div>
         `,

@@ -910,6 +910,7 @@ class App {
                 sayfa2: 'assets/worksheets/1.4_sayfa2.png',
                 sayfa3: 'assets/worksheets/1.4_sayfa3.png',
                 sayfa4: 'assets/worksheets/1.4_sayfa4.png',
+                sayfa5: 'assets/worksheets/1.4_sayfa5.png',
                 cevap: 'assets/worksheets/1.4_cevap.png',
                 konu: 'assets/worksheets/1.4_sayfa1.png',
                 soru: 'assets/worksheets/1.4_sayfa2.png'
@@ -946,13 +947,13 @@ class App {
         const images = data.weekInfo?.images || data.worksheetDocs?.images;
         const docs = data.worksheetDocs || {};
 
-        const isFiveTabs = !!(images?.sayfa4 || images?.sayfa3 || (this.currentWeek === 4 && images?.sayfa1));
+        const isFiveTabs = !!(images?.sayfa5 || images?.sayfa4 || images?.sayfa3 || (this.currentWeek === 4 && images?.sayfa1));
         const isFourTabs = !isFiveTabs && !!(docs.hasTwoPages || docs.kagit1Html || (images && (images.kagit1 || images.sayfa1_soru)) || this.currentWeek === '3_2');
 
         if (!this.activePhotoDoc) {
             this.activePhotoDoc = isFiveTabs ? 'sayfa1' : (isFourTabs ? 'kagit1' : 'konu');
         } else if (isFiveTabs) {
-            if (!['sayfa1', 'sayfa2', 'sayfa3', 'sayfa4', 'cevap'].includes(this.activePhotoDoc)) {
+            if (!['sayfa1', 'sayfa2', 'sayfa3', 'sayfa4', 'sayfa5', 'cevap'].includes(this.activePhotoDoc)) {
                 this.activePhotoDoc = 'sayfa1';
             }
         } else if (isFourTabs) {
@@ -996,12 +997,18 @@ class App {
             sayfa4: { 
                 src: this.resolveDocPath(images?.sayfa4, this.currentWeek, 'sayfa4'), 
                 title: "4. Sayfa (Etik, Güvenlik & Değerlendirme)", 
-                icon: "fa-solid fa-file-circle-check", 
+                icon: "fa-solid fa-shield-halved", 
                 badge: "4. Sayfa" 
+            },
+            sayfa5: { 
+                src: this.resolveDocPath(images?.sayfa5, this.currentWeek, 'sayfa5'), 
+                title: "5. Sayfa (Yapay Zekânın Kısa Tarihi)", 
+                icon: "fa-solid fa-clock-rotate-left", 
+                badge: "5. Sayfa" 
             },
             cevap: { 
                 src: this.resolveDocPath(images?.cevap, this.currentWeek, 'cevap'), 
-                title: "Resmî Cevap Anahtarı (1-4. Sayfalar)", 
+                title: "Resmî Cevap Anahtarı (1-5. Sayfalar)", 
                 icon: "fa-solid fa-key", 
                 badge: "Cevap Anahtarı" 
             }
@@ -1100,6 +1107,12 @@ class App {
                                 <i class="fa-solid fa-file-circle-check text-purple-400"></i>
                                 <span>4. Sayfa</span>
                             </button>
+                            ${images?.sayfa5 ? `
+                            <button onclick="app.setPhotoDoc('sayfa5')" class="px-3 sm:px-4 py-2 sm:py-2.5 rounded-xl font-bold text-xs sm:text-sm flex items-center gap-2 transition-all ${this.activePhotoDoc === 'sayfa5' ? 'bg-indigo-600 text-white shadow-lg ring-2 ring-indigo-400' : 'text-slate-300 hover:bg-slate-700'}">
+                                <i class="fa-solid fa-clock-rotate-left text-rose-400"></i>
+                                <span>5. Sayfa (Tarihçe)</span>
+                            </button>
+                            ` : ''}
                             <button onclick="app.setPhotoDoc('cevap')" class="px-3 sm:px-4 py-2 sm:py-2.5 rounded-xl font-bold text-xs sm:text-sm flex items-center gap-2 transition-all ${this.activePhotoDoc === 'cevap' ? 'bg-emerald-600 text-white shadow-lg ring-2 ring-emerald-400' : 'text-slate-300 hover:bg-slate-700'}">
                                 <i class="fa-solid fa-key text-yellow-300"></i>
                                 <span>Cevap Anahtarı</span>
