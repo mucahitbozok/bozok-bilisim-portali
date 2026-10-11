@@ -90,7 +90,13 @@ window.WEEK5_CONTENT = {
             "İşlenen verileri bize sunan Çıkış Birimlerini (monitör, hoparlör, yazıcı, projeksiyon, kulaklık vb.) sınıflandırabileceğim.",
             "Hem giriş hem çıkış özelliği taşıyan çok yönlü donanımları (dokunmatik ekran, depolama aygıtları vb.) sorgulayabileceğim."
         ],
-        images: {}
+        images: {
+            cover: "assets/slides/donanim_sistem_kapak.jpg",
+            computerTypes: "assets/slides/bilgisayar_cesitleri.jpg",
+            internalHardware: "assets/slides/ic_donanim_kasa.jpg",
+            peripherals: "assets/slides/giris_cikis_donanimlari.jpg",
+            dataCycle: "assets/slides/veri_isleme_dongusu.jpg"
+        }
     },
 
     videos: [],
@@ -108,7 +114,80 @@ window.WEEK5_CONTENT = {
         "icon": "fa-solid fa-microchip",
         "bgColor": "from-slate-900 via-indigo-950 to-blue-900",
         "gradient": "from-slate-900 via-indigo-950 to-blue-900",
-        "content": "\n            <div class=\"grid grid-cols-1 md:grid-cols-12 gap-6 items-center max-w-6xl mx-auto my-auto py-2\">\n                <div class=\"md:col-span-7 space-y-4 text-left\">\n                    <div class=\"flex items-center gap-2 flex-wrap\">\n                        <span class=\"px-4 py-1.5 bg-yellow-400/20 text-yellow-300 font-extrabold text-sm sm:text-base uppercase tracking-wider rounded-full border border-yellow-400/40 shadow-sm\">\n                            5. KONU - 1 • 5. SINIF BİLİŞİM TEKNOLOJİLERİ VE YAZILIM\n                        </span>\n                        <span class=\"px-3 py-1 bg-cyan-500/20 text-cyan-300 font-bold text-xs rounded-full border border-cyan-400/30\">\n                            ⚡ Donanım & Çevre Birimleri\n                        </span>\n                    </div>\n\n                    <h1 class=\"text-3xl sm:text-4xl md:text-5xl lg:text-[46px] font-black text-white tracking-tight leading-tight drop-shadow-xl\">\n                        BİLGİSAYAR VE DONANIM\n                    </h1>\n\n                    <div class=\"p-4 sm:p-5 bg-white/10 backdrop-blur-md rounded-2xl border-2 border-indigo-400/50 shadow-xl space-y-1.5\">\n                        <div class=\"flex items-center gap-2 text-yellow-300 font-black text-xs sm:text-sm uppercase tracking-widest\">\n                            <i class=\"fa-solid fa-bullseye text-base text-yellow-400\"></i>\n                            <span>ÖĞRENME ÇIKTISI:</span>\n                        </div>\n                        <p class=\"text-xl sm:text-2xl md:text-[23px] font-extrabold text-white leading-snug\">\n                            <span class=\"text-yellow-300 font-black\">BTY.5.1.5 –</span> Bilgisayar sistemlerini çözümleyebilme.\n                        </p>\n                    </div>\n\n                    <div class=\"p-3.5 sm:p-4 bg-indigo-950/80 rounded-2xl border border-indigo-400/30 flex items-start gap-3 shadow-lg\">\n                        <div class=\"w-10 h-10 rounded-xl bg-indigo-500/30 text-yellow-300 flex items-center justify-center text-xl shrink-0 mt-0.5\">\n                            <i class=\"fa-solid fa-lightbulb\"></i>\n                        </div>\n                        <p class=\"text-sm sm:text-base font-semibold text-indigo-100 leading-relaxed\">\n                            “Bilgisayarı oluşturan tüm parçaları, iç donanımları, kasanın gizemini, giriş ve çıkış birimlerini görsel deneylerle keşfetmeye hazır mısınız?”\n                        </p>\n                    </div>\n\n                    <div class=\"pt-1 flex items-center gap-3\">\n                        <span class=\"inline-flex items-center gap-2 px-4 py-1.5 bg-white/10 backdrop-blur-md rounded-xl border border-white/20 text-yellow-300 font-bold text-xs sm:text-sm shadow-md\">\n                            <i class=\"fa-solid fa-chalkboard-user text-base\"></i>\n                            <span>Öğretmen Bozok • Bozok Bilişim Portalı</span>\n                        </span>\n                        <button onclick=\"app.nextSlide(); sounds.playClick();\" class=\"px-5 py-2.5 bg-gradient-to-r from-yellow-400 to-amber-500 hover:from-yellow-300 hover:to-amber-400 text-slate-950 font-black rounded-xl text-xs sm:text-sm shadow-lg flex items-center gap-2 transition-all hover:scale-105 active:scale-95\">\n                            <span>Keşfe Başla</span>\n                            <i class=\"fa-solid fa-arrow-right\"></i>\n                        </button>\n                    </div>\n                </div>\n\n                <div class=\"md:col-span-5 flex justify-center\">\n                    <div class=\"relative w-full max-w-sm sm:max-w-md aspect-square rounded-3xl p-3 bg-gradient-to-tr from-cyan-400/30 via-indigo-500/20 to-purple-500/30 border-2 border-white/20 shadow-2xl backdrop-blur-sm group\">\n                        <div class=\"w-full h-full rounded-2xl overflow-hidden shadow-inner flex flex-col items-center justify-center p-6 bg-slate-900/90 text-center space-y-4\">\n                            <div class=\"w-24 h-24 rounded-3xl bg-gradient-to-tr from-cyan-500 via-indigo-600 to-purple-600 flex items-center justify-center text-white text-5xl shadow-xl shadow-cyan-500/30 border border-cyan-400/40\">\n                                <i class=\"fa-solid fa-computer animate-pulse\"></i>\n                            </div>\n                            <div>\n                                <h3 class=\"text-2xl font-black text-white\">Donanım Dünyası</h3>\n                                <p class=\"text-xs text-indigo-300 font-medium mt-1\">İç Donanım & Dış Donanım Birimleri</p>\n                            </div>\n                            <div class=\"grid grid-cols-2 gap-2.5 w-full pt-2\">\n                                <div class=\"p-2.5 bg-slate-800/80 rounded-xl border border-slate-700/80 text-center\">\n                                    <i class=\"fa-solid fa-keyboard text-emerald-400 text-lg mb-1 block\"></i>\n                                    <span class=\"text-[11px] font-bold text-white block\">Giriş Birimleri</span>\n                                    <span class=\"text-[9px] text-slate-400\">Veri Gönderenler</span>\n                                </div>\n                                <div class=\"p-2.5 bg-slate-800/80 rounded-xl border border-slate-700/80 text-center\">\n                                    <i class=\"fa-solid fa-desktop text-cyan-400 text-lg mb-1 block\"></i>\n                                    <span class=\"text-[11px] font-bold text-white block\">Çıkış Birimleri</span>\n                                    <span class=\"text-[9px] text-slate-400\">Bilgi Sunanlar</span>\n                                </div>\n                            </div>\n                        </div>\n                    </div>\n                </div>\n            </div>\n        "
+        "content": `
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-center max-w-6xl mx-auto my-auto py-2">
+                <div class="md:col-span-7 space-y-4 text-left">
+                    <div class="flex items-center gap-2 flex-wrap">
+                        <span class="px-4 py-1.5 bg-yellow-400/20 text-yellow-300 font-extrabold text-sm sm:text-base uppercase tracking-wider rounded-full border border-yellow-400/40 shadow-sm">
+                            5. KONU - 1 • 5. SINIF BİLİŞİM TEKNOLOJİLERİ VE YAZILIM
+                        </span>
+                        <span class="px-3 py-1 bg-cyan-500/20 text-cyan-300 font-bold text-xs rounded-full border border-cyan-400/30">
+                            ⚡ Donanım & Çevre Birimleri
+                        </span>
+                    </div>
+
+                    <h1 class="text-3xl sm:text-4xl md:text-5xl lg:text-[46px] font-black text-white tracking-tight leading-tight drop-shadow-xl">
+                        BİLGİSAYAR VE DONANIM
+                    </h1>
+
+                    <div class="p-4 sm:p-5 bg-white/10 backdrop-blur-md rounded-2xl border-2 border-indigo-400/50 shadow-xl space-y-1.5">
+                        <div class="flex items-center gap-2 text-yellow-300 font-black text-xs sm:text-sm uppercase tracking-widest">
+                            <i class="fa-solid fa-bullseye text-base text-yellow-400"></i>
+                            <span>ÖĞRENME ÇIKTISI:</span>
+                        </div>
+                        <p class="text-xl sm:text-2xl md:text-[23px] font-extrabold text-white leading-snug">
+                            <span class="text-yellow-300 font-black">BTY.5.1.5 –</span> Bilgisayar sistemlerini çözümleyebilme.
+                        </p>
+                    </div>
+
+                    <div class="p-3.5 sm:p-4 bg-indigo-950/80 rounded-2xl border border-indigo-400/30 flex items-start gap-3 shadow-lg">
+                        <div class="w-10 h-10 rounded-xl bg-indigo-500/30 text-yellow-300 flex items-center justify-center text-xl shrink-0 mt-0.5">
+                            <i class="fa-solid fa-lightbulb"></i>
+                        </div>
+                        <p class="text-sm sm:text-base font-semibold text-indigo-100 leading-relaxed">
+                            “Bilgisayarı oluşturan tüm parçaları, iç donanımları, kasanın gizemini, giriş ve çıkış birimlerini görsel deneylerle keşfetmeye hazır mısınız?”
+                        </p>
+                    </div>
+
+                    <div class="pt-1 flex items-center gap-3">
+                        <span class="inline-flex items-center gap-2 px-4 py-1.5 bg-white/10 backdrop-blur-md rounded-xl border border-white/20 text-yellow-300 font-bold text-xs sm:text-sm shadow-md">
+                            <i class="fa-solid fa-chalkboard-user text-base"></i>
+                            <span>Öğretmen Bozok • Bozok Bilişim Portalı</span>
+                        </span>
+                        <button onclick="app.nextSlide(); sounds.playClick();" class="px-5 py-2.5 bg-gradient-to-r from-yellow-400 to-amber-500 hover:from-yellow-300 hover:to-amber-400 text-slate-950 font-black rounded-xl text-xs sm:text-sm shadow-lg flex items-center gap-2 transition-all hover:scale-105 active:scale-95">
+                            <span>Keşfe Başla</span>
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="md:col-span-5 flex justify-center">
+                    <div class="relative w-full max-w-sm sm:max-w-md rounded-3xl p-3 bg-gradient-to-tr from-cyan-400/30 via-indigo-500/20 to-purple-500/30 border-2 border-cyan-400/30 shadow-2xl backdrop-blur-sm group">
+                        <div class="relative w-full aspect-video sm:aspect-[4/3] rounded-2xl overflow-hidden shadow-2xl border border-white/20">
+                            <img src="assets/slides/donanim_sistem_kapak.jpg" alt="Bilgisayar ve Donanım Sistemi" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+                            <div class="absolute inset-0 bg-gradient-to-t from-slate-950/85 via-transparent to-transparent flex flex-col justify-end p-3.5 pointer-events-none">
+                                <span class="px-3 py-1 bg-cyan-500/90 text-white font-extrabold text-xs rounded-full shadow-lg backdrop-blur-md w-fit mb-1 border border-cyan-300/40">
+                                    🖥️ Modern Donanım İstasyonu
+                                </span>
+                                <p class="text-[11px] sm:text-xs text-slate-200 font-semibold drop-shadow-md">
+                                    Kasa, Monitör, Klavye, Fare ve Kulaklık
+                                </p>
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-2 gap-2 mt-2.5">
+                            <div class="p-2 bg-slate-900/90 rounded-xl border border-emerald-500/40 text-center">
+                                <span class="text-xs font-black text-emerald-400 block"><i class="fa-solid fa-keyboard mr-1"></i>Giriş Birimleri</span>
+                                <span class="text-[10px] text-slate-300">Veri Gönderenler</span>
+                            </div>
+                            <div class="p-2 bg-slate-900/90 rounded-xl border border-cyan-500/40 text-center">
+                                <span class="text-xs font-black text-cyan-400 block"><i class="fa-solid fa-desktop mr-1"></i>Çıkış Birimleri</span>
+                                <span class="text-[10px] text-slate-300">Bilgi Sunanlar</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `
     },
     {
         "id": 2,
@@ -130,7 +209,89 @@ window.WEEK5_CONTENT = {
         "icon": "fa-solid fa-laptop",
         "bgColor": "from-slate-900 via-indigo-950 to-blue-950",
         "gradient": "from-slate-900 via-indigo-950 to-blue-950",
-        "content": "\n            <div class=\"max-w-5xl mx-auto space-y-5 my-auto py-2\">\n                <div class=\"p-5 sm:p-6 bg-blue-950/70 rounded-3xl border-2 border-blue-400/50 shadow-2xl text-center space-y-2\">\n                    <span class=\"px-3.5 py-1 bg-blue-500/20 text-blue-300 font-black text-xs uppercase tracking-widest rounded-full border border-blue-400/30\">\n                        Resmî Ders Tanımı\n                    </span>\n                    <h2 class=\"text-xl sm:text-2xl md:text-3xl font-black text-yellow-300 leading-snug\">\n                        “Verileri işleyen, saklayan, gerektiğinde geri getiren ve çeşitli işlemleri yapan elektronik cihaza <span class=\"text-white underline decoration-cyan-400\">bilgisayar</span> denir.”\n                    </h2>\n                </div>\n\n                <div class=\"grid grid-cols-1 sm:grid-cols-3 gap-3.5\">\n                    <div class=\"p-4 bg-slate-800/80 rounded-2xl border border-slate-700 text-center space-y-2 hover:border-cyan-400 transition-all\">\n                        <div class=\"w-12 h-12 rounded-xl bg-cyan-500/20 text-cyan-300 flex items-center justify-center text-2xl mx-auto\">\n                            <i class=\"fa-solid fa-desktop\"></i>\n                        </div>\n                        <h4 class=\"text-base font-black text-white\">Masaüstü Bilgisayar</h4>\n                        <p class=\"text-xs text-slate-300\">Sabit bir masada kasa, monitör, klavye ve fareyle kullanılır.</p>\n                    </div>\n\n                    <div class=\"p-4 bg-slate-800/80 rounded-2xl border border-slate-700 text-center space-y-2 hover:border-indigo-400 transition-all\">\n                        <div class=\"w-12 h-12 rounded-xl bg-indigo-500/20 text-indigo-300 flex items-center justify-center text-2xl mx-auto\">\n                            <i class=\"fa-solid fa-laptop\"></i>\n                        </div>\n                        <h4 class=\"text-base font-black text-white\">Dizüstü Bilgisayar (Laptop)</h4>\n                        <p class=\"text-xs text-slate-300\">Bataryasıyla taşınabilir, ekran ve klavye tek gövdededir.</p>\n                    </div>\n\n                    <div class=\"p-4 bg-slate-800/80 rounded-2xl border border-slate-700 text-center space-y-2 hover:border-purple-400 transition-all\">\n                        <div class=\"w-12 h-12 rounded-xl bg-purple-500/20 text-purple-300 flex items-center justify-center text-2xl mx-auto\">\n                            <i class=\"fa-solid fa-tablet-screen-button\"></i>\n                        </div>\n                        <h4 class=\"text-base font-black text-white\">Tablet Bilgisayar</h4>\n                        <p class=\"text-xs text-slate-300\">Dokunmatik ekranıyla hafif, taşınabilir ve pratik bir bilgisayardır.</p>\n                    </div>\n                </div>\n\n                <!-- Sınıf İçi Etkileşim -->\n                <div class=\"p-4 sm:p-5 bg-indigo-950/80 rounded-2xl border-2 border-indigo-400/50 shadow-xl space-y-3 text-left\">\n                    <div class=\"flex items-center justify-between flex-wrap gap-2\">\n                        <div class=\"flex items-center gap-2 text-yellow-300 font-bold text-sm sm:text-base\">\n                            <i class=\"fa-solid fa-comments text-lg\"></i>\n                            <span>SINIF TARTIŞMASI: “Bilgisayarlar günlük hayatımızda hangi işleri yapmamıza yardımcı olur?”</span>\n                        </div>\n                        <button id=\"slide3-btn\" onclick=\"window.toggleSlideAnswer('slide3-answers', 'slide3-btn', 'Örnek Cevapları Aç', 'Cevapları Gizle')\" class=\"px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-white font-black text-xs rounded-xl shadow-md transition-all flex items-center gap-1.5\">\n                            <i class=\"fa-solid fa-eye\"></i> Örnek Cevapları Aç\n                        </button>\n                    </div>\n\n                    <div id=\"slide3-answers\" class=\"hidden grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs pt-1 animate-pop\">\n                        <div class=\"p-2.5 bg-slate-900 rounded-xl border border-emerald-500/40 text-emerald-300 font-bold flex items-center gap-2\">\n                            <i class=\"fa-solid fa-graduation-cap\"></i> Ödev & Araştırma\n                        </div>\n                        <div class=\"p-2.5 bg-slate-900 rounded-xl border border-cyan-500/40 text-cyan-300 font-bold flex items-center gap-2\">\n                            <i class=\"fa-solid fa-gamepad\"></i> Oyun & Eğlence\n                        </div>\n                        <div class=\"p-2.5 bg-slate-900 rounded-xl border border-yellow-500/40 text-yellow-300 font-bold flex items-center gap-2\">\n                            <i class=\"fa-solid fa-video\"></i> İletişim & Sohbet\n                        </div>\n                        <div class=\"p-2.5 bg-slate-900 rounded-xl border border-purple-500/40 text-purple-300 font-bold flex items-center gap-2\">\n                            <i class=\"fa-solid fa-hospital\"></i> Sağlık & Bilim\n                        </div>\n                    </div>\n                </div>\n            </div>\n        "
+        "content": `
+            <div class="max-w-5xl mx-auto space-y-3.5 my-auto py-1">
+                <div class="p-3.5 sm:p-4 bg-blue-950/70 rounded-2xl border-2 border-blue-400/50 shadow-xl text-center space-y-1">
+                    <span class="px-3 py-0.5 bg-blue-500/20 text-blue-300 font-black text-[11px] uppercase tracking-widest rounded-full border border-blue-400/30">
+                        Resmî Ders Tanımı
+                    </span>
+                    <h2 class="text-lg sm:text-xl md:text-2xl font-black text-yellow-300 leading-snug">
+                        “Verileri işleyen, saklayan, gerektiğinde geri getiren ve çeşitli işlemleri yapan elektronik cihaza <span class="text-white underline decoration-cyan-400">bilgisayar</span> denir.”
+                    </h2>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-12 gap-3.5 items-center">
+                    <div class="md:col-span-5 rounded-2xl overflow-hidden border-2 border-indigo-400/40 shadow-xl group relative">
+                        <img src="assets/slides/bilgisayar_cesitleri.jpg" alt="Bilgisayar Çeşitleri: Masaüstü, Laptop, Tablet" class="w-full h-44 sm:h-52 object-cover group-hover:scale-105 transition-transform duration-500">
+                        <div class="absolute bottom-0 inset-x-0 p-2 bg-slate-950/85 backdrop-blur-sm border-t border-indigo-500/40 text-center">
+                            <span class="text-[11px] sm:text-xs font-bold text-yellow-300 flex items-center justify-center gap-1.5">
+                                <i class="fa-solid fa-camera"></i> Masaüstü, Laptop ve Tablet Bilgisayarlar
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="md:col-span-7 grid grid-cols-1 sm:grid-cols-3 md:grid-cols-1 gap-2 text-left">
+                        <div class="p-2.5 bg-slate-800/90 rounded-xl border border-slate-700 flex items-center gap-3 hover:border-cyan-400 transition-all">
+                            <div class="w-9 h-9 rounded-lg bg-cyan-500/20 text-cyan-300 flex items-center justify-center text-lg shrink-0">
+                                <i class="fa-solid fa-desktop"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-xs sm:text-sm font-black text-white">Masaüstü Bilgisayar</h4>
+                                <p class="text-[11px] text-slate-300">Sabit masada kasa, monitör, klavye ve fareyle kullanılır.</p>
+                            </div>
+                        </div>
+
+                        <div class="p-2.5 bg-slate-800/90 rounded-xl border border-slate-700 flex items-center gap-3 hover:border-indigo-400 transition-all">
+                            <div class="w-9 h-9 rounded-lg bg-indigo-500/20 text-indigo-300 flex items-center justify-center text-lg shrink-0">
+                                <i class="fa-solid fa-laptop"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-xs sm:text-sm font-black text-white">Dizüstü Bilgisayar (Laptop)</h4>
+                                <p class="text-[11px] text-slate-300">Bataryalı, taşınabilir; ekran ve klavye tek gövdededir.</p>
+                            </div>
+                        </div>
+
+                        <div class="p-2.5 bg-slate-800/90 rounded-xl border border-slate-700 flex items-center gap-3 hover:border-purple-400 transition-all">
+                            <div class="w-9 h-9 rounded-lg bg-purple-500/20 text-purple-300 flex items-center justify-center text-lg shrink-0">
+                                <i class="fa-solid fa-tablet-screen-button"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-xs sm:text-sm font-black text-white">Tablet Bilgisayar</h4>
+                                <p class="text-[11px] text-slate-300">Dokunmatik ekranıyla hafif, taşınabilir pratik bilgisayardır.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sınıf İçi Etkileşim -->
+                <div class="p-3.5 bg-indigo-950/80 rounded-2xl border-2 border-indigo-400/50 shadow-xl space-y-2 text-left">
+                    <div class="flex items-center justify-between flex-wrap gap-2">
+                        <div class="flex items-center gap-2 text-yellow-300 font-bold text-xs sm:text-sm">
+                            <i class="fa-solid fa-comments text-base"></i>
+                            <span>SINIF TARTIŞMASI: “Bilgisayarlar günlük hayatımızda hangi işleri yapmamıza yardımcı olur?”</span>
+                        </div>
+                        <button id="slide3-btn" onclick="window.toggleSlideAnswer('slide3-answers', 'slide3-btn', 'Örnek Cevapları Aç', 'Cevapları Gizle')" class="px-3.5 py-1.5 bg-indigo-600 hover:bg-indigo-500 text-white font-black text-xs rounded-xl shadow-md transition-all flex items-center gap-1.5">
+                            <i class="fa-solid fa-eye"></i> Örnek Cevapları Aç
+                        </button>
+                    </div>
+
+                    <div id="slide3-answers" class="hidden grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs pt-1 animate-pop">
+                        <div class="p-2 bg-slate-900 rounded-xl border border-emerald-500/40 text-emerald-300 font-bold flex items-center gap-2">
+                            <i class="fa-solid fa-graduation-cap"></i> Ödev & Araştırma
+                        </div>
+                        <div class="p-2 bg-slate-900 rounded-xl border border-cyan-500/40 text-cyan-300 font-bold flex items-center gap-2">
+                            <i class="fa-solid fa-gamepad"></i> Oyun & Eğlence
+                        </div>
+                        <div class="p-2 bg-slate-900 rounded-xl border border-yellow-500/40 text-yellow-300 font-bold flex items-center gap-2">
+                            <i class="fa-solid fa-video"></i> İletişim & Sohbet
+                        </div>
+                        <div class="p-2 bg-slate-900 rounded-xl border border-purple-500/40 text-purple-300 font-bold flex items-center gap-2">
+                            <i class="fa-solid fa-hospital"></i> Sağlık & Bilim
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `
     },
     {
         "id": 4,
@@ -174,7 +335,73 @@ window.WEEK5_CONTENT = {
         "icon": "fa-solid fa-box-open",
         "bgColor": "from-slate-900 via-indigo-950 to-blue-900",
         "gradient": "from-slate-900 via-indigo-950 to-blue-900",
-        "content": "\n            <div class=\"max-w-5xl mx-auto space-y-4 my-auto py-2\">\n                <p class=\"text-xs sm:text-sm text-center text-slate-300 font-semibold\">\n                    Kasanın kapağını açtık! Aşağıdaki 10 parçaya dokunarak isimlerini ve kasanın içindeki rollerini keşfet!\n                </p>\n\n                <div class=\"grid grid-cols-2 sm:grid-cols-5 gap-2.5 text-left\">\n                    <button onclick=\"document.getElementById('slide7-info').innerHTML = '<strong>ANAKART:</strong> Tüm iç donanımların üzerine takıldığı, parçalar arası iletişimi sağlayan büyük devre kartıdır.'; sounds.playClick();\" class=\"p-3 bg-slate-850 hover:bg-slate-700 border-2 border-indigo-500/50 rounded-xl space-y-1 transition-all group\">\n                        <span class=\"text-xs font-black text-yellow-300 block\">1. ANAKART</span>\n                        <p class=\"text-[11px] text-slate-300\">Ana devre kartı</p>\n                    </button>\n\n                    <button onclick=\"document.getElementById('slide7-info').innerHTML = '<strong>İŞLEMCİ (CPU):</strong> Bilgisayarın beynidir! Tüm matematiksel ve mantıksal komutları ışık hızında işler.'; sounds.playClick();\" class=\"p-3 bg-slate-850 hover:bg-slate-700 border-2 border-cyan-500/50 rounded-xl space-y-1 transition-all group\">\n                        <span class=\"text-xs font-black text-cyan-300 block\">2. İŞLEMCİ (CPU)</span>\n                        <p class=\"text-[11px] text-slate-300\">Bilgisayarın beyni</p>\n                    </button>\n\n                    <button onclick=\"document.getElementById('slide7-info').innerHTML = '<strong>RAM BELLEK:</strong> Geçici hafızadır! Bilgisayar açıkken çalışan programların verilerini tutar, kapanınca silinir.'; sounds.playClick();\" class=\"p-3 bg-slate-850 hover:bg-slate-700 border-2 border-emerald-500/50 rounded-xl space-y-1 transition-all group\">\n                        <span class=\"text-xs font-black text-emerald-300 block\">3. RAM BELLEK</span>\n                        <p class=\"text-[11px] text-slate-300\">Geçici çalışma hafızası</p>\n                    </button>\n\n                    <button onclick=\"document.getElementById('slide7-info').innerHTML = '<strong>SABİT DİSK (HDD):</strong> Verileri kalıcı olarak manyetik diskler üzerinde saklayan depolama birimidir.'; sounds.playClick();\" class=\"p-3 bg-slate-850 hover:bg-slate-700 border-2 border-amber-500/50 rounded-xl space-y-1 transition-all group\">\n                        <span class=\"text-xs font-black text-amber-300 block\">4. SABİT DİSK (HDD)</span>\n                        <p class=\"text-[11px] text-slate-300\">Kalıcı depolama</p>\n                    </button>\n\n                    <button onclick=\"document.getElementById('slide7-info').innerHTML = '<strong>SSD (KATI HAL SÜRÜCÜSÜ):</strong> Yeni nesil kalıcı depolama! HDD\\'ye göre çok daha hızlı, sessiz ve dayanıklıdır.'; sounds.playClick();\" class=\"p-3 bg-slate-850 hover:bg-slate-700 border-2 border-rose-500/50 rounded-xl space-y-1 transition-all group\">\n                        <span class=\"text-xs font-black text-rose-300 block\">5. SSD</span>\n                        <p class=\"text-[11px] text-slate-300\">Hızlı kalıcı depolama</p>\n                    </button>\n\n                    <button onclick=\"document.getElementById('slide7-info').innerHTML = '<strong>EKRAN KARTI:</strong> Bilgisayardaki görüntüleri işleyip monitöre aktaran grafik birimidir.'; sounds.playClick();\" class=\"p-3 bg-slate-850 hover:bg-slate-700 border-2 border-purple-500/50 rounded-xl space-y-1 transition-all group\">\n                        <span class=\"text-xs font-black text-purple-300 block\">6. EKRAN KARTI</span>\n                        <p class=\"text-[11px] text-slate-300\">Grafik & Görüntü</p>\n                    </button>\n\n                    <button onclick=\"document.getElementById('slide7-info').innerHTML = '<strong>SES KARTI:</strong> Bilgisayardaki sesleri hoparlöre veya kulaklığa aktarır, mikrofon sesini kaydeder.'; sounds.playClick();\" class=\"p-3 bg-slate-850 hover:bg-slate-700 border-2 border-teal-500/50 rounded-xl space-y-1 transition-all group\">\n                        <span class=\"text-xs font-black text-teal-300 block\">7. SES KARTI</span>\n                        <p class=\"text-[11px] text-slate-300\">Ses işleme</p>\n                    </button>\n\n                    <button onclick=\"document.getElementById('slide7-info').innerHTML = '<strong>AĞ KARTI (ETHERNET/WI-FI):</strong> Bilgisayarın kablolu veya kablosuz olarak internete/ağa bağlanmasını sağlar.'; sounds.playClick();\" class=\"p-3 bg-slate-850 hover:bg-slate-700 border-2 border-blue-500/50 rounded-xl space-y-1 transition-all group\">\n                        <span class=\"text-xs font-black text-blue-300 block\">8. AĞ KARTI</span>\n                        <p class=\"text-[11px] text-slate-300\">İnternet bağlantısı</p>\n                    </button>\n\n                    <button onclick=\"document.getElementById('slide7-info').innerHTML = '<strong>GÜÇ KAYNAĞI (PSU):</strong> Şehir elektriğini (220V) bilgisayar parçalarının güvenle kullanabileceği seviyeye dönüştürür.'; sounds.playClick();\" class=\"p-3 bg-slate-850 hover:bg-slate-700 border-2 border-yellow-500/50 rounded-xl space-y-1 transition-all group\">\n                        <span class=\"text-xs font-black text-yellow-300 block\">9. GÜÇ KAYNAĞI</span>\n                        <p class=\"text-[11px] text-slate-300\">Elektrik enerjisi</p>\n                    </button>\n\n                    <button onclick=\"document.getElementById('slide7-info').innerHTML = '<strong>SOĞUTUCU (FAN):</strong> Özellikle işlemcinin aşırı ısınıp yanmasını ya da yavaşlamasını önleyen fan ve soğutma bloğudur.'; sounds.playClick();\" class=\"p-3 bg-slate-850 hover:bg-slate-700 border-2 border-cyan-400/50 rounded-xl space-y-1 transition-all group\">\n                        <span class=\"text-xs font-black text-cyan-300 block\">10. SOĞUTUCU</span>\n                        <p class=\"text-[11px] text-slate-300\">Fan & Termal blok</p>\n                    </button>\n                </div>\n\n                <div id=\"slide7-info\" class=\"p-4 bg-slate-900 rounded-2xl border-2 border-indigo-400 text-yellow-300 text-xs sm:text-sm font-semibold text-center min-h-[56px] flex items-center justify-center shadow-lg\">\n                    👆 Kasanın içindeki 10 parçadan birine dokun ve detaylı görevini öğren!\n                </div>\n            </div>\n        "
+        "content": `
+            <div class="max-w-6xl mx-auto space-y-2.5 my-auto py-1">
+                <div class="grid grid-cols-1 md:grid-cols-12 gap-3.5 items-center">
+                    <!-- Sol Taraf: Açık Kasa Gerçek Fotoğrafı -->
+                    <div class="md:col-span-5 rounded-2xl overflow-hidden border-2 border-cyan-400/50 shadow-2xl group relative bg-slate-950">
+                        <img src="assets/slides/ic_donanim_kasa.jpg" alt="Açık Bilgisayar Kasası İçi" class="w-full h-64 sm:h-72 object-cover object-center group-hover:scale-105 transition-transform duration-700">
+                        <div class="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-transparent to-transparent flex flex-col justify-end p-3 pointer-events-none">
+                            <span class="px-2.5 py-1 bg-cyan-500/90 text-white font-black text-xs rounded-lg shadow-md w-fit border border-cyan-300/40 mb-1">
+                                📸 Gerçek Açık Kasa İçi
+                            </span>
+                            <p class="text-[11px] text-slate-200 font-semibold drop-shadow">
+                                Anakart, CPU Sıvı Soğutma, RAM, RTX Ekran Kartı, Güç Kaynağı
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Sağ Taraf: 10 Parça Butonu -->
+                    <div class="md:col-span-7 space-y-2">
+                        <div class="grid grid-cols-2 sm:grid-cols-5 gap-2 text-left">
+                            <button onclick="document.getElementById('slide7-info').innerHTML = '<strong>1. ANAKART:</strong> Tüm iç donanımların üzerine takıldığı, parçalar arası veri iletişimini sağlayan ana devre kartıdır (İskelet/Otoyol).'; sounds.playClick();" class="p-2 bg-slate-850 hover:bg-slate-700 border-2 border-indigo-500/50 rounded-xl space-y-0.5 transition-all">
+                                <span class="text-xs font-black text-yellow-300 block">1. ANAKART</span>
+                                <p class="text-[10px] text-slate-300">Ana devre kartı</p>
+                            </button>
+                            <button onclick="document.getElementById('slide7-info').innerHTML = '<strong>2. İŞLEMCİ (CPU):</strong> Bilgisayarın beynidir! Tüm matematiksel ve mantıksal komutları ışık hızında işler.'; sounds.playClick();" class="p-2 bg-slate-850 hover:bg-slate-700 border-2 border-cyan-500/50 rounded-xl space-y-0.5 transition-all">
+                                <span class="text-xs font-black text-cyan-300 block">2. İŞLEMCİ (CPU)</span>
+                                <p class="text-[10px] text-slate-300">Bilgisayarın beyni</p>
+                            </button>
+                            <button onclick="document.getElementById('slide7-info').innerHTML = '<strong>3. RAM BELLEK:</strong> Geçici hafızadır! Bilgisayar açıkken çalışan programların verilerini tutar, kapanınca silinir.'; sounds.playClick();" class="p-2 bg-slate-850 hover:bg-slate-700 border-2 border-emerald-500/50 rounded-xl space-y-0.5 transition-all">
+                                <span class="text-xs font-black text-emerald-300 block">3. RAM BELLEK</span>
+                                <p class="text-[10px] text-slate-300">Geçici hafıza</p>
+                            </button>
+                            <button onclick="document.getElementById('slide7-info').innerHTML = '<strong>4. SABİT DİSK (HDD):</strong> Verileri kalıcı olarak manyetik diskler üzerinde saklayan depolama birimidir.'; sounds.playClick();" class="p-2 bg-slate-850 hover:bg-slate-700 border-2 border-amber-500/50 rounded-xl space-y-0.5 transition-all">
+                                <span class="text-xs font-black text-amber-300 block">4. SABİT DİSK</span>
+                                <p class="text-[10px] text-slate-300">Kalıcı depolama</p>
+                            </button>
+                            <button onclick="document.getElementById('slide7-info').innerHTML = '<strong>5. SSD:</strong> Yeni nesil kalıcı depolama! HDD\\'ye göre çok daha hızlı, sessiz ve darbelere dayanıklıdır.'; sounds.playClick();" class="p-2 bg-slate-850 hover:bg-slate-700 border-2 border-rose-500/50 rounded-xl space-y-0.5 transition-all">
+                                <span class="text-xs font-black text-rose-300 block">5. SSD</span>
+                                <p class="text-[10px] text-slate-300">Hızlı depolama</p>
+                            </button>
+                            <button onclick="document.getElementById('slide7-info').innerHTML = '<strong>6. EKRAN KARTI (GPU):</strong> Bilgisayardaki görüntüleri işleyip monitöre yüksek kalitede aktaran grafik birimidir.'; sounds.playClick();" class="p-2 bg-slate-850 hover:bg-slate-700 border-2 border-purple-500/50 rounded-xl space-y-0.5 transition-all">
+                                <span class="text-xs font-black text-purple-300 block">6. EKRAN KARTI</span>
+                                <p class="text-[10px] text-slate-300">Grafik & Görüntü</p>
+                            </button>
+                            <button onclick="document.getElementById('slide7-info').innerHTML = '<strong>7. SES KARTI:</strong> Bilgisayardaki sesleri hoparlöre veya kulaklığa aktarır, mikrofon sesini dijitale çevirir.'; sounds.playClick();" class="p-2 bg-slate-850 hover:bg-slate-700 border-2 border-teal-500/50 rounded-xl space-y-0.5 transition-all">
+                                <span class="text-xs font-black text-teal-300 block">7. SES KARTI</span>
+                                <p class="text-[10px] text-slate-300">Ses işleme</p>
+                            </button>
+                            <button onclick="document.getElementById('slide7-info').innerHTML = '<strong>8. AĞ KARTI (WI-FI/ETHERNET):</strong> Bilgisayarın kablolu veya kablosuz olarak internete/yerel ağa bağlanmasını sağlar.'; sounds.playClick();" class="p-2 bg-slate-850 hover:bg-slate-700 border-2 border-blue-500/50 rounded-xl space-y-0.5 transition-all">
+                                <span class="text-xs font-black text-blue-300 block">8. AĞ KARTI</span>
+                                <p class="text-[10px] text-slate-300">İnternet bağlantısı</p>
+                            </button>
+                            <button onclick="document.getElementById('slide7-info').innerHTML = '<strong>9. GÜÇ KAYNAĞI (PSU):</strong> Şehir elektriğini (220V) bilgisayar parçalarının güvenle kullanabileceği seviyeye dönüştürür.'; sounds.playClick();" class="p-2 bg-slate-850 hover:bg-slate-700 border-2 border-yellow-500/50 rounded-xl space-y-0.5 transition-all">
+                                <span class="text-xs font-black text-yellow-300 block">9. GÜÇ KAYNAĞI</span>
+                                <p class="text-[10px] text-slate-300">Elektrik enerjisi</p>
+                            </button>
+                            <button onclick="document.getElementById('slide7-info').innerHTML = '<strong>10. SOĞUTUCU (FAN):</strong> Özellikle işlemcinin aşırı ısınıp yavaşlamasını veya yanmasını önleyen fan ve soğutma bloğudur.'; sounds.playClick();" class="p-2 bg-slate-850 hover:bg-slate-700 border-2 border-cyan-400/50 rounded-xl space-y-0.5 transition-all">
+                                <span class="text-xs font-black text-cyan-300 block">10. SOĞUTUCU</span>
+                                <p class="text-[10px] text-slate-300">Fan & Soğutma</p>
+                            </button>
+                        </div>
+                        <div id="slide7-info" class="p-3 bg-slate-900 rounded-2xl border-2 border-indigo-400 text-yellow-300 text-xs sm:text-sm font-semibold text-center min-h-[50px] flex items-center justify-center shadow-lg">
+                            👆 Parçalardan birine dokunarak fotoğraftaki yerini ve görevini öğren!
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `
     },
     {
         "id": 8,
@@ -218,7 +445,78 @@ window.WEEK5_CONTENT = {
         "icon": "fa-solid fa-arrows-split-up-and-left",
         "bgColor": "from-slate-900 via-indigo-950 to-blue-900",
         "gradient": "from-slate-900 via-indigo-950 to-blue-900",
-        "content": "\n            <div class=\"max-w-5xl mx-auto space-y-3.5 my-auto py-2\">\n                <div class=\"grid grid-cols-1 md:grid-cols-3 gap-3.5 text-left\">\n                    <!-- GİRİŞ BİRİMLERİ -->\n                    <div class=\"p-4 bg-slate-850 rounded-2xl border-2 border-emerald-500/60 space-y-2.5 shadow-lg\">\n                        <div class=\"flex items-center gap-2 text-emerald-400 font-black text-sm\">\n                            <i class=\"fa-solid fa-right-to-bracket text-lg\"></i>\n                            <span>GİRİŞ BİRİMLERİ</span>\n                        </div>\n                        <p class=\"text-xs text-slate-300\">\n                            Bilgisayara dış dünyadan <strong>veri, ses, görüntü veya komut</strong> girmemizi sağlayan araçlardır.\n                        </p>\n                        <div class=\"p-2.5 bg-slate-900 rounded-xl border border-slate-700 text-xs space-y-1\">\n                            <p class=\"text-white font-bold\">Örnekler:</p>\n                            <p class=\"text-emerald-300\">• Klavye • Fare • Mikrofon</p>\n                            <p class=\"text-emerald-300\">• Web Kamerası • Tarayıcı</p>\n                            <p class=\"text-emerald-300\">• Joystick • Barkod Okuyucu</p>\n                        </div>\n                        <span class=\"text-[10px] text-slate-400 block text-center\">Akış: Dış Dünya ➔ Bilgisayar</span>\n                    </div>\n\n                    <!-- ÇIKIŞ BİRİMLERİ -->\n                    <div class=\"p-4 bg-slate-850 rounded-2xl border-2 border-cyan-500/60 space-y-2.5 shadow-lg\">\n                        <div class=\"flex items-center gap-2 text-cyan-400 font-black text-sm\">\n                            <i class=\"fa-solid fa-arrow-up-right-from-square text-lg\"></i>\n                            <span>ÇIKIŞ BİRİMLERİ</span>\n                        </div>\n                        <p class=\"text-xs text-slate-300\">\n                            Bilgisayarda işlenen bilgileri kullanıcıya <strong>görüntü, ses veya kağıt çıktısı</strong> olarak sunar.\n                        </p>\n                        <div class=\"p-2.5 bg-slate-900 rounded-xl border border-slate-700 text-xs space-y-1\">\n                            <p class=\"text-white font-bold\">Örnekler:</p>\n                            <p class=\"text-cyan-300\">• Monitör (Ekran)</p>\n                            <p class=\"text-cyan-300\">• Hoparlör • Kulaklık</p>\n                            <p class=\"text-cyan-300\">• Yazıcı (Printer)</p>\n                            <p class=\"text-cyan-300\">• Projeksiyon Cihazı</p>\n                        </div>\n                        <span class=\"text-[10px] text-slate-400 block text-center\">Akış: Bilgisayar ➔ Kullanıcı</span>\n                    </div>\n\n                    <!-- HEM GİRİŞ HEM ÇIKIŞ -->\n                    <div class=\"p-4 bg-slate-850 rounded-2xl border-2 border-purple-500/60 space-y-2.5 shadow-lg\">\n                        <div class=\"flex items-center gap-2 text-purple-400 font-black text-sm\">\n                            <i class=\"fa-solid fa-arrows-rotate text-lg\"></i>\n                            <span>HEM GİRİŞ HEM ÇIKIŞ</span>\n                        </div>\n                        <p class=\"text-xs text-slate-300\">\n                            Aynı anda veya farklı zamanlarda <strong>hem veri alabilen hem de veri gönderebilen</strong> cihazlardır.\n                        </p>\n                        <div class=\"p-2.5 bg-slate-900 rounded-xl border border-slate-700 text-xs space-y-1\">\n                            <p class=\"text-white font-bold\">Örnekler:</p>\n                            <p class=\"text-purple-300\">• Dokunmatik Ekran</p>\n                            <p class=\"text-purple-300\">• Modem (İki yönlü ağ)</p>\n                            <p class=\"text-purple-300\">• USB Bellek (Yazma/Okuma)</p>\n                            <p class=\"text-purple-300\">• Harici Sabit Disk</p>\n                        </div>\n                        <span class=\"text-[10px] text-slate-400 block text-center\">Akış: Çift Yönlü İletişim 🔁</span>\n                    </div>\n                </div>\n            </div>\n        "
+        "content": `
+            <div class="max-w-5xl mx-auto space-y-3 my-auto py-1">
+                <!-- Üst Görsel Şerit: Knolling Düzeninde Gerçek Çevre Birimleri -->
+                <div class="relative rounded-2xl overflow-hidden border-2 border-indigo-400/50 shadow-xl max-h-36 sm:max-h-40 group">
+                    <img src="assets/slides/giris_cikis_donanimlari.jpg" alt="Giriş ve Çıkış Donanımları" class="w-full h-36 sm:h-40 object-cover object-center group-hover:scale-105 transition-transform duration-700">
+                    <div class="absolute inset-0 bg-gradient-to-r from-slate-950/90 via-slate-950/40 to-slate-950/90 flex flex-wrap items-center justify-between px-4 py-2 pointer-events-none gap-2">
+                        <span class="px-3 py-1 bg-emerald-600/90 text-white font-black text-xs rounded-full border border-emerald-400/50 shadow-md">
+                            🟢 Giriş: Klavye, Fare, Mikrofon, Kamera
+                        </span>
+                        <span class="px-3 py-1 bg-cyan-600/90 text-white font-black text-xs rounded-full border border-cyan-400/50 shadow-md">
+                            🔵 Çıkış: Monitör, Kulaklık, Yazıcı
+                        </span>
+                        <span class="px-3 py-1 bg-purple-600/90 text-white font-black text-xs rounded-full border border-purple-400/50 shadow-md">
+                            🟣 Çift Yönlü: USB Bellek
+                        </span>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-3 text-left">
+                    <!-- GİRİŞ BİRİMLERİ -->
+                    <div class="p-3.5 bg-slate-850 rounded-2xl border-2 border-emerald-500/60 space-y-2 shadow-lg">
+                        <div class="flex items-center gap-2 text-emerald-400 font-black text-xs sm:text-sm">
+                            <i class="fa-solid fa-right-to-bracket text-base"></i>
+                            <span>GİRİŞ BİRİMLERİ</span>
+                        </div>
+                        <p class="text-xs text-slate-300">
+                            Bilgisayara dış dünyadan <strong>veri, ses, görüntü veya komut</strong> girmemizi sağlayan araçlardır.
+                        </p>
+                        <div class="p-2 bg-slate-900 rounded-xl border border-slate-700 text-xs space-y-0.5">
+                            <p class="text-white font-bold">Örnekler:</p>
+                            <p class="text-emerald-300">• Klavye • Fare • Mikrofon</p>
+                            <p class="text-emerald-300">• Web Kamerası • Tarayıcı • Joystick</p>
+                        </div>
+                        <span class="text-[10px] text-slate-400 block text-center">Akış: Dış Dünya ➔ Bilgisayar</span>
+                    </div>
+
+                    <!-- ÇIKIŞ BİRİMLERİ -->
+                    <div class="p-3.5 bg-slate-850 rounded-2xl border-2 border-cyan-500/60 space-y-2 shadow-lg">
+                        <div class="flex items-center gap-2 text-cyan-400 font-black text-xs sm:text-sm">
+                            <i class="fa-solid fa-arrow-up-right-from-square text-base"></i>
+                            <span>ÇIKIŞ BİRİMLERİ</span>
+                        </div>
+                        <p class="text-xs text-slate-300">
+                            Bilgisayarda işlenen bilgileri kullanıcıya <strong>görüntü, ses veya kağıt çıktısı</strong> olarak sunar.
+                        </p>
+                        <div class="p-2 bg-slate-900 rounded-xl border border-slate-700 text-xs space-y-0.5">
+                            <p class="text-white font-bold">Örnekler:</p>
+                            <p class="text-cyan-300">• Monitör (Ekran) • Hoparlör</p>
+                            <p class="text-cyan-300">• Kulaklık • Yazıcı • Projeksiyon</p>
+                        </div>
+                        <span class="text-[10px] text-slate-400 block text-center">Akış: Bilgisayar ➔ Kullanıcı</span>
+                    </div>
+
+                    <!-- HEM GİRİŞ HEM ÇIKIŞ -->
+                    <div class="p-3.5 bg-slate-850 rounded-2xl border-2 border-purple-500/60 space-y-2 shadow-lg">
+                        <div class="flex items-center gap-2 text-purple-400 font-black text-xs sm:text-sm">
+                            <i class="fa-solid fa-arrows-rotate text-base"></i>
+                            <span>HEM GİRİŞ HEM ÇIKIŞ</span>
+                        </div>
+                        <p class="text-xs text-slate-300">
+                            Aynı anda veya farklı zamanlarda <strong>hem veri alabilen hem de veri gönderebilen</strong> cihazlardır.
+                        </p>
+                        <div class="p-2 bg-slate-900 rounded-xl border border-slate-700 text-xs space-y-0.5">
+                            <p class="text-white font-bold">Örnekler:</p>
+                            <p class="text-purple-300">• Dokunmatik Ekran • Modem</p>
+                            <p class="text-purple-300">• USB Bellek • Harici Disk</p>
+                        </div>
+                        <span class="text-[10px] text-slate-400 block text-center">Akış: Çift Yönlü İletişim 🔁</span>
+                    </div>
+                </div>
+            </div>
+        `
     },
     {
         "id": 12,
@@ -273,7 +571,67 @@ window.WEEK5_CONTENT = {
         "icon": "fa-solid fa-network-wired",
         "bgColor": "from-blue-950 via-slate-900 to-indigo-950",
         "gradient": "from-blue-950 via-slate-900 to-indigo-950",
-        "content": "\n            <div class=\"max-w-5xl mx-auto space-y-5 my-auto py-2\">\n                <p class=\"text-xs sm:text-sm text-center text-slate-300 font-semibold\">\n                    Bilgisayarın donanım parçaları tek başına bir anlam ifade etmez; birlikte bir orkestra gibi çalışırlar!\n                </p>\n\n                <!-- 4 Aşamalı Akış Şeması -->\n                <div class=\"grid grid-cols-1 sm:grid-cols-4 gap-3 text-center\">\n                    <div class=\"p-4 bg-slate-850 rounded-2xl border-2 border-emerald-500/60 space-y-2 shadow-lg\">\n                        <div class=\"w-10 h-10 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-xl mx-auto\">\n                            <i class=\"fa-solid fa-keyboard\"></i>\n                        </div>\n                        <span class=\"px-2 py-0.5 bg-emerald-500/20 text-emerald-300 font-black text-[10px] rounded-full\">1. ADIM</span>\n                        <h4 class=\"text-sm font-black text-white\">GİRİŞ (Input)</h4>\n                        <p class=\"text-xs text-slate-300\">Kullanıcı klavye, fare veya mikrofonla veriyi gönderir.</p>\n                    </div>\n\n                    <div class=\"p-4 bg-slate-850 rounded-2xl border-2 border-cyan-500/60 space-y-2 shadow-lg\">\n                        <div class=\"w-10 h-10 rounded-xl bg-cyan-500/20 text-cyan-400 flex items-center justify-center text-xl mx-auto\">\n                            <i class=\"fa-solid fa-microchip\"></i>\n                        </div>\n                        <span class=\"px-2 py-0.5 bg-cyan-500/20 text-cyan-300 font-black text-[10px] rounded-full\">2. ADIM</span>\n                        <h4 class=\"text-sm font-black text-white\">İŞLEME (Process)</h4>\n                        <p class=\"text-xs text-slate-300\">İşlemci (CPU) ve RAM gelen komutu hesaplar ve çözer.</p>\n                    </div>\n\n                    <div class=\"p-4 bg-slate-850 rounded-2xl border-2 border-purple-500/60 space-y-2 shadow-lg\">\n                        <div class=\"w-10 h-10 rounded-xl bg-purple-500/20 text-purple-400 flex items-center justify-center text-xl mx-auto\">\n                            <i class=\"fa-solid fa-database\"></i>\n                        </div>\n                        <span class=\"px-2 py-0.5 bg-purple-500/20 text-purple-300 font-black text-[10px] rounded-full\">3. ADIM</span>\n                        <h4 class=\"text-sm font-black text-white\">SAKLAMA (Storage)</h4>\n                        <p class=\"text-xs text-slate-300\">Gerektiğinde SSD veya Sabit Diske kalıcı olarak kaydedilir.</p>\n                    </div>\n\n                    <div class=\"p-4 bg-slate-850 rounded-2xl border-2 border-amber-500/60 space-y-2 shadow-lg\">\n                        <div class=\"w-10 h-10 rounded-xl bg-amber-500/20 text-amber-400 flex items-center justify-center text-xl mx-auto\">\n                            <i class=\"fa-solid fa-desktop\"></i>\n                        </div>\n                        <span class=\"px-2 py-0.5 bg-amber-500/20 text-amber-300 font-black text-[10px] rounded-full\">4. ADIM</span>\n                        <h4 class=\"text-sm font-black text-white\">ÇIKIŞ (Output)</h4>\n                        <p class=\"text-xs text-slate-300\">Ekranda görüntü, hoparlörde ses veya yazıcıda çıktı olarak sunulur.</p>\n                    </div>\n                </div>\n\n                <div class=\"p-4 bg-slate-900/90 rounded-2xl border border-indigo-500/40 text-center text-xs sm:text-sm text-yellow-300 font-bold\">\n                    💡 Formül: <span class=\"text-white\">Veri Girişi</span> ➔ <span class=\"text-cyan-300\">İşlemci Analizi</span> ➔ <span class=\"text-purple-300\">Depolama</span> ➔ <span class=\"text-emerald-300\">Kullanıcıya Çıkış</span>\n                </div>\n            </div>\n        "
+        "content": `
+            <div class="max-w-5xl mx-auto space-y-3 my-auto py-1">
+                <div class="grid grid-cols-1 md:grid-cols-12 gap-3.5 items-center">
+                    <!-- Sol Taraf: Görsel Akış Şeması -->
+                    <div class="md:col-span-5 rounded-2xl overflow-hidden border-2 border-cyan-400/50 shadow-2xl group relative bg-slate-950">
+                        <img src="assets/slides/veri_isleme_dongusu.jpg" alt="Bilgisayarın Veri İşleme Döngüsü" class="w-full h-56 sm:h-64 object-cover object-center group-hover:scale-105 transition-transform duration-700">
+                        <div class="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-transparent to-transparent flex flex-col justify-end p-3 pointer-events-none">
+                            <span class="px-2.5 py-1 bg-cyan-500/90 text-white font-black text-xs rounded-lg shadow-md w-fit border border-cyan-300/40 mb-1">
+                                ⚡ Veri İşleme Döngüsü
+                            </span>
+                            <p class="text-[11px] text-slate-200 font-semibold drop-shadow">
+                                Giriş Verisi ➔ CPU İşlemci ➔ Depolama ➔ Monitör Çıktısı
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Sağ Taraf: 4 Adım -->
+                    <div class="md:col-span-7 grid grid-cols-2 gap-2.5 text-left">
+                        <div class="p-3 bg-slate-850 rounded-2xl border-2 border-emerald-500/60 space-y-1 shadow-lg">
+                            <div class="flex items-center justify-between">
+                                <span class="px-2 py-0.5 bg-emerald-500/20 text-emerald-300 font-black text-[10px] rounded-full">1. ADIM</span>
+                                <i class="fa-solid fa-keyboard text-emerald-400"></i>
+                            </div>
+                            <h4 class="text-xs sm:text-sm font-black text-white">GİRİŞ (Input)</h4>
+                            <p class="text-[11px] text-slate-300 leading-snug">Kullanıcı klavye, fare veya mikrofonla veriyi sisteme gönderir.</p>
+                        </div>
+
+                        <div class="p-3 bg-slate-850 rounded-2xl border-2 border-cyan-500/60 space-y-1 shadow-lg">
+                            <div class="flex items-center justify-between">
+                                <span class="px-2 py-0.5 bg-cyan-500/20 text-cyan-300 font-black text-[10px] rounded-full">2. ADIM</span>
+                                <i class="fa-solid fa-microchip text-cyan-400"></i>
+                            </div>
+                            <h4 class="text-xs sm:text-sm font-black text-white">İŞLEME (Process)</h4>
+                            <p class="text-[11px] text-slate-300 leading-snug">İşlemci (CPU) ve RAM gelen veriyi ışık hızında hesaplar ve çözer.</p>
+                        </div>
+
+                        <div class="p-3 bg-slate-850 rounded-2xl border-2 border-purple-500/60 space-y-1 shadow-lg">
+                            <div class="flex items-center justify-between">
+                                <span class="px-2 py-0.5 bg-purple-500/20 text-purple-300 font-black text-[10px] rounded-full">3. ADIM</span>
+                                <i class="fa-solid fa-database text-purple-400"></i>
+                            </div>
+                            <h4 class="text-xs sm:text-sm font-black text-white">SAKLAMA (Storage)</h4>
+                            <p class="text-[11px] text-slate-300 leading-snug">Gerektiğinde SSD veya Sabit Diske kalıcı olarak kaydedilir.</p>
+                        </div>
+
+                        <div class="p-3 bg-slate-850 rounded-2xl border-2 border-amber-500/60 space-y-1 shadow-lg">
+                            <div class="flex items-center justify-between">
+                                <span class="px-2 py-0.5 bg-amber-500/20 text-amber-300 font-black text-[10px] rounded-full">4. ADIM</span>
+                                <i class="fa-solid fa-desktop text-amber-400"></i>
+                            </div>
+                            <h4 class="text-xs sm:text-sm font-black text-white">ÇIKIŞ (Output)</h4>
+                            <p class="text-[11px] text-slate-300 leading-snug">Ekranda görüntü, hoparlörde ses veya yazıcıda çıktı olarak sunulur.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="p-3 bg-slate-900/90 rounded-2xl border border-indigo-500/40 text-center text-xs sm:text-sm text-yellow-300 font-bold">
+                    💡 Formül: <span class="text-white">Veri Girişi</span> ➔ <span class="text-cyan-300">İşlemci Analizi</span> ➔ <span class="text-purple-300">Depolama</span> ➔ <span class="text-emerald-300">Kullanıcıya Çıkış</span>
+                </div>
+            </div>
+        `
     },
     {
         "id": 17,
