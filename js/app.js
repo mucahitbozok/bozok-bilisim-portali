@@ -431,6 +431,18 @@ class App {
                         <span>3. Konu - 1'e Dön</span>
                     </button>
                 ` : ''}
+                ${String(this.currentWeek) === '5' ? `
+                    <button onclick="app.loadWeek('5_2')" class="px-3.5 py-2 bg-gradient-to-r from-amber-500 to-yellow-500 hover:from-amber-400 hover:to-yellow-400 text-slate-950 font-black text-xs rounded-xl shadow-lg flex items-center gap-1.5 transition-all hover:scale-105 active:scale-95" title="5. Konu - 2 (Yazılım, Kapasite Birimleri ve Dosya Yönetimi)">
+                        <i class="fa-solid fa-forward-step"></i>
+                        <span>5. Konu - 2'ye Geç 👉</span>
+                    </button>
+                ` : ''}
+                ${String(this.currentWeek) === '5_2' ? `
+                    <button onclick="app.loadWeek(5)" class="px-3.5 py-2 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-black text-xs rounded-xl shadow-lg flex items-center gap-1.5 transition-all hover:scale-105 active:scale-95" title="5. Konu - 1 (Bilgisayar ve Donanım: Giriş ve Çıkış Birimleri)">
+                        <i class="fa-solid fa-arrow-left"></i>
+                        <span>5. Konu - 1'e Dön</span>
+                    </button>
+                ` : ''}
                 ${hasVideos ? `
                     <button onclick="app.switchTab('videos')" class="px-4 py-2 bg-gradient-to-r from-rose-600 to-red-600 hover:from-rose-500 hover:to-red-500 text-white font-black text-xs rounded-xl shadow-lg flex items-center gap-2 transition-all hover:scale-105 active:scale-95" title="Konu Videoları">
                         <i class="fa-solid fa-circle-play"></i>
@@ -914,6 +926,16 @@ class App {
                 cevap: 'assets/worksheets/1.4_cevap.png',
                 konu: 'assets/worksheets/1.4_sayfa1.png',
                 soru: 'assets/worksheets/1.4_sayfa2.png'
+            },
+            5: {
+                konu: 'assets/worksheets/1.5_konu.png',
+                soru: 'assets/worksheets/1.5_soru.png',
+                cevap: 'assets/worksheets/1.5_cevap.png'
+            },
+            '5_2': {
+                konu: 'assets/worksheets/1.5_2_konu.png',
+                soru: 'assets/worksheets/1.5_2_soru.png',
+                cevap: 'assets/worksheets/1.5_2_cevap.png'
             }
         };
         if (defaultMap[weekNum] && defaultMap[weekNum][docType]) {

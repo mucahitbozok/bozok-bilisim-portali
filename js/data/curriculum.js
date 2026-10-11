@@ -62,13 +62,23 @@ const CURRICULUM_DATA = [
             },
             {
                 "week": 5,
-                "title": "Bilgisayar Sistemlerinin Kullanımı",
+                "title": "Bilgisayar ve Donanım (Giriş ve Çıkış Birimleri)",
                 "code": "BTY.5.1.5. Bilgisayar sistemlerini çözümleyebilme",
-                "outcome": "a) Bilgisayar sistemlerinin temel bileşenlerini belirler. b) Bilgisayar sistemlerinin temel bileşenleri arasındaki ilişkileri belirler.",
+                "outcome": "a) Bilgisayar sistemlerinin temel donanım bileşenlerini (iç ve dış donanım) belirler. b) Giriş ve çıkış birimlerini işlevlerine göre sınıflandırır ve aralarındaki ilişkiyi belirler.",
+                "isAvailable": true,
+                "badge": "Hazır",
+                "customLabel": "5. Konu - 1",
+                "customHeaderTitle": "5. Konu - 1: Bilgisayar ve Donanım (Giriş ve Çıkış Birimleri)"
+            },
+            {
+                "week": "5_2",
+                "title": "Yazılım, Kapasite Birimleri ve Dosya Yönetimi",
+                "code": "BTY.5.1.5 - BTY.5.1.6. Yazılım ve dosya yönetimini çözümleyebilme",
+                "outcome": "a) Yazılım türlerini ve donanım ile ilişkisini belirler. b) Hafıza ve kapasite birimlerini kavrar. c) Dosya ve klasör yönetimi işlemlerini çözümler.",
                 "isAvailable": false,
                 "badge": "Yakında",
-                "customLabel": "5. Konu",
-                "customHeaderTitle": "5. Konu: Bilgisayar Sistemlerinin Kullanımı"
+                "customLabel": "5. Konu - 2",
+                "customHeaderTitle": "5. Konu - 2: Yazılım, Kapasite Birimleri ve Dosya Yönetimi"
             },
             {
                 "week": 6,
