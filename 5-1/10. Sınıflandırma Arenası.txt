@@ -1,0 +1,50 @@
+# ANTIGRAVITY PROMPT — SINIFLANDIRMA ARENASI
+
+5. sınıf BTY.5.1.5 için bilgisayar donanımlarını sınıflandırmaya yönelik görsel ve etkileşimli bir oyun geliştir.
+
+**İki ayrı oyun modu oluştur:**
+
+**MOD A — İç ve Dış Donanım**
+- İç donanım
+- Dış donanım
+
+**MOD B — Veri Alışverişindeki Görev**
+- Giriş birimi
+- Çıkış birimi
+- Hem giriş hem çıkış işlevi
+
+Bu iki sınıflandırmayı tek bir kategori listesinde birleştirme. Öğrenci aynı cihazı iki ayrı ölçüte göre sınıflandırabilsin.
+
+**Cihaz kartları:**
+- Anakart
+- İşlemci
+- RAM
+- HDD
+- SSD
+- Ekran kartı
+- Klavye
+- Fare
+- Monitör
+- Yazıcı
+- Mikrofon
+- Hoparlör
+- Web kamerası
+- Dokunmatik ekran
+- USB bellek
+- Harici disk
+- Modem
+
+Her kartta büyük bir görsel, cihaz adı ve sürükleme alanı bulunsun.
+
+**Oynanış:**
+- Öğrenci cihazı uygun bölüme sürükler.
+- Dokunmatik kullanım için kartı seçip hedef bölüme dokunma seçeneği de ekle.
+- Doğru cevapta kısa açıklama göster.
+- Yanlış cevapta ipucu ver ve yeniden deneme imkânı sun.
+- Her modun sonunda cevapları gözden geçirme ekranı oluştur.
+
+**Teknik doğruluk:** USB bellek ve harici disk gibi cihazların depolama işlevini; veri okuyup yazabilmelerini açıkla. Modem gibi cihazların işlevlerini basitleştirirken veri alışverişini doğru anlat. İç/dış donanım ile giriş/çıkış görevlerinin farklı ölçütler olduğunu her iki modda da vurgula.
+
+Görseller yüksek kontrastlı ve birbirinden ayırt edilebilir olsun. Büyük sürükleme alanları, dokunmatik destek, puanlama, ilerleme göstergesi ve ana menü ekle.
+
+HTML, CSS ve JavaScript kullan. Uygulama çevrimdışı çalışsın, bütün butonlar işlevsel olsun ve öğrenci kişisel verilerini toplama.

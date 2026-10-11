@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hafıza Düellosu: Donanım Avcıları — 2 Kişilik Akıllı Tahta Oyunu</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            user-select: none;
+            -webkit-user-select: none;
+        }
+        .perspective-1000 {
+            perspective: 1000px;
+        }
+        .card-inner {
+            transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            transform-style: preserve-3d;
+        }
+        .card-inner.flipped {
+            transform: rotateY(180deg);
+        }
+        .card-face {
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+        }
+        .card-front {
+            transform: rotateY(180deg);
+        }
+        .active-p1-glow {
+            box-shadow: 0 0 20px rgba(6, 182, 212, 0.5);
+            border-color: #06b6d4 !important;
+        }
+        .active-p2-glow {
+            box-shadow: 0 0 20px rgba(244, 63, 94, 0.5);
+            border-color: #f43f5e !important;
+        }
+    </style>
+</head>
+<body class="bg-slate-950 text-white min-h-screen flex flex-col font-sans">
+
+    <!-- Header -->
+    <header class="bg-slate-900/90 border-b border-cyan-800/40 px-6 py-4 flex items-center justify-between shadow-lg sticky top-0 z-40 backdrop-blur">
+        <div class="flex items-center gap-4">
+            <a href="../index.html" class="bg-slate-800 hover:bg-slate-700 text-cyan-400 px-4 py-2 rounded-xl text-sm font-bold flex items-center gap-2 border border-cyan-500/30 transition">
+                <i class="fa-solid fa-arrow-left"></i> Portala Dön
+            </a>
+            <div>
+                <h1 class="text-xl md:text-2xl font-black bg-gradient-to-r from-cyan-400 via-indigo-400 to-rose-400 bg-clip-text text-transparent flex items-center gap-2">
+                    <i class="fa-solid fa-users text-cyan-400"></i> HAFIZA DÜELLOSU: DONANIM AVCILARI
+                </h1>
+                <p class="text-xs text-slate-400">BTY.5.1.5 — 2 Kişilik Sıralı Hafıza ve Donanım Düellosu (15 Tur)</p>
+            </div>
+        </div>
+        <div class="flex items-center gap-4">
+            <!-- Turn Counter -->
+            <div class="bg-slate-800/90 border border-slate-700 px-4 py-1.5 rounded-xl flex items-center gap-2 text-sm">
+                <span class="text-slate-400">Tur:</span>
+                <span id="turnCounterVal" class="font-black text-amber-300 text-base">1 / 15</span>
+            </div>
+            <!-- Matches Found Counter -->
+            <div class="bg-slate-800/90 border border-slate-700 px-4 py-1.5 rounded-xl flex items-center gap-2 text-sm">
+                <i class="fa-solid fa-clone text-emerald-400"></i>
+                <span class="text-slate-400">Eşleşme:</span>
+                <span id="matchesFoundVal" class="font-black text-emerald-300 text-base">0 / 6</span>
+            </div>
+            <button id="soundBtn" onclick="toggleSound()" class="w-10 h-10 rounded-xl bg-slate-800 hover:bg-slate-700 text-cyan-400 border border-slate-700 flex items-center justify-center transition">
+                <i id="soundIcon" class="fa-solid fa-volume-high"></i>
+            </button>
+            <button onclick="toggleFullscreen()" class="w-10 h-10 rounded-xl bg-slate-800 hover:bg-slate-700 text-cyan-400 border border-slate-700 flex items-center justify-center transition">
+                <i class="fa-solid fa-expand"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="flex-1 max-w-6xl mx-auto w-full p-4 md:p-6 flex flex-col gap-6">
+
+        <!-- START / LOBBY SCREEN (Modal style or Overlay) -->
+        <div id="startScreen" class="bg-gradient-to-b from-slate-900 via-indigo-950/70 to-slate-900 border-2 border-indigo-500/40 rounded-3xl p-8 shadow-2xl flex flex-col items-center text-center my-auto">
+            <div class="w-20 h-20 rounded-3xl bg-indigo-500/20 border-2 border-indigo-400 flex items-center justify-center text-4xl text-cyan-300 mb-4 shadow-xl">
+                <i class="fa-solid fa-swords text-amber-400"></i>
+            </div>
+            <h2 class="text-3xl md:text-4xl font-black text-white">HAFIZA DÜELLOSU: DONANIM AVCILARI</h2>
+            <p class="text-sm text-slate-300 mt-2 max-w-lg">
+                Akıllı tahtada karşılıklı iki kişi yarışın! Donanım parçaları ile görevlerini eşleştirip puanları toplayın!
+            </p>
+
+            <!-- Player Names Form -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 w-full max-w-md my-6">
+                <div class="bg-slate-950/80 border-2 border-cyan-500/40 rounded-2xl p-4 text-left">
+                    <label class="text-xs font-black uppercase text-cyan-400 block mb-1.5 flex items-center gap-2">
+                        <i class="fa-solid fa-user"></i> 1. Oyuncu Adı:
+                    </label>
+                    <input type="text" id="p1NameInput" value="Oyuncu 1" placeholder="Oyuncu 1"
+                           class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-white font-bold text-sm focus:border-cyan-400 focus:outline-none">
+                </div>
+                <div class="bg-slate-950/80 border-2 border-rose-500/40 rounded-2xl p-4 text-left">
+                    <label class="text-xs font-black uppercase text-rose-400 block mb-1.5 flex items-center gap-2">
+                        <i class="fa-solid fa-user"></i> 2. Oyuncu Adı:
+                    </label>
+                    <input type="text" id="p2NameInput" value="Oyuncu 2" placeholder="Oyuncu 2"
+                           class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-white font-bold text-sm focus:border-rose-400 focus:outline-none">
+                </div>
+            </div>
+
+            <!-- How to Play Rules -->
+            <div class="bg-slate-950/60 border border-slate-800 rounded-2xl p-4 max-w-md text-left text-xs text-slate-300 space-y-1.5 mb-6">
+                <div class="font-bold text-amber-400 mb-1 flex items-center gap-2">
+                    <i class="fa-solid fa-circle-question"></i> Oyun Kuralları:
+                </div>
+                <div>1. Oyuncular sırayla 2 kart açar.</div>
+                <div>2. Donanımın görseli ile görevi eşleşirse <b>+10 puan</b> kazanılır!</div>
+                <div>3. Toplam 15 tur sürer veya 6 eşleşme tamamlandığında düello biter.</div>
+            </div>
+
+            <!-- Start Button -->
+            <button onclick="startGame()" class="px-10 py-4 bg-gradient-to-r from-cyan-500 via-indigo-600 to-rose-600 hover:from-cyan-400 hover:to-rose-500 text-white font-black text-base rounded-2xl shadow-xl transition transform active:scale-95 flex items-center gap-3">
+                <i class="fa-solid fa-play"></i>
+                <span>DÜELLOYU BAŞLAT</span>
+            </button>
+        </div>
+
+        <!-- ACTIVE GAMEPLAY INTERFACE (Hidden initially) -->
+        <div id="gameplayInterface" class="hidden flex-col gap-6">
+
+            <!-- Players Dual Scoreboard -->
+            <div class="grid grid-cols-2 gap-4">
+                <!-- Player 1 Box -->
+                <div id="p1Box" class="bg-slate-900 border-2 border-cyan-500/30 rounded-3xl p-5 shadow-xl transition flex items-center justify-between">
+                    <div class="flex items-center gap-4">
+                        <div class="w-14 h-14 rounded-2xl bg-cyan-500/20 border border-cyan-400/40 text-cyan-300 flex items-center justify-center text-2xl font-black">
+                            <i class="fa-solid fa-user"></i>
+                        </div>
+                        <div>
+                            <span id="p1NameDisplay" class="font-black text-base md:text-lg text-white block">Oyuncu 1</span>
+                            <span class="text-xs text-cyan-400 font-bold uppercase">1. Yarışmacı</span>
+                        </div>
+                    </div>
+                    <div class="text-right">
+                        <span class="text-[10px] text-slate-400 uppercase font-bold block">Puan</span>
+                        <span id="p1ScoreVal" class="text-3xl font-black text-cyan-400">0</span>
+                    </div>
+                </div>
+
+                <!-- Player 2 Box -->
+                <div id="p2Box" class="bg-slate-900 border-2 border-rose-500/30 rounded-3xl p-5 shadow-xl transition flex items-center justify-between">
+                    <div class="flex items-center gap-4">
+                        <div class="w-14 h-14 rounded-2xl bg-rose-500/20 border border-rose-400/40 text-rose-300 flex items-center justify-center text-2xl font-black">
+                            <i class="fa-solid fa-user"></i>
+                        </div>
+                        <div>
+                            <span id="p2NameDisplay" class="font-black text-base md:text-lg text-white block">Oyuncu 2</span>
+                            <span class="text-xs text-rose-400 font-bold uppercase">2. Yarışmacı</span>
+                        </div>
+                    </div>
+                    <div class="text-right">
+                        <span class="text-[10px] text-slate-400 uppercase font-bold block">Puan</span>
+                        <span id="p2ScoreVal" class="text-3xl font-black text-rose-400">0</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Current Turn Notification Banner -->
+            <div id="turnBanner" class="bg-slate-900/80 border border-slate-800 rounded-2xl px-5 py-3 flex items-center justify-between shadow-lg">
+                <div class="flex items-center gap-3">
+                    <div id="turnDot" class="w-3.5 h-3.5 rounded-full bg-cyan-400 animate-ping"></div>
+                    <span class="text-xs uppercase font-extrabold text-slate-400">Hamle Sırası:</span>
+                    <span id="activePlayerName" class="text-base font-black text-cyan-300">Oyuncu 1</span>
+                </div>
+                <div id="statusMessage" class="text-xs text-slate-300 font-medium">
+                    İki kart açarak eşleşen donanım ve görevi bul!
+                </div>
+            </div>
+
+            <!-- 12 Cards Grid Arena -->
+            <div id="duelCardsGrid" class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-3 md:gap-4 py-2">
+                <!-- 12 Cards -->
+            </div>
+
+            <!-- Educational Feedback Bar for Match -->
+            <div id="duelFeedbackBox" class="hidden bg-slate-900 border border-emerald-500/50 rounded-2xl p-4 shadow-xl flex items-center gap-3">
+                <div class="w-10 h-10 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-xl flex-shrink-0">
+                    <i class="fa-solid fa-lightbulb"></i>
+                </div>
+                <div class="text-xs">
+                    <span id="feedbackTitle" class="font-black text-emerald-400 text-sm block">Harika Eşleşme! (+10 Puan)</span>
+                    <span id="feedbackDesc" class="text-slate-300 mt-0.5 block leading-relaxed"></span>
+                </div>
+            </div>
+
+            <!-- Bottom Navigation / Restart Bar -->
+            <div class="flex items-center justify-between pt-2">
+                <div class="flex gap-2">
+                    <button onclick="pauseOrResumeGame()" id="pauseBtn" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-xl text-xs font-bold border border-slate-700 transition">
+                        <i class="fa-solid fa-pause"></i> Duraklat
+                    </button>
+                    <button onclick="confirmRestartGame()" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-xl text-xs font-bold border border-slate-700 transition">
+                        <i class="fa-solid fa-rotate-right"></i> Yeniden Başlat
+                    </button>
+                </div>
+                <button onclick="returnToStartLobby()" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-xl text-xs font-bold border border-slate-700 transition">
+                    <i class="fa-solid fa-house"></i> Ana Menü
+                </button>
+            </div>
+
+        </div>
+
+    </main>
+
+    <!-- Final Winner & Teacher Wrap-up Modal -->
+    <div id="duelWinModal" class="hidden fixed inset-0 z-50 bg-black/85 backdrop-blur-md flex items-center justify-center p-4">
+        <div class="bg-gradient-to-b from-slate-900 to-indigo-950 border-2 border-cyan-400/80 rounded-3xl max-w-2xl w-full p-8 shadow-2xl text-center relative max-h-[95vh] overflow-y-auto">
+            <div class="w-20 h-20 mx-auto rounded-3xl bg-amber-500/20 border-2 border-amber-400 flex items-center justify-center text-4xl text-amber-300 mb-4 animate-bounce">
+                <i class="fa-solid fa-trophy"></i>
+            </div>
+            <h2 id="duelWinnerTitle" class="text-2xl md:text-3xl font-black text-white">DÜELLO TAMAMLANDI!</h2>
+            <p id="duelWinnerSubtitle" class="text-sm text-cyan-200 mt-1">
+                KAZANAN: OYUNCU 1!
+            </p>
+
+            <!-- Final Scoreboard Cards -->
+            <div class="grid grid-cols-2 gap-4 my-6">
+                <div class="bg-slate-950/80 border border-cyan-500/40 rounded-2xl p-4">
+                    <span id="finalP1Name" class="text-xs font-black text-cyan-400 uppercase block">Oyuncu 1</span>
+                    <span id="finalP1Score" class="text-3xl font-black text-white mt-1 block">40 Puan</span>
+                </div>
+                <div class="bg-slate-950/80 border border-rose-500/40 rounded-2xl p-4">
+                    <span id="finalP2Name" class="text-xs font-black text-rose-400 uppercase block">Oyuncu 2</span>
+                    <span id="finalP2Score" class="text-3xl font-black text-white mt-1 block">20 Puan</span>
+                </div>
+            </div>
+
+            <!-- Teacher Wrap-up Evaluation Questions (Required by prompt) -->
+            <div class="bg-slate-950/90 border border-slate-800 rounded-2xl p-5 my-4 text-left space-y-3 text-xs">
+                <div class="font-bold text-amber-400 text-sm mb-1 flex items-center gap-2">
+                    <i class="fa-solid fa-chalkboard-user"></i> Öğretmen Bozok Sınıf İçi Değerlendirme Soruları:
+                </div>
+                <div class="bg-slate-900 p-2.5 rounded-xl border border-slate-800">
+                    <b class="text-cyan-300">1. Soru:</b> Bilgisayar donanımı ne demektir?
+                </div>
+                <div class="bg-slate-900 p-2.5 rounded-xl border border-slate-800">
+                    <b class="text-cyan-300">2. Soru:</b> RAM ile depolama birimi (SSD/HDD) arasındaki temel fark nedir?
+                </div>
+                <div class="bg-slate-900 p-2.5 rounded-xl border border-slate-800">
+                    <b class="text-cyan-300">3. Soru:</b> Klavye ve fare bilgisayarda hangi amaçlarla kullanılır?
+                </div>
+            </div>
+
+            <div class="flex items-center justify-center gap-4 mt-6">
+                <button onclick="startGame()" class="px-6 py-3 bg-indigo-600 hover:bg-indigo-500 text-white font-bold rounded-xl transition flex items-center gap-2">
+                    <i class="fa-solid fa-rotate-right"></i> Yeniden Oyna
+                </button>
+                <a href="../index.html" class="px-6 py-3 bg-cyan-600 hover:bg-cyan-500 text-white font-bold rounded-xl transition flex items-center gap-2">
+                    <i class="fa-solid fa-house"></i> Portala Dön
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Audio FX -->
+    <script>
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        let soundEnabled = true;
+
+        function playSound(type) {
+            if (!soundEnabled) return;
+            try {
+                if (audioCtx.state === 'suspended') audioCtx.resume();
+                const now = audioCtx.currentTime;
+
+                if (type === 'flip') {
+                    const osc = audioCtx.createOscillator();
+                    const gain = audioCtx.createGain();
+                    osc.connect(gain);
+                    gain.connect(audioCtx.destination);
+                    osc.type = 'triangle';
+                    osc.frequency.setValueAtTime(450, now);
+                    osc.frequency.linearRampToValueAtTime(800, now + 0.08);
+                    gain.gain.setValueAtTime(0.12, now);
+                    gain.gain.exponentialRampToValueAtTime(0.01, now + 0.08);
+                    osc.start(now);
+                    osc.stop(now + 0.08);
+                } else if (type === 'match') {
+                    [523.25, 659.25, 783.99, 1046.50].forEach((f, i) => {
+                        const osc = audioCtx.createOscillator();
+                        const gain = audioCtx.createGain();
+                        osc.connect(gain);
+                        gain.connect(audioCtx.destination);
+                        osc.frequency.setValueAtTime(f, now + i * 0.08);
+                        gain.gain.setValueAtTime(0.18, now + i * 0.08);
+                        gain.gain.exponentialRampToValueAtTime(0.01, now + i * 0.08 + 0.15);
+                        osc.start(now + i * 0.08);
+                        osc.stop(now + i * 0.08 + 0.15);
+                    });
+                } else if (type === 'nomatch') {
+                    const osc = audioCtx.createOscillator();
+                    const gain = audioCtx.createGain();
+                    osc.connect(gain);
+                    gain.connect(audioCtx.destination);
+                    osc.type = 'sawtooth';
+                    osc.frequency.setValueAtTime(220, now);
+                    osc.frequency.linearRampToValueAtTime(140, now + 0.2);
+                    gain.gain.setValueAtTime(0.2, now);
+                    gain.gain.exponentialRampToValueAtTime(0.01, now + 0.2);
+                    osc.start(now);
+                    osc.stop(now + 0.2);
+                }
+            } catch (e) {}
+        }
+
+        function toggleSound() {
+            soundEnabled = !soundEnabled;
+            document.getElementById('soundIcon').className = soundEnabled ? 'fa-solid fa-volume-high' : 'fa-solid fa-volume-xmark';
+        }
+
+        function toggleFullscreen() {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen().catch(() => {});
+            } else {
+                document.exitFullscreen().catch(() => {});
+            }
+        }
+    </script>
+
+    <!-- Duel Game Engine -->
+    <script>
+        // 6 Pairs of Cards (Total 12 Cards)
+        const HARDWARE_PAIRS = [
+            {
+                pairId: 'anakart',
+                name: 'Anakart',
+                icon: 'fa-chess-board',
+                roleDesc: 'Bilgisayarın tüm parçalarını birbirine bağlayan temel ana devre kartı.',
+                shortRole: 'Parçaları birbirine bağlayan ana devre kartı'
+            },
+            {
+                pairId: 'islemci',
+                name: 'İşlemci (CPU)',
+                icon: 'fa-microchip',
+                roleDesc: 'Komutları işleyen ve işlemleri gerçekleştiren bilgisayarın beyni.',
+                shortRole: 'Komutları işleyen ve hesaplayan beyin'
+            },
+            {
+                pairId: 'ram',
+                name: 'RAM Bellek',
+                icon: 'fa-memory',
+                roleDesc: 'Bilgisayar açıkken çalışan programların tutulduğu geçici bellektir.',
+                shortRole: 'Çalışan programların geçici çalışma belleği'
+            },
+            {
+                pairId: 'depolama',
+                name: 'Depolama (SSD/HDD)',
+                icon: 'fa-hard-drive',
+                roleDesc: 'Dosyaların, oyunların ve bilgilerin kalıcı olarak saklanmasını sağlar.',
+                shortRole: 'Dosyaları kalıcı olarak saklayan depolama birimi'
+            },
+            {
+                pairId: 'klavye',
+                name: 'Klavye',
+                icon: 'fa-keyboard',
+                roleDesc: 'Bilgisayara yazı ve komut girmeyi sağlayan temel giriş birimidir.',
+                shortRole: 'Yazı ve komut girmeyi sağlayan giriş birimi'
+            },
+            {
+                pairId: 'fare',
+                name: 'Fare',
+                icon: 'fa-computer-mouse',
+                roleDesc: 'Ekrandaki imleci kontrol etmeyi ve tıklayarak seçim yapmayı sağlar.',
+                shortRole: 'İmleci yönetip seçim yaptıran giriş birimi'
+            }
+        ];
+
+        let p1Name = "Oyuncu 1";
+        let p2Name = "Oyuncu 2";
+        let p1Score = 0;
+        let p2Score = 0;
+        let activePlayer = 1; // 1 or 2
+        let currentTurn = 1;
+        const maxTurns = 15;
+        let matchedPairsCount = 0;
+
+        let deck = [];
+        let openCards = [];
+        let isProcessing = false;
+        let isPaused = false;
+
+        function startGame() {
+            // Get names or default
+            const p1Input = document.getElementById('p1NameInput').value.trim();
+            const p2Input = document.getElementById('p2NameInput').value.trim();
+            p1Name = p1Input || "Oyuncu 1";
+            p2Name = p2Input || "Oyuncu 2";
+
+            p1Score = 0;
+            p2Score = 0;
+            activePlayer = 1;
+            currentTurn = 1;
+            matchedPairsCount = 0;
+            openCards = [];
+            isProcessing = false;
+            isPaused = false;
+
+            document.getElementById('p1NameDisplay').textContent = p1Name;
+            document.getElementById('p2NameDisplay').textContent = p2Name;
+            document.getElementById('p1ScoreVal').textContent = '0';
+            document.getElementById('p2ScoreVal').textContent = '0';
+
+            document.getElementById('startScreen').classList.add('hidden');
+            document.getElementById('duelWinModal').classList.add('hidden');
+            document.getElementById('gameplayInterface').classList.remove('hidden');
+            document.getElementById('gameplayInterface').classList.add('flex');
+
+            buildDeck();
+            renderDuelCards();
+            updateTurnUI();
+        }
+
+        function buildDeck() {
+            deck = [];
+            HARDWARE_PAIRS.forEach(p => {
+                // Card Type 1: Name & Icon
+                deck.push({
+                    id: `${p.pairId}_img`,
+                    pairId: p.pairId,
+                    type: 'visual',
+                    name: p.name,
+                    icon: p.icon,
+                    text: p.name,
+                    roleDesc: p.roleDesc,
+                    isMatched: false
+                });
+
+                // Card Type 2: Role / Mission Text
+                deck.push({
+                    id: `${p.pairId}_role`,
+                    pairId: p.pairId,
+                    type: 'role',
+                    name: p.name,
+                    icon: p.icon,
+                    text: p.shortRole,
+                    roleDesc: p.roleDesc,
+                    isMatched: false
+                });
+            });
+
+            // Shuffle Deck
+            for (let i = deck.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [deck[i], deck[j]] = [deck[j], deck[i]];
+            }
+        }
+
+        function renderDuelCards() {
+            const grid = document.getElementById('duelCardsGrid');
+            grid.innerHTML = '';
+
+            deck.forEach((card, index) => {
+                const cardWrap = document.createElement('div');
+                cardWrap.className = "perspective-1000 h-40 md:h-44 cursor-pointer";
+                cardWrap.onclick = () => handleCardFlip(index, cardWrap);
+
+                const inner = document.createElement('div');
+                inner.id = `duelCardInner_${index}`;
+                inner.className = `card-inner relative w-full h-full rounded-2xl shadow-xl`;
+
+                // Back face (Default covered)
+                const back = document.createElement('div');
+                back.className = "card-face absolute inset-0 bg-slate-900 border-2 border-slate-700 hover:border-cyan-400 rounded-2xl p-3 flex flex-col items-center justify-center text-center transition";
+                back.innerHTML = `
+                    <div class="w-12 h-12 rounded-xl bg-slate-800 flex items-center justify-center text-2xl text-cyan-400 mb-1 border border-slate-700">
+                        <i class="fa-solid fa-microchip"></i>
+                    </div>
+                    <span class="text-[10px] uppercase font-bold text-slate-500 tracking-wider">Hafıza Kartı</span>
+                `;
+
+                // Front face (Flipped / Revealed)
+                const front = document.createElement('div');
+                const isVisual = card.type === 'visual';
+                const borderColor = isVisual ? 'border-cyan-500' : 'border-purple-500';
+                const tagColor = isVisual ? 'bg-cyan-950 text-cyan-300' : 'bg-purple-950 text-purple-300';
+                const tagText = isVisual ? 'Donanım' : 'Görevi';
+
+                front.className = `card-face card-front absolute inset-0 bg-slate-900 border-2 ${borderColor} rounded-2xl p-3 flex flex-col items-center justify-center text-center`;
+                front.innerHTML = `
+                    <span class="text-[9px] uppercase font-black px-2 py-0.5 rounded-full ${tagColor} mb-1">${tagText}</span>
+                    <div class="w-10 h-10 rounded-lg bg-slate-800 flex items-center justify-center text-2xl text-cyan-400 mb-1">
+                        <i class="fa-solid ${card.icon}"></i>
+                    </div>
+                    <span class="font-extrabold text-xs text-white leading-tight">${card.text}</span>
+                `;
+
+                inner.appendChild(back);
+                inner.appendChild(front);
+                cardWrap.appendChild(inner);
+                grid.appendChild(cardWrap);
+            });
+        }
+
+        function handleCardFlip(index, cardWrap) {
+            if (isProcessing || isPaused) return;
+            const card = deck[index];
+            if (card.isMatched) return;
+
+            // Check if already open
+            if (openCards.some(c => c.index === index)) return;
+
+            // Flip
+            playSound('flip');
+            const inner = document.getElementById(`duelCardInner_${index}`);
+            inner.classList.add('flipped');
+            openCards.push({ index, card, el: inner });
+
+            if (openCards.length === 2) {
+                isProcessing = true;
+                evaluateTurnMatch();
+            }
+        }
+
+        function evaluateTurnMatch() {
+            const [c1, c2] = openCards;
+            const isMatch = (c1.card.pairId === c2.card.pairId);
+
+            if (isMatch) {
+                // Correct match!
+                playSound('match');
+                c1.card.isMatched = true;
+                c2.card.isMatched = true;
+                matchedPairsCount++;
+
+                // Give points to active player
+                if (activePlayer === 1) {
+                    p1Score += 10;
+                    document.getElementById('p1ScoreVal').textContent = p1Score;
+                } else {
+                    p2Score += 10;
+                    document.getElementById('p2ScoreVal').textContent = p2Score;
+                }
+
+                // Show Educational Feedback
+                const fbBox = document.getElementById('duelFeedbackBox');
+                fbBox.classList.remove('hidden');
+                document.getElementById('feedbackTitle').textContent = `Harika Eşleşme! (+10 Puan — ${activePlayer === 1 ? p1Name : p2Name})`;
+                document.getElementById('feedbackDesc').textContent = `${c1.card.name}: ${c1.card.roleDesc}`;
+
+                // Mark cards visually with green border
+                c1.el.querySelector('.card-front').classList.add('border-emerald-400', 'bg-emerald-950/40');
+                c2.el.querySelector('.card-front').classList.add('border-emerald-400', 'bg-emerald-950/40');
+
+                setTimeout(() => {
+                    fbBox.classList.add('hidden');
+                    advanceTurn();
+                }, 1800);
+
+            } else {
+                // No match
+                playSound('nomatch');
+                setTimeout(() => {
+                    c1.el.classList.remove('flipped');
+                    c2.el.classList.remove('flipped');
+                    advanceTurn();
+                }, 1200);
+            }
+        }
+
+        function advanceTurn() {
+            openCards = [];
+            isProcessing = false;
+
+            // Check Game Over conditions
+            if (matchedPairsCount >= 6 || currentTurn >= maxTurns) {
+                endDuelGame();
+                return;
+            }
+
+            // Next Turn
+            currentTurn++;
+            activePlayer = (activePlayer === 1) ? 2 : 1;
+            updateTurnUI();
+        }
+
+        function updateTurnUI() {
+            document.getElementById('turnCounterVal').textContent = `${currentTurn} / ${maxTurns}`;
+            document.getElementById('matchesFoundVal').textContent = `${matchedPairsCount} / 6`;
+
+            const p1Box = document.getElementById('p1Box');
+            const p2Box = document.getElementById('p2Box');
+            const activeName = document.getElementById('activePlayerName');
+            const turnDot = document.getElementById('turnDot');
+
+            if (activePlayer === 1) {
+                p1Box.classList.add('active-p1-glow');
+                p2Box.classList.remove('active-p2-glow');
+                activeName.textContent = p1Name;
+                activeName.className = "text-base font-black text-cyan-400";
+                turnDot.className = "w-3.5 h-3.5 rounded-full bg-cyan-400 animate-ping";
+            } else {
+                p2Box.classList.add('active-p2-glow');
+                p1Box.classList.remove('active-p1-glow');
+                activeName.textContent = p2Name;
+                activeName.className = "text-base font-black text-rose-400";
+                turnDot.className = "w-3.5 h-3.5 rounded-full bg-rose-400 animate-ping";
+            }
+        }
+
+        function endDuelGame() {
+            playSound('match');
+            const modal = document.getElementById('duelWinModal');
+
+            document.getElementById('finalP1Name').textContent = p1Name;
+            document.getElementById('finalP1Score').textContent = `${p1Score} Puan`;
+            document.getElementById('finalP2Name').textContent = p2Name;
+            document.getElementById('finalP2Score').textContent = `${p2Score} Puan`;
+
+            const subTitle = document.getElementById('duelWinnerSubtitle');
+            if (p1Score > p2Score) {
+                subTitle.textContent = `🏆 KAZANAN: ${p1Name.toUpperCase()}! TEBRİKLER!`;
+                subTitle.className = "text-sm text-cyan-400 font-bold mt-1";
+            } else if (p2Score > p1Score) {
+                subTitle.textContent = `🏆 KAZANAN: ${p2Name.toUpperCase()}! TEBRİKLER!`;
+                subTitle.className = "text-sm text-rose-400 font-bold mt-1";
+            } else {
+                subTitle.textContent = `🤝 BERABERE! HER İKİ OYUNCU DA HARİKA MÜCADELE ETTİ!`;
+                subTitle.className = "text-sm text-amber-400 font-bold mt-1";
+            }
+
+            modal.classList.remove('hidden');
+        }
+
+        function pauseOrResumeGame() {
+            isPaused = !isPaused;
+            const btn = document.getElementById('pauseBtn');
+            btn.innerHTML = isPaused ? `<i class="fa-solid fa-play"></i> Devam Et` : `<i class="fa-solid fa-pause"></i> Duraklat`;
+        }
+
+        function confirmRestartGame() {
+            if (confirm("Oyunu sıfırlayıp baştan başlatmak istediğine emin misin?")) {
+                startGame();
+            }
+        }
+
+        function returnToStartLobby() {
+            document.getElementById('gameplayInterface').classList.add('hidden');
+            document.getElementById('gameplayInterface').classList.remove('flex');
+            document.getElementById('startScreen').classList.remove('hidden');
+        }
+
+        window.onload = () => {
+            // Screen is in lobby mode initially
+        };
+    </script>
+</body>
+</html>

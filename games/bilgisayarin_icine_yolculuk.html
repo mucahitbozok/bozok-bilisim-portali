@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bilgisayarın İçine Yolculuk | Öğretmen Bozok</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&family=Orbitron:wght@700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <style>
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        body { background: #060a17; color: #f8fafc; font-family: 'Poppins', sans-serif; min-height: 100vh; }
+        .glass-panel { background: rgba(15, 23, 42, 0.94); backdrop-filter: blur(14px); border: 2px solid rgba(6, 182, 212, 0.3); }
+        .part-hotspot { transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1); cursor: pointer; }
+        .part-hotspot:hover { transform: scale(1.04); box-shadow: 0 0 20px rgba(6, 182, 212, 0.6); }
+        .animate-pop { animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        @keyframes popIn { 0% { transform: scale(0.92); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
+    </style>
+</head>
+<body class="p-3 sm:p-6 flex flex-col justify-between">
+
+    <!-- ÜST ÇUBUK -->
+    <header class="max-w-6xl w-full mx-auto flex items-center justify-between pb-4 border-b border-cyan-500/20">
+        <div class="flex items-center gap-3">
+            <div class="w-12 h-12 rounded-2xl bg-cyan-500/20 text-cyan-400 border border-cyan-500/40 flex items-center justify-center text-2xl shadow-lg">
+                <i class="fa-solid fa-box-open"></i>
+            </div>
+            <div>
+                <span class="px-2.5 py-0.5 bg-cyan-400/20 text-cyan-300 font-extrabold text-[10px] tracking-widest rounded-full uppercase border border-cyan-400/30">
+                    BTY.5.1.5 • İÇ DONANIM LABORATUVARI
+                </span>
+                <h1 class="text-xl sm:text-2xl font-black text-white tracking-tight flex items-center gap-2">
+                    BİLGİSAYARIN İÇİNE YOLCULUK
+                </h1>
+            </div>
+        </div>
+
+        <div class="flex items-center gap-2 sm:gap-3">
+            <!-- Mod Seçiciler -->
+            <div class="hidden sm:flex bg-slate-900 p-1 rounded-xl border border-slate-700 text-xs font-bold">
+                <button onclick="app.setMode('explore')" id="btn-explore" class="px-3 py-1.5 rounded-lg bg-cyan-600 text-white transition-all">Keşif Modu</button>
+                <button onclick="app.setMode('clue')" id="btn-clue" class="px-3 py-1.5 rounded-lg text-slate-400 hover:text-white transition-all">İpucu Avı</button>
+                <button onclick="app.setMode('assemble')" id="btn-assemble" class="px-3 py-1.5 rounded-lg text-slate-400 hover:text-white transition-all">Kasa Montajı</button>
+            </div>
+
+            <div class="px-3 py-1.5 rounded-xl bg-slate-900 border border-slate-700 text-xs font-bold text-amber-300 flex items-center gap-2">
+                <i class="fa-solid fa-star text-amber-400"></i>
+                <span>Puan: <strong id="score-val" class="text-white text-sm">0</strong></span>
+            </div>
+            <button onclick="app.toggleSound()" id="sound-btn" class="w-10 h-10 rounded-xl bg-slate-900 border border-slate-700 text-cyan-400 flex items-center justify-center hover:bg-slate-800 transition-all">
+                <i class="fa-solid fa-volume-high"></i>
+            </button>
+            <button onclick="app.reset()" class="w-10 h-10 rounded-xl bg-slate-900 border border-slate-700 text-slate-300 flex items-center justify-center hover:bg-slate-800 transition-all">
+                <i class="fa-solid fa-rotate-right"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- MOBİL İÇİN MOD BUTONLARI -->
+    <div class="sm:hidden flex justify-center gap-2 my-2">
+        <button onclick="app.setMode('explore')" id="m-btn-explore" class="px-2.5 py-1 text-xs rounded-lg bg-cyan-600 text-white font-bold">Keşif</button>
+        <button onclick="app.setMode('clue')" id="m-btn-clue" class="px-2.5 py-1 text-xs rounded-lg bg-slate-800 text-slate-300 font-bold">İpucu Avı</button>
+        <button onclick="app.setMode('assemble')" id="m-btn-assemble" class="px-2.5 py-1 text-xs rounded-lg bg-slate-800 text-slate-300 font-bold">Montaj</button>
+    </div>
+
+    <!-- ANA İÇERİK KONTEYNERİ -->
+    <main id="main-content" class="max-w-6xl w-full mx-auto my-auto py-3 flex-1 flex flex-col justify-center">
+        <!-- Dinamik mod içeriği buraya basılır -->
+    </main>
+
+    <!-- ALT BİLGİ -->
+    <footer class="max-w-6xl w-full mx-auto text-center pt-3 border-t border-slate-800 text-xs text-slate-400 flex flex-col sm:flex-row items-center justify-between gap-2">
+        <span>🗄️ BTY.5.1.5: Kasanın içindeki anakart, işlemci, RAM, depolama ve soğutma parçalarını keşfet!</span>
+        <span class="text-cyan-400/80 font-semibold">Öğretmen Bozok • Bozok Bilişim Portalı</span>
+    </footer>
+
+    <script>
+        // Web Audio Synthesizer
+        const sfx = {
+            ctx: null,
+            enabled: true,
+            init() {
+                if (!this.ctx) {
+                    const AC = window.AudioContext || window.webkitAudioContext;
+                    if (AC) this.ctx = new AC();
+                }
+            },
+            play(freq, type = 'sine', duration = 0.12, vol = 0.2) {
+                if (!this.enabled) return;
+                this.init();
+                if (!this.ctx) return;
+                try {
+                    const osc = this.ctx.createOscillator();
+                    const gain = this.ctx.createGain();
+                    osc.type = type;
+                    osc.frequency.setValueAtTime(freq, this.ctx.currentTime);
+                    gain.gain.setValueAtTime(vol, this.ctx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + duration);
+                    osc.connect(gain);
+                    gain.connect(this.ctx.destination);
+                    osc.start();
+                    osc.stop(this.ctx.currentTime + duration);
+                } catch(e) {}
+            },
+            click() { this.play(550, 'sine', 0.08, 0.15); },
+            correct() {
+                if (!this.enabled) return;
+                this.init();
+                [523, 659, 784, 1046].forEach((f, i) => setTimeout(() => this.play(f, 'triangle', 0.18, 0.2), i * 80));
+            },
+            wrong() {
+                if (!this.enabled) return;
+                this.init();
+                this.play(200, 'sawtooth', 0.25, 0.2);
+            },
+            win() {
+                if (!this.enabled) return;
+                this.init();
+                [440, 554, 659, 880, 1108].forEach((f, i) => setTimeout(() => this.play(f, 'sine', 0.3, 0.25), i * 100));
+            }
+        };
+
+        const PARTS = [
+            { id: "anakart", name: "Anakart", role: "Tüm parçaların üzerine takıldığı, parçalar arası iletişimi sağlayan ana devre kartıdır (İskelet/Otoyol).", icon: "fa-chess-board", color: "indigo" },
+            { id: "cpu", name: "İşlemci (CPU)", role: "Bilgisayarın beynidir! Tüm matematiksel hesaplamaları ve komutları ışık hızında işler.", icon: "fa-microchip", color: "cyan" },
+            { id: "ram", name: "RAM Bellek", role: "Geçici hafızadır. Bilgisayar açıkken çalışan programların verilerini tutar, kapatılınca silinir.", icon: "fa-memory", color: "emerald" },
+            { id: "ssd", name: "SSD (Katı Hal Sürücüsü)", role: "Yeni nesil kalıcı depolama! Dosyaları, oyunları ve işletim sistemini çok hızlı ve kalıcı saklar.", icon: "fa-bolt-lightning", color: "rose" },
+            { id: "hdd", name: "Sabit Disk (HDD)", role: "Mekanik manyetik diskler üzerinde verileri kalıcı depolayan geniş kapasiteli depolama aygıtıdır.", icon: "fa-hard-drive", color: "amber" },
+            { id: "gpu", name: "Ekran Kartı (GPU)", role: "Görüntüleri işleyip monitöre yüksek kalitede aktaran özel grafik donanımıdır.", icon: "fa-vr-cardboard", color: "purple" },
+            { id: "psu", name: "Güç Kaynağı (PSU)", role: "Şehir elektriğini (220V) bilgisayar parçalarının güvenle kullanabileceği seviyeye dönüştürür.", icon: "fa-plug", color: "yellow" },
+            { id: "fan", name: "Soğutucu (Fan)", role: "İşlemcinin ve kasanın aşırı ısınıp yanmasını ya da yavaşlamasını önleyen fan ve soğutma bloğudur.", icon: "fa-fan", color: "teal" }
+        ];
+
+        class InsideCaseGame {
+            constructor() {
+                this.mode = 'explore'; // explore, clue, assemble
+                this.score = 0;
+                this.currentClueIdx = 0;
+                this.discoveredParts = new Set();
+                this.assembledParts = new Set();
+                this.clueList = [
+                    { clue: "“Ben bilgisayarın beyniyim! Tüm matematiksel işlemleri ışık hızında yürütürüm.”", targetId: "cpu" },
+                    { clue: "“Tüm parçalar benim üzerime monte edilir. Parçalar arasındaki veri iletişimini ben sağlarım.”", targetId: "anakart" },
+                    { clue: "“Çalışan programların anlık geçici verilerini ben tutarım. Bilgisayar kapanınca hafızam sıfırlanır!”", targetId: "ram" },
+                    { clue: "“Oyunları ve filmleri ekranda pürüzsüz ve gerçekçi görmen için pikselleri ben işlerim.”", targetId: "gpu" },
+                    { clue: "“Şehir elektriğini alıp tüm donanımların kullanabileceği akıma dönüştüren enerji kutusuyum.”", targetId: "psu" },
+                    { clue: "“Yeni nesil kalıcı depolama aygıtıyım. Mekanik parçam yoktur ve HDD'den çok daha hızlıyım!”", targetId: "ssd" },
+                    { clue: "“İşlemcinin aşırı ısınıp yavaşlamasını veya yanmasını engelleyen serinletici gücüm.”", targetId: "fan" }
+                ];
+            }
+
+            init() {
+                this.render();
+            }
+
+            toggleSound() {
+                sfx.enabled = !sfx.enabled;
+                const icon = document.getElementById("sound-btn").querySelector("i");
+                if (icon) icon.className = sfx.enabled ? "fa-solid fa-volume-high" : "fa-solid fa-volume-xmark text-slate-500";
+            }
+
+            setMode(mode) {
+                sfx.click();
+                this.mode = mode;
+                ['explore', 'clue', 'assemble'].forEach(m => {
+                    const btn = document.getElementById(`btn-${m}`);
+                    const mBtn = document.getElementById(`m-btn-${m}`);
+                    if (btn) btn.className = (m === mode) ? "px-3 py-1.5 rounded-lg bg-cyan-600 text-white transition-all" : "px-3 py-1.5 rounded-lg text-slate-400 hover:text-white transition-all";
+                    if (mBtn) mBtn.className = (m === mode) ? "px-2.5 py-1 text-xs rounded-lg bg-cyan-600 text-white font-bold" : "px-2.5 py-1 text-xs rounded-lg bg-slate-800 text-slate-300 font-bold";
+                });
+                this.render();
+            }
+
+            reset() {
+                sfx.click();
+                this.score = 0;
+                this.currentClueIdx = 0;
+                this.discoveredParts.clear();
+                this.assembledParts.clear();
+                document.getElementById("score-val").innerText = this.score;
+                this.render();
+            }
+
+            render() {
+                if (this.mode === 'explore') this.renderExplore();
+                else if (this.mode === 'clue') this.renderClue();
+                else if (this.mode === 'assemble') this.renderAssemble();
+            }
+
+            renderExplore() {
+                const container = document.getElementById("main-content");
+                container.innerHTML = `
+                    <div class="grid grid-cols-1 md:grid-cols-12 gap-5 items-center animate-pop">
+                        <!-- Sol: Görsel ve Parça Butonları -->
+                        <div class="md:col-span-7 space-y-3">
+                            <div class="relative rounded-3xl overflow-hidden border-2 border-cyan-400/40 shadow-2xl bg-slate-950 group">
+                                <img src="../assets/slides/ic_donanim_kasa.jpg" alt="Açık Bilgisayar Kasası" class="w-full h-72 sm:h-80 object-cover object-center group-hover:scale-105 transition-transform duration-700">
+                                <div class="absolute inset-0 bg-gradient-to-t from-slate-950/85 via-transparent to-transparent flex flex-col justify-end p-4 pointer-events-none">
+                                    <span class="px-3 py-1 bg-cyan-500/90 text-white font-black text-xs rounded-lg w-fit border border-cyan-300/40">
+                                        📸 Açık Bilgisayar Kasası İçi
+                                    </span>
+                                    <p class="text-xs text-slate-200 font-semibold drop-shadow">
+                                        Aşağıdaki 8 parçaya dokunarak kasanın içindeki yerlerini ve görevlerini incele!
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                                ${PARTS.map(p => `
+                                    <button onclick="app.showPartDetail('${p.id}')" class="part-hotspot p-2.5 rounded-xl bg-slate-800/90 border border-slate-700 hover:border-cyan-400 text-left space-y-1">
+                                        <div class="flex items-center justify-between">
+                                            <i class="fa-solid ${p.icon} text-cyan-400 text-base"></i>
+                                            ${this.discoveredParts.has(p.id) ? '<i class="fa-solid fa-check text-emerald-400 text-xs"></i>' : ''}
+                                        </div>
+                                        <span class="text-xs font-black text-white block truncate">${p.name}</span>
+                                    </button>
+                                `).join('')}
+                            </div>
+                        </div>
+
+                        <!-- Sağ: Detay Kartı -->
+                        <div class="md:col-span-5">
+                            <div id="part-detail-box" class="glass-panel rounded-3xl p-6 shadow-2xl space-y-4 text-center min-h-[320px] flex flex-col justify-center items-center">
+                                <div class="w-16 h-16 rounded-2xl bg-cyan-500/20 text-cyan-300 flex items-center justify-center text-3xl shadow-inner border border-cyan-500/30">
+                                    <i class="fa-solid fa-hand-pointer animate-pulse"></i>
+                                </div>
+                                <h3 class="text-xl font-black text-white">Bir Donanım Seç</h3>
+                                <p class="text-xs text-slate-300 leading-relaxed">
+                                    Sol taraftaki açık kasanın donanım butonlarına dokunarak parçanın bilgisayardaki gizli görevini öğren!
+                                </p>
+                                <span class="text-[11px] font-bold text-amber-300 bg-amber-500/10 px-3 py-1 rounded-full border border-amber-500/20">
+                                    Keşfedilen: ${this.discoveredParts.size} / ${PARTS.length}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+
+            showPartDetail(id) {
+                sfx.click();
+                const p = PARTS.find(x => x.id === id);
+                if (!p) return;
+                this.discoveredParts.add(id);
+                this.score = this.discoveredParts.size * 10;
+                document.getElementById("score-val").innerText = this.score;
+
+                const box = document.getElementById("part-detail-box");
+                if (box) {
+                    box.innerHTML = `
+                        <div class="space-y-4 animate-pop w-full text-left">
+                            <div class="flex items-center justify-between border-b border-slate-700 pb-3">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-12 h-12 rounded-xl bg-cyan-500/20 text-cyan-300 flex items-center justify-center text-2xl border border-cyan-400/40">
+                                        <i class="fa-solid ${p.icon}"></i>
+                                    </div>
+                                    <div>
+                                        <span class="text-[10px] font-extrabold text-cyan-400 uppercase tracking-wider block">İÇ DONANIM BİRİMİ</span>
+                                        <h3 class="text-lg sm:text-xl font-black text-white">${p.name}</h3>
+                                    </div>
+                                </div>
+                                <span class="px-2.5 py-1 bg-emerald-500/20 text-emerald-300 font-bold text-xs rounded-lg border border-emerald-500/30">
+                                    ✅ Keşfedildi
+                                </span>
+                            </div>
+
+                            <div class="p-4 bg-slate-900/90 rounded-2xl border border-slate-700/80 space-y-2">
+                                <span class="text-xs font-black text-amber-300 uppercase block">GÖREVİ VE ÖNEMİ:</span>
+                                <p class="text-xs sm:text-sm text-slate-200 font-medium leading-relaxed">
+                                    ${p.role}
+                                </p>
+                            </div>
+
+                            <div class="p-3 bg-indigo-950/60 rounded-xl border border-indigo-500/30 flex items-center justify-between text-xs">
+                                <span class="text-indigo-200">Keşif İlerlemesi:</span>
+                                <strong class="text-amber-300 font-black">${this.discoveredParts.size} / ${PARTS.length} Parça</strong>
+                            </div>
+                        </div>
+                    `;
+                }
+            }
+
+            renderClue() {
+                if (this.currentClueIdx >= this.clueList.length) {
+                    this.renderClueWin();
+                    return;
+                }
+                const cur = this.clueList[this.currentClueIdx];
+                const container = document.getElementById("main-content");
+                container.innerHTML = `
+                    <div class="glass-panel rounded-3xl p-6 sm:p-8 space-y-6 max-w-3xl mx-auto animate-pop shadow-2xl text-center">
+                        <div class="flex items-center justify-between border-b border-slate-700 pb-3">
+                            <span class="px-3 py-1 bg-amber-500/20 text-amber-300 font-black text-xs rounded-xl border border-amber-500/40">
+                                🎯 İPUCU AVCISI (Soru ${this.currentClueIdx + 1} / ${this.clueList.length})
+                            </span>
+                            <span class="text-xs font-bold text-cyan-300">Doğru Parçayı Kasadan Seç!</span>
+                        </div>
+
+                        <!-- İpucu Kutusu -->
+                        <div class="p-5 bg-slate-900/90 rounded-2xl border-2 border-amber-400/50 shadow-xl space-y-2">
+                            <i class="fa-solid fa-quote-left text-amber-400 text-2xl"></i>
+                            <h3 class="text-base sm:text-lg font-black text-yellow-300 leading-snug">
+                                ${cur.clue}
+                            </h3>
+                        </div>
+
+                        <!-- Parça Seçenekleri -->
+                        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-2">
+                            ${PARTS.map(p => `
+                                <button onclick="app.checkClueTarget('${p.id}')" class="p-3.5 rounded-2xl bg-slate-800/90 hover:bg-cyan-950/80 border-2 border-slate-700 hover:border-cyan-400 text-center space-y-2 transition-all group">
+                                    <div class="w-10 h-10 rounded-xl bg-slate-900 text-slate-300 group-hover:text-cyan-400 flex items-center justify-center text-xl mx-auto">
+                                        <i class="fa-solid ${p.icon}"></i>
+                                    </div>
+                                    <span class="text-xs font-black text-white block group-hover:text-cyan-300">${p.name}</span>
+                                </button>
+                            `).join('')}
+                        </div>
+
+                        <div id="clue-fb" class="hidden"></div>
+                    </div>
+                `;
+            }
+
+            checkClueTarget(id) {
+                const cur = this.clueList[this.currentClueIdx];
+                const fb = document.getElementById("clue-fb");
+                fb.classList.remove("hidden");
+
+                if (id === cur.targetId) {
+                    sfx.correct();
+                    this.score += 15;
+                    document.getElementById("score-val").innerText = this.score;
+                    const p = PARTS.find(x => x.id === id);
+                    fb.innerHTML = `
+                        <div class="p-4 rounded-2xl bg-emerald-950/90 border-2 border-emerald-500 text-emerald-200 text-xs sm:text-sm font-bold flex items-center justify-between gap-3 animate-pop shadow-lg text-left">
+                            <div>
+                                <span class="block font-black text-emerald-300">🎉 HARİKA TESPİT! (+15 Puan)</span>
+                                <span>Doğru cevap <strong>${p.name}</strong>! ${p.role}</span>
+                            </div>
+                            <button onclick="app.nextClue()" class="px-4 py-2 bg-emerald-600 hover:bg-emerald-500 text-white font-black rounded-xl text-xs shrink-0">
+                                Sonraki İpucu ➔
+                            </button>
+                        </div>
+                    `;
+                } else {
+                    sfx.wrong();
+                    fb.innerHTML = `
+                        <div class="p-3.5 rounded-2xl bg-rose-950/90 border-2 border-rose-500 text-rose-200 text-xs sm:text-sm font-bold flex items-center justify-between gap-3 animate-pop shadow-lg text-left">
+                            <div>
+                                <span class="block font-black text-rose-300">⚠️ TEKRAR DÜŞÜN!</span>
+                                <span>Bu parça ipucundaki görevi yerine getirmiyor. İpucunu bir daha oku!</span>
+                            </div>
+                            <button onclick="document.getElementById('clue-fb').classList.add('hidden')" class="px-3.5 py-1.5 bg-slate-800 text-white rounded-xl text-xs shrink-0">
+                                Yeniden Dene
+                            </button>
+                        </div>
+                    `;
+                }
+            }
+
+            nextClue() {
+                sfx.click();
+                this.currentClueIdx++;
+                this.renderClue();
+            }
+
+            renderClueWin() {
+                sfx.win();
+                if (typeof confetti === "function") confetti({ particleCount: 90, spread: 60 });
+                const container = document.getElementById("main-content");
+                container.innerHTML = `
+                    <div class="glass-panel rounded-3xl p-8 max-w-xl mx-auto text-center space-y-4 animate-pop">
+                        <div class="w-20 h-20 rounded-2xl bg-gradient-to-tr from-yellow-400 to-amber-500 text-slate-950 flex items-center justify-center text-4xl mx-auto shadow-xl">
+                            <i class="fa-solid fa-trophy"></i>
+                        </div>
+                        <h2 class="text-2xl font-black text-white">İPUCU AVCISI ŞAMPİYONU!</h2>
+                        <p class="text-xs sm:text-sm text-slate-300">
+                            Tüm donanım bilmecelerini başarıyla çözdün ve parçaları görevleriyle eşleştirdin.
+                        </p>
+                        <div class="pt-2 flex justify-center gap-3">
+                            <button onclick="app.setMode('assemble')" class="px-5 py-2.5 bg-cyan-600 hover:bg-cyan-500 text-white font-black text-xs rounded-xl shadow-lg">
+                                Kasa Montaj Moduna Geç ➔
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }
+
+            renderAssemble() {
+                const container = document.getElementById("main-content");
+                const remaining = PARTS.filter(p => !this.assembledParts.has(p.id));
+
+                container.innerHTML = `
+                    <div class="glass-panel rounded-3xl p-5 sm:p-7 space-y-5 max-w-4xl mx-auto animate-pop shadow-2xl">
+                        <div class="flex items-center justify-between border-b border-slate-700 pb-3">
+                            <div>
+                                <span class="px-3 py-1 bg-purple-500/20 text-purple-300 font-black text-xs rounded-xl border border-purple-500/40">
+                                    🛠️ KASA MONTAJ ATÖLYESİ
+                                </span>
+                                <h3 class="text-base sm:text-lg font-black text-white mt-1">Parçaları Kasadaki Boş Yuvalara Yerleştir!</h3>
+                            </div>
+                            <span class="text-xs font-bold text-amber-300">Montaj: ${this.assembledParts.size} / ${PARTS.length}</span>
+                        </div>
+
+                        <!-- Montaj Masası: Kasa Yuvaları -->
+                        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                            ${PARTS.map(p => {
+                                const isPlaced = this.assembledParts.has(p.id);
+                                return `
+                                    <div class="p-3.5 rounded-2xl border-2 ${isPlaced ? 'border-emerald-500 bg-emerald-950/40 text-emerald-300' : 'border-dashed border-slate-700 bg-slate-900/60 text-slate-500'} text-center space-y-2 transition-all">
+                                        <div class="w-12 h-12 rounded-xl ${isPlaced ? 'bg-emerald-500/20 text-emerald-400' : 'bg-slate-800 text-slate-600'} flex items-center justify-center text-2xl mx-auto">
+                                            <i class="fa-solid ${isPlaced ? p.icon : 'fa-plus'}"></i>
+                                        </div>
+                                        <span class="text-xs font-black block truncate ${isPlaced ? 'text-white' : 'text-slate-400'}">
+                                            ${isPlaced ? p.name : 'Boş Yuva'}
+                                        </span>
+                                        <span class="text-[10px] block ${isPlaced ? 'text-emerald-400' : 'text-slate-500'}">
+                                            ${isPlaced ? '✅ Takıldı' : p.name + ' Bekleniyor'}
+                                        </span>
+                                    </div>
+                                `;
+                            }).join('')}
+                        </div>
+
+                        <!-- Dışarıda Bekleyen Parçalar -->
+                        ${remaining.length > 0 ? `
+                            <div class="p-4 bg-slate-900 rounded-2xl border border-slate-700 space-y-2.5 text-center">
+                                <span class="text-xs font-black text-amber-300 uppercase block">Takılacak Parçayı Seç ve Montajı Yap:</span>
+                                <div class="flex flex-wrap justify-center gap-2">
+                                    ${remaining.map(p => `
+                                        <button onclick="app.placePart('${p.id}')" class="px-4 py-2 rounded-xl bg-slate-800 hover:bg-cyan-600 text-white font-bold text-xs flex items-center gap-2 border border-slate-600 transition-all shadow">
+                                            <i class="fa-solid ${p.icon} text-cyan-400"></i>
+                                            <span>${p.name} Tak</span>
+                                        </button>
+                                    `).join('')}
+                                </div>
+                            </div>
+                        ` : `
+                            <div class="p-5 bg-emerald-950/80 rounded-2xl border-2 border-emerald-500 text-center space-y-2 animate-pop">
+                                <i class="fa-solid fa-circle-check text-emerald-400 text-4xl"></i>
+                                <h3 class="text-lg font-black text-white">TEBRİKLER! KASA TAMAMEN TOPLANDI!</h3>
+                                <p class="text-xs text-emerald-200">Bütün iç donanım parçaları yuvalarına takıldı ve bilgisayar açılmaya hazır.</p>
+                            </div>
+                        `}
+                    </div>
+                `;
+            }
+
+            placePart(id) {
+                sfx.correct();
+                this.assembledParts.add(id);
+                this.score += 10;
+                document.getElementById("score-val").innerText = this.score;
+                this.renderAssemble();
+                if (this.assembledParts.size === PARTS.length) {
+                    if (typeof confetti === "function") confetti({ particleCount: 100, spread: 70 });
+                }
+            }
+        }
+
+        const app = new InsideCaseGame();
+        window.addEventListener("DOMContentLoaded", () => app.init());
+    </script>
+</body>
+</html>

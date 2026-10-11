@@ -1,0 +1,29 @@
+# ANTIGRAVITY PROMPT — DONANIM DEDEKTİFLERİ
+
+5. sınıf Bilişim Teknolojileri ve Yazılım dersi BTY.5.1.5 kazanımının “Bilgisayar ve Donanım” konusu için görsel açıdan zengin, etkileşimli bir **Donanım Dedektifleri** oyunu geliştir.
+
+**Hikâye:** Okulun bilgisayarı düzgün çalışmıyor. Öğrenci bir teknoloji dedektifi olarak belirtileri inceleyip sorunun hangi donanım birimiyle ilişkili olduğunu araştırıyor.
+
+**Oyun mekaniği:**
+- Dedektif merkezi ve olay dosyaları tasarla.
+- Her dosyada bilgisayarın belirtisini göster.
+- Öğrenci kanıt kartlarını incelesin.
+- Olası donanım parçalarını seçsin.
+- Kararından önce “Bu parçayı neden seçtin?” sorusu göster.
+- Doğru cevapta olayın çözümünü ve donanımın görevini açıkla.
+- Yanlış cevapta doğrudan çözümü verme; ipucu sun ve yeniden deneme hakkı ver.
+
+**Senaryolar:**
+1. Bilgisayar açılıyor ama ekrana görüntü gelmiyor: monitör bağlantısı, ekran kartı veya görüntü kablosu gibi olasılıkları değerlendir.
+2. Bilgisayar açıkken birden fazla programın çalışması zorlaşıyor: RAM veya işlemciyle ilgili olası belirtileri ayırt ettir; tek belirtiden kesin arıza teşhisi koydurma.
+3. Bilgisayar ses çıkaramıyor: hoparlör, kulaklık ve ses birimini araştır.
+4. Klavyeden yazı yazılamıyor: klavye bağlantısını ve klavyeyi incele.
+5. Dosyalar kaydedilemiyor: depolama birimini araştır.
+
+Her olayda kanıtlar ve olası nedenler tutarlı olsun. Gerçek hayatta aynı belirtinin birden fazla nedeni olabileceğini belirt.
+
+Görseller: bilgisayar masası, açık kasa, donanım parçaları, büyüteç, olay dosyaları ve kanıt kartları. Gerçekçi donanım illüstrasyonları kullan.
+
+Puan sistemi, ilerleme göstergesi, görev tamamlanma ekranı ve ana menü ekle.
+
+Teknoloji temalı, yüksek kontrastlı bir tasarım kullan. Büyük butonlar, dokunmatik ekran desteği ve Türkçe açıklamalar olsun. HTML, CSS ve JavaScript ile tamamen çalışan, çevrimdışı açılabilen bir uygulama oluştur. Öğrenci kişisel verilerini toplama.

@@ -1,0 +1,27 @@
+# ANTIGRAVITY PROMPT — DONANIM MÜZAYEDESİ
+
+5. sınıf BTY.5.1.5 konusu için öğrencilerin sanal bütçeyle bilgisayar parçaları seçtiği bir strateji oyunu oluştur.
+
+**Hikâye:** Öğrenci bir bilgisayar kurmak için sanal para alır. Açık artırma ekranında donanım parçaları sunulur; amaç gereksiz harcamadan ihtiyacı karşılayan sistemi oluşturmaktır.
+
+**Oyun özellikleri:**
+- Başlangıçta örneğin 1000 sanal kredi ver.
+- Her parça için fiyat, adı, görseli ve temel görevi göster.
+- Öğrenci parçayı satın alabilir veya pas geçebilir.
+- Bütçe sürekli güncellensin.
+- Görev sonunda seçilen parçalar ve kalan bütçe gösterilsin.
+
+**Görevler:**
+1. Okul ödevleri için temel sistem kur.
+2. Eğitim videoları ve çoklu görevler için sistem kur.
+3. Görsel çalışma ve oyun için daha güçlü sistem kur.
+
+Donanım kartları arasında işlemci, RAM, depolama, anakart, güç kaynağı, kasa, monitör, klavye ve fare bulunsun.
+
+**Önemli:** Fiyatların oyun için oluşturulmuş sanal değerler olduğunu açıkça belirt. Bunları gerçek piyasa fiyatı gibi sunma. Gerçek teknik uyumluluk iddiasında bulunma; basitleştirilmiş bir eğitim simülasyonu olduğunu belirt.
+
+Öğrenci bütçeyi aşarsa seçenekleri yeniden değerlendirsin. Gereksiz parça alımında sistemin amacına yönelik ipucu ver.
+
+Görseller: müzayede kürsüsü, sanal para, donanım kartları, bütçe göstergesi ve bilgisayar kurulum alanı.
+
+HTML, CSS ve JavaScript ile çalışan, akıllı tahtaya uyumlu bir uygulama geliştir. Büyük butonlar, dokunmatik kullanım ve çevrimdışı çalışma olsun. Kişisel veri toplama.

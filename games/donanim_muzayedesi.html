@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Donanım Müzayedesi — Bütçe ve Sistem Kurma Stratejisi</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            user-select: none;
+            -webkit-user-select: none;
+        }
+        .auction-podium {
+            background: radial-gradient(circle at center, rgba(30, 41, 59, 1) 0%, rgba(15, 23, 42, 1) 100%);
+            box-shadow: 0 0 25px rgba(234, 179, 8, 0.2);
+        }
+        .hammer-swing {
+            animation: hammerHit 0.6s ease-in-out;
+        }
+        @keyframes hammerHit {
+            0% { transform: rotate(0deg); }
+            40% { transform: rotate(-45deg); }
+            70% { transform: rotate(15deg); }
+            100% { transform: rotate(0deg); }
+        }
+    </style>
+</head>
+<body class="bg-slate-950 text-white min-h-screen flex flex-col font-sans">
+
+    <!-- Header -->
+    <header class="bg-slate-900/90 border-b border-amber-800/40 px-6 py-4 flex items-center justify-between shadow-lg sticky top-0 z-40 backdrop-blur">
+        <div class="flex items-center gap-4">
+            <a href="../index.html" class="bg-slate-800 hover:bg-slate-700 text-amber-400 px-4 py-2 rounded-xl text-sm font-bold flex items-center gap-2 border border-amber-500/30 transition">
+                <i class="fa-solid fa-arrow-left"></i> Portala Dön
+            </a>
+            <div>
+                <h1 class="text-xl md:text-2xl font-black bg-gradient-to-r from-amber-400 via-yellow-400 to-amber-200 bg-clip-text text-transparent flex items-center gap-2">
+                    <i class="fa-solid fa-gavel text-amber-400"></i> DONANIM MÜZAYEDESİ
+                </h1>
+                <p class="text-xs text-slate-400">BTY.5.1.5 — Sanal Krediyle Donanım Parçalarını Akıllıca Topla!</p>
+            </div>
+        </div>
+        <div class="flex items-center gap-4">
+            <!-- Virtual Wallet -->
+            <div class="bg-gradient-to-r from-amber-950/80 to-slate-900 border-2 border-amber-500/50 px-4 py-2 rounded-2xl flex items-center gap-3 shadow-lg">
+                <div class="w-8 h-8 rounded-full bg-amber-500/20 text-amber-400 flex items-center justify-center text-lg">
+                    <i class="fa-solid fa-coins"></i>
+                </div>
+                <div>
+                    <span class="text-[10px] uppercase font-bold text-slate-400 block">Kalan Sanal Kredi</span>
+                    <span id="creditsVal" class="text-xl font-black text-amber-300">1000 K</span>
+                </div>
+            </div>
+
+            <button id="soundBtn" onclick="toggleSound()" class="w-10 h-10 rounded-xl bg-slate-800 hover:bg-slate-700 text-amber-400 border border-slate-700 flex items-center justify-center transition">
+                <i id="soundIcon" class="fa-solid fa-volume-high"></i>
+            </button>
+            <button onclick="toggleFullscreen()" class="w-10 h-10 rounded-xl bg-slate-800 hover:bg-slate-700 text-amber-400 border border-slate-700 flex items-center justify-center transition">
+                <i class="fa-solid fa-expand"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="flex-1 max-w-7xl mx-auto w-full p-4 md:p-6 flex flex-col gap-6">
+
+        <!-- Simulation Notice Banner -->
+        <div class="bg-amber-950/30 border border-amber-500/30 rounded-2xl px-4 py-2.5 flex items-center justify-between text-xs text-amber-300/90">
+            <span class="flex items-center gap-2">
+                <i class="fa-solid fa-circle-info text-amber-400"></i>
+                <b>Önemli Bilgilendirme:</b> Fiyatlar oyun için hazırlanmış sanal eğitim değerleridir, gerçek piyasa fiyatı değildir. Amaç bütçe ve donanım dengesini kavramaktır.
+            </span>
+            <span id="missionBadge" class="bg-amber-500/20 text-amber-300 border border-amber-500/40 px-2.5 py-0.5 rounded-full font-bold">
+                Görev 1 / 3
+            </span>
+        </div>
+
+        <!-- Mission Goal Banner -->
+        <div class="bg-slate-900 border border-slate-800 rounded-3xl p-5 shadow-xl flex flex-col md:flex-row md:items-center justify-between gap-4">
+            <div>
+                <span class="text-xs uppercase font-extrabold text-cyan-400 tracking-wider">Kurulum Hedefi:</span>
+                <h2 id="missionTitle" class="text-xl md:text-2xl font-black text-white mt-1">
+                    Okul Ödevleri İçin Temel Sistem
+                </h2>
+                <p id="missionDesc" class="text-xs text-slate-300 mt-1 max-w-2xl leading-relaxed">
+                    Öğrencinin ders çalışması, internetten araştırma yapması ve ödev yazması için dengeli bir temel bilgisayar topla. Bütçeyi aşmadan tüm zorunlu parçaları tamamla!
+                </p>
+            </div>
+            <div class="flex items-center gap-2">
+                <div class="bg-slate-950 p-3 rounded-2xl border border-slate-800 text-center min-w-[130px]">
+                    <div class="text-[10px] text-slate-400">Hedef Bütçe Sınırı</div>
+                    <div id="targetBudgetDisplay" class="text-base font-black text-emerald-400 mt-0.5">En Fazla 700 K</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Auction Stage & Podium Grid -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+
+            <!-- Auction Podium (Current Lot) - 7 cols -->
+            <div class="lg:col-span-7 auction-podium border-2 border-amber-500/40 rounded-3xl p-6 shadow-2xl flex flex-col justify-between">
+                <div>
+                    <!-- Lot Header -->
+                    <div class="flex items-center justify-between pb-3 border-b border-slate-700/80 mb-4">
+                        <div class="flex items-center gap-2">
+                            <span id="auctionHammerIcon" class="text-2xl text-amber-400"><i class="fa-solid fa-gavel"></i></span>
+                            <span class="text-xs font-black uppercase text-amber-400 tracking-wider">Açık Artırma Kürsüsü</span>
+                        </div>
+                        <span id="lotCounter" class="text-xs font-bold text-slate-400">Lot: 1 / 10</span>
+                    </div>
+
+                    <!-- Lot Component Card -->
+                    <div class="bg-slate-950/80 border border-slate-800 rounded-2xl p-6 flex flex-col items-center text-center relative overflow-hidden">
+                        <div class="w-24 h-24 rounded-3xl bg-slate-900 border-2 border-amber-500/40 flex items-center justify-center text-5xl text-amber-300 shadow-xl mb-4" id="lotIconBox">
+                            <i class="fa-solid fa-microchip"></i>
+                        </div>
+                        <span id="lotCategory" class="text-xs uppercase font-extrabold px-3 py-0.5 rounded-full bg-cyan-500/20 text-cyan-300 border border-cyan-500/30 mb-2">İç Donanım</span>
+                        <h3 id="lotName" class="text-2xl font-black text-white">İşlemci (Temel Düzey 4 Çekirdek)</h3>
+                        <p id="lotRole" class="text-xs text-slate-300 mt-2 max-w-md leading-relaxed">
+                            Komutları işler ve işlemleri yürütür. Temel ofis ve ödev programları için idealdir.
+                        </p>
+
+                        <!-- Price Tag -->
+                        <div class="mt-5 flex items-center gap-3">
+                            <span class="text-xs text-slate-400 font-bold uppercase">Sanal Teklif Fiyatı:</span>
+                            <span id="lotPrice" class="text-2xl font-black text-amber-400 bg-amber-950/80 px-4 py-1.5 rounded-xl border border-amber-500/40">150 K</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Auction Bid Actions -->
+                <div class="grid grid-cols-2 gap-4 mt-6">
+                    <button id="passLotBtn" onclick="passLot()" class="py-4 bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-300 font-black rounded-2xl transition flex items-center justify-center gap-2 text-sm shadow">
+                        <i class="fa-solid fa-forward"></i>
+                        <span>Pas Geç (Gereksiz / Pahalı)</span>
+                    </button>
+                    <button id="buyLotBtn" onclick="buyLot()" class="py-4 bg-gradient-to-r from-amber-500 to-yellow-500 hover:from-amber-400 hover:to-yellow-400 text-slate-950 font-black rounded-2xl transition flex items-center justify-center gap-2 text-sm shadow-xl transform active:scale-95">
+                        <i class="fa-solid fa-gavel"></i>
+                        <span>Satın Al (Teklifi Ver)</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Inventory / Built PC Slots - 5 cols -->
+            <div class="lg:col-span-5 bg-slate-900 border-2 border-slate-800 rounded-3xl p-6 shadow-2xl flex flex-col justify-between">
+                <div>
+                    <div class="flex items-center justify-between pb-3 border-b border-slate-800 mb-4">
+                        <span class="text-xs font-black uppercase text-cyan-400 tracking-wider flex items-center gap-2">
+                            <i class="fa-solid fa-computer"></i> Toplanan Parçalar
+                        </span>
+                        <span id="collectedPartsCount" class="text-xs font-bold text-slate-400">0 / 8 Zorunlu Parça</span>
+                    </div>
+
+                    <!-- Slots List -->
+                    <div id="collectedSlotsList" class="space-y-2 max-h-[380px] overflow-y-auto pr-1">
+                        <!-- Populated slots -->
+                    </div>
+                </div>
+
+                <!-- Mission Submit Action -->
+                <div class="mt-4 pt-3 border-t border-slate-800 flex items-center justify-between">
+                    <div>
+                        <span class="text-[10px] text-slate-400 block">Harcanan Bütçe</span>
+                        <span id="totalSpentVal" class="text-sm font-black text-rose-400">0 K</span>
+                    </div>
+                    <button id="finishMissionBtn" onclick="finishCurrentMission()" disabled class="px-6 py-3 bg-slate-800 text-slate-500 font-black rounded-xl text-xs transition cursor-not-allowed">
+                        Sistemi Tamamla ve Test Et
+                    </button>
+                </div>
+            </div>
+
+        </div>
+
+    </main>
+
+    <!-- Mission Evaluation Modal -->
+    <div id="evalModal" class="hidden fixed inset-0 z-50 bg-black/85 backdrop-blur-md flex items-center justify-center p-4">
+        <div class="bg-gradient-to-b from-slate-900 to-amber-950 border-2 border-amber-400/80 rounded-3xl max-w-xl w-full p-8 shadow-2xl text-center relative">
+            <div class="w-20 h-20 mx-auto rounded-3xl bg-amber-500/20 border-2 border-amber-400 flex items-center justify-center text-4xl text-amber-300 mb-4">
+                <i id="evalModalIcon" class="fa-solid fa-trophy text-amber-400"></i>
+            </div>
+            <h2 id="evalModalTitle" class="text-2xl font-black text-white">GÖREV BAŞARIYLA TAMAMLANDI!</h2>
+            <p id="evalModalDesc" class="text-xs text-amber-200 mt-2 leading-relaxed">
+                Topladığın donanım parçaları hedeflenen kullanım amacına ve bütçeye tam olarak uyuyor!
+            </p>
+
+            <div class="bg-slate-950/80 border border-slate-800 rounded-2xl p-4 my-6 text-left space-y-2 text-xs">
+                <div class="flex justify-between pb-1 border-b border-slate-800">
+                    <span class="text-slate-400">Kalan Sanal Bütçe:</span>
+                    <span id="evalRemainingCredits" class="font-bold text-amber-400">350 K</span>
+                </div>
+                <div class="flex justify-between pb-1 border-b border-slate-800">
+                    <span class="text-slate-400">Sistem Uyumluluk Puanı:</span>
+                    <span id="evalCompatibilityScore" class="font-bold text-emerald-400">100 / 100</span>
+                </div>
+                <div id="evalTeacherAdvice" class="text-slate-300 pt-2 text-[11px] leading-relaxed">
+                    <!-- Dynamic pedagogical advice -->
+                </div>
+            </div>
+
+            <div class="flex items-center justify-center gap-4">
+                <button id="nextMissionBtn" onclick="nextMission()" class="px-6 py-3 bg-gradient-to-r from-amber-500 to-yellow-500 hover:from-amber-400 hover:to-yellow-400 text-slate-950 font-black rounded-xl transition flex items-center gap-2">
+                    <span>Sonraki Göreve Geç</span>
+                    <i class="fa-solid fa-arrow-right"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Final All Missions Clear Modal -->
+    <div id="grandFinaleModal" class="hidden fixed inset-0 z-50 bg-black/85 backdrop-blur-md flex items-center justify-center p-4">
+        <div class="bg-gradient-to-b from-slate-900 to-indigo-950 border-2 border-amber-400/80 rounded-3xl max-w-xl w-full p-8 shadow-2xl text-center relative">
+            <div class="w-24 h-24 mx-auto rounded-3xl bg-amber-500/20 border-2 border-amber-400 flex items-center justify-center text-5xl text-amber-300 mb-4 animate-bounce">
+                <i class="fa-solid fa-crown text-amber-400"></i>
+            </div>
+            <h2 class="text-3xl font-black text-white">MÜZAYEDE USTASI!</h2>
+            <p class="text-sm text-cyan-200 mt-2">
+                3 farklı bütçe ve donanım görevini de mükemmel stratejiyle tamamladın. Gereksiz masraftan kaçınıp ihtiyaca göre en doğru parçaları seçtin!
+            </p>
+            <div class="flex items-center justify-center gap-4 mt-8">
+                <button onclick="restartAllMissions()" class="px-6 py-3 bg-indigo-600 hover:bg-indigo-500 text-white font-bold rounded-xl transition flex items-center gap-2">
+                    <i class="fa-solid fa-rotate-right"></i> Yeniden Başla
+                </button>
+                <a href="../index.html" class="px-6 py-3 bg-amber-600 hover:bg-amber-500 text-slate-950 font-bold rounded-xl transition flex items-center gap-2">
+                    <i class="fa-solid fa-house"></i> Portala Dön
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Audio FX -->
+    <script>
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        let soundEnabled = true;
+
+        function playSound(type) {
+            if (!soundEnabled) return;
+            try {
+                if (audioCtx.state === 'suspended') audioCtx.resume();
+                const now = audioCtx.currentTime;
+
+                if (type === 'gavel') {
+                    const osc = audioCtx.createOscillator();
+                    const gain = audioCtx.createGain();
+                    osc.connect(gain);
+                    gain.connect(audioCtx.destination);
+                    osc.type = 'triangle';
+                    osc.frequency.setValueAtTime(120, now);
+                    gain.gain.setValueAtTime(0.4, now);
+                    gain.gain.exponentialRampToValueAtTime(0.01, now + 0.12);
+                    osc.start(now);
+                    osc.stop(now + 0.12);
+                } else if (type === 'pass') {
+                    const osc = audioCtx.createOscillator();
+                    const gain = audioCtx.createGain();
+                    osc.connect(gain);
+                    gain.connect(audioCtx.destination);
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(350, now);
+                    gain.gain.setValueAtTime(0.1, now);
+                    gain.gain.exponentialRampToValueAtTime(0.01, now + 0.08);
+                    osc.start(now);
+                    osc.stop(now + 0.08);
+                } else if (type === 'win') {
+                    [523.25, 659.25, 783.99, 1046.50].forEach((f, i) => {
+                        const osc = audioCtx.createOscillator();
+                        const gain = audioCtx.createGain();
+                        osc.connect(gain);
+                        gain.connect(audioCtx.destination);
+                        osc.frequency.setValueAtTime(f, now + i * 0.1);
+                        gain.gain.setValueAtTime(0.2, now + i * 0.1);
+                        gain.gain.exponentialRampToValueAtTime(0.01, now + i * 0.1 + 0.2);
+                        osc.start(now + i * 0.1);
+                        osc.stop(now + i * 0.1 + 0.2);
+                    });
+                }
+            } catch (e) {}
+        }
+
+        function toggleSound() {
+            soundEnabled = !soundEnabled;
+            document.getElementById('soundIcon').className = soundEnabled ? 'fa-solid fa-volume-high' : 'fa-solid fa-volume-xmark';
+        }
+
+        function toggleFullscreen() {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen().catch(() => {});
+            } else {
+                document.exitFullscreen().catch(() => {});
+            }
+        }
+    </script>
+
+    <!-- Auction Logic -->
+    <script>
+        const MISSIONS = [
+            {
+                id: 1,
+                title: 'Okul Ödevleri İçin Temel Sistem',
+                desc: 'Öğrencinin ders çalışması, araştırma yapması ve ödev yazması için dengeli temel bir PC topla.',
+                maxBudget: 700,
+                requiredCategories: ['cpu', 'ram', 'storage', 'motherboard', 'psu', 'monitor', 'keyboard', 'mouse'],
+                lots: [
+                    { id: 'cpu_basic', cat: 'cpu', catName: 'İşlemci', name: 'Temel 4 Çekirdek İşlemci', price: 120, icon: 'fa-microchip', role: 'Ders ve ödevler için yeterli işlem gücü sağlar.', isGood: true },
+                    { id: 'cpu_beast', cat: 'cpu', catName: 'İşlemci', name: 'Aşırı Güçlü 16 Çekirdek İşlemci', price: 450, icon: 'fa-microchip', role: 'Ağır oyun ve 3D simülasyon içindir (Ödev için çok pahalı!)', isGood: false },
+                    { id: 'mb_basic', cat: 'motherboard', catName: 'Anakart', name: 'Ekonomik Standart Anakart', price: 90, icon: 'fa-chess-board', role: 'Parçaların haberleşmesini sağlayan temel devre kartı.', isGood: true },
+                    { id: 'ram_8gb', cat: 'ram', catName: 'RAM', name: '8 GB DDR4 RAM Bellek', price: 70, icon: 'fa-memory', role: 'Geçici hafıza; temel programlar için idealdir.', isGood: true },
+                    { id: 'ssd_256gb', cat: 'storage', catName: 'Depolama', name: '256 GB Hızlı SSD', price: 80, icon: 'fa-hard-drive', role: 'Ödev dosyaları ve sistem için yeterli kalıcı alan.', isGood: true },
+                    { id: 'gpu_luxury', cat: 'gpu', catName: 'Ekran Kartı', name: 'Lüks 16GB Gaming Ekran Kartı', price: 400, icon: 'fa-gamepad', role: 'Ağır grafik kartı. Temel ofis bilgisayarı için gereksiz masraf!', isGood: false },
+                    { id: 'psu_400w', cat: 'psu', catName: 'Güç Kaynağı', name: '400W Standart Güç Kaynağı', price: 60, icon: 'fa-bolt', role: 'Parçalara güvenli elektrik enerjisi sağlar.', isGood: true },
+                    { id: 'mon_basic', cat: 'monitor', catName: 'Monitör', name: '21.5 İnç Ofis Monitörü', price: 110, icon: 'fa-display', role: 'Görüntü çıkışı sağlar.', isGood: true },
+                    { id: 'kb_basic', cat: 'keyboard', catName: 'Klavye', name: 'Standart USB Klavye', price: 30, icon: 'fa-keyboard', role: 'Yazı ve komut girişini sağlar.', isGood: true },
+                    { id: 'mouse_basic', cat: 'mouse', catName: 'Fare', name: 'Standart Optik Fare', price: 20, icon: 'fa-computer-mouse', role: 'İmleç kontrolü ve seçim sağlar.', isGood: true }
+                ]
+            },
+            {
+                id: 2,
+                title: 'Eğitim Videoları ve Çoklu Görev Sistemi',
+                desc: 'Aynı anda birden fazla eğitim programı, video konferans ve tarayıcı sekmesi açabilen güçlü orta seviye sistem.',
+                maxBudget: 950,
+                requiredCategories: ['cpu', 'ram', 'storage', 'motherboard', 'psu', 'monitor', 'keyboard', 'mouse'],
+                lots: [
+                    { id: 'cpu_mid', cat: 'cpu', catName: 'İşlemci', name: 'Orta Düzey 6 Çekirdek İşlemci', price: 200, icon: 'fa-microchip', role: 'Çoklu görevleri akıcı şekilde yürütür.', isGood: true },
+                    { id: 'mb_mid', cat: 'motherboard', catName: 'Anakart', name: 'Genişletilebilir Anakart', price: 130, icon: 'fa-chess-board', role: 'Ekstra yuvalara sahip ana kart.', isGood: true },
+                    { id: 'ram_16gb', cat: 'ram', catName: 'RAM', name: '16 GB Hızlı RAM Bellek', price: 120, icon: 'fa-memory', role: 'Çoklu programların rahat çalışmasını sağlayan geçici bellek.', isGood: true },
+                    { id: 'ssd_512gb', cat: 'storage', catName: 'Depolama', name: '512 GB NVMe SSD', price: 110, icon: 'fa-hard-drive', role: 'Videoları ve ders kayıtlarını hızla saklar.', isGood: true },
+                    { id: 'gpu_mid', cat: 'gpu', catName: 'Ekran Kartı', name: 'Orta Seviye Grafik Kartı', price: 160, icon: 'fa-film', role: 'Video işleme ve sunumları hızlandırır.', isGood: true },
+                    { id: 'psu_550w', cat: 'psu', catName: 'Güç Kaynağı', name: '550W Sertifikalı Güç Kaynağı', price: 80, icon: 'fa-bolt', role: 'Tüm parçalara dengeli güç sağlar.', isGood: true },
+                    { id: 'mon_ips', cat: 'monitor', catName: 'Monitör', name: '24 İnç IPS Net Ekran', price: 140, icon: 'fa-display', role: 'Geniş açılı renkli görüntü çıkışı sağlar.', isGood: true },
+                    { id: 'kb_mid', cat: 'keyboard', catName: 'Klavye', name: 'Konforlu Klavye & Mikrofon Seti', price: 40, icon: 'fa-keyboard', role: 'Ses ve metin girişi sağlar.', isGood: true },
+                    { id: 'mouse_mid', cat: 'mouse', catName: 'Fare', name: 'Ergonomik Optik Fare', price: 30, icon: 'fa-computer-mouse', role: 'Hassas imleç kontrolü.', isGood: true }
+                ]
+            },
+            {
+                id: 3,
+                title: 'Görsel Tasarım & Oyun Canavarı',
+                desc: '3D çizim, animasyon ve en yüksek grafikli oyunlar için yüksek performanslı donanım mimarisi.',
+                maxBudget: 1000,
+                requiredCategories: ['cpu', 'ram', 'storage', 'motherboard', 'psu', 'gpu', 'monitor', 'keyboard', 'mouse'],
+                lots: [
+                    { id: 'cpu_high', cat: 'cpu', catName: 'İşlemci', name: '8 Çekirdek Yüksek Hızlı CPU', price: 240, icon: 'fa-microchip', role: 'Karmaşık 3D ve oyun kodlarını işler.', isGood: true },
+                    { id: 'mb_high', cat: 'motherboard', catName: 'Anakart', name: 'Gaming Anakart', price: 140, icon: 'fa-chess-board', role: 'Yüksek veri yolu hızına sahip temel kart.', isGood: true },
+                    { id: 'ram_32gb', cat: 'ram', catName: 'RAM', name: '16 GB RGB Yüksek Hızlı RAM', price: 110, icon: 'fa-memory', role: 'Büyük boyutlu oyun sahnelerini geçici tutar.', isGood: true },
+                    { id: 'gpu_high', cat: 'gpu', catName: 'Ekran Kartı', name: 'Güçlü Bağımsız Grafik Kartı (GPU)', price: 260, icon: 'fa-gamepad', role: 'Ağır 3D grafikleri ve pikselleri ekrana hazırlar.', isGood: true },
+                    { id: 'ssd_1tb', cat: 'storage', catName: 'Depolama', name: '1 TB Ultra Hızlı Gen4 SSD', price: 120, icon: 'fa-hard-drive', role: 'Geniş depolama alanı sunar.', isGood: true },
+                    { id: 'psu_650w', cat: 'psu', catName: 'Güç Kaynağı', name: '650W Yüksek Güç Kaynağı', price: 90, icon: 'fa-bolt', role: 'Güçlü ekran kartına enerji sağlar.', isGood: true },
+                    { id: 'mon_144hz', cat: 'monitor', catName: 'Monitör', name: '144Hz Akıcı Gaming Monitör', price: 150, icon: 'fa-display', role: 'Çok hızlı kare hızında net görüntü verir.', isGood: true },
+                    { id: 'kb_mouse_combo', cat: 'keyboard', catName: 'Klavye & Fare', name: 'Mekanik Klavye & Gaming Fare Seti', price: 60, icon: 'fa-keyboard', role: 'Giriş birimleri ikilisi.', isGood: true }
+                ]
+            }
+        ];
+
+        let currentMissionIdx = 0;
+        let currentLotIdx = 0;
+        let credits = 1000;
+        let spentCredits = 0;
+        let collectedParts = [];
+
+        function initAuction() {
+            loadMission(currentMissionIdx);
+        }
+
+        function loadMission(idx) {
+            const m = MISSIONS[idx];
+            currentLotIdx = 0;
+            credits = 1000;
+            spentCredits = 0;
+            collectedParts = [];
+
+            document.getElementById('missionBadge').textContent = `Görev ${idx + 1} / 3`;
+            document.getElementById('missionTitle').textContent = m.title;
+            document.getElementById('missionDesc').textContent = m.desc;
+            document.getElementById('targetBudgetDisplay').textContent = `En Fazla ${m.maxBudget} K`;
+
+            updateWalletUI();
+            renderCollectedSlots();
+            loadCurrentLot();
+        }
+
+        function loadCurrentLot() {
+            const m = MISSIONS[currentMissionIdx];
+            if (currentLotIdx >= m.lots.length) {
+                // All lots presented
+                showAllLotsFinishedPrompt();
+                return;
+            }
+
+            const lot = m.lots[currentLotIdx];
+            document.getElementById('lotCounter').textContent = `Lot: ${currentLotIdx + 1} / ${m.lots.length}`;
+            document.getElementById('lotIconBox').innerHTML = `<i class="fa-solid ${lot.icon}"></i>`;
+            document.getElementById('lotCategory').textContent = lot.catName;
+            document.getElementById('lotName').textContent = lot.name;
+            document.getElementById('lotRole').textContent = lot.role;
+            document.getElementById('lotPrice').textContent = `${lot.price} K`;
+
+            // Enable buttons
+            document.getElementById('buyLotBtn').disabled = false;
+            document.getElementById('passLotBtn').disabled = false;
+        }
+
+        function buyLot() {
+            const m = MISSIONS[currentMissionIdx];
+            const lot = m.lots[currentLotIdx];
+
+            if (credits < lot.price) {
+                alert("❌ Yetersiz Sanal Kredi!\n\nBu parçayı satın alacak kadar bütçen kalmadı. Pas geçmelisin.");
+                return;
+            }
+
+            // Gavel swing animation
+            playSound('gavel');
+            const hammer = document.getElementById('auctionHammerIcon');
+            hammer.classList.add('hammer-swing');
+            setTimeout(() => hammer.classList.remove('hammer-swing'), 600);
+
+            // Deduct credits & add to parts
+            credits -= lot.price;
+            spentCredits += lot.price;
+            collectedParts.push(lot);
+
+            updateWalletUI();
+            renderCollectedSlots();
+
+            // Next lot
+            currentLotIdx++;
+            loadCurrentLot();
+        }
+
+        function passLot() {
+            playSound('pass');
+            currentLotIdx++;
+            loadCurrentLot();
+        }
+
+        function updateWalletUI() {
+            document.getElementById('creditsVal').textContent = `${credits} K`;
+            document.getElementById('totalSpentVal').textContent = `${spentCredits} K`;
+        }
+
+        function renderCollectedSlots() {
+            const m = MISSIONS[currentMissionIdx];
+            const list = document.getElementById('collectedSlotsList');
+            list.innerHTML = '';
+
+            document.getElementById('collectedPartsCount').textContent = `${collectedParts.length} Parça Toplandı`;
+
+            if (collectedParts.length === 0) {
+                list.innerHTML = `<div class="text-xs text-slate-500 text-center py-6">Henüz müzayededen parça alınmadı. Kürsüdeki parçaları incele!</div>`;
+            } else {
+                collectedParts.forEach(p => {
+                    const row = document.createElement('div');
+                    row.className = "bg-slate-950 p-2.5 rounded-xl border border-slate-800 flex items-center justify-between text-xs";
+                    row.innerHTML = `
+                        <div class="flex items-center gap-2.5">
+                            <i class="fa-solid ${p.icon} text-amber-400"></i>
+                            <div>
+                                <span class="font-bold text-slate-200 block">${p.name}</span>
+                                <span class="text-[10px] text-slate-500">${p.catName}</span>
+                            </div>
+                        </div>
+                        <span class="font-bold text-amber-400">${p.price} K</span>
+                    `;
+                    list.appendChild(row);
+                });
+            }
+
+            // Check if minimum build criteria met
+            const finishBtn = document.getElementById('finishMissionBtn');
+            if (collectedParts.length >= 4) {
+                finishBtn.disabled = false;
+                finishBtn.className = "px-6 py-3 bg-gradient-to-r from-emerald-600 to-cyan-600 hover:from-emerald-500 hover:to-cyan-500 text-white font-black rounded-xl text-xs transition cursor-pointer shadow-lg animate-pulse";
+            } else {
+                finishBtn.disabled = true;
+                finishBtn.className = "px-6 py-3 bg-slate-800 text-slate-500 font-black rounded-xl text-xs transition cursor-not-allowed";
+            }
+        }
+
+        function showAllLotsFinishedPrompt() {
+            document.getElementById('lotName').textContent = "Tüm Müzayede Parçaları Sunuldu!";
+            document.getElementById('lotRole').textContent = "Sağdaki panelden sistemi test edebilir ve görevi tamamlayabilirsin.";
+            document.getElementById('lotPrice').textContent = "BİTTİ";
+            document.getElementById('buyLotBtn').disabled = true;
+            document.getElementById('passLotBtn').disabled = true;
+        }
+
+        function finishCurrentMission() {
+            const m = MISSIONS[currentMissionIdx];
+            const hasCpu = collectedParts.some(p => p.cat === 'cpu');
+            const hasMb = collectedParts.some(p => p.cat === 'motherboard');
+            const hasRam = collectedParts.some(p => p.cat === 'ram');
+            const hasStorage = collectedParts.some(p => p.cat === 'storage');
+
+            if (!hasCpu || !hasMb || !hasRam || !hasStorage) {
+                alert("⚠️ EKSİK DONANIM!\n\nBir bilgisayarın çalışabilmesi için ANAKART, İŞLEMCİ, RAM ve DEPOLAMA (SSD/HDD) temel parçaları zorunludur! Eksikleri toplayarak tekrar dene.");
+                return;
+            }
+
+            // Overbudget check
+            const isOverBudget = spentCredits > m.maxBudget;
+            playSound('win');
+
+            const modal = document.getElementById('evalModal');
+            document.getElementById('evalRemainingCredits').textContent = `${credits} K (Harcanan: ${spentCredits} K)`;
+            
+            if (isOverBudget) {
+                document.getElementById('evalModalTitle').textContent = "BÜTÇE AŞILDI, ANCAK SİSTEM ÇALIŞIYOR!";
+                document.getElementById('evalCompatibilityScore').textContent = "75 / 100 (Bütçe Uyarısı)";
+                document.getElementById('evalTeacherAdvice').innerHTML = `<b>Öğretmen Bozok Notu:</b> Bilgisayar kuruldu fakat hedeflenen bütçeyi (${m.maxBudget} K) aştın. Gerçek hayatta da gereğinden fazla pahalı parçalar seçmek bütçeyi zorlayabilir.`;
+            } else {
+                document.getElementById('evalModalTitle').textContent = "MÜKEMMEL BÜTÇE VE DONANIM DENGESİ!";
+                document.getElementById('evalCompatibilityScore').textContent = "100 / 100 (Kusursuz)";
+                document.getElementById('evalTeacherAdvice').innerHTML = `<b>Öğretmen Bozok Notu:</b> Harika bir strateji! Parçaları tam ihtiyaca göre seçtin, gereksiz pahalı donanımları pas geçerek bütçeni korudun.`;
+            }
+
+            modal.classList.remove('hidden');
+        }
+
+        function nextMission() {
+            document.getElementById('evalModal').classList.add('hidden');
+            if (currentMissionIdx < MISSIONS.length - 1) {
+                currentMissionIdx++;
+                loadMission(currentMissionIdx);
+            } else {
+                // Grand Finale!
+                playSound('win');
+                document.getElementById('grandFinaleModal').classList.remove('hidden');
+            }
+        }
+
+        function restartAllMissions() {
+            currentMissionIdx = 0;
+            document.getElementById('grandFinaleModal').classList.add('hidden');
+            loadMission(0);
+        }
+
+        window.onload = initAuction;
+    </script>
+</body>
+</html>

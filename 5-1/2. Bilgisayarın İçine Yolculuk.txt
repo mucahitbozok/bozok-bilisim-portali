@@ -1,0 +1,28 @@
+# ANTIGRAVITY PROMPT — BİLGİSAYARIN İÇİNE YOLCULUK
+
+BTY.5.1.5 için 5. sınıf öğrencilerine yönelik etkileşimli bir bilgisayar donanımı keşif oyunu oluştur.
+
+**Ana fikir:** Öğrenci sanal bir bilgisayar kasasının içine yolculuk yapar, donanım parçalarını keşfeder ve görevlerini öğrenir.
+
+**Ekran tasarımı:**
+- Ortada büyük, ayrıntılı ve anlaşılır bir bilgisayar kasası görseli bulunmalı.
+- Anakart, işlemci, RAM, HDD, SSD, ekran kartı, güç kaynağı ve soğutucu ayırt edilebilir biçimde gösterilmeli.
+- Her parçanın üzerine dokunulduğunda yakınlaştırılmış görseli, adı ve görevi açılmalı.
+- Parçalar birbirinin üzerine binmemeli; etiketler okunaklı olmalı.
+
+**Görevler:**
+1. Parçaları incele ve bilgi kartlarını aç.
+2. İpuçlarına göre doğru parçayı bul.
+3. Parçaları görev açıklamalarıyla eşleştir.
+4. Eksik parçaları uygun alanlara sürükleyip bırak.
+5. Keşfedilen parçaların tamamını kontrol et.
+
+Anakartı tüm parçaların iletişim kurmasını sağlayan temel bileşen olarak açıkla. İşlemciyi komutları işleyen, RAM'i geçici bellek, HDD ve SSD'yi kalıcı depolama olarak tanıt.
+
+Yanlış yerleştirmede parçayı başlangıç konumuna geri döndür ve açıklayıcı ipucu ver.
+
+**Görseller:** Gerçekçi açık bilgisayar kasası, anakart, RAM modülleri, işlemci, SSD, HDD ve güç kaynağı illüstrasyonları kullan.
+
+Keşif ilerlemesi, tamamlanan görevler ve bölüm sonu özeti olsun. Büyük dokunmatik alanlar, akıcı yakınlaştırma animasyonları ve tam ekran modu ekle.
+
+HTML, CSS ve JavaScript kullan. Uygulama çevrimdışı çalışsın; bütün etkileşimler işlevsel olsun. 5. sınıf düzeyinde Türkçe kullan ve öğrenci verilerini kaydetme.

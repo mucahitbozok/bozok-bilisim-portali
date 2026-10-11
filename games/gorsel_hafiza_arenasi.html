@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Görsel Hafıza Arenası — Donanım Parçalarını Hatırla</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            user-select: none;
+            -webkit-user-select: none;
+        }
+        .perspective-1000 {
+            perspective: 1000px;
+        }
+        .card-inner {
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            transform-style: preserve-3d;
+        }
+        .card-inner.flipped {
+            transform: rotateY(180deg);
+        }
+        .card-face {
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+        }
+        .card-back {
+            transform: rotateY(180deg);
+        }
+    </style>
+</head>
+<body class="bg-slate-950 text-white min-h-screen flex flex-col font-sans">
+
+    <!-- Header -->
+    <header class="bg-slate-900/90 border-b border-indigo-800/40 px-6 py-4 flex items-center justify-between shadow-lg sticky top-0 z-40 backdrop-blur">
+        <div class="flex items-center gap-4">
+            <a href="../index.html" class="bg-slate-800 hover:bg-slate-700 text-indigo-400 px-4 py-2 rounded-xl text-sm font-bold flex items-center gap-2 border border-indigo-500/30 transition">
+                <i class="fa-solid fa-arrow-left"></i> Portala Dön
+            </a>
+            <div>
+                <h1 class="text-xl md:text-2xl font-black bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400 bg-clip-text text-transparent flex items-center gap-2">
+                    <i class="fa-solid fa-brain text-indigo-400"></i> GÖRSEL HAFIZA ARENASI
+                </h1>
+                <p class="text-xs text-slate-400">BTY.5.1.5 — Kartları İncele, Konumlarını Hafızana Kaydet!</p>
+            </div>
+        </div>
+        <div class="flex items-center gap-4">
+            <div class="bg-slate-800/80 border border-slate-700 px-4 py-1.5 rounded-xl flex items-center gap-2 text-sm">
+                <span class="text-slate-400">Seviye:</span>
+                <span id="levelDisplay" class="font-black text-indigo-300 text-base">1 / 4</span>
+            </div>
+            <div class="bg-indigo-950/60 border border-indigo-700/60 px-4 py-1.5 rounded-xl flex items-center gap-2 text-sm">
+                <i class="fa-solid fa-star text-amber-400"></i>
+                <span class="text-slate-400">Puan:</span>
+                <span id="scoreDisplay" class="font-black text-amber-300 text-base">0</span>
+            </div>
+            <button id="soundBtn" onclick="toggleSound()" class="w-10 h-10 rounded-xl bg-slate-800 hover:bg-slate-700 text-indigo-400 border border-slate-700 flex items-center justify-center transition">
+                <i id="soundIcon" class="fa-solid fa-volume-high"></i>
+            </button>
+            <button onclick="toggleFullscreen()" class="w-10 h-10 rounded-xl bg-slate-800 hover:bg-slate-700 text-indigo-400 border border-slate-700 flex items-center justify-center transition">
+                <i class="fa-solid fa-expand"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="flex-1 max-w-6xl mx-auto w-full p-4 md:p-6 flex flex-col gap-6">
+
+        <!-- Arena Mission & Clue Banner -->
+        <div class="bg-gradient-to-r from-slate-900 via-indigo-950/60 to-slate-900 border-2 border-indigo-500/40 rounded-3xl p-5 shadow-2xl relative overflow-hidden">
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                <div class="flex items-start gap-4">
+                    <div id="missionClueIcon" class="w-14 h-14 rounded-2xl bg-indigo-600/30 border border-indigo-400/40 flex items-center justify-center text-3xl text-indigo-300 flex-shrink-0 shadow-lg">
+                        <i class="fa-solid fa-eye"></i>
+                    </div>
+                    <div>
+                        <div class="flex items-center gap-2">
+                            <span id="phaseBadge" class="text-xs uppercase tracking-wider font-extrabold px-3 py-0.5 rounded-full bg-indigo-500/20 text-indigo-300 border border-indigo-500/40">1. AŞAMA: İNCELE</span>
+                            <span id="timerText" class="text-xs font-mono font-bold text-amber-400">5 saniye kaldı</span>
+                        </div>
+                        <h2 id="missionQuestion" class="text-xl md:text-2xl font-black text-white mt-1">
+                            Kartların yerini dikkatlice ezberle!
+                        </h2>
+                        <p id="missionHint" class="text-xs text-slate-300 mt-1 max-w-2xl leading-relaxed">
+                            Kartlar 5 saniye sonra kapanacak ve senden ipucuna uyan donanımı bulman istenecek.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="flex items-center gap-2 flex-shrink-0">
+                    <button id="peekBtn" onclick="requestPeek()" disabled class="px-4 py-2.5 bg-slate-800 text-slate-500 border border-slate-700 rounded-xl text-xs font-bold transition flex items-center gap-2 cursor-not-allowed">
+                        <i class="fa-solid fa-eye text-cyan-400"></i> Tekrar Göster (2 Sn)
+                    </button>
+                </div>
+            </div>
+
+            <!-- Countdown Bar -->
+            <div class="w-full bg-slate-950 h-2 rounded-full mt-4 overflow-hidden border border-slate-800">
+                <div id="countdownBar" class="h-full bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 transition-all duration-1000 w-full"></div>
+            </div>
+        </div>
+
+        <!-- Cards Arena Grid -->
+        <div id="cardsGrid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 py-2">
+            <!-- Dynamic Memory Cards -->
+        </div>
+
+        <!-- Feedback & Education Explanation Bar -->
+        <div id="arenaFeedbackBar" class="hidden bg-slate-900 border border-indigo-500/40 rounded-2xl p-4 shadow-xl flex items-center justify-between gap-4">
+            <div class="flex items-center gap-3">
+                <div id="feedbackIcon" class="w-10 h-10 rounded-xl flex items-center justify-center text-xl flex-shrink-0"></div>
+                <div>
+                    <h4 id="feedbackTitle" class="text-sm font-bold text-white"></h4>
+                    <p id="feedbackDesc" class="text-xs text-slate-300 mt-0.5"></p>
+                </div>
+            </div>
+            <button id="nextLevelBtn" onclick="nextRoundOrLevel()" class="px-5 py-2.5 bg-gradient-to-r from-indigo-600 to-pink-600 hover:from-indigo-500 hover:to-pink-500 text-white font-extrabold rounded-xl text-xs transition flex items-center gap-2 flex-shrink-0 shadow-lg">
+                <span>Devam Et</span>
+                <i class="fa-solid fa-arrow-right"></i>
+            </button>
+        </div>
+
+    </main>
+
+    <!-- Final Game Clear Modal -->
+    <div id="memoryWinModal" class="hidden fixed inset-0 z-50 bg-black/85 backdrop-blur-md flex items-center justify-center p-4">
+        <div class="bg-gradient-to-b from-slate-900 to-indigo-950 border-2 border-indigo-400/80 rounded-3xl max-w-xl w-full p-8 shadow-2xl text-center relative">
+            <div class="w-24 h-24 mx-auto rounded-3xl bg-indigo-500/20 border-2 border-indigo-400 flex items-center justify-center text-5xl text-indigo-300 mb-4 animate-bounce">
+                <i class="fa-solid fa-medal text-amber-400"></i>
+            </div>
+            <h2 class="text-3xl font-black text-white">MÜTHİŞ HAFIZA VE DONANIM BİLGİSİ!</h2>
+            <p class="text-sm text-indigo-200 mt-2">
+                4 seviyedeki tüm donanım kartlarını hatırlayıp görevleriyle doğru eşleştirdin!
+            </p>
+
+            <div class="bg-slate-950/80 border border-slate-800 rounded-2xl p-4 my-6 text-left space-y-2 text-xs text-slate-300">
+                <div class="flex justify-between pb-1 border-b border-slate-800">
+                    <span>Toplam Puan:</span>
+                    <span id="finalScoreVal" class="font-bold text-amber-400">100 Puan</span>
+                </div>
+                <div class="flex justify-between pb-1 border-b border-slate-800">
+                    <span>Tamamlanan Seviyeler:</span>
+                    <span class="font-bold text-emerald-400">4 / 4 Seviye</span>
+                </div>
+            </div>
+
+            <div class="flex items-center justify-center gap-4">
+                <button onclick="restartMemoryGame()" class="px-6 py-3 bg-indigo-600 hover:bg-indigo-500 text-white font-bold rounded-xl transition flex items-center gap-2">
+                    <i class="fa-solid fa-rotate-right"></i> Yeniden Oyna
+                </button>
+                <a href="../index.html" class="px-6 py-3 bg-pink-600 hover:bg-pink-500 text-white font-bold rounded-xl transition flex items-center gap-2">
+                    <i class="fa-solid fa-house"></i> Portala Dön
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Audio FX -->
+    <script>
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        let soundEnabled = true;
+
+        function playSound(type) {
+            if (!soundEnabled) return;
+            try {
+                if (audioCtx.state === 'suspended') audioCtx.resume();
+                const now = audioCtx.currentTime;
+
+                if (type === 'flip') {
+                    const osc = audioCtx.createOscillator();
+                    const gain = audioCtx.createGain();
+                    osc.connect(gain);
+                    gain.connect(audioCtx.destination);
+                    osc.type = 'triangle';
+                    osc.frequency.setValueAtTime(400, now);
+                    osc.frequency.linearRampToValueAtTime(800, now + 0.1);
+                    gain.gain.setValueAtTime(0.15, now);
+                    gain.gain.exponentialRampToValueAtTime(0.01, now + 0.1);
+                    osc.start(now);
+                    osc.stop(now + 0.1);
+                } else if (type === 'correct') {
+                    [523.25, 659.25, 783.99].forEach((f, i) => {
+                        const osc = audioCtx.createOscillator();
+                        const gain = audioCtx.createGain();
+                        osc.connect(gain);
+                        gain.connect(audioCtx.destination);
+                        osc.frequency.setValueAtTime(f, now + i * 0.08);
+                        gain.gain.setValueAtTime(0.18, now + i * 0.08);
+                        gain.gain.exponentialRampToValueAtTime(0.01, now + i * 0.08 + 0.15);
+                        osc.start(now + i * 0.08);
+                        osc.stop(now + i * 0.08 + 0.15);
+                    });
+                } else if (type === 'wrong') {
+                    const osc = audioCtx.createOscillator();
+                    const gain = audioCtx.createGain();
+                    osc.connect(gain);
+                    gain.connect(audioCtx.destination);
+                    osc.type = 'sawtooth';
+                    osc.frequency.setValueAtTime(220, now);
+                    osc.frequency.linearRampToValueAtTime(140, now + 0.2);
+                    gain.gain.setValueAtTime(0.2, now);
+                    gain.gain.exponentialRampToValueAtTime(0.01, now + 0.2);
+                    osc.start(now);
+                    osc.stop(now + 0.2);
+                }
+            } catch (e) {}
+        }
+
+        function toggleSound() {
+            soundEnabled = !soundEnabled;
+            document.getElementById('soundIcon').className = soundEnabled ? 'fa-solid fa-volume-high' : 'fa-solid fa-volume-xmark';
+        }
+
+        function toggleFullscreen() {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen().catch(() => {});
+            } else {
+                document.exitFullscreen().catch(() => {});
+            }
+        }
+    </script>
+
+    <!-- Memory Game Engine -->
+    <script>
+        const ALL_HARDWARE = [
+            { id: 'cpu', name: 'İşlemci (CPU)', icon: 'fa-microchip', clue: 'Komutları işleyen, hesaplamaları yapan bilgisayarın beynini bul!', role: 'İşlemci tüm mantıksal ve matematiksel işlemleri yürütür.' },
+            { id: 'ram', name: 'RAM Bellek', icon: 'fa-memory', clue: 'Çalışan programları geçici olarak tutan, elektrik kesilince silinen belleği bul!', role: 'RAM hızlı geçici çalışma alanıdır.' },
+            { id: 'anakart', name: 'Anakart', icon: 'fa-chess-board', clue: 'Tüm donanım parçalarını birbirine bağlayan temel ana devre kartını bul!', role: 'Anakart parçaların iletişim otoyoludur.' },
+            { id: 'monitor', name: 'Monitör', icon: 'fa-display', clue: 'Bilgisayarda işlenen verileri renkli görüntü olarak gözlerimize yansıtan dış birimi bul!', role: 'Monitör temel görüntü çıkış aygıtıdır.' },
+            { id: 'hdd', name: 'Sabit Disk (HDD/SSD)', icon: 'fa-hard-drive', clue: 'Dosyaları, oyunları ve ödevleri kalıcı olarak saklayan depolama birimini bul!', role: 'Sabit disk ve SSD verileri kalıcı saklar.' },
+            { id: 'klavye', name: 'Klavye', icon: 'fa-keyboard', clue: 'Bilgisayara harfler, sayılar ve komutlar girmemizi sağlayan giriş birimini bul!', role: 'Klavye temel metin giriş birimidir.' },
+            { id: 'gpu', name: 'Ekran Kartı', icon: 'fa-gamepad', clue: 'Görüntü ve 3D grafik işlemlerini yürüten donanım kartını bul!', role: 'Ekran kartı monitöre gidecek pikselleri işler.' },
+            { id: 'hoparlor', name: 'Hoparlör', icon: 'fa-volume-high', clue: 'Müzik ve ses dalgalarını duymamızı sağlayan çıkış birimini bul!', role: 'Hoparlör dijital sesi işitilebilir sese çevirir.' },
+            { id: 'mikrofon', name: 'Mikrofon', icon: 'fa-microphone', clue: 'Kendi sesimizi bilgisayara aktaran giriş birimini bul!', role: 'Mikrofon ses titreşimini dijital veriye çevirir.' },
+            { id: 'yazici', name: 'Yazıcı', icon: 'fa-print', clue: 'Belgeleri ve fotoğrafları kağıda basan çıkış birimini bul!', role: 'Yazıcı ekrandaki bilgiyi kağıda döker.' }
+        ];
+
+        const LEVELS = [
+            { levelNum: 1, cardCount: 4, itemIds: ['cpu', 'ram', 'anakart', 'monitor'] },
+            { levelNum: 2, cardCount: 6, itemIds: ['cpu', 'ram', 'anakart', 'monitor', 'hdd', 'klavye'] },
+            { levelNum: 3, cardCount: 8, itemIds: ['cpu', 'ram', 'anakart', 'monitor', 'hdd', 'klavye', 'gpu', 'hoparlor'] },
+            { levelNum: 4, cardCount: 10, itemIds: ['cpu', 'ram', 'anakart', 'monitor', 'hdd', 'klavye', 'gpu', 'hoparlor', 'mikrofon', 'yazici'] }
+        ];
+
+        let currentLevelIdx = 0;
+        let score = 0;
+        let currentTargetHw = null;
+        let activeLevelItems = [];
+        let isMemorizePhase = true;
+        let timerInterval = null;
+        let canClick = false;
+
+        function initMemoryGame() {
+            startLevel(currentLevelIdx);
+        }
+
+        function startLevel(idx) {
+            const lvl = LEVELS[idx];
+            document.getElementById('levelDisplay').textContent = `${idx + 1} / ${LEVELS.length}`;
+            document.getElementById('scoreDisplay').textContent = score;
+
+            // Pick hardware subset & shuffle
+            activeLevelItems = ALL_HARDWARE.filter(h => lvl.itemIds.includes(h.id));
+            shuffleArray(activeLevelItems);
+
+            // Pick a target hardware to ask
+            currentTargetHw = activeLevelItems[Math.floor(Math.random() * activeLevelItems.length)];
+
+            // Phase 1 UI
+            isMemorizePhase = true;
+            canClick = false;
+            document.getElementById('phaseBadge').textContent = '1. AŞAMA: İNCELE VE EZBERLE';
+            document.getElementById('phaseBadge').className = 'text-xs uppercase tracking-wider font-extrabold px-3 py-0.5 rounded-full bg-indigo-500/20 text-indigo-300 border border-indigo-500/40';
+            document.getElementById('missionQuestion').textContent = 'Kartların yerini dikkatlice ezberle!';
+            document.getElementById('missionHint').textContent = 'Kartlar 5 saniye sonra kapanacak ve sana bir donanım sorulacak.';
+            document.getElementById('missionClueIcon').innerHTML = `<i class="fa-solid fa-eye"></i>`;
+            document.getElementById('arenaFeedbackBar').classList.add('hidden');
+
+            renderCards(true); // Open faces
+
+            // Start 5-sec countdown
+            startMemorizeCountdown(5);
+        }
+
+        function renderCards(showFront) {
+            const grid = document.getElementById('cardsGrid');
+            grid.innerHTML = '';
+
+            activeLevelItems.forEach((item, index) => {
+                const cardWrap = document.createElement('div');
+                cardWrap.className = "perspective-1000 h-44 sm:h-48 cursor-pointer";
+                cardWrap.onclick = () => handleCardClick(item, cardWrap);
+
+                const inner = document.createElement('div');
+                inner.id = `cardInner_${index}`;
+                inner.className = `card-inner relative w-full h-full rounded-2xl shadow-xl ${showFront ? '' : 'flipped'}`;
+
+                // Front Face (Revealed Hardware)
+                const front = document.createElement('div');
+                front.className = "card-face absolute inset-0 bg-slate-900 border-2 border-indigo-500/50 rounded-2xl p-4 flex flex-col items-center justify-center text-center";
+                front.innerHTML = `
+                    <div class="w-14 h-14 rounded-2xl bg-indigo-950/80 border border-indigo-400 flex items-center justify-center text-3xl text-indigo-300 mb-2 shadow">
+                        <i class="fa-solid ${item.icon}"></i>
+                    </div>
+                    <span class="font-extrabold text-sm text-white">${item.name}</span>
+                `;
+
+                // Back Face (Closed Pattern)
+                const back = document.createElement('div');
+                back.className = "card-face card-back absolute inset-0 bg-slate-900 border-2 border-slate-700 hover:border-indigo-400 rounded-2xl p-4 flex flex-col items-center justify-center text-center transition";
+                back.innerHTML = `
+                    <div class="w-12 h-12 rounded-full bg-slate-800 flex items-center justify-center text-2xl text-indigo-400 mb-2 border border-slate-700">
+                        <i class="fa-solid fa-question"></i>
+                    </div>
+                    <span class="text-xs font-bold text-slate-400">Gizli Kart #${index + 1}</span>
+                `;
+
+                inner.appendChild(front);
+                inner.appendChild(back);
+                cardWrap.appendChild(inner);
+                grid.appendChild(cardWrap);
+            });
+        }
+
+        function startMemorizeCountdown(seconds) {
+            let left = seconds;
+            const bar = document.getElementById('countdownBar');
+            const timerText = document.getElementById('timerText');
+            bar.style.width = '100%';
+
+            clearInterval(timerInterval);
+            timerInterval = setInterval(() => {
+                left--;
+                timerText.textContent = `${left} saniye kaldı`;
+                bar.style.width = `${(left / seconds) * 100}%`;
+
+                if (left <= 0) {
+                    clearInterval(timerInterval);
+                    finishMemorizePhase();
+                }
+            }, 1000);
+        }
+
+        function finishMemorizePhase() {
+            isMemorizePhase = false;
+            canClick = true;
+
+            // Flip all cards to back
+            document.querySelectorAll('.card-inner').forEach(c => c.classList.add('flipped'));
+            playSound('flip');
+
+            // Phase 2 Clue Question
+            document.getElementById('phaseBadge').textContent = '2. AŞAMA: DONANIMI BUL!';
+            document.getElementById('phaseBadge').className = 'text-xs uppercase tracking-wider font-extrabold px-3 py-0.5 rounded-full bg-pink-500/20 text-pink-300 border border-pink-500/40';
+            document.getElementById('timerText').textContent = 'Tahmin Sırası Sende';
+            document.getElementById('missionQuestion').textContent = currentTargetHw.clue;
+            document.getElementById('missionHint').textContent = 'Yukarıdaki göreve sahip parçanın hangi kartın arkasında olduğunu hatırla ve karta tıkla!';
+            document.getElementById('missionClueIcon').innerHTML = `<i class="fa-solid fa-bullseye text-pink-400"></i>`;
+
+            // Enable Peek Button
+            const peekBtn = document.getElementById('peekBtn');
+            peekBtn.disabled = false;
+            peekBtn.className = "px-4 py-2.5 bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 rounded-xl text-xs font-bold transition flex items-center gap-2 cursor-pointer";
+        }
+
+        function handleCardClick(item, cardWrapper) {
+            if (!canClick || isMemorizePhase) return;
+
+            const inner = cardWrapper.querySelector('.card-inner');
+            inner.classList.remove('flipped'); // Reveal clicked card
+            canClick = false;
+
+            const fbBar = document.getElementById('arenaFeedbackBar');
+            const fbIcon = document.getElementById('feedbackIcon');
+            const fbTitle = document.getElementById('feedbackTitle');
+            const fbDesc = document.getElementById('feedbackDesc');
+            fbBar.classList.remove('hidden');
+
+            if (item.id === currentTargetHw.id) {
+                // Correct Match!
+                playSound('correct');
+                score += 25;
+                document.getElementById('scoreDisplay').textContent = score;
+
+                fbIcon.className = "w-10 h-10 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-xl flex-shrink-0";
+                fbIcon.innerHTML = `<i class="fa-solid fa-circle-check"></i>`;
+                fbTitle.textContent = `HARİKA HAFIZA! DOĞRU PARÇA: ${item.name}`;
+                fbDesc.textContent = item.role;
+
+            } else {
+                // Wrong Match
+                playSound('wrong');
+                fbIcon.className = "w-10 h-10 rounded-xl bg-rose-500/20 text-rose-400 flex items-center justify-center text-xl flex-shrink-0";
+                fbIcon.innerHTML = `<i class="fa-solid fa-circle-xmark"></i>`;
+                fbTitle.textContent = `BU KART: ${item.name}`;
+                fbDesc.textContent = `Aradığımız donanım ${currentTargetHw.name} idi. (${currentTargetHw.role})`;
+
+                // Highlight the correct one
+                setTimeout(() => {
+                    document.querySelectorAll('.card-inner').forEach(c => c.classList.remove('flipped'));
+                }, 800);
+            }
+        }
+
+        function requestPeek() {
+            if (!canClick || isMemorizePhase) return;
+            const peekBtn = document.getElementById('peekBtn');
+            peekBtn.disabled = true;
+            peekBtn.className = "px-4 py-2.5 bg-slate-800 text-slate-500 border border-slate-700 rounded-xl text-xs font-bold transition flex items-center gap-2 cursor-not-allowed";
+
+            playSound('flip');
+            document.querySelectorAll('.card-inner').forEach(c => c.classList.remove('flipped'));
+
+            setTimeout(() => {
+                playSound('flip');
+                document.querySelectorAll('.card-inner').forEach(c => c.classList.add('flipped'));
+            }, 2000);
+        }
+
+        function nextRoundOrLevel() {
+            if (currentLevelIdx < LEVELS.length - 1) {
+                currentLevelIdx++;
+                startLevel(currentLevelIdx);
+            } else {
+                // Game Finished!
+                playSound('correct');
+                document.getElementById('finalScoreVal').textContent = `${score} Puan`;
+                document.getElementById('memoryWinModal').classList.remove('hidden');
+            }
+        }
+
+        function restartMemoryGame() {
+            currentLevelIdx = 0;
+            score = 0;
+            document.getElementById('memoryWinModal').classList.add('hidden');
+            startLevel(0);
+        }
+
+        function shuffleArray(arr) {
+            for (let i = arr.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [arr[i], arr[j]] = [arr[j], arr[i]];
+            }
+        }
+
+        window.onload = initMemoryGame;
+    </script>
+</body>
+</html>

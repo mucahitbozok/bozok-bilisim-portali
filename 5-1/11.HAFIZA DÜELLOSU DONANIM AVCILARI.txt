@@ -1,0 +1,254 @@
+# ANTIGRAVITY OYUN GELİŞTİRME PROMPTU
+## HAFIZA DÜELLOSU: DONANIM AVCILARI
+
+Deneyimli bir web oyun geliştiricisi ve eğitim teknolojileri uzmanı gibi davran. 5. sınıf Bilişim Teknolojileri ve Yazılım dersi, **BTY.5.1.5 – Bilgisayar Sistemlerinin Kullanımı** kazanımının “Bilgisayar ve Donanım” konusuna uygun, iki öğrencinin aynı cihazda karşılıklı oynayabileceği, görsel açıdan zengin ve eksiksiz bir hafıza düellosu oyunu geliştir.
+
+Oyun, sınıfta akıllı tahta üzerinden oynanacak. Uygulama çevrimdışı çalışmalı ve tek bir HTML dosyası olarak açılabilmelidir.
+
+## 1. Oyunun temel yapısı
+
+- Oyun adı: **HAFIZA DÜELLOSU: DONANIM AVCILARI**
+- Hedef kitle: 5. sınıf öğrencileri
+- Oyuncu sayısı: Tam olarak 2 oyuncu
+- Oynanış: Oyuncular sırayla hamle yapar.
+- Tur sayısı: 15 tur
+- Platform: Akıllı tahta, masaüstü bilgisayar ve dokunmatik ekran
+- Teknoloji: HTML, CSS ve JavaScript
+- İnternet bağlantısı: Gerekmemeli
+- Arayüz dili: Türkçe
+- Oyun sonunda puan tablosu ve kazanan ekranı bulunmalı.
+
+Oyunu sadece bir tasarım örneği olarak oluşturma. Bütün butonlar, kartlar, puanlama sistemi, tur geçişleri ve yeniden başlatma işlevleri gerçekten çalışmalı.
+
+## 2. Oyunun amacı ve oynanışı
+
+Ekranda yüzleri kapalı kartlar yer alacak. Kartların arkasında bilgisayar donanım bileşenlerinin görselleri veya donanım-görev eşleştirmeleri bulunacak.
+
+Oyuncular sırayla iki kart açacak. Açılan kartlar eşleşiyorsa oyuncu puan kazanacak. Eşleşmiyorsa kartlar kısa bir süre sonra kapanacak ve sıra diğer oyuncuya geçecek.
+
+Oyuncuların amacı mümkün olduğunca çok doğru eşleştirme yaparak rakibini yenmek.
+
+### Önemli tur kuralı
+
+Oyun toplam **15 oyuncu turundan** oluşmalı. Her oyuncu turunda en fazla iki kart açılmalı.
+
+- Oyuncu 1 ilk turu başlatır.
+- Sonraki tur Oyuncu 2'ye geçer.
+- Oyuncular sırayla devam eder.
+- Eşleştirme yapan oyuncuya puan verilir.
+- Doğru eşleşme olduğunda da sıranın diğer oyuncuya geçmesi, oyunun adil ve anlaşılır kalması için tercih edilmeli.
+- Yanlış eşleşmede kartlar otomatik kapanmalı ve sıra diğer oyuncuya geçmeli.
+- Eşleşmiş kartlar oyun boyunca açık kalmalı.
+- Bütün kartlar eşleşirse 15 tur dolmamış olsa bile oyun bitmeli.
+- 15. tur tamamlandığında yeni tur başlatılmamalı.
+
+Kart sayısı, 15 turda tamamlanabilecek bir oyun için dengeli ayarlanmalı. Önerilen yapı 12 karttan oluşan 6 eşleştirme çifti ve toplam 12 puanlık bir eşleştirme havuzudur. Oyuncuların 15 tur içinde bütün eşleştirmeleri bulamaması mümkündür; bu durumda oyun sonunda bulunan eşleştirmeler üzerinden kazanan belirlenir.
+
+## 3. Oyuncu isimleri ve başlangıç ekranı
+
+Oyunun başlangıç ekranında şu unsurlar yer alsın:
+
+- Büyük başlık: HAFIZA DÜELLOSU
+- Alt başlık: DONANIM AVCILARI
+- Oyuncu 1 adı için metin alanı
+- Oyuncu 2 adı için metin alanı
+- “OYUNA BAŞLA” butonu
+- “NASIL OYNANIR?” butonu
+- Donanım bileşenlerinden oluşan eğlenceli bir arka plan
+
+İsim alanları boş bırakılırsa otomatik olarak “Oyuncu 1” ve “Oyuncu 2” kullanılsın.
+
+Oyuna başlamadan önce kısa bir yönerge gösterilsin:
+
+1. Sıranı bekle.
+2. İki kart aç.
+3. Eşleşen kartları bul.
+4. Puan topla ve düelloyu kazan.
+
+## 4. Hafıza kartlarının içeriği
+
+Kartlar 5. sınıf öğrencilerinin kolayca tanıyabileceği, görsel olarak birbirinden ayırt edilebilir donanım bileşenlerinden oluşmalı.
+
+Önerilen altı eşleştirme:
+
+1. **Anakart:** Bilgisayarın parçalarını birbirine bağlayan temel devre kartı.
+2. **İşlemci (CPU):** Komutları işleyen ve işlemleri gerçekleştiren bileşen.
+3. **RAM:** Bilgisayar çalışırken kullanılan geçici bellektir.
+4. **Depolama birimi:** Dosyaların ve bilgilerin saklanmasını sağlar.
+5. **Klavye:** Bilgisayara yazı ve komut girmeyi sağlar.
+6. **Fare:** Ekrandaki işaretçiyi kontrol etmeyi ve seçim yapmayı sağlar.
+
+Her eşleştirme için iki farklı kart oluştur. Kartlardan biri donanımın görselini ve adını, diğer kart ise aynı donanımın görevini veya uygun simgesini taşısın.
+
+Eşleştirme mantığı yalnızca aynı resmin iki kopyasını bulmaktan ibaret olmasın. Öğrenci, donanımı tanıma ve görevini hatırlama becerisini de kullansın.
+
+Kartlar başlangıçta karıştırılsın. Her yeni oyunda kart sırası yeniden rastgele oluşturulsun.
+
+## 5. Görsel tasarım
+
+Modern, enerjik, çocuklara uygun bir teknoloji oyunu tasarla.
+
+- Koyu lacivert ve mor ağırlıklı arka plan
+- Elektrik mavisi ve sarı vurgular
+- Kartlarda büyük, anlaşılır donanım illüstrasyonları
+- Kartların arka yüzünde belirgin bir soru işareti veya teknoloji simgesi
+- Kartlarda yuvarlatılmış köşeler ve belirgin kenarlıklar
+- Oyuncular için birbirinden kolayca ayırt edilen renkler
+- Doğru eşleşmede yeşil vurgu ve kısa animasyon
+- Yanlış eşleşmede kırmızı veya turuncu kısa uyarı
+- Okunaklı Türkçe karakterler
+- Akıllı tahta için büyük dokunmatik alanlar
+
+Kartlar ekranda rahatça seçilebilecek büyüklükte olmalı. Yazılar uzaktan okunmalı. Gereksiz küçük metinlerden ve karmaşık menülerden kaçın.
+
+Görseller için çevrimdışı kullanılabilecek yerel SVG çizimleri, CSS illüstrasyonları veya HTML içinde gömülü SVG kullan. İnternetten yüklenen görsellere, harici yazı tiplerine ya da CDN bağlantılarına bağımlı olma.
+
+## 6. Oyun ekranı
+
+Ana oyun ekranında aşağıdaki bölümler bulunmalı:
+
+### Üst bölüm
+- Oyunun adı
+- Tur göstergesi: “Tur 1 / 15”
+- Kalan tur sayısı
+- Bulunan eşleşme sayısı
+
+### Oyuncu paneli
+- Oyuncu 1 adı ve puanı
+- Oyuncu 2 adı ve puanı
+- Aktif oyuncunun panelinde belirgin bir çerçeve veya ışık efekti
+- “Sıra: [Oyuncu adı]” göstergesi
+
+### Oyun alanı
+- 12 hafıza kartı
+- Kartların tıklanabilir veya dokunulabilir olması
+- Kart açılma ve kapanma animasyonları
+- Eşleşmiş kartların kalıcı olarak açık kalması
+- Yanlış eşleşmede iki kartın kısa süre sonra kapanması
+
+### Alt bölüm
+- “Oyunu Duraklat”
+- “Oyunu Yeniden Başlat”
+- “Nasıl Oynanır?”
+- “Ana Menü”
+
+Yeniden başlatma butonuna basıldığında yanlışlıkla oyunun sıfırlanmaması için onay penceresi göster.
+
+## 7. Puanlama ve sıra yönetimi
+
+Puanlama sistemi açık ve adil olsun:
+
+- Doğru eşleştirme: +10 puan
+- Yanlış eşleştirme: 0 puan
+- Eşleşme bonusu: Olmasın; sistem basit kalsın.
+- Her eşleştirme yalnızca bir kez puan kazandırsın.
+- Aynı kartın tekrar puan kazandırması engellensin.
+- Puanlar ekranda anında güncellensin.
+- Aktif oyuncu her turda açıkça belirtilsin.
+
+Bir oyuncu iki kart açtıktan sonra animasyon tamamlanmadan başka karta basamasın. Aynı anda birden fazla hamle yapılması engellensin.
+
+## 8. Geri bildirim ve eğitsel mesajlar
+
+Doğru eşleşmelerde kısa mesajlar göster:
+
+- “Harika eşleşme!”
+- “Donanımı tanıdın!”
+- “10 puan kazandın!”
+- “Güzel hafıza!”
+
+Yanlış eşleşmelerde cesaret kırıcı ifadeler kullanma:
+
+- “Bu kez olmadı, diğer turda tekrar dene.”
+- “Donanım görevlerini hatırlamaya çalış.”
+- “Dikkatli bak, eşleşme burada olabilir.”
+
+Eşleşme bulunduğunda donanımın görevini tek cümleyle göster. Örneğin:
+
+“RAM: Bilgisayar çalışırken kullanılan geçici bellektir.”
+
+Mesajlar kısa süre görünmeli ve oyun akışını gereksiz yere yavaşlatmamalı.
+
+## 9. Oyunun sonu ve kazanan ekranı
+
+Oyun 15. tur tamamlandığında veya bütün eşleştirmeler bulunduğunda sona ersin.
+
+Sonuç ekranında şunlar bulunsun:
+
+- “DÜELLO TAMAMLANDI!”
+- Oyuncu 1 toplam puanı
+- Oyuncu 2 toplam puanı
+- Bulunan eşleştirme sayısı
+- Oynanan tur sayısı
+- Kazanan oyuncunun adı
+- Kazanana özel görsel bir kutlama animasyonu
+- “YENİDEN OYNA” butonu
+- “ANA MENÜ” butonu
+
+Kazanan, en yüksek puanı alan oyuncu olsun. Puanlar eşitse “BERABERE!” mesajı gösterilsin.
+
+Sonuç ekranında doğru öğrenme mesajları da yer alsın. Örneğin:
+
+“Bu oyunda bilgisayar donanımlarını ve görevlerini tekrar ettin.”
+
+Yeni oyun başlatıldığında puanlar, tur sayısı, açık kartlar ve eşleşme durumu tamamen sıfırlansın. Oyuncular aynı isimlerle tekrar oynayabilsin.
+
+## 10. Ses ve erişilebilirlik
+
+- Ses efektleri isteğe bağlı olsun.
+- Ses açma-kapama butonu bulunsun.
+- Ses dosyası indirmek yerine Web Audio API ile basit efektler üretilebilir.
+- Tarayıcı ses izni vermese de oyun çalışmaya devam etsin.
+- Klavye ve fareyle kullanım desteklensin.
+- Dokunmatik ekranda kart seçimi sorunsuz çalışsın.
+- Renkler tek başına bilgi taşımasın; doğru ve yanlış durumları simge ve yazıyla da belirt.
+- Hareket azaltma tercihi olan kullanıcılar için animasyonları azalt.
+
+## 11. Teknik gereksinimler
+
+Uygulamayı tek bir `index.html` dosyası içinde oluştur.
+
+HTML, CSS ve JavaScript aynı dosyada bulunsun. Harici kütüphane, internet bağlantısı, sunucu, veritabanı veya API anahtarı gerektirmesin.
+
+Kod düzenli, okunabilir ve yorum satırlarıyla açıklanmış olsun.
+
+Özellikle şu durumları doğru yönet:
+
+- Kartın iki kez seçilmesi
+- İkiden fazla kartın aynı anda açık kalması
+- Eşleşmiş kartların yeniden seçilmesi
+- Hatalı sıra değişimi
+- Puanın birden fazla eklenmesi
+- Son turdan sonra oyunun devam etmesi
+- Oyun bitince kartların seçilmeye devam edilmesi
+- Yeniden başlatmada eski puanların kalması
+- Çok hızlı dokunmalarda oluşabilecek hatalar
+
+Oyun duraklatıldığında kart seçimi engellensin. Devam edildiğinde oyun kaldığı yerden sürsün. Ana menüye dönme ve yeniden başlatma işlevleri birbirinden farklı çalışsın.
+
+## 12. Test ve teslim
+
+Uygulamayı tamamladıktan sonra şu senaryoları test et:
+
+1. İki oyuncu adı girilerek oyun başlatılabiliyor mu?
+2. İsim girilmeden başlatıldığında varsayılan isimler atanıyor mu?
+3. Oyuncular sırayla oynuyor mu?
+4. Doğru eşleşmede yalnızca bir kez 10 puan ekleniyor mu?
+5. Yanlış eşleşme sonrasında kartlar kapanıyor ve sıra değişiyor mu?
+6. Eşleşmiş kartlar tekrar seçilemiyor mu?
+7. Tur sayacı 15 turla sınırlı mı?
+8. Bütün eşleşmeler bulunursa oyun erken bitiyor mu?
+9. Beraberlik doğru hesaplanıyor mu?
+10. Oyun yeniden başlatıldığında her şey sıfırlanıyor mu?
+11. İnternet bağlantısı olmadan açılıyor mu?
+12. Akıllı tahta ve masaüstü ekranlarında kullanılabiliyor mu?
+
+Önce çalışan oyunu oluştur, sonra test et ve tespit ettiğin hataları düzelt. Yalnızca kod parçaları veya tasarım taslağı sunma; **doğrudan açılıp oynanabilen eksiksiz `index.html` dosyasını teslim et.**
+
+Oyunun sonunda öğretmenin öğrencilerle değerlendirme yapabilmesi için üç kısa sözlü soru göster:
+
+1. Bilgisayar donanımı ne demektir?
+2. RAM ile depolama birimi arasındaki temel fark nedir?
+3. Klavye ve fare bilgisayarda hangi amaçlarla kullanılır?
+
+Bu sorular oyun puanına dahil edilmesin.

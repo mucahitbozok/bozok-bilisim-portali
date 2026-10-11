@@ -1,0 +1,28 @@
+# ANTIGRAVITY PROMPT — DONANIM MAHKEMESİ
+
+5. sınıf BTY.5.1.5 konusu için **Donanım Mahkemesi** adlı etkileşimli bir karar verme oyunu geliştir.
+
+Öğrenci jüri üyesi olacak. Her duruşmada bir donanım görseli, bir iddia ve iddiayı değerlendirmek için gerekli bilgiler sunulacak.
+
+**Oyun akışı:**
+1. Donanım görselini incele.
+2. İddiayı oku.
+3. “DOĞRU”, “YANLIŞ” veya “EK BİLGİ GEREKİYOR” kararını ver.
+4. Kararını gerekçelendir.
+5. Jüri kararını ve açıklamasını gör.
+
+**Örnek duruşmalar:**
+- “RAM, bilgisayardaki dosyaları kalıcı olarak saklar.” — Yanlış.
+- “İşlemci komutları işler.” — Doğru.
+- “Monitör, bilgisayara veri girmek için kullanılan temel giriş birimidir.” — Yanlış.
+- “Dokunmatik ekran hem görüntü gösterir hem dokunmayı algılar.” — Doğru.
+- “Her bilgisayar sorunu mutlaka işlemciden kaynaklanır.” — Yanlış.
+- “USB bellek verileri okuyabilir ve yazabilir.” — Doğru.
+
+**Önemli:** İddialar teknik açıdan doğru olsun. Öğrenci yanlış karar verdiğinde açıklamayı ve gerekçeyi göster; cevabı öğrenip tekrar deneyebilsin.
+
+Görseller: mahkeme salonu, jüri masası, donanım delil kartları, büyüteç ve karar mührü. Çocuklara uygun, ciddi ama eğlenceli bir teknoloji tasarımı kullan.
+
+Bölüm ilerlemesi, karar puanı ve finalde “Donanım Bilgini Savundun!” ekranı oluştur. Soruları kolaydan zora sırala.
+
+HTML, CSS ve JavaScript ile çevrimdışı çalışabilen, akıllı tahtaya uygun bir web uygulaması hazırla. Büyük butonlar, okunaklı Türkçe metinler ve yeniden deneme seçeneği ekle. Öğrenci adı veya kişisel veri toplama.

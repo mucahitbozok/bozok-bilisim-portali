@@ -2058,14 +2058,15 @@ class App {
         if (backBtn) backBtn.classList.add("hidden");
 
         const data = this.getCurrentWeekData();
-        if (data.weekInfo?.isPending || !data.gameData || !data.gameData.wheelQuiz) {
+        const extraGames = this.getExtraGamesForWeek(this.currentWeek, data);
+        const hideStandardGames = (data.hideStandardGames === true) || (this.currentWeek === 5);
+
+        if (data.weekInfo?.isPending || (!hideStandardGames && (!data.gameData || !data.gameData.wheelQuiz)) || (hideStandardGames && (!extraGames || extraGames.length === 0))) {
             this.renderPendingPlaceholder("game-container", "Sınıf İçi Tekrar Oyunları", "fa-solid fa-gamepad");
             return;
         }
 
-        // Eklenen oyunlar (Daima 1, 2, 3, 4'ten sonra, 5, 6, 7... olarak sona eklenecek)
-        const extraGames = this.getExtraGamesForWeek(this.currentWeek, data);
-        const totalGameCount = 4 + extraGames.length;
+        const totalGameCount = hideStandardGames ? extraGames.length : (4 + extraGames.length);
 
         gameContainer.innerHTML = `
             <div class="max-w-5xl mx-auto space-y-8">
@@ -2074,15 +2075,18 @@ class App {
                     <span class="px-3.5 sm:px-4 py-1 sm:py-1.5 bg-yellow-400/20 text-yellow-300 font-extrabold text-[10px] sm:text-xs uppercase tracking-widest rounded-full border border-yellow-400/30">
                         🎮 Sınıf İçi Pekiştirme Oyunları
                     </span>
-                    <h2 class="text-2xl sm:text-4xl font-black text-white leading-tight">${this.getTopicTitleLabel()} Oyun Arenası (${totalGameCount} Farklı Oyun Modu 🎮)</h2>
+                    <h2 class="text-2xl sm:text-4xl font-black text-white leading-tight">${this.getTopicTitleLabel()} Oyun Arenası (${totalGameCount} Özel Oyun Modu 🎮)</h2>
                     <p class="text-slate-400 text-xs sm:text-sm max-w-xl mx-auto px-2">
-                        Akıllı tahtada tüm sınıfla çarkıfelek oynayabilir, teknoloji mahkemesi kurabilir, maceralara atılabilir veya hızlı reflekslerini test edebilirsin!
+                        ${hideStandardGames 
+                            ? '5. Sınıf "Bilgisayar ve Donanım" konusu için hazırlanan 11 interaktif oyunu akıllı tahtada oynayabilir, donanım parçalarını keşfedebilirsin!' 
+                            : 'Akıllı tahtada tüm sınıfla çarkıfelek oynayabilir, teknoloji mahkemesi kurabilir, maceralara atılabilir veya hızlı reflekslerini test edebilirsin!'}
                     </p>
                 </div>
 
-                <!-- Oyun Kartları Grid (1, 2, 3, 4, 5, 6... Sıralı) -->
+                <!-- Oyun Kartları Grid -->
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
 
+                    ${!hideStandardGames ? `
                     <!-- 1. Oyun Modu: Çarkıfelek -->
                     <div class="game-mode-card bg-gradient-to-br from-indigo-900/90 to-blue-900/90 rounded-2xl sm:rounded-3xl p-4 sm:p-6 border-2 border-indigo-500/50 shadow-2xl flex flex-col justify-between space-y-3.5 sm:space-y-4">
                         <div class="flex items-center gap-3 sm:gap-4">
@@ -2158,10 +2162,11 @@ class App {
                             <i class="fa-solid fa-play"></i> Sınıf Düellosunu Başlat
                         </button>
                     </div>
+                    ` : ''}
 
-                    <!-- SONA EKLENEN ÖZEL OYUNLAR (5, 6, 7...) -->
+                    <!-- ÖZEL OYUNLAR (1, 2, 3... ya da 5, 6, 7...) -->
                     ${extraGames.map((game, idx) => {
-                        const gameNumber = 5 + idx;
+                        const gameNumber = hideStandardGames ? (1 + idx) : (5 + idx);
                         return `
                         <div class="game-mode-card bg-gradient-to-br ${game.cardGradient} rounded-2xl sm:rounded-3xl p-4 sm:p-6 border-2 ${game.border} shadow-2xl flex flex-col justify-between space-y-3.5 sm:space-y-4">
                             <div class="flex items-center gap-3 sm:gap-4">

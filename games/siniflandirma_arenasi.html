@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sınıflandırma Arenası — Donanım Sınıflandırma Oyunu</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            user-select: none;
+            -webkit-user-select: none;
+        }
+        .drop-zone.drag-hover {
+            border-color: #38bdf8;
+            background-color: rgba(56, 189, 248, 0.15);
+            transform: scale(1.01);
+        }
+    </style>
+</head>
+<body class="bg-slate-950 text-white min-h-screen flex flex-col font-sans">
+
+    <!-- Header -->
+    <header class="bg-slate-900/90 border-b border-cyan-800/40 px-6 py-4 flex items-center justify-between shadow-lg sticky top-0 z-40 backdrop-blur">
+        <div class="flex items-center gap-4">
+            <a href="../index.html" class="bg-slate-800 hover:bg-slate-700 text-cyan-400 px-4 py-2 rounded-xl text-sm font-bold flex items-center gap-2 border border-cyan-500/30 transition">
+                <i class="fa-solid fa-arrow-left"></i> Portala Dön
+            </a>
+            <div>
+                <h1 class="text-xl md:text-2xl font-black bg-gradient-to-r from-cyan-400 via-teal-400 to-emerald-400 bg-clip-text text-transparent flex items-center gap-2">
+                    <i class="fa-solid fa-table-cells-large text-cyan-400"></i> SINIFLANDIRMA ARENASI
+                </h1>
+                <p class="text-xs text-slate-400">BTY.5.1.5 — İki Farklı Ölçüte Göre Donanımları Doğru Kutulara Yerleştir!</p>
+            </div>
+        </div>
+        <div class="flex items-center gap-4">
+            <!-- Mode Switcher Tabs -->
+            <div class="bg-slate-800 p-1 rounded-2xl flex border border-slate-700">
+                <button id="modeABtn" onclick="switchMode('A')" class="px-3.5 py-1.5 rounded-xl text-xs font-black transition bg-cyan-600 text-white shadow">
+                    MOD A: İç / Dış
+                </button>
+                <button id="modeBBtn" onclick="switchMode('B')" class="px-3.5 py-1.5 rounded-xl text-xs font-black transition text-slate-400 hover:text-white">
+                    MOD B: Giriş / Çıkış
+                </button>
+            </div>
+
+            <div class="bg-cyan-950/60 border border-cyan-700/60 px-4 py-1.5 rounded-xl flex items-center gap-2 text-sm">
+                <i class="fa-solid fa-star text-amber-400"></i>
+                <span class="text-slate-400">Puan:</span>
+                <span id="scoreVal" class="font-black text-amber-300 text-base">0</span>
+            </div>
+            <button id="soundBtn" onclick="toggleSound()" class="w-10 h-10 rounded-xl bg-slate-800 hover:bg-slate-700 text-cyan-400 border border-slate-700 flex items-center justify-center transition">
+                <i id="soundIcon" class="fa-solid fa-volume-high"></i>
+            </button>
+            <button onclick="toggleFullscreen()" class="w-10 h-10 rounded-xl bg-slate-800 hover:bg-slate-700 text-cyan-400 border border-slate-700 flex items-center justify-center transition">
+                <i class="fa-solid fa-expand"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="flex-1 max-w-7xl mx-auto w-full p-4 md:p-6 flex flex-col gap-6">
+
+        <!-- Pedagogical Rule Banner -->
+        <div class="bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 border border-cyan-500/30 rounded-2xl p-4 flex flex-col md:flex-row md:items-center justify-between gap-4 shadow-xl">
+            <div class="flex items-start gap-3">
+                <div class="w-10 h-10 rounded-xl bg-cyan-500/20 text-cyan-300 flex items-center justify-center text-xl flex-shrink-0">
+                    <i class="fa-solid fa-info-circle"></i>
+                </div>
+                <div>
+                    <h3 id="modeRuleTitle" class="font-black text-sm text-cyan-300">
+                        MOD A ÖLÇÜTÜ: Donanımın Bilgisayara Göre Konumu (İç Donanım vs Dış Donanım)
+                    </h3>
+                    <p id="modeRuleDesc" class="text-xs text-slate-300 mt-0.5 leading-relaxed">
+                        İç donanım kasanın içinde korunan parçalardır. Dış donanım ise kasaya dışarıdan kablo/kablosuz bağlanan çevre birimleridir.
+                    </p>
+                </div>
+            </div>
+            <div class="flex items-center gap-3 flex-shrink-0">
+                <div class="bg-slate-950 px-3 py-1.5 rounded-xl border border-slate-800 text-xs font-bold text-slate-400">
+                    Kalan Kart: <span id="remainingCardsCount" class="text-cyan-400 font-black">17</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Drop Zones Container (Dynamically rendered depending on Mode A or B) -->
+        <div id="dropZonesContainer" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <!-- Dynamic drop zones -->
+        </div>
+
+        <!-- Hardware Cards Deck to Classify -->
+        <div class="bg-slate-900/90 border border-slate-800 rounded-3xl p-5 shadow-2xl">
+            <div class="flex items-center justify-between pb-3 border-b border-slate-800 mb-4">
+                <div class="flex items-center gap-2">
+                    <i class="fa-solid fa-layer-group text-cyan-400"></i>
+                    <h3 class="font-black text-white text-base">Sınıflandırılacak Donanım Kartları Havuzu</h3>
+                </div>
+                <span class="text-xs text-slate-400">Kartı sürükle veya seçip yukarıdaki hedef kutuya tıkla</span>
+            </div>
+
+            <div id="cardsPoolGrid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3">
+                <!-- 17 hardware cards -->
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Review Summary Modal -->
+    <div id="reviewModal" class="hidden fixed inset-0 z-50 bg-black/85 backdrop-blur-md flex items-center justify-center p-4">
+        <div class="bg-slate-900 border-2 border-cyan-400/80 rounded-3xl max-w-3xl w-full p-6 shadow-2xl relative max-h-[90vh] flex flex-col justify-between">
+            <div>
+                <div class="flex items-center justify-between pb-3 border-b border-slate-800 mb-4">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-xl bg-cyan-500/20 text-cyan-300 flex items-center justify-center text-xl">
+                            <i class="fa-solid fa-clipboard-check"></i>
+                        </div>
+                        <div>
+                            <h3 id="reviewTitle" class="text-xl font-black text-white">MOD A Tamamlandı: Cevap Tablosu</h3>
+                            <p class="text-xs text-slate-400">Sınıflandırdığın parçaların bilimsel incelemesi</p>
+                        </div>
+                    </div>
+                    <span id="reviewScoreBadge" class="bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 px-3 py-1 rounded-full text-xs font-black">
+                        17 / 17 Tam İsabet
+                    </span>
+                </div>
+
+                <!-- Table Container -->
+                <div class="overflow-y-auto max-h-[50vh] pr-2">
+                    <table class="w-full text-left text-xs text-slate-300">
+                        <thead class="bg-slate-950 text-slate-400 uppercase font-black sticky top-0 border-b border-slate-800">
+                            <tr>
+                                <th class="p-2.5">Donanım</th>
+                                <th class="p-2.5">Sınıflandırma</th>
+                                <th class="p-2.5">Açıklama / Görev</th>
+                            </tr>
+                        </thead>
+                        <tbody id="reviewTableBody" class="divide-y divide-slate-800">
+                            <!-- Rows -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="pt-4 border-t border-slate-800 flex items-center justify-end gap-3 mt-4">
+                <button id="modalActionBtn" onclick="handleModalAction()" class="px-6 py-2.5 bg-gradient-to-r from-cyan-500 to-emerald-600 hover:from-cyan-400 hover:to-emerald-500 text-white font-extrabold rounded-xl transition shadow-lg text-xs flex items-center gap-2">
+                    <span>Diğer Moda Geç</span>
+                    <i class="fa-solid fa-arrow-right"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Audio FX -->
+    <script>
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        let soundEnabled = true;
+
+        function playSound(type) {
+            if (!soundEnabled) return;
+            try {
+                if (audioCtx.state === 'suspended') audioCtx.resume();
+                const now = audioCtx.currentTime;
+
+                if (type === 'select') {
+                    const osc = audioCtx.createOscillator();
+                    const gain = audioCtx.createGain();
+                    osc.connect(gain);
+                    gain.connect(audioCtx.destination);
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(500, now);
+                    gain.gain.setValueAtTime(0.12, now);
+                    gain.gain.exponentialRampToValueAtTime(0.01, now + 0.08);
+                    osc.start(now);
+                    osc.stop(now + 0.08);
+                } else if (type === 'correct') {
+                    [523.25, 659.25, 783.99].forEach((f, i) => {
+                        const osc = audioCtx.createOscillator();
+                        const gain = audioCtx.createGain();
+                        osc.connect(gain);
+                        gain.connect(audioCtx.destination);
+                        osc.frequency.setValueAtTime(f, now + i * 0.07);
+                        gain.gain.setValueAtTime(0.18, now + i * 0.07);
+                        gain.gain.exponentialRampToValueAtTime(0.01, now + i * 0.07 + 0.14);
+                        osc.start(now + i * 0.07);
+                        osc.stop(now + i * 0.07 + 0.14);
+                    });
+                } else if (type === 'wrong') {
+                    const osc = audioCtx.createOscillator();
+                    const gain = audioCtx.createGain();
+                    osc.connect(gain);
+                    gain.connect(audioCtx.destination);
+                    osc.type = 'sawtooth';
+                    osc.frequency.setValueAtTime(200, now);
+                    osc.frequency.linearRampToValueAtTime(130, now + 0.2);
+                    gain.gain.setValueAtTime(0.2, now);
+                    gain.gain.exponentialRampToValueAtTime(0.01, now + 0.2);
+                    osc.start(now);
+                    osc.stop(now + 0.2);
+                }
+            } catch (e) {}
+        }
+
+        function toggleSound() {
+            soundEnabled = !soundEnabled;
+            document.getElementById('soundIcon').className = soundEnabled ? 'fa-solid fa-volume-high' : 'fa-solid fa-volume-xmark';
+        }
+
+        function toggleFullscreen() {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen().catch(() => {});
+            } else {
+                document.exitFullscreen().catch(() => {});
+            }
+        }
+    </script>
+
+    <!-- Classification Logic -->
+    <script>
+        const HARDWARE_17 = [
+            { id: 'anakart', name: 'Anakart', icon: 'fa-chess-board', modeA: 'ic', modeB: 'isleme', modeAName: 'İç Donanım', modeBName: 'İletişim & İşleme Omurgası', desc: 'Tüm donanım parçalarını birbirine bağlayan temel ana devre kartı.' },
+            { id: 'islemci', name: 'İşlemci (CPU)', icon: 'fa-microchip', modeA: 'ic', modeB: 'isleme', modeAName: 'İç Donanım', modeBName: 'İşleme (Beyin)', desc: 'Komutları işler, hesaplamaları yapar.' },
+            { id: 'ram', name: 'RAM Bellek', icon: 'fa-memory', modeA: 'ic', modeB: 'isleme', modeAName: 'İç Donanım', modeBName: 'Geçici İşleme Belleği', desc: 'Açık programları geçici olarak tutar.' },
+            { id: 'hdd', name: 'Sabit Disk (HDD)', icon: 'fa-hard-drive', modeA: 'ic', modeB: 'cift', modeAName: 'İç Donanım', modeBName: 'Hem Giriş Hem Çıkış (Depolama)', desc: 'Verileri kalıcı depolar; hem veri yazar (çıkış) hem veri okur (giriş).' },
+            { id: 'ssd', name: 'SSD Disk', icon: 'fa-bolt', modeA: 'ic', modeB: 'cift', modeAName: 'İç Donanım', modeBName: 'Hem Giriş Hem Çıkış (Depolama)', desc: 'Çok hızlı kalıcı depolama birimidir; hem okur hem yazar.' },
+            { id: 'ekran_karti', name: 'Ekran Kartı', icon: 'fa-gamepad', modeA: 'ic', modeB: 'isleme', modeAName: 'İç Donanım', modeBName: 'Görüntü İşleme', desc: 'Görüntü piksellerini hesaplar ve monitöre hazırlar.' },
+            { id: 'klavye', name: 'Klavye', icon: 'fa-keyboard', modeA: 'dis', modeB: 'giris', modeAName: 'Dış Donanım', modeBName: 'Giriş Birimi', desc: 'Bilgisayara harf, rakam ve komut girmeyi sağlar.' },
+            { id: 'fare', name: 'Fare', icon: 'fa-computer-mouse', modeA: 'dis', modeB: 'giris', modeAName: 'Dış Donanım', modeBName: 'Giriş Birimi', desc: 'Ekrandaki imleçle seçim ve komut vermeyi sağlar.' },
+            { id: 'monitor', name: 'Monitör', icon: 'fa-display', modeA: 'dis', modeB: 'cikis', modeAName: 'Dış Donanım', modeBName: 'Çıkış Birimi', desc: 'Görüntüyü renkli piksellerle kullanıcıya aktarır.' },
+            { id: 'yazici', name: 'Yazıcı', icon: 'fa-print', modeA: 'dis', modeB: 'cikis', modeAName: 'Dış Donanım', modeBName: 'Çıkış Birimi', desc: 'Dijital belgeleri kağıda döker.' },
+            { id: 'mikrofon', name: 'Mikrofon', icon: 'fa-microphone', modeA: 'dis', modeB: 'giris', modeAName: 'Dış Donanım', modeBName: 'Giriş Birimi', desc: 'Dış dünyadaki sesleri bilgisayara aktarır.' },
+            { id: 'hoparlor', name: 'Hoparlör', icon: 'fa-volume-high', modeA: 'dis', modeB: 'cikis', modeAName: 'Dış Donanım', modeBName: 'Çıkış Birimi', desc: 'Dijital sesleri duyulabilir sese dönüştürür.' },
+            { id: 'webcam', name: 'Web Kamerası', icon: 'fa-camera', modeA: 'dis', modeB: 'giris', modeAName: 'Dış Donanım', modeBName: 'Giriş Birimi', desc: 'Görüntümüzü bilgisayara video olarak aktarır.' },
+            { id: 'dokunmatik_ekran', name: 'Dokunmatik Ekran', icon: 'fa-mobile-screen', modeA: 'dis', modeB: 'cift', modeAName: 'Dış Donanım', modeBName: 'Hem Giriş Hem Çıkış', desc: 'Parmağın dokunuşunu algılar (giriş), görüntüyü sunar (çıkış).' },
+            { id: 'usb_bellek', name: 'USB Bellek', icon: 'fa-usb', modeA: 'dis', modeB: 'cift', modeAName: 'Dış Donanım', modeBName: 'Hem Giriş Hem Çıkış (Taşınabilir Depolama)', desc: 'İçine dosya atılır (yazma-çıkış), içindeki dosya açılır (okuma-giriş).' },
+            { id: 'harici_disk', name: 'Harici Disk', icon: 'fa-box-archive', modeA: 'dis', modeB: 'cift', modeAName: 'Dış Donanım', modeBName: 'Hem Giriş Hem Çıkış (Depolama)', desc: 'Yüksek kapasiteli taşınabilir veri saklama birimidir.' },
+            { id: 'modem', name: 'Modem', icon: 'fa-wifi', modeA: 'dis', modeB: 'cift', modeAName: 'Dış Donanım', modeBName: 'Hem Giriş Hem Çıkış (İletişim)', desc: 'İnternetten veri indirir (giriş) ve internete veri yükler (çıkış).' }
+        ];
+
+        let currentMode = 'A'; // 'A' or 'B'
+        let score = 0;
+        let selectedHardwareId = null;
+        let remainingCards = [];
+        let classifiedItems = {};
+
+        function initClassificationGame() {
+            switchMode('A');
+        }
+
+        function switchMode(mode) {
+            currentMode = mode;
+            selectedHardwareId = null;
+            classifiedItems = {};
+
+            const btnA = document.getElementById('modeABtn');
+            const btnB = document.getElementById('modeBBtn');
+
+            if (mode === 'A') {
+                btnA.className = "px-3.5 py-1.5 rounded-xl text-xs font-black transition bg-cyan-600 text-white shadow";
+                btnB.className = "px-3.5 py-1.5 rounded-xl text-xs font-black transition text-slate-400 hover:text-white";
+                document.getElementById('modeRuleTitle').textContent = "MOD A ÖLÇÜTÜ: Donanımın Bilgisayara Göre Konumu (İç Donanım vs Dış Donanım)";
+                document.getElementById('modeRuleDesc').textContent = "İç donanım kasanın içinde yer alan parçalardır. Dış donanım ise kasaya dışarıdan kablo veya kablosuz bağlanan çevre birimleridir.";
+                renderDropZonesModeA();
+            } else {
+                btnB.className = "px-3.5 py-1.5 rounded-xl text-xs font-black transition bg-cyan-600 text-white shadow";
+                btnA.className = "px-3.5 py-1.5 rounded-xl text-xs font-black transition text-slate-400 hover:text-white";
+                document.getElementById('modeRuleTitle').textContent = "MOD B ÖLÇÜTÜ: Veri Alışverişindeki Görev (Giriş / Çıkış / Çift Yönlü)";
+                document.getElementById('modeRuleDesc').textContent = "Giriş birimi veriyi bilgisayara aktarır. Çıkış birimi sonucu kullanıcıya sunar. Depolama aygıtları ve dokunmatik ekranlar ise hem veri alır hem verir (çift yönlü).";
+                renderDropZonesModeB();
+            }
+
+            remainingCards = [...HARDWARE_17];
+            document.getElementById('remainingCardsCount').textContent = remainingCards.length;
+            renderCardsPool();
+        }
+
+        function renderDropZonesModeA() {
+            const container = document.getElementById('dropZonesContainer');
+            container.className = "grid grid-cols-1 md:grid-cols-2 gap-6";
+            container.innerHTML = `
+                <!-- ZONE 1: İÇ DONANIM -->
+                <div id="zone_ic" class="drop-zone bg-slate-900/90 border-2 border-indigo-500/40 rounded-3xl p-5 shadow-xl flex flex-col justify-between transition min-h-[260px]"
+                     ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)" ondrop="handleDrop(event, 'ic')" onclick="handleZoneClick('ic')">
+                    <div>
+                        <div class="flex items-center justify-between pb-3 border-b border-indigo-500/30 mb-3">
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 rounded-xl bg-indigo-500/20 text-indigo-400 flex items-center justify-center text-xl">
+                                    <i class="fa-solid fa-microchip"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-black text-indigo-300 text-lg">İÇ DONANIM</h4>
+                                    <p class="text-xs text-slate-400">Kasanın içinde korunan sistem parçaları</p>
+                                </div>
+                            </div>
+                            <span id="badge_ic" class="text-xs font-bold bg-indigo-950 px-2.5 py-1 rounded-full text-indigo-300 border border-indigo-800">0 Parça</span>
+                        </div>
+                        <div id="content_ic" class="grid grid-cols-2 sm:grid-cols-3 gap-2 min-h-[140px] items-start">
+                            <div class="col-span-full text-center text-slate-500 text-xs py-8">İç donanımları buraya bırak</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ZONE 2: DIŞ DONANIM -->
+                <div id="zone_dis" class="drop-zone bg-slate-900/90 border-2 border-cyan-500/40 rounded-3xl p-5 shadow-xl flex flex-col justify-between transition min-h-[260px]"
+                     ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)" ondrop="handleDrop(event, 'dis')" onclick="handleZoneClick('dis')">
+                    <div>
+                        <div class="flex items-center justify-between pb-3 border-b border-cyan-500/30 mb-3">
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 rounded-xl bg-cyan-500/20 text-cyan-400 flex items-center justify-center text-xl">
+                                    <i class="fa-solid fa-keyboard"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-black text-cyan-300 text-lg">DIŞ DONANIM</h4>
+                                    <p class="text-xs text-slate-400">Kasaya dışarıdan bağlanan çevre birimleri</p>
+                                </div>
+                            </div>
+                            <span id="badge_dis" class="text-xs font-bold bg-cyan-950 px-2.5 py-1 rounded-full text-cyan-300 border border-cyan-800">0 Parça</span>
+                        </div>
+                        <div id="content_dis" class="grid grid-cols-2 sm:grid-cols-3 gap-2 min-h-[140px] items-start">
+                            <div class="col-span-full text-center text-slate-500 text-xs py-8">Dış donanımları buraya bırak</div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderDropZonesModeB() {
+            const container = document.getElementById('dropZonesContainer');
+            container.className = "grid grid-cols-1 lg:grid-cols-3 gap-4";
+            container.innerHTML = `
+                <!-- ZONE 1: GİRİŞ BİRİMİ -->
+                <div id="zone_giris" class="drop-zone bg-slate-900/90 border-2 border-blue-500/40 rounded-3xl p-4 shadow-xl flex flex-col justify-between transition min-h-[260px]"
+                     ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)" ondrop="handleDrop(event, 'giris')" onclick="handleZoneClick('giris')">
+                    <div>
+                        <div class="flex items-center justify-between pb-2 border-b border-blue-500/30 mb-3">
+                            <div class="flex items-center gap-2">
+                                <i class="fa-solid fa-arrow-right-to-bracket text-blue-400"></i>
+                                <h4 class="font-black text-blue-300 text-base">GİRİŞ BİRİMİ</h4>
+                            </div>
+                            <span id="badge_giris" class="text-[11px] font-bold bg-blue-950 px-2 py-0.5 rounded-full text-blue-300">0</span>
+                        </div>
+                        <div id="content_giris" class="grid grid-cols-2 gap-2 min-h-[140px] items-start">
+                            <div class="col-span-full text-center text-slate-500 text-xs py-8">Giriş birimlerini bırak</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ZONE 2: ÇIKIŞ BİRİMİ -->
+                <div id="zone_cikis" class="drop-zone bg-slate-900/90 border-2 border-emerald-500/40 rounded-3xl p-4 shadow-xl flex flex-col justify-between transition min-h-[260px]"
+                     ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)" ondrop="handleDrop(event, 'cikis')" onclick="handleZoneClick('cikis')">
+                    <div>
+                        <div class="flex items-center justify-between pb-2 border-b border-emerald-500/30 mb-3">
+                            <div class="flex items-center gap-2">
+                                <i class="fa-solid fa-arrow-right-from-bracket text-emerald-400"></i>
+                                <h4 class="font-black text-emerald-300 text-base">ÇIKIŞ BİRİMİ</h4>
+                            </div>
+                            <span id="badge_cikis" class="text-[11px] font-bold bg-emerald-950 px-2 py-0.5 rounded-full text-emerald-300">0</span>
+                        </div>
+                        <div id="content_cikis" class="grid grid-cols-2 gap-2 min-h-[140px] items-start">
+                            <div class="col-span-full text-center text-slate-500 text-xs py-8">Çıkış birimlerini bırak</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ZONE 3: HEM GİRİŞ HEM ÇIKIŞ -->
+                <div id="zone_cift" class="drop-zone bg-slate-900/90 border-2 border-amber-500/40 rounded-3xl p-4 shadow-xl flex flex-col justify-between transition min-h-[260px]"
+                     ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)" ondrop="handleDrop(event, 'cift')" onclick="handleZoneClick('cift')">
+                    <div>
+                        <div class="flex items-center justify-between pb-2 border-b border-amber-500/30 mb-3">
+                            <div class="flex items-center gap-2">
+                                <i class="fa-solid fa-arrows-split-up-and-left text-amber-400"></i>
+                                <h4 class="font-black text-amber-300 text-base">HEM GİRİŞ HEM ÇIKIŞ</h4>
+                            </div>
+                            <span id="badge_cift" class="text-[11px] font-bold bg-amber-950 px-2 py-0.5 rounded-full text-amber-300">0</span>
+                        </div>
+                        <div id="content_cift" class="grid grid-cols-2 gap-2 min-h-[140px] items-start">
+                            <div class="col-span-full text-center text-slate-500 text-xs py-8">Çift yönlü birimleri bırak</div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderCardsPool() {
+            const pool = document.getElementById('cardsPoolGrid');
+            pool.innerHTML = '';
+
+            remainingCards.forEach(item => {
+                const card = document.createElement('div');
+                card.id = `card_${item.id}`;
+                card.draggable = true;
+                card.ondragstart = (e) => handleDragStart(e, item.id);
+                card.onclick = () => selectCard(item.id);
+                card.className = "bg-slate-800 hover:bg-slate-700 border-2 border-slate-700 hover:border-cyan-400/80 rounded-2xl p-3 flex flex-col items-center text-center cursor-pointer transition transform active:scale-95 shadow group";
+                card.innerHTML = `
+                    <div class="w-10 h-10 rounded-xl bg-slate-900 flex items-center justify-center text-xl text-cyan-400 mb-1.5 group-hover:scale-110 transition">
+                        <i class="fa-solid ${item.icon}"></i>
+                    </div>
+                    <span class="font-bold text-xs text-white">${item.name}</span>
+                `;
+                pool.appendChild(card);
+            });
+        }
+
+        function selectCard(hwId) {
+            playSound('select');
+            selectedHardwareId = hwId;
+            document.querySelectorAll('#cardsPoolGrid > div').forEach(c => c.classList.remove('ring-4', 'ring-cyan-400', 'border-cyan-400'));
+            const chosen = document.getElementById(`card_${hwId}`);
+            if (chosen) chosen.classList.add('ring-4', 'ring-cyan-400', 'border-cyan-400');
+        }
+
+        function handleDragStart(e, hwId) {
+            e.dataTransfer.setData('text/plain', hwId);
+            selectedHardwareId = hwId;
+            playSound('select');
+        }
+
+        function handleDragOver(e) {
+            e.preventDefault();
+            e.currentTarget.classList.add('drag-hover');
+        }
+
+        function handleDragLeave(e) {
+            e.currentTarget.classList.remove('drag-hover');
+        }
+
+        function handleDrop(e, targetCat) {
+            e.preventDefault();
+            e.currentTarget.classList.remove('drag-hover');
+            const hwId = e.dataTransfer.getData('text/plain') || selectedHardwareId;
+            if (hwId) classifyItem(hwId, targetCat);
+        }
+
+        function handleZoneClick(targetCat) {
+            if (selectedHardwareId) {
+                classifyItem(selectedHardwareId, targetCat);
+            }
+        }
+
+        function classifyItem(hwId, targetCat) {
+            const item = HARDWARE_17.find(h => h.id === hwId);
+            if (!item) return;
+
+            let isCorrect = false;
+            let correctCat = '';
+
+            if (currentMode === 'A') {
+                isCorrect = (item.modeA === targetCat);
+                correctCat = item.modeA;
+            } else {
+                // In Mode B, if an item is 'isleme' (CPU, Motherboard, RAM, GPU), it can belong to processing or teachers classify it separately. Let's check:
+                if (item.modeB === 'isleme') {
+                    // For pure input/output/dual, if it's processing, hint that it's central processing/internal.
+                    alert(`💡 İPUCU: ${item.name} temel bir İŞLEME birimidir. Bu modda doğrudan Giriş/Çıkış veya Depolama birimlerini sınıflandırıyoruz!`);
+                    return;
+                }
+                isCorrect = (item.modeB === targetCat);
+                correctCat = item.modeB;
+            }
+
+            if (isCorrect) {
+                playSound('correct');
+                score += 10;
+                document.getElementById('scoreVal').textContent = score;
+
+                // Remove from remaining
+                remainingCards = remainingCards.filter(h => h.id !== hwId);
+                document.getElementById('remainingCardsCount').textContent = remainingCards.length;
+                renderCardsPool();
+
+                // Add to zone container
+                addCardToZone(item, targetCat);
+
+                selectedHardwareId = null;
+
+                // Check finish
+                if (remainingCards.length === 0 || (currentMode === 'B' && remainingCards.every(h => h.modeB === 'isleme'))) {
+                    showReviewModal();
+                }
+
+            } else {
+                playSound('wrong');
+                let reason = "";
+                if (currentMode === 'A') {
+                    reason = targetCat === 'ic' ? `${item.name} kasanın içinde değil, dışarıdan bağlanan bir Dış Donanımdır!` : `${item.name} dış çevre birimi değil, kasanın içinde yer alan bir İç Donanımdır!`;
+                } else {
+                    reason = `${item.name} seçtiğin kategoride yer almaz. Görevini ve veri yönünü tekrar düşün!`;
+                }
+                alert(`❌ DİKKAT!\n\n${reason}\n\nTekrar dene!`);
+            }
+        }
+
+        function addCardToZone(item, targetCat) {
+            const content = document.getElementById(`content_${targetCat}`);
+            // Clear placeholder if first
+            if (content.children.length === 1 && content.children[0].classList.contains('col-span-full')) {
+                content.innerHTML = '';
+            }
+
+            const miniCard = document.createElement('div');
+            miniCard.className = "bg-slate-950/80 border border-slate-700 rounded-xl p-2 flex items-center gap-2 text-xs text-white shadow";
+            miniCard.innerHTML = `
+                <i class="fa-solid ${item.icon} text-cyan-400 text-sm"></i>
+                <span class="font-bold truncate">${item.name}</span>
+            `;
+            content.appendChild(miniCard);
+
+            // Update badge count
+            const count = content.children.length;
+            const badge = document.getElementById(`badge_${targetCat}`);
+            if (badge) badge.textContent = `${count} Parça`;
+        }
+
+        function showReviewModal() {
+            playSound('correct');
+            const modal = document.getElementById('reviewModal');
+            document.getElementById('reviewTitle').textContent = `MOD ${currentMode} Tamamlandı: Cevap Tablosu`;
+            
+            const tbody = document.getElementById('reviewTableBody');
+            tbody.innerHTML = '';
+
+            HARDWARE_17.forEach(hw => {
+                if (currentMode === 'B' && hw.modeB === 'isleme') return; // Skip central processing in Mode B view
+                const tr = document.createElement('tr');
+                const catLabel = currentMode === 'A' ? hw.modeAName : hw.modeBName;
+                tr.innerHTML = `
+                    <td class="p-2.5 font-bold flex items-center gap-2">
+                        <i class="fa-solid ${hw.icon} text-cyan-400"></i>
+                        <span>${hw.name}</span>
+                    </td>
+                    <td class="p-2.5 font-extrabold text-cyan-300">${catLabel}</td>
+                    <td class="p-2.5 text-slate-300 text-[11px]">${hw.desc}</td>
+                `;
+                tbody.appendChild(tr);
+            });
+
+            const actionBtn = document.getElementById('modalActionBtn');
+            if (currentMode === 'A') {
+                actionBtn.innerHTML = `<span>MOD B'ye Geç (Giriş/Çıkış)</span> <i class="fa-solid fa-arrow-right"></i>`;
+            } else {
+                actionBtn.innerHTML = `<span>Portala Dön</span> <i class="fa-solid fa-house"></i>`;
+            }
+
+            modal.classList.remove('hidden');
+        }
+
+        function handleModalAction() {
+            document.getElementById('reviewModal').classList.add('hidden');
+            if (currentMode === 'A') {
+                switchMode('B');
+            } else {
+                window.location.href = '../index.html';
+            }
+        }
+
+        window.onload = initClassificationGame;
+    </script>
+</body>
+</html>

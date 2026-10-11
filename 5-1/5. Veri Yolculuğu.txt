@@ -1,0 +1,34 @@
+# ANTIGRAVITY PROMPT — VERİ YOLCULUĞU
+
+BTY.5.1.5 kapsamında giriş ve çıkış birimlerini öğreten, görsel ve etkileşimli bir oyun geliştir.
+
+**Ana fikir:** Öğrenci verinin kullanıcıdan bilgisayara nasıl girdiğini, bilgisayarda nasıl işlendiğini ve sonucun nasıl kullanıcıya aktarıldığını keşfeder.
+
+Ana ekranda üç büyük bölüm oluştur:
+
+1. GİRİŞ
+2. İŞLEME
+3. ÇIKIŞ
+
+Ortada bilgisayar simgesi ve bu bölümler arasında hareket eden veri animasyonu bulunsun.
+
+**Görev senaryoları:**
+- Klavyeyle yazı yazıp monitörde görmek.
+- Mikrofonla ses kaydedip hoparlörden dinlemek.
+- Tarayıcıyla belgeyi bilgisayara aktarıp yazıcıdan çıktı almak.
+- Fareyle komut verip ekranda sonuç görmek.
+- Dokunmatik ekranda bir simgeye dokunup ekrandaki değişikliği görmek.
+
+Öğrenci her senaryoda kullanılan cihazları doğru aşamaya sürüklesin. Cihazın birden fazla işlevi varsa bunu açıklamayla göster.
+
+**Öğretim içeriği:**
+- Giriş birimi bilgisayara veri veya komut aktarır.
+- Bilgisayar veriyi işler.
+- Çıkış birimi sonucu kullanıcıya aktarır.
+- Bazı cihazlar hem giriş hem çıkış işlevi görebilir.
+
+Görseller: klavye, fare, mikrofon, tarayıcı, işlemci, monitör, hoparlör, yazıcı ve dokunmatik ekran. Veri akışını oklar ve animasyonlarla göster.
+
+Yanlış aşamaya bırakılan cihaz için ipucu sun; yeniden deneme sağla. Finalde veri yolculuğunun tamamını hareketli bir şema olarak göster.
+
+HTML, CSS ve JavaScript kullan. Büyük alanlar, dokunmatik sürükle-bırak, yüksek kontrast ve çevrimdışı çalışma zorunlu olsun. Öğrenci verilerini toplama.
