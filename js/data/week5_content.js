@@ -95,7 +95,11 @@ window.WEEK5_CONTENT = {
             computerTypes: "assets/slides/bilgisayar_cesitleri.jpg",
             internalHardware: "assets/slides/ic_donanim_kasa.jpg",
             peripherals: "assets/slides/giris_cikis_donanimlari.jpg",
-            dataCycle: "assets/slides/veri_isleme_dongusu.jpg"
+            dataCycle: "assets/slides/veri_isleme_dongusu.jpg",
+            sayfa1: "assets/worksheets/1.5_sayfa1.png",
+            sayfa2: "assets/worksheets/1.5_sayfa2.png",
+            sayfa3: "assets/worksheets/1.5_sayfa3.png",
+            sayfa4: "assets/worksheets/1.5_sayfa4.png"
         }
     },
 
@@ -680,9 +684,451 @@ window.WEEK5_CONTENT = {
 ],
 
     // ========================================================
-    // 📄 2. YAZDIRILABİLİR DİJİTAL METİN & ÇALIŞMA KAĞIDI
+    // 📄 2. YAZDIRILABİLİR DİJİTAL METİN & ÇALIŞMA KAĞIDI (4 SAYFA)
     // ========================================================
-    worksheetDocs: null,
+    worksheetDocs: {
+        hasTwoPages: false,
+        sayfa1Html: `
+            <div class="space-y-6 text-slate-100 print:text-black">
+                <!-- Başlık & Bilgi Kartı -->
+                <div class="border-b-2 border-indigo-500/40 pb-4 flex items-center justify-between flex-wrap gap-2">
+                    <div>
+                        <span class="px-3 py-1 bg-indigo-500/30 text-indigo-300 font-black rounded-lg text-xs tracking-wider uppercase">
+                            5. KONU - 1 • BTY.5.1.5
+                        </span>
+                        <h1 class="text-xl sm:text-2xl font-black text-white mt-1">
+                            SAYFA 1: BİLGİSAYAR VE DONANIM GENEL BAKIŞ
+                        </h1>
+                        <p class="text-xs text-indigo-300">Öğretmen Bozok • Bozok Bilişim Portalı 2026</p>
+                    </div>
+                    <span class="px-3 py-1 bg-yellow-400/20 text-yellow-300 border border-yellow-400/40 rounded-xl text-xs font-black">
+                        Sayfa: 1 / 4
+                    </span>
+                </div>
+
+                <!-- 1. BİLGİSAYAR NEDİR? -->
+                <div class="p-4 bg-slate-850 rounded-2xl border border-indigo-500/30 space-y-3">
+                    <div class="flex items-center gap-2">
+                        <span class="w-8 h-8 rounded-lg bg-indigo-600 flex items-center justify-center text-white font-black text-sm">1</span>
+                        <h3 class="text-base font-black text-yellow-300">BİLGİSAYAR NEDİR?</h3>
+                    </div>
+                    <p class="text-sm leading-relaxed">
+                        Kullanıcıdan aldığı verileri işleyen, saklayan, gerektiğinde geri getiren ve mantıksal işlemler sonucunda bilgi üreten elektronik cihaza <strong>bilgisayar</strong> denir.
+                    </p>
+                    <div class="p-3 bg-slate-900 rounded-xl border border-slate-700/80 flex items-center justify-around text-center text-xs font-bold gap-2">
+                        <div class="text-emerald-400"><i class="fa-solid fa-arrow-right-to-bracket block text-lg mb-1"></i>1. GİRDİ (Veri Girişi)</div>
+                        <div class="text-yellow-400">➔</div>
+                        <div class="text-cyan-400"><i class="fa-solid fa-microchip block text-lg mb-1"></i>2. İŞLEM (CPU & Bellek)</div>
+                        <div class="text-yellow-400">➔</div>
+                        <div class="text-purple-400"><i class="fa-solid fa-desktop block text-lg mb-1"></i>3. ÇIKTI (Bilgi Sunumu)</div>
+                        <div class="text-yellow-400">➔</div>
+                        <div class="text-amber-400"><i class="fa-solid fa-hard-drive block text-lg mb-1"></i>4. DEPOLAMA (Kalıcı Saklama)</div>
+                    </div>
+                </div>
+
+                <!-- 2. DONANIM NEDİR? -->
+                <div class="p-4 bg-slate-850 rounded-2xl border border-cyan-500/30 space-y-3">
+                    <div class="flex items-center gap-2">
+                        <span class="w-8 h-8 rounded-lg bg-cyan-600 flex items-center justify-center text-white font-black text-sm">2</span>
+                        <h3 class="text-base font-black text-cyan-300">DONANIM (HARDWARE) NEDİR?</h3>
+                    </div>
+                    <p class="text-sm leading-relaxed">
+                        Bilgisayarı oluşturan, elle tutabildiğimiz, gözle görebildiğimiz tüm fiziksel ve elektronik parçalara <strong>donanım</strong> denir.
+                    </p>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs pt-1">
+                        <div class="p-3 bg-slate-900/90 rounded-xl border border-indigo-400/30">
+                            <h4 class="font-black text-indigo-300 text-sm mb-1"><i class="fa-solid fa-cube mr-1"></i>İç Donanım (Kasa İçi)</h4>
+                            <p class="text-slate-300">Kasanın içinde bulunan ve bilgisayarın temel çalışma fonksiyonlarını üstlenen parçalardır.</p>
+                            <span class="text-[11px] text-yellow-300 font-semibold block mt-1">Örnek: Anakart, İşlemci, RAM, Sabit Disk, Ekran Kartı, Güç Kaynağı.</span>
+                        </div>
+                        <div class="p-3 bg-slate-900/90 rounded-xl border border-emerald-400/30">
+                            <h4 class="font-black text-emerald-300 text-sm mb-1"><i class="fa-solid fa-network-wired mr-1"></i>Dış Donanım (Çevre Birimleri)</h4>
+                            <p class="text-slate-300">Kasanın dışında yer alan, kablolu veya kablosuz olarak kasaya bağlanan parçalardır.</p>
+                            <span class="text-[11px] text-yellow-300 font-semibold block mt-1">Örnek: Klavye, Fare, Monitör, Yazıcı, Hoparlör, Web Kamerası.</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 3. VERİ AKIŞINA GÖRE DONANIMLAR -->
+                <div class="p-4 bg-slate-850 rounded-2xl border border-purple-500/30 space-y-3">
+                    <div class="flex items-center gap-2">
+                        <span class="w-8 h-8 rounded-lg bg-purple-600 flex items-center justify-center text-white font-black text-sm">3</span>
+                        <h3 class="text-base font-black text-purple-300">VERİ AKIŞINA GÖRE BİRİMLER</h3>
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
+                        <div class="p-3 bg-emerald-950/40 rounded-xl border border-emerald-500/30">
+                            <span class="px-2 py-0.5 bg-emerald-500/30 text-emerald-300 font-black rounded text-[10px] uppercase">Giriş Birimleri</span>
+                            <p class="text-slate-200 mt-2 font-medium">Dış dünyadan bilgisayara veri, komut ve ses/görüntü aktarır.</p>
+                            <p class="text-emerald-300 font-bold mt-1.5">• Klavye, Fare, Mikrofon, Kamera, Tarayıcı, Barkod Okuyucu</p>
+                        </div>
+                        <div class="p-3 bg-cyan-950/40 rounded-xl border border-cyan-500/30">
+                            <span class="px-2 py-0.5 bg-cyan-500/30 text-cyan-300 font-black rounded text-[10px] uppercase">Çıkış Birimleri</span>
+                            <p class="text-slate-200 mt-2 font-medium">Bilgisayarda işlenen bilgileri kullanıcıya ses, görüntü veya kağıt olarak iletir.</p>
+                            <p class="text-cyan-300 font-bold mt-1.5">• Monitör, Hoparlör, Kulaklık, Yazıcı, Projeksiyon</p>
+                        </div>
+                        <div class="p-3 bg-amber-950/40 rounded-xl border border-amber-500/30">
+                            <span class="px-2 py-0.5 bg-amber-500/30 text-amber-300 font-black rounded text-[10px] uppercase">Çift Yönlü Birimler</span>
+                            <p class="text-slate-200 mt-2 font-medium">Hem veri girişi yapabilir hem de veriyi kullanıcıya çıktı olarak verebilir.</p>
+                            <p class="text-amber-300 font-bold mt-1.5">• Dokunmatik Ekran, Modem, USB Bellek, Harici Disk</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `,
+        sayfa2Html: `
+            <div class="space-y-6 text-slate-100 print:text-black">
+                <!-- Başlık & Bilgi Kartı -->
+                <div class="border-b-2 border-indigo-500/40 pb-4 flex items-center justify-between flex-wrap gap-2">
+                    <div>
+                        <span class="px-3 py-1 bg-indigo-500/30 text-indigo-300 font-black rounded-lg text-xs tracking-wider uppercase">
+                            5. KONU - 1 • BTY.5.1.5
+                        </span>
+                        <h1 class="text-xl sm:text-2xl font-black text-white mt-1">
+                            SAYFA 2: İÇ DONANIM BİRİMLERİ & ETKİNLİKLER
+                        </h1>
+                        <p class="text-xs text-indigo-300">Kasa İçindeki Parçalar, Görevleri ve Pekiştirme Alıştırmaları</p>
+                    </div>
+                    <span class="px-3 py-1 bg-yellow-400/20 text-yellow-300 border border-yellow-400/40 rounded-xl text-xs font-black">
+                        Sayfa: 2 / 4
+                    </span>
+                </div>
+
+                <!-- İÇ DONANIM LİSTESİ -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+                    <div class="p-3 bg-slate-850 rounded-xl border border-slate-700">
+                        <strong class="text-yellow-300 font-black text-sm block">1. Anakart (Motherboard)</strong>
+                        <p class="text-slate-300 mt-1">Tüm iç ve dış parçaların bağlandığı, parçalar arası iletişimi ve veri akışını sağlayan ana devredir.</p>
+                    </div>
+                    <div class="p-3 bg-slate-850 rounded-xl border border-slate-700">
+                        <strong class="text-cyan-300 font-black text-sm block">2. İşlemci (CPU)</strong>
+                        <p class="text-slate-300 mt-1">Bilgisayarın beynidir. Tüm komutları işler, hesaplamaları yapar ve sistemin yönetimini sağlar.</p>
+                    </div>
+                    <div class="p-3 bg-slate-850 rounded-xl border border-slate-700">
+                        <strong class="text-emerald-300 font-black text-sm block">3. RAM Bellek (Geçici Hafıza)</strong>
+                        <p class="text-slate-300 mt-1">Çalışmakta olan program ve verilerin geçici olarak tutulduğu hızlı hafızadır. Bilgisayar kapanınca silinir.</p>
+                    </div>
+                    <div class="p-3 bg-slate-850 rounded-xl border border-slate-700">
+                        <strong class="text-amber-300 font-black text-sm block">4. Sabit Disk (HDD) / SSD</strong>
+                        <p class="text-slate-300 mt-1">Dosyaların, programların ve işletim sisteminin kalıcı olarak saklandığı depolama alanıdır. SSD çok daha hızlıdır.</p>
+                    </div>
+                    <div class="p-3 bg-slate-850 rounded-xl border border-slate-700">
+                        <strong class="text-purple-300 font-black text-sm block">5. Ekran Kartı (GPU)</strong>
+                        <p class="text-slate-300 mt-1">Görüntü verilerini işler ve monitöre aktararak ekranda görüntü oluşmasını sağlar.</p>
+                    </div>
+                    <div class="p-3 bg-slate-850 rounded-xl border border-slate-700">
+                        <strong class="text-rose-300 font-black text-sm block">6. Güç Kaynağı (PSU)</strong>
+                        <p class="text-slate-300 mt-1">Prizden gelen 220V alternatif akımı parçaların çalışacağı doğru akıma çevirir ve elektriği dağıtır.</p>
+                    </div>
+                    <div class="p-3 bg-slate-850 rounded-xl border border-slate-700">
+                        <strong class="text-blue-300 font-black text-sm block">7. Ses Kartı</strong>
+                        <p class="text-slate-300 mt-1">Dijital ses sinyallerini analog sese, mikrofondan gelen analog sesi ise dijital veriye dönüştürür.</p>
+                    </div>
+                    <div class="p-3 bg-slate-850 rounded-xl border border-slate-700">
+                        <strong class="text-teal-300 font-black text-sm block">8. Ağ Kartı (Ethernet) & Soğutucu</strong>
+                        <p class="text-slate-300 mt-1">Ağ kartı internet ve yerel ağa bağlanmayı; soğutucu/fan ise işlemcinin aşırı ısınmasını önlemeyi sağlar.</p>
+                    </div>
+                </div>
+
+                <!-- ETKİNLİK 1: GÖREVLERİ EŞLEŞTİRELİM -->
+                <div class="p-4 bg-slate-850 rounded-2xl border border-indigo-500/40 space-y-3">
+                    <h3 class="text-sm font-black text-yellow-300 uppercase flex items-center gap-2">
+                        <i class="fa-solid fa-list-check"></i> ETKİNLİK 1: GÖREVLERİ EŞLEŞTİRELİM
+                    </h3>
+                    <div class="space-y-1.5 text-xs">
+                        <div class="p-2 bg-slate-900 rounded-lg flex justify-between items-center">
+                            <span>1. Bilgisayarın beyni olup tüm hesaplamaları ve komutları yürütür:</span>
+                            <span class="font-black text-yellow-300 bg-yellow-400/20 px-2 py-0.5 rounded">İşlemci (CPU)</span>
+                        </div>
+                        <div class="p-2 bg-slate-900 rounded-lg flex justify-between items-center">
+                            <span>2. Elektrik enerjisini dönüştürerek diğer tüm parçalara dağıtır:</span>
+                            <span class="font-black text-yellow-300 bg-yellow-400/20 px-2 py-0.5 rounded">Güç Kaynağı (PSU)</span>
+                        </div>
+                        <div class="p-2 bg-slate-900 rounded-lg flex justify-between items-center">
+                            <span>3. Tüm iç ve dış parçaların birbirine bağlandığı ana devredir:</span>
+                            <span class="font-black text-yellow-300 bg-yellow-400/20 px-2 py-0.5 rounded">Anakart</span>
+                        </div>
+                        <div class="p-2 bg-slate-900 rounded-lg flex justify-between items-center">
+                            <span>4. Geçici hafızadır, bilgisayar kapandığında içindeki bilgiler silinir:</span>
+                            <span class="font-black text-yellow-300 bg-yellow-400/20 px-2 py-0.5 rounded">RAM Bellek</span>
+                        </div>
+                        <div class="p-2 bg-slate-900 rounded-lg flex justify-between items-center">
+                            <span>5. Görüntüyü işleyerek ekranda görmemizi sağlar:</span>
+                            <span class="font-black text-yellow-300 bg-yellow-400/20 px-2 py-0.5 rounded">Ekran Kartı</span>
+                        </div>
+                        <div class="p-2 bg-slate-900 rounded-lg flex justify-between items-center">
+                            <span>6. Verileri kalıcı olarak depolar, manyetik disklerle çalışır:</span>
+                            <span class="font-black text-yellow-300 bg-yellow-400/20 px-2 py-0.5 rounded">Sabit Disk (HDD)</span>
+                        </div>
+                        <div class="p-2 bg-slate-900 rounded-lg flex justify-between items-center">
+                            <span>7. Çip tabanlı, mekanik parçası olmayan çok hızlı kalıcı depolama:</span>
+                            <span class="font-black text-yellow-300 bg-yellow-400/20 px-2 py-0.5 rounded">SSD</span>
+                        </div>
+                        <div class="p-2 bg-slate-900 rounded-lg flex justify-between items-center">
+                            <span>8. Bilgisayarın kablolu veya kablosuz ağa/internete bağlanmasını sağlar:</span>
+                            <span class="font-black text-yellow-300 bg-yellow-400/20 px-2 py-0.5 rounded">Ağ Kartı (Ethernet)</span>
+                        </div>
+                        <div class="p-2 bg-slate-900 rounded-lg flex justify-between items-center">
+                            <span>9. İşlemcinin aşırı ısınıp kapanmasını ve yanmasını önler:</span>
+                            <span class="font-black text-yellow-300 bg-yellow-400/20 px-2 py-0.5 rounded">Soğutucu / Fan</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ETKİNLİK 2: DOĞRU MU YANLIŞ MI? -->
+                <div class="p-4 bg-slate-850 rounded-2xl border border-emerald-500/40 space-y-3">
+                    <h3 class="text-sm font-black text-emerald-300 uppercase flex items-center gap-2">
+                        <i class="fa-solid fa-square-check"></i> ETKİNLİK 2: DOĞRU MU YANLIŞ MI? (D / Y)
+                    </h3>
+                    <div class="space-y-1 text-xs">
+                        <p>1. [ <strong class="text-rose-400">Y</strong> ] RAM bellekteki bilgiler bilgisayar kapandığında silinmez. <em>(Silinir, geçicidir)</em></p>
+                        <p>2. [ <strong class="text-emerald-400">D</strong> ] İşlemci (CPU), bilgisayarın beyni olarak kabul edilir.</p>
+                        <p>3. [ <strong class="text-emerald-400">D</strong> ] Ekran kartı, ekrana yansıtılacak grafikleri ve pikselleri işler.</p>
+                        <p>4. [ <strong class="text-emerald-400">D</strong> ] SSD'ler, geleneksel HDD'lere göre katbekat hızlı çalışır.</p>
+                        <p>5. [ <strong class="text-rose-400">Y</strong> ] Güç kaynağı sadece fareye elektrik vermekle görevlidir. <em>(Tüm kasaya elektrik verir)</em></p>
+                        <p>6. [ <strong class="text-emerald-400">D</strong> ] Anakart arızalanırsa bilgisayar parçaları birbirleriyle iletişim kuramaz.</p>
+                        <p>7. [ <strong class="text-emerald-400">D</strong> ] Fan ve soğutucu sistemi yetersiz kalırsa işlemci kendini korumak için bilgisayarı kapatabilir.</p>
+                        <p>8. [ <strong class="text-rose-400">Y</strong> ] Ağ kartı müzik seslerini hoparlöre iletmek için kullanılır. <em>(Ses kartı yapar)</em></p>
+                        <p>9. [ <strong class="text-emerald-400">D</strong> ] Sabit disk (HDD/SSD) elektrik kesilse bile verileri saklamaya devam eder.</p>
+                    </div>
+                </div>
+
+                <!-- KENDİMİ DENİYORUM -->
+                <div class="p-4 bg-slate-850 rounded-2xl border border-yellow-500/40 space-y-2 text-xs">
+                    <h3 class="text-sm font-black text-yellow-300 uppercase">✍️ KENDİMİ DENİYORUM</h3>
+                    <div class="space-y-2">
+                        <div class="p-2.5 bg-slate-900 rounded-xl">
+                            <p class="font-bold text-white">Soru 1: RAM bellek ile Sabit Disk (HDD/SSD) arasındaki en belirgin fark nedir?</p>
+                            <p class="text-emerald-300 mt-1"><strong>Cevap:</strong> RAM bellek geçici hafızadır, bilgisayar kapanınca sıfırlanır; Sabit Disk ise kalıcı depolamadır, veriler silinmeden yıllarca saklanabilir.</p>
+                        </div>
+                        <div class="p-2.5 bg-slate-900 rounded-xl">
+                            <p class="font-bold text-white">Soru 2: Bir bilgisayarda güç kaynağı (PSU) bozulursa ne gibi bir sorun yaşanır?</p>
+                            <p class="text-emerald-300 mt-1"><strong>Cevap:</strong> Parçalara elektrik gitmeyeceği için bilgisayar kesinlikle açılmaz ve hiçbir donanım çalışmaz.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `,
+        sayfa3Html: `
+            <div class="space-y-6 text-slate-100 print:text-black">
+                <!-- Başlık & Bilgi Kartı -->
+                <div class="border-b-2 border-indigo-500/40 pb-4 flex items-center justify-between flex-wrap gap-2">
+                    <div>
+                        <span class="px-3 py-1 bg-indigo-500/30 text-indigo-300 font-black rounded-lg text-xs tracking-wider uppercase">
+                            5. KONU - 1 • BTY.5.1.5
+                        </span>
+                        <h1 class="text-xl sm:text-2xl font-black text-white mt-1">
+                            SAYFA 3: DIŞ DONANIM BİRİMLERİ & SINIFLANDIRMA
+                        </h1>
+                        <p class="text-xs text-indigo-300">Giriş, Çıkış ve Çift Yönlü Çevre Birimleri Tablosu</p>
+                    </div>
+                    <span class="px-3 py-1 bg-yellow-400/20 text-yellow-300 border border-yellow-400/40 rounded-xl text-xs font-black">
+                        Sayfa: 3 / 4
+                    </span>
+                </div>
+
+                <!-- 8 DIŞ DONANIMIN TANITIMI -->
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5 text-xs">
+                    <div class="p-3 bg-slate-850 rounded-xl border border-emerald-500/30 text-center">
+                        <i class="fa-solid fa-keyboard text-emerald-400 text-xl mb-1"></i>
+                        <strong class="block text-white">Klavye</strong>
+                        <span class="text-[10px] text-emerald-300 font-bold">GİRİŞ BİRİMİ</span>
+                        <p class="text-slate-300 text-[11px] mt-1">Yazı ve komut girmeyi sağlar.</p>
+                    </div>
+                    <div class="p-3 bg-slate-850 rounded-xl border border-emerald-500/30 text-center">
+                        <i class="fa-solid fa-computer-mouse text-emerald-400 text-xl mb-1"></i>
+                        <strong class="block text-white">Fare</strong>
+                        <span class="text-[10px] text-emerald-300 font-bold">GİRİŞ BİRİMİ</span>
+                        <p class="text-slate-300 text-[11px] mt-1">İmleçle tıklama ve seçim yapar.</p>
+                    </div>
+                    <div class="p-3 bg-slate-850 rounded-xl border border-cyan-500/30 text-center">
+                        <i class="fa-solid fa-desktop text-cyan-400 text-xl mb-1"></i>
+                        <strong class="block text-white">Monitör</strong>
+                        <span class="text-[10px] text-cyan-300 font-bold">ÇIKIŞ BİRİMİ</span>
+                        <p class="text-slate-300 text-[11px] mt-1">Görüntüleri ekrana yansıtır.</p>
+                    </div>
+                    <div class="p-3 bg-slate-850 rounded-xl border border-cyan-500/30 text-center">
+                        <i class="fa-solid fa-print text-cyan-400 text-xl mb-1"></i>
+                        <strong class="block text-white">Yazıcı</strong>
+                        <span class="text-[10px] text-cyan-300 font-bold">ÇIKIŞ BİRİMİ</span>
+                        <p class="text-slate-300 text-[11px] mt-1">Belgeleri kağıda basar.</p>
+                    </div>
+                    <div class="p-3 bg-slate-850 rounded-xl border border-emerald-500/30 text-center">
+                        <i class="fa-solid fa-microphone text-emerald-400 text-xl mb-1"></i>
+                        <strong class="block text-white">Mikrofon</strong>
+                        <span class="text-[10px] text-emerald-300 font-bold">GİRİŞ BİRİMİ</span>
+                        <p class="text-slate-300 text-[11px] mt-1">Sesimizi bilgisayara aktarır.</p>
+                    </div>
+                    <div class="p-3 bg-slate-850 rounded-xl border border-cyan-500/30 text-center">
+                        <i class="fa-solid fa-headphones text-cyan-400 text-xl mb-1"></i>
+                        <strong class="block text-white">Kulaklık</strong>
+                        <span class="text-[10px] text-cyan-300 font-bold">ÇIKIŞ BİRİMİ</span>
+                        <p class="text-slate-300 text-[11px] mt-1">Sesi yalnızca kulağımıza verir.</p>
+                    </div>
+                    <div class="p-3 bg-slate-850 rounded-xl border border-emerald-500/30 text-center">
+                        <i class="fa-solid fa-video text-emerald-400 text-xl mb-1"></i>
+                        <strong class="block text-white">Web Kamerası</strong>
+                        <span class="text-[10px] text-emerald-300 font-bold">GİRİŞ BİRİMİ</span>
+                        <p class="text-slate-300 text-[11px] mt-1">Canlı görüntüyü kasaya aktarır.</p>
+                    </div>
+                    <div class="p-3 bg-slate-850 rounded-xl border border-cyan-500/30 text-center">
+                        <i class="fa-solid fa-volume-high text-cyan-400 text-xl mb-1"></i>
+                        <strong class="block text-white">Hoparlör</strong>
+                        <span class="text-[10px] text-cyan-300 font-bold">ÇIKIŞ BİRİMİ</span>
+                        <p class="text-slate-300 text-[11px] mt-1">Sesi odaya yayarak dinletir.</p>
+                    </div>
+                </div>
+
+                <!-- ETKİNLİK: HANGİ DONANIM HANGİ TÜRDE? TABLOSU -->
+                <div class="p-4 bg-slate-850 rounded-2xl border border-cyan-500/40 space-y-3">
+                    <h3 class="text-sm font-black text-cyan-300 uppercase flex items-center gap-2">
+                        <i class="fa-solid fa-table-list"></i> ETKİNLİK 1: HANGİ DONANIM HANGİ TÜRDE?
+                    </h3>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left text-xs border-collapse">
+                            <thead>
+                                <tr class="border-b border-slate-700 bg-slate-900 text-slate-300">
+                                    <th class="p-2 font-bold">Donanım Birimi</th>
+                                    <th class="p-2 font-bold text-center text-emerald-400">Giriş Birimi</th>
+                                    <th class="p-2 font-bold text-center text-cyan-400">Çıkış Birimi</th>
+                                    <th class="p-2 font-bold text-center text-amber-400">Hem Giriş Hem Çıkış</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-slate-800">
+                                <tr><td class="p-2 font-semibold">1. Klavye</td><td class="p-2 text-center text-emerald-400 font-black">✔</td><td class="p-2 text-center">-</td><td class="p-2 text-center">-</td></tr>
+                                <tr><td class="p-2 font-semibold">2. Monitör (Standart)</td><td class="p-2 text-center">-</td><td class="p-2 text-center text-cyan-400 font-black">✔</td><td class="p-2 text-center">-</td></tr>
+                                <tr><td class="p-2 font-semibold">3. Fare (Mouse)</td><td class="p-2 text-center text-emerald-400 font-black">✔</td><td class="p-2 text-center">-</td><td class="p-2 text-center">-</td></tr>
+                                <tr><td class="p-2 font-semibold">4. Hoparlör</td><td class="p-2 text-center">-</td><td class="p-2 text-center text-cyan-400 font-black">✔</td><td class="p-2 text-center">-</td></tr>
+                                <tr><td class="p-2 font-semibold">5. Mikrofon</td><td class="p-2 text-center text-emerald-400 font-black">✔</td><td class="p-2 text-center">-</td><td class="p-2 text-center">-</td></tr>
+                                <tr><td class="p-2 font-semibold">6. Yazıcı (Printer)</td><td class="p-2 text-center">-</td><td class="p-2 text-center text-cyan-400 font-black">✔</td><td class="p-2 text-center">-</td></tr>
+                                <tr><td class="p-2 font-semibold">7. Kulaklık</td><td class="p-2 text-center">-</td><td class="p-2 text-center text-cyan-400 font-black">✔</td><td class="p-2 text-center">-</td></tr>
+                                <tr><td class="p-2 font-semibold">8. Web Kamerası</td><td class="p-2 text-center text-emerald-400 font-black">✔</td><td class="p-2 text-center">-</td><td class="p-2 text-center">-</td></tr>
+                                <tr><td class="p-2 font-semibold">9. Dokunmatik Ekran</td><td class="p-2 text-center">-</td><td class="p-2 text-center">-</td><td class="p-2 text-center text-amber-400 font-black">✔</td></tr>
+                                <tr><td class="p-2 font-semibold">10. USB Bellek / Harici Disk</td><td class="p-2 text-center">-</td><td class="p-2 text-center">-</td><td class="p-2 text-center text-amber-400 font-black">✔</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- ETKİNLİK 2: DOĞRU MU YANLIŞ MI? -->
+                <div class="p-4 bg-slate-850 rounded-2xl border border-emerald-500/40 space-y-2 text-xs">
+                    <h3 class="text-sm font-black text-emerald-300 uppercase flex items-center gap-2">
+                        <i class="fa-solid fa-square-check"></i> ETKİNLİK 2: DOĞRU MU YANLIŞ MI? (D / Y)
+                    </h3>
+                    <p>1. [ <strong class="text-rose-400">Y</strong> ] Klavye ekrandaki yazıları bize gösteren bir çıkış birimidir. <em>(Giriş birimidir)</em></p>
+                    <p>2. [ <strong class="text-emerald-400">D</strong> ] Monitör, bilgisayarda yapılan işlemleri görselleştiren bir çıkış birimidir.</p>
+                    <p>3. [ <strong class="text-emerald-400">D</strong> ] Mikrofon sesimizi bilgisayara aktardığı için giriş birimidir.</p>
+                    <p>4. [ <strong class="text-emerald-400">D</strong> ] Yazıcı, dijital belgeleri kağıda dökerek dışarıya aktaran çıkış birimidir.</p>
+                    <p>5. [ <strong class="text-rose-400">Y</strong> ] Hoparlör dış dünyadaki sesleri bilgisayara kaydeder. <em>(Çıkış birimidir, sesi dışa verir)</em></p>
+                    <p>6. [ <strong class="text-emerald-400">D</strong> ] Web kamerası görüntümüzü dijital ortama aktaran bir giriş birimidir.</p>
+                    <p>7. [ <strong class="text-rose-400">Y</strong> ] Dokunmatik ekran yalnızca bir çıkış birimidir. <em>(Hem giriş hem çıkıştır)</em></p>
+                    <p>8. [ <strong class="text-emerald-400">D</strong> ] Tarayıcı (Scanner), basılı resim veya yazıları bilgisayara aktaran giriş birimidir.</p>
+                </div>
+            </div>
+        `,
+        sayfa4Html: `
+            <div class="space-y-6 text-slate-100 print:text-black">
+                <!-- Başlık & Bilgi Kartı -->
+                <div class="border-b-2 border-indigo-500/40 pb-4 flex items-center justify-between flex-wrap gap-2">
+                    <div>
+                        <span class="px-3 py-1 bg-indigo-500/30 text-indigo-300 font-black rounded-lg text-xs tracking-wider uppercase">
+                            5. KONU - 1 • BTY.5.1.5
+                        </span>
+                        <h1 class="text-xl sm:text-2xl font-black text-white mt-1">
+                            SAYFA 4: KLAVYE VE FAREYİ TANIYALIM
+                        </h1>
+                        <p class="text-xs text-indigo-300">Tuş Grupları, Kısayollar, Fare Hareketleri ve İşlevleri</p>
+                    </div>
+                    <span class="px-3 py-1 bg-yellow-400/20 text-yellow-300 border border-yellow-400/40 rounded-xl text-xs font-black">
+                        Sayfa: 4 / 4
+                    </span>
+                </div>
+
+                <!-- 1. KLAVYENİN 5 ANA BÖLÜMÜ -->
+                <div class="p-4 bg-slate-850 rounded-2xl border border-indigo-500/30 space-y-3">
+                    <h3 class="text-sm font-black text-yellow-300 uppercase flex items-center gap-2">
+                        <i class="fa-solid fa-keyboard"></i> 1. KLAVYENİN 5 TEMEL BÖLÜMÜ
+                    </h3>
+                    <div class="grid grid-cols-1 sm:grid-cols-5 gap-2 text-xs text-center">
+                        <div class="p-2.5 bg-slate-900 rounded-xl border border-indigo-400/30">
+                            <span class="font-black text-indigo-300 block">F1 - F12</span>
+                            <span class="text-[11px] text-slate-300">Fonksiyon Tuşları</span>
+                        </div>
+                        <div class="p-2.5 bg-slate-900 rounded-xl border border-indigo-400/30">
+                            <span class="font-black text-indigo-300 block">Esc, Ctrl, Alt</span>
+                            <span class="text-[11px] text-slate-300">Özel Kontrol Tuşları</span>
+                        </div>
+                        <div class="p-2.5 bg-slate-900 rounded-xl border border-indigo-400/30">
+                            <span class="font-black text-indigo-300 block">A-Z, 0-9</span>
+                            <span class="text-[11px] text-slate-300">Harf ve Rakam Alanı</span>
+                        </div>
+                        <div class="p-2.5 bg-slate-900 rounded-xl border border-indigo-400/30">
+                            <span class="font-black text-indigo-300 block">⬆ ⬇ ⬅ ➡</span>
+                            <span class="text-[11px] text-slate-300">Yön / Ok Tuşları</span>
+                        </div>
+                        <div class="p-2.5 bg-slate-900 rounded-xl border border-indigo-400/30">
+                            <span class="font-black text-indigo-300 block">Numpad</span>
+                            <span class="text-[11px] text-slate-300">Sayısal Tuş Takımı</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 2. ÖNEMLİ KLAVYE TUŞLARI & KISAYOLLAR -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+                    <div class="p-4 bg-slate-850 rounded-2xl border border-cyan-500/30 space-y-2">
+                        <h4 class="font-black text-cyan-300 uppercase text-xs">En Çok Kullanılan Tuşlar</h4>
+                        <ul class="space-y-1.5 text-slate-300">
+                            <li>• <strong>Enter:</strong> Komutu onaylar veya alt satıra geçer.</li>
+                            <li>• <strong>Space (Boşluk):</strong> Kelimeler arasına bir harflik boşluk bırakır.</li>
+                            <li>• <strong>Backspace:</strong> İmlecin solundaki karakteri siler.</li>
+                            <li>• <strong>Delete:</strong> İmlecin sağındaki karakteri veya seçili ögeyi siler.</li>
+                            <li>• <strong>Caps Lock:</strong> Sürekli BÜYÜK harf yazma kilididir.</li>
+                            <li>• <strong>Shift:</strong> Geçici büyük harf ve tuşların üst simgelerini yazar.</li>
+                            <li>• <strong>Tab:</strong> İmleci belirli bir mesafe ileri kaydırır.</li>
+                            <li>• <strong>Esc (Escape):</strong> Yapılan işlemi iptal eder veya pencereden çıkar.</li>
+                        </ul>
+                    </div>
+                    <div class="p-4 bg-slate-850 rounded-2xl border border-purple-500/30 space-y-2">
+                        <h4 class="font-black text-purple-300 uppercase text-xs">Pratik Kısayol Tuşları</h4>
+                        <div class="space-y-1.5 text-slate-300">
+                            <p class="p-1.5 bg-slate-900 rounded-lg flex justify-between"><span>Kopyala:</span><strong class="text-yellow-300">Ctrl + C</strong></p>
+                            <p class="p-1.5 bg-slate-900 rounded-lg flex justify-between"><span>Yapıştır:</span><strong class="text-yellow-300">Ctrl + V</strong></p>
+                            <p class="p-1.5 bg-slate-900 rounded-lg flex justify-between"><span>Kes:</span><strong class="text-yellow-300">Ctrl + X</strong></p>
+                            <p class="p-1.5 bg-slate-900 rounded-lg flex justify-between"><span>Geri Al:</span><strong class="text-yellow-300">Ctrl + Z</strong></p>
+                            <p class="p-1.5 bg-slate-900 rounded-lg flex justify-between"><span>Tümünü Seç:</span><strong class="text-yellow-300">Ctrl + A</strong></p>
+                            <p class="p-1.5 bg-slate-900 rounded-lg flex justify-between"><span>Kaydet:</span><strong class="text-yellow-300">Ctrl + S</strong></p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 3. FARE ANATOMİSİ VE İŞLEMLERİ -->
+                <div class="p-4 bg-slate-850 rounded-2xl border border-emerald-500/30 space-y-3">
+                    <h3 class="text-sm font-black text-emerald-300 uppercase flex items-center gap-2">
+                        <i class="fa-solid fa-computer-mouse"></i> 3. FARE ANATOMİSİ VE İŞLEMLERİ
+                    </h3>
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5 text-xs">
+                        <div class="p-3 bg-slate-900 rounded-xl border border-emerald-400/30">
+                            <strong class="text-emerald-400 font-black block">1. Sol Tuş</strong>
+                            <p class="text-slate-300 mt-1">Ögeleri seçme, butonlara basma ve çift tıklayarak programları açma işlevi görür.</p>
+                        </div>
+                        <div class="p-3 bg-slate-900 rounded-xl border border-cyan-400/30">
+                            <strong class="text-cyan-400 font-black block">2. Sağ Tuş</strong>
+                            <p class="text-slate-300 mt-1">Tıklanan nesneye ait seçenekler ve kısayol bağlam menüsünü ekrana getirir.</p>
+                        </div>
+                        <div class="p-3 bg-slate-900 rounded-xl border border-yellow-400/30">
+                            <strong class="text-yellow-400 font-black block">3. Kaydırma Tekerleği</strong>
+                            <p class="text-slate-300 mt-1">Uzun sayfalarda ve web sitelerinde sayfayı aşağı/yukarı hızlıca kaydırır.</p>
+                        </div>
+                    </div>
+                    <div class="p-3 bg-slate-900/90 rounded-xl border border-slate-700 text-xs space-y-1">
+                        <strong class="text-white block font-bold">Temel Fare İşlemleri:</strong>
+                        <p>• <strong>Tek Tık:</strong> Nesneyi veya simgeyi seçer.</p>
+                        <p>• <strong>Çift Tık:</strong> Dosyayı, klasörü veya uygulamayı çalıştırıp açar.</p>
+                        <p>• <strong>Sürükle & Bırak:</strong> Nesneyi sol tuşa basılı tutarak taşır veya yeni bir klasöre bırakır.</p>
+                    </div>
+                </div>
+            </div>
+        `
+    },
 
     // ========================================================
     // ❓ 3. PEKİŞTİRME TESTİ & SORULARI

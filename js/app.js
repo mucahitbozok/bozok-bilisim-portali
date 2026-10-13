@@ -928,8 +928,12 @@ class App {
                 soru: 'assets/worksheets/1.4_sayfa2.png'
             },
             5: {
-                konu: 'assets/worksheets/1.5_konu.png',
-                soru: 'assets/worksheets/1.5_soru.png',
+                sayfa1: 'assets/worksheets/1.5_sayfa1.png',
+                sayfa2: 'assets/worksheets/1.5_sayfa2.png',
+                sayfa3: 'assets/worksheets/1.5_sayfa3.png',
+                sayfa4: 'assets/worksheets/1.5_sayfa4.png',
+                konu: 'assets/worksheets/1.5_sayfa1.png',
+                soru: 'assets/worksheets/1.5_sayfa2.png',
                 cevap: 'assets/worksheets/1.5_cevap.png'
             },
             '5_2': {
@@ -969,13 +973,16 @@ class App {
         const images = data.weekInfo?.images || data.worksheetDocs?.images;
         const docs = data.worksheetDocs || {};
 
-        const isFiveTabs = !!(images?.sayfa5 || images?.sayfa4 || images?.sayfa3 || (this.currentWeek === 4 && images?.sayfa1));
+        const isFiveTabs = !!(images?.sayfa5 || images?.sayfa4 || images?.sayfa3 || ((this.currentWeek === 4 || this.currentWeek === 5) && images?.sayfa1));
         const isFourTabs = !isFiveTabs && !!(docs.hasTwoPages || docs.kagit1Html || (images && (images.kagit1 || images.sayfa1_soru)) || this.currentWeek === '3_2');
 
         if (!this.activePhotoDoc) {
             this.activePhotoDoc = isFiveTabs ? 'sayfa1' : (isFourTabs ? 'kagit1' : 'konu');
         } else if (isFiveTabs) {
-            if (!['sayfa1', 'sayfa2', 'sayfa3', 'sayfa4', 'sayfa5', 'cevap'].includes(this.activePhotoDoc)) {
+            const validTabs = ['sayfa1', 'sayfa2', 'sayfa3', 'sayfa4'];
+            if (images?.sayfa5) validTabs.push('sayfa5');
+            if (images?.cevap || docs?.cevapHtml) validTabs.push('cevap');
+            if (!validTabs.includes(this.activePhotoDoc)) {
                 this.activePhotoDoc = 'sayfa1';
             }
         } else if (isFourTabs) {
@@ -997,29 +1004,30 @@ class App {
             return;
         }
 
+        const isTopic5 = this.currentWeek === 5;
         const imgMap = isFiveTabs ? {
             sayfa1: { 
                 src: this.resolveDocPath(images?.sayfa1, this.currentWeek, 'sayfa1'), 
-                title: "1. Sayfa (Yapay Zekâ Temelleri & Kavramlar)", 
+                title: isTopic5 ? "1. Sayfa (Bilgisayar ve Donanım Genel Bakış)" : "1. Sayfa (Yapay Zekâ Temelleri & Kavramlar)", 
                 icon: "fa-solid fa-file-lines", 
                 badge: "1. Sayfa" 
             },
             sayfa2: { 
                 src: this.resolveDocPath(images?.sayfa2, this.currentWeek, 'sayfa2'), 
-                title: "2. Sayfa (Yapay Zekâ Kullanım Alanları & Örnekler)", 
-                icon: "fa-solid fa-file-lines", 
+                title: isTopic5 ? "2. Sayfa (İç Donanım Birimleri & Etkinlikler)" : "2. Sayfa (Yapay Zekâ Kullanım Alanları & Örnekler)", 
+                icon: isTopic5 ? "fa-solid fa-microchip" : "fa-solid fa-file-lines", 
                 badge: "2. Sayfa" 
             },
             sayfa3: { 
                 src: this.resolveDocPath(images?.sayfa3, this.currentWeek, 'sayfa3'), 
-                title: "3. Sayfa (Pekiştirme Soruları & Etkinlikler)", 
-                icon: "fa-solid fa-file-lines", 
+                title: isTopic5 ? "3. Sayfa (Dış Donanım Birimleri & Sınıflandırma)" : "3. Sayfa (Pekiştirme Soruları & Etkinlikler)", 
+                icon: isTopic5 ? "fa-solid fa-desktop" : "fa-solid fa-file-lines", 
                 badge: "3. Sayfa" 
             },
             sayfa4: { 
                 src: this.resolveDocPath(images?.sayfa4, this.currentWeek, 'sayfa4'), 
-                title: "4. Sayfa (Etik, Güvenlik & Değerlendirme)", 
-                icon: "fa-solid fa-shield-halved", 
+                title: isTopic5 ? "4. Sayfa (Klavye ve Fareyi Tanıyalım)" : "4. Sayfa (Etik, Güvenlik & Değerlendirme)", 
+                icon: isTopic5 ? "fa-solid fa-keyboard" : "fa-solid fa-shield-halved", 
                 badge: "4. Sayfa" 
             },
             sayfa5: { 
@@ -1030,7 +1038,7 @@ class App {
             },
             cevap: { 
                 src: this.resolveDocPath(images?.cevap, this.currentWeek, 'cevap'), 
-                title: "Resmî Cevap Anahtarı (1-5. Sayfalar)", 
+                title: "Resmî Cevap Anahtarı", 
                 icon: "fa-solid fa-key", 
                 badge: "Cevap Anahtarı" 
             }
@@ -1038,7 +1046,7 @@ class App {
             kagit1: { 
                 src: this.resolveDocPath(images?.kagit1 || images?.sayfa1_soru, this.currentWeek, 'kagit1'), 
                 title: "1. Kağıt (Etkinlik Kağıdı 1 - Bilişim Alanları & Dijital Sağlık)", 
-                icon: "fa-solid fa-file-lines", 
+                icon: "fa-solid fa-file-lines",  
                 badge: "1. Kağıt" 
             },
             kagit1_cevap: { 
@@ -1135,10 +1143,12 @@ class App {
                                 <span>5. Sayfa (Tarihçe)</span>
                             </button>
                             ` : ''}
+                            ${(images?.cevap || docs?.cevapHtml) ? `
                             <button onclick="app.setPhotoDoc('cevap')" class="px-3 sm:px-4 py-2 sm:py-2.5 rounded-xl font-bold text-xs sm:text-sm flex items-center gap-2 transition-all ${this.activePhotoDoc === 'cevap' ? 'bg-emerald-600 text-white shadow-lg ring-2 ring-emerald-400' : 'text-slate-300 hover:bg-slate-700'}">
                                 <i class="fa-solid fa-key text-yellow-300"></i>
                                 <span>Cevap Anahtarı</span>
                             </button>
+                            ` : ''}
                         ` : (isFourTabs ? `
                             <button onclick="app.setPhotoDoc('kagit1')" class="px-3 sm:px-4 py-2 sm:py-2.5 rounded-xl font-bold text-xs sm:text-sm flex items-center gap-2 transition-all ${this.activePhotoDoc === 'kagit1' ? 'bg-indigo-600 text-white shadow-lg ring-2 ring-indigo-400' : 'text-slate-300 hover:bg-slate-700'}">
                                 <i class="fa-solid fa-file-lines text-yellow-400"></i>
@@ -1271,6 +1281,34 @@ class App {
         if (!imgEl.dataset.triedAlternates) {
             imgEl.dataset.triedAlternates = "1";
             const candidatePaths = {
+                sayfa1: [
+                    'assets/worksheets/1.5_sayfa1.png',
+                    'assets/worksheets/5.5-1.png',
+                    'assets/worksheets/1.4_sayfa1.png'
+                ],
+                sayfa2: [
+                    'assets/worksheets/1.5_sayfa2.png',
+                    'assets/worksheets/5.5-2.png',
+                    'assets/worksheets/1.4_sayfa2.png'
+                ],
+                sayfa3: [
+                    'assets/worksheets/1.5_sayfa3.png',
+                    'assets/worksheets/5.5-3.png',
+                    'assets/worksheets/5.5.-3.png',
+                    'assets/worksheets/1.4_sayfa3.png'
+                ],
+                sayfa4: [
+                    'assets/worksheets/1.5_sayfa4.png',
+                    'assets/worksheets/5.5-4.png',
+                    'assets/worksheets/1.4_sayfa4.png'
+                ],
+                sayfa5: [
+                    'assets/worksheets/1.4_sayfa5.png'
+                ],
+                cevap: [
+                    'assets/worksheets/1.4_cevap.png',
+                    'assets/worksheets/1.5_cevap.png'
+                ],
                 kagit1: [
                     'assets/worksheets/1.4_sayfa1_soru.png',
                     'assets/worksheets/1.4_1.kagit.png',
