@@ -1133,7 +1133,110 @@ window.WEEK5_CONTENT = {
     // ========================================================
     // ❓ 3. PEKİŞTİRME TESTİ & SORULARI
     // ==========================================
-    questions: [],
+    questions: [
+        // 0. İndeks: Placeholder (Eşleştirme etkinliği bu konuda yok)
+        null,
+
+        // 1. İndeks: 15 Soruluk Doğru / Yanlış Pekiştirme Testi
+        {
+            id: 2,
+            type: "true_false",
+            title: "Bilgisayar ve Donanım – Doğru / Yanlış Testi (15 Soru)",
+            description: "Aşağıdaki ifadeleri dikkatle okuyarak Doğru veya Yanlış butonuna basınız:",
+            items: [
+                {
+                    statement: "Bilgisayarı oluşturan, elle tutabildiğimiz ve gözle görebildiğimiz fiziksel parçalara donanım denir.",
+                    isCorrect: true,
+                    correct: true,
+                    explanation: "Doğru! Donanım (hardware), bilgisayarın fiziksel bileşenlerinin tamamına verilen addır."
+                },
+                {
+                    statement: "RAM bellek kalıcı bir depolama birimidir; bilgisayar kapansa bile içindeki veriler silinmez.",
+                    isCorrect: false,
+                    correct: false,
+                    explanation: "Yanlış! RAM geçici (volatile) bir hafızadır. Bilgisayar kapandığında içindeki tüm veriler silinir. Kalıcı depolama HDD ve SSD tarafından yapılır."
+                },
+                {
+                    statement: "İşlemci (CPU), bilgisayarın beyni olarak kabul edilir ve tüm komutları işleyerek hesaplamaları yürütür.",
+                    isCorrect: true,
+                    correct: true,
+                    explanation: "Doğru! CPU bilgisayarın beynidir; programlardan gelen tüm komutları işler ve yönetir."
+                },
+                {
+                    statement: "Klavye, bilgisayarın işlediği bilgileri kullanıcıya aktaran bir çıkış birimidir.",
+                    isCorrect: false,
+                    correct: false,
+                    explanation: "Yanlış! Klavye dış dünyadan bilgisayara veri ve komut gönderen bir GİRİŞ birimidir, çıkış birimi değildir."
+                },
+                {
+                    statement: "Monitör, bilgisayarın işlediği verileri görüntü olarak kullanıcıya sunan bir çıkış birimidir.",
+                    isCorrect: true,
+                    correct: true,
+                    explanation: "Doğru! Monitör işlenmiş verileri ekrana yansıtarak kullanıcıya aktarır; temel çıkış birimidir."
+                },
+                {
+                    statement: "Güç kaynağı (PSU) yalnızca monitöre elektrik sağlamakla görevlidir.",
+                    isCorrect: false,
+                    correct: false,
+                    explanation: "Yanlış! Güç kaynağı prizden gelen elektriği dönüştürerek kasanın içindeki TÜM parçalara (anakart, CPU, diskler, fanlar vb.) dağıtır."
+                },
+                {
+                    statement: "Anakart, tüm iç ve dış donanım parçalarının birbirine bağlandığı ve iletişim kurduğu ana devredir.",
+                    isCorrect: true,
+                    correct: true,
+                    explanation: "Doğru! Anakart, bilgisayarın tüm bileşenlerini birbirine bağlayan ve veri iletişimini sağlayan temel platformdur."
+                },
+                {
+                    statement: "Hoparlör, dış dünyadan bilgisayara ses aktaran bir giriş birimidir.",
+                    isCorrect: false,
+                    correct: false,
+                    explanation: "Yanlış! Hoparlör bilgisayardaki dijital ses verilerini dışarıya ses olarak aktaran bir ÇIKIŞ birimidir. Sesi bilgisayara aktaran giriş birimi mikrofondur."
+                },
+                {
+                    statement: "Dokunmatik ekran hem görüntü gösterdiği (çıkış) hem de parmakla komut aldığı (giriş) için çift yönlü bir birimdir.",
+                    isCorrect: true,
+                    correct: true,
+                    explanation: "Doğru! Dokunmatik ekran hem giriş hem çıkış işlevi gören çift yönlü bir donanımdır."
+                },
+                {
+                    statement: "SSD, geleneksel sabit diske (HDD) göre genellikle daha yavaş çalışır.",
+                    isCorrect: false,
+                    correct: false,
+                    explanation: "Yanlış! SSD'ler hareketli mekanik parça içermediği için HDD'lere göre çok daha hızlı veri okuma ve yazma yapar."
+                },
+                {
+                    statement: "Farenin sağ tuşuna tıklamak, tıklanan nesneye ait bağlam menüsünü (kısayol menüsü) açar.",
+                    isCorrect: true,
+                    correct: true,
+                    explanation: "Doğru! Sağ tık, ilgili nesne için kopyala, yapıştır, sil gibi seçeneklerin bulunduğu bağlam menüsünü getirir."
+                },
+                {
+                    statement: "Ctrl+C klavye kısayolu, seçili metni veya dosyayı keser (taşımak için alır).",
+                    isCorrect: false,
+                    correct: false,
+                    explanation: "Yanlış! Ctrl+C seçili ögeyi KOPYALAR. Kesmek (taşımak) için kullanılan kısayol Ctrl+X'tir."
+                },
+                {
+                    statement: "USB bellek hem veri okuyabilir hem de veri yazabilir; bu nedenle hem giriş hem çıkış özelliği taşıyan çift yönlü bir birimdir.",
+                    isCorrect: true,
+                    correct: true,
+                    explanation: "Doğru! USB bellek bilgisayardan dosya alabilir (yazma) ve bilgisayara dosya verebilir (okuma); bu yüzden çift yönlü birimdir."
+                },
+                {
+                    statement: "Ekran kartı (GPU), bilgisayarın internet ağına bağlanmasını sağlayan iç donanım birimidir.",
+                    isCorrect: false,
+                    correct: false,
+                    explanation: "Yanlış! Ekran kartı görüntü verilerini işleyerek monitöre aktarır. Bilgisayarı ağa bağlayan parça Ağ Kartı'dır (Ethernet / Wi-Fi kartı)."
+                },
+                {
+                    statement: "Caps Lock tuşu, sürekli büyük harf yazma kilidini açar ve kapatır.",
+                    isCorrect: true,
+                    correct: true,
+                    explanation: "Doğru! Caps Lock aktifken tüm harfler büyük yazılır; tekrar basıldığında kilit kalkar ve küçük harfe döner."
+                }
+            ]
+        }
+    ],
 
     // ========================================================
     // 🎮 4. TEKRAR OYUNLARI & ETKİNLİKLER (11 ÖZEL OYUN)
