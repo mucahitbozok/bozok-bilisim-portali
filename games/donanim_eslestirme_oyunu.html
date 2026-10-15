@@ -1,0 +1,1021 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>5. Sınıf Bilişim: Donanım Avcıları Eşleştirme Oyunu</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #4F46E5;
+            --secondary: #10B981;
+            --accent: #F59E0B;
+        }
+        html, body {
+            font-family: 'Nunito', sans-serif;
+            background: radial-gradient(circle at top left, #1e1b4b, #0f172a 70%);
+            height: 100vh;
+            height: 100dvh;
+            width: 100vw;
+            margin: 0;
+            padding: 0;
+            color: #f8fafc;
+            overflow: hidden;
+            user-select: none;
+        }
+        h1, h2, h3, .font-heading {
+            font-family: 'Fredoka', sans-serif;
+        }
+
+        /* 3D Card Flip Styling */
+        .perspective-1000 {
+            perspective: 1000px;
+            -webkit-perspective: 1000px;
+        }
+        .card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.5s cubic-bezier(0.4, 0.2, 0.2, 1);
+            transform-style: preserve-3d;
+            -webkit-transform-style: preserve-3d;
+        }
+        .card.flipped .card-inner {
+            transform: rotateY(180deg);
+            -webkit-transform: rotateY(180deg);
+        }
+        .card.matched .card-inner {
+            transform: rotateY(180deg) scale(0.97);
+            -webkit-transform: rotateY(180deg) scale(0.97);
+            box-shadow: 0 0 18px rgba(16, 185, 129, 0.6);
+            border-radius: 0.875rem;
+        }
+        .card-front, .card-back {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+            border-radius: 0.875rem;
+        }
+        .card-front {
+            background: linear-gradient(135deg, #3730a3 0%, #1e1b4b 100%);
+            border: 2px solid rgba(99, 102, 241, 0.4);
+            box-shadow: 0 6px 12px -2px rgba(0, 0, 0, 0.4);
+            transform: rotateY(0deg);
+            -webkit-transform: rotateY(0deg);
+            z-index: 2;
+        }
+        .card-front:hover {
+            border-color: #818cf8;
+        }
+        .card-back {
+            transform: rotateY(180deg);
+            -webkit-transform: rotateY(180deg);
+            background: #ffffff;
+            color: #1e293b;
+            border: 3px solid #6366f1;
+            box-shadow: 0 8px 16px -4px rgba(0, 0, 0, 0.4);
+            z-index: 1;
+        }
+        .card.flipped .card-front {
+            pointer-events: none;
+        }
+        .card.matched .card-back {
+            border-color: #10b981;
+            background: linear-gradient(to bottom right, #ffffff, #ecfdf5);
+        }
+
+        /* Circuit pattern overlay */
+        .circuit-pattern {
+            background-image: radial-gradient(#6366f1 1.5px, transparent 1.5px), radial-gradient(#6366f1 1.5px, transparent 1.5px);
+            background-size: 24px 24px;
+            background-position: 0 0, 12px 12px;
+            opacity: 0.15;
+        }
+
+        /* Animations */
+        @keyframes pulse-match {
+            0%, 100% { transform: rotateY(180deg) scale(0.96); }
+            50% { transform: rotateY(180deg) scale(1.04); }
+        }
+        .animate-match {
+            animation: pulse-match 0.5s ease-in-out;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: rotateY(180deg) translateX(0); }
+            25% { transform: rotateY(180deg) translateX(-6px); }
+            75% { transform: rotateY(180deg) translateX(6px); }
+        }
+        .animate-wrong .card-inner {
+            animation: shake 0.4s ease-in-out;
+        }
+        .animate-wrong .card-back {
+            border-color: #ef4444;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0f172a;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #4f46e5;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body class="flex flex-col h-full w-full p-1.5 sm:p-3 max-w-7xl mx-auto overflow-hidden">
+
+    <header class="w-full mb-1.5 sm:mb-2 shrink-0">
+        <div class="bg-slate-800/90 backdrop-blur-md border border-indigo-500/30 rounded-xl sm:rounded-2xl p-2 sm:p-3 shadow-lg flex flex-wrap items-center justify-between gap-2">
+            
+            <!-- Logo & Title -->
+            <div class="flex items-center gap-2 sm:gap-3 text-left">
+                <div class="w-8 h-8 sm:w-10 sm:h-10 rounded-xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center shadow-md shadow-indigo-500/30 shrink-0">
+                    <svg class="w-5 h-5 sm:w-6 sm:h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z"></path>
+                    </svg>
+                </div>
+                <div>
+                    <span class="hidden sm:inline-block text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">
+                        5. Sınıf Bilişim Teknolojileri
+                    </span>
+                    <h1 class="text-base sm:text-xl font-bold text-white tracking-wide leading-tight">
+                        Donanım Avcıları
+                    </h1>
+                </div>
+            </div>
+
+            <!-- Controls & Mode Selection -->
+            <div class="flex flex-wrap items-center justify-center gap-1.5 sm:gap-2">
+                <!-- Game Mode Select -->
+                <div class="flex bg-slate-900/90 p-0.5 sm:p-1 rounded-lg sm:rounded-xl border border-slate-700">
+                    <button id="mode-task" onclick="setGameMode('task')" class="px-2 py-1 rounded-md sm:rounded-lg text-[11px] sm:text-xs font-bold transition-all bg-indigo-600 text-white shadow">
+                        Parça ↔ Görevi
+                    </button>
+                    <button id="mode-identical" onclick="setGameMode('identical')" class="px-2 py-1 rounded-md sm:rounded-lg text-[11px] sm:text-xs font-bold transition-all text-slate-400 hover:text-white">
+                        Parça ↔ Parça
+                    </button>
+                </div>
+
+                <!-- Difficulty Select -->
+                <div class="flex bg-slate-900/90 p-0.5 sm:p-1 rounded-lg sm:rounded-xl border border-slate-700">
+                    <button id="diff-easy" onclick="setDifficulty(6)" class="px-2 py-1 rounded-md sm:rounded-lg text-[11px] sm:text-xs font-bold transition-all text-slate-400 hover:text-white">
+                        Kolay (12)
+                    </button>
+                    <button id="diff-medium" onclick="setDifficulty(8)" class="px-2 py-1 rounded-md sm:rounded-lg text-[11px] sm:text-xs font-bold transition-all bg-amber-500 text-slate-900 shadow">
+                        Orta (16)
+                    </button>
+                    <button id="diff-hard" onclick="setDifficulty(10)" class="px-2 py-1 rounded-md sm:rounded-lg text-[11px] sm:text-xs font-bold transition-all text-slate-400 hover:text-white">
+                        Zor (20)
+                    </button>
+                </div>
+
+                <!-- Guide Button -->
+                <button onclick="toggleModal('guide-modal', true)" class="flex items-center gap-1 px-2.5 py-1.5 rounded-lg sm:rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-[11px] sm:text-xs shadow-md shadow-emerald-600/20 transition-all active:scale-95">
+                    <svg class="w-3.5 h-3.5 sm:w-4 sm:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+                    </svg>
+                    <span class="hidden md:inline">Konu Özeti</span>
+                </button>
+
+                <!-- Fullscreen Toggle -->
+                <button onclick="toggleFullScreen()" class="p-1.5 sm:p-2 rounded-lg sm:rounded-xl bg-slate-700 hover:bg-slate-600 text-slate-200 transition-all" title="Tam Ekran Yap">
+                    <svg class="w-3.5 h-3.5 sm:w-4 sm:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4"></path>
+                    </svg>
+                </button>
+
+                <!-- Sound Toggle -->
+                <button id="sound-btn" onclick="toggleSound()" class="p-1.5 sm:p-2 rounded-lg sm:rounded-xl bg-slate-700 hover:bg-slate-600 text-slate-200 transition-all" title="Sesi Aç/Kapat">
+                    <svg id="sound-on-icon" class="w-3.5 h-3.5 sm:w-4 sm:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path>
+                    </svg>
+                    <svg id="sound-off-icon" class="w-3.5 h-3.5 sm:w-4 sm:h-4 hidden text-rose-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-4 gap-1.5 sm:gap-2.5 mt-1.5">
+            <!-- Matches -->
+            <div class="bg-slate-800/60 border border-slate-700/80 rounded-xl px-2 py-1 sm:p-2 flex items-center justify-between">
+                <div class="flex items-center gap-1.5 sm:gap-2">
+                    <span class="text-sm sm:text-lg">🎯</span>
+                    <div>
+                        <p class="text-[9px] sm:text-[11px] text-slate-400 font-semibold leading-none">Eşleşen</p>
+                        <p id="stat-matches" class="text-xs sm:text-base font-bold text-emerald-400 leading-tight mt-0.5">0 / 8</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Moves -->
+            <div class="bg-slate-800/60 border border-slate-700/80 rounded-xl px-2 py-1 sm:p-2 flex items-center justify-between">
+                <div class="flex items-center gap-1.5 sm:gap-2">
+                    <span class="text-sm sm:text-lg">⚡</span>
+                    <div>
+                        <p class="text-[9px] sm:text-[11px] text-slate-400 font-semibold leading-none">Hamle</p>
+                        <p id="stat-moves" class="text-xs sm:text-base font-bold text-amber-400 leading-tight mt-0.5">0</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Timer -->
+            <div class="bg-slate-800/60 border border-slate-700/80 rounded-xl px-2 py-1 sm:p-2 flex items-center justify-between">
+                <div class="flex items-center gap-1.5 sm:gap-2">
+                    <span class="text-sm sm:text-lg">⏱️</span>
+                    <div>
+                        <p class="text-[9px] sm:text-[11px] text-slate-400 font-semibold leading-none">Süre</p>
+                        <p id="stat-time" class="text-xs sm:text-base font-bold text-indigo-300 leading-tight mt-0.5">00:00</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Actions: Hint & Restart -->
+            <div class="flex gap-1.5 sm:gap-2">
+                <button id="hint-btn" onclick="useHint()" class="flex-1 bg-amber-500/20 hover:bg-amber-500/30 border border-amber-500/40 text-amber-300 rounded-xl px-1.5 py-1 flex flex-col items-center justify-center transition-all active:scale-95">
+                    <span class="text-[10px] sm:text-xs font-bold flex items-center gap-0.5">💡 İpucu (<span id="hint-count">2</span>)</span>
+                </button>
+                <button onclick="restartGame()" class="flex-1 bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl px-1.5 py-1 flex flex-col items-center justify-center shadow-md shadow-indigo-600/30 transition-all active:scale-95">
+                    <span class="text-[10px] sm:text-xs font-bold flex items-center gap-0.5">🔄 Yenile</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="w-full flex-1 flex flex-col min-h-0 overflow-hidden">
+        
+        <!-- Live Info Toast / Fact Banner -->
+        <div id="info-banner" class="mb-1.5 sm:mb-2 bg-indigo-950/80 border border-indigo-500/40 rounded-xl px-2.5 py-1.5 flex items-center justify-between gap-2 text-[11px] sm:text-xs text-indigo-200 shadow-inner shrink-0">
+            <div class="flex items-center gap-2 min-w-0">
+                <span id="banner-badge" class="px-2 py-0.5 rounded bg-indigo-600 text-white font-bold text-[10px] shrink-0">BİLGİ</span>
+                <span id="banner-text" class="font-medium truncate">Kartlara tıklayarak donanım birimlerini ve görevlerini eşleştirin!</span>
+            </div>
+            <span class="hidden lg:inline-block text-[11px] text-indigo-400 font-semibold shrink-0">İç Donanım: Kasa İçi | Dış Donanım: Kasa Dışı</span>
+        </div>
+
+        <!-- Cards Grid Container -->
+        <div id="game-grid" class="grid w-full flex-1 min-h-0 gap-1.5 sm:gap-2.5 pb-1">
+            <!-- Cards will be dynamically injected here -->
+        </div>
+
+    </main>
+
+    <!-- Victory Modal -->
+    <div id="victory-modal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-slate-800 border-2 border-indigo-500 rounded-3xl max-w-md w-full p-6 sm:p-8 text-center shadow-2xl transform transition-all">
+            <div class="w-20 h-20 mx-auto mb-4 rounded-full bg-emerald-500/20 border-2 border-emerald-400 flex items-center justify-center text-4xl shadow-lg shadow-emerald-500/20">
+                🏆
+            </div>
+            <h2 class="text-3xl font-bold text-white mb-1">Tebrikler!</h2>
+            <p class="text-indigo-300 text-sm mb-6">Tüm donanım birimlerini başarıyla eşleştirdin!</p>
+
+            <!-- Star Rating -->
+            <div id="victory-stars" class="flex justify-center gap-2 text-4xl mb-6">
+                <span>⭐</span><span>⭐</span><span>⭐</span>
+            </div>
+
+            <!-- Stats Summary -->
+            <div class="grid grid-cols-3 gap-2 bg-slate-900/90 rounded-2xl p-4 mb-6 border border-slate-700">
+                <div>
+                    <p class="text-xs text-slate-400">Süre</p>
+                    <p id="final-time" class="text-lg font-bold text-white">00:45</p>
+                </div>
+                <div class="border-x border-slate-700">
+                    <p class="text-xs text-slate-400">Hamle</p>
+                    <p id="final-moves" class="text-lg font-bold text-amber-400">14</p>
+                </div>
+                <div>
+                    <p class="text-xs text-slate-400">Puan</p>
+                    <p id="final-score" class="text-lg font-bold text-emerald-400">950</p>
+                </div>
+            </div>
+
+            <div class="flex gap-3">
+                <button onclick="toggleModal('victory-modal', false); toggleModal('guide-modal', true);" class="flex-1 py-3 px-4 rounded-xl bg-slate-700 hover:bg-slate-600 text-white font-bold text-sm transition-all">
+                    📚 Özeti İncele
+                </button>
+                <button onclick="toggleModal('victory-modal', false); restartGame();" class="flex-1 py-3 px-4 rounded-xl bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white font-bold text-sm shadow-lg shadow-indigo-600/30 transition-all">
+                    🔄 Tekrar Oyna
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Hardware Study Guide Modal (Konu Özeti) -->
+    <div id="guide-modal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-slate-800 border border-slate-600 rounded-3xl max-w-4xl w-full max-h-[85vh] flex flex-col shadow-2xl overflow-hidden">
+            <!-- Modal Header -->
+            <div class="p-4 sm:p-6 bg-slate-900 border-b border-slate-700 flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                    <span class="text-2xl">📘</span>
+                    <div>
+                        <h2 class="text-xl sm:text-2xl font-bold text-white">5. Sınıf Donanım Birimleri Rehberi</h2>
+                        <p class="text-xs text-slate-400">Bilgisayarın gözle görülebilen ve elle tutulabilen tüm fiziksel parçalarına <b>Donanım (Hardware)</b> denir.</p>
+                    </div>
+                </div>
+                <button onclick="toggleModal('guide-modal', false)" class="w-9 h-9 rounded-xl bg-slate-800 hover:bg-rose-600 text-slate-300 hover:text-white flex items-center justify-center transition-all font-bold">
+                    ✕
+                </button>
+            </div>
+
+            <!-- Modal Body -->
+            <div class="p-4 sm:p-6 overflow-y-auto space-y-6">
+                <!-- Internal Hardware Section -->
+                <div>
+                    <div class="flex items-center gap-2 mb-3">
+                        <span class="px-3 py-1 rounded-lg bg-purple-500/20 border border-purple-500/40 text-purple-300 font-bold text-sm">
+                            🛠️ İç Donanım Birimleri (Kasanın İçindekiler)
+                        </span>
+                    </div>
+                    <div id="guide-internal-list" class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                        <!-- Dynamically populated -->
+                    </div>
+                </div>
+
+                <!-- External Hardware Section -->
+                <div>
+                    <div class="flex items-center gap-2 mb-3">
+                        <span class="px-3 py-1 rounded-lg bg-cyan-500/20 border border-cyan-500/40 text-cyan-300 font-bold text-sm">
+                            🖥️ Dış Donanım Birimleri (Kasanın Dışındakiler)
+                        </span>
+                    </div>
+                    <div id="guide-external-list" class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                        <!-- Dynamically populated -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal Footer -->
+            <div class="p-4 bg-slate-900 border-t border-slate-700 flex justify-end">
+                <button onclick="toggleModal('guide-modal', false)" class="px-6 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-sm transition-all">
+                    Anladım, Oyuna Dön!
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        /**
+         * 5. Sınıf Bilişim Teknolojileri Müfredatına Uygun Donanım Veritabanı
+         * İç Donanım ve Dış Donanım kategorileri, özel SVG ikonları ve görev tanımları.
+         */
+        const HARDWARE_DB = [
+            {
+                id: 'cpu',
+                name: 'İşlemci (CPU)',
+                category: 'İç Donanım',
+                task: 'Bilgisayarın beynidir. Tüm mantıksal ve matematiksel işlemleri gerçekleştirir.',
+                shortTask: 'Bilgisayarın beynidir; tüm işlemleri ve hesaplamaları yapar.',
+                svg: `<svg viewBox="0 0 64 64" class="w-12 h-12 sm:w-14 sm:h-14 mx-auto" fill="none">
+                        <rect x="14" y="14" width="36" height="36" rx="4" fill="#4F46E5" stroke="#312E81" stroke-width="3"/>
+                        <rect x="22" y="22" width="20" height="20" rx="2" fill="#A5B4FC"/>
+                        <path d="M20 6v8M32 6v8M44 6v8M20 50v8M32 50v8M44 50v8M6 20h8M6 32h8M6 44h8M50 20h8M50 32h8M50 44h8" stroke="#F59E0B" stroke-width="3" stroke-linecap="round"/>
+                        <text x="32" y="35" text-anchor="middle" fill="#1E1B4B" font-size="8" font-weight="bold">CPU</text>
+                      </svg>`
+            },
+            {
+                id: 'motherboard',
+                name: 'Anakart',
+                category: 'İç Donanım',
+                task: 'Tüm iç ve dış donanım birimlerinin üzerine takıldığı ve birbiriyle iletişim kurduğu ana devredir.',
+                shortTask: 'Tüm donanım parçalarının üzerine takıldığı ve iletişim kurduğu ana karttır.',
+                svg: `<svg viewBox="0 0 64 64" class="w-12 h-12 sm:w-14 sm:h-14 mx-auto" fill="none">
+                        <rect x="8" y="8" width="48" height="48" rx="4" fill="#059669" stroke="#064E3B" stroke-width="3"/>
+                        <rect x="16" y="16" width="16" height="16" fill="#34D399" stroke="#064E3B" stroke-width="2"/>
+                        <rect x="38" y="14" width="6" height="24" fill="#FBBF24"/>
+                        <rect x="46" y="14" width="6" height="24" fill="#FBBF24"/>
+                        <path d="M16 42h32M16 48h24" stroke="#A7F3D0" stroke-width="3" stroke-linecap="round"/>
+                        <circle cx="46" cy="48" r="4" fill="#E2E8F0"/>
+                      </svg>`
+            },
+            {
+                id: 'ram',
+                name: 'RAM (Bellek)',
+                category: 'İç Donanım',
+                task: 'Bilgilerin geçici olarak depolandığı bellektir. Bilgisayar kapatıldığında içindeki bilgiler silinir.',
+                shortTask: 'Verileri geçici olarak saklar; elektrik kesilince içindeki bilgiler silinir.',
+                svg: `<svg viewBox="0 0 64 64" class="w-12 h-12 sm:w-14 sm:h-14 mx-auto" fill="none">
+                        <rect x="4" y="20" width="56" height="22" rx="3" fill="#10B981" stroke="#047857" stroke-width="3"/>
+                        <rect x="10" y="25" width="8" height="12" rx="1" fill="#1E293B"/>
+                        <rect x="22" y="25" width="8" height="12" rx="1" fill="#1E293B"/>
+                        <rect x="34" y="25" width="8" height="12" rx="1" fill="#1E293B"/>
+                        <rect x="46" y="25" width="8" height="12" rx="1" fill="#1E293B"/>
+                        <path d="M8 42v4h48v-4" fill="#F59E0B"/>
+                        <line x1="16" y1="42" x2="16" y2="46" stroke="#047857" stroke-width="2"/>
+                        <line x1="32" y1="42" x2="32" y2="46" stroke="#047857" stroke-width="2"/>
+                        <line x1="48" y1="42" x2="48" y2="46" stroke="#047857" stroke-width="2"/>
+                      </svg>`
+            },
+            {
+                id: 'hdd',
+                name: 'Sabit Disk (HDD / SSD)',
+                category: 'İç Donanım',
+                task: 'İşletim sistemi, oyunlar, fotoğraflar ve dosyaların kalıcı olarak saklandığı depolama birimidir.',
+                shortTask: 'Dosyaların, oyunların ve fotoğrafların kalıcı olarak saklandığı birimdir.',
+                svg: `<svg viewBox="0 0 64 64" class="w-12 h-12 sm:w-14 sm:h-14 mx-auto" fill="none">
+                        <rect x="12" y="8" width="40" height="48" rx="4" fill="#64748B" stroke="#334155" stroke-width="3"/>
+                        <circle cx="32" cy="28" r="13" fill="#E2E8F0" stroke="#475569" stroke-width="2"/>
+                        <circle cx="32" cy="28" r="4" fill="#475569"/>
+                        <path d="M22 46l12-14" stroke="#F59E0B" stroke-width="3" stroke-linecap="round"/>
+                        <circle cx="22" cy="46" r="3" fill="#F59E0B"/>
+                      </svg>`
+            },
+            {
+                id: 'gpu',
+                name: 'Ekran Kartı (GPU)',
+                category: 'İç Donanım',
+                task: 'Görüntüleri işleyerek monitöre (ekrana) aktarılmasını sağlayan donanım birimidir.',
+                shortTask: 'Görüntüleri işler ve monitöre aktarılmasını sağlar.',
+                svg: `<svg viewBox="0 0 64 64" class="w-12 h-12 sm:w-14 sm:h-14 mx-auto" fill="none">
+                        <rect x="10" y="18" width="46" height="28" rx="4" fill="#7C3AED" stroke="#4C1D95" stroke-width="3"/>
+                        <circle cx="25" cy="32" r="9" fill="#1E1B4B" stroke="#C4B5FD" stroke-width="2"/>
+                        <circle cx="43" cy="32" r="9" fill="#1E1B4B" stroke="#C4B5FD" stroke-width="2"/>
+                        <path d="M10 12v38" stroke="#94A3B8" stroke-width="4" stroke-linecap="round"/>
+                        <rect x="18" y="46" width="24" height="4" fill="#F59E0B"/>
+                      </svg>`
+            },
+            {
+                id: 'psu',
+                name: 'Güç Kaynağı (PSU)',
+                category: 'İç Donanım',
+                task: 'Kasa içindeki tüm donanım parçalarına ihtiyaç duydukları elektrik enerjisini dağıtır.',
+                shortTask: 'Bilgisayarın tüm parçalarına gerekli elektrik enerjisini dağıtır.',
+                svg: `<svg viewBox="0 0 64 64" class="w-12 h-12 sm:w-14 sm:h-14 mx-auto" fill="none">
+                        <rect x="8" y="14" width="48" height="36" rx="4" fill="#475569" stroke="#1E293B" stroke-width="3"/>
+                        <circle cx="26" cy="32" r="11" fill="#334155" stroke="#94A3B8" stroke-width="2"/>
+                        <path d="M44 22l-5 10h6l-3 10" stroke="#FBBF24" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                      </svg>`
+            },
+            {
+                id: 'keyboard',
+                name: 'Klavye',
+                category: 'Dış Donanım',
+                task: 'Üzerindeki harf, rakam ve sembol tuşları sayesinde bilgisayara yazı ve komut girmemizi sağlar.',
+                shortTask: 'Üzerindeki tuşlarla bilgisayara yazı ve veri girmemizi sağlar.',
+                svg: `<svg viewBox="0 0 64 64" class="w-12 h-12 sm:w-14 sm:h-14 mx-auto" fill="none">
+                        <rect x="6" y="20" width="52" height="28" rx="4" fill="#3B82F6" stroke="#1D4ED8" stroke-width="3"/>
+                        <rect x="12" y="26" width="6" height="5" rx="1" fill="#EFF6FF"/>
+                        <rect x="21" y="26" width="6" height="5" rx="1" fill="#EFF6FF"/>
+                        <rect x="30" y="26" width="6" height="5" rx="1" fill="#EFF6FF"/>
+                        <rect x="39" y="26" width="6" height="5" rx="1" fill="#EFF6FF"/>
+                        <rect x="48" y="26" width="4" height="5" rx="1" fill="#EFF6FF"/>
+                        <rect x="12" y="34" width="8" height="5" rx="1" fill="#EFF6FF"/>
+                        <rect x="23" y="34" width="18" height="5" rx="1" fill="#EFF6FF"/>
+                        <rect x="44" y="34" width="8" height="5" rx="1" fill="#EFF6FF"/>
+                        <path d="M32 20v-8c0-2 4-2 4-4" stroke="#60A5FA" stroke-width="2" stroke-linecap="round"/>
+                      </svg>`
+            },
+            {
+                id: 'mouse',
+                name: 'Fare (Mouse)',
+                category: 'Dış Donanım',
+                task: 'Ekrandaki imleci (oku) hareket ettirmeye, nesneleri seçmeye ve tıklama yapmaya yarar.',
+                shortTask: 'Ekrandaki imleci (oku) hareket ettirip tıklama yapmamızı sağlar.',
+                svg: `<svg viewBox="0 0 64 64" class="w-12 h-12 sm:w-14 sm:h-14 mx-auto" fill="none">
+                        <rect x="18" y="12" width="28" height="44" rx="14" fill="#EC4899" stroke="#9D174D" stroke-width="3"/>
+                        <line x1="32" y1="12" x2="32" y2="28" stroke="#9D174D" stroke-width="3"/>
+                        <line x1="18" y1="28" x2="46" y2="28" stroke="#9D174D" stroke-width="2"/>
+                        <rect x="29" y="17" width="6" height="9" rx="3" fill="#FDF2F8"/>
+                      </svg>`
+            },
+            {
+                id: 'monitor',
+                name: 'Monitör (Ekran)',
+                category: 'Dış Donanım',
+                task: 'Bilgisayarda yapılan işlemleri, resimleri ve videoları görsel olarak ekranda görmemizi sağlar.',
+                shortTask: 'Bilgisayarda işlenen görüntüleri, yazıları ve videoları bize gösterir.',
+                svg: `<svg viewBox="0 0 64 64" class="w-12 h-12 sm:w-14 sm:h-14 mx-auto" fill="none">
+                        <rect x="8" y="10" width="48" height="34" rx="4" fill="#0EA5E9" stroke="#0369A1" stroke-width="3"/>
+                        <rect x="12" y="14" width="40" height="26" rx="2" fill="#E0F2FE"/>
+                        <path d="M26 44l-2 10h16l-2-10" fill="#64748B"/>
+                        <line x1="20" y1="54" x2="44" y2="54" stroke="#334155" stroke-width="4" stroke-linecap="round"/>
+                      </svg>`
+            },
+            {
+                id: 'printer',
+                name: 'Yazıcı (Printer)',
+                category: 'Dış Donanım',
+                task: 'Bilgisayardaki metin ve resimleri kağıt üzerine aktararak çıktı almamızı sağlar.',
+                shortTask: 'Bilgisayardaki yazı ve resimleri kağıda basarak çıktı verir.',
+                svg: `<svg viewBox="0 0 64 64" class="w-12 h-12 sm:w-14 sm:h-14 mx-auto" fill="none">
+                        <path d="M18 10h28v14H18z" fill="#E2E8F0" stroke="#475569" stroke-width="2"/>
+                        <rect x="10" y="22" width="44" height="22" rx="4" fill="#6366F1" stroke="#312E81" stroke-width="3"/>
+                        <path d="M18 38h28v16H18z" fill="#FFFFFF" stroke="#475569" stroke-width="2"/>
+                        <line x1="22" y1="44" x2="42" y2="44" stroke="#94A3B8" stroke-width="2"/>
+                        <line x1="22" y1="49" x2="36" y2="49" stroke="#94A3B8" stroke-width="2"/>
+                        <circle cx="46" cy="29" r="2.5" fill="#10B981"/>
+                      </svg>`
+            },
+            {
+                id: 'scanner',
+                name: 'Tarayıcı (Scanner)',
+                category: 'Dış Donanım',
+                task: 'Kağıt üzerindeki fotoğraf, yazı veya belgeleri tarayarak bilgisayar ortamına aktarır.',
+                shortTask: 'Kağıt üzerindeki resim veya yazıları bilgisayar ortamına aktarır.',
+                svg: `<svg viewBox="0 0 64 64" class="w-12 h-12 sm:w-14 sm:h-14 mx-auto" fill="none">
+                        <rect x="10" y="34" width="44" height="16" rx="3" fill="#14B8A6" stroke="#0F766E" stroke-width="3"/>
+                        <path d="M12 34L22 14h32l-10 20" fill="#CCFBF1" stroke="#0F766E" stroke-width="3" stroke-linejoin="round"/>
+                        <line x1="16" y1="38" x2="48" y2="38" stroke="#F43F5E" stroke-width="3"/>
+                      </svg>`
+            },
+            {
+                id: 'speaker',
+                name: 'Hoparlör',
+                category: 'Dış Donanım',
+                task: 'Bilgisayardaki ses dosyalarını ve müzikleri dışarıya ses dalgaları olarak verir.',
+                shortTask: 'Bilgisayardaki sesleri dışarıya aktararak duymamızı sağlar.',
+                svg: `<svg viewBox="0 0 64 64" class="w-12 h-12 sm:w-14 sm:h-14 mx-auto" fill="none">
+                        <rect x="16" y="8" width="32" height="48" rx="5" fill="#F97316" stroke="#9A3412" stroke-width="3"/>
+                        <circle cx="32" cy="20" r="5" fill="#FFEDD5" stroke="#9A3412" stroke-width="2"/>
+                        <circle cx="32" cy="40" r="10" fill="#FFEDD5" stroke="#9A3412" stroke-width="2"/>
+                        <circle cx="32" cy="40" r="4" fill="#9A3412"/>
+                      </svg>`
+            }
+        ];
+
+        let gameMode = 'task'; // 'task' (Parça - Görev) or 'identical' (Parça - Parça)
+        let pairCount = 8;     // 6 (Kolay), 8 (Orta), 10 (Zor)
+        let cards = [];
+        let flippedCards = [];
+        let matchedPairs = 0;
+        let moves = 0;
+        let hintsLeft = 2;
+        let isLocked = false;
+        let timerInterval = null;
+        let secondsElapsed = 0;
+        let timerStarted = false;
+        let soundEnabled = true;
+
+        // Web Audio API Sound Effects (No external MP3 required)
+        const AudioCtx = window.AudioContext || window.webkitAudioContext;
+        let audioCtx = null;
+
+        function playSound(type) {
+            if (!soundEnabled) return;
+            try {
+                if (!audioCtx) audioCtx = new AudioCtx();
+                if (audioCtx.state === 'suspended') audioCtx.resume();
+
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+
+                const now = audioCtx.currentTime;
+
+                if (type === 'flip') {
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(320, now);
+                    osc.frequency.exponentialRampToValueAtTime(580, now + 0.08);
+                    gain.gain.setValueAtTime(0.12, now);
+                    gain.gain.exponentialRampToValueAtTime(0.01, now + 0.08);
+                    osc.start(now);
+                    osc.stop(now + 0.08);
+                } else if (type === 'match') {
+                    osc.type = 'triangle';
+                    osc.frequency.setValueAtTime(523.25, now); // C5
+                    osc.frequency.setValueAtTime(659.25, now + 0.1); // E5
+                    osc.frequency.setValueAtTime(783.99, now + 0.2); // G5
+                    gain.gain.setValueAtTime(0.2, now);
+                    gain.gain.exponentialRampToValueAtTime(0.01, now + 0.4);
+                    osc.start(now);
+                    osc.stop(now + 0.4);
+                } else if (type === 'wrong') {
+                    osc.type = 'sawtooth';
+                    osc.frequency.setValueAtTime(220, now);
+                    osc.frequency.linearRampToValueAtTime(150, now + 0.25);
+                    gain.gain.setValueAtTime(0.12, now);
+                    gain.gain.exponentialRampToValueAtTime(0.01, now + 0.25);
+                    osc.start(now);
+                    osc.stop(now + 0.25);
+                } else if (type === 'win') {
+                    const notes = [523.25, 659.25, 783.99, 1046.50];
+                    notes.forEach((freq, idx) => {
+                        const o = audioCtx.createOscillator();
+                        const g = audioCtx.createGain();
+                        o.connect(g);
+                        g.connect(audioCtx.destination);
+                        o.type = 'triangle';
+                        o.frequency.setValueAtTime(freq, now + idx * 0.12);
+                        g.gain.setValueAtTime(0.2, now + idx * 0.12);
+                        g.gain.exponentialRampToValueAtTime(0.01, now + idx * 0.12 + 0.35);
+                        o.start(now + idx * 0.12);
+                        o.stop(now + idx * 0.12 + 0.35);
+                    });
+                }
+            } catch (e) {
+                console.warn('Ses çalınamadı:', e);
+            }
+        }
+
+        function toggleSound() {
+            soundEnabled = !soundEnabled;
+            document.getElementById('sound-on-icon').classList.toggle('hidden', !soundEnabled);
+            document.getElementById('sound-off-icon').classList.toggle('hidden', soundEnabled);
+        }
+
+        function shuffleArray(arr) {
+            const copy = [...arr];
+            for (let i = copy.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [copy[i], copy[j]] = [copy[j], copy[i]];
+            }
+            return copy;
+        }
+
+        function buildDeck() {
+            const selectedHardware = shuffleArray(HARDWARE_DB).slice(0, pairCount);
+            const deck = [];
+
+            selectedHardware.forEach(item => {
+                // Birinci kart: Donanım görseli ve adı
+                deck.push({
+                    matchId: item.id,
+                    cardType: 'hardware',
+                    item: item
+                });
+
+                // İkinci kart: Oyun moduna göre Görevi veya Aynı Donanım kartı
+                if (gameMode === 'task') {
+                    deck.push({
+                        matchId: item.id,
+                        cardType: 'task',
+                        item: item
+                    });
+                } else {
+                    deck.push({
+                        matchId: item.id,
+                        cardType: 'hardware',
+                        item: item
+                    });
+                }
+            });
+
+            return shuffleArray(deck);
+        }
+
+        function setGameMode(mode) {
+            gameMode = mode;
+            const taskBtn = document.getElementById('mode-task');
+            const idBtn = document.getElementById('mode-identical');
+
+            if (mode === 'task') {
+                taskBtn.className = "px-2.5 py-1.5 rounded-lg text-xs font-bold transition-all bg-indigo-600 text-white shadow";
+                idBtn.className = "px-2.5 py-1.5 rounded-lg text-xs font-bold transition-all text-slate-400 hover:text-white";
+                updateBanner('MOD DEĞİŞTİ', 'Parça ↔ Görevi Modu: Donanım görselini doğru görev kartıyla eşleştirin!', 'bg-indigo-600');
+            } else {
+                idBtn.className = "px-2.5 py-1.5 rounded-lg text-xs font-bold transition-all bg-indigo-600 text-white shadow";
+                taskBtn.className = "px-2.5 py-1.5 rounded-lg text-xs font-bold transition-all text-slate-400 hover:text-white";
+                updateBanner('MOD DEĞİŞTİ', 'Parça ↔ Parça Modu: Birbiriyle aynı olan donanım kartlarını eşleştirin!', 'bg-purple-600');
+            }
+            restartGame();
+        }
+
+        function setDifficulty(pairs) {
+            pairCount = pairs;
+            const diffs = [
+                { id: 'diff-easy', val: 6 },
+                { id: 'diff-medium', val: 8 },
+                { id: 'diff-hard', val: 10 }
+            ];
+            diffs.forEach(d => {
+                const btn = document.getElementById(d.id);
+                if (d.val === pairs) {
+                    btn.className = "px-2 py-1 rounded-md sm:rounded-lg text-[11px] sm:text-xs font-bold transition-all bg-amber-500 text-slate-900 shadow";
+                } else {
+                    btn.className = "px-2 py-1 rounded-md sm:rounded-lg text-[11px] sm:text-xs font-bold transition-all text-slate-400 hover:text-white";
+                }
+            });
+            restartGame();
+        }
+
+        function updateGridDimensions() {
+            const grid = document.getElementById('game-grid');
+            if (!grid) return;
+
+            const isLandscape = window.innerWidth > window.innerHeight;
+            let cols = 4;
+            let rows = 4;
+
+            if (pairCount === 6) { // 12 Cards
+                cols = isLandscape ? 4 : 3;
+                rows = isLandscape ? 3 : 4;
+            } else if (pairCount === 8) { // 16 Cards
+                cols = 4;
+                rows = 4;
+            } else if (pairCount === 10) { // 20 Cards
+                cols = isLandscape ? 5 : 4;
+                rows = isLandscape ? 4 : 5;
+            }
+
+            grid.style.gridTemplateColumns = `repeat(${cols}, minmax(0, 1fr))`;
+            grid.style.gridTemplateRows = `repeat(${rows}, minmax(0, 1fr))`;
+        }
+
+        function toggleFullScreen() {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen().catch(() => {});
+            } else if (document.exitFullscreen) {
+                document.exitFullscreen().catch(() => {});
+            }
+        }
+
+        function renderGrid() {
+            const grid = document.getElementById('game-grid');
+            grid.innerHTML = '';
+            updateGridDimensions();
+
+            cards.forEach((card, index) => {
+                const isInternal = card.item.category === 'İç Donanım';
+                const badgeColor = isInternal
+                    ? 'bg-purple-100 text-purple-800 border-purple-300'
+                    : 'bg-cyan-100 text-cyan-800 border-cyan-300';
+
+                let backContentHTML = '';
+
+                if (card.cardType === 'hardware') {
+                    backContentHTML = `
+                        <div class="flex flex-col items-center justify-between h-full w-full p-1 sm:p-2 text-center overflow-hidden">
+                            <span class="text-[8px] sm:text-[10px] font-extrabold px-1.5 py-0.5 rounded-full border ${badgeColor} shrink-0 leading-none">
+                                ${card.item.category}
+                            </span>
+                            <div class="my-auto flex items-center justify-center w-8 h-8 sm:w-12 sm:h-12 md:w-14 md:h-14 shrink-0 [&>svg]:w-full [&>svg]:h-full">
+                                ${card.item.svg}
+                            </div>
+                            <h3 class="font-heading font-bold text-slate-800 text-[10px] sm:text-xs md:text-sm leading-tight line-clamp-1 sm:line-clamp-2 w-full px-0.5 shrink-0">
+                                ${card.item.name}
+                            </h3>
+                        </div>
+                    `;
+                } else {
+                    backContentHTML = `
+                        <div class="flex flex-col items-center justify-between h-full w-full p-1 sm:p-2 text-center bg-amber-50/70 overflow-hidden">
+                            <span class="text-[8px] sm:text-[10px] font-extrabold px-1.5 py-0.5 rounded-full bg-amber-100 text-amber-800 border border-amber-300 shrink-0 leading-none">
+                                ❓ Görevi Nedir?
+                            </span>
+                            <p class="my-auto text-slate-800 font-bold text-[9px] sm:text-[11px] md:text-xs leading-tight px-0.5 line-clamp-3 sm:line-clamp-4">
+                                "${card.item.shortTask}"
+                            </p>
+                            <span class="text-[8px] sm:text-[9px] font-semibold text-slate-500 shrink-0 leading-none">
+                                (${card.item.category})
+                            </span>
+                        </div>
+                    `;
+                }
+
+                const cardEl = document.createElement('div');
+                cardEl.className = 'card perspective-1000 w-full h-full min-h-0 cursor-pointer select-none';
+                cardEl.dataset.index = index;
+                cardEl.onclick = () => handleCardClick(index);
+
+                cardEl.innerHTML = `
+                    <div class="card-inner">
+                        <!-- Card Front (Closed) -->
+                        <div class="card-front flex flex-col items-center justify-center p-1 sm:p-2 overflow-hidden">
+                            <div class="circuit-pattern absolute inset-0"></div>
+                            <div class="w-7 h-7 sm:w-10 sm:h-10 rounded-xl bg-indigo-500/20 border border-indigo-400/30 flex items-center justify-center shadow-inner z-10">
+                                <span class="text-base sm:text-xl">💻</span>
+                            </div>
+                            <span class="text-[8px] sm:text-[10px] font-bold text-indigo-300/90 mt-1 tracking-widest uppercase z-10">BİLİŞİM</span>
+                        </div>
+                        <!-- Card Back (Revealed) -->
+                        <div class="card-back overflow-hidden">
+                            ${backContentHTML}
+                        </div>
+                    </div>
+                `;
+
+                grid.appendChild(cardEl);
+            });
+        }
+
+        function handleCardClick(index) {
+            if (isLocked) return;
+
+            const cardObj = cards[index];
+            const cardEl = document.querySelectorAll('.card')[index];
+
+            // Ignore already flipped or matched cards
+            if (cardEl.classList.contains('flipped') || cardEl.classList.contains('matched')) {
+                return;
+            }
+
+            if (!timerStarted) {
+                startTimer();
+                timerStarted = true;
+            }
+
+            playSound('flip');
+            cardEl.classList.add('flipped');
+            flippedCards.push({ index, cardObj, cardEl });
+
+            if (flippedCards.length === 2) {
+                moves++;
+                updateStatsUI();
+                checkMatch();
+            }
+        }
+
+        function checkMatch() {
+            isLocked = true;
+            const [first, second] = flippedCards;
+
+            if (first.cardObj.matchId === second.cardObj.matchId) {
+                // Match Success!
+                setTimeout(() => {
+                    playSound('match');
+                    first.cardEl.classList.add('matched');
+                    second.cardEl.classList.add('matched');
+                    first.cardEl.querySelector('.card-inner').classList.add('animate-match');
+                    second.cardEl.querySelector('.card-inner').classList.add('animate-match');
+
+                    matchedPairs++;
+                    updateStatsUI();
+
+                    const hw = first.cardObj.item;
+                    updateBanner(
+                        `✅ ${hw.name} (${hw.category})`,
+                        hw.task,
+                        'bg-emerald-600'
+                    );
+
+                    flippedCards = [];
+                    isLocked = false;
+
+                    if (matchedPairs === pairCount) {
+                        handleVictory();
+                    }
+                }, 400);
+            } else {
+                // Not a match
+                setTimeout(() => {
+                    playSound('wrong');
+                    first.cardEl.classList.add('animate-wrong');
+                    second.cardEl.classList.add('animate-wrong');
+                }, 450);
+
+                setTimeout(() => {
+                    first.cardEl.classList.remove('flipped', 'animate-wrong');
+                    second.cardEl.classList.remove('flipped', 'animate-wrong');
+                    flippedCards = [];
+                    isLocked = false;
+                }, 1150);
+            }
+        }
+
+        function useHint() {
+            if (hintsLeft <= 0 || isLocked || matchedPairs === pairCount) return;
+
+            hintsLeft--;
+            document.getElementById('hint-count').textContent = hintsLeft;
+            if (hintsLeft === 0) {
+                document.getElementById('hint-btn').classList.add('opacity-50', 'cursor-not-allowed');
+            }
+
+            isLocked = true;
+            playSound('flip');
+
+            const allCardEls = document.querySelectorAll('.card');
+            allCardEls.forEach(el => {
+                if (!el.classList.contains('matched')) {
+                    el.classList.add('flipped');
+                }
+            });
+
+            updateBanner('💡 İPUCU AKTİF', 'Kartların yerlerine dikkatlice bak! 2 saniye sonra kapanacaklar.', 'bg-amber-600');
+
+            setTimeout(() => {
+                allCardEls.forEach((el, idx) => {
+                    const isCurrentlySelected = flippedCards.some(f => f.index === idx);
+                    if (!el.classList.contains('matched') && !isCurrentlySelected) {
+                        el.classList.remove('flipped');
+                    }
+                });
+                isLocked = false;
+            }, 2000);
+        }
+
+        function updateBanner(badge, text, badgeClass) {
+            const badgeEl = document.getElementById('banner-badge');
+            const textEl = document.getElementById('banner-text');
+            badgeEl.textContent = badge;
+            badgeEl.className = `px-2.5 py-0.5 rounded text-white font-bold text-xs shrink-0 ${badgeClass}`;
+            textEl.textContent = text;
+        }
+
+        function startTimer() {
+            clearInterval(timerInterval);
+            timerInterval = setInterval(() => {
+                secondsElapsed++;
+                document.getElementById('stat-time').textContent = formatTime(secondsElapsed);
+            }, 1000);
+        }
+
+        function formatTime(sec) {
+            const m = Math.floor(sec / 60).toString().padStart(2, '0');
+            const s = (sec % 60).toString().padStart(2, '0');
+            return `${m}:${s}`;
+        }
+
+        function updateStatsUI() {
+            document.getElementById('stat-matches').textContent = `${matchedPairs} / ${pairCount}`;
+            document.getElementById('stat-moves').textContent = moves;
+        }
+
+        function handleVictory() {
+            clearInterval(timerInterval);
+            playSound('win');
+
+            const finalTime = formatTime(secondsElapsed);
+            const optimalMoves = pairCount;
+            const score = Math.max(100, (pairCount * 150) - ((moves - optimalMoves) * 25) - (secondsElapsed * 2));
+
+            let stars = '⭐⭐⭐';
+            if (moves > pairCount * 2.2) stars = '⭐';
+            else if (moves > pairCount * 1.6) stars = '⭐⭐';
+
+            document.getElementById('victory-stars').innerHTML = stars.split('').map(s => `<span>${s}</span>`).join('');
+            document.getElementById('final-time').textContent = finalTime;
+            document.getElementById('final-moves').textContent = moves;
+            document.getElementById('final-score').textContent = score;
+
+            setTimeout(() => {
+                toggleModal('victory-modal', true);
+            }, 600);
+        }
+
+        function restartGame() {
+            clearInterval(timerInterval);
+            secondsElapsed = 0;
+            timerStarted = false;
+            matchedPairs = 0;
+            moves = 0;
+            hintsLeft = 2;
+            flippedCards = [];
+            isLocked = false;
+
+            document.getElementById('stat-time').textContent = '00:00';
+            document.getElementById('hint-count').textContent = hintsLeft;
+            document.getElementById('hint-btn').classList.remove('opacity-50', 'cursor-not-allowed');
+
+            cards = buildDeck();
+            updateStatsUI();
+            renderGrid();
+        }
+
+        function toggleModal(modalId, show) {
+            const modal = document.getElementById(modalId);
+            if (show) {
+                modal.classList.remove('hidden');
+            } else {
+                modal.classList.add('hidden');
+            }
+        }
+
+        function populateStudyGuide() {
+            const internalContainer = document.getElementById('guide-internal-list');
+            const externalContainer = document.getElementById('guide-external-list');
+
+            internalContainer.innerHTML = '';
+            externalContainer.innerHTML = '';
+
+            HARDWARE_DB.forEach(item => {
+                const cardHTML = `
+                    <div class="bg-slate-900/90 border border-slate-700 rounded-2xl p-3.5 flex items-center gap-4">
+                        <div class="w-16 h-16 rounded-xl bg-slate-800 flex items-center justify-center shrink-0 p-1">
+                            ${item.svg}
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-white text-base">${item.name}</h4>
+                            <p class="text-xs text-slate-300 mt-1 leading-relaxed">${item.task}</p>
+                        </div>
+                    </div>
+                `;
+
+                if (item.category === 'İç Donanım') {
+                    internalContainer.insertAdjacentHTML('beforeend', cardHTML);
+                } else {
+                    externalContainer.insertAdjacentHTML('beforeend', cardHTML);
+                }
+            });
+        }
+
+        // Start game on window load
+        window.onload = function () {
+            populateStudyGuide();
+            restartGame();
+            window.addEventListener('resize', updateGridDimensions);
+        };
+    </script>
+</body>
+</html>

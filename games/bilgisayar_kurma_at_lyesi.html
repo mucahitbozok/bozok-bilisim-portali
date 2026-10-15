@@ -1,0 +1,1621 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Bilgisayar Kurma Atölyesi - BTY.5.1.5</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap');
+
+        * {
+            box-sizing: border-box;
+            user-select: none;
+            -webkit-user-select: none;
+            font-family: 'Nunito', system-ui, -apple-system, sans-serif;
+        }
+
+        body {
+            background-color: #0f172a;
+            color: #f8fafc;
+            overflow-x: hidden;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Cihaz türüne göre dinamik Tam Ekran (100dvh) yerleşimi */
+        @media (min-width: 1024px) {
+            html, body {
+                height: 100dvh;
+                width: 100vw;
+                overflow: hidden;
+            }
+        }
+
+        /* Düşük dikey çözünürlüklü ekranlar (Örn: 1366x768 dizüstü / akıllı tahta) için otomatik ölçekleme */
+        @media (min-width: 1024px) and (max-height: 820px) {
+            .slot-card {
+                min-height: 78px !important;
+                padding: 0.35rem !important;
+            }
+            .compact-pad {
+                padding: 0.5rem !important;
+            }
+        }
+
+        /* Atölye Masası Dokusu */
+        .workbench-bg {
+            background-color: #1e293b;
+            background-image: 
+                radial-gradient(#334155 1px, transparent 1px),
+                linear-gradient(to right, rgba(255,255,255,0.02) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(255,255,255,0.02) 1px, transparent 1px);
+            background-size: 20px 20px, 100px 100px, 100px 100px;
+        }
+
+        /* Yuva (Slot) Stilleri */
+        .slot-card {
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 2px dashed #475569;
+            background: rgba(15, 23, 42, 0.65);
+        }
+
+        .slot-card.highlight-target {
+            border-color: #38bdf8;
+            background: rgba(56, 189, 248, 0.15);
+            box-shadow: 0 0 15px rgba(56, 189, 248, 0.35);
+            transform: scale(1.02);
+        }
+
+        .slot-card.filled {
+            border-style: solid;
+            border-color: #10b981;
+            background: rgba(16, 185, 129, 0.1);
+        }
+
+        .slot-card.warning-slot {
+            border-style: solid;
+            border-color: #f59e0b;
+            background: rgba(245, 158, 11, 0.15);
+        }
+
+        .slot-card.error-slot {
+            border-style: solid;
+            border-color: #ef4444;
+            background: rgba(239, 68, 68, 0.15);
+            animation: shake 0.4s ease-in-out;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+
+        /* Parça Kartları */
+        .part-card {
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            cursor: grab;
+            touch-action: none;
+        }
+
+        .part-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px -5px rgba(0, 0, 0, 0.5);
+        }
+
+        .part-card:active {
+            cursor: grabbing;
+        }
+
+        .part-card.selected-for-tap {
+            outline: 3px solid #38bdf8;
+            background-color: #1e3a8a;
+        }
+
+        /* Özel Kaydırma Çubuğu */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0f172a;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #475569;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #64748b;
+        }
+
+        /* Sürüklenen Hayalet Öğe */
+        #drag-ghost {
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999;
+            transform: translate(-50%, -50%) scale(0.95);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.7);
+            opacity: 0.92;
+            display: none;
+        }
+    </style>
+</head>
+<body class="w-screen min-h-[100dvh] lg:h-[100dvh] lg:overflow-hidden flex flex-col justify-between select-none">
+
+    <!-- ÜST BİLGİ VE GÖREV ÇUBUĞU -->
+    <header class="bg-slate-900 border-b border-slate-700 px-3 xl:px-5 py-2 shadow-lg shrink-0 z-30">
+        <div class="w-full mx-auto flex flex-wrap items-center justify-between gap-2">
+            
+            <!-- Başlık & Eğitim Notu -->
+            <div class="flex items-center gap-2.5">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-cyan-500 to-blue-600 flex items-center justify-center shadow-md shadow-cyan-500/20 shrink-0">
+                    <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                    </svg>
+                </div>
+                <div>
+                    <div class="flex items-center gap-2">
+                        <h1 class="text-base md:text-lg xl:text-xl font-black tracking-wide text-white">BİLGİSAYAR KURMA ATÖLYESİ</h1>
+                        <span class="text-[11px] font-bold px-2 py-0.5 rounded-full bg-cyan-500/20 text-cyan-300 border border-cyan-500/30">BTY.5.1.5</span>
+                        <span id="device-badge" class="hidden sm:inline-block text-[10px] font-bold px-2 py-0.5 rounded-full bg-slate-800 text-slate-300 border border-slate-700">Ekran Algılanıyor...</span>
+                    </div>
+                    <p class="text-[11px] text-slate-400 hidden sm:block">Eğitim amaçlı basitleştirilmiş donanım ve uyumluluk simülasyonu • Kişisel veri toplanmaz</p>
+                </div>
+            </div>
+
+            <!-- Görev Seçici Butonlar -->
+            <div class="flex items-center gap-1 bg-slate-800 p-1 rounded-xl border border-slate-700">
+                <button onclick="selectMission(0)" id="mission-btn-0" class="mission-tab px-2.5 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1 bg-cyan-600 text-white shadow">
+                    <span>📚</span> 1. Okul Ödevleri
+                </button>
+                <button onclick="selectMission(1)" id="mission-btn-1" class="mission-tab px-2.5 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1 text-slate-300 hover:bg-slate-700">
+                    <span>🎥</span> 2. Canlı Ders & Video
+                </button>
+                <button onclick="selectMission(2)" id="mission-btn-2" class="mission-tab px-2.5 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1 text-slate-300 hover:bg-slate-700">
+                    <span>🎮</span> 3. Oyun & Tasarım
+                </button>
+            </div>
+
+            <!-- Canlı Bütçe, Güç Göstergesi ve Tam Ekran Butonu -->
+            <div class="flex items-center gap-2">
+                <!-- Güç Tüketimi -->
+                <div class="bg-slate-800/90 border border-slate-700 px-2.5 py-1 rounded-xl flex items-center gap-2">
+                    <div class="text-amber-400">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                        </svg>
+                    </div>
+                    <div>
+                        <div class="text-[10px] text-slate-400 font-semibold uppercase leading-none">Enerji (Güç)</div>
+                        <div id="power-display" class="text-xs xl:text-sm font-extrabold text-slate-200 mt-0.5">0W / 0W PSU</div>
+                    </div>
+                </div>
+
+                <!-- Bütçe -->
+                <div class="bg-slate-800/90 border border-slate-700 px-3 py-1 rounded-xl flex items-center gap-2.5 min-w-[165px]">
+                    <div class="text-emerald-400">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                    </div>
+                    <div class="flex-1">
+                        <div class="flex justify-between text-[10px] font-semibold uppercase leading-none gap-2">
+                            <span class="text-slate-400">Kalan</span>
+                            <span id="spent-Text" class="text-slate-400">Harcanan: 0 ₺</span>
+                        </div>
+                        <div id="budget-display" class="text-sm xl:text-base font-black text-emerald-400 mt-0.5">12.000 ₺</div>
+                    </div>
+                </div>
+
+                <!-- Tam Ekran Butonu -->
+                <button onclick="toggleFullScreen()" id="fullscreen-btn" title="Tam Ekran Yap / Çık" class="bg-slate-800 hover:bg-cyan-600 text-slate-200 hover:text-white border border-slate-700 hover:border-cyan-400 px-3 py-2 rounded-xl text-xs font-extrabold transition flex items-center gap-1.5 shrink-0 shadow">
+                    <svg id="fs-icon-expand" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4"></path>
+                    </svg>
+                    <svg id="fs-icon-compress" class="w-4 h-4 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 9V4.5M9 9H4.5M9 9L3.75 3.75M9 15v4.5M9 15H4.5M9 15l-5.25 5.25M15 9h4.5M15 9V4.5M15 9l5.25-5.25M15 15h4.5M15 15v4.5m0-4.5l5.25 5.25"></path>
+                    </svg>
+                    <span id="fs-btn-text" class="hidden md:inline">Tam Ekran</span>
+                </button>
+            </div>
+
+        </div>
+    </header>
+
+    <!-- ANA ÇALIŞMA ALANI (CİHAZ EKRANINA TAM OTURAN ESNEK YAPI) -->
+    <main class="flex-1 min-h-0 w-full p-2 md:p-3 grid grid-cols-1 lg:grid-cols-12 gap-3 lg:overflow-hidden">
+
+        <!-- SOL PANEL: MÜŞTERİ TALEBİ VE TEKNİSYEN BİLGİ EKRANI (3 SÜTUN) -->
+        <section class="lg:col-span-3 flex flex-col gap-2.5 min-h-0 lg:overflow-y-auto pr-0.5">
+            
+            <!-- Müşteri Görev Kartı -->
+            <div class="bg-slate-800/90 border border-slate-700 rounded-2xl p-3 compact-pad shadow-lg shrink-0">
+                <div class="flex items-center justify-between mb-1.5">
+                    <span class="text-[11px] font-extrabold uppercase tracking-wider px-2 py-0.5 rounded-md bg-amber-500/20 text-amber-300 border border-amber-500/30">
+                        Müşteri İhtiyacı
+                    </span>
+                    <span id="mission-budget-badge" class="text-[11px] font-bold text-slate-300 bg-slate-700 px-2 py-0.5 rounded-md">
+                        Bütçe: 12.000 ₺
+                    </span>
+                </div>
+
+                <div class="flex items-start gap-2.5 mt-1.5">
+                    <div id="mission-avatar" class="w-11 h-11 rounded-2xl bg-slate-700 flex items-center justify-center text-2xl shrink-0 border border-slate-600">
+                        👦
+                    </div>
+                    <div>
+                        <h2 id="mission-title" class="font-extrabold text-sm xl:text-base text-white leading-snug">Okul Ödevleri Bilgisayarı</h2>
+                        <p id="mission-desc" class="text-xs text-slate-300 mt-1 leading-relaxed">
+                            "Merhaba Teknisyen! Araştırma yapmak, yazı yazmak ve sunum hazırlamak için ekonomik ve eksiksiz bir bilgisayara ihtiyacım var."
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Görev Kriterleri -->
+                <div class="mt-2.5 pt-2 border-t border-slate-700/80">
+                    <div class="text-[11px] font-bold text-slate-400 mb-1">Teknik Beklentiler:</div>
+                    <ul id="mission-reqs" class="space-y-1 text-xs text-slate-200">
+                        <!-- JS ile doldurulacak -->
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Seçilen Parçanın Görevi (Eğitsel Açıklama Kutusu) -->
+            <div class="bg-gradient-to-b from-slate-800 to-slate-900 border border-cyan-500/40 rounded-2xl p-3 compact-pad shadow-lg flex-1 flex flex-col justify-between relative min-h-0">
+                <div class="flex-1 flex flex-col min-h-0">
+                    <div class="flex items-center gap-1.5 text-cyan-400 font-extrabold text-xs uppercase tracking-wider mb-1.5 shrink-0">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                        <span>Donanım Rehberi & Görevi</span>
+                    </div>
+
+                    <div id="part-info-box" class="bg-slate-950/60 border border-slate-800 rounded-xl p-3 flex-1 flex flex-col justify-center overflow-y-auto">
+                        <div class="flex items-center gap-2 mb-1.5 flex-wrap">
+                            <span id="info-badge" class="text-[10px] font-bold px-2 py-0.5 rounded bg-cyan-500/20 text-cyan-300">Teknisyen İpucu</span>
+                            <h3 id="info-title" class="font-extrabold text-xs xl:text-sm text-white">Parça Seçin veya Sürükleyin</h3>
+                        </div>
+                        <p id="info-role" class="text-xs text-slate-300 leading-relaxed">
+                            Sağdaki parça kataloğundan bir donanıma dokunduğunuzda veya onu bilgisayar masasına yerleştirdiğinizde o parçanın <strong>bilgisayardaki görevi</strong> burada açıklanır.
+                        </p>
+                        <div id="info-tech" class="mt-2 pt-1.5 border-t border-slate-800 text-[11px] text-amber-300 font-semibold hidden"></div>
+                    </div>
+                </div>
+
+                <!-- Hızlı Uyumluluk Durumu -->
+                <div class="mt-2.5 bg-slate-950/80 rounded-xl p-2.5 border border-slate-800 shrink-0">
+                    <div class="text-xs font-bold text-slate-400 mb-0.5 flex items-center justify-between">
+                        <span>Anlık Uyumluluk Kontrolü</span>
+                        <span id="compat-indicator" class="text-[10px] px-2 py-0.5 rounded-full bg-slate-800 text-slate-300">Bekleniyor</span>
+                    </div>
+                    <p id="compat-live-msg" class="text-[11px] text-slate-300">
+                        Anakart ve işlemci soketlerinin (Tip-A / Tip-B) birbiriyle uyumlu olmasına dikkat edin.
+                    </p>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- ORTA PANEL: BİLGİSAYAR TOPLAMA MASASI (5 SÜTUN) -->
+        <section class="lg:col-span-5 workbench-bg border border-slate-700 rounded-2xl p-3 compact-pad flex flex-col justify-between shadow-xl relative min-h-0 lg:overflow-y-auto">
+            
+            <!-- Üst Bilgi -->
+            <div class="flex flex-wrap items-center justify-between gap-2 mb-2 shrink-0">
+                <div>
+                    <h2 class="text-sm xl:text-base font-black text-white flex items-center gap-1.5">
+                        <span>🛠️</span> SİSTEM KURULUM MASASI
+                    </h2>
+                    <p class="text-[11px] text-slate-400">Parçaları sürükleyip ilgili yuvalara bırakın veya önce parçaya sonra yuvaya dokunun.</p>
+                </div>
+                <div class="flex items-center gap-1.5">
+                    <span id="slot-counter" class="text-xs font-extrabold px-2.5 py-1 rounded-lg bg-slate-800 border border-slate-600 text-cyan-300">
+                        0 / 10 Parça Takıldı
+                    </span>
+                    <button onclick="resetBuild()" class="text-xs font-bold px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-rose-950 text-slate-300 hover:text-rose-300 border border-slate-700 transition">
+                        Masayı Temizle
+                    </button>
+                </div>
+            </div>
+
+            <!-- İÇ DONANIM ALANI (KASA İÇİ BİRİMLER) -->
+            <div class="bg-slate-900/90 border-2 border-indigo-500/40 rounded-2xl p-2.5 xl:p-3 mb-2 shadow-inner flex-1 flex flex-col justify-center">
+                <div class="flex items-center justify-between mb-2">
+                    <div class="flex items-center gap-2">
+                        <span class="w-2.5 h-2.5 rounded-full bg-indigo-400"></span>
+                        <h3 class="text-xs font-black uppercase tracking-wider text-indigo-300">
+                            1. İÇ DONANIM BİRİMLERİ (Kasa İçi Parçalar)
+                        </h3>
+                    </div>
+                    <span class="text-[10px] text-slate-400 font-semibold hidden sm:inline">Sistemin çalışmasını sağlayan ana parçalar</span>
+                </div>
+
+                <!-- 7 İç Donanım Yuvası -->
+                <div id="internal-slots-grid" class="grid grid-cols-2 sm:grid-cols-3 gap-2">
+                    <!-- JS ile oluşturulacak -->
+                </div>
+            </div>
+
+            <!-- DIŞ DONANIM ALANI (ÇEVRE BİRİMLERİ) -->
+            <div class="bg-slate-900/90 border-2 border-emerald-500/40 rounded-2xl p-2.5 xl:p-3 mb-2 shadow-inner shrink-0">
+                <div class="flex items-center justify-between mb-2">
+                    <div class="flex items-center gap-2">
+                        <span class="w-2.5 h-2.5 rounded-full bg-emerald-400"></span>
+                        <h3 class="text-xs font-black uppercase tracking-wider text-emerald-300">
+                            2. DIŞ DONANIM / ÇEVRE BİRİMLERİ (Kasa Dışı)
+                        </h3>
+                    </div>
+                    <span class="text-[10px] text-slate-400 font-semibold hidden sm:inline">Giriş ve çıkış yapmamızı sağlayan parçalar</span>
+                </div>
+
+                <!-- 3 Dış Donanım Yuvası -->
+                <div id="external-slots-grid" class="grid grid-cols-3 gap-2">
+                    <!-- JS ile oluşturulacak -->
+                </div>
+            </div>
+
+            <!-- ALT KONTROL VE TEST BUTONU -->
+            <div class="pt-2 border-t border-slate-700/80 flex flex-col sm:flex-row items-center justify-between gap-2 shrink-0">
+                <div id="action-hint" class="text-xs text-slate-300 flex items-center gap-1.5">
+                    <span class="text-base">💡</span>
+                    <span>İç ve dış donanımları doğru bölgelere yerleştirip <strong>Sistemi Kontrol Et</strong> butonuna basın.</span>
+                </div>
+                <button onclick="checkSystemBuild()" class="w-full sm:w-auto px-5 py-2.5 rounded-xl font-black text-xs xl:text-sm bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-400 hover:to-teal-500 text-slate-950 shadow-lg shadow-emerald-500/25 transition transform active:scale-95 flex items-center justify-center gap-2 shrink-0">
+                    <span>⚡ SİSTEMİ KONTROL ET VE ÇALIŞTIR</span>
+                </button>
+            </div>
+
+        </section>
+
+        <!-- SAĞ PANEL: DONANIM PARÇA KATALOĞU (4 SÜTUN) -->
+        <section class="lg:col-span-4 bg-slate-800/90 border border-slate-700 rounded-2xl p-3 compact-pad flex flex-col shadow-lg min-h-0 max-h-[600px] lg:max-h-full">
+            
+            <div class="flex items-center justify-between mb-2 shrink-0">
+                <div>
+                    <h2 class="text-sm xl:text-base font-black text-white flex items-center gap-1.5">
+                        <span>📦</span> DONANIM PARÇA DEPOSU
+                    </h2>
+                    <p class="text-[11px] text-slate-400">İhtiyaca ve bütçeye uygun parçaları seçin</p>
+                </div>
+                <span id="active-category-label" class="text-[11px] font-bold px-2 py-0.5 rounded-lg bg-cyan-500/20 text-cyan-300 border border-cyan-500/30">
+                    Tüm Kategoriler
+                </span>
+            </div>
+
+            <!-- Kategori Sekmeleri (10 Donanım Türü) -->
+            <div id="category-tabs" class="flex flex-wrap gap-1 mb-2 pb-2 border-b border-slate-700 shrink-0">
+                <!-- JS ile oluşturulacak -->
+            </div>
+
+            <!-- Parça Kartları Listesi -->
+            <div id="parts-catalog-list" class="flex-1 min-h-0 overflow-y-auto pr-1 space-y-2">
+                <!-- JS ile oluşturulacak -->
+            </div>
+
+        </section>
+
+    </main>
+
+    <!-- SÜRÜKLENEN KART HAYALETİ -->
+    <div id="drag-ghost" class="bg-slate-800 border-2 border-cyan-400 rounded-xl p-3 w-56 text-white"></div>
+
+    <!-- KONTROL / İPUCU VE FİNAL ÖZET MODALI -->
+    <div id="result-modal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 hidden items-center justify-center p-4 overflow-y-auto">
+        <div class="bg-slate-900 border-2 border-slate-700 rounded-3xl max-w-3xl w-full p-5 md:p-6 shadow-2xl my-auto">
+            
+            <!-- Modal Üst Başlık -->
+            <div class="flex items-start justify-between gap-4 border-b border-slate-800 pb-4">
+                <div class="flex items-center gap-3">
+                    <div id="modal-status-icon" class="w-14 h-14 rounded-2xl flex items-center justify-center text-3xl shrink-0">
+                        ✅
+                    </div>
+                    <div>
+                        <span id="modal-badge" class="text-xs font-black uppercase tracking-wider px-2.5 py-0.5 rounded-full">Test Sonucu</span>
+                        <h2 id="modal-title" class="text-xl md:text-2xl font-black text-white mt-1">Sistem Kontrol Raporu</h2>
+                        <p id="modal-subtitle" class="text-xs md:text-sm text-slate-300"></p>
+                    </div>
+                </div>
+                <button onclick="closeModal()" class="text-slate-400 hover:text-white bg-slate-800 p-2 rounded-xl">
+                    ✕
+                </button>
+            </div>
+
+            <!-- Modal İçerik Alanı -->
+            <div id="modal-body" class="py-4 space-y-4 max-h-[65vh] overflow-y-auto pr-1">
+                <!-- JS ile dinamik doldurulacak (İpuçları veya Tamamlanmış Bilgisayar + Sistem Özeti) -->
+            </div>
+
+            <!-- Modal Alt Butonlar -->
+            <div id="modal-footer" class="pt-4 border-t border-slate-800 flex flex-wrap items-center justify-end gap-3">
+                <button onclick="closeModal()" class="px-5 py-2.5 rounded-xl font-bold text-sm bg-slate-800 hover:bg-slate-700 text-slate-200 transition">
+                    Atölyeye Dön ve Düzenle
+                </button>
+                <button id="next-mission-btn" onclick="goToNextMission()" class="px-6 py-2.5 rounded-xl font-black text-sm bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white shadow-lg hidden">
+                    Sonraki Göreve Geç →
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        /* ============================================================================
+           1. GÖRSEL DONANIM İKONLARI (NET VE AYIRT EDİCİ SVG ÇİZİMLERİ)
+           ============================================================================ */
+        const PART_SVGS = {
+            motherboard: `<svg viewBox="0 0 64 64" class="w-11 h-11"><rect x="8" y="8" width="48" height="48" rx="4" fill="#065f46" stroke="#34d399" stroke-width="2.5"/><rect x="16" y="16" width="16" height="16" rx="2" fill="#047857" stroke="#a7f3d0" stroke-width="2"/><line x1="38" y1="14" x2="38" y2="34" stroke="#6ee7b7" stroke-width="3"/><line x1="44" y1="14" x2="44" y2="34" stroke="#6ee7b7" stroke-width="3"/><rect x="14" y="40" width="34" height="6" rx="1" fill="#10b981"/><rect x="14" y="50" width="22" height="4" rx="1" fill="#059669"/><circle cx="48" cy="48" r="4" fill="#fbbf24"/></svg>`,
+            cpu: `<svg viewBox="0 0 64 64" class="w-11 h-11"><rect x="14" y="14" width="36" height="36" rx="4" fill="#1e40af" stroke="#60a5fa" stroke-width="2.5"/><rect x="21" y="21" width="22" height="22" rx="2" fill="#93c5fd"/><path d="M20 8v6M28 8v6M36 8v6M44 8v6M20 50v6M28 50v6M36 50v6M44 50v6M8 20h6M8 28h6M8 36h6M8 44h6M50 20h6M50 28h6M50 36h6M50 44h6" stroke="#fbbf24" stroke-width="2.5" stroke-linecap="round"/></svg>`,
+            ram: `<svg viewBox="0 0 64 64" class="w-11 h-11"><rect x="6" y="20" width="52" height="22" rx="3" fill="#047857" stroke="#34d399" stroke-width="2.5"/><rect x="12" y="25" width="8" height="12" rx="1" fill="#1e293b"/><rect x="24" y="25" width="8" height="12" rx="1" fill="#1e293b"/><rect x="36" y="25" width="8" height="12" rx="1" fill="#1e293b"/><rect x="46" y="25" width="6" height="12" rx="1" fill="#1e293b"/><path d="M10 42h44" stroke="#fbbf24" stroke-width="4" stroke-dasharray="4 3"/></svg>`,
+            storage: `<svg viewBox="0 0 64 64" class="w-11 h-11"><rect x="12" y="10" width="40" height="44" rx="5" fill="#334155" stroke="#94a3b8" stroke-width="2.5"/><circle cx="32" cy="28" r="11" fill="#0f172a" stroke="#38bdf8" stroke-width="2"/><circle cx="32" cy="28" r="3" fill="#e2e8f0"/><path d="M32 28L40 38" stroke="#f59e0b" stroke-width="2.5" stroke-linecap="round"/><rect x="20" y="46" width="24" height="4" rx="1" fill="#38bdf8"/></svg>`,
+            psu: `<svg viewBox="0 0 64 64" class="w-11 h-11"><rect x="8" y="14" width="48" height="36" rx="4" fill="#1e293b" stroke="#f59e0b" stroke-width="2.5"/><circle cx="26" cy="32" r="11" fill="#0f172a" stroke="#fbbf24" stroke-width="2"/><path d="M44 22l-6 10h6l-4 10" stroke="#fbbf24" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
+            cooler: `<svg viewBox="0 0 64 64" class="w-11 h-11"><rect x="10" y="10" width="44" height="44" rx="8" fill="#1e293b" stroke="#38bdf8" stroke-width="2.5"/><circle cx="32" cy="32" r="16" fill="#0f172a" stroke="#7dd3fc" stroke-width="1.5"/><path d="M32 16c4 6 4 10 0 16c6-4 10-4 16 0c-4 6-4 10-16 0c-4 6-10 6-16 0c4-6 4-10 16 0z" fill="#38bdf8"/><circle cx="32" cy="32" r="4" fill="#e0f2fe"/></svg>`,
+            case: `<svg viewBox="0 0 64 64" class="w-11 h-11"><rect x="16" y="6" width="32" height="52" rx="4" fill="#1e293b" stroke="#a855f7" stroke-width="2.5"/><rect x="20" y="12" width="18" height="36" rx="2" fill="#0f172a" stroke="#c084fc" stroke-width="1.5"/><circle cx="43" cy="14" r="2.5" fill="#22c55e"/><rect x="41" y="20" width="4" height="8" rx="1" fill="#64748b"/></svg>`,
+            monitor: `<svg viewBox="0 0 64 64" class="w-11 h-11"><rect x="8" y="10" width="48" height="34" rx="4" fill="#0f172a" stroke="#38bdf8" stroke-width="2.5"/><rect x="12" y="14" width="40" height="26" rx="2" fill="#0284c7"/><path d="M28 44v8M36 44v8M20 52h24" stroke="#94a3b8" stroke-width="3" stroke-linecap="round"/></svg>`,
+            keyboard: `<svg viewBox="0 0 64 64" class="w-11 h-11"><rect x="6" y="20" width="52" height="26" rx="4" fill="#1e293b" stroke="#cbd5e1" stroke-width="2.5"/><rect x="12" y="25" width="6" height="5" rx="1" fill="#38bdf8"/><rect x="20" y="25" width="6" height="5" rx="1" fill="#94a3b8"/><rect x="28" y="25" width="6" height="5" rx="1" fill="#94a3b8"/><rect x="36" y="25" width="6" height="5" rx="1" fill="#94a3b8"/><rect x="44" y="25" width="8" height="5" rx="1" fill="#94a3b8"/><rect x="18" y="36" width="28" height="5" rx="1" fill="#e2e8f0"/></svg>`,
+            mouse: `<svg viewBox="0 0 64 64" class="w-11 h-11"><rect x="20" y="12" width="24" height="40" rx="12" fill="#1e293b" stroke="#34d399" stroke-width="2.5"/><line x1="32" y1="12" x2="32" y2="28" stroke="#34d399" stroke-width="2"/><rect x="30" y="17" width="4" height="7" rx="2" fill="#a7f3d0"/><path d="M20 26h24" stroke="#334155" stroke-width="2"/></svg>`
+        };
+
+        /* ============================================================================
+           2. DONANIM KATEGORİLERİ (İÇ DONANIM VE DIŞ DONANIM AYRIMI)
+           ============================================================================ */
+        const CATEGORIES = [
+            { id: 'motherboard', name: 'Anakart', zone: 'internal', shortDesc: 'Tüm parçaları birbirine bağlar' },
+            { id: 'cpu', name: 'İşlemci (CPU)', zone: 'internal', shortDesc: 'Bilgisayarın beynidir, işlemleri yapar' },
+            { id: 'ram', name: 'RAM (Bellek)', zone: 'internal', shortDesc: 'Bilgileri geçici olarak tutar' },
+            { id: 'storage', name: 'HDD veya SSD', zone: 'internal', shortDesc: 'Dosyaları kalıcı olarak saklar' },
+            { id: 'psu', name: 'Güç Kaynağı', zone: 'internal', shortDesc: 'Parçalara elektrik enerjisi sağlar' },
+            { id: 'cooler', name: 'Soğutma Sistemi', zone: 'internal', shortDesc: 'İşlemcinin aşırı ısınmasını önler' },
+            { id: 'case', name: 'Kasa', zone: 'internal', shortDesc: 'İç donanım parçalarını korur' },
+            { id: 'monitor', name: 'Monitör', zone: 'external', shortDesc: 'Görüntüleri ekrana yansıtır (Çıkış)' },
+            { id: 'keyboard', name: 'Klavye', zone: 'external', shortDesc: 'Yazı ve komut girmeyi sağlar (Giriş)' },
+            { id: 'mouse', name: 'Fare (Mouse)', zone: 'external', shortDesc: 'İmleci kontrol etmeyi sağlar (Giriş)' }
+        ];
+
+        /* ============================================================================
+           3. GÖREV TÜRLERİ VE SENARYOLAR (ESNEK ÇÖZÜM DESTEKLİ)
+           ============================================================================ */
+        const MISSIONS = [
+            {
+                id: 0,
+                title: "1. Görev: Okul Ödevleri İçin Bilgisayar",
+                avatar: "👦",
+                budget: 12500,
+                story: "Merhaba Teknisyen! 5. sınıf öğrencisiyim. Okul ödevlerimi araştırmak, belge yazmak ve sunum hazırlamak için bütçemi aşmayan, tüm temel parçaları eksiksiz bir bilgisayar toplar mısın?",
+                minTierSum: 10,
+                reqStorageType: "any", // HDD veya SSD kabul edilir
+                minCpuTier: 1,
+                minRamTier: 1,
+                minMonitorTier: 1,
+                checklist: [
+                    "Bütçe sınırı: En fazla 12.500 ₺",
+                    "7 İç Donanım ve 3 Dış Donanım eksiksiz olmalı",
+                    "Anakart ve İşlemci soket tipi birbiriyle uyumlu olmalı",
+                    "Güç kaynağı (PSU), parçaların toplam enerjisini karşılamalı"
+                ]
+            },
+            {
+                id: 1,
+                title: "2. Görev: Eğitim Videoları ve Çevrim İçi Dersler",
+                avatar: "👩‍🏫",
+                budget: 18500,
+                story: "Merhaba! Canlı derslere katılırken ve eğitim videolarını yüksek kalitede izlerken takılmayacak, hızlı açılan (SSD'li) ve net ekranlı bir bilgisayara ihtiyacım var.",
+                minTierSum: 16,
+                reqStorageType: "SSD", // Hızlı açılış için SSD gerekli
+                minCpuTier: 2,
+                minRamTier: 2,
+                minMonitorTier: 2,
+                checklist: [
+                    "Bütçe sınırı: En fazla 18.500 ₺",
+                    "Çoklu görevler için en az Orta Seviye İşlemci ve 8 GB RAM",
+                    "Programların hızlı açılması için SSD depolama birimi",
+                    "Canlı dersler için en az Full HD (Seviye 2+) Monitör"
+                ]
+            },
+            {
+                id: 2,
+                title: "3. Görev: Oyun ve Görsel Çalışmalar Bilgisayarı",
+                avatar: "🎨",
+                budget: 28000,
+                story: "Merhaba Teknisyen! 3 boyutlu görsel tasarım projeleri ve eğitici oyunlar geliştiriyorum. Yüksek işlem gücüne, güçlü soğutmaya ve yeterli enerji sağlayan bir güç kaynağına ihtiyacım var!",
+                minTierSum: 23,
+                reqStorageType: "SSD",
+                minCpuTier: 3,
+                minRamTier: 3,
+                minMonitorTier: 2,
+                checklist: [
+                    "Bütçe sınırı: En fazla 28.000 ₺",
+                    "Yüksek performanslı İşlemci (Seviye 3) ve 16 GB RAM (Seviye 3)",
+                    "Güçlü işlemciyi serin tutacak Kule/Sıvı Soğutma Sistemi",
+                    "Yüksek enerji ihtiyacını karşılayacak Güç Kaynağı (En az 500W+)"
+                ]
+            }
+        ];
+
+        /* ============================================================================
+           4. PARÇA KARTLARI VERİTABANI (GÖREV AÇIKLAMALARI + TEKNİK ÖZELLİKLER)
+           ============================================================================ */
+        const PARTS_DB = [
+            // ANAKARTLAR
+            {
+                id: 'mb_1', category: 'motherboard', name: 'Temel Anakart A100', price: 1500, tier: 1,
+                socket: 'Tip-A', power: 30,
+                specBadge: 'Soket: Tip-A • 30W',
+                role: 'Anakart (İç Donanım): İşlemci, RAM ve depolama gibi tüm iç ve dış donanım parçalarının üzerine takıldığı ve birbiriyle iletişim kurmasını sağlayan ana devre kartıdır.',
+                techNote: 'Bu anakart "Tip-A" soket yapısına sahiptir. Üzerine yalnızca Tip-A uyumlu bir işlemci takılabilir.'
+            },
+            {
+                id: 'mb_2', category: 'motherboard', name: 'Gelişmiş Anakart B200', price: 2300, tier: 2,
+                socket: 'Tip-B', power: 40,
+                specBadge: 'Soket: Tip-B • 40W',
+                role: 'Anakart (İç Donanım): Bilgisayar parçaları arasındaki veri iletişimini organize eden ana karttır.',
+                techNote: 'Bu anakart "Tip-B" soket yapısına sahiptir. Orta ve yüksek seviye Tip-B işlemcilerle tam uyumludur.'
+            },
+            {
+                id: 'mb_3', category: 'motherboard', name: 'Pro Stüdyo Anakart Z300', price: 3200, tier: 3,
+                socket: 'Tip-B', power: 50,
+                specBadge: 'Soket: Tip-B • 50W',
+                role: 'Anakart (İç Donanım): Yüksek hızlı parçaların güvenle ve tam performansta birlikte çalışmasını sağlayan güçlü ana devre kartıdır.',
+                techNote: 'Tip-B soketli işlemcileri ve yüksek hızlı SSD/RAM birimlerini destekler.'
+            },
+
+            // İŞLEMCİLER
+            {
+                id: 'cpu_1', category: 'cpu', name: 'Çift Çekirdek İşlemci', price: 1800, tier: 1,
+                socket: 'Tip-A', power: 55, minCoolerTier: 1,
+                specBadge: 'Soket: Tip-A • 55W • Seviye 1',
+                role: 'İşlemci - CPU (İç Donanım): Bilgisayarın beynidir. Klavye ve fareden gelen komutları yorumlar, tüm matematiksel ve mantıksal işlemleri gerçekleştirir.',
+                techNote: 'Tip-A soketli anakartlarla uyumludur. Okul ödevleri ve belge hazırlama için idealdir.'
+            },
+            {
+                id: 'cpu_2', category: 'cpu', name: '4 Çekirdek Multimedya İşlemci', price: 3100, tier: 2,
+                socket: 'Tip-B', power: 85, minCoolerTier: 1,
+                specBadge: 'Soket: Tip-B • 85W • Seviye 2',
+                role: 'İşlemci - CPU (İç Donanım): Bilgisayarın beyni olarak aynı anda hem canlı ders videosunu oynatır hem de arka plandaki programları hızlıca çalıştırır.',
+                techNote: 'Tip-B soketli anakart gerektirir. Canlı dersler ve eğitim videoları için çok uygundur.'
+            },
+            {
+                id: 'cpu_3', category: 'cpu', name: '8 Çekirdek Turbo İşlemci', price: 5400, tier: 3,
+                socket: 'Tip-B', power: 140, minCoolerTier: 2,
+                specBadge: 'Soket: Tip-B • 140W • Seviye 3',
+                role: 'İşlemci - CPU (İç Donanım): Saniyede milyarlarca hesaplama yaparak oyunları ve 3 boyutlu görsel tasarım programlarını akıcı şekilde çalıştıran güçlü beyindir.',
+                techNote: 'Tip-B anakart ve yüksek ısı ürettiği için en az Seviye 2 (Kule veya Sıvı) Soğutma Sistemi gerektirir.'
+            },
+
+            // RAM (BELLEK)
+            {
+                id: 'ram_1', category: 'ram', name: '4 GB Temel RAM', price: 800, tier: 1,
+                power: 10,
+                specBadge: '4 GB • Seviye 1',
+                role: 'RAM - Geçici Bellek (İç Donanım): Çalışmakta olan programların ve açık dosyaların bilgilerini geçici olarak tutar. Bilgisayar kapatıldığında içindeki bilgiler silinir.',
+                techNote: 'Temel ödev ve yazı çalışmaları için yeterli geçici çalışma alanı sunar.'
+            },
+            {
+                id: 'ram_2', category: 'ram', name: '8 GB Hızlı RAM', price: 1500, tier: 2,
+                power: 15,
+                specBadge: '8 GB • Seviye 2',
+                role: 'RAM - Geçici Bellek (İç Donanım): İşlemcinin ihtiyaç duyduğu verileri çok hızlı şekilde geçici olarak saklar; birden fazla pencereyi takılmadan açmayı sağlar.',
+                techNote: 'Çevrim içi dersler ve internet araştırmaları için önerilen bellek kapasitesidir.'
+            },
+            {
+                id: 'ram_3', category: 'ram', name: '16 GB Çift Kanal Performans RAM', price: 2800, tier: 3,
+                power: 25,
+                specBadge: '16 GB • Seviye 3',
+                role: 'RAM - Geçici Bellek (İç Donanım): Oyunların ve büyük görsel tasarım dosyalarının çalışma sırasında anında erişebileceği geniş geçici bellek alanıdır.',
+                techNote: 'Oyun ve görsel çalışmalar için yüksek kapasiteli geçici bellek.'
+            },
+
+            // DEPOLAMA (HDD VEYA SSD)
+            {
+                id: 'sto_1', category: 'storage', name: '500 GB Sabit Disk (HDD)', price: 950, tier: 1,
+                storageType: 'HDD', power: 20,
+                specBadge: 'HDD • Kalıcı Depolama',
+                role: 'Depolama Birimi - HDD (İç Donanım): İşletim sistemini, ödev dosyalarını, fotoğrafları ve videoları KALICI olarak saklar. Bilgisayar kapansa bile veriler silinmez.',
+                techNote: 'Ekonomik kalıcı depolama birimidir. Mekanik disk olduğu için SSD’ye göre biraz daha yavaş açılır.'
+            },
+            {
+                id: 'sto_2', category: 'storage', name: '512 GB Hızlı SSD', price: 1650, tier: 2,
+                storageType: 'SSD', power: 15,
+                specBadge: 'SSD • Hızlı Kalıcı Depolama',
+                role: 'Depolama Birimi - SSD (İç Donanım): Dosyalarımızı, ders videolarımızı ve programları KALICI olarak saklar. Elektronik yapısı sayesinde bilgisayarı saniyeler içinde açar.',
+                techNote: 'Canlı dersler ve hızlı dosya erişimi için SSD kullanımı büyük avantaj sağlar.'
+            },
+            {
+                id: 'sto_3', category: 'storage', name: '1 TB Süper Hızlı NVMe SSD', price: 2900, tier: 3,
+                storageType: 'SSD', power: 20,
+                specBadge: 'NVMe SSD • Geniş & Çok Hızlı',
+                role: 'Depolama Birimi - SSD (İç Donanım): Büyük boyutlu oyunları, videoları ve tasarım projelerini hem KALICI olarak saklar hem de çok yüksek hızda yükler.',
+                techNote: 'Yüksek kapasiteli ve çok hızlı kalıcı depolama birimi.'
+            },
+
+            // GÜÇ KAYNAĞI (PSU)
+            {
+                id: 'psu_1', category: 'psu', name: '300W Standart Güç Kaynağı', price: 950, tier: 1,
+                wattCapacity: 300, power: 0,
+                specBadge: 'Kapasite: 300W Enerji',
+                role: 'Güç Kaynağı - PSU (İç Donanım): Prizden gelen elektrik enerjisini bilgisayarın iç donanım parçalarının kullanabileceği uygun düzeye çevirerek tüm sisteme enerji sağlar.',
+                techNote: 'Toplam güç tüketimi 300W altında olan ekonomik sistemlere enerji sağlar.'
+            },
+            {
+                id: 'psu_2', category: 'psu', name: '500W Verimli Güç Kaynağı', price: 1650, tier: 2,
+                wattCapacity: 500, power: 0,
+                specBadge: 'Kapasite: 500W Enerji',
+                role: 'Güç Kaynağı - PSU (İç Donanım): Bilgisayarın tüm parçalarına kesintisiz ve güvenli elektrik enerjisi dağıtan güç merkezidir.',
+                techNote: 'Orta ve ileri seviye bilgisayarların enerji ihtiyacını rahatlıkla karşılar.'
+            },
+            {
+                id: 'psu_3', category: 'psu', name: '700W Altın Sertifikalı Güç Kaynağı', price: 2600, tier: 3,
+                wattCapacity: 700, power: 0,
+                specBadge: 'Kapasite: 700W Enerji',
+                role: 'Güç Kaynağı - PSU (İç Donanım): Yüksek performanslı işlemci ve soğutma sistemlerinin ihtiyaç duyduğu yüksek elektrik enerjisini kararlı biçimde sağlar.',
+                techNote: 'Güçlü oyun ve tasarım bilgisayarları için yüksek enerji kapasitesi sunar.'
+            },
+
+            // SOĞUTMA SİSTEMİ
+            {
+                id: 'cool_1', category: 'cooler', name: 'Standart İşlemci Fanı', price: 500, tier: 1,
+                power: 10,
+                specBadge: 'Hava Soğutma • Seviye 1',
+                role: 'Soğutma Sistemi (İç Donanım): Çalışırken ısınan işlemcinin (CPU) ve kasa içi parçaların aşırı ısınmasını önleyerek bilgisayarın sağlıklı çalışmasını sağlar.',
+                techNote: 'Temel ve orta seviye işlemcileri soğutmak için yeterlidir.'
+            },
+            {
+                id: 'cool_2', category: 'cooler', name: 'Çift Fanlı Kule Soğutucu', price: 1150, tier: 2,
+                power: 15,
+                specBadge: 'Güçlü Fan • Seviye 2',
+                role: 'Soğutma Sistemi (İç Donanım): Geniş metal yaprakları ve güçlü fanıyla işlemci ısısını hızla uzaklaştırır, performans düşüşünü engeller.',
+                techNote: '8 Çekirdekli güçlü işlemciler dahil tüm işlemcileri güvenle soğutur.'
+            },
+            {
+                id: 'cool_3', category: 'cooler', name: 'Sıvı Soğutma Sistemi', price: 2200, tier: 3,
+                power: 25,
+                specBadge: 'Sıvı Soğutma • Seviye 3',
+                role: 'Soğutma Sistemi (İç Donanım): Yoğun oyun ve görsel tasarım çalışmalarında ısınan işlemciyi sıvı dolaşımıyla sessiz ve çok etkili biçimde soğutur.',
+                techNote: 'Üst düzey sistemler için maksimum soğutma performansı.'
+            },
+
+            // KASA
+            {
+                id: 'case_1', category: 'case', name: 'Kompakt Ofis Kasası', price: 1000, tier: 1,
+                power: 5,
+                specBadge: 'Standart Kasa • Seviye 1',
+                role: 'Bilgisayar Kasası (İç Donanım Muhafazası): Anakart, işlemci, RAM, depolama ve güç kaynağı gibi iç donanım parçalarını bir arada tutan ve dış darbelerden koruyan gövdedir.',
+                techNote: 'Tüm iç donanım parçalarının güvenle monte edilmesini sağlar.'
+            },
+            {
+                id: 'case_2', category: 'case', name: 'Hava Akışlı Izgara Kasa', price: 1650, tier: 2,
+                power: 10,
+                specBadge: 'İyi Hava Akışı • Seviye 2',
+                role: 'Bilgisayar Kasası: İç donanım birimlerini tozdan ve darbeden korurken ön ızgarası sayesinde içeriye serin hava girmesine yardımcı olur.',
+                techNote: 'Hem ders hem tasarım bilgisayarları için ferah iç hacim sunar.'
+            },
+            {
+                id: 'case_3', category: 'case', name: 'Cam Panelli Oyuncu & Stüdyo Kasası', price: 2500, tier: 3,
+                power: 15,
+                specBadge: 'Geniş Kasa • Seviye 3',
+                role: 'Bilgisayar Kasası: Güçlü iç donanım parçalarını koruyan, geniş iç hacimli ve yüksek hava akışlı profesyonel kasa.',
+                techNote: 'Büyük soğutucular ve güçlü parçalar için ekstra dayanıklı yapı.'
+            },
+
+            // MONİTÖR (DIŞ DONANIM)
+            {
+                id: 'mon_1', category: 'monitor', name: '19" Standart Monitör', price: 2100, tier: 1,
+                power: 25,
+                specBadge: 'HD Ekran • Seviye 1',
+                role: 'Monitör - Ekran (Dış Donanım / Çıkış Birimi): İşlemcinin işlediği verileri yazı, resim ve video olarak görmemizi sağlayan dış donanım birimidir. Kasa içine değil, masaya kurulur.',
+                techNote: 'Ödev hazırlama ve metin okuma için ekonomik ekran.'
+            },
+            {
+                id: 'mon_2', category: 'monitor', name: '24" Full HD IPS Monitör', price: 3400, tier: 2,
+                power: 35,
+                specBadge: 'Full HD • Canlı Ders & Video',
+                role: 'Monitör - Ekran (Dış Donanım / Çıkış Birimi): Bilgisayardaki görüntüleri yüksek netlikte kullanıcıya aktaran temel görüntü çıkış birimidir.',
+                techNote: 'Eğitim videoları, canlı dersler ve görsel çalışmalar için net görüntü sunar.'
+            },
+            {
+                id: 'mon_3', category: 'monitor', name: '27" Geniş Renk Tasarım & Oyun Monitörü', price: 5200, tier: 3,
+                power: 45,
+                specBadge: '2K QHD • 144Hz • Seviye 3',
+                role: 'Monitör - Ekran (Dış Donanım / Çıkış Birimi): Oyunları ve görsel tasarım çalışmalarını gerçekçi renklerle ve akıcı şekilde gösteren profesyonel dış donanım.',
+                techNote: 'Tasarım ve oyun görevleri için üst düzey görüntü kalitesi.'
+            },
+
+            // KLAVYE (DIŞ DONANIM)
+            {
+                id: 'kb_1', category: 'keyboard', name: 'Standart Türkçe Q Klavye', price: 450, tier: 1,
+                power: 5,
+                specBadge: 'Kablolu • Seviye 1',
+                role: 'Klavye (Dış Donanım / Giriş Birimi): Üzerindeki harf, rakam ve görev tuşları yardımıyla bilgisayara yazı ve komut girmemizi sağlayan dış donanım birimidir.',
+                techNote: 'Ödev yazmak ve temel kullanım için eksiksiz Türkçe Q klavye.'
+            },
+            {
+                id: 'kb_2', category: 'keyboard', name: 'Sessiz Multimedya Klavye', price: 850, tier: 2,
+                power: 5,
+                specBadge: 'Sessiz Tuşlar • Seviye 2',
+                role: 'Klavye (Dış Donanım / Giriş Birimi): Bilgisayara veri girmemizi sağlayan, ses açma/kapama kısayol tuşlarına sahip dış donanım birimi.',
+                techNote: 'Canlı derslerde sessiz yazı yazmak ve ses kontrolü için pratiktir.'
+            },
+            {
+                id: 'kb_3', category: 'keyboard', name: 'Aydınlatmalı Mekanik Klavye', price: 1550, tier: 3,
+                power: 10,
+                specBadge: 'Mekanik • Seviye 3',
+                role: 'Klavye (Dış Donanım / Giriş Birimi): Hızlı tepki veren tuşlarıyla oyun ve tasarım kısayollarını bilgisayara anında ileten dış donanım birimi.',
+                techNote: 'Yoğun kullanım ve oyunlar için dayanıklı mekanik yapı.'
+            },
+
+            // FARE (DIŞ DONANIM)
+            {
+                id: 'ms_1', category: 'mouse', name: 'Optik Kablolu Fare', price: 350, tier: 1,
+                power: 5,
+                specBadge: 'Standart Optik • Seviye 1',
+                role: 'Fare - Mouse (Dış Donanım / Giriş Birimi): Ekrandaki işaretçiyi (imleci) hareket ettirmemizi, nesneleri seçmemizi ve tıklama komutu vermemizi sağlayan dış donanım birimidir.',
+                techNote: 'Günlük ödev ve ders kullanımı için pratik fare.'
+            },
+            {
+                id: 'ms_2', category: 'mouse', name: 'Ergonomik Kablosuz Fare', price: 700, tier: 2,
+                power: 5,
+                specBadge: 'Ergonomik • Seviye 2',
+                role: 'Fare - Mouse (Dış Donanım / Giriş Birimi): El yapısına uygun tasarımıyla uzun süreli ders ve çalışmalarda imleci rahatça kontrol etmeyi sağlayan dış donanımdır.',
+                techNote: 'Konforlu tutuş ve hassas imleç kontrolü sağlar.'
+            },
+            {
+                id: 'ms_3', category: 'mouse', name: 'Hassas Sensörlü Tasarım & Oyun Faresi', price: 1350, tier: 3,
+                power: 8,
+                specBadge: 'Yüksek Hassasiyet • Seviye 3',
+                role: 'Fare - Mouse (Dış Donanım / Giriş Birimi): Çizim yaparken ve oyun oynarken milimetrik hareketleri bile ekrana doğru yansıtan gelişmiş giriş donanımıdır.',
+                techNote: 'Görsel çalışmalar ve oyunlar için yüksek hassasiyetli sensör.'
+            }
+        ];
+
+        /* ============================================================================
+           5. UYGULAMA DURUMU (STATE)
+           ============================================================================ */
+        let currentMissionIndex = 0;
+        let activeCategoryFilter = 'all';
+        let selectedPartForTap = null; // Dokun-yerleştir desteği için seçili parça
+        
+        // Yerleştirilen parçalar: { motherboard: partObj, cpu: partObj, ... }
+        let installedParts = {};
+
+        /* ============================================================================
+           6. BAŞLATMA VE ARAYÜZ OLUŞTURMA FONKSİYONLARI
+           ============================================================================ */
+        window.addEventListener('DOMContentLoaded', () => {
+            renderCategoryTabs();
+            renderAllSlots();
+            selectMission(0);
+            renderPartsCatalog();
+            detectAndApplyDeviceProfile();
+        });
+
+        window.addEventListener('resize', detectAndApplyDeviceProfile);
+        document.addEventListener('fullscreenchange', updateFullscreenButtonUI);
+
+        function detectAndApplyDeviceProfile() {
+            const width = window.innerWidth;
+            const height = window.innerHeight;
+            const isTouch = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
+            const badge = document.getElementById('device-badge');
+            if (!badge) return;
+
+            let profileText = '';
+            if (width >= 1600 && isTouch) {
+                profileText = '📺 Akıllı Tahta Modu (Tam Ekran)';
+            } else if (width >= 1280) {
+                profileText = '🖥️ Geniş Ekran / Masaüstü Modu';
+            } else if (width >= 1024) {
+                profileText = isTouch ? '📱 Yatay Tablet / Dokunmatik Ekran' : '💻 Dizüstü Ekran Modu';
+            } else if (width >= 640) {
+                profileText = '📱 Tablet Ekran Modu';
+            } else {
+                profileText = '📱 Mobil Ekran Modu';
+            }
+            badge.textContent = `${profileText} (${width}×${height})`;
+        }
+
+        function toggleFullScreen() {
+            const docEl = document.documentElement;
+            if (!document.fullscreenElement && !document.webkitFullscreenElement) {
+                if (docEl.requestFullscreen) {
+                    docEl.requestFullscreen().catch(() => {});
+                } else if (docEl.webkitRequestFullscreen) {
+                    docEl.webkitRequestFullscreen();
+                }
+            } else {
+                if (document.exitFullscreen) {
+                    document.exitFullscreen().catch(() => {});
+                } else if (document.webkitExitFullscreen) {
+                    document.webkitExitFullscreen();
+                }
+            }
+        }
+
+        function updateFullscreenButtonUI() {
+            const isFs = !!(document.fullscreenElement || document.webkitFullscreenElement);
+            const expandIcon = document.getElementById('fs-icon-expand');
+            const compressIcon = document.getElementById('fs-icon-compress');
+            const btnText = document.getElementById('fs-btn-text');
+
+            if (isFs) {
+                expandIcon.classList.add('hidden');
+                compressIcon.classList.remove('hidden');
+                if (btnText) btnText.textContent = 'Tam Ekrandan Çık';
+            } else {
+                expandIcon.classList.remove('hidden');
+                compressIcon.classList.add('hidden');
+                if (btnText) btnText.textContent = 'Tam Ekran';
+            }
+            detectAndApplyDeviceProfile();
+        }
+
+        function formatCurrency(val) {
+            return val.toLocaleString('tr-TR') + ' ₺';
+        }
+
+        function selectMission(index) {
+            currentMissionIndex = index;
+            const mission = MISSIONS[index];
+
+            // Sekme görünümlerini güncelle
+            document.querySelectorAll('.mission-tab').forEach((btn, idx) => {
+                if (idx === index) {
+                    btn.className = "mission-tab px-3 py-1.5 rounded-lg text-xs md:text-sm font-bold transition-all flex items-center gap-1.5 bg-cyan-600 text-white shadow";
+                } else {
+                    btn.className = "mission-tab px-3 py-1.5 rounded-lg text-xs md:text-sm font-bold transition-all flex items-center gap-1.5 text-slate-300 hover:bg-slate-700";
+                }
+            });
+
+            // Müşteri kartını güncelle
+            document.getElementById('mission-avatar').textContent = mission.avatar;
+            document.getElementById('mission-title').textContent = mission.title;
+            document.getElementById('mission-desc').textContent = `"${mission.story}"`;
+            document.getElementById('mission-budget-badge').textContent = `Bütçe: ${formatCurrency(mission.budget)}`;
+
+            const reqList = document.getElementById('mission-reqs');
+            reqList.innerHTML = mission.checklist.map(item => `
+                <li class="flex items-start gap-1.5">
+                    <span class="text-cyan-400 font-bold">•</span>
+                    <span>${item}</span>
+                </li>
+            `).join('');
+
+            updateBudgetAndPowerDisplay();
+            updateLiveCompatibilityBanner();
+        }
+
+        function renderCategoryTabs() {
+            const container = document.getElementById('category-tabs');
+            let html = `
+                <button onclick="setCategoryFilter('all')" class="cat-btn px-2.5 py-1 rounded-lg text-xs font-extrabold transition ${activeCategoryFilter === 'all' ? 'bg-cyan-500 text-slate-950' : 'bg-slate-700/70 text-slate-300 hover:bg-slate-700'}">
+                    Tümü (10)
+                </button>
+            `;
+
+            CATEGORIES.forEach(cat => {
+                const isInstalled = !!installedParts[cat.id];
+                const activeClass = activeCategoryFilter === cat.id
+                    ? 'bg-cyan-500 text-slate-950 ring-2 ring-cyan-300'
+                    : (isInstalled ? 'bg-emerald-900/50 text-emerald-300 border border-emerald-600/40' : 'bg-slate-700/70 text-slate-300 hover:bg-slate-700');
+
+                html += `
+                    <button onclick="setCategoryFilter('${cat.id}')" class="cat-btn px-2.5 py-1 rounded-lg text-xs font-bold transition flex items-center gap-1 ${activeClass}">
+                        ${isInstalled ? '✓ ' : ''}${cat.name}
+                    </button>
+                `;
+            });
+
+            container.innerHTML = html;
+        }
+
+        function setCategoryFilter(catId) {
+            activeCategoryFilter = catId;
+            const catObj = CATEGORIES.find(c => c.id === catId);
+            document.getElementById('active-category-label').textContent = catObj ? `${catObj.name} (${catObj.zone === 'internal' ? 'İç Donanım' : 'Dış Donanım'})` : 'Tüm Kategoriler';
+            renderCategoryTabs();
+            renderPartsCatalog();
+        }
+
+        /* ============================================================================
+           7. KURULUM MASASI YUVALARINI (İÇ VE DIŞ DONANIM) OLUŞTURMA
+           ============================================================================ */
+        function renderAllSlots() {
+            const internalGrid = document.getElementById('internal-slots-grid');
+            const externalGrid = document.getElementById('external-slots-grid');
+
+            const internalCats = CATEGORIES.filter(c => c.zone === 'internal');
+            const externalCats = CATEGORIES.filter(c => c.zone === 'external');
+
+            internalGrid.innerHTML = internalCats.map(cat => createSlotHTML(cat)).join('');
+            externalGrid.innerHTML = externalCats.map(cat => createSlotHTML(cat)).join('');
+
+            // Sayaç güncelle
+            const count = Object.keys(installedParts).length;
+            document.getElementById('slot-counter').textContent = `${count} / 10 Parça Takıldı`;
+        }
+
+        function createSlotHTML(cat) {
+            const part = installedParts[cat.id];
+            const isSelectedTarget = selectedPartForTap && selectedPartForTap.category === cat.id;
+
+            // Uyumluluk uyarısı var mı?
+            let extraClass = '';
+            let warningBadge = '';
+            if (part) {
+                extraClass = 'filled';
+                if ((cat.id === 'motherboard' || cat.id === 'cpu') && installedParts.motherboard && installedParts.cpu) {
+                    if (installedParts.motherboard.socket !== installedParts.cpu.socket) {
+                        extraClass = 'warning-slot';
+                        warningBadge = `<span class="text-[10px] font-extrabold bg-amber-500 text-slate-950 px-1.5 py-0.5 rounded">Soket Uyumsuz!</span>`;
+                    }
+                }
+            }
+            if (isSelectedTarget) {
+                extraClass += ' highlight-target';
+            }
+
+            if (!part) {
+                return `
+                    <div data-slot-cat="${cat.id}" data-slot-zone="${cat.zone}"
+                         onclick="handleSlotClick('${cat.id}')"
+                         class="slot-card ${extraClass} rounded-xl p-2 min-h-[88px] xl:min-h-[98px] flex flex-col items-center justify-center text-center cursor-pointer relative group">
+                        <div class="opacity-45 group-hover:opacity-80 transition transform group-hover:scale-105">
+                            ${PART_SVGS[cat.id]}
+                        </div>
+                        <div class="text-xs font-extrabold text-slate-200 mt-0.5">${cat.name}</div>
+                        <div class="text-[10px] text-slate-400 leading-tight">${cat.shortDesc}</div>
+                    </div>
+                `;
+            } else {
+                return `
+                    <div data-slot-cat="${cat.id}" data-slot-zone="${cat.zone}"
+                         onclick="handleSlotClick('${cat.id}')"
+                         class="slot-card ${extraClass} rounded-xl p-2 min-h-[88px] xl:min-h-[98px] flex flex-col justify-between cursor-pointer relative">
+                        <div class="flex items-start justify-between gap-1">
+                            <span class="text-[10px] font-extrabold uppercase px-1.5 py-0.5 rounded bg-slate-800 text-emerald-300 border border-emerald-500/30">
+                                ${cat.name}
+                            </span>
+                            <button onclick="event.stopPropagation(); removePart('${cat.id}')" title="Parçayı Çıkar"
+                                    class="w-5 h-5 rounded-md bg-rose-500/20 hover:bg-rose-500 text-rose-300 hover:text-white text-xs font-bold flex items-center justify-center transition">
+                                ✕
+                            </button>
+                        </div>
+                        <div class="flex items-center gap-2 my-1">
+                            <div class="shrink-0 transform scale-90">${PART_SVGS[cat.id]}</div>
+                            <div class="text-left overflow-hidden">
+                                <div class="text-xs font-extrabold text-white leading-tight truncate">${part.name}</div>
+                                <div class="text-[10px] text-cyan-300 font-semibold truncate">${part.specBadge}</div>
+                                <div class="text-xs font-black text-emerald-400 mt-0.5">${formatCurrency(part.price)}</div>
+                            </div>
+                        </div>
+                        ${warningBadge ? `<div class="mt-0.5 text-center">${warningBadge}</div>` : ''}
+                    </div>
+                `;
+            }
+        }
+
+        /* ============================================================================
+           8. PARÇA KATALOĞUNU OLUŞTURMA VE FİLTRELEME
+           ============================================================================ */
+        function renderPartsCatalog() {
+            const listEl = document.getElementById('parts-catalog-list');
+            const filtered = activeCategoryFilter === 'all'
+                ? PARTS_DB
+                : PARTS_DB.filter(p => p.category === activeCategoryFilter);
+
+            listEl.innerHTML = filtered.map(part => {
+                const catObj = CATEGORIES.find(c => c.id === part.category);
+                const isInstalledHere = installedParts[part.category] && installedParts[part.category].id === part.id;
+                const isSelectedTap = selectedPartForTap && selectedPartForTap.id === part.id;
+                const zoneBadge = catObj.zone === 'internal'
+                    ? `<span class="text-[10px] font-bold px-1.5 py-0.5 rounded bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">İç Donanım</span>`
+                    : `<span class="text-[10px] font-bold px-1.5 py-0.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">Dış Donanım</span>`;
+
+                return `
+                    <div data-part-id="${part.id}"
+                         onpointerdown="startCustomDrag(event, '${part.id}')"
+                         onclick="handlePartCardClick('${part.id}')"
+                         class="part-card rounded-xl p-3 border transition select-none ${isInstalledHere ? 'bg-emerald-950/40 border-emerald-500/60' : 'bg-slate-900/90 border-slate-700 hover:border-cyan-500/60'} ${isSelectedTap ? 'selected-for-tap' : ''}">
+                        <div class="flex items-center gap-3">
+                            <div class="w-12 h-12 rounded-xl bg-slate-800 border border-slate-700 flex items-center justify-center shrink-0">
+                                ${PART_SVGS[part.category]}
+                            </div>
+                            <div class="flex-1 min-w-0">
+                                <div class="flex items-center justify-between gap-1">
+                                    <div class="flex items-center gap-1.5 flex-wrap">
+                                        <span class="text-[11px] font-extrabold text-cyan-400 uppercase">${catObj.name}</span>
+                                        ${zoneBadge}
+                                    </div>
+                                    <span class="text-sm font-black text-emerald-400 shrink-0">${formatCurrency(part.price)}</span>
+                                </div>
+                                <h4 class="text-sm font-extrabold text-white truncate mt-0.5">${part.name}</h4>
+                                <div class="flex items-center justify-between mt-1">
+                                    <span class="text-[11px] font-semibold text-amber-300 bg-amber-500/10 px-2 py-0.5 rounded border border-amber-500/20">
+                                        ${part.specBadge}
+                                    </span>
+                                    ${isInstalledHere
+                                        ? `<span class="text-xs font-extrabold text-emerald-400">✓ Masada Takılı</span>`
+                                        : `<button onclick="event.stopPropagation(); installPartById('${part.id}')" class="text-xs font-extrabold px-2.5 py-1 rounded-lg bg-cyan-500/20 hover:bg-cyan-500 text-cyan-300 hover:text-slate-950 border border-cyan-500/40 transition">
+                                            + Sisteme Tak
+                                           </button>`
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        /* ============================================================================
+           9. PARÇA YERLEŞTİRME, İÇ/DIŞ DONANIM DOĞRULAMASI VE GÖREV AÇIKLAMASI
+           ============================================================================ */
+        function showPartExplanation(part, customNotice = null) {
+            const catObj = CATEGORIES.find(c => c.id === part.category);
+            const badgeEl = document.getElementById('info-badge');
+            const titleEl = document.getElementById('info-title');
+            const roleEl = document.getElementById('info-role');
+            const techEl = document.getElementById('info-tech');
+
+            badgeEl.textContent = catObj.zone === 'internal' ? 'İç Donanım Birimi' : 'Dış Donanım (Çevre Birimi)';
+            badgeEl.className = catObj.zone === 'internal'
+                ? 'text-[11px] font-bold px-2 py-0.5 rounded bg-indigo-500/20 text-indigo-300 border border-indigo-500/40'
+                : 'text-[11px] font-bold px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/40';
+
+            titleEl.textContent = `${part.name} (${formatCurrency(part.price)})`;
+            roleEl.textContent = part.role;
+
+            techEl.classList.remove('hidden');
+            techEl.textContent = customNotice ? `⚠️ ${customNotice}` : `💡 Teknik Bilgi: ${part.techNote}`;
+        }
+
+        function installPartById(partId, targetSlotCategory = null) {
+            const part = PARTS_DB.find(p => p.id === partId);
+            if (!part) return;
+
+            const partCatObj = CATEGORIES.find(c => c.id === part.category);
+
+            // Eğer öğrenci belirli bir yuvaya sürüklediyse, doğru yuva mı kontrol et
+            if (targetSlotCategory && targetSlotCategory !== part.category) {
+                const targetCatObj = CATEGORIES.find(c => c.id === targetSlotCategory);
+
+                // ÖZEL EĞİTSEL KONTROL: Monitör, klavye veya fareyi iç donanım yuvasına bırakmaya çalışırsa
+                if (partCatObj.zone === 'external' && targetCatObj.zone === 'internal') {
+                    triggerSlotError(targetSlotCategory);
+                    showPartExplanation(
+                        part,
+                        ` DİKKAT: ${partCatObj.name} bir DIŞ DONANIM (çevre) birimidir! Kasa içindeki "${targetCatObj.name}" yuvasına takılamaz. Lütfen alttaki Dış Donanım alanına yerleştirin.`
+                    );
+                    setActionHint(`⚠️ ${partCatObj.name} iç donanım değildir! Kasa dışındaki Dış Donanım alanına bırakmalısın.`, 'text-amber-300');
+                    return;
+                }
+
+                // İç donanımı dış donanım yuvasına bırakmaya çalışırsa
+                if (partCatObj.zone === 'internal' && targetCatObj.zone === 'external') {
+                    triggerSlotError(targetSlotCategory);
+                    showPartExplanation(
+                        part,
+                        ` DİKKAT: ${partCatObj.name} kasa içinde çalışan bir İÇ DONANIM birimidir! Dış donanım alanındaki "${targetCatObj.name}" yuvasına takılamaz.`
+                    );
+                    setActionHint(`⚠️ ${partCatObj.name} bir iç donanım parçasıdır! Üstteki İç Donanım alanına bırakmalısın.`, 'text-amber-300');
+                    return;
+                }
+
+                // Aynı bölgede ama yanlış yuva (Örn: RAM'i İşlemci yuvasına bırakmak)
+                triggerSlotError(targetSlotCategory);
+                showPartExplanation(
+                    part,
+                    `${part.name} parçası "${targetCatObj.name}" yuvasına uymaz. Lütfen "${partCatObj.name}" yuvasına yerleştirin.`
+                );
+                setActionHint(`⚠️ Her parça kendi yuvasına takılmalıdır: ${part.name} → ${partCatObj.name} yuvası.`, 'text-amber-300');
+                return;
+            }
+
+            // Doğru yuvaya yerleştir
+            installedParts[part.category] = part;
+            selectedPartForTap = null;
+
+            showPartExplanation(part);
+            setActionHint(`✅ ${part.name} başarıyla "${partCatObj.name}" yuvasına yerleştirildi!`, 'text-emerald-300');
+
+            renderAllSlots();
+            renderCategoryTabs();
+            renderPartsCatalog();
+            updateBudgetAndPowerDisplay();
+            updateLiveCompatibilityBanner();
+        }
+
+        function removePart(category) {
+            const removed = installedParts[category];
+            delete installedParts[category];
+            if (removed) {
+                setActionHint(`🔄 ${removed.name} sistemden çıkarıldı.`, 'text-slate-300');
+            }
+            renderAllSlots();
+            renderCategoryTabs();
+            renderPartsCatalog();
+            updateBudgetAndPowerDisplay();
+            updateLiveCompatibilityBanner();
+        }
+
+        function resetBuild() {
+            installedParts = {};
+            selectedPartForTap = null;
+            renderAllSlots();
+            renderCategoryTabs();
+            renderPartsCatalog();
+            updateBudgetAndPowerDisplay();
+            updateLiveCompatibilityBanner();
+            setActionHint(`🧹 Kurulum masası temizlendi. İhtiyaca uygun yeni parçaları seçebilirsiniz.`, 'text-cyan-300');
+        }
+
+        function triggerSlotError(slotCat) {
+            const slotEl = document.querySelector(`[data-slot-cat="${slotCat}"]`);
+            if (slotEl) {
+                slotEl.classList.add('error-slot');
+                setTimeout(() => slotEl.classList.remove('error-slot'), 650);
+            }
+        }
+
+        function setActionHint(msg, colorClass = 'text-slate-300') {
+            const el = document.getElementById('action-hint');
+            el.className = `text-xs font-bold flex items-center gap-2 ${colorClass}`;
+            el.innerHTML = `<span>${msg}</span>`;
+        }
+
+        /* ============================================================================
+           10. DOKUN-YERLEŞTİR VE AKILLI TAHTA SÜRÜKLE-BIRAK DESTEĞİ
+           ============================================================================ */
+        function handlePartCardClick(partId) {
+            const part = PARTS_DB.find(p => p.id === partId);
+            if (!part) return;
+
+            showPartExplanation(part);
+
+            if (selectedPartForTap && selectedPartForTap.id === partId) {
+                // İkinci tıklamada doğrudan ilgili yuvaya yerleştir
+                installPartById(partId);
+            } else {
+                selectedPartForTap = part;
+                renderAllSlots();
+                renderPartsCatalog();
+                const catObj = CATEGORIES.find(c => c.id === part.category);
+                setActionHint(`👆 "${part.name}" seçildi. Şimdi masadaki "${catObj.name}" yuvasına dokunarak yerleştirin.`, 'text-cyan-300');
+            }
+        }
+
+        function handleSlotClick(slotCategory) {
+            if (selectedPartForTap) {
+                installPartById(selectedPartForTap.id, slotCategory);
+                return;
+            }
+
+            // Eğer yuvada parça varsa açıklamasını göster, yoksa sağdaki kataloğu o kategoriye filtrele
+            if (installedParts[slotCategory]) {
+                showPartExplanation(installedParts[slotCategory]);
+            } else {
+                setCategoryFilter(slotCategory);
+                const catObj = CATEGORIES.find(c => c.id === slotCategory);
+                setActionHint(`📦 Sağdaki katalogda "${catObj.name}" parçaları listelendi. Birini seçip masaya sürükleyin.`, 'text-cyan-300');
+            }
+        }
+
+        // Özel Pointer Events Sürükle-Bırak (Fare + Dokunmatik Akıllı Tahta Uyumlu)
+        let draggingPart = null;
+        let dragStartPos = { x: 0, y: 0 };
+        let isDraggingActive = false;
+
+        function startCustomDrag(e, partId) {
+            // Sadece sol tık veya dokunma
+            if (e.button !== undefined && e.button !== 0) return;
+            // "+ Sisteme Tak" butonuna tıklandıysa sürüklemeyi başlatma
+            if (e.target.closest('button')) return;
+
+            const part = PARTS_DB.find(p => p.id === partId);
+            if (!part) return;
+
+            draggingPart = part;
+            dragStartPos = { x: e.clientX, y: e.clientY };
+            isDraggingActive = false;
+
+            window.addEventListener('pointermove', onCustomDragMove);
+            window.addEventListener('pointerup', onCustomDragEnd);
+            window.addEventListener('pointercancel', onCustomDragEnd);
+        }
+
+        function onCustomDragMove(e) {
+            if (!draggingPart) return;
+
+            const dx = e.clientX - dragStartPos.x;
+            const dy = e.clientY - dragStartPos.y;
+
+            if (!isDraggingActive && Math.hypot(dx, dy) > 8) {
+                isDraggingActive = true;
+                showPartExplanation(draggingPart);
+
+                const ghost = document.getElementById('drag-ghost');
+                ghost.style.display = 'block';
+                ghost.innerHTML = `
+                    <div class="flex items-center gap-2.5">
+                        <div class="shrink-0">${PART_SVGS[draggingPart.category]}</div>
+                        <div class="min-w-0">
+                            <div class="text-xs font-black text-white truncate">${draggingPart.name}</div>
+                            <div class="text-[11px] font-bold text-cyan-300">${draggingPart.specBadge}</div>
+                            <div class="text-xs font-extrabold text-emerald-400">${formatCurrency(draggingPart.price)}</div>
+                        </div>
+                    </div>
+                `;
+            }
+
+            if (isDraggingActive) {
+                const ghost = document.getElementById('drag-ghost');
+                ghost.style.left = `${e.clientX}px`;
+                ghost.style.top = `${e.clientY}px`;
+
+                // Altındaki yuvayı vurgula
+                document.querySelectorAll('[data-slot-cat]').forEach(el => el.classList.remove('highlight-target'));
+                const targetEl = document.elementFromPoint(e.clientX, e.clientY);
+                const slotCard = targetEl ? targetEl.closest('[data-slot-cat]') : null;
+                if (slotCard) {
+                    slotCard.classList.add('highlight-target');
+                }
+            }
+        }
+
+        function onCustomDragEnd(e) {
+            window.removeEventListener('pointermove', onCustomDragMove);
+            window.removeEventListener('pointerup', onCustomDragEnd);
+            window.removeEventListener('pointercancel', onCustomDragEnd);
+
+            const ghost = document.getElementById('drag-ghost');
+            ghost.style.display = 'none';
+
+            document.querySelectorAll('[data-slot-cat]').forEach(el => el.classList.remove('highlight-target'));
+
+            if (isDraggingActive && draggingPart) {
+                const targetEl = document.elementFromPoint(e.clientX, e.clientY);
+                const slotCard = targetEl ? targetEl.closest('[data-slot-cat]') : null;
+
+                if (slotCard) {
+                    const slotCat = slotCard.getAttribute('data-slot-cat');
+                    installPartById(draggingPart.id, slotCat);
+                } else {
+                    // İç donanım veya dış donanım kutusunun genel alanına bırakıldıysa kontrol et
+                    const internalBox = document.getElementById('internal-slots-grid').parentElement;
+                    const externalBox = document.getElementById('external-slots-grid').parentElement;
+                    const droppedInInternal = internalBox.contains(targetEl);
+                    const droppedInExternal = externalBox.contains(targetEl);
+
+                    const partCatObj = CATEGORIES.find(c => c.id === draggingPart.category);
+
+                    if (droppedInInternal && partCatObj.zone === 'external') {
+                        installPartById(draggingPart.id, 'case'); // İç/dış donanım uyarısını tetikle
+                    } else if (droppedInExternal && partCatObj.zone === 'internal') {
+                        installPartById(draggingPart.id, 'monitor'); // İç/dış donanım uyarısını tetikle
+                    } else if (droppedInInternal || droppedInExternal) {
+                        installPartById(draggingPart.id, draggingPart.category);
+                    }
+                }
+            }
+
+            draggingPart = null;
+            isDraggingActive = false;
+        }
+
+        /* ============================================================================
+           11. CANLI BÜTÇE, ENERJİ VE UYUMLULUK HESAPLAMALARI
+           ============================================================================ */
+        function calculateTotals() {
+            let totalCost = 0;
+            let totalPowerNeeded = 0;
+            let psuCapacity = 0;
+            let tierSum = 0;
+
+            Object.values(installedParts).forEach(part => {
+                totalCost += part.price;
+                totalPowerNeeded += (part.power || 0);
+                tierSum += (part.tier || 0);
+                if (part.category === 'psu') {
+                    psuCapacity = part.wattCapacity || 0;
+                }
+            });
+
+            return { totalCost, totalPowerNeeded, psuCapacity, tierSum };
+        }
+
+        function updateBudgetAndPowerDisplay() {
+            const mission = MISSIONS[currentMissionIndex];
+            const { totalCost, totalPowerNeeded, psuCapacity } = calculateTotals();
+            const remaining = mission.budget - totalCost;
+
+            const budgetEl = document.getElementById('budget-display');
+            const spentEl = document.getElementById('spent-Text');
+            spentEl.textContent = `Harcanan: ${formatCurrency(totalCost)}`;
+
+            if (remaining >= 0) {
+                budgetEl.textContent = formatCurrency(remaining);
+                budgetEl.className = 'text-base font-black text-emerald-400';
+            } else {
+                budgetEl.textContent = `${formatCurrency(remaining)} (Aşıldı!)`;
+                budgetEl.className = 'text-base font-black text-rose-400';
+            }
+
+            const powerEl = document.getElementById('power-display');
+            powerEl.textContent = `${totalPowerNeeded}W / ${psuCapacity}W PSU`;
+            if (psuCapacity === 0) {
+                powerEl.className = 'text-sm font-extrabold text-slate-300';
+            } else if (psuCapacity >= totalPowerNeeded) {
+                powerEl.className = 'text-sm font-extrabold text-emerald-400';
+            } else {
+                powerEl.className = 'text-sm font-extrabold text-rose-400';
+            }
+        }
+
+        function updateLiveCompatibilityBanner() {
+            const ind = document.getElementById('compat-indicator');
+            const msg = document.getElementById('compat-live-msg');
+
+            const mb = installedParts.motherboard;
+            const cpu = installedParts.cpu;
+            const psu = installedParts.psu;
+            const cooler = installedParts.cooler;
+            const { totalPowerNeeded, psuCapacity } = calculateTotals();
+
+            const issues = [];
+
+            if (mb && cpu && mb.socket !== cpu.socket) {
+                issues.push(`Anakart (${mb.socket}) ile İşlemci (${cpu.socket}) soketleri uyumsuz!`);
+            }
+            if (cpu && cooler && cooler.tier < (cpu.minCoolerTier || 1)) {
+                issues.push(`${cpu.name} çok ısınır; daha güçlü bir soğutma sistemi seçmelisin.`);
+            }
+            if (psu && psuCapacity < totalPowerNeeded) {
+                issues.push(`Güç kaynağı (${psuCapacity}W), sistemin enerji ihtiyacına (${totalPowerNeeded}W) yetmiyor!`);
+            }
+
+            if (issues.length > 0) {
+                ind.textContent = 'Uyumsuzluk Var';
+                ind.className = 'text-[11px] font-bold px-2 py-0.5 rounded-full bg-rose-500/20 text-rose-300 border border-rose-500/40';
+                msg.textContent = issues[0];
+                msg.className = 'text-xs text-rose-300 font-semibold';
+            } else if (Object.keys(installedParts).length > 0) {
+                ind.textContent = 'Uyumlu Görünüyor';
+                ind.className = 'text-[11px] font-bold px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/40';
+                msg.textContent = 'Takılan parçalar şu an birbiriyle uyumlu. Tüm yuvaları tamamlayıp sistemi test edin.';
+                msg.className = 'text-xs text-emerald-300';
+            } else {
+                ind.textContent = 'Bekleniyor';
+                ind.className = 'text-[11px] px-2 py-0.5 rounded-full bg-slate-800 text-slate-300';
+                msg.textContent = 'Anakart ve işlemci soketlerinin (Tip-A / Tip-B) birbiriyle uyumlu olmasına dikkat edin.';
+                msg.className = 'text-xs text-slate-300';
+            }
+        }
+
+        /* ============================================================================
+           12. SİSTEM KONTROLÜ, İPUCU ÜRETİMİ VE FİNAL ÖZET EKRANI
+           ============================================================================ */
+        function checkSystemBuild() {
+            const mission = MISSIONS[currentMissionIndex];
+            const { totalCost, totalPowerNeeded, psuCapacity, tierSum } = calculateTotals();
+
+            const missingCategories = CATEGORIES.filter(cat => !installedParts[cat.id]);
+            const compatErrors = [];
+            const missionHints = [];
+
+            // 1. Eksik parça kontrolü
+            if (missingCategories.length > 0) {
+                const missingNames = missingCategories.map(c => `<strong>${c.name}</strong> (${c.zone === 'internal' ? 'İç Donanım' : 'Dış Donanım'})`).join(', ');
+                compatErrors.push(`Sistemde eksik parçalar var: ${missingNames}. Bilgisayarın eksiksiz çalışması için 10 parçanın tamamı yerleştirilmelidir.`);
+            }
+
+            // 2. Teknik Uyumluluk Kontrolleri (Uyumsuz parçaları çalışıyormuş gibi gösterme!)
+            const mb = installedParts.motherboard;
+            const cpu = installedParts.cpu;
+            const cooler = installedParts.cooler;
+            const psu = installedParts.psu;
+            const storage = installedParts.storage;
+            const ram = installedParts.ram;
+            const monitor = installedParts.monitor;
+
+            if (mb && cpu && mb.socket !== cpu.socket) {
+                compatErrors.push(`<strong>Soket Uyumsuzluğu:</strong> Seçtiğin <em>${mb.name} (${mb.socket})</em> ile <em>${cpu.name} (${cpu.socket})</em> birbirine takılamaz! İkisinin de soket tipi aynı (Tip-A veya Tip-B) olmalıdır.`);
+            }
+
+            if (psu && psuCapacity < totalPowerNeeded) {
+                compatErrors.push(`<strong>Yetersiz Güç Kaynağı (Enerji):</strong> Parçaların toplam <strong>${totalPowerNeeded}W</strong> elektrik enerjisine ihtiyaç duyuyor ancak seçtiğin <em>${psu.name}</em> sadece <strong>${psuCapacity}W</strong> enerji sağlıyor. Daha yüksek Watt değerli bir güç kaynağı seçmelisin.`);
+            }
+
+            if (cpu && cooler && cooler.tier < (cpu.minCoolerTier || 1)) {
+                compatErrors.push(`<strong>Yetersiz Soğutma:</strong> <em>${cpu.name}</em> yoğun çalışırken çok ısınır. <em>${cooler.name}</em> bu işlemciyi soğutmaya yetmez. En az Seviye 2 (Kule veya Sıvı) soğutucu seçmelisin.`);
+            }
+
+            // 3. Bütçe Kontrolü
+            if (totalCost > mission.budget) {
+                missionHints.push(`<strong>Bütçe Aşıldı:</strong> Toplam harcaman <strong>${formatCurrency(totalCost)}</strong> oldu. Müşterinin bütçesi <strong>${formatCurrency(mission.budget)}</strong>. Bazı parçalarda daha ekonomik (ancak ihtiyacı karşılayan) modellere geçebilirsin.`);
+            }
+
+            // 4. Müşteri İhtiyacı Kontrolleri
+            if (cpu && cpu.tier < mission.minCpuTier) {
+                missionHints.push(`<strong>İşlemci Gücü Düşük:</strong> "${mission.title}" görevi için seçtiğin <em>${cpu.name}</em> yavaş kalacaktır. Daha üst seviye bir işlemci seçmelisin.`);
+            }
+
+            if (ram && ram.tier < mission.minRamTier) {
+                missionHints.push(`<strong>RAM (Geçici Bellek) Yetersiz:</strong> Bu görevdeki programların takılmaması için daha yüksek kapasiteli bir RAM seçmelisin.`);
+            }
+
+            if (storage && mission.reqStorageType === 'SSD' && storage.storageType !== 'SSD') {
+                missionHints.push(`<strong>Depolama Hızı İpucu:</strong> Müşteri derslerin, videoların veya projelerin hızlı açılmasını istiyor. Mekanik HDD yerine <strong>SSD</strong> depolama birimi seçmelisin.`);
+            }
+
+            if (monitor && monitor.tier < mission.minMonitorTier) {
+                missionHints.push(`<strong>Monitör Seçimi:</strong> Canlı dersler ve görsel çalışmalar için 19" standart ekran yerine en az <strong>24" Full HD Monitör</strong> tercih etmelisin.`);
+            }
+
+            if (missingCategories.length === 0 && tierSum < mission.minTierSum && missionHints.length === 0) {
+                missionHints.push(`<strong>Genel Performans İpucu:</strong> Parçalar çalışıyor ancak bu görevin ihtiyacını tam karşılamak için birkaç parçayı bir üst seviyeye yükseltmelisin.`);
+            }
+
+            // Sonuç Modalını Göster
+            openResultModal(compatErrors, missionHints, totalCost, totalPowerNeeded, psuCapacity);
+        }
+
+        function openResultModal(compatErrors, missionHints, totalCost, totalPowerNeeded, psuCapacity) {
+            const modal = document.getElementById('result-modal');
+            const iconEl = document.getElementById('modal-status-icon');
+            const badgeEl = document.getElementById('modal-badge');
+            const titleEl = document.getElementById('modal-title');
+            const subEl = document.getElementById('modal-subtitle');
+            const bodyEl = document.getElementById('modal-body');
+            const nextBtn = document.getElementById('next-mission-btn');
+
+            const mission = MISSIONS[currentMissionIndex];
+            const isSuccess = compatErrors.length === 0 && missionHints.length === 0;
+
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+
+            if (!isSuccess) {
+                nextBtn.classList.add('hidden');
+                iconEl.textContent = compatErrors.length > 0 ? '⚠️' : '💡';
+                iconEl.className = 'w-14 h-14 rounded-2xl flex items-center justify-center text-3xl shrink-0 bg-amber-500/20 border border-amber-500/40';
+                badgeEl.textContent = 'Teknisyen Kontrol İpuçları';
+                badgeEl.className = 'text-xs font-black uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-amber-500/20 text-amber-300';
+                titleEl.textContent = compatErrors.length > 0 ? 'Sistem Çalıştırılamadı (Donanım Uyarısı)' : 'Sistem Çalışıyor Ama İhtiyaca Uygunluk İpucu Var';
+                subEl.textContent = 'Aşağıdaki ipuçlarını inceleyip atölyede gerekli parça değişikliklerini yapabilirsin.';
+
+                let html = '';
+
+                if (compatErrors.length > 0) {
+                    html += `
+                        <div class="bg-rose-950/50 border border-rose-500/50 rounded-2xl p-4">
+                            <h3 class="text-sm font-black text-rose-300 uppercase mb-2 flex items-center gap-2">
+                                <span>🔌</span> Donanım Eksikliği veya Uyumsuzluk (Sistem Açılmaz)
+                            </h3>
+                            <ul class="space-y-2 text-xs md:text-sm text-slate-200">
+                                ${compatErrors.map(err => `<li class="flex items-start gap-2"><span class="text-rose-400 font-bold">✗</span><span>${err}</span></li>`).join('')}
+                            </ul>
+                        </div>
+                    `;
+                }
+
+                if (missionHints.length > 0) {
+                    html += `
+                        <div class="bg-amber-950/40 border border-amber-500/50 rounded-2xl p-4">
+                            <h3 class="text-sm font-black text-amber-300 uppercase mb-2 flex items-center gap-2">
+                                <span>🎯</span> Müşteri İhtiyacı ve Bütçe İpuçları
+                            </h3>
+                            <ul class="space-y-2 text-xs md:text-sm text-slate-200">
+                                ${missionHints.map(h => `<li class="flex items-start gap-2"><span class="text-amber-400 font-bold">→</span><span>${h}</span></li>`).join('')}
+                            </ul>
+                        </div>
+                    `;
+                }
+
+                bodyEl.innerHTML = html;
+            } else {
+                // BAŞARILI KURULUM — TAMAMLANMIŞ BİLGİSAYAR GÖRSELİ VE SİSTEM ÖZETİ
+                iconEl.textContent = '🏆';
+                iconEl.className = 'w-14 h-14 rounded-2xl flex items-center justify-center text-3xl shrink-0 bg-emerald-500/20 border border-emerald-500/40';
+                badgeEl.textContent = 'Görev Başarıyla Tamamlandı!';
+                badgeEl.className = 'text-xs font-black uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300';
+                titleEl.textContent = 'Tebrikler Usta Teknisyen! Bilgisayar Hazır!';
+                subEl.textContent = `${mission.title} için bütçeyi aşmadan, uyumlu ve ihtiyacı tam karşılayan bir bilgisayar kurdun.`;
+
+                if (currentMissionIndex < MISSIONS.length - 1) {
+                    nextBtn.classList.remove('hidden');
+                } else {
+                    nextBtn.classList.add('hidden');
+                }
+
+                const savings = mission.budget - totalCost;
+
+                // Seçilen parçaların özet listesi
+                const summaryRows = CATEGORIES.map(cat => {
+                    const p = installedParts[cat.id];
+                    return `
+                        <div class="bg-slate-800/80 border border-slate-700 rounded-xl p-2.5 flex items-start gap-2.5">
+                            <div class="shrink-0 mt-0.5">${PART_SVGS[cat.id]}</div>
+                            <div class="min-w-0 flex-1">
+                                <div class="flex items-center justify-between gap-2">
+                                    <span class="text-xs font-black text-cyan-300">${cat.name} (${cat.zone === 'internal' ? 'İç Donanım' : 'Dış Donanım'})</span>
+                                    <span class="text-xs font-extrabold text-emerald-400">${formatCurrency(p.price)}</span>
+                                </div>
+                                <div class="text-xs font-bold text-white">${p.name} <span class="text-[11px] text-amber-300 font-normal">(${p.specBadge})</span></div>
+                                <p class="text-[11px] text-slate-300 mt-0.5 leading-snug">${p.role}</p>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+
+                bodyEl.innerHTML = `
+                    <!-- Tamamlanmış Bilgisayar Görseli ve Ödül Özeti -->
+                    <div class="bg-gradient-to-r from-emerald-950/60 via-slate-900 to-cyan-950/60 border border-emerald-500/40 rounded-2xl p-4 flex flex-col md:flex-row items-center gap-4">
+                        <!-- Çalışan Bilgisayar SVG İllüstrasyonu -->
+                        <div class="w-40 h-32 bg-slate-950 rounded-2xl border border-emerald-500/40 flex items-center justify-center p-2 shrink-0 shadow-inner">
+                            <svg viewBox="0 0 160 110" class="w-full h-full">
+                                <!-- Kasa -->
+                                <rect x="112" y="15" width="34" height="72" rx="4" fill="#1e293b" stroke="#a855f7" stroke-width="2.5"/>
+                                <circle cx="129" cy="26" r="3" fill="#22c55e"/>
+                                <circle cx="129" cy="55" r="9" fill="#0f172a" stroke="#38bdf8" stroke-width="2"/>
+                                <!-- Monitör -->
+                                <rect x="18" y="16" width="82" height="54" rx="5" fill="#0f172a" stroke="#38bdf8" stroke-width="3"/>
+                                <rect x="23" y="21" width="72" height="44" rx="2" fill="#0284c7"/>
+                                <path d="M46 44l9 9l18-18" stroke="#4ade80" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M52 70v12M66 70v12M40 82h38" stroke="#94a3b8" stroke-width="3" stroke-linecap="round"/>
+                                <!-- Klavye & Fare -->
+                                <rect x="22" y="90" width="58" height="12" rx="2" fill="#334155" stroke="#cbd5e1" stroke-width="1.5"/>
+                                <rect x="88" y="89" width="12" height="14" rx="6" fill="#334155" stroke="#34d399" stroke-width="1.5"/>
+                            </svg>
+                        </div>
+
+                        <div class="flex-1 space-y-2 text-center md:text-left">
+                            <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-300 text-xs font-extrabold">
+                                🌟 Sistem Başarıyla Çalıştı! • Tek Doğru Yoktur, İhtiyaca Uygun Çözüm Vardır!
+                            </div>
+                            <p class="text-xs text-slate-300 leading-relaxed">
+                                Güç kaynağı (<strong>${psuCapacity}W</strong>) tüm parçalara güvenli enerji sağlıyor, depolama birimi (<strong>${installedParts.storage.storageType}</strong>) dosyaları kalıcı olarak saklıyor ve tüm iç/dış donanımlar uyum içinde çalışıyor.
+                            </p>
+                            <div class="grid grid-cols-3 gap-2 pt-1">
+                                <div class="bg-slate-950/70 p-2 rounded-xl border border-slate-800">
+                                    <div class="text-[10px] text-slate-400 uppercase font-bold">Toplam Maliyet</div>
+                                    <div class="text-sm font-black text-emerald-400">${formatCurrency(totalCost)}</div>
+                                </div>
+                                <div class="bg-slate-950/70 p-2 rounded-xl border border-slate-800">
+                                    <div class="text-[10px] text-slate-400 uppercase font-bold">Artan Bütçe</div>
+                                    <div class="text-sm font-black text-cyan-400">${formatCurrency(savings)}</div>
+                                </div>
+                                <div class="bg-slate-950/70 p-2 rounded-xl border border-slate-800">
+                                    <div class="text-[10px] text-slate-400 uppercase font-bold">Enerji Dengesi</div>
+                                    <div class="text-sm font-black text-amber-400">${totalPowerNeeded}W / ${psuCapacity}W</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Sistem Özeti Başlığı -->
+                    <div>
+                        <h3 class="text-sm font-black text-white uppercase tracking-wider mb-2 flex items-center gap-2">
+                            <span>📋</span> SEÇİLEN DONANIM PARÇALARI VE GÖREVLERİ (SİSTEM ÖZETİ)
+                        </h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-2.5">
+                            ${summaryRows}
+                        </div>
+                    </div>
+                `;
+            }
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('result-modal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+
+        function goToNextMission() {
+            closeModal();
+            if (currentMissionIndex < MISSIONS.length - 1) {
+                resetBuild();
+                selectMission(currentMissionIndex + 1);
+            }
+        }
+    </script>
+</body>
+</html>

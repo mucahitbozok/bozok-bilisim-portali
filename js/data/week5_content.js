@@ -1558,6 +1558,36 @@ window.WEEK5_CONTENT = {
 
     extraGames: [
         {
+            badge: "Simülasyon",
+            badgeColor: "text-amber-300",
+            title: "Bilgisayar Kurma Atölyesi",
+            desc: "Müşteri talebine ve bütçeye göre doğru donanım parçalarını seç, montaj yuvalarına yerleştir ve bilgisayarı başarıyla çalıştır!",
+            icon: "fa-solid fa-screwdriver-wrench",
+            iconBg: "bg-amber-500/30 text-amber-300",
+            cardGradient: "from-slate-900 via-amber-950/80 to-cyan-950/90",
+            border: "border-amber-500/50",
+            descColor: "text-amber-100",
+            btnText: "Atölyeye Gir!",
+            btnIcon: "fa-solid fa-wrench",
+            btnGradient: "from-amber-500 via-orange-500 to-cyan-600 hover:from-amber-400 hover:to-cyan-500 text-slate-950 font-black",
+            action: "app.openStandaloneGame('games/bilgisayar_kurma_at_lyesi.html', 'Bilgisayar Kurma Atölyesi | Öğretmen Bozok')"
+        },
+        {
+            badge: "3D Hafıza",
+            badgeColor: "text-emerald-300",
+            title: "Donanım Avcıları: 3D Eşleştirme Oyunu",
+            desc: "Parça ↔ Görevi veya Parça ↔ Parça modlarında 3D kartları çevir! Kolay, orta ve zor seviyelerde donanım parçalarını hafızanla eşleştir.",
+            icon: "fa-solid fa-clone",
+            iconBg: "bg-emerald-500/30 text-emerald-300",
+            cardGradient: "from-indigo-950/90 via-slate-900 to-emerald-950/90",
+            border: "border-emerald-500/50",
+            descColor: "text-emerald-100",
+            btnText: "Eşleştirmeye Başla!",
+            btnIcon: "fa-solid fa-play",
+            btnGradient: "from-emerald-600 via-teal-600 to-indigo-600 hover:from-emerald-500 hover:to-indigo-500 text-white font-black",
+            action: "app.openStandaloneGame('games/Donanım-eslestirme-Oyunu.html', 'Donanım Avcıları | Öğretmen Bozok')"
+        },
+        {
             badge: "Kelime Avı",
             badgeColor: "text-cyan-300",
             title: "Bilgisayar ve Donanım Kelime Avı",
