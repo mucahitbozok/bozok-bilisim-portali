@@ -1,0 +1,929 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Donanım Ayıklama İstasyonu: Giriş, Çıkış ve Çift Yönlü Birimler | Öğretmen Bozok</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- Tailwind CSS (CDN) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Canvas Confetti -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <style>
+        * {
+            box-sizing: border-box;
+            user-select: none;
+            -webkit-user-select: none;
+            font-family: 'Nunito', system-ui, -apple-system, sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        h1, h2, h3, .font-heading {
+            font-family: 'Fredoka', 'Nunito', sans-serif;
+        }
+
+        html, body {
+            background-color: #060a14;
+            color: #f8fafc;
+            min-height: 100vh;
+            min-height: 100dvh;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+        }
+
+        @media (min-width: 1024px) {
+            html, body {
+                height: 100vh;
+                height: 100dvh;
+                overflow: hidden;
+            }
+        }
+
+        /* Cam Panel Efekti */
+        .glass-panel {
+            background: rgba(12, 19, 35, 0.9);
+            backdrop-filter: blur(14px);
+            border: 1px solid rgba(56, 189, 248, 0.2);
+        }
+
+        /* 3 Kategori Sepeti Stilleri */
+        .category-bin {
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            cursor: pointer;
+        }
+        .category-bin:hover {
+            transform: translateY(-4px);
+        }
+        .category-bin:active {
+            transform: scale(0.98);
+        }
+        .category-bin.bin-giris:hover, .category-bin.bin-giris.drag-over {
+            border-color: #10b981 !important;
+            box-shadow: 0 0 25px rgba(16, 185, 129, 0.45);
+        }
+        .category-bin.bin-cikis:hover, .category-bin.bin-cikis.drag-over {
+            border-color: #0284c7 !important;
+            box-shadow: 0 0 25px rgba(2, 132, 199, 0.45);
+        }
+        .category-bin.bin-cift:hover, .category-bin.bin-cift.drag-over {
+            border-color: #a855f7 !important;
+            box-shadow: 0 0 25px rgba(168, 85, 247, 0.45);
+        }
+
+        /* Aktif Donanım Kartı */
+        .active-card {
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.7);
+        }
+        .active-card:hover {
+            transform: scale(1.02);
+        }
+
+        /* Animasyonlar */
+        @keyframes flyIntoGiris {
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(0.8) translate(-150px, 100px); opacity: 0.8; }
+            100% { transform: scale(0.2) translate(-300px, 200px); opacity: 0; }
+        }
+        @keyframes flyIntoCikis {
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(0.8) translate(0, 100px); opacity: 0.8; }
+            100% { transform: scale(0.2) translate(0, 200px); opacity: 0; }
+        }
+        @keyframes flyIntoCift {
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(0.8) translate(150px, 100px); opacity: 0.8; }
+            100% { transform: scale(0.2) translate(300px, 200px); opacity: 0; }
+        }
+
+        .fly-giris { animation: flyIntoGiris 0.35s forwards; }
+        .fly-cikis { animation: flyIntoCikis 0.35s forwards; }
+        .fly-cift { animation: flyIntoCift 0.35s forwards; }
+
+        @keyframes shakeErr {
+            0%, 100% { transform: translateX(0); }
+            20% { transform: translateX(-8px); }
+            40% { transform: translateX(8px); }
+            60% { transform: translateX(-6px); }
+            80% { transform: translateX(6px); }
+        }
+        .animate-shake {
+            animation: shakeErr 0.45s ease-in-out;
+        }
+
+        @keyframes popIn {
+            0% { transform: scale(0.9); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        .animate-pop {
+            animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #090d16;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #1e293b;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #334155;
+        }
+    </style>
+</head>
+<body class="flex flex-col h-full w-full justify-between p-2 sm:p-3 overflow-x-hidden">
+
+    <!-- ÜST BAR: BAŞLIK, PUAN, KOMBO, SÜRE VE KONTROLLER -->
+    <header class="w-full max-w-7xl mx-auto shrink-0 mb-2">
+        <div class="glass-panel rounded-2xl p-2.5 sm:p-3 shadow-xl flex flex-wrap items-center justify-between gap-2.5 border border-cyan-500/30">
+            
+            <!-- Logo ve Başlık -->
+            <div class="flex items-center gap-2.5 sm:gap-3 text-left">
+                <div class="w-9 h-9 sm:w-11 sm:h-11 rounded-2xl bg-gradient-to-tr from-emerald-500 via-cyan-500 to-indigo-600 flex items-center justify-center text-white text-lg sm:text-2xl shadow-lg shadow-cyan-500/30 shrink-0">
+                    <i class="fa-solid fa-boxes-packing"></i>
+                </div>
+                <div>
+                    <div class="flex items-center gap-1.5 flex-wrap">
+                        <span class="text-[9px] sm:text-[10px] font-black uppercase tracking-wider px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
+                            5. KONU - 1 • BTY.5.1.5
+                        </span>
+                        <span class="text-[9px] sm:text-[10px] font-black uppercase tracking-wider px-2 py-0.5 rounded-full bg-cyan-500/20 text-cyan-300 border border-cyan-500/30">
+                            ⚡ Giriş • Çıkış • Çift Yönlü
+                        </span>
+                    </div>
+                    <h1 class="text-sm sm:text-lg md:text-xl font-bold text-white tracking-wide leading-tight">
+                        Donanım Ayıklama İstasyonu
+                    </h1>
+                </div>
+            </div>
+
+            <!-- Canlı İlerleme, Puan, Kombo ve Süre -->
+            <div class="flex items-center gap-2 sm:gap-3 flex-wrap">
+                <!-- İlerleme -->
+                <div class="bg-slate-900/90 border border-slate-700/80 px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-xl flex items-center gap-2">
+                    <i class="fa-solid fa-layer-group text-cyan-400 text-xs sm:text-sm"></i>
+                    <div>
+                        <span class="text-[9px] text-slate-400 font-bold uppercase block leading-none">Cihaz</span>
+                        <span id="progress-display" class="text-xs sm:text-sm font-black text-white">1 / 18</span>
+                    </div>
+                </div>
+
+                <!-- Puan -->
+                <div class="bg-slate-900/90 border border-slate-700/80 px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-xl flex items-center gap-2">
+                    <i class="fa-solid fa-star text-amber-400 text-xs sm:text-sm"></i>
+                    <div>
+                        <span class="text-[9px] text-slate-400 font-bold uppercase block leading-none">Puan</span>
+                        <span id="score-display" class="text-xs sm:text-sm font-black text-amber-300">0</span>
+                    </div>
+                </div>
+
+                <!-- Kombo -->
+                <div class="bg-slate-900/90 border border-slate-700/80 px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-xl flex items-center gap-2">
+                    <i class="fa-solid fa-fire text-rose-500 text-xs sm:text-sm animate-pulse"></i>
+                    <div>
+                        <span class="text-[9px] text-slate-400 font-bold uppercase block leading-none">Kombo</span>
+                        <span id="combo-display" class="text-xs sm:text-sm font-black text-rose-400">x1</span>
+                    </div>
+                </div>
+
+                <!-- Süre -->
+                <div class="bg-slate-900/90 border border-slate-700/80 px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-xl flex items-center gap-2">
+                    <i class="fa-solid fa-clock text-indigo-400 text-xs sm:text-sm"></i>
+                    <div>
+                        <span class="text-[9px] text-slate-400 font-bold uppercase block leading-none">Süre</span>
+                        <span id="timer-display" class="text-xs sm:text-sm font-black text-slate-200">00:00</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sağ Kontroller -->
+            <div class="flex items-center gap-1.5 sm:gap-2">
+                <button onclick="game.giveHint()" class="px-2.5 sm:px-3 py-1.5 rounded-xl bg-amber-500/20 hover:bg-amber-500/30 border border-amber-500/40 text-amber-300 font-bold text-xs flex items-center gap-1.5 transition-all active:scale-95" title="İpucu Al">
+                    <i class="fa-solid fa-lightbulb text-amber-400"></i>
+                    <span class="hidden sm:inline">İpucu</span>
+                </button>
+                <button onclick="game.restartGame()" class="px-2.5 sm:px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 font-bold text-xs flex items-center gap-1.5 transition-all active:scale-95" title="Yeniden Başlat">
+                    <i class="fa-solid fa-rotate-right"></i>
+                    <span class="hidden md:inline">Sıfırla</span>
+                </button>
+                <button onclick="game.toggleAudio()" class="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-slate-800 hover:bg-slate-700 text-yellow-400 border border-slate-700 flex items-center justify-center transition-all" title="Ses Aç/Kapat">
+                    <i id="audio-icon" class="fa-solid fa-volume-high text-xs sm:text-sm"></i>
+                </button>
+                <button onclick="game.toggleFullscreen()" class="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 flex items-center justify-center transition-all" title="Tam Ekran">
+                    <i class="fa-solid fa-expand text-xs sm:text-sm"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- ETKİLEŞİMLİ YÖNERGE BANNERI -->
+    <div id="instruction-bar" class="w-full max-w-7xl mx-auto shrink-0 mb-2 px-1 flex items-center justify-between text-xs text-slate-300 font-medium">
+        <div class="flex items-center gap-2">
+            <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping"></span>
+            <span id="instruction-text" class="text-emerald-200 font-bold">
+                👉 Ortadaki donanım cihazını incele ve alttaki 3 kategoriden doğru olan kutuyu seç!
+            </span>
+        </div>
+        <span class="text-[11px] text-slate-400 hidden lg:inline">
+            💡 Akıllı tahtada kutulara doğrudan dokunabilir veya klavyedeki 1, 2, 3 tuşlarına basabilirsin!
+        </span>
+    </div>
+
+    <!-- ANA SAHNE: ÜSTTE AKTİF DONANIM KARTI • ALTTA 3 AYIKLAMA KUTUSU -->
+    <main class="flex-1 min-h-0 w-full max-w-7xl mx-auto flex flex-col justify-between gap-3">
+
+        <!-- 1. ÜST ALAN: AKTİF DONANIM KARTI & İPUCU PANELİ -->
+        <section class="flex-1 min-h-[170px] max-h-[260px] flex items-center justify-center relative">
+            <div id="card-stage" class="w-full max-w-2xl px-2">
+                <!-- Aktif Kart JS ile yüklenecek -->
+            </div>
+        </section>
+
+        <!-- 2. ALT ALAN: 3 KATEGORİ AYIKLAMA İSTASYONU (KUTULARI) -->
+        <section class="grid grid-cols-1 md:grid-cols-3 gap-2.5 sm:gap-4 shrink-0 pb-1">
+
+            <!-- 🟢 KUTU 1: GİRİŞ BİRİMLERİ -->
+            <div id="bin-giris" 
+                 onclick="game.classifyCurrentItem('giris')"
+                 class="category-bin bin-giris glass-panel rounded-3xl p-3 sm:p-4 border-2 border-emerald-500/40 bg-gradient-to-b from-emerald-950/40 to-slate-900/90 flex flex-col justify-between gap-2 shadow-xl group">
+                
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center gap-2 sm:gap-2.5">
+                        <div class="w-10 h-10 sm:w-11 sm:h-11 rounded-2xl bg-emerald-500 text-slate-950 flex items-center justify-center text-lg sm:text-xl font-black shadow-lg shadow-emerald-500/30 group-hover:scale-110 transition-transform">
+                            <i class="fa-solid fa-arrow-right-to-bracket"></i>
+                        </div>
+                        <div>
+                            <span class="text-[9px] font-black uppercase tracking-wider text-emerald-400 block leading-none">Veri Girişi</span>
+                            <h3 class="text-sm sm:text-base md:text-lg font-black text-white">GİRİŞ BİRİMLERİ</h3>
+                        </div>
+                    </div>
+                    <span id="badge-count-giris" class="px-2.5 py-1 rounded-xl bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 text-xs font-black">
+                        0 Parça
+                    </span>
+                </div>
+
+                <p class="text-[11px] text-emerald-100/70 font-medium leading-relaxed">
+                    Dış dünyadaki komut, ses, görüntü veya metinleri <strong>bilgisayara aktaran</strong> aygıtlar.
+                </p>
+
+                <!-- Sepetteki Parçaların Minik Rozetleri -->
+                <div id="chips-giris" class="flex flex-wrap gap-1 max-h-16 overflow-y-auto pt-1 border-t border-emerald-500/20">
+                    <!-- JS ile doldurulacak -->
+                </div>
+
+                <button class="w-full py-2 bg-emerald-600 hover:bg-emerald-500 text-slate-950 font-black text-xs sm:text-sm rounded-xl shadow-md transition-all flex items-center justify-center gap-2 mt-1">
+                    <span>GİRİŞ BİRİMİDİR</span>
+                    <i class="fa-solid fa-check"></i>
+                </button>
+            </div>
+
+            <!-- 🔵 KUTU 2: ÇIKIŞ BİRİMLERİ -->
+            <div id="bin-cikis" 
+                 onclick="game.classifyCurrentItem('cikis')"
+                 class="category-bin bin-cikis glass-panel rounded-3xl p-3 sm:p-4 border-2 border-cyan-500/40 bg-gradient-to-b from-blue-950/40 to-slate-900/90 flex flex-col justify-between gap-2 shadow-xl group">
+                
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center gap-2 sm:gap-2.5">
+                        <div class="w-10 h-10 sm:w-11 sm:h-11 rounded-2xl bg-cyan-500 text-slate-950 flex items-center justify-center text-lg sm:text-xl font-black shadow-lg shadow-cyan-500/30 group-hover:scale-110 transition-transform">
+                            <i class="fa-solid fa-arrow-right-from-bracket"></i>
+                        </div>
+                        <div>
+                            <span class="text-[9px] font-black uppercase tracking-wider text-cyan-400 block leading-none">Veri Çıkışı</span>
+                            <h3 class="text-sm sm:text-base md:text-lg font-black text-white">ÇIKIŞ BİRİMLERİ</h3>
+                        </div>
+                    </div>
+                    <span id="badge-count-cikis" class="px-2.5 py-1 rounded-xl bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 text-xs font-black">
+                        0 Parça
+                    </span>
+                </div>
+
+                <p class="text-[11px] text-cyan-100/70 font-medium leading-relaxed">
+                    Bilgisayarda işlenen bilgileri, sesleri ve görüntüleri <strong>bize sunan</strong> aygıtlar.
+                </p>
+
+                <!-- Sepetteki Parçaların Minik Rozetleri -->
+                <div id="chips-cikis" class="flex flex-wrap gap-1 max-h-16 overflow-y-auto pt-1 border-t border-cyan-500/20">
+                    <!-- JS ile doldurulacak -->
+                </div>
+
+                <button class="w-full py-2 bg-cyan-600 hover:bg-cyan-500 text-slate-950 font-black text-xs sm:text-sm rounded-xl shadow-md transition-all flex items-center justify-center gap-2 mt-1">
+                    <span>ÇIKIŞ BİRİMİDİR</span>
+                    <i class="fa-solid fa-check"></i>
+                </button>
+            </div>
+
+            <!-- 🟣 KUTU 3: HEM GİRİŞ HEM ÇIKIŞ BİRİMLERİ -->
+            <div id="bin-cift" 
+                 onclick="game.classifyCurrentItem('cift')"
+                 class="category-bin bin-cift glass-panel rounded-3xl p-3 sm:p-4 border-2 border-purple-500/40 bg-gradient-to-b from-purple-950/40 to-slate-900/90 flex flex-col justify-between gap-2 shadow-xl group">
+                
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center gap-2 sm:gap-2.5">
+                        <div class="w-10 h-10 sm:w-11 sm:h-11 rounded-2xl bg-purple-500 text-white flex items-center justify-center text-lg sm:text-xl font-black shadow-lg shadow-purple-500/30 group-hover:scale-110 transition-transform">
+                            <i class="fa-solid fa-right-left"></i>
+                        </div>
+                        <div>
+                            <span class="text-[9px] font-black uppercase tracking-wider text-purple-400 block leading-none">İki Yönlü</span>
+                            <h3 class="text-sm sm:text-base md:text-lg font-black text-white">HEM GİRİŞ HEM ÇIKIŞ</h3>
+                        </div>
+                    </div>
+                    <span id="badge-count-cift" class="px-2.5 py-1 rounded-xl bg-purple-500/20 text-purple-300 border border-purple-500/40 text-xs font-black">
+                        0 Parça
+                    </span>
+                </div>
+
+                <p class="text-[11px] text-purple-100/70 font-medium leading-relaxed">
+                    Hem bilgisayara veri gönderen hem de bilgisayardan veri alabilen <strong>çift yönlü</strong> aygıtlar.
+                </p>
+
+                <!-- Sepetteki Parçaların Minik Rozetleri -->
+                <div id="chips-cift" class="flex flex-wrap gap-1 max-h-16 overflow-y-auto pt-1 border-t border-purple-500/20">
+                    <!-- JS ile doldurulacak -->
+                </div>
+
+                <button class="w-full py-2 bg-purple-600 hover:bg-purple-500 text-white font-black text-xs sm:text-sm rounded-xl shadow-md transition-all flex items-center justify-center gap-2 mt-1">
+                    <span>ÇİFT YÖNLÜ BİRİMDİR</span>
+                    <i class="fa-solid fa-check"></i>
+                </button>
+            </div>
+
+        </section>
+
+    </main>
+
+    <!-- ALT BİLGİ -->
+    <footer class="w-full max-w-7xl mx-auto shrink-0 pt-1.5 border-t border-slate-800/80 text-[11px] text-slate-500 flex items-center justify-between">
+        <div class="flex items-center gap-2">
+            <i class="fa-solid fa-shield-halved text-cyan-400"></i>
+            <span>BTY.5.1.5 - Bilgisayar sistemlerini çözümleyebilme & Veri Alışveriş Yönü</span>
+        </div>
+        <div>
+            Bozok Bilişim Portalı &copy; 2026 - Tüm Hakları Saklıdır
+        </div>
+    </footer>
+
+    <!-- MODAL: KAZANDIN / BAŞARI RAPORU -->
+    <div id="modal-victory" class="hidden fixed inset-0 z-50 bg-slate-950/85 backdrop-blur-md flex items-center justify-center p-4">
+        <div class="glass-panel max-w-md w-full rounded-3xl p-6 sm:p-8 text-center space-y-5 border-2 border-emerald-400 shadow-2xl animate-pop">
+            <div class="w-20 h-20 mx-auto rounded-3xl bg-gradient-to-tr from-emerald-500 via-teal-400 to-cyan-500 flex items-center justify-center text-slate-950 text-4xl shadow-xl shadow-emerald-500/40 animate-bounce">
+                🏆
+            </div>
+            <div class="space-y-1.5">
+                <span class="px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-300 font-black text-xs uppercase tracking-wider border border-emerald-400/30">
+                    MÜKEMMEL AYIKLAMA!
+                </span>
+                <h3 class="text-2xl sm:text-3xl font-black text-white">Tüm Donanımlar Sınıflandırıldı!</h3>
+                <p class="text-xs sm:text-sm text-slate-300">
+                    Giriş, Çıkış ve Çift Yönlü 18 farklı donanım birimini başarıyla doğru kutulara yerleştirdin!
+                </p>
+            </div>
+
+            <!-- Karne İstatistikleri -->
+            <div class="grid grid-cols-3 gap-2.5 bg-slate-900/90 p-3 rounded-2xl border border-slate-800 text-center">
+                <div class="p-2 bg-slate-950/80 rounded-xl">
+                    <span class="text-[10px] text-slate-400 font-bold uppercase block">Puan</span>
+                    <span id="victory-score" class="text-lg font-black text-amber-300">1800</span>
+                </div>
+                <div class="p-2 bg-slate-950/80 rounded-xl">
+                    <span class="text-[10px] text-slate-400 font-bold uppercase block">Maks Kombo</span>
+                    <span id="victory-combo" class="text-lg font-black text-rose-400">x5</span>
+                </div>
+                <div class="p-2 bg-slate-950/80 rounded-xl">
+                    <span class="text-[10px] text-slate-400 font-bold uppercase block">Süre</span>
+                    <span id="victory-time" class="text-lg font-black text-cyan-300">01:15</span>
+                </div>
+            </div>
+
+            <!-- Butonlar -->
+            <div class="flex items-center gap-3 pt-2">
+                <button onclick="game.restartGame(); document.getElementById('modal-victory').classList.add('hidden');" class="flex-1 py-3 bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-400 hover:to-teal-500 text-slate-950 font-black rounded-2xl shadow-lg transition-all active:scale-95 text-sm flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-rotate-right"></i>
+                    <span>Tekrar Oyna</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- SES MOTORU & OYUN MANTIĞI -->
+    <script>
+        class SoundEngine {
+            constructor() {
+                this.ctx = null;
+                this.muted = false;
+            }
+            init() {
+                if (!this.ctx) {
+                    const AudioCtx = window.AudioContext || window.webkitAudioContext;
+                    if (AudioCtx) this.ctx = new AudioCtx();
+                }
+            }
+            playTone(freq, type, duration, gainVal = 0.15) {
+                if (this.muted) return;
+                this.init();
+                if (!this.ctx) return;
+                try {
+                    const osc = this.ctx.createOscillator();
+                    const gain = this.ctx.createGain();
+                    osc.type = type;
+                    osc.frequency.setValueAtTime(freq, this.ctx.currentTime);
+                    gain.gain.setValueAtTime(gainVal, this.ctx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.0001, this.ctx.currentTime + duration);
+                    osc.connect(gain);
+                    gain.connect(this.ctx.destination);
+                    osc.start();
+                    osc.stop(this.ctx.currentTime + duration);
+                } catch(e) {}
+            }
+            playClick() { this.playTone(650, 'sine', 0.05, 0.1); }
+            playCorrect() {
+                this.playTone(523, 'triangle', 0.1, 0.2);
+                setTimeout(() => this.playTone(659, 'triangle', 0.1, 0.2), 80);
+                setTimeout(() => this.playTone(784, 'triangle', 0.15, 0.25), 150);
+                setTimeout(() => this.playTone(1046, 'sine', 0.25, 0.25), 230);
+            }
+            playWrong() {
+                this.playTone(220, 'sawtooth', 0.2, 0.2);
+            }
+            playVictory() {
+                const notes = [523, 659, 784, 1046, 1318];
+                notes.forEach((n, idx) => {
+                    setTimeout(() => this.playTone(n, 'triangle', 0.28, 0.25), idx * 120);
+                });
+            }
+        }
+
+        const sounds = new SoundEngine();
+
+        // ==========================================
+        // MEB 5. SINIF DONANIM CİHAZLARI HAVUZU (18 Cihaz)
+        // ==========================================
+        const HARDWARE_ITEMS = [
+            // 🟢 GİRİŞ BİRİMLERİ (8 Cihaz)
+            {
+                id: "klavye",
+                name: "Klavye (Keyboard)",
+                type: "giris",
+                icon: "fa-solid fa-keyboard",
+                color: "#10b981",
+                question: "Üzerindeki tuşlarla bilgisayara yazı, sayı ve komut girmemizi sağlar.",
+                desc: "Klavye, dış dünyadan bilgisayara veri soktuğu için temel GİRİŞ birimidir."
+            },
+            {
+                id: "fare",
+                name: "Fare (Mouse)",
+                type: "giris",
+                icon: "fa-solid fa-computer-mouse",
+                color: "#10b981",
+                question: "Ekrandaki imleci yöneterek tıklama ve sürükleme komutlarını bilgisayara iletir.",
+                desc: "Fare, kullanıcının hareket ve tıklama komutlarını bilgisayara gönderen GİRİŞ birimidir."
+            },
+            {
+                id: "mikrofon",
+                name: "Mikrofon",
+                type: "giris",
+                icon: "fa-solid fa-microphone",
+                color: "#10b981",
+                question: "Konuştuğumuz ses dalgalarını dijital elektrik sinyaline çevirip bilgisayara aktarır.",
+                desc: "Mikrofon, dış ortamdaki sesi bilgisayara kaydettiği için GİRİŞ birimidir."
+            },
+            {
+                id: "webcam",
+                name: "Web Kamerası",
+                type: "giris",
+                icon: "fa-solid fa-video",
+                color: "#10b981",
+                question: "Canlı derslerde ve görüşmelerde yüzümüzün videosunu yakalayıp bilgisayara aktarır.",
+                desc: "Kamera, dışarıdaki görüntüyü bilgisayarın içine aktardığı için GİRİŞ birimidir."
+            },
+            {
+                id: "tarayici",
+                name: "Tarayıcı (Scanner)",
+                type: "giris",
+                icon: "fa-solid fa-file-arrow-up",
+                color: "#10b981",
+                question: "Kağıt üzerindeki resim ve belgeleri tarayarak bilgisayara dijital dosya olarak aktarır.",
+                desc: "Tarayıcı (Scanner), basılı bir kağıdı bilgisayar ortamına soktuğu için GİRİŞ birimidir."
+            },
+            {
+                id: "gamepad",
+                name: "Oyun Kolu (Gamepad / Joystick)",
+                type: "giris",
+                icon: "fa-solid fa-gamepad",
+                color: "#10b981",
+                question: "Oyun oynarken karakteri yönlendirmek ve buton komutlarını iletmek için kullanılır.",
+                desc: "Oyun kolları, oyuncunun hareketlerini bilgisayara gönderen GİRİŞ birimidir."
+            },
+            {
+                id: "barkod",
+                name: "Barkod Okuyucu",
+                type: "giris",
+                icon: "fa-solid fa-barcode",
+                color: "#10b981",
+                question: "Market kasalarında ürünlerin üzerindeki çizgili kodları okuyup bilgisayara gönderir.",
+                desc: "Barkod okuyucu, optik çizgileri okuyup bilgisayara veri girdiği için GİRİŞ birimidir."
+            },
+            {
+                id: "grafik_tablet",
+                name: "Grafik Çizim Tableti",
+                type: "giris",
+                icon: "fa-solid fa-pen-nib",
+                color: "#10b981",
+                question: "Tasarımcıların özel kalemiyle çizim yapıp bilgisayara aktarmasını sağlar.",
+                desc: "Grafik tablet, el hareketlerimizi bilgisayara aktaran hassas bir GİRİŞ birimidir."
+            },
+
+            // 🔵 ÇIKIŞ BİRİMLERİ (6 Cihaz)
+            {
+                id: "monitor",
+                name: "Monitör (Ekran)",
+                type: "cikis",
+                icon: "fa-solid fa-desktop",
+                color: "#0284c7",
+                question: "Bilgisayarda işlenen bilgileri, oyunları ve videoları görsel olarak bize sunar.",
+                desc: "Monitör, bilgisayardaki verileri gözümüzün göreceği biçimde dışa aktaran ÇIKIŞ birimidir."
+            },
+            {
+                id: "hoparlor",
+                name: "Hoparlör",
+                type: "cikis",
+                icon: "fa-solid fa-volume-high",
+                color: "#0284c7",
+                question: "Bilgisayardaki dijital ses sinyallerini kulaklarımızın duyabileceği sese çevirir.",
+                desc: "Hoparlör, sesi bilgisayardan dış ortama aktardığı için ÇIKIŞ birimidir."
+            },
+            {
+                id: "kulaklik",
+                name: "Kulaklık",
+                type: "cikis",
+                icon: "fa-solid fa-headphones",
+                color: "#0284c7",
+                question: "Bilgisayardaki sesleri başkalarını rahatsız etmeden bireysel dinlememizi sağlar.",
+                desc: "Kulaklık, bilgisayardaki sesi kulağımıza ulaştıran ÇIKIŞ birimidir."
+            },
+            {
+                id: "yazici",
+                name: "Yazıcı (Printer)",
+                type: "cikis",
+                icon: "fa-solid fa-print",
+                color: "#0284c7",
+                question: "Bilgisayarda hazırladığımız ödev, yazı ve fotoğrafları kağıda basarak dışa aktarır.",
+                desc: "Yazıcı, dijital belgeleri somut kağıt çıktısına dönüştürdüğü için ÇIKIŞ birimidir."
+            },
+            {
+                id: "projeksiyon",
+                name: "Projeksiyon Cihazı",
+                type: "cikis",
+                icon: "fa-solid fa-film",
+                color: "#0284c7",
+                question: "Bilgisayar ekranındaki görüntüyü duvara veya sınıftaki büyük perdeye yansıtır.",
+                desc: "Projeksiyon, görüntüyü duvara/perdeye aktaran dev bir ÇIKIŞ birimidir."
+            },
+            {
+                id: "3d_yazici",
+                name: "3D Yazıcı (3 Boyutlu Yazıcı)",
+                type: "cikis",
+                icon: "fa-solid fa-cubes",
+                color: "#0284c7",
+                question: "Bilgisayarda tasarlanan 3 boyutlu modelleri eritilmiş plastikle katman katman üretir.",
+                desc: "3D yazıcı, dijital nesneleri gerçek fiziksel objeye dönüştüren ÇIKIŞ birimidir."
+            },
+
+            // 🟣 HEM GİRİŞ HEM ÇIKIŞ BİRİMLERİ (4 Cihaz)
+            {
+                id: "dokunmatik_ekran",
+                name: "Dokunmatik Ekran",
+                type: "cift",
+                icon: "fa-solid fa-mobile-screen",
+                color: "#a855f7",
+                question: "Görüntüyü ekrana yansıtır (ÇIKIŞ), parmağımızla dokunduğumuzda komut alır (GİRİŞ).",
+                desc: "Dokunmatik ekran hem görüntü verir hem dokunuş komutu alır; ÇİFT YÖNLÜ birimdir!"
+            },
+            {
+                id: "usb_bellek",
+                name: "USB Flash Bellek",
+                type: "cift",
+                icon: "fa-solid fa-usb",
+                color: "#a855f7",
+                question: "İçindeki dosyalar bilgisayara aktarılır (okuma) ve yeni dosyalar içine kaydedilir (yazma).",
+                desc: "USB bellek, hem veri aktarılan hem veri okunan ÇİFT YÖNLÜ depolama birimidir."
+            },
+            {
+                id: "harici_disk",
+                name: "Harici Sabit Disk (External HDD)",
+                type: "cift",
+                icon: "fa-solid fa-hard-drive",
+                color: "#a855f7",
+                question: "Geniş kapasitesiyle bilgisayardan dosya depolar ve gerektiğinde dosyaları bilgisayara geri yükler.",
+                desc: "Harici disk, iki yönlü dosya alışverişi yaptığı için ÇİFT YÖNLÜ birimdir."
+            },
+            {
+                id: "modem",
+                name: "Modem / Ağ Kartı",
+                type: "cift",
+                icon: "fa-solid fa-wifi",
+                color: "#a855f7",
+                question: "İnternetten gelen verileri indirir (download) ve gönderdiğimiz mesajları internete yükler (upload).",
+                desc: "Modem/Ağ kartı, iki yönlü veri trafiği sağlayan ÇİFT YÖNLÜ iletişim birimidir."
+            }
+        ];
+
+        // ==========================================
+        // OYUN YÖNETİCİSİ (Game Controller)
+        // ==========================================
+        class HardwareSortingGame {
+            constructor() {
+                this.items = [];
+                this.currentIndex = 0;
+                this.score = 0;
+                this.combo = 1;
+                this.maxCombo = 1;
+                this.mistakes = 0;
+                this.startTime = null;
+                this.timerInterval = null;
+                this.isAnimating = false;
+                
+                // Sepetlerde birikenler
+                this.bins = {
+                    giris: [],
+                    cikis: [],
+                    cift: []
+                };
+            }
+
+            init() {
+                this.restartGame();
+                this.setupKeyboardShortcuts();
+            }
+
+            restartGame() {
+                sounds.playClick();
+                // Havuzu karıştır
+                this.items = [...HARDWARE_ITEMS].sort(() => Math.random() - 0.5);
+                this.currentIndex = 0;
+                this.score = 0;
+                this.combo = 1;
+                this.maxCombo = 1;
+                this.mistakes = 0;
+                this.isAnimating = false;
+                this.bins = { giris: [], cikis: [], cift: [] };
+
+                this.updateUI();
+                this.renderCurrentCard();
+                this.renderAllChips();
+                this.startTimer();
+
+                this.setInstruction("👉 Ortadaki donanım cihazını incele ve alttaki 3 kategoriden doğru olan kutuyu seç!");
+            }
+
+            startTimer() {
+                if (this.timerInterval) clearInterval(this.timerInterval);
+                this.startTime = Date.now();
+                this.timerInterval = setInterval(() => {
+                    const elapsed = Math.floor((Date.now() - this.startTime) / 1000);
+                    const m = String(Math.floor(elapsed / 60)).padStart(2, '0');
+                    const s = String(elapsed % 60).padStart(2, '0');
+                    const el = document.getElementById('timer-display');
+                    if (el) el.innerText = `${m}:${s}`;
+                }, 1000);
+            }
+
+            // Aktif Donanım Kartını Sahneye Çiz
+            renderCurrentCard() {
+                const stage = document.getElementById('card-stage');
+                if (!stage) return;
+
+                if (this.currentIndex >= this.items.length) {
+                    stage.innerHTML = `
+                        <div class="glass-panel p-6 rounded-3xl text-center space-y-3 border-2 border-emerald-400 animate-pop">
+                            <i class="fa-solid fa-circle-check text-emerald-400 text-5xl animate-bounce"></i>
+                            <h3 class="text-xl font-black text-white">Tebrikler! Tüm Donanımlar Ayıklandı</h3>
+                            <p class="text-xs text-slate-300">Harika bir sonuç aldın!</p>
+                        </div>
+                    `;
+                    return;
+                }
+
+                const item = this.items[this.currentIndex];
+
+                stage.innerHTML = `
+                    <div id="active-hw-card" class="active-card glass-panel rounded-3xl p-4 sm:p-6 border-2 border-cyan-400/50 bg-gradient-to-tr from-slate-900 via-indigo-950/60 to-slate-900 flex flex-col sm:flex-row items-center gap-4 sm:gap-6 shadow-2xl animate-pop">
+                        
+                        <!-- Büyük İkon -->
+                        <div class="w-20 h-20 sm:w-24 sm:h-24 rounded-3xl bg-gradient-to-tr from-cyan-600 via-blue-600 to-indigo-600 flex items-center justify-center text-white text-3xl sm:text-4xl shadow-xl shadow-cyan-500/30 shrink-0 border-2 border-cyan-300/40">
+                            <i class="${item.icon}"></i>
+                        </div>
+
+                        <!-- Başlık ve Soru/Görev -->
+                        <div class="text-center sm:text-left space-y-1.5 flex-1 min-w-0">
+                            <div class="flex items-center justify-center sm:justify-start gap-2">
+                                <span class="px-2.5 py-0.5 rounded-full bg-cyan-500/20 text-cyan-300 border border-cyan-400/40 text-[10px] sm:text-xs font-black uppercase tracking-wider">
+                                    CİHAZ ${this.currentIndex + 1} / ${this.items.length}
+                                </span>
+                                <span class="text-[10px] text-slate-400 font-bold hidden sm:inline">
+                                    Veri Alışveriş Yönü Nedir?
+                                </span>
+                            </div>
+
+                            <h2 class="text-xl sm:text-2xl md:text-3xl font-black text-white tracking-wide truncate">
+                                ${item.name}
+                            </h2>
+
+                            <p class="text-xs sm:text-sm text-slate-200 leading-relaxed font-medium">
+                                “${item.question}”
+                            </p>
+                        </div>
+
+                    </div>
+                `;
+            }
+
+            // Seçilen Kategoriye Sınıflandırma
+            classifyCurrentItem(selectedType) {
+                if (this.isAnimating) return;
+                if (this.currentIndex >= this.items.length) return;
+
+                const item = this.items[this.currentIndex];
+                const cardEl = document.getElementById('active-hw-card');
+                const binEl = document.getElementById(`bin-${selectedType}`);
+
+                if (selectedType === item.type) {
+                    // DOĞRU SEÇİM!
+                    this.isAnimating = true;
+                    sounds.playCorrect();
+
+                    const pointsGained = 100 * this.combo;
+                    this.score += pointsGained;
+                    this.combo++;
+                    if (this.combo > this.maxCombo) this.maxCombo = this.combo;
+
+                    // Sepete ekle
+                    this.bins[selectedType].push(item);
+
+                    // Kartın sepet yönüne uçuş animasyonu
+                    if (cardEl) {
+                        cardEl.classList.add(`fly-${selectedType}`);
+                    }
+
+                    this.setInstruction(`🎉 HARİKA! ${item.name}: ${item.desc} (+${pointsGained} Puan)`);
+
+                    setTimeout(() => {
+                        this.currentIndex++;
+                        this.isAnimating = false;
+                        this.updateUI();
+                        this.renderCurrentCard();
+                        this.renderAllChips();
+
+                        if (this.currentIndex >= this.items.length) {
+                            setTimeout(() => this.finishGame(), 500);
+                        }
+                    }, 350);
+
+                } else {
+                    // YANLIŞ SEÇİM!
+                    sounds.playWrong();
+                    this.mistakes++;
+                    this.combo = 1;
+                    this.score = Math.max(0, this.score - 25);
+
+                    if (cardEl) cardEl.classList.add('animate-shake');
+                    if (binEl) binEl.classList.add('animate-shake');
+
+                    setTimeout(() => {
+                        if (cardEl) cardEl.classList.remove('animate-shake');
+                        if (binEl) binEl.classList.remove('animate-shake');
+                    }, 500);
+
+                    const correctTypeName = item.type === 'giris' 
+                        ? 'GİRİŞ BİRİMİ' 
+                        : (item.type === 'cikis' ? 'ÇIKIŞ BİRİMİ' : 'HEM GİRİŞ HEM ÇIKIŞ BİRİMİ');
+
+                    this.setInstruction(`⚠️ TEKRAR DÜŞÜN! ${item.name} bir "${correctTypeName}"dir! İpucu: ${item.desc}`, true);
+                    this.updateUI();
+                }
+            }
+
+            // İpucu Verme
+            giveHint() {
+                if (this.currentIndex >= this.items.length) return;
+                sounds.playClick();
+
+                const item = this.items[this.currentIndex];
+                const targetBin = document.getElementById(`bin-${item.type}`);
+
+                if (targetBin) {
+                    targetBin.classList.add('ring-4', 'ring-amber-400', 'animate-pulse');
+                    setTimeout(() => {
+                        targetBin.classList.remove('ring-4', 'ring-amber-400', 'animate-pulse');
+                    }, 2200);
+                }
+
+                this.setInstruction(`💡 İPUCU: ${item.desc}`);
+            }
+
+            // Sepetlerin İçindeki Minik Çipleri Güncelle
+            renderAllChips() {
+                ['giris', 'cikis', 'cift'].forEach(type => {
+                    const container = document.getElementById(`chips-${type}`);
+                    const badgeCount = document.getElementById(`badge-count-${type}`);
+                    if (!container) return;
+
+                    const list = this.bins[type];
+                    if (badgeCount) badgeCount.innerText = `${list.length} Parça`;
+
+                    container.innerHTML = list.map(item => `
+                        <span class="px-2 py-0.5 rounded-lg bg-slate-900/90 text-white font-bold text-[10px] border border-slate-700/80 flex items-center gap-1 shadow-sm shrink-0 animate-pop" title="${item.desc}">
+                            <i class="${item.icon} text-cyan-400 text-[9px]"></i>
+                            <span>${item.name.split(' ')[0]}</span>
+                        </span>
+                    `).join('');
+                });
+            }
+
+            updateUI() {
+                const pEl = document.getElementById('progress-display');
+                const sEl = document.getElementById('score-display');
+                const cEl = document.getElementById('combo-display');
+
+                if (pEl) pEl.innerText = `${Math.min(this.currentIndex + 1, this.items.length)} / ${this.items.length}`;
+                if (sEl) sEl.innerText = `${this.score}`;
+                if (cEl) cEl.innerText = `x${this.combo}`;
+            }
+
+            setInstruction(msg, isError = false) {
+                const el = document.getElementById('instruction-text');
+                if (el) {
+                    el.innerText = msg;
+                    el.className = isError ? "text-rose-300 font-black animate-pulse" : "text-emerald-200 font-bold";
+                }
+            }
+
+            finishGame() {
+                if (this.timerInterval) clearInterval(this.timerInterval);
+                sounds.playVictory();
+
+                if (typeof confetti === 'function') {
+                    confetti({
+                        particleCount: 130,
+                        spread: 85,
+                        origin: { y: 0.6 }
+                    });
+                }
+
+                const elapsed = Math.floor((Date.now() - this.startTime) / 1000);
+                const m = String(Math.floor(elapsed / 60)).padStart(2, '0');
+                const s = String(elapsed % 60).padStart(2, '0');
+
+                document.getElementById('victory-score').innerText = this.score;
+                document.getElementById('victory-combo').innerText = `x${this.maxCombo}`;
+                document.getElementById('victory-time').innerText = `${m}:${s}`;
+
+                const modal = document.getElementById('modal-victory');
+                if (modal) modal.classList.remove('hidden');
+            }
+
+            setupKeyboardShortcuts() {
+                window.addEventListener('keydown', (e) => {
+                    if (e.key === '1') this.classifyCurrentItem('giris');
+                    if (e.key === '2') this.classifyCurrentItem('cikis');
+                    if (e.key === '3') this.classifyCurrentItem('cift');
+                });
+            }
+
+            toggleAudio() {
+                sounds.muted = !sounds.muted;
+                const icon = document.getElementById('audio-icon');
+                if (icon) {
+                    icon.className = sounds.muted ? "fa-solid fa-volume-xmark text-rose-400" : "fa-solid fa-volume-high text-yellow-400";
+                }
+            }
+
+            toggleFullscreen() {
+                sounds.playClick();
+                if (!document.fullscreenElement) {
+                    document.documentElement.requestFullscreen().catch(() => {});
+                } else {
+                    document.exitFullscreen().catch(() => {});
+                }
+            }
+        }
+
+        const game = new HardwareSortingGame();
+
+        window.onload = function() {
+            game.init();
+        };
+    </script>
+</body>
+</html>

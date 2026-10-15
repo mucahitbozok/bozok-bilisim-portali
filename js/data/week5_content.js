@@ -1558,6 +1558,21 @@ window.WEEK5_CONTENT = {
 
     extraGames: [
         {
+            badge: "Ayıklama Oyunu",
+            badgeColor: "text-emerald-300",
+            title: "Donanım Ayıklama İstasyonu",
+            desc: "Donanım cihazlarını veri akış yönüne göre 3 sepete ayıkla: Giriş Birimi, Çıkış Birimi ve Çift Yönlü Birimler!",
+            icon: "fa-solid fa-boxes-packing",
+            iconBg: "bg-emerald-500/30 text-emerald-300",
+            cardGradient: "from-emerald-950/90 via-slate-900 to-indigo-950/90",
+            border: "border-emerald-500/50",
+            descColor: "text-emerald-100",
+            btnText: "Ayıklamaya Başla!",
+            btnIcon: "fa-solid fa-play",
+            btnGradient: "from-emerald-500 via-teal-600 to-indigo-600 hover:from-emerald-400 hover:to-indigo-500 text-slate-950 font-black",
+            action: "app.openStandaloneGame('games/donanim_siniflandirma_oyunu.html', 'Donanım Ayıklama İstasyonu | Öğretmen Bozok')"
+        },
+        {
             badge: "Simülasyon",
             badgeColor: "text-amber-300",
             title: "Bilgisayar Kurma Atölyesi",
