@@ -22,7 +22,24 @@ class DuelGame {
         this.currentIndex = 0;
         this.isRoundOver = false;
         const data = (typeof app !== 'undefined' && app.getCurrentWeekData) ? app.getCurrentWeekData() : WEEK1_CONTENT;
-        this.questions = [...(data.gameData?.duelQuestions || WEEK1_CONTENT.gameData.duelQuestions)].sort(() => Math.random() - 0.5);
+        const rawQuestions = [...(data.gameData?.duelQuestions || WEEK1_CONTENT.gameData.duelQuestions)];
+        this.questions = rawQuestions.map(qObj => {
+            const opts = Array.isArray(qObj.options) ? [...qObj.options] : [];
+            const ansIdx = typeof qObj.answer === 'number' ? qObj.answer : 0;
+            const correctText = opts[ansIdx];
+            
+            // Fisher-Yates karıştırma (şıkların yerini rastgele dağıt)
+            for (let i = opts.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [opts[i], opts[j]] = [opts[j], opts[i]];
+            }
+            const newAnswer = correctText !== undefined ? opts.indexOf(correctText) : ansIdx;
+            return {
+                ...qObj,
+                options: opts,
+                answer: newAnswer >= 0 ? newAnswer : 0
+            };
+        }).sort(() => Math.random() - 0.5);
 
         container.innerHTML = `
             <div class="max-w-5xl mx-auto bg-slate-900 text-white rounded-2xl sm:rounded-3xl p-3 sm:p-6 shadow-2xl border-2 sm:border-4 border-purple-500">

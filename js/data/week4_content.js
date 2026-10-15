@@ -2387,20 +2387,20 @@ window.WEEK4_CONTENT = {
             {
                 q: "1997'de dünya satranç şampiyonu Kasparov'u mağlup eden yapay zekâ süper bilgisayarı hangisidir?",
                 question: "1997'de dünya satranç şampiyonu Kasparov'u mağlup eden yapay zekâ süper bilgisayarı hangisidir?",
-                options: ["Deep Blue", "AlphaGo", "ChatGPT", "Watson"],
-                answer: 0
+                options: ["AlphaGo", "Deep Blue", "ChatGPT", "Watson"],
+                answer: 1
             },
             {
                 q: "1959'da Erzurum'da 'Makineler Düşünebilir mi?' konferansını veren Türk matematik öncümüz kimdir?",
                 question: "1959'da Erzurum'da 'Makineler Düşünebilir mi?' konferansını veren Türk matematik öncümüz kimdir?",
-                options: ["Cahit Arf", "Ali Kuşçu", "Aziz Sancar", "Oktay Sinanoğlu"],
-                answer: 0
+                options: ["Ali Kuşçu", "Aziz Sancar", "Cahit Arf", "Oktay Sinanoğlu"],
+                answer: 2
             },
             {
                 q: "Yapay zekânın bilmediği konuda uydurma veya hatalı bilgi üretmesine ne ad verilir?",
                 question: "Yapay zekânın bilmediği konuda uydurma veya hatalı bilgi üretmesine ne ad verilir?",
-                options: ["Halüsinasyon (Yanılsama)", "Format Atma", "Çökme", "Güncelleme"],
-                answer: 0
+                options: ["Format Atma", "Çökme", "Güncelleme", "Halüsinasyon (Yanılsama)"],
+                answer: 3
             },
             {
                 q: "Sürücüsüz otonom araçların yolu, şeritleri ve yayaları algılamak için kullandığı en önemli organ nedir?",
@@ -2411,20 +2411,20 @@ window.WEEK4_CONTENT = {
             {
                 q: "İnsan zekâsı yaşayarak ve deneyimle öğrenirken, yapay zekâ modelleri neyle öğrenir?",
                 question: "İnsan zekâsı yaşayarak ve deneyimle öğrenirken, yapay zekâ modelleri neyle öğrenir?",
-                options: ["Milyonlarca Veri Kümesiyle (Data)", "Rüyalarla", "Duygularla", "Sezgilerle"],
-                answer: 0
+                options: ["Rüyalarla", "Milyonlarca Veri Kümesiyle (Data)", "Duygularla", "Sezgilerle"],
+                answer: 1
             },
             {
                 q: "Aşağıdakilerden hangisi yapay zekânın insanlardan çok daha üstün olduğu bir alandır?",
                 question: "Aşağıdakilerden hangisi yapay zekânın insanlardan çok daha üstün olduğu bir alandır?",
-                options: ["Saniyede milyarlarca veriyi çok hızlı hesaplama", "Empati ve sevgi duyma", "Vicdanlı karar verme", "Hayal kurma"],
-                answer: 0
+                options: ["Empati ve sevgi duyma", "Vicdanlı karar verme", "Saniyede milyarlarca veriyi çok hızlı hesaplama", "Hayal kurma"],
+                answer: 2
             },
             {
                 q: "Google Lens veya telefon kamerasının bir bitkiyi ya da köpeğin cinsini tanıması hangi yapay zekâ dalıdır?",
                 question: "Google Lens veya telefon kamerasının bir bitkiyi ya da köpeğin cinsini tanıması hangi yapay zekâ dalıdır?",
-                options: ["Görüntü İşleme", "Metin Çevirisi", "Bluetooth Paylaşımı", "Pil Tasarrufu"],
-                answer: 0
+                options: ["Metin Çevirisi", "Bluetooth Paylaşımı", "Pil Tasarrufu", "Görüntü İşleme"],
+                answer: 3
             },
             {
                 q: "Yapay zekânın bize sunduğu bir cevabı ödevde kullanmadan önce ne yapmalıyız?",
@@ -2435,14 +2435,14 @@ window.WEEK4_CONTENT = {
             {
                 q: "1950'de makinelerin insan gibi düşünüp düşünemediğini anlamak için Turing Testi'ni geliştiren dahi kimdir?",
                 question: "1950'de makinelerin insan gibi düşünüp düşünemediğini anlamak için Turing Testi'ni geliştiren dahi kimdir?",
-                options: ["Alan Turing", "Steve Jobs", "Bill Gates", "Nikola Tesla"],
-                answer: 0
+                options: ["Steve Jobs", "Alan Turing", "Bill Gates", "Nikola Tesla"],
+                answer: 1
             },
             {
                 q: "Akıllı süpürgelerin ve otonom araçların çevreyi anlamasını sağlayan teknolojiye ne ad verilir?",
                 question: "Akıllı süpürgelerin ve otonom araçların çevreyi anlamasını sağlayan teknolojiye ne ad verilir?",
-                options: ["Ortam Algılama ve Haritalama", "Şarj Tüketimi", "Müzik Çalma", "Ekran Kaydı"],
-                answer: 0
+                options: ["Şarj Tüketimi", "Müzik Çalma", "Ortam Algılama ve Haritalama", "Ekran Kaydı"],
+                answer: 2
             }
         ]
     },

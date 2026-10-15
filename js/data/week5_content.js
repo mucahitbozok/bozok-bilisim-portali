@@ -1480,18 +1480,18 @@ window.WEEK5_CONTENT = {
         duelQuestions: [
             {
                 q: "Bilgisayarın tüm parçalarını birbirine bağlayan devasa ana devre kartı hangisidir?",
-                options: ["Anakart", "Ekran Kartı", "Ses Kartı", "Ağ Kartı"],
-                answer: 0
+                options: ["Ekran Kartı", "Anakart", "Ses Kartı", "Ağ Kartı"],
+                answer: 1
             },
             {
                 q: "Bilgisayarın 'beyni' sayılan ve tüm mantıksal hesaplamaları yürüten parça hangisidir?",
-                options: ["İşlemci (CPU)", "RAM Bellek", "Sabit Disk", "Güç Kaynağı"],
-                answer: 0
+                options: ["RAM Bellek", "Sabit Disk", "İşlemci (CPU)", "Güç Kaynağı"],
+                answer: 2
             },
             {
                 q: "Elektrik kesildiğinde veya bilgisayar kapandığında içindeki tüm verileri sıfırlanan geçici hafıza hangisidir?",
-                options: ["RAM Bellek", "Sabit Disk (HDD)", "SSD", "Flash Bellek"],
-                answer: 0
+                options: ["Sabit Disk (HDD)", "SSD", "Flash Bellek", "RAM Bellek"],
+                answer: 3
             },
             {
                 q: "Dosyaları, oyunları ve fotoğrafları yıllarca kalıcı olarak saklayan depolama birimi hangisidir?",
@@ -1500,18 +1500,18 @@ window.WEEK5_CONTENT = {
             },
             {
                 q: "Aşağıdakilerden hangisi dış dünyadan bilgisayara bilgi aktaran bir GİRİŞ birimidir?",
-                options: ["Klavye", "Monitör", "Hoparlör", "Yazıcı"],
-                answer: 0
+                options: ["Monitör", "Klavye", "Hoparlör", "Yazıcı"],
+                answer: 1
             },
             {
                 q: "Aşağıdakilerden hangisi bilgisayarda işlenen bilgileri dışarıya veren bir ÇIKIŞ birimidir?",
-                options: ["Hoparlör", "Mikrofon", "Fare", "Web Kamerası"],
-                answer: 0
+                options: ["Mikrofon", "Fare", "Hoparlör", "Web Kamerası"],
+                answer: 2
             },
             {
                 q: "Görüntü verilerini işleyip monitöre aktaran ve oyunların akıcı görünmesini sağlayan parça hangisidir?",
-                options: ["Ekran Kartı (GPU)", "Ses Kartı", "Ağ Kartı", "Optik Sürücü"],
-                answer: 0
+                options: ["Ses Kartı", "Ağ Kartı", "Optik Sürücü", "Ekran Kartı (GPU)"],
+                answer: 3
             },
             {
                 q: "220V şehir elektriğini parçaların kullanacağı düşük voltaja çevirip dağıtan donanım hangisidir?",
@@ -1520,28 +1520,28 @@ window.WEEK5_CONTENT = {
             },
             {
                 q: "Hem görüntü gösterip hem parmakla komut alabilen çift yönlü donanım hangisidir?",
-                options: ["Dokunmatik Ekran", "Kulaklık", "Projeksiyon", "Tarayıcı"],
-                answer: 0
+                options: ["Kulaklık", "Dokunmatik Ekran", "Projeksiyon", "Tarayıcı"],
+                answer: 1
             },
             {
                 q: "Bilgisayarın kablolu veya kablosuz olarak internete/ağa bağlanmasını sağlayan iç donanım hangisidir?",
-                options: ["Ağ Kartı (Ethernet)", "Ses Kartı", "Ekran Kartı", "RAM"],
-                answer: 0
+                options: ["Ses Kartı", "Ekran Kartı", "Ağ Kartı (Ethernet)", "RAM"],
+                answer: 2
             },
             {
                 q: "İşlemcinin aşırı ısınıp bilgisayarın kapanmasını veya hasar görmesini engelleyen parça hangisidir?",
-                options: ["Soğutucu / Fan", "Sabit Disk", "Güç Kaynağı", "Kasa Kapağı"],
-                answer: 0
+                options: ["Sabit Disk", "Güç Kaynağı", "Kasa Kapağı", "Soğutucu / Fan"],
+                answer: 3
             },
             {
                 q: "Seçili bir metni veya dosyayı KOPYALAMAK için hangi klavye kısayolu kullanılır?",
-                options: ["Ctrl + C", "Ctrl + V", "Ctrl + X", "Ctrl + Z"],
-                answer: 0
+                options: ["Ctrl + V", "Ctrl + C", "Ctrl + X", "Ctrl + Z"],
+                answer: 1
             },
             {
                 q: "Kopyalanan veya kesilen bir ögeyi yeni bir yere YAPIŞTIRMAK için hangi kısayol kullanılır?",
-                options: ["Ctrl + V", "Ctrl + C", "Ctrl + S", "Ctrl + A"],
-                answer: 0
+                options: ["Ctrl + S", "Ctrl + C", "Ctrl + V", "Ctrl + A"],
+                answer: 2
             },
             {
                 q: "Klavyede imlecin SAĞINDAKİ harfi veya seçili bir dosyayı silmek için hangi tuşa basılır?",
@@ -1550,8 +1550,8 @@ window.WEEK5_CONTENT = {
             },
             {
                 q: "Basılı bir fotoğrafı veya kağıttaki yazıyı tarayıp bilgisayara aktaran giriş birimi hangisidir?",
-                options: ["Tarayıcı (Scanner)", "Yazıcı (Printer)", "Hoparlör", "Monitör"],
-                answer: 0
+                options: ["Yazıcı (Printer)", "Hoparlör", "Monitör", "Tarayıcı (Scanner)"],
+                answer: 3
             }
         ]
     },
