@@ -1241,7 +1241,336 @@ window.WEEK5_CONTENT = {
     // ========================================================
     // 🎮 4. TEKRAR OYUNLARI & ETKİNLİKLER
     // ========================================================
-    hideStandardGames: true,
-    gameData: null,
-    extraGames: []
+    gameData: {
+        // Oyun 1: Çarkıfelek Soruları (12 Senaryo & Donanım Sorusu)
+        wheelQuiz: [
+            {
+                q: "Bilgisayarın tüm parçalarını birbirine bağlayan ve parçalar arasındaki veri iletişimini sağlayan ana devre kartı hangisidir?",
+                question: "Bilgisayarın tüm parçalarını birbirine bağlayan ve parçalar arasındaki veri iletişimini sağlayan ana devre kartı hangisidir?",
+                options: ["Anakart", "Ses Kartı", "Güç Kaynağı", "Sabit Disk"],
+                answer: 0,
+                pts: 200,
+                points: 200
+            },
+            {
+                q: "Bilgisayarın 'beyni' olarak adlandırılan, komutları işleyen ve hesaplamaları yürüten parça hangisidir?",
+                question: "Bilgisayarın 'beyni' olarak adlandırılan, komutları işleyen ve hesaplamaları yürüten parça hangisidir?",
+                options: ["İşlemci (CPU)", "RAM Bellek", "Ekran Kartı", "Soğutucu Fan"],
+                answer: 0,
+                pts: 250,
+                points: 250
+            },
+            {
+                q: "Çalışmakta olan program ve verilerin geçici olarak tutulduğu, bilgisayar kapanınca silinen hafıza hangisidir?",
+                question: "Çalışmakta olan program ve verilerin geçici olarak tutulduğu, bilgisayar kapanınca silinen hafıza hangisidir?",
+                options: ["RAM Bellek", "Sabit Disk (HDD)", "SSD", "ROM Bellek"],
+                answer: 0,
+                pts: 200,
+                points: 200
+            },
+            {
+                q: "Dosyaların, oyunların ve işletim sisteminin bilgisayar kapansa bile kalıcı olarak saklandığı depolama birimi hangisidir?",
+                question: "Dosyaların, oyunların ve işletim sisteminin bilgisayar kapansa bile kalıcı olarak saklandığı depolama birimi hangisidir?",
+                options: ["Sabit Disk (HDD / SSD)", "RAM Bellek", "İşlemci", "Güç Kaynağı"],
+                answer: 0,
+                pts: 200,
+                points: 200
+            },
+            {
+                q: "Görüntüleri işleyerek monitör ekranında görmemizi sağlayan iç donanım parçası hangisidir?",
+                question: "Görüntüleri işleyerek monitör ekranında görmemizi sağlayan iç donanım parçası hangisidir?",
+                options: ["Ekran Kartı (GPU)", "Ses Kartı", "Ağ Kartı", "Anakart"],
+                answer: 0,
+                pts: 250,
+                points: 250
+            },
+            {
+                q: "Şehir elektriğini bilgisayar parçalarının güvenle kullanabileceği akıma dönüştürüp dağıtan birim hangisidir?",
+                question: "Şehir elektriğini bilgisayar parçalarının güvenle kullanabileceği akıma dönüştürüp dağıtan birim hangisidir?",
+                options: ["Güç Kaynağı (PSU)", "Anakart", "İşlemci", "Ekran Kartı"],
+                answer: 0,
+                pts: 200,
+                points: 200
+            },
+            {
+                q: "Aşağıdakilerden hangisi dış dünyadan bilgisayara veri aktaran bir GİRİŞ birimidir?",
+                question: "Aşağıdakilerden hangisi dış dünyadan bilgisayara veri aktaran bir GİRİŞ birimidir?",
+                options: ["Mikrofon", "Monitör", "Hoparlör", "Yazıcı"],
+                answer: 0,
+                pts: 150,
+                points: 150
+            },
+            {
+                q: "Aşağıdakilerden hangisi bilgisayarda işlenen bilgileri kullanıcıya sunan bir ÇIKIŞ birimidir?",
+                question: "Aşağıdakilerden hangisi bilgisayarda işlenen bilgileri kullanıcıya sunan bir ÇIKIŞ birimidir?",
+                options: ["Yazıcı (Printer)", "Klavye", "Fare", "Web Kamerası"],
+                answer: 0,
+                pts: 150,
+                points: 150
+            },
+            {
+                q: "Hem görüntü gösterip (çıkış) hem de parmak dokunuşuyla komut alabilen (giriş) çift yönlü donanım hangisidir?",
+                question: "Hem görüntü gösterip (çıkış) hem de parmak dokunuşuyla komut alabilen (giriş) çift yönlü donanım hangisidir?",
+                options: ["Dokunmatik Ekran", "Kulaklık", "Barkod Okuyucu", "Projeksiyon"],
+                answer: 0,
+                pts: 300,
+                points: 300
+            },
+            {
+                q: "Klavyede imlecin solundaki karakteri silmeye yarayan tuş hangisidir?",
+                question: "Klavyede imlecin solundaki karakteri silmeye yarayan tuş hangisidir?",
+                options: ["Backspace", "Delete", "Enter", "Space"],
+                answer: 0,
+                pts: 150,
+                points: 150
+            },
+            {
+                q: "Seçili bir metni veya resmi KOPYALAMAK için kullanılan klavye kısayolu hangisidir?",
+                question: "Seçili bir metni veya resmi KOPYALAMAK için kullanılan klavye kısayolu hangisidir?",
+                options: ["Ctrl + C", "Ctrl + V", "Ctrl + X", "Ctrl + Z"],
+                answer: 0,
+                pts: 200,
+                points: 200
+            },
+            {
+                q: "İşlemcinin ve kasa içerisindeki parçaların aşırı ısınıp yanmasını önleyen parça hangisidir?",
+                question: "İşlemcinin ve kasa içerisindeki parçaların aşırı ısınıp yanmasını önleyen parça hangisidir?",
+                options: ["Soğutucu / Fan Sistemi", "Ses Kartı", "RAM Bellek", "Optik Sürücü"],
+                answer: 0,
+                pts: 200,
+                points: 200
+            }
+        ],
+
+        // Oyun 2: Kavram & Donanım Eşleştirme Kartları (8 Çift)
+        matchConfig: {
+            timer: 90,
+            leftTitle: "Donanım Birimi 🖥️",
+            rightTitle: "Temel Görevi 🎯",
+            instruction: "💡 <strong>Nasıl Oynanır?</strong> Soldan bir donanım parçasına dokunun, ardından sağdaki doğru görev açıklamasıyla eşleştirin!"
+        },
+        matchCards: [
+            {
+                id: 1,
+                text: "İşlemci (CPU)",
+                category: "Bilgisayarın Beyni / Komut Yürütücü",
+                icon: "fa-solid fa-microchip",
+                rightIcon: "fa-solid fa-brain"
+            },
+            {
+                id: 2,
+                text: "Anakart",
+                category: "Tüm Parçaların Bağlandığı Ana Devre",
+                icon: "fa-solid fa-chess-board",
+                rightIcon: "fa-solid fa-network-wired"
+            },
+            {
+                id: 3,
+                text: "RAM Bellek",
+                category: "Geçici Hafıza (Kapanınca Silinir)",
+                icon: "fa-solid fa-memory",
+                rightIcon: "fa-solid fa-clock"
+            },
+            {
+                id: 4,
+                text: "Sabit Disk (HDD/SSD)",
+                category: "Kalıcı Depolama (Dosyaları Saklar)",
+                icon: "fa-solid fa-hard-drive",
+                rightIcon: "fa-solid fa-box-archive"
+            },
+            {
+                id: 5,
+                text: "Ekran Kartı",
+                category: "Görüntü İşleme ve Monitöre Aktarma",
+                icon: "fa-solid fa-tv",
+                rightIcon: "fa-solid fa-image"
+            },
+            {
+                id: 6,
+                text: "Güç Kaynağı (PSU)",
+                category: "Elektrik Dönüştürme ve Dağıtma",
+                icon: "fa-solid fa-plug",
+                rightIcon: "fa-solid fa-bolt"
+            },
+            {
+                id: 7,
+                text: "Mikrofon",
+                category: "Ses Verisini Bilgisayara Aktaran Giriş Birimi",
+                icon: "fa-solid fa-microphone",
+                rightIcon: "fa-solid fa-arrow-right-to-bracket"
+            },
+            {
+                id: 8,
+                text: "Yazıcı (Printer)",
+                category: "Dijital Belgeyi Kağıda Basan Çıkış Birimi",
+                icon: "fa-solid fa-print",
+                rightIcon: "fa-solid fa-arrow-right-from-bracket"
+            }
+        ],
+
+        // Oyun 3: Hızlı Refleks Doğru/Yanlış İfadeleri (16 İfade)
+        reflexStatements: [
+            {
+                text: "Bilgisayarın elle tutulup gözle görülebilen tüm fiziksel parçalarına donanım denir.",
+                correct: true
+            },
+            {
+                text: "RAM bellekteki veriler bilgisayar kapandığında silinmez, yıllarca kalır.",
+                correct: false
+            },
+            {
+                text: "İşlemci (CPU) bilgisayarın beyni olup tüm hesaplama işlemlerini yapar.",
+                correct: true
+            },
+            {
+                text: "Klavye, ekrandaki yazıları kağıda basan bir çıkış birimidir.",
+                correct: false
+            },
+            {
+                text: "Monitör, bilgisayardaki bilgileri ekrana yansıtan temel çıkış birimidir.",
+                correct: true
+            },
+            {
+                text: "Anakart, bilgisayarın tüm donanım parçalarını birbirine bağlayan ana devre kartıdır.",
+                correct: true
+            },
+            {
+                text: "Hoparlör, dış dünyadaki sesleri bilgisayara kaydeden bir giriş birimidir.",
+                correct: false
+            },
+            {
+                text: "SSD sürücüler, mekanik parçası olmayan çok hızlı kalıcı depolama birimleridir.",
+                correct: true
+            },
+            {
+                text: "Dokunmatik ekran hem giriş hem çıkış birimi olarak görev yapan çift yönlü bir donanımdır.",
+                correct: true
+            },
+            {
+                text: "Güç kaynağı (PSU) sadece kulaklığa elektrik sağlamak için kullanılır.",
+                correct: false
+            },
+            {
+                text: "Ctrl + C kısayol tuşu seçili nesneyi kopyalamak için kullanılır.",
+                correct: true
+            },
+            {
+                text: "Ctrl + V kısayolu kopyalanan nesneyi istenen yere yapıştırır.",
+                correct: true
+            },
+            {
+                text: "Farenin sağ tuşuna basmak her zaman seçili dosyayı hemen siler.",
+                correct: false
+            },
+            {
+                text: "Tarayıcı (Scanner), kağıttaki resmi dijitalleştirip bilgisayara aktaran giriş birimidir.",
+                correct: true
+            },
+            {
+                text: "Caps Lock tuşu sürekli BÜYÜK harf yazma kilidini açıp kapatır.",
+                correct: true
+            },
+            {
+                text: "USB bellekler yalnızca veri okuyabilir, içine asla dosya yazılamaz.",
+                correct: false
+            }
+        ],
+
+        // Oyun 4: Sınıf Düellosu Soruları (15 Canlı Akıllı Tahta Düello Sorusu)
+        duelQuestions: [
+            {
+                q: "Bilgisayarın tüm parçalarını birbirine bağlayan devasa ana devre kartı hangisidir?",
+                options: ["Anakart", "Ekran Kartı", "Ses Kartı", "Ağ Kartı"],
+                answer: 0
+            },
+            {
+                q: "Bilgisayarın 'beyni' sayılan ve tüm mantıksal hesaplamaları yürüten parça hangisidir?",
+                options: ["İşlemci (CPU)", "RAM Bellek", "Sabit Disk", "Güç Kaynağı"],
+                answer: 0
+            },
+            {
+                q: "Elektrik kesildiğinde veya bilgisayar kapandığında içindeki tüm verileri sıfırlanan geçici hafıza hangisidir?",
+                options: ["RAM Bellek", "Sabit Disk (HDD)", "SSD", "Flash Bellek"],
+                answer: 0
+            },
+            {
+                q: "Dosyaları, oyunları ve fotoğrafları yıllarca kalıcı olarak saklayan depolama birimi hangisidir?",
+                options: ["Sabit Disk / SSD", "RAM Bellek", "İşlemci", "Anakart"],
+                answer: 0
+            },
+            {
+                q: "Aşağıdakilerden hangisi dış dünyadan bilgisayara bilgi aktaran bir GİRİŞ birimidir?",
+                options: ["Klavye", "Monitör", "Hoparlör", "Yazıcı"],
+                answer: 0
+            },
+            {
+                q: "Aşağıdakilerden hangisi bilgisayarda işlenen bilgileri dışarıya veren bir ÇIKIŞ birimidir?",
+                options: ["Hoparlör", "Mikrofon", "Fare", "Web Kamerası"],
+                answer: 0
+            },
+            {
+                q: "Görüntü verilerini işleyip monitöre aktaran ve oyunların akıcı görünmesini sağlayan parça hangisidir?",
+                options: ["Ekran Kartı (GPU)", "Ses Kartı", "Ağ Kartı", "Optik Sürücü"],
+                answer: 0
+            },
+            {
+                q: "220V şehir elektriğini parçaların kullanacağı düşük voltaja çevirip dağıtan donanım hangisidir?",
+                options: ["Güç Kaynağı (PSU)", "Anakart", "İşlemci", "Sabit Disk"],
+                answer: 0
+            },
+            {
+                q: "Hem görüntü gösterip hem parmakla komut alabilen çift yönlü donanım hangisidir?",
+                options: ["Dokunmatik Ekran", "Kulaklık", "Projeksiyon", "Tarayıcı"],
+                answer: 0
+            },
+            {
+                q: "Bilgisayarın kablolu veya kablosuz olarak internete/ağa bağlanmasını sağlayan iç donanım hangisidir?",
+                options: ["Ağ Kartı (Ethernet)", "Ses Kartı", "Ekran Kartı", "RAM"],
+                answer: 0
+            },
+            {
+                q: "İşlemcinin aşırı ısınıp bilgisayarın kapanmasını veya hasar görmesini engelleyen parça hangisidir?",
+                options: ["Soğutucu / Fan", "Sabit Disk", "Güç Kaynağı", "Kasa Kapağı"],
+                answer: 0
+            },
+            {
+                q: "Seçili bir metni veya dosyayı KOPYALAMAK için hangi klavye kısayolu kullanılır?",
+                options: ["Ctrl + C", "Ctrl + V", "Ctrl + X", "Ctrl + Z"],
+                answer: 0
+            },
+            {
+                q: "Kopyalanan veya kesilen bir ögeyi yeni bir yere YAPIŞTIRMAK için hangi kısayol kullanılır?",
+                options: ["Ctrl + V", "Ctrl + C", "Ctrl + S", "Ctrl + A"],
+                answer: 0
+            },
+            {
+                q: "Klavyede imlecin SAĞINDAKİ harfi veya seçili bir dosyayı silmek için hangi tuşa basılır?",
+                options: ["Delete", "Backspace", "Space", "Enter"],
+                answer: 0
+            },
+            {
+                q: "Basılı bir fotoğrafı veya kağıttaki yazıyı tarayıp bilgisayara aktaran giriş birimi hangisidir?",
+                options: ["Tarayıcı (Scanner)", "Yazıcı (Printer)", "Hoparlör", "Monitör"],
+                answer: 0
+            }
+        ]
+    },
+
+    extraGames: [
+        {
+            badge: "Kelime Avı",
+            badgeColor: "text-cyan-300",
+            title: "Bilgisayar ve Donanım Kelime Avı",
+            desc: "12x12 harf matrisinde gizlenen 10 donanım ve çevre birimi kavramını bul! Her oyunda kelimelerin yerleri ve harfler rastgele değişir!",
+            icon: "fa-solid fa-puzzle-piece",
+            iconBg: "bg-cyan-500/30 text-cyan-300",
+            cardGradient: "from-blue-900/90 via-indigo-950/90 to-purple-900/90",
+            border: "border-cyan-500/50",
+            descColor: "text-cyan-100",
+            btnText: "Kelime Avına Başla!",
+            btnIcon: "fa-solid fa-crosshairs",
+            btnGradient: "from-cyan-600 via-blue-600 to-indigo-600 hover:from-cyan-500 hover:to-indigo-500 text-white font-black",
+            action: "app.openStandaloneGame('games/donanim_kelime_avi.html', 'Bilgisayar ve Donanım Kelime Avı | Öğretmen Bozok')"
+        }
+    ]
 };

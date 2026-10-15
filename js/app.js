@@ -2097,7 +2097,7 @@ class App {
 
         const data = this.getCurrentWeekData();
         const extraGames = this.getExtraGamesForWeek(this.currentWeek, data);
-        const hideStandardGames = (data.hideStandardGames === true) || (this.currentWeek === 5);
+        const hideStandardGames = (data.hideStandardGames === true);
 
         if (data.weekInfo?.isPending || (!hideStandardGames && (!data.gameData || !data.gameData.wheelQuiz)) || (hideStandardGames && (!extraGames || extraGames.length === 0))) {
             this.renderPendingPlaceholder("game-container", "Sınıf İçi Tekrar Oyunları", "fa-solid fa-gamepad");
