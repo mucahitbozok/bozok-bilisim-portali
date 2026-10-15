@@ -1558,6 +1558,21 @@ window.WEEK5_CONTENT = {
 
     extraGames: [
         {
+            badge: "Kablo Bağlama",
+            badgeColor: "text-cyan-300",
+            title: "Donanım Bağlantı Masası",
+            desc: "Bilgisayar masası ve kasasındaki 12 donanım parçasını kablolarla doğru noktalara bağla! Akıllı tahtada canlı devre bağlantısı kur.",
+            icon: "fa-solid fa-network-wired",
+            iconBg: "bg-cyan-500/30 text-cyan-300",
+            cardGradient: "from-cyan-950/90 via-slate-900 to-indigo-950/90",
+            border: "border-cyan-500/50",
+            descColor: "text-cyan-100",
+            btnText: "Kabloları Bağla!",
+            btnIcon: "fa-solid fa-plug",
+            btnGradient: "from-cyan-500 via-blue-600 to-indigo-600 hover:from-cyan-400 hover:to-indigo-500 text-white font-black",
+            action: "app.openStandaloneGame('games/donanim_baglanti_masasi.html', 'Donanım Bağlantı Masası | Öğretmen Bozok')"
+        },
+        {
             badge: "Simülasyon",
             badgeColor: "text-amber-300",
             title: "Bilgisayar Kurma Atölyesi",

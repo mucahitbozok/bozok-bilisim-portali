@@ -1,0 +1,984 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Donanım Bağlantı Masası | Öğretmen Bozok</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- Tailwind CSS (CDN) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Canvas Confetti -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <style>
+        * {
+            box-sizing: border-box;
+            user-select: none;
+            -webkit-user-select: none;
+            font-family: 'Nunito', system-ui, -apple-system, sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        h1, h2, h3, .font-heading {
+            font-family: 'Fredoka', 'Nunito', sans-serif;
+        }
+
+        html, body {
+            background-color: #080d1a;
+            color: #f8fafc;
+            min-height: 100vh;
+            min-height: 100dvh;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+        }
+
+        @media (min-width: 1024px) {
+            html, body {
+                height: 100vh;
+                height: 100dvh;
+                overflow: hidden;
+            }
+        }
+
+        /* Cam Panel Efekti */
+        .glass-panel {
+            background: rgba(15, 23, 42, 0.88);
+            backdrop-filter: blur(14px);
+            border: 1px solid rgba(56, 189, 248, 0.2);
+        }
+
+        /* Kart Stilleri */
+        .hw-card {
+            transition: all 0.22s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            cursor: pointer;
+        }
+        .hw-card:hover {
+            transform: translateY(-2px);
+            filter: brightness(1.12);
+        }
+        .hw-card.selected {
+            outline: 3px solid #38bdf8;
+            box-shadow: 0 0 20px rgba(56, 189, 248, 0.7);
+            transform: scale(1.03);
+            filter: brightness(1.2);
+        }
+        .hw-card.matched {
+            border-color: #10b981 !important;
+            background: linear-gradient(135deg, rgba(6, 78, 59, 0.85), rgba(15, 23, 42, 0.95)) !important;
+            cursor: default;
+            transform: none !important;
+        }
+
+        /* Pim (Pin) Hedef Noktaları */
+        .pin-node {
+            position: absolute;
+            transform: translate(-50%, -50%);
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+            z-index: 20;
+        }
+        .pin-node:hover {
+            transform: translate(-50%, -50%) scale(1.2);
+        }
+        .pin-node.target-active {
+            animation: pulseTarget 1s infinite alternate;
+        }
+        @keyframes pulseTarget {
+            0% { transform: translate(-50%, -50%) scale(1); box-shadow: 0 0 10px #38bdf8; }
+            100% { transform: translate(-50%, -50%) scale(1.3); box-shadow: 0 0 24px #38bdf8, 0 0 35px #0284c7; }
+        }
+        .pin-node.matched {
+            transform: translate(-50%, -50%) scale(1.05);
+            box-shadow: 0 0 14px rgba(16, 185, 129, 0.8);
+            border-color: #10b981 !important;
+            background-color: #064e3b !important;
+        }
+        .pin-node.hint-pulse {
+            animation: hintPin 0.8s infinite alternate;
+        }
+        @keyframes hintPin {
+            0% { transform: translate(-50%, -50%) scale(1); filter: drop-shadow(0 0 6px #f59e0b); }
+            100% { transform: translate(-50%, -50%) scale(1.4); filter: drop-shadow(0 0 20px #f59e0b); }
+        }
+
+        /* Animasyonlu Elektrik Akımı SVG Kablo */
+        .wire-path {
+            fill: none;
+            stroke-linecap: round;
+            filter: drop-shadow(0 0 6px currentColor);
+            transition: stroke 0.3s ease;
+        }
+        .wire-animated {
+            stroke-dasharray: 8 6;
+            animation: wireFlow 1.2s linear infinite;
+        }
+        @keyframes wireFlow {
+            from { stroke-dashoffset: 28; }
+            to { stroke-dashoffset: 0; }
+        }
+
+        /* Sarsıntı Hata Animasyonu */
+        @keyframes shakeErr {
+            0%, 100% { transform: translateX(0); }
+            20% { transform: translateX(-6px); }
+            40% { transform: translateX(6px); }
+            60% { transform: translateX(-5px); }
+            80% { transform: translateX(4px); }
+        }
+        .animate-shake {
+            animation: shakeErr 0.45s ease-in-out;
+        }
+
+        /* Pop-in Animasyonu */
+        @keyframes popIn {
+            0% { transform: scale(0.9); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        .animate-pop {
+            animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+    </style>
+</head>
+<body class="flex flex-col h-full w-full justify-between p-2 sm:p-3 overflow-x-hidden">
+
+    <!-- ÜST BAR: BAŞLIK, SKOR, SÜRE VE KONTROLLER -->
+    <header class="w-full max-w-7xl mx-auto shrink-0 mb-2">
+        <div class="glass-panel rounded-2xl p-2.5 sm:p-3 shadow-xl flex flex-wrap items-center justify-between gap-2.5 border border-cyan-500/30">
+            
+            <!-- Logo ve Başlık -->
+            <div class="flex items-center gap-2.5 sm:gap-3 text-left">
+                <div class="w-9 h-9 sm:w-11 sm:h-11 rounded-2xl bg-gradient-to-tr from-cyan-500 via-blue-600 to-indigo-600 flex items-center justify-center text-white text-lg sm:text-2xl shadow-lg shadow-cyan-500/30 shrink-0">
+                    <i class="fa-solid fa-network-wired"></i>
+                </div>
+                <div>
+                    <div class="flex items-center gap-1.5">
+                        <span class="text-[9px] sm:text-[10px] font-black uppercase tracking-wider px-2 py-0.5 rounded-full bg-cyan-500/20 text-cyan-300 border border-cyan-500/30">
+                            5. KONU - 1 • BTY.5.1.5
+                        </span>
+                        <span class="hidden md:inline-block text-[9px] sm:text-[10px] font-black uppercase tracking-wider px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/30">
+                            ⚡ Akıllı Tahta Donanım Masası
+                        </span>
+                    </div>
+                    <h1 class="text-sm sm:text-lg md:text-xl font-bold text-white tracking-wide leading-tight">
+                        Donanım Bağlantı Masası
+                    </h1>
+                </div>
+            </div>
+
+            <!-- Canlı İlerleme, Skor ve Süre Sayaçları -->
+            <div class="flex items-center gap-2 sm:gap-3">
+                <!-- Kalan Parça -->
+                <div class="bg-slate-900/90 border border-slate-700/80 px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-xl flex items-center gap-2">
+                    <i class="fa-solid fa-list-check text-cyan-400 text-xs sm:text-sm"></i>
+                    <div>
+                        <span class="text-[9px] text-slate-400 font-bold uppercase block leading-none">Eşleşen</span>
+                        <span id="counter-display" class="text-xs sm:text-sm font-black text-white">0 / 12</span>
+                    </div>
+                </div>
+
+                <!-- Skor -->
+                <div class="bg-slate-900/90 border border-slate-700/80 px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-xl flex items-center gap-2">
+                    <i class="fa-solid fa-star text-amber-400 text-xs sm:text-sm"></i>
+                    <div>
+                        <span class="text-[9px] text-slate-400 font-bold uppercase block leading-none">Puan</span>
+                        <span id="score-display" class="text-xs sm:text-sm font-black text-amber-300">0</span>
+                    </div>
+                </div>
+
+                <!-- Süre -->
+                <div class="bg-slate-900/90 border border-slate-700/80 px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-xl flex items-center gap-2">
+                    <i class="fa-solid fa-stopwatch text-indigo-400 text-xs sm:text-sm"></i>
+                    <div>
+                        <span class="text-[9px] text-slate-400 font-bold uppercase block leading-none">Süre</span>
+                        <span id="timer-display" class="text-xs sm:text-sm font-black text-slate-200">00:00</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sağ Kontrol Butonları -->
+            <div class="flex items-center gap-1.5 sm:gap-2">
+                <button onclick="game.giveHint()" class="px-2.5 sm:px-3 py-1.5 rounded-xl bg-amber-500/20 hover:bg-amber-500/30 border border-amber-500/40 text-amber-300 font-bold text-xs flex items-center gap-1.5 transition-all active:scale-95" title="İpucu Al">
+                    <i class="fa-solid fa-lightbulb text-amber-400"></i>
+                    <span class="hidden sm:inline">İpucu</span>
+                </button>
+                <button onclick="game.toggleSolution()" id="solution-btn" class="px-2.5 sm:px-3 py-1.5 rounded-xl bg-purple-500/20 hover:bg-purple-500/30 border border-purple-500/40 text-purple-300 font-bold text-xs flex items-center gap-1.5 transition-all active:scale-95" title="Çözümleri Göster / Gizle">
+                    <i class="fa-solid fa-eye"></i>
+                    <span class="hidden sm:inline">Çözüm</span>
+                </button>
+                <button onclick="game.restartGame()" class="px-2.5 sm:px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 font-bold text-xs flex items-center gap-1.5 transition-all active:scale-95" title="Yeniden Başlat">
+                    <i class="fa-solid fa-rotate-right"></i>
+                    <span class="hidden md:inline">Sıfırla</span>
+                </button>
+                <button onclick="game.toggleAudio()" class="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-slate-800 hover:bg-slate-700 text-yellow-400 border border-slate-700 flex items-center justify-center transition-all" title="Ses Aç/Kapat">
+                    <i id="audio-icon" class="fa-solid fa-volume-high text-xs sm:text-sm"></i>
+                </button>
+                <button onclick="game.toggleFullscreen()" class="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 flex items-center justify-center transition-all" title="Tam Ekran">
+                    <i class="fa-solid fa-expand text-xs sm:text-sm"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- ETKİLEŞİMLİ YÖNERGE BANNERI -->
+    <div id="instruction-bar" class="w-full max-w-7xl mx-auto shrink-0 mb-1.5 px-1 flex items-center justify-between text-xs text-slate-300 font-medium">
+        <div class="flex items-center gap-2">
+            <span class="w-2.5 h-2.5 rounded-full bg-cyan-400 animate-ping"></span>
+            <span id="instruction-text" class="text-cyan-200 font-bold">
+                👉 Bir donanım kartına dokun, ardından masadaki doğru numaralı daireye (1-12) dokunarak kabloyu bağla!
+            </span>
+        </div>
+        <span class="text-[11px] text-slate-400 hidden lg:inline">
+            💡 İster karta sonra numaraya, ister önce numaraya sonra karta dokunabilirsin!
+        </span>
+    </div>
+
+    <!-- ANA SAHNE: 3 SÜTUN (SOL KARTLAR - MERKEZ MASA - SAĞ KARTLAR) -->
+    <main id="stage-container" class="relative flex-1 min-h-0 w-full max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-12 gap-2 sm:gap-3 items-stretch">
+        
+        <!-- SVG KABLO KATMANI (Kartlardan Pimlere Çizilen Dinamik Çizgiler) -->
+        <svg id="wires-svg" class="pointer-events-none absolute inset-0 w-full h-full z-10">
+            <defs>
+                <!-- Glow Filters -->
+                <filter id="glow-cyan" x="-20%" y="-20%" width="140%" height="140%">
+                    <feDropShadow dx="0" dy="0" stdDeviation="4" flood-color="#06b6d4"/>
+                </filter>
+                <filter id="glow-amber" x="-20%" y="-20%" width="140%" height="140%">
+                    <feDropShadow dx="0" dy="0" stdDeviation="4" flood-color="#f59e0b"/>
+                </filter>
+                <filter id="glow-emerald" x="-20%" y="-20%" width="140%" height="140%">
+                    <feDropShadow dx="0" dy="0" stdDeviation="4" flood-color="#10b981"/>
+                </filter>
+                <filter id="glow-purple" x="-20%" y="-20%" width="140%" height="140%">
+                    <feDropShadow dx="0" dy="0" stdDeviation="4" flood-color="#a855f7"/>
+                </filter>
+            </defs>
+            <g id="wires-group"></g>
+            <!-- Geçici Çizim Kablosu (Seçim Anında) -->
+            <path id="temp-wire" class="wire-path" stroke="#38bdf8" stroke-width="3" stroke-dasharray="6 4" fill="none" opacity="0"></path>
+        </svg>
+
+        <!-- SOL SÜTUN: 6 ADET DONANIM KARTI -->
+        <section id="col-left" class="md:col-span-3 flex flex-col justify-between gap-1.5 sm:gap-2 z-20">
+            <!-- JS ile doldurulacak (cardsLeft) -->
+        </section>
+
+        <!-- MERKEZ SÜTUN: ETKİLEŞİMLİ BİLGİSAYAR VE DONANIM MASASI -->
+        <section id="col-center" class="md:col-span-6 flex flex-col items-center justify-center relative z-20 glass-panel rounded-3xl p-2 sm:p-3 border-2 border-cyan-500/30 overflow-hidden shadow-2xl">
+            <!-- Görsel Alanı & Relative Pim Konteyneri -->
+            <div id="desk-wrapper" class="relative w-full max-w-[580px] aspect-[422/365] rounded-2xl overflow-hidden shadow-inner border border-slate-700/80 bg-slate-950 flex items-center justify-center">
+                
+                <!-- Masa Görseli -->
+                <img id="desk-image" 
+                     src="assets/donanim_masasi_merkez.png" 
+                     onerror="this.src='../assets/games/donanim_masasi_merkez.png'" 
+                     alt="Bilgisayar Donanım Masası" 
+                     class="w-full h-full object-contain pointer-events-none select-none transition-all duration-300" />
+
+                <!-- 1..12 Pim Daireleri (JS ile tam yüzdelik koordinatlarla yerleştirilecek) -->
+                <div id="pins-container" class="absolute inset-0 w-full h-full pointer-events-auto">
+                    <!-- Pinler JS ile eklenecek -->
+                </div>
+            </div>
+
+            <!-- Mini Durum & Parça Bilgi Şeridi -->
+            <div id="info-strip" class="w-full mt-2 p-2 sm:p-2.5 rounded-xl bg-slate-900/90 border border-slate-800 text-center flex items-center justify-between text-xs transition-all">
+                <span class="text-slate-400 font-bold flex items-center gap-1.5">
+                    <i class="fa-solid fa-circle-info text-cyan-400"></i>
+                    <span id="info-msg">Masadaki numaralar iç ve dış donanım parçalarını gösterir.</span>
+                </span>
+                <span id="active-selection-badge" class="hidden px-2 py-0.5 rounded-lg bg-cyan-500/20 text-cyan-300 font-extrabold text-[11px] border border-cyan-400/40 animate-pulse">
+                    Seçili: -
+                </span>
+            </div>
+        </section>
+
+        <!-- SAĞ SÜTUN: 6 ADET DONANIM KARTI -->
+        <section id="col-right" class="md:col-span-3 flex flex-col justify-between gap-1.5 sm:gap-2 z-20">
+            <!-- JS ile doldurulacak (cardsRight) -->
+        </section>
+
+    </main>
+
+    <!-- ALT BİLGİ ŞERİDİ -->
+    <footer class="w-full max-w-7xl mx-auto shrink-0 pt-1.5 border-t border-slate-800/80 text-[11px] text-slate-500 flex items-center justify-between">
+        <div class="flex items-center gap-2">
+            <i class="fa-solid fa-graduation-cap text-cyan-400"></i>
+            <span>5. Sınıf Bilişim Teknolojileri ve Yazılım Dersi • BTY.5.1.5</span>
+        </div>
+        <div>
+            Bozok Bilişim Portalı &copy; 2026 - Tüm Hakları Saklıdır
+        </div>
+    </footer>
+
+    <!-- MODAL: KAZANDIN / BİTİŞ TEBRİK EKRANI -->
+    <div id="modal-victory" class="hidden fixed inset-0 z-50 bg-slate-950/85 backdrop-blur-md flex items-center justify-center p-4">
+        <div class="glass-panel max-w-md w-full rounded-3xl p-6 sm:p-8 text-center space-y-5 border-2 border-emerald-400 shadow-2xl animate-pop">
+            <div class="w-20 h-20 mx-auto rounded-3xl bg-gradient-to-tr from-emerald-500 to-teal-400 flex items-center justify-center text-slate-950 text-4xl shadow-xl shadow-emerald-500/40 animate-bounce">
+                👑
+            </div>
+            <div class="space-y-1.5">
+                <span class="px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-300 font-black text-xs uppercase tracking-wider border border-emerald-400/30">
+                    TEBRİKLER! DONANIM USTASI OLDUN
+                </span>
+                <h3 class="text-2xl sm:text-3xl font-black text-white">Tüm Parçaları Bağladın!</h3>
+                <p class="text-xs sm:text-sm text-slate-300">
+                    Bilgisayar masası ve kasasındaki 12 donanım parçası kablolarla başarıyla eşleştirildi!
+                </p>
+            </div>
+
+            <!-- Skor Kartı -->
+            <div class="grid grid-cols-3 gap-2.5 bg-slate-900/90 p-3 rounded-2xl border border-slate-800 text-center">
+                <div class="p-2 bg-slate-950/80 rounded-xl">
+                    <span class="text-[10px] text-slate-400 font-bold uppercase block">Puan</span>
+                    <span id="victory-score" class="text-lg font-black text-amber-300">1200</span>
+                </div>
+                <div class="p-2 bg-slate-950/80 rounded-xl">
+                    <span class="text-[10px] text-slate-400 font-bold uppercase block">Süre</span>
+                    <span id="victory-time" class="text-lg font-black text-cyan-300">01:25</span>
+                </div>
+                <div class="p-2 bg-slate-950/80 rounded-xl">
+                    <span class="text-[10px] text-slate-400 font-bold uppercase block">Hata</span>
+                    <span id="victory-mistakes" class="text-lg font-black text-emerald-400">0</span>
+                </div>
+            </div>
+
+            <!-- Butonlar -->
+            <div class="flex items-center gap-3 pt-2">
+                <button onclick="game.restartGame(); document.getElementById('modal-victory').classList.add('hidden');" class="flex-1 py-3 bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-400 hover:to-teal-500 text-slate-950 font-black rounded-2xl shadow-lg transition-all active:scale-95 text-sm flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-rotate-right"></i>
+                    <span>Tekrar Oyna</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- SES MOTORU & OYUN MANTIĞI -->
+    <script>
+        class SoundEngine {
+            constructor() {
+                this.ctx = null;
+                this.muted = false;
+            }
+            init() {
+                if (!this.ctx) {
+                    const AudioCtx = window.AudioContext || window.webkitAudioContext;
+                    if (AudioCtx) this.ctx = new AudioCtx();
+                }
+            }
+            playTone(freq, type, duration, gainVal = 0.15) {
+                if (this.muted) return;
+                this.init();
+                if (!this.ctx) return;
+                try {
+                    const osc = this.ctx.createOscillator();
+                    const gain = this.ctx.createGain();
+                    osc.type = type;
+                    osc.frequency.setValueAtTime(freq, this.ctx.currentTime);
+                    gain.gain.setValueAtTime(gainVal, this.ctx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.0001, this.ctx.currentTime + duration);
+                    osc.connect(gain);
+                    gain.connect(this.ctx.destination);
+                    osc.start();
+                    osc.stop(this.ctx.currentTime + duration);
+                } catch(e) {}
+            }
+            playClick() { this.playTone(700, 'sine', 0.05, 0.1); }
+            playSelect() { this.playTone(880, 'triangle', 0.08, 0.12); }
+            playCorrect() {
+                this.playTone(523, 'triangle', 0.1, 0.2);
+                setTimeout(() => this.playTone(659, 'triangle', 0.1, 0.2), 80);
+                setTimeout(() => this.playTone(784, 'triangle', 0.18, 0.25), 160);
+                setTimeout(() => this.playTone(1046, 'sine', 0.3, 0.25), 250);
+            }
+            playWrong() {
+                this.playTone(240, 'sawtooth', 0.18, 0.18);
+            }
+            playVictory() {
+                const notes = [523, 659, 784, 1046, 1318];
+                notes.forEach((n, idx) => {
+                    setTimeout(() => this.playTone(n, 'triangle', 0.3, 0.25), idx * 120);
+                });
+            }
+        }
+
+        const sounds = new SoundEngine();
+
+        // ==========================================
+        // 12 DONANIM PARÇASI VERİ HAVUZU
+        // ==========================================
+        const HARDWARE_ITEMS = [
+            {
+                id: 1,
+                name: "Güç Kaynağı",
+                fullName: "Güç Kaynağı (PSU)",
+                category: "İç Donanım",
+                desc: "Şehir elektriğini düşük voltaja çevirerek kasadaki tüm parçalara enerji dağıtır.",
+                icon: "fa-solid fa-bolt",
+                color: "#06b6d4", // Cyan
+                pinPos: { x: 35.5, y: 20.5 },
+                side: "left"
+            },
+            {
+                id: 2,
+                name: "Anakart",
+                fullName: "Anakart (Motherboard)",
+                category: "İç Donanım",
+                desc: "Tüm iç ve dış parçaları birbirine bağlayan devasa ana devre kartıdır.",
+                icon: "fa-solid fa-microchip",
+                color: "#f59e0b", // Amber
+                pinPos: { x: 49.8, y: 28.8 },
+                side: "right"
+            },
+            {
+                id: 3,
+                name: "Ana Bellek (RAM)",
+                fullName: "Ana Bellek (RAM)",
+                category: "İç Donanım",
+                desc: "Çalışan program ve verileri geçici olarak tutar. Bilgisayar kapandığında silinir.",
+                icon: "fa-solid fa-memory",
+                color: "#c026d3", // Fuşya
+                pinPos: { x: 45.0, y: 19.7 },
+                side: "left"
+            },
+            {
+                id: 4,
+                name: "Sabit Disk (Hard Disk)",
+                fullName: "Sabit Disk (Hard Disk / HDD)",
+                category: "İç Donanım / Depolama",
+                desc: "Dosyaları, oyunları ve sistem dosyalarını kalıcı olarak depolayan aygıttır.",
+                icon: "fa-solid fa-hard-drive",
+                color: "#10b981", // Yeşil
+                pinPos: { x: 43.8, y: 58.9 },
+                side: "right"
+            },
+            {
+                id: 5,
+                name: "İşlemci",
+                fullName: "İşlemci (CPU)",
+                category: "İç Donanım",
+                desc: "Bilgisayarın beynidir. Tüm komutları işler ve matematiksel işlemleri yürütür.",
+                icon: "fa-solid fa-cube",
+                color: "#ef4444", // Kırmızı
+                pinPos: { x: 46.2, y: 37.0 },
+                side: "left"
+            },
+            {
+                id: 6,
+                name: "Ses ve Ekran Kartı",
+                fullName: "Ses ve Ekran Kartı (GPU & Audio)",
+                category: "İç Donanım",
+                desc: "Görüntü ve sesleri işleyerek monitöre ve hoparlöre aktarır; grafik gücünü sağlar.",
+                icon: "fa-solid fa-vr-cardboard",
+                color: "#3b82f6", // Mavi
+                pinPos: { x: 39.1, y: 37.0 },
+                side: "left"
+            },
+            {
+                id: 7,
+                name: "Ekran (Monitör)",
+                fullName: "Ekran (Monitör)",
+                category: "Dış Donanım / Çıkış",
+                desc: "Bilgisayardaki tüm işlemleri, pencereleri ve görüntüleri bize sunan çıkış birimidir.",
+                icon: "fa-solid fa-desktop",
+                color: "#10b981", // Zümrüt Yeşili
+                pinPos: { x: 64.0, y: 19.2 },
+                side: "left"
+            },
+            {
+                id: 8,
+                name: "Klavye",
+                fullName: "Klavye (Keyboard)",
+                category: "Dış Donanım / Giriş",
+                desc: "Üzerindeki tuşlarla metin ve komutları bilgisayara aktaran temel giriş birimidir.",
+                icon: "fa-solid fa-keyboard",
+                color: "#ea580c", // Kızıl Turuncu
+                pinPos: { x: 66.4, y: 45.2 },
+                side: "right"
+            },
+            {
+                id: 9,
+                name: "Fare",
+                fullName: "Fare (Mouse)",
+                category: "Dış Donanım / Giriş",
+                desc: "İmleci yöneterek tıklama ve sürükleme komutlarını bilgisayara ileten giriş birimidir.",
+                icon: "fa-solid fa-computer-mouse",
+                color: "#8b5cf6", // Mor
+                pinPos: { x: 79.4, y: 52.1 },
+                side: "left"
+            },
+            {
+                id: 10,
+                name: "Yazıcı",
+                fullName: "Yazıcı (Printer)",
+                category: "Dış Donanım / Çıkış",
+                desc: "Bilgisayardaki dijital belgeleri ve resimleri kağıda basan çıkış birimidir.",
+                icon: "fa-solid fa-print",
+                color: "#0284c7", // Gök Mavisi
+                pinPos: { x: 11.8, y: 31.5 },
+                side: "right"
+            },
+            {
+                id: 11,
+                name: "Kulaklık",
+                fullName: "Kulaklık (Headphone)",
+                category: "Dış Donanım / Çıkış",
+                desc: "Bilgisayardaki sesleri dışarıya yaymadan bireysel olarak dinlememizi sağlayan çıkış birimidir.",
+                icon: "fa-solid fa-headphones",
+                color: "#dc2626", // Koyu Kırmızı
+                pinPos: { x: 27.3, y: 58.9 },
+                side: "right"
+            },
+            {
+                id: 12,
+                name: "Mikrofon",
+                fullName: "Mikrofon (Microphone)",
+                category: "Dış Donanım / Giriş",
+                desc: "Dış ortamdaki ses dalgalarını dijital sinyale çevirip bilgisayara aktaran giriş birimidir.",
+                icon: "fa-solid fa-microphone",
+                color: "#f97316", // Turuncu
+                pinPos: { x: 55.7, y: 63.0 },
+                side: "right"
+            }
+        ];
+
+        // ==========================================
+        // OYUN MOTORU (Game Controller)
+        // ==========================================
+        class HardwareDeskGame {
+            constructor() {
+                this.items = [...HARDWARE_ITEMS];
+                this.matchedIds = new Set();
+                this.selectedCardId = null;
+                this.selectedPinId = null;
+                this.score = 0;
+                this.mistakes = 0;
+                this.startTime = null;
+                this.timerInterval = null;
+                this.showSolution = false;
+                this.hintActiveId = null;
+            }
+
+            init() {
+                this.renderCards();
+                this.renderPins();
+                this.startTimer();
+                window.addEventListener('resize', () => this.redrawAllWires());
+                window.addEventListener('orientationchange', () => setTimeout(() => this.redrawAllWires(), 200));
+            }
+
+            startTimer() {
+                if (this.timerInterval) clearInterval(this.timerInterval);
+                this.startTime = Date.now();
+                this.timerInterval = setInterval(() => {
+                    const elapsed = Math.floor((Date.now() - this.startTime) / 1000);
+                    const m = String(Math.floor(elapsed / 60)).padStart(2, '0');
+                    const s = String(elapsed % 60).padStart(2, '0');
+                    const el = document.getElementById('timer-display');
+                    if (el) el.innerText = `${m}:${s}`;
+                }, 1000);
+            }
+
+            restartGame() {
+                sounds.playClick();
+                this.matchedIds.clear();
+                this.selectedCardId = null;
+                this.selectedPinId = null;
+                this.score = 0;
+                this.mistakes = 0;
+                this.showSolution = false;
+                this.hintActiveId = null;
+
+                const solBtn = document.getElementById('solution-btn');
+                if (solBtn) solBtn.classList.remove('bg-purple-600', 'text-white');
+
+                this.updateCounters();
+                this.renderCards();
+                this.renderPins();
+                this.clearWires();
+                this.startTimer();
+
+                this.setInstruction("👉 Bir donanım kartına dokun, ardından masadaki doğru numaralı daireye (1-12) dokunarak kabloyu bağla!");
+            }
+
+            // Kartları sol ve sağ sütunlara dağıt (orijinal şemadaki sırayla)
+            renderCards() {
+                const colLeft = document.getElementById('col-left');
+                const colRight = document.getElementById('col-right');
+                if (!colLeft || !colRight) return;
+
+                // Sol ve Sağ listeleri al
+                const leftList = this.items.filter(i => i.side === 'left');
+                const rightList = this.items.filter(i => i.side === 'right');
+
+                colLeft.innerHTML = leftList.map(item => this.createCardHTML(item, 'left')).join('');
+                colRight.innerHTML = rightList.map(item => this.createCardHTML(item, 'right')).join('');
+            }
+
+            createCardHTML(item, side) {
+                const isMatched = this.matchedIds.has(item.id);
+                const isSelected = this.selectedCardId === item.id;
+
+                const connectorDot = `
+                    <div id="dot-card-${item.id}" 
+                         class="w-3.5 h-3.5 sm:w-4 sm:h-4 rounded-full border-2 border-white shadow-md transition-all shrink-0 ${isMatched ? 'bg-emerald-400' : 'bg-slate-300'}" 
+                         style="background-color: ${isMatched ? '#10b981' : item.color};">
+                    </div>
+                `;
+
+                return `
+                    <div id="card-${item.id}" 
+                         onclick="game.handleCardClick(${item.id})"
+                         class="hw-card p-2 sm:p-2.5 rounded-2xl border-2 flex items-center justify-between gap-2 shadow-lg ${isMatched ? 'matched' : (isSelected ? 'selected' : 'border-slate-800 bg-slate-900/90')} flex-1"
+                         style="${isMatched ? '' : `border-color: ${item.color}50;`}"
+                         title="${item.desc}">
+                         
+                        ${side === 'right' ? connectorDot : ''}
+
+                        <div class="flex items-center gap-2 sm:gap-2.5 min-w-0 flex-1">
+                            <div class="w-7 h-7 sm:w-8 sm:h-8 rounded-xl flex items-center justify-center text-xs sm:text-sm font-black text-white shrink-0 shadow"
+                                 style="background-color: ${item.color};">
+                                <i class="${item.icon}"></i>
+                            </div>
+                            <div class="min-w-0 flex-1 text-left">
+                                <div class="font-extrabold text-xs sm:text-sm text-white truncate leading-tight">
+                                    ${item.name}
+                                </div>
+                                <div class="text-[9px] sm:text-[10px] font-semibold text-slate-400 truncate leading-none mt-0.5">
+                                    ${item.category}
+                                </div>
+                            </div>
+                        </div>
+
+                        ${isMatched ? `
+                            <span class="text-emerald-400 text-xs sm:text-sm font-black px-1.5 shrink-0">
+                                <i class="fa-solid fa-circle-check"></i>
+                            </span>
+                        ` : ''}
+
+                        ${side === 'left' ? connectorDot : ''}
+                    </div>
+                `;
+            }
+
+            // Masadaki 1..12 Pinlerini Oluştur
+            renderPins() {
+                const container = document.getElementById('pins-container');
+                if (!container) return;
+
+                container.innerHTML = this.items.map(item => {
+                    const isMatched = this.matchedIds.has(item.id);
+                    const isTargetActive = this.selectedCardId !== null && !isMatched;
+                    const isSelected = this.selectedPinId === item.id;
+                    const isHint = this.hintActiveId === item.id;
+
+                    return `
+                        <div id="pin-${item.id}"
+                             onclick="game.handlePinClick(${item.id})"
+                             class="pin-node w-6 h-6 sm:w-8 sm:h-8 rounded-full border-2 flex items-center justify-center font-black text-xs sm:text-sm shadow-xl transition-all ${isMatched ? 'matched border-emerald-400 text-white' : (isSelected ? 'bg-cyan-500 border-white text-slate-950 scale-125' : (isHint ? 'hint-pulse bg-amber-500 border-white text-slate-950' : 'bg-slate-950/90 border-slate-300 text-white hover:border-cyan-400'))}"
+                             style="left: ${item.pinPos.x}%; top: ${item.pinPos.y}%;"
+                             title="Parça No: ${item.id} - ${isMatched ? item.fullName : 'Doğru parçayı buraya bağla'}">
+                            ${isMatched ? '<i class="fa-solid fa-check text-xs"></i>' : item.id}
+                        </div>
+                    `;
+                }).join('');
+            }
+
+            // Kart Tıklaması
+            handleCardClick(id) {
+                if (this.matchedIds.has(id)) return;
+                sounds.playSelect();
+
+                // Eğer zaten bir pim seçilmişse eşleştirmeyi dene
+                if (this.selectedPinId !== null) {
+                    this.tryMatch(id, this.selectedPinId);
+                    return;
+                }
+
+                // Kartı seç / seçimi kaldır
+                if (this.selectedCardId === id) {
+                    this.selectedCardId = null;
+                    this.setInstruction("👉 Bir donanım kartına veya masadaki numaraya dokun!");
+                } else {
+                    this.selectedCardId = id;
+                    const item = this.items.find(i => i.id === id);
+                    this.setInstruction(`⚡ "${item.name}" seçildi! Şimdi masadaki doğru numaraya (1-12) dokun!`, item.name);
+                }
+
+                this.renderCards();
+                this.renderPins();
+            }
+
+            // Pim Tıklaması (1-12)
+            handlePinClick(pinId) {
+                if (this.matchedIds.has(pinId)) {
+                    // Zaten eşleşmişse bilgisini göster
+                    const item = this.items.find(i => i.id === pinId);
+                    if (item) this.showItemToast(item);
+                    return;
+                }
+
+                sounds.playSelect();
+
+                // Eğer bir kart seçilmişse eşleştir
+                if (this.selectedCardId !== null) {
+                    this.tryMatch(this.selectedCardId, pinId);
+                    return;
+                }
+
+                // Kart seçilmemişken pime basıldıysa pimi aktif yap
+                if (this.selectedPinId === pinId) {
+                    this.selectedPinId = null;
+                    this.setInstruction("👉 Bir donanım kartına veya masadaki numaraya dokun!");
+                } else {
+                    this.selectedPinId = pinId;
+                    this.setInstruction(`📍 ${pinId} numaralı hedef seçildi! Şimdi yan sütundan doğru donanım kartına dokun!`);
+                }
+
+                this.renderCards();
+                this.renderPins();
+            }
+
+            // Eşleştirme Kontrolü
+            tryMatch(cardId, pinId) {
+                const cardItem = this.items.find(i => i.id === cardId);
+                const pinItem = this.items.find(i => i.id === pinId);
+
+                if (cardId === pinId) {
+                    // DOĞRU EŞLEŞME
+                    sounds.playCorrect();
+                    this.matchedIds.add(cardId);
+                    this.score += 100;
+                    this.selectedCardId = null;
+                    this.selectedPinId = null;
+                    this.hintActiveId = null;
+
+                    this.setInstruction(`🎉 DOĞRU! "${cardItem.fullName}" başarıyla masaya bağlandı!`);
+                    this.showItemToast(cardItem);
+
+                    this.updateCounters();
+                    this.renderCards();
+                    this.renderPins();
+
+                    // Kabloyu çiz
+                    setTimeout(() => this.drawWire(cardId), 50);
+
+                    // Hepsi bitti mi?
+                    if (this.matchedIds.size === this.items.length) {
+                        setTimeout(() => this.finishGame(), 700);
+                    }
+                } else {
+                    // YANLIŞ EŞLEŞME
+                    sounds.playWrong();
+                    this.mistakes++;
+                    this.score = Math.max(0, this.score - 20);
+                    this.updateCounters();
+
+                    // Kart ve pimi titret
+                    const cardEl = document.getElementById(`card-${cardId}`);
+                    const pinEl = document.getElementById(`pin-${pinId}`);
+                    if (cardEl) cardEl.classList.add('animate-shake');
+                    if (pinEl) pinEl.classList.add('animate-shake');
+
+                    setTimeout(() => {
+                        if (cardEl) cardEl.classList.remove('animate-shake');
+                        if (pinEl) pinEl.classList.remove('animate-shake');
+                    }, 500);
+
+                    this.setInstruction(`⚠️ Tekrar düşün! ${pinId} numarası "${cardItem.name}" parçası değildir.`, null, true);
+
+                    this.selectedCardId = null;
+                    this.selectedPinId = null;
+                    this.renderCards();
+                    this.renderPins();
+                }
+            }
+
+            // İpucu Verme
+            giveHint() {
+                sounds.playClick();
+                const remaining = this.items.filter(i => !this.matchedIds.has(i.id));
+                if (remaining.length === 0) return;
+
+                // Eğer kart seçiliyse o kartın pinini parlat, seçili değilse rastgele kalan birini parlat
+                let target = null;
+                if (this.selectedCardId) {
+                    target = remaining.find(i => i.id === this.selectedCardId) || remaining[0];
+                } else {
+                    target = remaining[Math.floor(Math.random() * remaining.length)];
+                }
+
+                this.hintActiveId = target.id;
+                this.renderPins();
+                this.setInstruction(`💡 İpucu: "${target.name}" masadaki ${target.id} numaralı hedeftir!`);
+
+                setTimeout(() => {
+                    if (this.hintActiveId === target.id) {
+                        this.hintActiveId = null;
+                        this.renderPins();
+                    }
+                }, 3500);
+            }
+
+            // Çözümleri Göster / Gizle (Öğretmen Sunum Modu)
+            toggleSolution() {
+                sounds.playClick();
+                this.showSolution = !this.showSolution;
+                const solBtn = document.getElementById('solution-btn');
+
+                if (this.showSolution) {
+                    if (solBtn) solBtn.classList.add('bg-purple-600', 'text-white');
+                    this.items.forEach(item => this.matchedIds.add(item.id));
+                    this.renderCards();
+                    this.renderPins();
+                    this.redrawAllWires();
+                    this.setInstruction("👁️ Tüm donanım bağlantıları ve çözümleri ekranda gösteriliyor.");
+                } else {
+                    if (solBtn) solBtn.classList.remove('bg-purple-600', 'text-white');
+                    this.restartGame();
+                }
+            }
+
+            // SVG Kablo Çizimi (Karttan Masa Pinine Yumuşak Bezier Eğrisi)
+            drawWire(itemId) {
+                const item = this.items.find(i => i.id === itemId);
+                if (!item) return;
+
+                const dotEl = document.getElementById(`dot-card-${itemId}`);
+                const pinEl = document.getElementById(`pin-${itemId}`);
+                const svgGroup = document.getElementById('wires-group');
+                const stage = document.getElementById('stage-container');
+
+                if (!dotEl || !pinEl || !svgGroup || !stage) return;
+
+                const stageRect = stage.getBoundingClientRect();
+                const dotRect = dotEl.getBoundingClientRect();
+                const pinRect = pinEl.getBoundingClientRect();
+
+                // Koordinatlar (SVG içindeki piksel yerleşimi)
+                const x1 = dotRect.left + dotRect.width / 2 - stageRect.left;
+                const y1 = dotRect.top + dotRect.height / 2 - stageRect.top;
+                const x2 = pinRect.left + pinRect.width / 2 - stageRect.left;
+                const y2 = pinRect.top + pinRect.height / 2 - stageRect.top;
+
+                // Bezier Kontrol Noktaları (Yumuşak S-Eğrisi)
+                const dx = Math.abs(x2 - x1) * 0.55;
+                const cx1 = item.side === 'left' ? (x1 + dx) : (x1 - dx);
+                const cy1 = y1;
+                const cx2 = item.side === 'left' ? (x2 - dx * 0.5) : (x2 + dx * 0.5);
+                const cy2 = y2;
+
+                const d = `M ${x1} ${y1} C ${cx1} ${cy1}, ${cx2} ${cy2}, ${x2} ${y2}`;
+
+                // Eski kablo varsa kaldır
+                const oldPath = document.getElementById(`wire-${itemId}`);
+                if (oldPath) oldPath.remove();
+
+                const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+                path.setAttribute('id', `wire-${itemId}`);
+                path.setAttribute('d', d);
+                path.setAttribute('stroke', item.color);
+                path.setAttribute('stroke-width', '3.5');
+                path.setAttribute('class', 'wire-path wire-animated');
+                path.setAttribute('style', `color: ${item.color};`);
+
+                svgGroup.appendChild(path);
+            }
+
+            redrawAllWires() {
+                this.clearWires();
+                this.matchedIds.forEach(id => this.drawWire(id));
+            }
+
+            clearWires() {
+                const svgGroup = document.getElementById('wires-group');
+                if (svgGroup) svgGroup.innerHTML = '';
+            }
+
+            updateCounters() {
+                const cEl = document.getElementById('counter-display');
+                const sEl = document.getElementById('score-display');
+                if (cEl) cEl.innerText = `${this.matchedIds.size} / ${this.items.length}`;
+                if (sEl) sEl.innerText = `${this.score}`;
+            }
+
+            setInstruction(msg, badge = null, isError = false) {
+                const textEl = document.getElementById('instruction-text');
+                const badgeEl = document.getElementById('active-selection-badge');
+                if (textEl) {
+                    textEl.innerText = msg;
+                    textEl.className = isError ? "text-rose-300 font-black animate-pulse" : "text-cyan-200 font-bold";
+                }
+                if (badgeEl) {
+                    if (badge) {
+                        badgeEl.innerText = `Seçili: ${badge}`;
+                        badgeEl.classList.remove('hidden');
+                    } else {
+                        badgeEl.classList.add('hidden');
+                    }
+                }
+            }
+
+            showItemToast(item) {
+                const infoMsg = document.getElementById('info-msg');
+                if (infoMsg) {
+                    infoMsg.innerHTML = `<strong>${item.fullName}:</strong> ${item.desc}`;
+                }
+            }
+
+            finishGame() {
+                if (this.timerInterval) clearInterval(this.timerInterval);
+                sounds.playVictory();
+
+                // Konfeti fırlat
+                if (typeof confetti === 'function') {
+                    confetti({
+                        particleCount: 120,
+                        spread: 80,
+                        origin: { y: 0.6 }
+                    });
+                }
+
+                const elapsed = Math.floor((Date.now() - this.startTime) / 1000);
+                const m = String(Math.floor(elapsed / 60)).padStart(2, '0');
+                const s = String(elapsed % 60).padStart(2, '0');
+
+                document.getElementById('victory-score').innerText = this.score;
+                document.getElementById('victory-time').innerText = `${m}:${s}`;
+                document.getElementById('victory-mistakes').innerText = this.mistakes;
+
+                const modal = document.getElementById('modal-victory');
+                if (modal) modal.classList.remove('hidden');
+            }
+
+            toggleAudio() {
+                sounds.muted = !sounds.muted;
+                const icon = document.getElementById('audio-icon');
+                if (icon) {
+                    icon.className = sounds.muted ? "fa-solid fa-volume-xmark text-rose-400" : "fa-solid fa-volume-high text-yellow-400";
+                }
+            }
+
+            toggleFullscreen() {
+                sounds.playClick();
+                if (!document.fullscreenElement) {
+                    document.documentElement.requestFullscreen().catch(() => {});
+                } else {
+                    document.exitFullscreen().catch(() => {});
+                }
+            }
+        }
+
+        const game = new HardwareDeskGame();
+
+        window.onload = function() {
+            game.init();
+        };
+    </script>
+</body>
+</html>
