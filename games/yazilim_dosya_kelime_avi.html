@@ -1,0 +1,774 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yazılım ve Dosya Yönetimi Kelime Avı | Öğretmen Bozok</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- Tailwind CSS (CDN) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Canvas Confetti -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Poppins', 'Fredoka', 'sans-serif'],
+                    },
+                    colors: {
+                        cyber: {
+                            dark: '#060913',
+                            panel: '#0c1322',
+                            card: '#111c33',
+                            border: '#1e2e4f',
+                            cyan: '#06b6d4',
+                            sky: '#38bdf8',
+                            purple: '#a855f7',
+                            emerald: '#10b981',
+                            amber: '#f59e0b'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        * { box-sizing: border-box; font-family: 'Poppins', sans-serif; -webkit-tap-highlight-color: transparent; }
+        @media (min-width: 1921px) {
+            html:not([data-scale]), html[data-scale="auto"] {
+                font-size: calc(100vw / 120) !important;
+            }
+            .max-w-6xl, .max-w-5xl, .max-w-4xl {
+                max-width: min(85rem, 92vw) !important;
+            }
+        }
+        html[data-scale="100"] { font-size: 16px !important; }
+        html[data-scale="115"] { font-size: max(18.4px, calc(100vw / 104)) !important; }
+        html[data-scale="130"] { font-size: max(20.8px, calc(100vw / 92)) !important; }
+        html[data-scale="150"] { font-size: max(24px, calc(100vw / 80)) !important; }
+        html[data-scale="200"] { font-size: 32px !important; }
+        body { background-color: #050811; color: #f8fafc; min-height: 100vh; overflow-x: hidden; }
+        .glass-panel { background: rgba(12, 19, 34, 0.92); backdrop-filter: blur(16px); border: 2px solid rgba(168, 85, 247, 0.25); }
+        .grid-cell {
+            transition: all 0.15s ease;
+            user-select: none;
+            touch-action: manipulation;
+        }
+        .grid-cell:hover {
+            transform: scale(1.08);
+            background-color: rgba(168, 85, 247, 0.25);
+        }
+        .grid-cell.selected {
+            background: linear-gradient(135deg, #7c3aed, #a855f7) !important;
+            color: #ffffff !important;
+            font-weight: 900;
+            box-shadow: 0 0 15px rgba(168, 85, 247, 0.8);
+            transform: scale(1.05);
+        }
+        .grid-cell.found {
+            background: linear-gradient(135deg, #059669, #10b981) !important;
+            color: #022c22 !important;
+            font-weight: 900;
+            border-color: #6ee7b7 !important;
+            box-shadow: 0 0 10px rgba(16, 185, 129, 0.6);
+        }
+        .grid-cell.solution {
+            background: linear-gradient(135deg, #0284c7, #06b6d4) !important;
+            color: #030712 !important;
+            font-weight: 900;
+            border-color: #7dd3fc !important;
+            box-shadow: 0 0 14px rgba(6, 182, 212, 0.85);
+            animation: solPulse 1.2s infinite alternate;
+        }
+        @keyframes solPulse {
+            0% { transform: scale(1); filter: brightness(1); }
+            100% { transform: scale(1.06); filter: brightness(1.25); }
+        }
+        .grid-cell.hint-pulse {
+            animation: hintAnim 1s infinite alternate;
+        }
+        @keyframes hintAnim {
+            0% { transform: scale(1); background-color: rgba(245, 158, 11, 0.3); }
+            100% { transform: scale(1.15); background-color: rgba(245, 158, 11, 0.85); color: #000; }
+        }
+        @keyframes popIn { 0% { transform: scale(0.92); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
+        .animate-pop { animation: popIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+    </style>
+</head>
+<body class="p-2 sm:p-4 md:p-6 flex flex-col justify-between">
+
+    <!-- ÜST BAŞLIK & İSTATİSTİK BARI -->
+    <header class="max-w-6xl w-full mx-auto mb-3 sm:mb-4">
+        <div class="glass-panel rounded-2xl sm:rounded-3xl p-3 sm:p-4 flex flex-wrap items-center justify-between gap-3 shadow-2xl">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl bg-gradient-to-tr from-purple-500 to-indigo-600 flex items-center justify-center text-white text-lg sm:text-2xl shadow-lg shadow-purple-500/30">
+                    <i class="fa-solid fa-file-code"></i>
+                </div>
+                <div>
+                    <div class="flex items-center gap-2">
+                        <span class="px-2 py-0.5 rounded-md bg-purple-500/20 text-purple-300 border border-purple-400/30 text-[10px] font-black uppercase tracking-wider">
+                            5. KONU - 2
+                        </span>
+                        <span class="text-xs text-slate-400 font-semibold hidden sm:inline">Öğretmen Bozok</span>
+                    </div>
+                    <h1 class="text-base sm:text-xl font-black text-white tracking-tight">
+                        Yazılım, Kapasite ve Dosya Kelime Avı
+                    </h1>
+                </div>
+            </div>
+
+            <!-- İstatistik Kartları -->
+            <div class="flex items-center gap-2 sm:gap-3">
+                <div class="px-3 py-1.5 rounded-xl bg-slate-900/90 border border-slate-700/60 flex items-center gap-2">
+                    <i class="fa-solid fa-bullseye text-purple-400 text-xs sm:text-sm"></i>
+                    <div class="text-left">
+                        <span class="text-[9px] text-slate-400 font-bold uppercase block leading-none">İlerleme</span>
+                        <span id="stat-found" class="text-xs sm:text-sm font-black text-white leading-none">0 / 10</span>
+                    </div>
+                </div>
+
+                <div class="px-3 py-1.5 rounded-xl bg-slate-900/90 border border-slate-700/60 flex items-center gap-2">
+                    <i class="fa-solid fa-star text-amber-400 text-xs sm:text-sm"></i>
+                    <div class="text-left">
+                        <span class="text-[9px] text-slate-400 font-bold uppercase block leading-none">Puan</span>
+                        <span id="stat-score" class="text-xs sm:text-sm font-black text-amber-300 leading-none">0</span>
+                    </div>
+                </div>
+
+                <div class="px-3 py-1.5 rounded-xl bg-slate-900/90 border border-slate-700/60 flex items-center gap-2">
+                    <i class="fa-solid fa-clock text-cyan-400 text-xs sm:text-sm"></i>
+                    <div class="text-left">
+                        <span class="text-[9px] text-slate-400 font-bold uppercase block leading-none">Süre</span>
+                        <span id="stat-timer" class="text-xs sm:text-sm font-black text-cyan-300 leading-none">00:00</span>
+                    </div>
+                </div>
+
+                <button onclick="game.toggleAudio()" id="btn-audio" class="w-9 h-9 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-700 text-purple-400 flex items-center justify-center text-sm transition-all shadow-md" title="Sesi Aç/Kapat">
+                    <i class="fa-solid fa-volume-high"></i>
+                </button>
+                <button onclick="game.openHelpModal()" class="w-9 h-9 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-700 text-amber-400 flex items-center justify-center text-sm transition-all shadow-md" title="Nasıl Oynanır?">
+                    <i class="fa-solid fa-circle-question"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- ANA OYUN ALANI -->
+    <main class="max-w-6xl w-full mx-auto flex-1 flex flex-col justify-center">
+        <div id="game-container" class="glass-panel rounded-2xl sm:rounded-3xl p-3 sm:p-5 shadow-2xl relative overflow-hidden">
+            <!-- Dinamik Olarak JavaScript Tarafından Doldurulur -->
+        </div>
+    </main>
+
+    <!-- ALT BİLGİ & KONTROL BARI -->
+    <footer class="max-w-6xl w-full mx-auto mt-3 sm:mt-4 text-center">
+        <div class="flex items-center justify-between text-xs text-slate-400 px-2">
+            <span>Öğretmen Bozok • Bilişim Teknolojileri ve Yazılım Dersi</span>
+            <span class="hidden sm:inline">💡 İpucu: Seçmek için kelimenin ilk ve son harfine dokun!</span>
+            <button onclick="game.toggleSolution()" id="btn-solution" class="text-xs text-purple-400 hover:text-purple-300 font-bold underline transition-colors">
+                Cevap Anahtarını Göster / Gizle
+            </button>
+        </div>
+    </footer>
+
+    <!-- NASIL OYNANIR MODALI -->
+    <div id="modal-help" class="fixed inset-0 bg-slate-950/80 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden">
+        <div class="glass-panel rounded-3xl max-w-lg w-full overflow-hidden shadow-2xl border-2 border-purple-500/40 animate-pop">
+            <div class="p-5 bg-gradient-to-r from-purple-900/80 to-slate-900 border-b border-purple-500/30 flex items-center justify-between">
+                <div class="flex items-center gap-2 text-purple-300 font-black text-base">
+                    <i class="fa-solid fa-circle-info"></i>
+                    <span>Nasıl Oynanır?</span>
+                </div>
+                <button onclick="game.closeHelpModal()" class="w-8 h-8 rounded-lg bg-slate-800 hover:bg-rose-600 text-slate-300 hover:text-white transition-all flex items-center justify-center">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <div class="p-6 space-y-4 text-sm text-slate-200">
+                <div class="flex items-start gap-3">
+                    <span class="w-7 h-7 rounded-lg bg-purple-500 text-white font-black flex items-center justify-center text-xs shrink-0">1</span>
+                    <p>Tabloda yatay, dikey veya çapraz olarak gizlenmiş <strong>10 yazılım ve dosya yönetimi kavramını</strong> bul.</p>
+                </div>
+                <div class="flex items-start gap-3">
+                    <span class="w-7 h-7 rounded-lg bg-purple-500 text-white font-black flex items-center justify-center text-xs shrink-0">2</span>
+                    <p>Kelimeyi seçmek için kelimenin <strong>İLK harfine dokun</strong>, ardından <strong>SON harfine dokun</strong>!</p>
+                </div>
+                <div class="flex items-start gap-3">
+                    <span class="w-7 h-7 rounded-lg bg-purple-500 text-white font-black flex items-center justify-center text-xs shrink-0">3</span>
+                    <p>Tıkandığında sağdaki <strong>"İpucu Al"</strong> butonuna basarak ilk harfin konumunu parlatabilirsin.</p>
+                </div>
+                <div class="flex items-start gap-3">
+                    <span class="w-7 h-7 rounded-lg bg-purple-500 text-white font-black flex items-center justify-center text-xs shrink-0">4</span>
+                    <p>Tüm kelimeleri en kısa sürede bularak <strong>Dosya ve Yazılım Uzmanı</strong> unvanını kazan!</p>
+                </div>
+            </div>
+            <div class="p-4 bg-slate-950/60 border-t border-slate-800 text-center">
+                <button onclick="game.closeHelpModal()" class="px-6 py-2 bg-purple-600 hover:bg-purple-500 text-white font-black rounded-xl text-sm shadow-lg transition-all active:scale-95">
+                    Anladım, Başlayalım! 🚀
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- SES MOTORU & OYUN MANTIĞI -->
+    <script>
+        class SoundEngine {
+            constructor() {
+                this.ctx = null;
+                this.muted = false;
+            }
+            init() {
+                if (!this.ctx) {
+                    const AudioCtx = window.AudioContext || window.webkitAudioContext;
+                    if (AudioCtx) this.ctx = new AudioCtx();
+                }
+            }
+            playBeep(freq, type, duration, gainVal = 0.15) {
+                if (this.muted) return;
+                this.init();
+                if (!this.ctx) return;
+                try {
+                    const osc = this.ctx.createOscillator();
+                    const gain = this.ctx.createGain();
+                    osc.type = type;
+                    osc.frequency.setValueAtTime(freq, this.ctx.currentTime);
+                    gain.gain.setValueAtTime(gainVal, this.ctx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.0001, this.ctx.currentTime + duration);
+                    osc.connect(gain);
+                    gain.connect(this.ctx.destination);
+                    osc.start();
+                    osc.stop(this.ctx.currentTime + duration);
+                } catch(e) {}
+            }
+            playClick() { this.playBeep(650, 'sine', 0.06, 0.1); }
+            playFound() {
+                this.playBeep(523, 'triangle', 0.1, 0.2);
+                setTimeout(() => this.playBeep(659, 'triangle', 0.1, 0.2), 80);
+                setTimeout(() => this.playBeep(784, 'triangle', 0.15, 0.25), 160);
+            }
+            playWrong() {
+                this.playBeep(220, 'sawtooth', 0.12, 0.2);
+                setTimeout(() => this.playBeep(180, 'sawtooth', 0.16, 0.2), 90);
+            }
+            playHint() {
+                this.playBeep(880, 'sine', 0.1, 0.15);
+                setTimeout(() => this.playBeep(1174, 'sine', 0.15, 0.15), 100);
+            }
+            playFanfare() {
+                const notes = [523, 659, 784, 1046];
+                notes.forEach((freq, idx) => {
+                    setTimeout(() => this.playBeep(freq, 'triangle', 0.2, 0.25), idx * 120);
+                });
+            }
+        }
+
+        const sounds = new SoundEngine();
+
+        class SoftwareWordHuntGame {
+            constructor() {
+                this.gridSize = 12;
+                // 5. Konu - 2: Yazılım, Kapasite ve Dosya Yönetimi Havuzu (26 Kavram)
+                this.wordPool = [
+                    { word: "YAZILIM", label: "Yazılım", desc: "Donanımın çalışmasını sağlayan tüm kodlar ve programlar" },
+                    { word: "ISLETIMSISTEMI", label: "İşletim Sistemi", desc: "Bilgisayarı yöneten ve donanımları konuşturan ana sistem" },
+                    { word: "PARDUS", label: "Pardus", desc: "TÜBİTAK tarafından geliştirilen yerli ve milli işletim sistemimiz" },
+                    { word: "WINDOWS", label: "Windows", desc: "Dünyada en yaygın kullanılan masaüstü işletim sistemi" },
+                    { word: "LINUX", label: "Linux", desc: "Açık kaynak kodlu ve ücretsiz çekirdek işletim sistemi" },
+                    { word: "ANDROID", label: "Android", desc: "Akıllı telefon ve tabletlerde en çok kullanılan mobil işletim sistemi" },
+                    { word: "UYGULAMA", label: "Uygulama", desc: "Kullanıcının belirli bir işi yapmasını sağlayan özel yazılımlar" },
+                    { word: "PROGRAM", label: "Program", desc: "Bilgisayara bir görevi yerine getirmesini söyleyen komutlar bütünü" },
+                    { word: "KODLAMA", label: "Kodlama", desc: "Yazılımları üretmek için bilgisayar dilleriyle yazma süreci" },
+                    { word: "LISANSLI", label: "Lisanslı Yazılım", desc: "Kullanım hakkı ücret ödenerek satın alınan ticari yazılımlar" },
+                    { word: "UCRETSIZ", label: "Ücretsiz (Freeware)", desc: "Hiçbir ücret ödemeden yasal olarak kullanılan yazılımlar" },
+                    { word: "ACIKKAYNAK", label: "Açık Kaynak", desc: "Kodları herkesin inceleyip geliştirmesine açık olan yazılımlar" },
+                    { word: "TERABYTE", label: "Terabyte (TB)", desc: "1024 Gigabyte'a eşit devasa depolama kapasitesi birimi" },
+                    { word: "GIGABYTE", label: "Gigabyte (GB)", desc: "1024 Megabyte'a eşit olan yaygın hafıza ve depolama birimi" },
+                    { word: "MEGABYTE", label: "Megabyte (MB)", desc: "1024 Kilobyte'a eşit olan müzik ve fotoğraf boyutu birimi" },
+                    { word: "KILOBYTE", label: "Kilobyte (KB)", desc: "1024 Byte'a eşit olan metin ve küçük dosya birimi" },
+                    { word: "BYTE", label: "Byte", desc: "8 Bit'in birleşimiyle oluşan, klavyedeki 1 harfe eşit birim" },
+                    { word: "BIT", label: "Bit", desc: "0 veya 1 değerini alan en küçük dijital veri parçacığı" },
+                    { word: "KLASOR", label: "Klasör (Dizin)", desc: "Dosyaları düzenli tutmak için kullanılan sanal dolaplar" },
+                    { word: "UZANTI", label: "Dosya Uzantısı", desc: "Dosyanın türünü ve açılacağı programı belirleyen soyadı" },
+                    { word: "DOSYA", label: "Dosya", desc: "Bilgisayarda üretilen ve kaydedilen her bir dijital bilgi ögesi" },
+                    { word: "SIKISTIRMA", label: "Sıkıştırma", desc: "Dosyaların kapladığı alanı küçülterek arşivleme işlemi" },
+                    { word: "BELGE", label: "Belge (.docx/.pdf)", desc: "Kelime işlemcilerde yazılan yazı ve rapor dosyaları" },
+                    { word: "ARSIV", label: "Arşiv (.zip/.rar)", desc: "Birden fazla dosyayı tek pakette sıkıştıran format" },
+                    { word: "TABLO", label: "Tablo (.xlsx)", desc: "Hesaplama ve veri tablosu dosyası formatı" },
+                    { word: "SUNUM", label: "Sunum (.pptx)", desc: "Slaytlardan oluşan görsel ders ve sunu dosyası" }
+                ];
+
+                this.words = [];
+                this.grid = [];
+                this.selectedStart = null;
+                this.selectedCells = [];
+                this.foundCells = new Set();
+                this.hintWord = null;
+                this.hintsUsed = 0;
+                this.score = 0;
+                this.showSolution = false;
+                this.state = 'intro';
+                this.secondsElapsed = 0;
+                this.timerInterval = null;
+            }
+
+            init() {
+                this.buildGrid();
+                this.render();
+            }
+
+            startGame() {
+                sounds.playClick();
+                this.buildGrid();
+                this.foundCells.clear();
+                this.selectedStart = null;
+                this.selectedCells = [];
+                this.hintWord = null;
+                this.hintsUsed = 0;
+                this.score = 0;
+                this.showSolution = false;
+                this.secondsElapsed = 0;
+                this.startTimer();
+                this.state = 'playing';
+                this.render();
+            }
+
+            startTimer() {
+                clearInterval(this.timerInterval);
+                this.timerInterval = setInterval(() => {
+                    this.secondsElapsed++;
+                    const min = String(Math.floor(this.secondsElapsed / 60)).padStart(2, '0');
+                    const sec = String(this.secondsElapsed % 60).padStart(2, '0');
+                    const el = document.getElementById("stat-timer");
+                    if (el) el.innerText = `${min}:${sec}`;
+                }, 1000);
+            }
+
+            stopTimer() {
+                clearInterval(this.timerInterval);
+            }
+
+            toggleSolution() {
+                sounds.playClick();
+                this.showSolution = !this.showSolution;
+                this.render();
+            }
+
+            solveAllAndFinish() {
+                sounds.playFanfare();
+                this.words.forEach(w => {
+                    w.found = true;
+                    if (w.cells) {
+                        w.cells.forEach(coord => this.foundCells.add(coord));
+                    }
+                });
+                this.showSolution = false;
+                this.stopTimer();
+                if (typeof confetti === 'function') {
+                    confetti({ particleCount: 120, spread: 80, origin: { y: 0.6 } });
+                }
+                this.state = 'result';
+                this.render();
+            }
+
+            buildGrid() {
+                const alphabet = "ABCÇDEFGĞHIİJKLMNOÖPRSŞTUÜVYZ";
+                const directions = [
+                    { dr: 0, dc: 1, name: "Yatay Sağa ➔" },
+                    { dr: 1, dc: 0, name: "Dikey Aşağı ⬇" },
+                    { dr: 1, dc: 1, name: "Çapraz ↘" },
+                    { dr: 1, dc: -1, name: "Çapraz ↙" }
+                ];
+
+                const shuffledPool = [...this.wordPool].sort(() => Math.random() - 0.5);
+                const selected = shuffledPool.slice(0, 10);
+                this.words = selected.map(w => ({ ...w, found: false, cells: [] }));
+
+                const sortedWords = [...this.words].sort((a, b) => b.word.length - a.word.length);
+
+                let placedSuccessfully = false;
+                let attempts = 0;
+
+                while (!placedSuccessfully && attempts < 50) {
+                    attempts++;
+                    this.grid = Array(this.gridSize).fill(null).map(() => Array(this.gridSize).fill(''));
+                    let allPlaced = true;
+
+                    for (const item of sortedWords) {
+                        let placed = false;
+                        const shuffledDirs = [...directions].sort(() => Math.random() - 0.5);
+
+                        for (let t = 0; t < 100; t++) {
+                            const dir = shuffledDirs[t % shuffledDirs.length];
+                            const len = item.word.length;
+
+                            let minR = 0, maxR = this.gridSize - 1;
+                            let minC = 0, maxC = this.gridSize - 1;
+
+                            if (dir.dr > 0) maxR = this.gridSize - len;
+                            if (dir.dc > 0) maxC = this.gridSize - len;
+                            if (dir.dc < 0) minC = len - 1;
+
+                            if (minR > maxR || minC > maxC) continue;
+
+                            const r = Math.floor(Math.random() * (maxR - minR + 1)) + minR;
+                            const c = Math.floor(Math.random() * (maxC - minC + 1)) + minC;
+
+                            let canPlace = true;
+                            for (let i = 0; i < len; i++) {
+                                const nr = r + dir.dr * i;
+                                const nc = c + dir.dc * i;
+                                const existing = this.grid[nr][nc];
+                                if (existing !== '' && existing !== item.word[i]) {
+                                    canPlace = false;
+                                    break;
+                                }
+                            }
+
+                            if (canPlace) {
+                                const coords = [];
+                                for (let i = 0; i < len; i++) {
+                                    const nr = r + dir.dr * i;
+                                    const nc = c + dir.dc * i;
+                                    this.grid[nr][nc] = item.word[i];
+                                    coords.push(`${nr},${nc}`);
+                                }
+                                item.cells = coords;
+                                placed = true;
+                                break;
+                            }
+                        }
+
+                        if (!placed) {
+                            allPlaced = false;
+                            break;
+                        }
+                    }
+
+                    if (allPlaced) {
+                        placedSuccessfully = true;
+                    }
+                }
+
+                // Boşlukları rastgele Türkçe harflerle doldur
+                for (let r = 0; r < this.gridSize; r++) {
+                    for (let c = 0; c < this.gridSize; c++) {
+                        if (this.grid[r][c] === '') {
+                            this.grid[r][c] = alphabet[Math.floor(Math.random() * alphabet.length)];
+                        }
+                    }
+                }
+            }
+
+            giveHint() {
+                sounds.playHint();
+                const unfound = this.words.filter(w => !w.found);
+                if (unfound.length === 0) return;
+
+                const target = unfound[Math.floor(Math.random() * unfound.length)];
+                this.hintWord = target;
+                this.hintsUsed++;
+
+                this.render();
+
+                setTimeout(() => {
+                    this.hintWord = null;
+                    this.renderGridOnly();
+                }, 3500);
+            }
+
+            handleCellClick(r, c) {
+                if (this.state !== 'playing') return;
+                sounds.playClick();
+
+                if (!this.selectedStart) {
+                    this.selectedStart = { r, c };
+                    this.selectedCells = [{ r, c }];
+                    this.renderGridOnly();
+                    return;
+                }
+
+                const start = this.selectedStart;
+                const end = { r, c };
+
+                const dr = end.r - start.r;
+                const dc = end.c - start.c;
+
+                const stepR = dr === 0 ? 0 : (dr > 0 ? 1 : -1);
+                const stepC = dc === 0 ? 0 : (dc > 0 ? 1 : -1);
+
+                const lengthR = Math.abs(dr);
+                const lengthC = Math.abs(dc);
+
+                const isValidLine = (dr === 0 && dc !== 0) ||
+                                    (dc === 0 && dr !== 0) ||
+                                    (lengthR === lengthC && lengthR > 0);
+
+                if (!isValidLine) {
+                    sounds.playWrong();
+                    this.selectedStart = { r, c };
+                    this.selectedCells = [{ r, c }];
+                    this.renderGridOnly();
+                    return;
+                }
+
+                const steps = Math.max(lengthR, lengthC) + 1;
+                let formedWord = "";
+                const currentSelectedCells = [];
+
+                for (let i = 0; i < steps; i++) {
+                    const curR = start.r + stepR * i;
+                    const curC = start.c + stepC * i;
+                    formedWord += this.grid[curR][curC];
+                    currentSelectedCells.push({ r: curR, c: curC });
+                }
+
+                const reversedWord = formedWord.split("").reverse().join("");
+                const matchedWord = this.words.find(w => !w.found && (w.word === formedWord || w.word === reversedWord));
+
+                if (matchedWord) {
+                    matchedWord.found = true;
+                    sounds.playFound();
+                    currentSelectedCells.forEach(cell => this.foundCells.add(`${cell.r},${cell.c}`));
+                    this.score += 100 + Math.max(0, 50 - this.hintsUsed * 10);
+
+                    this.selectedStart = null;
+                    this.selectedCells = [];
+
+                    this.updateStats();
+
+                    const allDone = this.words.every(w => w.found);
+                    if (allDone) {
+                        this.stopTimer();
+                        sounds.playFanfare();
+                        if (typeof confetti === 'function') {
+                            confetti({ particleCount: 150, spread: 90, origin: { y: 0.5 } });
+                        }
+                        setTimeout(() => {
+                            this.state = 'result';
+                            this.render();
+                        }, 800);
+                        return;
+                    }
+                } else {
+                    sounds.playWrong();
+                    this.selectedStart = null;
+                    this.selectedCells = [];
+                }
+
+                this.render();
+            }
+
+            updateStats() {
+                const foundCount = this.words.filter(w => w.found).length;
+                const elFound = document.getElementById("stat-found");
+                const elScore = document.getElementById("stat-score");
+                if (elFound) elFound.innerText = `${foundCount} / ${this.words.length}`;
+                if (elScore) elScore.innerText = `${this.score}`;
+            }
+
+            render() {
+                const container = document.getElementById("game-container");
+                if (!container) return;
+
+                if (this.state === 'intro') {
+                    container.innerHTML = `
+                        <div class="max-w-xl mx-auto text-center py-6 sm:py-10 space-y-6">
+                            <div class="w-20 h-20 sm:w-24 sm:h-24 mx-auto rounded-3xl bg-gradient-to-tr from-purple-500 to-indigo-600 flex items-center justify-center text-white text-3xl sm:text-4xl shadow-2xl shadow-purple-500/30 animate-bounce">
+                                <i class="fa-solid fa-file-code"></i>
+                            </div>
+                            <div class="space-y-2">
+                                <span class="px-3.5 py-1 bg-purple-500/20 text-purple-300 font-extrabold rounded-full text-xs uppercase tracking-wider border border-purple-400/30">
+                                    5. KONU - 2 • AKILLI TAHTA ETKİNLİĞİ
+                                </span>
+                                <h2 class="text-2xl sm:text-4xl font-black text-white">Yazılım & Dosya Kelime Avı</h2>
+                                <p class="text-sm sm:text-base text-slate-300">
+                                    12x12 harf matrisinde gizlenmiş 10 yazılım, işletim sistemi, kapasite birimi ve dosya terimini bulabilecek misin?
+                                </p>
+                            </div>
+                            <div class="p-4 bg-slate-900/80 rounded-2xl border border-slate-800 text-left text-xs sm:text-sm text-slate-300 space-y-2">
+                                <div class="flex items-center gap-2 text-purple-400 font-bold">
+                                    <i class="fa-solid fa-gamepad"></i> Oynanış Kuralı:
+                                </div>
+                                <p>• Kelimenin ilk harfine dokun, ardından son harfine dokun!</p>
+                                <p>• Kelimeler yatay, dikey veya çapraz olarak saklanmıştır.</p>
+                                <p>• Her yeni oyunda kelimelerin yerleri ve harfler rastgele değişir.</p>
+                            </div>
+                            <button onclick="game.startGame()" class="px-8 py-3.5 bg-gradient-to-r from-purple-500 to-indigo-600 hover:from-purple-400 hover:to-indigo-500 text-white font-black rounded-2xl text-base shadow-xl shadow-purple-500/25 flex items-center justify-center gap-3 mx-auto transition-all hover:scale-105 active:scale-95">
+                                <i class="fa-solid fa-play"></i>
+                                <span>Oyunu Başlat</span>
+                            </button>
+                        </div>
+                    `;
+                    return;
+                }
+
+                if (this.state === 'playing') {
+                    const foundCount = this.words.filter(w => w.found).length;
+                    this.updateStats();
+
+                    container.innerHTML = `
+                        <div class="grid grid-cols-1 lg:grid-cols-12 gap-4 items-center">
+                            <!-- SOL PANEL: 12x12 HARF MATRİSİ -->
+                            <div class="lg:col-span-8 flex flex-col items-center">
+                                <div id="grid-board" class="grid grid-cols-12 gap-1 sm:gap-1.5 p-2 sm:p-3 bg-slate-950/80 rounded-2xl border-2 border-purple-500/30 shadow-inner w-full max-w-[500px] aspect-square">
+                                    ${this.renderGridHtml()}
+                                </div>
+                            </div>
+
+                            <!-- SAĞ PANEL: KELİME LİSTESİ & İPUCU BUTONLARI -->
+                            <div class="lg:col-span-4 flex flex-col justify-between space-y-3 h-full">
+                                <div class="bg-slate-900/90 rounded-2xl p-3 sm:p-4 border border-slate-800">
+                                    <div class="flex items-center justify-between mb-2">
+                                        <h3 class="text-xs sm:text-sm font-black text-purple-300 uppercase tracking-wider flex items-center gap-2">
+                                            <i class="fa-solid fa-list-check"></i> Aranacak Kelimeler (${foundCount}/10)
+                                        </h3>
+                                        <span class="text-[10px] text-slate-400 font-bold">${10 - foundCount} Kaldı</span>
+                                    </div>
+                                    <!-- 2 Sütunlu Kompakt Kelime Listesi (Sayfada Kaydırma Olmaz) -->
+                                    <div class="grid grid-cols-2 gap-1.5 text-left">
+                                        ${this.words.map(w => `
+                                            <div class="p-1.5 sm:p-2 rounded-xl border text-xs flex items-center justify-between transition-all ${w.found ? 'bg-emerald-950/70 border-emerald-500/50 text-emerald-300 font-bold line-through' : 'bg-slate-950/60 border-slate-800 text-slate-200'}">
+                                                <span class="truncate">${w.label}</span>
+                                                <i class="${w.found ? 'fa-solid fa-check text-emerald-400 text-xs' : 'fa-regular fa-circle text-slate-600 text-[10px]'}"></i>
+                                            </div>
+                                        `).join('')}
+                                    </div>
+                                </div>
+
+                                <!-- Alt Butonlar -->
+                                <div class="grid grid-cols-2 gap-2">
+                                    <button onclick="game.giveHint()" class="p-2.5 rounded-xl bg-amber-500/20 hover:bg-amber-500/30 border border-amber-500/40 text-amber-300 font-bold text-xs flex items-center justify-center gap-2 transition-all active:scale-95 shadow-md">
+                                        <i class="fa-solid fa-lightbulb"></i>
+                                        <span>İpucu Al</span>
+                                    </button>
+                                    <button onclick="game.startGame()" class="p-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-300 font-bold text-xs flex items-center justify-center gap-2 transition-all active:scale-95 shadow-md">
+                                        <i class="fa-solid fa-arrows-rotate"></i>
+                                        <span>Yeniden Karıştır</span>
+                                    </button>
+                                </div>
+                                <button onclick="game.solveAllAndFinish()" class="w-full p-2 rounded-xl bg-indigo-950/80 hover:bg-indigo-900 border border-indigo-700 text-indigo-300 text-[11px] font-bold flex items-center justify-center gap-2 transition-all">
+                                    <i class="fa-solid fa-flag-checkered"></i>
+                                    <span>Tümünü Tamamla & Bitir</span>
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                    return;
+                }
+
+                if (this.state === 'result') {
+                    container.innerHTML = `
+                        <div class="max-w-xl mx-auto text-center py-6 sm:py-10 space-y-6 animate-pop">
+                            <div class="w-20 h-20 sm:w-24 sm:h-24 mx-auto rounded-3xl bg-gradient-to-tr from-emerald-500 to-teal-500 flex items-center justify-center text-slate-950 text-3xl sm:text-4xl shadow-2xl shadow-emerald-500/30">
+                                <i class="fa-solid fa-trophy"></i>
+                            </div>
+                            <div class="space-y-2">
+                                <span class="px-3 py-1 bg-emerald-400/20 text-emerald-300 font-extrabold rounded-full text-xs uppercase tracking-wider border border-emerald-400/30">
+                                    🌟 GÖREV BAŞARIYLA TAMAMLANDI!
+                                </span>
+                                <h2 class="text-2xl sm:text-4xl font-black text-white">Tebrikler Bilişim Yıldızı!</h2>
+                                <p class="text-sm sm:text-base text-slate-300">
+                                    Yazılım, kapasite ve dosya yönetimi kelime avı matrisindeki tüm kavramları başarıyla bularak dosya hiyerarşisini çözdün!
+                                </p>
+                            </div>
+                            <div class="p-4 bg-slate-900/90 rounded-2xl border border-slate-800 flex items-center justify-around">
+                                <div>
+                                    <span class="text-xs text-slate-400 font-bold block">Bulunan</span>
+                                    <span class="text-2xl font-black text-white">${this.words.length} / ${this.words.length}</span>
+                                </div>
+                                <div class="h-8 w-px bg-slate-800"></div>
+                                <div>
+                                    <span class="text-xs text-slate-400 font-bold block">İpucu</span>
+                                    <span class="text-2xl font-black text-amber-400">${this.hintsUsed}</span>
+                                </div>
+                                <div class="h-8 w-px bg-slate-800"></div>
+                                <div>
+                                    <span class="text-xs text-slate-400 font-bold block">Puan</span>
+                                    <span class="text-2xl font-black text-emerald-400">${this.score}</span>
+                                </div>
+                            </div>
+                            <div class="pt-2 flex items-center justify-center gap-3">
+                                <button onclick="game.startGame()" class="px-6 py-3 bg-gradient-to-r from-purple-500 to-indigo-600 hover:from-purple-400 hover:to-indigo-500 text-white font-black rounded-xl text-sm shadow-lg flex items-center gap-2 transition-all hover:scale-105 active:scale-95">
+                                    <i class="fa-solid fa-rotate-right"></i>
+                                    <span>Tekrar Oyna (Yeni Kelimeler)</span>
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                }
+            }
+
+            renderGridOnly() {
+                const el = document.getElementById("grid-board");
+                if (el) el.innerHTML = this.renderGridHtml();
+            }
+
+            renderGridHtml() {
+                let html = "";
+                for (let r = 0; r < this.gridSize; r++) {
+                    for (let c = 0; c < this.gridSize; c++) {
+                        const coord = `${r},${c}`;
+                        const char = this.grid[r][c];
+
+                        const isFound = this.foundCells.has(coord);
+                        const isSelected = this.selectedCells.some(cell => cell.r === r && cell.c === c);
+
+                        let isSolution = false;
+                        if (this.showSolution) {
+                            isSolution = this.words.some(w => w.cells && w.cells.includes(coord));
+                        }
+
+                        let isHint = false;
+                        if (this.hintWord && this.hintWord.cells && this.hintWord.cells.length > 0) {
+                            if (this.hintWord.cells[0] === coord) {
+                                isHint = true;
+                            }
+                        }
+
+                        let extraClass = "bg-slate-900/90 text-slate-200 border-slate-800";
+                        if (isFound) extraClass = "found";
+                        else if (isSelected) extraClass = "selected";
+                        else if (isSolution) extraClass = "solution";
+                        else if (isHint) extraClass = "hint-pulse border-amber-400 text-amber-300 font-black";
+
+                        html += `
+                            <button onclick="game.handleCellClick(${r}, ${c})" class="grid-cell aspect-square rounded-lg sm:rounded-xl text-xs sm:text-sm md:text-base font-bold flex items-center justify-center border ${extraClass}">
+                                ${char}
+                            </button>
+                        `;
+                    }
+                }
+                return html;
+            }
+
+            openHelpModal() {
+                sounds.playClick();
+                const m = document.getElementById("modal-help");
+                if (m) m.classList.remove("hidden");
+            }
+
+            closeHelpModal() {
+                sounds.playClick();
+                const m = document.getElementById("modal-help");
+                if (m) m.classList.add("hidden");
+            }
+
+            toggleAudio() {
+                sounds.muted = !sounds.muted;
+                const btn = document.getElementById("btn-audio");
+                if (btn) {
+                    btn.innerHTML = sounds.muted ? '<i class="fa-solid fa-volume-xmark text-rose-400"></i>' : '<i class="fa-solid fa-volume-high"></i>';
+                }
+            }
+        }
+
+        const game = new SoftwareWordHuntGame();
+        window.addEventListener("DOMContentLoaded", () => game.init());
+    </script>
+</body>
+</html>

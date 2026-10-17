@@ -973,7 +973,7 @@ class App {
         const images = data.weekInfo?.images || data.worksheetDocs?.images;
         const docs = data.worksheetDocs || {};
 
-        const isFiveTabs = !!(images?.sayfa5 || images?.sayfa4 || images?.sayfa3 || ((this.currentWeek === 4 || this.currentWeek === 5) && images?.sayfa1));
+        const isFiveTabs = !!(images?.sayfa5 || images?.sayfa4 || images?.sayfa3 || ((this.currentWeek === 4 || this.currentWeek === 5 || this.currentWeek === '5_2') && images?.sayfa1));
         const isFourTabs = !isFiveTabs && !!(docs.hasTwoPages || docs.kagit1Html || (images && (images.kagit1 || images.sayfa1_soru)) || this.currentWeek === '3_2');
 
         if (!this.activePhotoDoc) {
@@ -1005,29 +1005,30 @@ class App {
         }
 
         const isTopic5 = this.currentWeek === 5;
+        const isTopic5_2 = this.currentWeek === '5_2';
         const imgMap = isFiveTabs ? {
             sayfa1: { 
                 src: this.resolveDocPath(images?.sayfa1, this.currentWeek, 'sayfa1'), 
-                title: isTopic5 ? "1. Sayfa (Bilgisayar ve Donanım Genel Bakış)" : "1. Sayfa (Yapay Zekâ Temelleri & Kavramlar)", 
-                icon: "fa-solid fa-file-lines", 
+                title: isTopic5_2 ? "1. Sayfa (Yazılım Türleri & İşletim Sistemleri)" : (isTopic5 ? "1. Sayfa (Bilgisayar ve Donanım Genel Bakış)" : "1. Sayfa (Yapay Zekâ Temelleri & Kavramlar)"), 
+                icon: isTopic5_2 ? "fa-solid fa-code" : "fa-solid fa-file-lines", 
                 badge: "1. Sayfa" 
             },
             sayfa2: { 
                 src: this.resolveDocPath(images?.sayfa2, this.currentWeek, 'sayfa2'), 
-                title: isTopic5 ? "2. Sayfa (İç Donanım Birimleri & Etkinlikler)" : "2. Sayfa (Yapay Zekâ Kullanım Alanları & Örnekler)", 
-                icon: isTopic5 ? "fa-solid fa-microchip" : "fa-solid fa-file-lines", 
+                title: isTopic5_2 ? "2. Sayfa (Kapasite Merdiveni & Birimler)" : (isTopic5 ? "2. Sayfa (İç Donanım Birimleri & Etkinlikler)" : "2. Sayfa (Yapay Zekâ Kullanım Alanları & Örnekler)"), 
+                icon: isTopic5_2 ? "fa-solid fa-stairs" : (isTopic5 ? "fa-solid fa-microchip" : "fa-solid fa-file-lines"), 
                 badge: "2. Sayfa" 
             },
             sayfa3: { 
                 src: this.resolveDocPath(images?.sayfa3, this.currentWeek, 'sayfa3'), 
-                title: isTopic5 ? "3. Sayfa (Dış Donanım Birimleri & Sınıflandırma)" : "3. Sayfa (Pekiştirme Soruları & Etkinlikler)", 
-                icon: isTopic5 ? "fa-solid fa-desktop" : "fa-solid fa-file-lines", 
+                title: isTopic5_2 ? "3. Sayfa (Dosya Uzantıları & Klasör Ağacı)" : (isTopic5 ? "3. Sayfa (Dış Donanım Birimleri & Sınıflandırma)" : "3. Sayfa (Pekiştirme Soruları & Etkinlikler)"), 
+                icon: isTopic5_2 ? "fa-solid fa-tag" : (isTopic5 ? "fa-solid fa-desktop" : "fa-solid fa-file-lines"), 
                 badge: "3. Sayfa" 
             },
             sayfa4: { 
                 src: this.resolveDocPath(images?.sayfa4, this.currentWeek, 'sayfa4'), 
-                title: isTopic5 ? "4. Sayfa (Klavye ve Fareyi Tanıyalım)" : "4. Sayfa (Etik, Güvenlik & Değerlendirme)", 
-                icon: isTopic5 ? "fa-solid fa-keyboard" : "fa-solid fa-shield-halved", 
+                title: isTopic5_2 ? "4. Sayfa (Dosya Hiyerarşisi & İpuçları)" : (isTopic5 ? "4. Sayfa (Klavye ve Fareyi Tanıyalım)" : "4. Sayfa (Etik, Güvenlik & Değerlendirme)"), 
+                icon: isTopic5_2 ? "fa-solid fa-folder-tree" : (isTopic5 ? "fa-solid fa-keyboard" : "fa-solid fa-shield-halved"), 
                 badge: "4. Sayfa" 
             },
             sayfa5: { 
@@ -2138,6 +2139,54 @@ class App {
                     btnIcon: "fa-solid fa-crosshairs",
                     btnGradient: "from-cyan-600 via-blue-600 to-indigo-600 hover:from-cyan-500 hover:to-indigo-500 text-white font-black",
                     action: "app.openStandaloneGame('games/donanim_kelime_avi.html', 'Bilgisayar ve Donanım Kelime Avı | Öğretmen Bozok')"
+                });
+            }
+        } else if (weekNum === '5_2' || weekNum === '5-2') {
+            if (!data || !Array.isArray(data.extraGames) || data.extraGames.length === 0) {
+                extra.push({
+                    badge: "Sıralama Simülasyonu",
+                    badgeColor: "text-purple-300",
+                    title: "Dosya & Uzantı Laboratuvarı",
+                    desc: "Karışık gelen dosyaları uzantılarına (.docx, .jpg, .mp3, .mp4, .zip vb.) göre 6 doğru klasöre tasnif et! Sürükle veya tıkla, komboları topla!",
+                    icon: "fa-solid fa-folder-tree",
+                    iconBg: "bg-purple-500/30 text-purple-300",
+                    cardGradient: "from-purple-950/90 via-slate-900 to-indigo-950/90",
+                    border: "border-purple-500/50",
+                    descColor: "text-purple-100",
+                    btnText: "Laboratuvara Gir!",
+                    btnIcon: "fa-solid fa-play",
+                    btnGradient: "from-purple-600 via-indigo-600 to-cyan-500 hover:from-purple-500 hover:to-cyan-400 text-white font-black",
+                    action: "app.openStandaloneGame('games/dosya_uzanti_laboratuvari.html', 'Dosya & Uzantı Laboratuvarı | Öğretmen Bozok')"
+                });
+                extra.push({
+                    badge: "Hafıza Deposu",
+                    badgeColor: "text-cyan-300",
+                    title: "Kapasite Merdiveni & Hafıza Deposu",
+                    desc: "Bit'ten Terabyte'a kadar basamakları 1024 kat kuralıyla doğru diz, ardından gerçek hayat dosyalarının boyutlarını doğru tahmin et!",
+                    icon: "fa-solid fa-stairs",
+                    iconBg: "bg-cyan-500/30 text-cyan-300",
+                    cardGradient: "from-cyan-950/90 via-slate-900 to-blue-950/90",
+                    border: "border-cyan-500/50",
+                    descColor: "text-cyan-100",
+                    btnText: "Merdiveni Tırman!",
+                    btnIcon: "fa-solid fa-stairs",
+                    btnGradient: "from-cyan-500 via-teal-500 to-indigo-600 hover:from-cyan-400 hover:to-indigo-500 text-slate-950 font-black",
+                    action: "app.openStandaloneGame('games/kapasite_merdiveni_oyunu.html', 'Kapasite Merdiveni | Öğretmen Bozok')"
+                });
+                extra.push({
+                    badge: "Kelime Avı",
+                    badgeColor: "text-amber-300",
+                    title: "Yazılım ve Dosya Kelime Avı",
+                    desc: "12x12 harf matrisinde gizlenen 10 yazılım, kapasite ve dosya terimini bul! Her oyunda kelimelerin yerleri ve harfler rastgele değişir!",
+                    icon: "fa-solid fa-puzzle-piece",
+                    iconBg: "bg-amber-500/30 text-amber-300",
+                    cardGradient: "from-indigo-950/90 via-slate-900 to-purple-950/90",
+                    border: "border-amber-500/50",
+                    descColor: "text-amber-100",
+                    btnText: "Kelime Avına Başla!",
+                    btnIcon: "fa-solid fa-crosshairs",
+                    btnGradient: "from-amber-500 via-orange-500 to-purple-600 hover:from-amber-400 hover:to-purple-500 text-slate-950 font-black",
+                    action: "app.openStandaloneGame('games/yazilim_dosya_kelime_avi.html', 'Yazılım & Dosya Kelime Avı | Öğretmen Bozok')"
                 });
             }
         }

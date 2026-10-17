@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dosya & Uzantı Laboratuvarı | Öğretmen Bozok</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Canvas Confetti -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <style>
+        * { box-sizing: border-box; font-family: 'Poppins', sans-serif; -webkit-tap-highlight-color: transparent; }
+        @media (min-width: 1921px) {
+            html:not([data-scale]), html[data-scale="auto"] {
+                font-size: calc(100vw / 120) !important;
+            }
+            .max-w-6xl, .max-w-5xl, .max-w-4xl {
+                max-width: min(85rem, 92vw) !important;
+            }
+        }
+        html[data-scale="100"] { font-size: 16px !important; }
+        html[data-scale="115"] { font-size: max(18.4px, calc(100vw / 104)) !important; }
+        html[data-scale="130"] { font-size: max(20.8px, calc(100vw / 92)) !important; }
+        html[data-scale="150"] { font-size: max(24px, calc(100vw / 80)) !important; }
+        html[data-scale="200"] { font-size: 32px !important; }
+        body { background-color: #060913; color: #f8fafc; min-height: 100vh; overflow-x: hidden; }
+        .glass-card { background: rgba(15, 23, 42, 0.92); backdrop-filter: blur(16px); border: 2px solid rgba(147, 51, 234, 0.25); }
+        .folder-bin {
+            transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+            user-select: none;
+        }
+        .folder-bin:hover {
+            transform: translateY(-4px) scale(1.02);
+            box-shadow: 0 12px 24px -6px rgba(0,0,0,0.6);
+        }
+        .folder-bin.drag-over {
+            transform: scale(1.06);
+            border-color: #fbbf24 !important;
+            background-color: rgba(245, 158, 11, 0.2) !important;
+        }
+        .file-token {
+            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+            cursor: grab;
+        }
+        .file-token:active { cursor: grabbing; transform: scale(0.97); }
+        @keyframes bounceShort {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+        }
+        .animate-bounce-short { animation: bounceShort 1.5s infinite; }
+        @keyframes popIn { 0% { transform: scale(0.92); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
+        .animate-pop { animation: popIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+    </style>
+</head>
+<body class="p-2 sm:p-4 md:p-6 flex flex-col justify-between">
+
+    <!-- ÜST BAR -->
+    <header class="max-w-6xl w-full mx-auto mb-3 sm:mb-4">
+        <div class="glass-card rounded-2xl sm:rounded-3xl p-3 sm:p-4 flex flex-wrap items-center justify-between gap-3 shadow-2xl border-purple-500/30">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl bg-gradient-to-tr from-purple-600 via-indigo-600 to-cyan-500 flex items-center justify-center text-white text-lg sm:text-2xl shadow-lg shadow-purple-500/30">
+                    <i class="fa-solid fa-folder-tree"></i>
+                </div>
+                <div>
+                    <div class="flex items-center gap-2">
+                        <span class="px-2 py-0.5 rounded-md bg-purple-500/20 text-purple-300 border border-purple-400/30 text-[10px] font-black uppercase tracking-wider">
+                            5. KONU - 2
+                        </span>
+                        <span class="text-xs text-slate-400 font-semibold hidden sm:inline">Öğretmen Bozok</span>
+                    </div>
+                    <h1 class="text-base sm:text-xl font-black text-white tracking-tight">
+                        Dosya & Uzantı Laboratuvarı
+                    </h1>
+                </div>
+            </div>
+
+            <!-- İstatistikler -->
+            <div class="flex items-center gap-2 sm:gap-3">
+                <div class="px-3 py-1.5 rounded-xl bg-slate-900/90 border border-slate-700/60 flex items-center gap-2">
+                    <i class="fa-solid fa-layer-group text-purple-400 text-xs sm:text-sm"></i>
+                    <div class="text-left">
+                        <span class="text-[9px] text-slate-400 font-bold uppercase block leading-none">Dosya</span>
+                        <span id="stat-progress" class="text-xs sm:text-sm font-black text-white leading-none">1 / 15</span>
+                    </div>
+                </div>
+
+                <div class="px-3 py-1.5 rounded-xl bg-slate-900/90 border border-slate-700/60 flex items-center gap-2">
+                    <i class="fa-solid fa-fire text-amber-400 text-xs sm:text-sm"></i>
+                    <div class="text-left">
+                        <span class="text-[9px] text-slate-400 font-bold uppercase block leading-none">Seri</span>
+                        <span id="stat-combo" class="text-xs sm:text-sm font-black text-amber-300 leading-none">x0</span>
+                    </div>
+                </div>
+
+                <div class="px-3 py-1.5 rounded-xl bg-slate-900/90 border border-slate-700/60 flex items-center gap-2">
+                    <i class="fa-solid fa-trophy text-emerald-400 text-xs sm:text-sm"></i>
+                    <div class="text-left">
+                        <span class="text-[9px] text-slate-400 font-bold uppercase block leading-none">Puan</span>
+                        <span id="stat-score" class="text-xs sm:text-sm font-black text-emerald-300 leading-none">0</span>
+                    </div>
+                </div>
+
+                <button onclick="lab.toggleSound()" id="btn-sound" class="w-9 h-9 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-700 text-purple-400 flex items-center justify-center text-sm transition-all shadow-md">
+                    <i class="fa-solid fa-volume-high"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- ANA LABORATUVAR ALANI -->
+    <main class="max-w-6xl w-full mx-auto flex-1 flex flex-col justify-center">
+        <div id="lab-container" class="glass-card rounded-2xl sm:rounded-3xl p-4 sm:p-6 shadow-2xl relative overflow-hidden">
+            <!-- JS Tarafından Render Edilir -->
+        </div>
+    </main>
+
+    <!-- ALT BİLGİ -->
+    <footer class="max-w-6xl w-full mx-auto mt-3 sm:mt-4 text-center">
+        <div class="flex items-center justify-between text-xs text-slate-400 px-2">
+            <span>Öğretmen Bozok • Bilişim Teknolojileri ve Yazılım Dersi</span>
+            <span>💡 İpucu: Dosyayı sürükleyebilir veya doğrudan doğru klasöre tıklayabilirsin!</span>
+        </div>
+    </footer>
+
+    <!-- SES & OYUN MANTIĞI -->
+    <script>
+        class LabAudio {
+            constructor() {
+                this.ctx = null;
+                this.muted = false;
+            }
+            init() {
+                if (!this.ctx) {
+                    const AudioCtx = window.AudioContext || window.webkitAudioContext;
+                    if (AudioCtx) this.ctx = new AudioCtx();
+                }
+            }
+            playTone(freq, type, duration, gainVal = 0.15) {
+                if (this.muted) return;
+                this.init();
+                if (!this.ctx) return;
+                try {
+                    const osc = this.ctx.createOscillator();
+                    const gain = this.ctx.createGain();
+                    osc.type = type;
+                    osc.frequency.setValueAtTime(freq, this.ctx.currentTime);
+                    gain.gain.setValueAtTime(gainVal, this.ctx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.0001, this.ctx.currentTime + duration);
+                    osc.connect(gain);
+                    gain.connect(this.ctx.destination);
+                    osc.start();
+                    osc.stop(this.ctx.currentTime + duration);
+                } catch(e) {}
+            }
+            playSuccess() {
+                this.playTone(523, 'triangle', 0.1, 0.2);
+                setTimeout(() => this.playTone(659, 'triangle', 0.1, 0.2), 70);
+                setTimeout(() => this.playTone(784, 'triangle', 0.15, 0.25), 140);
+            }
+            playError() {
+                this.playTone(240, 'sawtooth', 0.12, 0.2);
+                setTimeout(() => this.playTone(180, 'sawtooth', 0.18, 0.2), 80);
+            }
+            playClick() { this.playTone(600, 'sine', 0.05, 0.1); }
+            playVictory() {
+                [523, 659, 784, 1046].forEach((f, i) => {
+                    setTimeout(() => this.playTone(f, 'triangle', 0.2, 0.25), i * 110);
+                });
+            }
+        }
+
+        const audio = new LabAudio();
+
+        class FileSortingLab {
+            constructor() {
+                // 6 Temel Klasör Hedefi
+                this.categories = [
+                    {
+                        id: "doc",
+                        name: "Belgeler & Metinler",
+                        icon: "fa-solid fa-file-lines",
+                        exts: ".docx, .txt, .pdf",
+                        color: "from-blue-600/30 to-blue-900/40",
+                        border: "border-blue-500/50",
+                        badge: "bg-blue-500/20 text-blue-300"
+                    },
+                    {
+                        id: "img",
+                        name: "Resimler & Görseller",
+                        icon: "fa-solid fa-image",
+                        exts: ".jpg, .png, .gif",
+                        color: "from-emerald-600/30 to-emerald-900/40",
+                        border: "border-emerald-500/50",
+                        badge: "bg-emerald-500/20 text-emerald-300"
+                    },
+                    {
+                        id: "audio",
+                        name: "Müzikler & Sesler",
+                        icon: "fa-solid fa-music",
+                        exts: ".mp3, .wav",
+                        color: "from-purple-600/30 to-purple-900/40",
+                        border: "border-purple-500/50",
+                        badge: "bg-purple-500/20 text-purple-300"
+                    },
+                    {
+                        id: "video",
+                        name: "Videolar & Filmler",
+                        icon: "fa-solid fa-film",
+                        exts: ".mp4, .avi",
+                        color: "from-rose-600/30 to-rose-900/40",
+                        border: "border-rose-500/50",
+                        badge: "bg-rose-500/20 text-rose-300"
+                    },
+                    {
+                        id: "sheet_pres",
+                        name: "Tablolar & Sunumlar",
+                        icon: "fa-solid fa-chart-column",
+                        exts: ".xlsx, .pptx",
+                        color: "from-amber-600/30 to-amber-900/40",
+                        border: "border-amber-500/50",
+                        badge: "bg-amber-500/20 text-amber-300"
+                    },
+                    {
+                        id: "archive_app",
+                        name: "Arşivler & Programlar",
+                        icon: "fa-solid fa-box-archive",
+                        exts: ".zip, .rar, .exe",
+                        color: "from-cyan-600/30 to-cyan-900/40",
+                        border: "border-cyan-500/50",
+                        badge: "bg-cyan-500/20 text-cyan-300"
+                    }
+                ];
+
+                // 15 Eğitici Dosya Kartı
+                this.filePool = [
+                    {
+                        filename: "turkce_kompozisyon.docx",
+                        ext: ".docx",
+                        category: "doc",
+                        desc: "Word ile yazılmış Türkçe dersi ödevi",
+                        icon: "fa-solid fa-file-word text-blue-400"
+                    },
+                    {
+                        filename: "okul_piknigi_ani.jpg",
+                        ext: ".jpg",
+                        category: "img",
+                        desc: "Fotoğraf makinesiyle çekilen anı fotoğrafı",
+                        icon: "fa-solid fa-file-image text-emerald-400"
+                    },
+                    {
+                        filename: "en_sevdigim_sarki.mp3",
+                        ext: ".mp3",
+                        category: "audio",
+                        desc: "Kulaklıkla dinlenen müzik parçası",
+                        icon: "fa-solid fa-file-audio text-purple-400"
+                    },
+                    {
+                        filename: "bilim_belgeseli.mp4",
+                        ext: ".mp4",
+                        category: "video",
+                        desc: "Görüntülü ve sesli uzay belgeseli",
+                        icon: "fa-solid fa-file-video text-rose-400"
+                    },
+                    {
+                        filename: "fen_gunes_sistemi.pptx",
+                        ext: ".pptx",
+                        category: "sheet_pres",
+                        desc: "Akıllı tahtada sunulacak slayt dosyası",
+                        icon: "fa-solid fa-file-powerpoint text-orange-400"
+                    },
+                    {
+                        filename: "sinif_not_cizelgesi.xlsx",
+                        ext: ".xlsx",
+                        category: "sheet_pres",
+                        desc: "Notların ve formüllerin hesaplandığı tablo",
+                        icon: "fa-solid fa-file-excel text-emerald-500"
+                    },
+                    {
+                        filename: "oyun_kurulumu.exe",
+                        ext: ".exe",
+                        category: "archive_app",
+                        desc: "Çalıştırılabilir uygulama / program yükleyicisi",
+                        icon: "fa-solid fa-gear text-cyan-400"
+                    },
+                    {
+                        filename: "eski_fotograflar.zip",
+                        ext: ".zip",
+                        category: "archive_app",
+                        desc: "Yer kaplamasın diye sıkıştırılmış arşiv paketi",
+                        icon: "fa-solid fa-file-zipper text-yellow-400"
+                    },
+                    {
+                        filename: "matematik_soru_bankasi.pdf",
+                        ext: ".pdf",
+                        category: "doc",
+                        desc: "Düzeni bozulmayan yazdırılabilir kitapçık",
+                        icon: "fa-solid fa-file-pdf text-red-500"
+                    },
+                    {
+                        filename: "kisa_notlar.txt",
+                        ext: ".txt",
+                        category: "doc",
+                        desc: "Not defterinde tutulan sade metin yazısı",
+                        icon: "fa-solid fa-file-lines text-slate-400"
+                    },
+                    {
+                        filename: "seffaf_logo.png",
+                        ext: ".png",
+                        category: "img",
+                        desc: "Arka planı saydam olan kaliteli grafik görseli",
+                        icon: "fa-solid fa-file-image text-teal-400"
+                    },
+                    {
+                        filename: "hareketli_kedi.gif",
+                        ext: ".gif",
+                        category: "img",
+                        desc: "Sürekli tekrarlanan kısa hareketli animasyon",
+                        icon: "fa-solid fa-photo-film text-pink-400"
+                    },
+                    {
+                        filename: "ses_kaydi.wav",
+                        ext: ".wav",
+                        category: "audio",
+                        desc: "Mikrofonla kaydedilmiş kaliteli ham ses",
+                        icon: "fa-solid fa-file-audio text-indigo-400"
+                    },
+                    {
+                        filename: "tarih_filmi.avi",
+                        ext: ".avi",
+                        category: "video",
+                        desc: "Bilgisayarda izlenen video klip dosyası",
+                        icon: "fa-solid fa-video text-amber-500"
+                    },
+                    {
+                        filename: "proje_yedekleri.rar",
+                        ext: ".rar",
+                        category: "archive_app",
+                        desc: "Birden fazla dosyayı toplayan sıkıştırılmış arşiv",
+                        icon: "fa-solid fa-file-zipper text-purple-400"
+                    }
+                ];
+
+                this.files = [];
+                this.currentIndex = 0;
+                this.score = 0;
+                this.combo = 0;
+                this.state = 'intro';
+                this.feedback = null;
+            }
+
+            init() {
+                this.render();
+            }
+
+            startGame() {
+                audio.playClick();
+                // Havuzu karıştır ve 15 soruyu başlat
+                this.files = [...this.filePool].sort(() => Math.random() - 0.5);
+                this.currentIndex = 0;
+                this.score = 0;
+                this.combo = 0;
+                this.feedback = null;
+                this.state = 'playing';
+                this.render();
+            }
+
+            sortFile(categoryId) {
+                if (this.state !== 'playing' || this.feedback) return;
+                const curFile = this.files[this.currentIndex];
+
+                const isCorrect = (curFile.category === categoryId);
+                const targetCat = this.categories.find(c => c.id === curFile.category);
+
+                if (isCorrect) {
+                    audio.playSuccess();
+                    this.combo++;
+                    const points = 100 + (this.combo - 1) * 20;
+                    this.score += points;
+
+                    this.feedback = {
+                        isCorrect: true,
+                        title: "🎉 HARİKA TESPİT!",
+                        desc: `<strong>${curFile.filename}</strong> dosyası <strong>${curFile.ext}</strong> uzantılıdır ve <strong>${targetCat.name}</strong> klasörüne aittir! (+${points} Puan)`
+                    };
+                } else {
+                    audio.playError();
+                    this.combo = 0;
+
+                    this.feedback = {
+                        isCorrect: false,
+                        title: "⚠️ DİKKAT!",
+                        desc: `<strong>${curFile.filename}</strong> dosyasının uzantısı <strong>${curFile.ext}</strong> olduğundan <strong>${targetCat.name}</strong> klasörüne gitmeliydi! İpucu: ${curFile.desc}`
+                    };
+                }
+
+                this.render();
+            }
+
+            nextFile() {
+                audio.playClick();
+                this.feedback = null;
+                this.currentIndex++;
+
+                if (this.currentIndex >= this.files.length) {
+                    this.state = 'result';
+                    audio.playVictory();
+                    if (typeof confetti === 'function') {
+                        confetti({ particleCount: 160, spread: 90, origin: { y: 0.5 } });
+                    }
+                }
+                this.render();
+            }
+
+            updateHeaderStats() {
+                const elProg = document.getElementById("stat-progress");
+                const elCombo = document.getElementById("stat-combo");
+                const elScore = document.getElementById("stat-score");
+                if (elProg) elProg.innerText = `${Math.min(this.currentIndex + 1, this.files.length)} / ${this.files.length}`;
+                if (elCombo) elCombo.innerText = `x${this.combo}`;
+                if (elScore) elScore.innerText = `${this.score}`;
+            }
+
+            render() {
+                const container = document.getElementById("lab-container");
+                if (!container) return;
+
+                if (this.state === 'intro') {
+                    container.innerHTML = `
+                        <div class="max-w-xl mx-auto text-center py-6 sm:py-10 space-y-6">
+                            <div class="w-20 h-20 sm:w-24 sm:h-24 mx-auto rounded-3xl bg-gradient-to-tr from-purple-600 to-cyan-500 flex items-center justify-center text-white text-3xl sm:text-4xl shadow-2xl shadow-purple-500/30 animate-bounce-short">
+                                <i class="fa-solid fa-folder-open"></i>
+                            </div>
+                            <div class="space-y-2">
+                                <span class="px-3.5 py-1 bg-purple-500/20 text-purple-300 font-extrabold rounded-full text-xs uppercase tracking-wider border border-purple-400/30">
+                                    5. KONU - 2 • İNTERAKTİF AKILLI TAHTA SİMÜLASYONU
+                                </span>
+                                <h2 class="text-2xl sm:text-4xl font-black text-white">Dosya & Uzantı Laboratuvarı</h2>
+                                <p class="text-sm sm:text-base text-slate-300">
+                                    Masaüstüne karışık halde gelen dosyaları uzantılarına (.docx, .jpg, .mp3, .mp4, .zip vb.) göre doğru klasörlere yerleştir!
+                                </p>
+                            </div>
+                            <div class="p-4 bg-slate-900/80 rounded-2xl border border-slate-800 text-left text-xs sm:text-sm text-slate-300 space-y-2">
+                                <div class="flex items-center gap-2 text-purple-400 font-bold">
+                                    <i class="fa-solid fa-circle-question"></i> Nasıl Oynanır?
+                                </div>
+                                <p>• Ekranda beliren dosyanın adına ve <strong>noktadan sonraki uzantısına</strong> bak.</p>
+                                <p>• Dosyayı ya sürükleyip ilgili klasöre bırak ya da doğrudan o klasöre tıkla!</p>
+                                <p>• Üst üste doğru eşleştirerek kombo çarpanını yükselt ve rekor kır!</p>
+                            </div>
+                            <button onclick="lab.startGame()" class="px-8 py-3.5 bg-gradient-to-r from-purple-600 to-cyan-500 hover:from-purple-500 hover:to-cyan-400 text-white font-black rounded-2xl text-base shadow-xl shadow-purple-500/25 flex items-center justify-center gap-3 mx-auto transition-all hover:scale-105 active:scale-95">
+                                <i class="fa-solid fa-play"></i>
+                                <span>Laboratuvara Gir</span>
+                            </button>
+                        </div>
+                    `;
+                    return;
+                }
+
+                if (this.state === 'playing') {
+                    this.updateHeaderStats();
+                    const curFile = this.files[this.currentIndex];
+
+                    container.innerHTML = `
+                        <div class="space-y-6">
+                            <!-- ORTA DOSYA DOKU (GELEN DOSYA KARTI) -->
+                            <div class="max-w-md mx-auto">
+                                <div id="current-file-card" draggable="true" ondragstart="lab.onDragStart(event)" class="file-token p-4 sm:p-5 rounded-2xl bg-gradient-to-r from-slate-900 via-purple-950/70 to-slate-900 border-2 border-purple-500/60 shadow-2xl flex items-center gap-4 text-left">
+                                    <div class="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-slate-950/90 border border-purple-500/40 flex items-center justify-center text-3xl sm:text-4xl shrink-0 shadow-inner">
+                                        <i class="${curFile.icon}"></i>
+                                    </div>
+                                    <div class="flex-1 min-w-0">
+                                        <div class="flex items-center gap-2 flex-wrap">
+                                            <span class="px-2 py-0.5 rounded-md bg-purple-500/30 text-purple-200 text-[10px] font-black uppercase tracking-wider border border-purple-400/30">
+                                                Uzantı: ${curFile.ext}
+                                            </span>
+                                            <span class="text-[10px] text-slate-400 font-bold">Sıra: ${this.currentIndex + 1}/${this.files.length}</span>
+                                        </div>
+                                        <h3 class="text-base sm:text-lg font-black text-white truncate mt-0.5">
+                                            ${curFile.filename}
+                                        </h3>
+                                        <p class="text-xs text-slate-300 font-medium truncate">
+                                            💡 ${curFile.desc}
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- GERİ BİLDİRİM KARTI (VARSA) -->
+                            ${this.feedback ? `
+                                <div class="max-w-2xl mx-auto p-4 rounded-2xl text-xs sm:text-sm font-bold flex items-center justify-between gap-3 text-left animate-pop ${this.feedback.isCorrect ? 'bg-emerald-950/90 border-2 border-emerald-500 text-emerald-200' : 'bg-rose-950/90 border-2 border-rose-500 text-rose-200'} shadow-xl">
+                                    <div class="flex items-center gap-3">
+                                        <i class="fa-solid ${this.feedback.isCorrect ? 'fa-circle-check text-emerald-400 text-2xl' : 'fa-circle-xmark text-rose-400 text-2xl'} shrink-0"></i>
+                                        <div>
+                                            <span class="block font-black text-sm uppercase">${this.feedback.title}</span>
+                                            <span>${this.feedback.desc}</span>
+                                        </div>
+                                    </div>
+                                    <button onclick="lab.nextFile()" class="px-4 py-2 bg-white/10 hover:bg-white/20 text-white font-black text-xs rounded-xl border border-white/20 shrink-0 flex items-center gap-1.5 transition-all active:scale-95">
+                                        <span>Sonraki</span>
+                                        <i class="fa-solid fa-arrow-right"></i>
+                                    </button>
+                                </div>
+                            ` : ''}
+
+                            <!-- 6 HEDEF KLASÖR KUTUSU -->
+                            <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-4">
+                                ${this.categories.map(cat => `
+                                    <div 
+                                        onclick="lab.sortFile('${cat.id}')"
+                                        ondragover="lab.onDragOver(event)"
+                                        ondragleave="lab.onDragLeave(event)"
+                                        ondrop="lab.onDrop(event, '${cat.id}')"
+                                        class="folder-bin p-3.5 sm:p-4 rounded-2xl bg-gradient-to-br ${cat.color} border-2 ${cat.border} text-left cursor-pointer group flex flex-col justify-between min-h-[110px] sm:min-h-[125px] shadow-lg"
+                                    >
+                                        <div class="flex items-center justify-between">
+                                            <div class="w-8 h-8 sm:w-10 sm:h-10 rounded-xl bg-slate-900/80 flex items-center justify-center text-sm sm:text-base text-yellow-400 shadow-md group-hover:scale-110 transition-transform">
+                                                <i class="${cat.icon}"></i>
+                                            </div>
+                                            <span class="px-2 py-0.5 rounded-md text-[10px] font-black uppercase ${cat.badge}">
+                                                ${cat.exts}
+                                            </span>
+                                        </div>
+                                        <div>
+                                            <h4 class="text-xs sm:text-sm font-black text-white group-hover:text-yellow-300 transition-colors">
+                                                ${cat.name}
+                                            </h4>
+                                            <span class="text-[10px] text-slate-300 font-semibold block mt-0.5">
+                                                Buraya Yerleştir 👉
+                                            </span>
+                                        </div>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </div>
+                    `;
+                    return;
+                }
+
+                if (this.state === 'result') {
+                    const maxScore = this.files.length * 100;
+                    const percent = Math.round((this.score / (maxScore * 1.5)) * 100);
+
+                    container.innerHTML = `
+                        <div class="max-w-xl mx-auto text-center py-6 sm:py-10 space-y-6 animate-pop">
+                            <div class="w-20 h-20 sm:w-24 sm:h-24 mx-auto rounded-3xl bg-gradient-to-tr from-emerald-500 to-cyan-500 flex items-center justify-center text-slate-950 text-3xl sm:text-4xl shadow-2xl shadow-emerald-500/30">
+                                <i class="fa-solid fa-award"></i>
+                            </div>
+                            <div class="space-y-2">
+                                <span class="px-3.5 py-1 bg-emerald-400/20 text-emerald-300 font-extrabold rounded-full text-xs uppercase tracking-wider border border-emerald-400/30">
+                                    🌟 LABORATUVAR TAMAMLANDI!
+                                </span>
+                                <h2 class="text-2xl sm:text-4xl font-black text-white">Dosya & Uzantı Uzmanı!</h2>
+                                <p class="text-sm sm:text-base text-slate-300">
+                                    Tüm dosyaları başarıyla inceleyip uzantılarına göre doğru sistem klasörlerine tasnif ettin!
+                                </p>
+                            </div>
+                            <div class="p-4 bg-slate-900/90 rounded-2xl border border-slate-800 flex items-center justify-around">
+                                <div>
+                                    <span class="text-xs text-slate-400 font-bold block">Toplam Dosya</span>
+                                    <span class="text-2xl font-black text-white">${this.files.length}</span>
+                                </div>
+                                <div class="h-8 w-px bg-slate-800"></div>
+                                <div>
+                                    <span class="text-xs text-slate-400 font-bold block">En Yüksek Seri</span>
+                                    <span class="text-2xl font-black text-amber-400">x${this.combo}</span>
+                                </div>
+                                <div class="h-8 w-px bg-slate-800"></div>
+                                <div>
+                                    <span class="text-xs text-slate-400 font-bold block">Toplam Puan</span>
+                                    <span class="text-2xl font-black text-emerald-400">${this.score}</span>
+                                </div>
+                            </div>
+                            <div class="pt-2 flex items-center justify-center gap-3">
+                                <button onclick="lab.startGame()" class="px-6 py-3 bg-gradient-to-r from-purple-600 to-cyan-500 hover:from-purple-500 hover:to-cyan-400 text-white font-black rounded-xl text-sm shadow-lg flex items-center gap-2 transition-all hover:scale-105 active:scale-95">
+                                    <i class="fa-solid fa-rotate-right"></i>
+                                    <span>Tekrar Oyna (Yeniden Karıştır)</span>
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                }
+            }
+
+            // Sürükle Bırak Olayları
+            onDragStart(e) {
+                audio.playClick();
+                e.dataTransfer.setData("text/plain", "file-token");
+            }
+
+            onDragOver(e) {
+                e.preventDefault();
+                e.currentTarget.classList.add("drag-over");
+            }
+
+            onDragLeave(e) {
+                e.currentTarget.classList.remove("drag-over");
+            }
+
+            onDrop(e, categoryId) {
+                e.preventDefault();
+                e.currentTarget.classList.remove("drag-over");
+                this.sortFile(categoryId);
+            }
+
+            toggleSound() {
+                audio.muted = !audio.muted;
+                const btn = document.getElementById("btn-sound");
+                if (btn) {
+                    btn.innerHTML = audio.muted ? '<i class="fa-solid fa-volume-xmark text-rose-400"></i>' : '<i class="fa-solid fa-volume-high"></i>';
+                }
+            }
+        }
+
+        const lab = new FileSortingLab();
+        window.addEventListener("DOMContentLoaded", () => lab.init());
+    </script>
+</body>
+</html>
