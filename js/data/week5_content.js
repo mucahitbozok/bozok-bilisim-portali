@@ -1247,24 +1247,24 @@ window.WEEK5_CONTENT = {
             {
                 q: "Bilgisayarın tüm parçalarını birbirine bağlayan ve parçalar arasındaki veri iletişimini sağlayan ana devre kartı hangisidir?",
                 question: "Bilgisayarın tüm parçalarını birbirine bağlayan ve parçalar arasındaki veri iletişimini sağlayan ana devre kartı hangisidir?",
-                options: ["Anakart", "Ses Kartı", "Güç Kaynağı", "Sabit Disk"],
-                answer: 0,
+                options: ["Ses Kartı", "Anakart", "Güç Kaynağı", "Sabit Disk"],
+                answer: 1,
                 pts: 200,
                 points: 200
             },
             {
                 q: "Bilgisayarın 'beyni' olarak adlandırılan, komutları işleyen ve hesaplamaları yürüten parça hangisidir?",
                 question: "Bilgisayarın 'beyni' olarak adlandırılan, komutları işleyen ve hesaplamaları yürüten parça hangisidir?",
-                options: ["İşlemci (CPU)", "RAM Bellek", "Ekran Kartı", "Soğutucu Fan"],
-                answer: 0,
+                options: ["RAM Bellek", "Ekran Kartı", "İşlemci (CPU)", "Soğutucu Fan"],
+                answer: 2,
                 pts: 250,
                 points: 250
             },
             {
                 q: "Çalışmakta olan program ve verilerin geçici olarak tutulduğu, bilgisayar kapanınca silinen hafıza hangisidir?",
                 question: "Çalışmakta olan program ve verilerin geçici olarak tutulduğu, bilgisayar kapanınca silinen hafıza hangisidir?",
-                options: ["RAM Bellek", "Sabit Disk (HDD)", "SSD", "ROM Bellek"],
-                answer: 0,
+                options: ["Sabit Disk (HDD)", "SSD", "ROM Bellek", "RAM Bellek"],
+                answer: 3,
                 pts: 200,
                 points: 200
             },
@@ -1279,24 +1279,24 @@ window.WEEK5_CONTENT = {
             {
                 q: "Görüntüleri işleyerek monitör ekranında görmemizi sağlayan iç donanım parçası hangisidir?",
                 question: "Görüntüleri işleyerek monitör ekranında görmemizi sağlayan iç donanım parçası hangisidir?",
-                options: ["Ekran Kartı (GPU)", "Ses Kartı", "Ağ Kartı", "Anakart"],
-                answer: 0,
+                options: ["Ses Kartı", "Ekran Kartı (GPU)", "Ağ Kartı", "Anakart"],
+                answer: 1,
                 pts: 250,
                 points: 250
             },
             {
                 q: "Şehir elektriğini bilgisayar parçalarının güvenle kullanabileceği akıma dönüştürüp dağıtan birim hangisidir?",
                 question: "Şehir elektriğini bilgisayar parçalarının güvenle kullanabileceği akıma dönüştürüp dağıtan birim hangisidir?",
-                options: ["Güç Kaynağı (PSU)", "Anakart", "İşlemci", "Ekran Kartı"],
-                answer: 0,
+                options: ["Anakart", "İşlemci", "Güç Kaynağı (PSU)", "Ekran Kartı"],
+                answer: 2,
                 pts: 200,
                 points: 200
             },
             {
                 q: "Aşağıdakilerden hangisi dış dünyadan bilgisayara veri aktaran bir GİRİŞ birimidir?",
                 question: "Aşağıdakilerden hangisi dış dünyadan bilgisayara veri aktaran bir GİRİŞ birimidir?",
-                options: ["Mikrofon", "Monitör", "Hoparlör", "Yazıcı"],
-                answer: 0,
+                options: ["Monitör", "Hoparlör", "Yazıcı", "Mikrofon"],
+                answer: 3,
                 pts: 150,
                 points: 150
             },
@@ -1311,24 +1311,24 @@ window.WEEK5_CONTENT = {
             {
                 q: "Hem görüntü gösterip (çıkış) hem de parmak dokunuşuyla komut alabilen (giriş) çift yönlü donanım hangisidir?",
                 question: "Hem görüntü gösterip (çıkış) hem de parmak dokunuşuyla komut alabilen (giriş) çift yönlü donanım hangisidir?",
-                options: ["Dokunmatik Ekran", "Kulaklık", "Barkod Okuyucu", "Projeksiyon"],
-                answer: 0,
+                options: ["Kulaklık", "Dokunmatik Ekran", "Barkod Okuyucu", "Projeksiyon"],
+                answer: 1,
                 pts: 300,
                 points: 300
             },
             {
                 q: "Klavyede imlecin solundaki karakteri silmeye yarayan tuş hangisidir?",
                 question: "Klavyede imlecin solundaki karakteri silmeye yarayan tuş hangisidir?",
-                options: ["Backspace", "Delete", "Enter", "Space"],
-                answer: 0,
+                options: ["Delete", "Enter", "Backspace", "Space"],
+                answer: 2,
                 pts: 150,
                 points: 150
             },
             {
                 q: "Seçili bir metni veya resmi KOPYALAMAK için kullanılan klavye kısayolu hangisidir?",
                 question: "Seçili bir metni veya resmi KOPYALAMAK için kullanılan klavye kısayolu hangisidir?",
-                options: ["Ctrl + C", "Ctrl + V", "Ctrl + X", "Ctrl + Z"],
-                answer: 0,
+                options: ["Ctrl + V", "Ctrl + X", "Ctrl + Z", "Ctrl + C"],
+                answer: 3,
                 pts: 200,
                 points: 200
             },

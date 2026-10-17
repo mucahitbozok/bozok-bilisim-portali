@@ -212,7 +212,24 @@ class WheelQuizGame {
         }
 
         const randomIndex = Math.floor(Math.random() * this.questions.length);
-        this.currentQuestion = { ...this.questions[randomIndex], activePoints: points };
+        const qRaw = this.questions[randomIndex];
+
+        // Şıkları dinamik karıştır (Fisher-Yates) - şıkların tek bir harfte (örn. A) sabit kalmasını engeller
+        const originalOptions = [...qRaw.options];
+        const correctText = originalOptions[qRaw.answer !== undefined ? qRaw.answer : 0];
+        const shuffledOptions = [...originalOptions];
+        for (let i = shuffledOptions.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [shuffledOptions[i], shuffledOptions[j]] = [shuffledOptions[j], shuffledOptions[i]];
+        }
+        const newAnswerIndex = shuffledOptions.indexOf(correctText);
+
+        this.currentQuestion = { 
+            ...qRaw, 
+            options: shuffledOptions, 
+            answer: newAnswerIndex >= 0 ? newAnswerIndex : 0, 
+            activePoints: points 
+        };
 
         const box = document.getElementById("wheel-question-box");
         if (!box) return;
