@@ -72,13 +72,13 @@ const CURRICULUM_DATA = [
             },
             {
                 "week": "5_2",
-                "title": "Yazılım, Kapasite Birimleri ve Dosya Yönetimi",
-                "code": "BTY.5.1.5 - BTY.5.1.6. Yazılım ve dosya yönetimini çözümleyebilme",
-                "outcome": "a) Yazılım türlerini ve donanım ile ilişkisini belirler. b) Hafıza ve kapasite birimlerini kavrar. c) Dosya ve klasör yönetimi işlemlerini çözümler.",
+                "title": "Yazılım, Kapasite Birimleri ve Depolama Birimleri",
+                "code": "BTY.5.1.5. Bilgisayar sistemlerini çözümleyebilme (Yazılım, Kapasite ve Depolama)",
+                "outcome": "a) Yazılım türlerini ve donanım ile ilişkisini belirler. b) Makine dili ve ikili sayı sistemini (0 ve 1) kavrar. c) Kapasite birimlerini (bit, Byte, KB, MB, GB, TB) analiz eder. ç) Dahili, harici ve bulut depolama birimlerini sınıflandırır.",
                 "isAvailable": true,
                 "badge": "Hazır",
                 "customLabel": "5. Konu - 2",
-                "customHeaderTitle": "5. Konu - 2: Yazılım, Kapasite Birimleri ve Dosya Yönetimi"
+                "customHeaderTitle": "5. Konu - 2: Yazılım, Kapasite Birimleri ve Depolama Birimleri"
             },
             {
                 "week": 6,

@@ -432,7 +432,7 @@ class App {
                     </button>
                 ` : ''}
                 ${String(this.currentWeek) === '5' ? `
-                    <button onclick="app.loadWeek('5_2')" class="px-3.5 py-2 bg-gradient-to-r from-amber-500 to-yellow-500 hover:from-amber-400 hover:to-yellow-400 text-slate-950 font-black text-xs rounded-xl shadow-lg flex items-center gap-1.5 transition-all hover:scale-105 active:scale-95" title="5. Konu - 2 (Yazılım, Kapasite Birimleri ve Dosya Yönetimi)">
+                    <button onclick="app.loadWeek('5_2')" class="px-3.5 py-2 bg-gradient-to-r from-amber-500 to-yellow-500 hover:from-amber-400 hover:to-yellow-400 text-slate-950 font-black text-xs rounded-xl shadow-lg flex items-center gap-1.5 transition-all hover:scale-105 active:scale-95" title="5. Konu - 2 (Yazılım, Kapasite Birimleri ve Depolama Birimleri)">
                         <i class="fa-solid fa-forward-step"></i>
                         <span>5. Konu - 2'ye Geç 👉</span>
                     </button>
