@@ -618,8 +618,20 @@
                         <div class="grid grid-cols-1 lg:grid-cols-12 gap-4 items-center">
                             <!-- SOL PANEL: 12x12 HARF MATRİSİ -->
                             <div class="lg:col-span-8 flex flex-col items-center">
-                                <div id="grid-board" class="grid grid-cols-12 gap-1 sm:gap-1.5 p-2 sm:p-3 bg-slate-950/80 rounded-2xl border-2 border-purple-500/30 shadow-inner w-full max-w-[500px] aspect-square">
+                                ${this.showSolution ? `
+                                    <div class="mb-2 px-3 py-1 bg-cyan-950/80 border border-cyan-400/50 rounded-xl text-cyan-300 text-xs font-bold flex items-center gap-2 animate-pulse">
+                                        <i class="fa-solid fa-eye text-cyan-400"></i>
+                                        <span>Cevap Anahtarı Aktif: Gizli kelimeler mavi ışıltıyla gösteriliyor!</span>
+                                    </div>
+                                ` : ''}
+                                <div id="grid-board" class="grid grid-cols-12 gap-1 sm:gap-1.5 p-2 sm:p-3 bg-slate-950/80 rounded-2xl border-2 ${this.showSolution ? 'border-cyan-400/70 shadow-lg shadow-cyan-500/20' : 'border-purple-500/30'} shadow-inner w-full max-w-[500px] aspect-square transition-all">
                                     ${this.renderGridHtml()}
+                                </div>
+                                <div class="mt-2.5 flex items-center justify-center gap-2 w-full max-w-[500px]">
+                                    <button onclick="game.toggleSolution()" class="flex-1 py-2 rounded-xl ${this.showSolution ? 'bg-cyan-500 text-slate-950 font-black shadow-lg shadow-cyan-500/40 ring-2 ring-cyan-300' : 'bg-cyan-500/20 hover:bg-cyan-500/30 border border-cyan-500/40 text-cyan-300 font-bold'} text-xs flex items-center justify-center gap-2 transition-all active:scale-95 shadow-md">
+                                        <i class="fa-solid ${this.showSolution ? 'fa-eye-slash' : 'fa-eye'}"></i>
+                                        <span>${this.showSolution ? 'Cevapları Gizle' : 'Cevabı Göster'}</span>
+                                    </button>
                                 </div>
                             </div>
 
@@ -635,9 +647,9 @@
                                     <!-- 2 Sütunlu Kompakt Kelime Listesi (Sayfada Kaydırma Olmaz) -->
                                     <div class="grid grid-cols-2 gap-1.5 text-left">
                                         ${this.words.map(w => `
-                                            <div class="p-1.5 sm:p-2 rounded-xl border text-xs flex items-center justify-between transition-all ${w.found ? 'bg-emerald-950/70 border-emerald-500/50 text-emerald-300 font-bold line-through' : 'bg-slate-950/60 border-slate-800 text-slate-200'}">
+                                            <div class="p-1.5 sm:p-2 rounded-xl border text-xs flex items-center justify-between transition-all ${w.found ? 'bg-emerald-950/70 border-emerald-500/50 text-emerald-300 font-bold line-through' : (this.showSolution ? 'bg-cyan-950/50 border-cyan-500/50 text-cyan-200 font-semibold' : 'bg-slate-950/60 border-slate-800 text-slate-200')}">
                                                 <span class="truncate">${w.label}</span>
-                                                <i class="${w.found ? 'fa-solid fa-check text-emerald-400 text-xs' : 'fa-regular fa-circle text-slate-600 text-[10px]'}"></i>
+                                                <i class="${w.found ? 'fa-solid fa-check text-emerald-400 text-xs' : (this.showSolution ? 'fa-solid fa-eye text-cyan-400 text-xs' : 'fa-regular fa-circle text-slate-600 text-[10px]')}"></i>
                                             </div>
                                         `).join('')}
                                     </div>
@@ -647,17 +659,23 @@
                                 <div class="grid grid-cols-2 gap-2">
                                     <button onclick="game.giveHint()" class="p-2.5 rounded-xl bg-amber-500/20 hover:bg-amber-500/30 border border-amber-500/40 text-amber-300 font-bold text-xs flex items-center justify-center gap-2 transition-all active:scale-95 shadow-md">
                                         <i class="fa-solid fa-lightbulb"></i>
-                                        <span>İpucu Al</span>
+                                        <span>İpucu Al (${this.hintsUsed})</span>
                                     </button>
+                                    <button onclick="game.toggleSolution()" class="p-2.5 rounded-xl ${this.showSolution ? 'bg-cyan-500 text-slate-950 font-black border-cyan-300 shadow-lg shadow-cyan-500/30' : 'bg-cyan-500/20 hover:bg-cyan-500/30 border border-cyan-500/40 text-cyan-300 font-bold'} border text-xs flex items-center justify-center gap-2 transition-all active:scale-95 shadow-md">
+                                        <i class="fa-solid ${this.showSolution ? 'fa-eye-slash' : 'fa-eye'}"></i>
+                                        <span>${this.showSolution ? 'Cevapları Gizle' : 'Cevabı Göster'}</span>
+                                    </button>
+                                </div>
+                                <div class="grid grid-cols-2 gap-2">
                                     <button onclick="game.startGame()" class="p-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-300 font-bold text-xs flex items-center justify-center gap-2 transition-all active:scale-95 shadow-md">
                                         <i class="fa-solid fa-arrows-rotate"></i>
                                         <span>Yeniden Karıştır</span>
                                     </button>
+                                    <button onclick="game.solveAllAndFinish()" class="p-2.5 rounded-xl bg-emerald-600/20 hover:bg-emerald-600/40 border border-emerald-500/40 text-emerald-300 text-xs font-bold flex items-center justify-center gap-2 transition-all active:scale-95 shadow-md">
+                                        <i class="fa-solid fa-flag-checkered"></i>
+                                        <span>Tümünü Çöz</span>
+                                    </button>
                                 </div>
-                                <button onclick="game.solveAllAndFinish()" class="w-full p-2 rounded-xl bg-indigo-950/80 hover:bg-indigo-900 border border-indigo-700 text-indigo-300 text-[11px] font-bold flex items-center justify-center gap-2 transition-all">
-                                    <i class="fa-solid fa-flag-checkered"></i>
-                                    <span>Tümünü Tamamla & Bitir</span>
-                                </button>
                             </div>
                         </div>
                     `;

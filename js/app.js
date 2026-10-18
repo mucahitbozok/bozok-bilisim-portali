@@ -2183,21 +2183,6 @@ class App {
                     btnGradient: "from-amber-500 via-orange-500 to-purple-600 hover:from-amber-400 hover:to-purple-500 text-slate-950 font-black",
                     action: "app.openStandaloneGame('games/yazilim_dosya_kelime_avi.html', 'Yazılım, Kapasite ve Depolama Kelime Avı | Öğretmen Bozok')"
                 });
-                extra.push({
-                    badge: "16:9 Akıllı Tahta",
-                    badgeColor: "text-purple-300",
-                    title: "BTY.5.1.5 Tam Ekran Akıllı Tahta Sunusu",
-                    desc: "18 slaytlık, tamamen çevrimdışı, etkileşimli mini test ve oyunlarla donatılmış akıllı tahta ders sunumunu aç!",
-                    icon: "fa-solid fa-desktop",
-                    iconBg: "bg-purple-500/30 text-purple-300",
-                    cardGradient: "from-purple-950/90 via-slate-900 to-indigo-950/90",
-                    border: "border-purple-500/50",
-                    descColor: "text-purple-100",
-                    btnText: "Sunuyu Başlat!",
-                    btnIcon: "fa-solid fa-play",
-                    btnGradient: "from-purple-600 via-indigo-600 to-cyan-500 hover:from-purple-500 hover:to-cyan-400 text-white font-black",
-                    action: "app.openStandaloneGame('sunu_yazilim_kapasite_depolama.html', 'BTY.5.1.5 — 16:9 Akıllı Tahta Sunusu')"
-                });
             }
         } else if (weekNum === 6 || weekNum === '6') {
             if (!data || !Array.isArray(data.extraGames) || data.extraGames.length === 0) {
