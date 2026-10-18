@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Yazılım ve Dosya Yönetimi Kelime Avı | Öğretmen Bozok</title>
+    <title>Yazılım, Kapasite ve Depolama Kelime Avı | Öğretmen Bozok</title>
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -108,17 +108,17 @@
         <div class="glass-panel rounded-2xl sm:rounded-3xl p-3 sm:p-4 flex flex-wrap items-center justify-between gap-3 shadow-2xl">
             <div class="flex items-center gap-3">
                 <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl bg-gradient-to-tr from-purple-500 to-indigo-600 flex items-center justify-center text-white text-lg sm:text-2xl shadow-lg shadow-purple-500/30">
-                    <i class="fa-solid fa-file-code"></i>
+                    <i class="fa-solid fa-microchip"></i>
                 </div>
                 <div>
                     <div class="flex items-center gap-2">
                         <span class="px-2 py-0.5 rounded-md bg-purple-500/20 text-purple-300 border border-purple-400/30 text-[10px] font-black uppercase tracking-wider">
-                            5. KONU - 2
+                            5. KONU - 2 • BTY.5.1.5
                         </span>
                         <span class="text-xs text-slate-400 font-semibold hidden sm:inline">Öğretmen Bozok</span>
                     </div>
                     <h1 class="text-base sm:text-xl font-black text-white tracking-tight">
-                        Yazılım, Kapasite ve Dosya Kelime Avı
+                        Yazılım, Kapasite ve Depolama Kelime Avı
                     </h1>
                 </div>
             </div>
@@ -192,7 +192,7 @@
             <div class="p-6 space-y-4 text-sm text-slate-200">
                 <div class="flex items-start gap-3">
                     <span class="w-7 h-7 rounded-lg bg-purple-500 text-white font-black flex items-center justify-center text-xs shrink-0">1</span>
-                    <p>Tabloda yatay, dikey veya çapraz olarak gizlenmiş <strong>10 yazılım ve dosya yönetimi kavramını</strong> bul.</p>
+                    <p>Tabloda yatay, dikey veya çapraz olarak gizlenmiş <strong>10 yazılım, kapasite ve depolama kavramını</strong> bul.</p>
                 </div>
                 <div class="flex items-start gap-3">
                     <span class="w-7 h-7 rounded-lg bg-purple-500 text-white font-black flex items-center justify-center text-xs shrink-0">2</span>
@@ -204,7 +204,7 @@
                 </div>
                 <div class="flex items-start gap-3">
                     <span class="w-7 h-7 rounded-lg bg-purple-500 text-white font-black flex items-center justify-center text-xs shrink-0">4</span>
-                    <p>Tüm kelimeleri en kısa sürede bularak <strong>Dosya ve Yazılım Uzmanı</strong> unvanını kazan!</p>
+                    <p>Tüm kelimeleri en kısa sürede bularak <strong>Yazılım ve Depolama Uzmanı</strong> unvanını kazan!</p>
                 </div>
             </div>
             <div class="p-4 bg-slate-950/60 border-t border-slate-800 text-center">
@@ -272,10 +272,10 @@
         class SoftwareWordHuntGame {
             constructor() {
                 this.gridSize = 12;
-                // 5. Konu - 2: Yazılım, Kapasite ve Dosya Yönetimi Havuzu (26 Kavram)
+                // 5. Konu - 2: Yazılım, Kapasite ve Depolama Birimleri Havuzu (BTY.5.1.5 - 29 Kavram)
                 this.wordPool = [
                     { word: "YAZILIM", label: "Yazılım", desc: "Donanımın çalışmasını sağlayan tüm kodlar ve programlar" },
-                    { word: "ISLETIMSISTEMI", label: "İşletim Sistemi", desc: "Bilgisayarı yöneten ve donanımları konuşturan ana sistem" },
+                    { word: "ISLETIM", label: "İşletim Sistemi", desc: "Bilgisayarı yöneten ve donanımları konuşturan ana sistem" },
                     { word: "PARDUS", label: "Pardus", desc: "TÜBİTAK tarafından geliştirilen yerli ve milli işletim sistemimiz" },
                     { word: "WINDOWS", label: "Windows", desc: "Dünyada en yaygın kullanılan masaüstü işletim sistemi" },
                     { word: "LINUX", label: "Linux", desc: "Açık kaynak kodlu ve ücretsiz çekirdek işletim sistemi" },
@@ -289,17 +289,20 @@
                     { word: "TERABYTE", label: "Terabyte (TB)", desc: "1024 Gigabyte'a eşit devasa depolama kapasitesi birimi" },
                     { word: "GIGABYTE", label: "Gigabyte (GB)", desc: "1024 Megabyte'a eşit olan yaygın hafıza ve depolama birimi" },
                     { word: "MEGABYTE", label: "Megabyte (MB)", desc: "1024 Kilobyte'a eşit olan müzik ve fotoğraf boyutu birimi" },
-                    { word: "KILOBYTE", label: "Kilobyte (KB)", desc: "1024 Byte'a eşit olan metin ve küçük dosya birimi" },
+                    { word: "KILOBYTE", label: "Kilobyte (KB)", desc: "1024 Byte'a eşit olan metin ve küçük veri birimi" },
                     { word: "BYTE", label: "Byte", desc: "8 Bit'in birleşimiyle oluşan, klavyedeki 1 harfe eşit birim" },
                     { word: "BIT", label: "Bit", desc: "0 veya 1 değerini alan en küçük dijital veri parçacığı" },
-                    { word: "KLASOR", label: "Klasör (Dizin)", desc: "Dosyaları düzenli tutmak için kullanılan sanal dolaplar" },
-                    { word: "UZANTI", label: "Dosya Uzantısı", desc: "Dosyanın türünü ve açılacağı programı belirleyen soyadı" },
-                    { word: "DOSYA", label: "Dosya", desc: "Bilgisayarda üretilen ve kaydedilen her bir dijital bilgi ögesi" },
-                    { word: "SIKISTIRMA", label: "Sıkıştırma", desc: "Dosyaların kapladığı alanı küçülterek arşivleme işlemi" },
-                    { word: "BELGE", label: "Belge (.docx/.pdf)", desc: "Kelime işlemcilerde yazılan yazı ve rapor dosyaları" },
-                    { word: "ARSIV", label: "Arşiv (.zip/.rar)", desc: "Birden fazla dosyayı tek pakette sıkıştıran format" },
-                    { word: "TABLO", label: "Tablo (.xlsx)", desc: "Hesaplama ve veri tablosu dosyası formatı" },
-                    { word: "SUNUM", label: "Sunum (.pptx)", desc: "Slaytlardan oluşan görsel ders ve sunu dosyası" }
+                    { word: "DEPOLAMA", label: "Depolama", desc: "Verileri kalıcı olarak sakladığımız tüm hafıza ortamları" },
+                    { word: "DAHILI", label: "Dahili Depolama", desc: "Bilgisayar kasası içinde bulunan sabit depolama birimleri (SSD/HDD)" },
+                    { word: "HARICI", label: "Harici Depolama", desc: "Bilgisayara dışarıdan takılıp taşınabilen depolama birimleri" },
+                    { word: "BULUT", label: "Bulut Depolama", desc: "Verileri internet üzerinden uzak güvenli sunucularda saklama yöntemi" },
+                    { word: "SSD", label: "SSD (Flash Disk)", desc: "Mekanik parçası olmayan, çok hızlı ve sessiz dahili depolama" },
+                    { word: "HARDDISK", label: "Hard Disk (HDD)", desc: "İçinde dönen manyetik disklerin bulunduğu mekanik dahili depolama" },
+                    { word: "USBBELLEK", label: "USB Bellek", desc: "Verileri taşımak için anahtarlıkta taşınan popüler harici bellek" },
+                    { word: "HAFIZAKARTI", label: "Hafıza Kartı (SD)", desc: "Telefon ve kameralarda kullanılan mini taşınabilir bellek" },
+                    { word: "MAKINEDILI", label: "Makine Dili", desc: "Bilgisayarın anladığı 0 ve 1 elektrik sinyallerinden oluşan temel dil" },
+                    { word: "IKILIKOD", label: "İkili Kod (0-1)", desc: "Bilgisayarların düşündüğü 0 ve 1 temelli ikili sayı mantığı" },
+                    { word: "ONEDRIVE", label: "OneDrive", desc: "Microsoft'un sunduğu popüler bulut depolama alanı" }
                 ];
 
                 this.words = [];
@@ -579,15 +582,15 @@
                     container.innerHTML = `
                         <div class="max-w-xl mx-auto text-center py-6 sm:py-10 space-y-6">
                             <div class="w-20 h-20 sm:w-24 sm:h-24 mx-auto rounded-3xl bg-gradient-to-tr from-purple-500 to-indigo-600 flex items-center justify-center text-white text-3xl sm:text-4xl shadow-2xl shadow-purple-500/30 animate-bounce">
-                                <i class="fa-solid fa-file-code"></i>
+                                <i class="fa-solid fa-microchip"></i>
                             </div>
                             <div class="space-y-2">
                                 <span class="px-3.5 py-1 bg-purple-500/20 text-purple-300 font-extrabold rounded-full text-xs uppercase tracking-wider border border-purple-400/30">
-                                    5. KONU - 2 • AKILLI TAHTA ETKİNLİĞİ
+                                    5. KONU - 2 • BTY.5.1.5 • AKILLI TAHTA ETKİNLİĞİ
                                 </span>
-                                <h2 class="text-2xl sm:text-4xl font-black text-white">Yazılım & Dosya Kelime Avı</h2>
+                                <h2 class="text-2xl sm:text-4xl font-black text-white">Yazılım, Kapasite ve Depolama Kelime Avı</h2>
                                 <p class="text-sm sm:text-base text-slate-300">
-                                    12x12 harf matrisinde gizlenmiş 10 yazılım, işletim sistemi, kapasite birimi ve dosya terimini bulabilecek misin?
+                                    12x12 harf matrisinde gizlenmiş 10 yazılım, işletim sistemi, kapasite birimi ve depolama terimini bulabilecek misin?
                                 </p>
                             </div>
                             <div class="p-4 bg-slate-900/80 rounded-2xl border border-slate-800 text-left text-xs sm:text-sm text-slate-300 space-y-2">
@@ -673,7 +676,7 @@
                                 </span>
                                 <h2 class="text-2xl sm:text-4xl font-black text-white">Tebrikler Bilişim Yıldızı!</h2>
                                 <p class="text-sm sm:text-base text-slate-300">
-                                    Yazılım, kapasite ve dosya yönetimi kelime avı matrisindeki tüm kavramları başarıyla bularak dosya hiyerarşisini çözdün!
+                                    Yazılım, kapasite birimleri ve depolama ortamları matrisindeki tüm kavramları başarıyla bularak BTY.5.1.5 kazanımını pekiştirdin!
                                 </p>
                             </div>
                             <div class="p-4 bg-slate-900/90 rounded-2xl border border-slate-800 flex items-center justify-around">

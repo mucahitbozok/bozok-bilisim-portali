@@ -1400,7 +1400,7 @@ window.WEEK5_2_CONTENT = {
         {
             badge: "Kelime Avı",
             badgeColor: "text-amber-300",
-            title: "Yazılım ve Kapasite Kelime Avı",
+            title: "Yazılım, Kapasite ve Depolama Kelime Avı",
             desc: "12x12 harf matrisinde gizlenen 10 yazılım, kapasite ve depolama terimini bul! Her oyunda kelimelerin yerleri rastgele değişir!",
             icon: "fa-solid fa-puzzle-piece",
             iconBg: "bg-amber-500/30 text-amber-300",
@@ -1410,7 +1410,7 @@ window.WEEK5_2_CONTENT = {
             btnText: "Kelime Avına Başla!",
             btnIcon: "fa-solid fa-crosshairs",
             btnGradient: "from-amber-500 via-orange-500 to-purple-600 hover:from-amber-400 hover:to-purple-500 text-slate-950 font-black",
-            action: "app.openStandaloneGame('games/yazilim_dosya_kelime_avi.html', 'Yazılım ve Kapasite Kelime Avı | Öğretmen Bozok')"
+            action: "app.openStandaloneGame('games/yazilim_dosya_kelime_avi.html', 'Yazılım, Kapasite ve Depolama Kelime Avı | Öğretmen Bozok')"
         },
         {
             badge: "16:9 Akıllı Tahta",

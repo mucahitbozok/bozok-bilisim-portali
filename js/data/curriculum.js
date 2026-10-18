@@ -85,8 +85,8 @@ const CURRICULUM_DATA = [
                 "title": "Dosya ve Klasör Yönetimi",
                 "code": "BTY.5.1.6. Dosya ve klasör yönetimi ile ilgili temel işlemlerle çalışabilme",
                 "outcome": "a) Temel dosya ve klasör düzenleme işlemlerini belirler.\nb) Temel dosya ve klasör düzenleme işlemlerini kullanır.\nc) Dosya ve klasör sıkıştırma işlemlerini verimlilik kapsamında değerlendirir.",
-                "isAvailable": false,
-                "badge": "Yakında",
+                "isAvailable": true,
+                "badge": "Hazır",
                 "customLabel": "6. Konu",
                 "customHeaderTitle": "6. Konu: Dosya ve Klasör Yönetimi"
             }

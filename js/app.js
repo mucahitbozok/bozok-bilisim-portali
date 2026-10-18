@@ -442,6 +442,16 @@ class App {
                         <i class="fa-solid fa-arrow-left"></i>
                         <span>5. Konu - 1'e Dön</span>
                     </button>
+                    <button onclick="app.loadWeek(6)" class="px-3.5 py-2 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-black text-xs rounded-xl shadow-lg flex items-center gap-1.5 transition-all hover:scale-105 active:scale-95" title="6. Konu: Dosya ve Klasör Yönetimi">
+                        <i class="fa-solid fa-folder-tree"></i>
+                        <span>6. Konuya Geç 👉</span>
+                    </button>
+                ` : ''}
+                ${String(this.currentWeek) === '6' ? `
+                    <button onclick="app.loadWeek('5_2')" class="px-3.5 py-2 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-black text-xs rounded-xl shadow-lg flex items-center gap-1.5 transition-all hover:scale-105 active:scale-95" title="5. Konu - 2 (Yazılım, Kapasite Birimleri ve Depolama Birimleri)">
+                        <i class="fa-solid fa-arrow-left"></i>
+                        <span>5. Konu - 2'ye Dön</span>
+                    </button>
                 ` : ''}
                 ${hasVideos ? `
                     <button onclick="app.switchTab('videos')" class="px-4 py-2 bg-gradient-to-r from-rose-600 to-red-600 hover:from-rose-500 hover:to-red-500 text-white font-black text-xs rounded-xl shadow-lg flex items-center gap-2 transition-all hover:scale-105 active:scale-95" title="Konu Videoları">
@@ -2144,21 +2154,6 @@ class App {
         } else if (weekNum === '5_2' || weekNum === '5-2') {
             if (!data || !Array.isArray(data.extraGames) || data.extraGames.length === 0) {
                 extra.push({
-                    badge: "Sıralama Simülasyonu",
-                    badgeColor: "text-purple-300",
-                    title: "Dosya & Uzantı Laboratuvarı",
-                    desc: "Karışık gelen dosyaları uzantılarına (.docx, .jpg, .mp3, .mp4, .zip vb.) göre 6 doğru klasöre tasnif et! Sürükle veya tıkla, komboları topla!",
-                    icon: "fa-solid fa-folder-tree",
-                    iconBg: "bg-purple-500/30 text-purple-300",
-                    cardGradient: "from-purple-950/90 via-slate-900 to-indigo-950/90",
-                    border: "border-purple-500/50",
-                    descColor: "text-purple-100",
-                    btnText: "Laboratuvara Gir!",
-                    btnIcon: "fa-solid fa-play",
-                    btnGradient: "from-purple-600 via-indigo-600 to-cyan-500 hover:from-purple-500 hover:to-cyan-400 text-white font-black",
-                    action: "app.openStandaloneGame('games/dosya_uzanti_laboratuvari.html', 'Dosya & Uzantı Laboratuvarı | Öğretmen Bozok')"
-                });
-                extra.push({
                     badge: "Hafıza Deposu",
                     badgeColor: "text-cyan-300",
                     title: "Kapasite Merdiveni & Hafıza Deposu",
@@ -2176,8 +2171,8 @@ class App {
                 extra.push({
                     badge: "Kelime Avı",
                     badgeColor: "text-amber-300",
-                    title: "Yazılım ve Dosya Kelime Avı",
-                    desc: "12x12 harf matrisinde gizlenen 10 yazılım, kapasite ve dosya terimini bul! Her oyunda kelimelerin yerleri ve harfler rastgele değişir!",
+                    title: "Yazılım, Kapasite ve Depolama Kelime Avı",
+                    desc: "12x12 harf matrisinde gizlenen 10 yazılım, kapasite ve depolama terimini bul! Her oyunda kelimelerin yerleri ve harfler rastgele değişir!",
                     icon: "fa-solid fa-puzzle-piece",
                     iconBg: "bg-amber-500/30 text-amber-300",
                     cardGradient: "from-indigo-950/90 via-slate-900 to-purple-950/90",
@@ -2186,7 +2181,40 @@ class App {
                     btnText: "Kelime Avına Başla!",
                     btnIcon: "fa-solid fa-crosshairs",
                     btnGradient: "from-amber-500 via-orange-500 to-purple-600 hover:from-amber-400 hover:to-purple-500 text-slate-950 font-black",
-                    action: "app.openStandaloneGame('games/yazilim_dosya_kelime_avi.html', 'Yazılım & Dosya Kelime Avı | Öğretmen Bozok')"
+                    action: "app.openStandaloneGame('games/yazilim_dosya_kelime_avi.html', 'Yazılım, Kapasite ve Depolama Kelime Avı | Öğretmen Bozok')"
+                });
+                extra.push({
+                    badge: "16:9 Akıllı Tahta",
+                    badgeColor: "text-purple-300",
+                    title: "BTY.5.1.5 Tam Ekran Akıllı Tahta Sunusu",
+                    desc: "18 slaytlık, tamamen çevrimdışı, etkileşimli mini test ve oyunlarla donatılmış akıllı tahta ders sunumunu aç!",
+                    icon: "fa-solid fa-desktop",
+                    iconBg: "bg-purple-500/30 text-purple-300",
+                    cardGradient: "from-purple-950/90 via-slate-900 to-indigo-950/90",
+                    border: "border-purple-500/50",
+                    descColor: "text-purple-100",
+                    btnText: "Sunuyu Başlat!",
+                    btnIcon: "fa-solid fa-play",
+                    btnGradient: "from-purple-600 via-indigo-600 to-cyan-500 hover:from-purple-500 hover:to-cyan-400 text-white font-black",
+                    action: "app.openStandaloneGame('sunu_yazilim_kapasite_depolama.html', 'BTY.5.1.5 — 16:9 Akıllı Tahta Sunusu')"
+                });
+            }
+        } else if (weekNum === 6 || weekNum === '6') {
+            if (!data || !Array.isArray(data.extraGames) || data.extraGames.length === 0) {
+                extra.push({
+                    badge: "Sıralama Simülasyonu",
+                    badgeColor: "text-purple-300",
+                    title: "Dosya & Uzantı Laboratuvarı",
+                    desc: "Karışık gelen dosyaları uzantılarına (.docx, .jpg, .mp3, .mp4, .zip vb.) göre 6 doğru klasöre tasnif et! Sürükle veya tıkla, komboları topla!",
+                    icon: "fa-solid fa-folder-tree",
+                    iconBg: "bg-purple-500/30 text-purple-300",
+                    cardGradient: "from-purple-950/90 via-slate-900 to-indigo-950/90",
+                    border: "border-purple-500/50",
+                    descColor: "text-purple-100",
+                    btnText: "Laboratuvara Gir!",
+                    btnIcon: "fa-solid fa-play",
+                    btnGradient: "from-purple-600 via-indigo-600 to-cyan-500 hover:from-purple-500 hover:to-cyan-400 text-white font-black",
+                    action: "app.openStandaloneGame('games/dosya_uzanti_laboratuvari.html', 'Dosya & Uzantı Laboratuvarı | Öğretmen Bozok')"
                 });
             }
         }
