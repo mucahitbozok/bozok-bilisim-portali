@@ -339,10 +339,12 @@ window.WEEK5_2_CONTENT = {
             cover: "assets/slides/donanim_sistem_kapak.jpg",
             softwareTypes: "assets/slides/bilgisayar_cesitleri.jpg",
             fileFolder: "assets/slides/veri_isleme_dongusu.jpg",
-            sayfa1: "assets/worksheets/1.5_sayfa1.png",
-            sayfa2: "assets/worksheets/1.5_sayfa2.png",
-            sayfa3: "assets/worksheets/1.5_sayfa3.png",
-            sayfa4: "assets/worksheets/1.5_sayfa4.png"
+            sayfa1: "assets/worksheets/1.5_2_sayfa1.png",
+            sayfa2: "assets/worksheets/1.5_2_sayfa2.png",
+            sayfa3: "assets/worksheets/1.5_2_sayfa3.png",
+            sayfa4: "assets/worksheets/1.5_2_sayfa4.png",
+            cevap: "assets/docs/Cevap_Anahtari_BTY_5_1_5_Konu_2.pdf",
+            defter: "assets/docs/Deftere_Yazilacaklar_BTY_5_1_5_Konu_2.pdf"
         }
     },
 
@@ -1309,10 +1311,354 @@ window.WEEK5_2_CONTENT = {
     ],
 
     worksheetDocs: {
-        sayfa1: "assets/worksheets/1.5_sayfa1.png",
-        sayfa2: "assets/worksheets/1.5_sayfa2.png",
-        sayfa3: "assets/worksheets/1.5_sayfa3.png",
-        sayfa4: "assets/worksheets/1.5_sayfa4.png"
+        sayfa1: "assets/worksheets/1.5_2_sayfa1.png",
+        sayfa2: "assets/worksheets/1.5_2_sayfa2.png",
+        sayfa3: "assets/worksheets/1.5_2_sayfa3.png",
+        sayfa4: "assets/worksheets/1.5_2_sayfa4.png",
+        cevap: "assets/docs/Cevap_Anahtari_BTY_5_1_5_Konu_2.pdf",
+        defter: "assets/docs/Deftere_Yazilacaklar_BTY_5_1_5_Konu_2.pdf",
+        pdfLinks: {
+            cevapPdf: "assets/docs/Cevap_Anahtari_BTY_5_1_5_Konu_2.pdf",
+            defterPdf: "assets/docs/Deftere_Yazilacaklar_BTY_5_1_5_Konu_2.pdf"
+        },
+        sayfa1Html: `
+            <div class="space-y-6 text-slate-100 print:text-black">
+                <div class="border-b-2 border-indigo-500/40 pb-4 flex items-center justify-between flex-wrap gap-2">
+                    <div>
+                        <span class="px-3 py-1 bg-indigo-500/30 text-indigo-300 font-black rounded-lg text-xs tracking-wider uppercase">
+                            5. KONU - 2 • BTY.5.1.5
+                        </span>
+                        <h1 class="text-xl sm:text-2xl font-black text-white mt-1">
+                            SAYFA 1: YAZILIM VE YAZILIM TÜRLERİ
+                        </h1>
+                        <p class="text-xs text-indigo-300">Öğretmen Bozok • Bozok Bilişim Portalı</p>
+                    </div>
+                    <span class="px-3 py-1 bg-yellow-400/20 text-yellow-300 border border-yellow-400/40 rounded-xl text-xs font-black">
+                        Sayfa: 1 / 4
+                    </span>
+                </div>
+
+                <div class="p-4 bg-slate-850 rounded-2xl border border-indigo-500/30 space-y-3">
+                    <div class="flex items-center gap-2">
+                        <span class="w-8 h-8 rounded-lg bg-indigo-600 flex items-center justify-center text-white font-black text-sm">1</span>
+                        <h3 class="text-base font-black text-yellow-300">YAZILIM NEDİR?</h3>
+                    </div>
+                    <p class="text-sm leading-relaxed">
+                        Yazılım, bilgisayarın çalışmasını ve çeşitli işlemleri yapmasını sağlayan komutlar bütünüdür. Günlük hayatta <strong>program</strong> veya <strong>uygulama</strong> olarak da adlandırılır. Donanım fiziksel beden ise, yazılım ona can veren ruhtur.
+                    </p>
+                </div>
+
+                <div class="p-4 bg-slate-850 rounded-2xl border border-cyan-500/30 space-y-3">
+                    <div class="flex items-center gap-2">
+                        <span class="w-8 h-8 rounded-lg bg-cyan-600 flex items-center justify-center text-white font-black text-sm">2</span>
+                        <h3 class="text-base font-black text-cyan-300">YAZILIM TÜRLERİ</h3>
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+                        <div class="p-3.5 bg-slate-900 rounded-xl border border-indigo-400/30 space-y-1.5">
+                            <h4 class="font-black text-indigo-300 text-sm flex items-center gap-1.5">
+                                <i class="fa-solid fa-gears"></i> İşletim Sistemi Yazılımları
+                            </h4>
+                            <p class="text-slate-300">Bilgisayarın donanım birimlerini yönetir, bilgisayarın açılmasını sağlar ve diğer yazılımların çalışması için zemin oluşturur.</p>
+                            <div class="p-2 bg-slate-950 rounded-lg text-yellow-300 font-bold text-[11px]">
+                                Örnekler: Windows, Pardus (Yerli & Milli), Linux, Android, iOS.
+                            </div>
+                        </div>
+                        <div class="p-3.5 bg-slate-900 rounded-xl border border-emerald-400/30 space-y-1.5">
+                            <h4 class="font-black text-emerald-300 text-sm flex items-center gap-1.5">
+                                <i class="fa-solid fa-shapes"></i> Uygulama Yazılımları
+                            </h4>
+                            <p class="text-slate-300">Kullanıcının belirli bir işi (yazı yazma, resim yapma, internete girme, oyun oynama vb.) gerçekleştirmesi için üretilen yazılımlardır.</p>
+                            <div class="p-2 bg-slate-950 rounded-lg text-yellow-300 font-bold text-[11px]">
+                                Örnekler: Microsoft Word, Microsoft Excel, Scratch, Paint, WhatsApp.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="p-4 bg-slate-850 rounded-2xl border border-purple-500/30 space-y-2">
+                    <h3 class="text-sm font-black text-purple-300 uppercase flex items-center gap-2">
+                        <i class="fa-solid fa-microchip"></i> 3. MAKİNE DİLİ VE İKİLİ SAYI SİSTEMİ
+                    </h3>
+                    <p class="text-sm leading-relaxed">
+                        Bilgisayarlar doğrudan Türkçe veya İngilizce anlamaz. Bilgisayarların ana dili <strong>0</strong> (elektrik yok) ve <strong>1</strong> (elektrik var) rakamlarından oluşan <strong>ikili sayı sistemi (binary)</strong> ve <strong>makine dilidir</strong>.
+                    </p>
+                </div>
+            </div>
+        `,
+        sayfa2Html: `
+            <div class="space-y-6 text-slate-100 print:text-black">
+                <div class="border-b-2 border-indigo-500/40 pb-4 flex items-center justify-between flex-wrap gap-2">
+                    <div>
+                        <span class="px-3 py-1 bg-indigo-500/30 text-indigo-300 font-black rounded-lg text-xs tracking-wider uppercase">
+                            5. KONU - 2 • BTY.5.1.5
+                        </span>
+                        <h1 class="text-xl sm:text-2xl font-black text-white mt-1">
+                            SAYFA 2: KAPASİTE BİRİMLERİ (BİT, BYTE, KB, MB, GB, TB)
+                        </h1>
+                        <p class="text-xs text-indigo-300">Hafıza Ölçü Birimleri ve 1024 Kat Kuralı</p>
+                    </div>
+                    <span class="px-3 py-1 bg-yellow-400/20 text-yellow-300 border border-yellow-400/40 rounded-xl text-xs font-black">
+                        Sayfa: 2 / 4
+                    </span>
+                </div>
+
+                <div class="p-4 bg-slate-850 rounded-2xl border border-yellow-500/30 space-y-3">
+                    <h3 class="text-base font-black text-yellow-300 uppercase flex items-center gap-2">
+                        <i class="fa-solid fa-stairs"></i> KAPASİTE BİRİMLERİ VE DÖNÜŞÜM TABLOSU
+                    </h3>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left text-xs border-collapse">
+                            <thead>
+                                <tr class="bg-slate-900 text-slate-300 border-b border-slate-700">
+                                    <th class="p-2.5 font-bold">Birim Adı</th>
+                                    <th class="p-2.5 font-bold">Kısaltması</th>
+                                    <th class="p-2.5 font-bold">Eşdeğer Kapasite</th>
+                                    <th class="p-2.5 font-bold">Gerçek Hayat Örneği</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-slate-800">
+                                <tr><td class="p-2.5 font-bold text-cyan-300">Bit</td><td class="p-2.5 font-mono">b</td><td class="p-2.5 font-semibold">En küçük veri (0 veya 1)</td><td class="p-2.5 text-slate-400">Tek bir elektrik sinyali</td></tr>
+                                <tr><td class="p-2.5 font-bold text-cyan-300">Byte</td><td class="p-2.5 font-mono">B</td><td class="p-2.5 font-semibold text-yellow-400">8 Bit</td><td class="p-2.5 text-slate-400">Klavyedeki tek bir harf ('A', 'B')</td></tr>
+                                <tr><td class="p-2.5 font-bold text-cyan-300">Kilobyte</td><td class="p-2.5 font-mono">KB</td><td class="p-2.5 font-semibold text-yellow-400">1024 Byte</td><td class="p-2.5 text-slate-400">Kısa bir not, metin belgesi</td></tr>
+                                <tr><td class="p-2.5 font-bold text-cyan-300">Megabyte</td><td class="p-2.5 font-mono">MB</td><td class="p-2.5 font-semibold text-yellow-400">1024 Kilobyte</td><td class="p-2.5 text-slate-400">1 adet yüksek kaliteli fotoğraf, 1 MP3 şarkı</td></tr>
+                                <tr><td class="p-2.5 font-bold text-cyan-300">Gigabyte</td><td class="p-2.5 font-mono">GB</td><td class="p-2.5 font-semibold text-yellow-400">1024 Megabyte</td><td class="p-2.5 text-slate-400">1 HD film, modern bir bilgisayar oyunu</td></tr>
+                                <tr><td class="p-2.5 font-bold text-cyan-300">Terabyte</td><td class="p-2.5 font-mono">TB</td><td class="p-2.5 font-semibold text-yellow-400">1024 Gigabyte</td><td class="p-2.5 text-slate-400">Binlerce film, devasa sunucu ve arşivler</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="p-3 bg-slate-900 rounded-xl border border-cyan-400/30 text-center font-extrabold text-xs text-cyan-300">
+                        Küçükten Büyüğe Sıralama: bit ➔ Byte ➔ KB ➔ MB ➔ GB ➔ TB
+                    </div>
+                </div>
+            </div>
+        `,
+        sayfa3Html: `
+            <div class="space-y-6 text-slate-100 print:text-black">
+                <div class="border-b-2 border-indigo-500/40 pb-4 flex items-center justify-between flex-wrap gap-2">
+                    <div>
+                        <span class="px-3 py-1 bg-indigo-500/30 text-indigo-300 font-black rounded-lg text-xs tracking-wider uppercase">
+                            5. KONU - 2 • BTY.5.1.5
+                        </span>
+                        <h1 class="text-xl sm:text-2xl font-black text-white mt-1">
+                            SAYFA 3: DEPOLAMA BİRİMLERİ (DAHİLİ, HARİCİ, BULUT)
+                        </h1>
+                        <p class="text-xs text-indigo-300">Verilerin Saklandığı Ortamlar ve Özellikleri</p>
+                    </div>
+                    <span class="px-3 py-1 bg-yellow-400/20 text-yellow-300 border border-yellow-400/40 rounded-xl text-xs font-black">
+                        Sayfa: 3 / 4
+                    </span>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
+                    <div class="p-4 bg-slate-850 rounded-2xl border border-blue-500/30 space-y-2">
+                        <div class="w-10 h-10 rounded-xl bg-blue-600/30 text-blue-400 flex items-center justify-center text-lg">
+                            <i class="fa-solid fa-hard-drive"></i>
+                        </div>
+                        <h3 class="font-black text-white text-sm">1. Dahili Depolama</h3>
+                        <p class="text-slate-300">Bilgisayar veya cihazın içine monte edilmiş, sabit duran saklama birimleridir.</p>
+                        <ul class="text-slate-400 space-y-1 list-disc pl-4 text-[11px]">
+                            <li><strong>HDD (Hard Disk):</strong> Dönen manyetik diskler.</li>
+                            <li><strong>SSD:</strong> Çok hızlı flash bellek yongaları.</li>
+                        </ul>
+                    </div>
+
+                    <div class="p-4 bg-slate-850 rounded-2xl border border-amber-500/30 space-y-2">
+                        <div class="w-10 h-10 rounded-xl bg-amber-600/30 text-amber-400 flex items-center justify-center text-lg">
+                            <i class="fa-brands fa-usb"></i>
+                        </div>
+                        <h3 class="font-black text-white text-sm">2. Harici Depolama</h3>
+                        <p class="text-slate-300">Taşınabilir, cebe sığan, farklı cihazlara takıp çıkarılabilen birimlerdir.</p>
+                        <ul class="text-slate-400 space-y-1 list-disc pl-4 text-[11px]">
+                            <li><strong>USB Flash Bellek:</strong> Cepte taşınan bellek.</li>
+                            <li><strong>Hafıza Kartı (SD):</strong> Telefon ve kameralar.</li>
+                            <li><strong>Harici Disk & CD/DVD:</strong> Taşınabilir yedekleme.</li>
+                        </ul>
+                    </div>
+
+                    <div class="p-4 bg-slate-850 rounded-2xl border border-emerald-500/30 space-y-2">
+                        <div class="w-10 h-10 rounded-xl bg-emerald-600/30 text-emerald-400 flex items-center justify-center text-lg">
+                            <i class="fa-solid fa-cloud"></i>
+                        </div>
+                        <h3 class="font-black text-white text-sm">3. Bulut Depolama</h3>
+                        <p class="text-slate-300">Verilerin internet üzerinden erişilen uzak ve güvenli sunucularda saklanmasıdır.</p>
+                        <ul class="text-slate-400 space-y-1 list-disc pl-4 text-[11px]">
+                            <li><strong>Google Drive:</strong> 15 GB ücretsiz alan.</li>
+                            <li><strong>OneDrive & Yandex Disk:</strong> Güvenli bulut.</li>
+                            <li>İnternet olan her yerden erişim sağlar.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        `,
+        sayfa4Html: `
+            <div class="space-y-6 text-slate-100 print:text-black">
+                <div class="border-b-2 border-indigo-500/40 pb-4 flex items-center justify-between flex-wrap gap-2">
+                    <div>
+                        <span class="px-3 py-1 bg-indigo-500/30 text-indigo-300 font-black rounded-lg text-xs tracking-wider uppercase">
+                            5. KONU - 2 • BTY.5.1.5
+                        </span>
+                        <h1 class="text-xl sm:text-2xl font-black text-white mt-1">
+                            SAYFA 4: PEKİŞTİRME ETKİNLİKLERİ VE GÖREVLER
+                        </h1>
+                        <p class="text-xs text-indigo-300">Eşleştirme, Doğru/Yanlış ve Gerçek Hayat Senaryoları</p>
+                    </div>
+                    <span class="px-3 py-1 bg-yellow-400/20 text-yellow-300 border border-yellow-400/40 rounded-xl text-xs font-black">
+                        Sayfa: 4 / 4
+                    </span>
+                </div>
+
+                <!-- ETKİNLİK 1: EŞLEŞTİRME -->
+                <div class="p-4 bg-slate-850 rounded-2xl border border-indigo-500/30 space-y-2 text-xs">
+                    <h3 class="font-black text-yellow-300 text-sm flex items-center gap-2">
+                        <i class="fa-solid fa-arrows-split-up-and-left"></i> ETKİNLİK 1: DEPOLAMA TÜRÜ EŞLEŞTİRMESİ
+                    </h3>
+                    <p class="text-slate-300">Donanımları uygun depolama türüyle (Dahili / Harici / Bulut) eşleştirin:</p>
+                    <div class="grid grid-cols-2 sm:grid-cols-3 gap-2 pt-1 font-semibold">
+                        <div class="p-2 bg-slate-900 rounded-lg border border-slate-700">1. HDD ➔ [ Dahili ]</div>
+                        <div class="p-2 bg-slate-900 rounded-lg border border-slate-700">2. SSD ➔ [ Dahili ]</div>
+                        <div class="p-2 bg-slate-900 rounded-lg border border-slate-700">3. USB Bellek ➔ [ Harici ]</div>
+                        <div class="p-2 bg-slate-900 rounded-lg border border-slate-700">4. Hafıza Kartı (SD) ➔ [ Harici ]</div>
+                        <div class="p-2 bg-slate-900 rounded-lg border border-slate-700">5. CD / DVD ➔ [ Harici ]</div>
+                        <div class="p-2 bg-slate-900 rounded-lg border border-slate-700">6. Google Drive ➔ [ Bulut ]</div>
+                    </div>
+                </div>
+
+                <!-- ETKİNLİK 2: DOĞRU / YANLIŞ -->
+                <div class="p-4 bg-slate-850 rounded-2xl border border-emerald-500/30 space-y-2 text-xs">
+                    <h3 class="font-black text-emerald-300 text-sm flex items-center gap-2">
+                        <i class="fa-solid fa-square-check"></i> ETKİNLİK 2: DOĞRU MU YANLIŞ MI?
+                    </h3>
+                    <div class="space-y-1.5 text-slate-300">
+                        <p>1. [ <strong class="text-emerald-400">D</strong> ] Yazılım olmadan donanım parçaları hiçbir işe yaramaz.</p>
+                        <p>2. [ <strong class="text-emerald-400">D</strong> ] Pardus, TÜBİTAK tarafından geliştirilen milli işletim sistemimizdir.</p>
+                        <p>3. [ <strong class="text-emerald-400">D</strong> ] 1 Byte tam olarak 8 Bit'in bir araya gelmesiyle oluşur.</p>
+                        <p>4. [ <strong class="text-emerald-400">D</strong> ] 1024 Megabyte (MB) birleşerek 1 Gigabyte (GB) oluşturur.</p>
+                        <p>5. [ <strong class="text-emerald-400">D</strong> ] SSD diskler mekanik disklere (HDD) göre çok daha hızlı ve darbelere dayanıklıdır.</p>
+                        <p>6. [ <strong class="text-rose-400">Y</strong> ] Bulut depolamadaki dosyalara internet bağlantısı olmadan da her yerden erişilebilir. <em>(İnternet şarttır)</em></p>
+                    </div>
+                </div>
+            </div>
+        `,
+        cevapHtml: `
+            <div class="space-y-6 text-slate-100 print:text-black">
+                <div class="border-b-2 border-emerald-500/50 pb-4 flex items-center justify-between flex-wrap gap-2">
+                    <div>
+                        <span class="px-3 py-1 bg-emerald-500/30 text-emerald-300 font-black rounded-lg text-xs tracking-wider uppercase">
+                            BTY.5.1.5 • 2. KONU RESMÎ ÇÖZÜMLER
+                        </span>
+                        <h1 class="text-xl sm:text-2xl font-black text-white mt-1">
+                            RESMÎ CEVAP ANAHTARI
+                        </h1>
+                        <p class="text-xs text-emerald-300">Öğretmen Bozok • Yazılım, Kapasite Birimleri ve Depolama Birimleri</p>
+                    </div>
+                    <a href="assets/docs/Cevap_Anahtari_BTY_5_1_5_Konu_2.pdf" target="_blank" download class="px-4 py-2 bg-emerald-600 hover:bg-emerald-500 text-white font-black text-xs rounded-xl shadow-md flex items-center gap-1.5">
+                        <i class="fa-solid fa-download"></i> PDF İndir
+                    </a>
+                </div>
+
+                <div class="p-4 bg-slate-850 rounded-2xl border border-emerald-500/40 space-y-4 text-xs">
+                    <div>
+                        <h3 class="font-black text-yellow-300 text-sm mb-1.5">1. Sayfa – Yazılım ve Yazılım Türleri</h3>
+                        <p><strong>İşletim sistemi:</strong> Windows, Pardus, Linux, Android, iOS.</p>
+                        <p><strong>Uygulama yazılımı:</strong> Microsoft Word, Microsoft Excel, Scratch, WhatsApp.</p>
+                        <p><strong>Makine dili:</strong> 0 ve 1 rakamlarından oluşan ikili sayı sistemi.</p>
+                    </div>
+
+                    <div class="border-t border-slate-700 pt-3">
+                        <h3 class="font-black text-yellow-300 text-sm mb-1.5">2. Sayfa – Kapasite Birimleri</h3>
+                        <p>• 8 bit = <strong>1 Byte (B)</strong></p>
+                        <p>• 1024 Byte = <strong>1 Kilobyte (KB)</strong></p>
+                        <p>• 1024 KB = <strong>1 Megabyte (MB)</strong></p>
+                        <p>• 1024 MB = <strong>1 Gigabyte (GB)</strong></p>
+                        <p>• 1024 GB = <strong>1 Terabyte (TB)</strong></p>
+                        <p class="text-cyan-300 font-bold mt-1">Küçükten büyüğe: bit ➔ Byte ➔ KB ➔ MB ➔ GB ➔ TB</p>
+                    </div>
+
+                    <div class="border-t border-slate-700 pt-3">
+                        <h3 class="font-black text-yellow-300 text-sm mb-1.5">3. Sayfa – Depolama Birimleri</h3>
+                        <p><strong>Dahili:</strong> HDD, SSD.</p>
+                        <p><strong>Harici:</strong> USB bellek, hafıza kartı, CD/DVD, taşınabilir disk.</p>
+                        <p><strong>Bulut:</strong> Google Drive, Yandex Disk, OneDrive.</p>
+                    </div>
+
+                    <div class="border-t border-slate-700 pt-3">
+                        <h3 class="font-black text-yellow-300 text-sm mb-1.5">4. Sayfa – Etkinlik Cevapları</h3>
+                        <p><strong>Etkinlik 1 – Eşleştirme:</strong> HDD ➔ Dahili; SSD ➔ Dahili; USB bellek ➔ Harici; hafıza kartı (SD) ➔ Harici; CD/DVD ➔ Harici; Google Drive ➔ Bulut.</p>
+                        <p class="mt-1"><strong>Etkinlik 2 – Doğru/Yanlış:</strong> 1-D, 2-D, 3-D, 4-D, 5-D, 6-Y.</p>
+                        <p class="mt-1"><strong>Etkinlik 3 – Uygun depolama birimi:</strong> 1. Dahili. 2. Harici veya bulut. 3. Dahili; yedek için harici veya bulut da kabul edilir. 4. Bulut. 5. Harici.</p>
+                        <p class="mt-1"><strong>Etkinlik 4 – Görseller:</strong> 1. HDD – Dahili. 2. SSD – Dahili. 3. USB bellek – Harici. 4. Hafıza kartı – Harici. 5. CD/DVD – Harici. 6. Bulut depolama – Bulut.</p>
+                        <p class="mt-1"><strong>Etkinlik 5 – Senaryolar:</strong> 1. Harici veya bulut; yedek kopya oluşturur. 2. USB bellek veya bulut; başka bilgisayarda açılabilir. 3. Bulut veya harici; ek saklama alanı sağlar. 4. SSD; genellikle HDD'den daha hızlıdır.</p>
+                    </div>
+                </div>
+            </div>
+        `,
+        defterHtml: `
+            <div class="space-y-6 text-slate-100 print:text-black">
+                <div class="border-b-2 border-amber-500/50 pb-4 flex items-center justify-between flex-wrap gap-2">
+                    <div>
+                        <span class="px-3 py-1 bg-amber-500/30 text-amber-300 font-black rounded-lg text-xs tracking-wider uppercase">
+                            BTY.5.1.5 • ÖĞRENCİ DERS NOTLARI
+                        </span>
+                        <h1 class="text-xl sm:text-2xl font-black text-white mt-1">
+                            DEFTERE YAZILACAKLAR
+                        </h1>
+                        <p class="text-xs text-amber-300">BTY.5.1.5 – 2. Konu: Yazılım ve Kapasite Birimleri</p>
+                    </div>
+                    <a href="assets/docs/Deftere_Yazilacaklar_BTY_5_1_5_Konu_2.pdf" target="_blank" download class="px-4 py-2 bg-amber-600 hover:bg-amber-500 text-slate-950 font-black text-xs rounded-xl shadow-md flex items-center gap-1.5">
+                        <i class="fa-solid fa-download"></i> PDF İndir
+                    </a>
+                </div>
+
+                <div class="p-5 bg-slate-850 rounded-2xl border border-amber-500/40 space-y-4 text-xs sm:text-sm leading-relaxed">
+                    <div class="p-3 bg-slate-900 rounded-xl border border-slate-700">
+                        <h3 class="font-black text-yellow-300 text-base mb-1">1. Yazılım Nedir?</h3>
+                        <p class="text-slate-200">
+                            Yazılım, bilgisayarın çalışmasını ve çeşitli işlemleri yapmasını sağlayan komutlar bütünüdür. Günlük hayatta <strong>program</strong> veya <strong>uygulama</strong> olarak da adlandırılır.
+                        </p>
+                    </div>
+
+                    <div class="p-3 bg-slate-900 rounded-xl border border-slate-700 space-y-2">
+                        <h3 class="font-black text-cyan-300 text-base mb-1">2. Yazılım Türleri</h3>
+                        <p><strong>• İşletim sistemi yazılımları:</strong> Bilgisayarın donanım birimlerini yönetir ve diğer yazılımların çalışmasını sağlar. Örnekler: Windows, Pardus, Linux, Android ve iOS.</p>
+                        <p><strong>• Uygulama yazılımları:</strong> Belirli işleri yapmak için kullanılır. Örnekler: Microsoft Word, Microsoft Excel, Scratch ve WhatsApp.</p>
+                        <p class="text-slate-400 text-xs italic">İşletim sistemi, kullanıcı ile bilgisayar arasında iletişim kurulmasını sağlar. Uygulama yazılımları yazı yazma, hesaplama ve oyun oynama gibi işlerde kullanılır.</p>
+                    </div>
+
+                    <div class="p-3 bg-slate-900 rounded-xl border border-slate-700">
+                        <h3 class="font-black text-purple-300 text-base mb-1">3. Makine Dili – İkili Sayı Sistemi</h3>
+                        <p class="text-slate-200">
+                            Bilgisayarlar makine dilini kullanır. Makine dili, <strong>0</strong> ve <strong>1</strong> rakamlarından oluşan ikili sayı sistemine dayanır.
+                        </p>
+                    </div>
+
+                    <div class="p-3 bg-slate-900 rounded-xl border border-slate-700 space-y-1.5">
+                        <h3 class="font-black text-yellow-300 text-base mb-1">4. Kapasite Birimleri</h3>
+                        <p class="text-slate-200">Bilgisayar, tablet ve telefonlarda saklanan fotoğraf, video, müzik ve belgeler veridir. Verilerin depolamada kapladığı alana <strong>veri boyutu</strong> denir. Veri boyutu kapasite birimleriyle ölçülür:</p>
+                        <div class="grid grid-cols-2 sm:grid-cols-3 gap-2 font-mono font-bold text-xs pt-1 text-cyan-300">
+                            <div class="p-2 bg-slate-950 rounded-lg">8 bit = 1 Byte (B)</div>
+                            <div class="p-2 bg-slate-950 rounded-lg">1024 Byte = 1 KB</div>
+                            <div class="p-2 bg-slate-950 rounded-lg">1024 KB = 1 MB</div>
+                            <div class="p-2 bg-slate-950 rounded-lg">1024 MB = 1 GB</div>
+                            <div class="p-2 bg-slate-950 rounded-lg">1024 GB = 1 TB</div>
+                        </div>
+                        <div class="p-2 bg-indigo-950 rounded-lg text-center font-bold text-yellow-300 text-xs mt-2">
+                            Küçükten büyüğe sıralama: bit ➔ Byte ➔ KB ➔ MB ➔ GB ➔ TB
+                        </div>
+                    </div>
+
+                    <div class="p-3 bg-slate-900 rounded-xl border border-slate-700 space-y-1.5">
+                        <h3 class="font-black text-emerald-300 text-base mb-1">5. Depolama Birimleri</h3>
+                        <p><strong>• Dahili depolama:</strong> Cihazın içinde bulunan veri saklama birimleridir. Örnekler: HDD (sabit disk) ve SSD (katı hâl diski). İşletim sistemi ve programlar bu birimlere yüklenebilir.</p>
+                        <p><strong>• Harici depolama:</strong> Taşınabilen ve farklı cihazlarda kullanılabilen birimlerdir. Örnekler: USB bellek, hafıza kartı, CD/DVD ve taşınabilir disk.</p>
+                        <p><strong>• Bulut depolama:</strong> Verilerin internet üzerindeki sunucularda saklanmasıdır. İnternet bağlantısıyla farklı yerlerden erişim sağlayabilir. Örnekler: Google Drive, Yandex Disk ve OneDrive.</p>
+                    </div>
+
+                    <div class="p-3 bg-amber-950/40 rounded-xl border border-amber-400/40 text-amber-200 font-bold text-xs">
+                        💡 <strong>Hatırlayalım:</strong> Yazılımlar bilgisayarda işlem yapmamızı sağlar. Kapasite birimleri verilerin boyutunu ölçer. Depolama birimleri verileri saklar; önemli dosyaların yedeğini almak veri kaybını önlemeye yardımcı olur.
+                    </div>
+                </div>
+            </div>
+        `
     },
 
     // ========================================================

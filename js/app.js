@@ -908,7 +908,7 @@ class App {
 
     // --- 2. ÇALIŞMA KAĞIDI & FOTOĞRAFLI BELGE GÖRÜNTÜLEYİCİ ---
     resolveDocPath(raw, weekNum, docType) {
-        if (raw && (raw.startsWith('http://') || raw.startsWith('https://') || raw.startsWith('assets/worksheets/'))) {
+        if (raw && (raw.startsWith('http://') || raw.startsWith('https://') || raw.startsWith('assets/worksheets/') || raw.startsWith('assets/docs/'))) {
             return raw;
         }
         const defaultMap = {
@@ -947,9 +947,14 @@ class App {
                 cevap: 'assets/worksheets/1.5_cevap.png'
             },
             '5_2': {
-                konu: 'assets/worksheets/1.5_2_konu.png',
-                soru: 'assets/worksheets/1.5_2_soru.png',
-                cevap: 'assets/worksheets/1.5_2_cevap.png'
+                sayfa1: 'assets/worksheets/1.5_2_sayfa1.png',
+                sayfa2: 'assets/worksheets/1.5_2_sayfa2.png',
+                sayfa3: 'assets/worksheets/1.5_2_sayfa3.png',
+                sayfa4: 'assets/worksheets/1.5_2_sayfa4.png',
+                konu: 'assets/worksheets/1.5_2_sayfa1.png',
+                soru: 'assets/worksheets/1.5_2_sayfa2.png',
+                cevap: 'assets/docs/Cevap_Anahtari_BTY_5_1_5_Konu_2.pdf',
+                defter: 'assets/docs/Deftere_Yazilacaklar_BTY_5_1_5_Konu_2.pdf'
             }
         };
         if (defaultMap[weekNum] && defaultMap[weekNum][docType]) {
@@ -992,6 +997,7 @@ class App {
             const validTabs = ['sayfa1', 'sayfa2', 'sayfa3', 'sayfa4'];
             if (images?.sayfa5) validTabs.push('sayfa5');
             if (images?.cevap || docs?.cevapHtml) validTabs.push('cevap');
+            if (images?.defter || docs?.defterHtml) validTabs.push('defter');
             if (!validTabs.includes(this.activePhotoDoc)) {
                 this.activePhotoDoc = 'sayfa1';
             }
@@ -1019,26 +1025,26 @@ class App {
         const imgMap = isFiveTabs ? {
             sayfa1: { 
                 src: this.resolveDocPath(images?.sayfa1, this.currentWeek, 'sayfa1'), 
-                title: isTopic5_2 ? "1. Sayfa (Yazılım Türleri & İşletim Sistemleri)" : (isTopic5 ? "1. Sayfa (Bilgisayar ve Donanım Genel Bakış)" : "1. Sayfa (Yapay Zekâ Temelleri & Kavramlar)"), 
+                title: isTopic5_2 ? "1. Sayfa (Yazılım ve Yazılım Türleri)" : (isTopic5 ? "1. Sayfa (Bilgisayar ve Donanım Genel Bakış)" : "1. Sayfa (Yapay Zekâ Temelleri & Kavramlar)"), 
                 icon: isTopic5_2 ? "fa-solid fa-code" : "fa-solid fa-file-lines", 
                 badge: "1. Sayfa" 
             },
             sayfa2: { 
                 src: this.resolveDocPath(images?.sayfa2, this.currentWeek, 'sayfa2'), 
-                title: isTopic5_2 ? "2. Sayfa (Kapasite Merdiveni & Birimler)" : (isTopic5 ? "2. Sayfa (İç Donanım Birimleri & Etkinlikler)" : "2. Sayfa (Yapay Zekâ Kullanım Alanları & Örnekler)"), 
+                title: isTopic5_2 ? "2. Sayfa (Kapasite Birimleri: Bit'ten TB'ye)" : (isTopic5 ? "2. Sayfa (İç Donanım Birimleri & Etkinlikler)" : "2. Sayfa (Yapay Zekâ Kullanım Alanları & Örnekler)"), 
                 icon: isTopic5_2 ? "fa-solid fa-stairs" : (isTopic5 ? "fa-solid fa-microchip" : "fa-solid fa-file-lines"), 
                 badge: "2. Sayfa" 
             },
             sayfa3: { 
                 src: this.resolveDocPath(images?.sayfa3, this.currentWeek, 'sayfa3'), 
-                title: isTopic5_2 ? "3. Sayfa (Dosya Uzantıları & Klasör Ağacı)" : (isTopic5 ? "3. Sayfa (Dış Donanım Birimleri & Sınıflandırma)" : "3. Sayfa (Pekiştirme Soruları & Etkinlikler)"), 
-                icon: isTopic5_2 ? "fa-solid fa-tag" : (isTopic5 ? "fa-solid fa-desktop" : "fa-solid fa-file-lines"), 
+                title: isTopic5_2 ? "3. Sayfa (Dahili, Harici ve Bulut Depolama)" : (isTopic5 ? "3. Sayfa (Dış Donanım Birimleri & Sınıflandırma)" : "3. Sayfa (Pekiştirme Soruları & Etkinlikler)"), 
+                icon: isTopic5_2 ? "fa-solid fa-hard-drive" : (isTopic5 ? "fa-solid fa-desktop" : "fa-solid fa-file-lines"), 
                 badge: "3. Sayfa" 
             },
             sayfa4: { 
                 src: this.resolveDocPath(images?.sayfa4, this.currentWeek, 'sayfa4'), 
-                title: isTopic5_2 ? "4. Sayfa (Dosya Hiyerarşisi & İpuçları)" : (isTopic5 ? "4. Sayfa (Klavye ve Fareyi Tanıyalım)" : "4. Sayfa (Etik, Güvenlik & Değerlendirme)"), 
-                icon: isTopic5_2 ? "fa-solid fa-folder-tree" : (isTopic5 ? "fa-solid fa-keyboard" : "fa-solid fa-shield-halved"), 
+                title: isTopic5_2 ? "4. Sayfa (Pekiştirme Etkinlikleri & Senaryolar)" : (isTopic5 ? "4. Sayfa (Klavye ve Fareyi Tanıyalım)" : "4. Sayfa (Etik, Güvenlik & Değerlendirme)"), 
+                icon: isTopic5_2 ? "fa-solid fa-square-check" : (isTopic5 ? "fa-solid fa-keyboard" : "fa-solid fa-shield-halved"), 
                 badge: "4. Sayfa" 
             },
             sayfa5: { 
@@ -1049,9 +1055,15 @@ class App {
             },
             cevap: { 
                 src: this.resolveDocPath(images?.cevap, this.currentWeek, 'cevap'), 
-                title: "Resmî Cevap Anahtarı", 
+                title: isTopic5_2 ? "Resmî Cevap Anahtarı (BTY.5.1.5 Çözüm Rehberi)" : "Resmî Cevap Anahtarı", 
                 icon: "fa-solid fa-key", 
                 badge: "Cevap Anahtarı" 
+            },
+            defter: { 
+                src: this.resolveDocPath(images?.defter, this.currentWeek, 'defter'), 
+                title: isTopic5_2 ? "Deftere Yazılacaklar (BTY.5.1.5 Öğrenci Notları)" : "Ders Defter Notları", 
+                icon: "fa-solid fa-book", 
+                badge: "Defter Notu" 
             }
         } : (isFourTabs ? {
             kagit1: { 
@@ -1100,6 +1112,7 @@ class App {
         });
 
         const currentDoc = imgMap[this.activePhotoDoc] || (isFiveTabs ? imgMap.sayfa1 : (isFourTabs ? imgMap.kagit1 : imgMap.konu));
+        const isPdf = typeof currentDoc.src === 'string' && currentDoc.src.toLowerCase().endsWith('.pdf');
 
         let activeHtmlContent = docs.konuHtml;
         if (isFiveTabs) {
@@ -1128,6 +1141,21 @@ class App {
                             <p class="text-xs text-indigo-300 font-semibold">Öğretmen Bozok • ${this.getTopicTitleLabel()} Resmî Ders Belgeleri</p>
                         </div>
                     </div>
+
+                    ${(docs?.pdfLinks?.cevapPdf || docs?.pdfLinks?.defterPdf) ? `
+                    <div class="flex items-center gap-2 flex-wrap">
+                        ${docs?.pdfLinks?.cevapPdf ? `
+                        <a href="${docs.pdfLinks.cevapPdf}" download class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-emerald-950/80 hover:bg-emerald-800 text-emerald-300 border border-emerald-700/60 text-xs font-bold transition-all shadow-sm">
+                            <i class="fa-solid fa-file-pdf text-red-400"></i>
+                            <span>Cevap Anahtarı (PDF)</span>
+                        </a>` : ''}
+                        ${docs?.pdfLinks?.defterPdf ? `
+                        <a href="${docs.pdfLinks.defterPdf}" download class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-amber-950/80 hover:bg-amber-800 text-amber-300 border border-amber-700/60 text-xs font-bold transition-all shadow-sm">
+                            <i class="fa-solid fa-file-pdf text-red-400"></i>
+                            <span>Deftere Yazılacaklar (PDF)</span>
+                        </a>` : ''}
+                    </div>
+                    ` : ''}
 
                     <!-- Belge Butonları -->
                     <div class="flex items-center gap-1.5 sm:gap-2 bg-slate-800 p-1.5 rounded-2xl border border-slate-700 flex-wrap justify-center">
@@ -1158,6 +1186,12 @@ class App {
                             <button onclick="app.setPhotoDoc('cevap')" class="px-3 sm:px-4 py-2 sm:py-2.5 rounded-xl font-bold text-xs sm:text-sm flex items-center gap-2 transition-all ${this.activePhotoDoc === 'cevap' ? 'bg-emerald-600 text-white shadow-lg ring-2 ring-emerald-400' : 'text-slate-300 hover:bg-slate-700'}">
                                 <i class="fa-solid fa-key text-yellow-300"></i>
                                 <span>Cevap Anahtarı</span>
+                            </button>
+                            ` : ''}
+                            ${(images?.defter || docs?.defterHtml) ? `
+                            <button onclick="app.setPhotoDoc('defter')" class="px-3 sm:px-4 py-2 sm:py-2.5 rounded-xl font-bold text-xs sm:text-sm flex items-center gap-2 transition-all ${this.activePhotoDoc === 'defter' ? 'bg-amber-600 text-white shadow-lg ring-2 ring-amber-400' : 'text-slate-300 hover:bg-slate-700'}">
+                                <i class="fa-solid fa-book text-amber-300"></i>
+                                <span>Deftere Yazılacaklar</span>
                             </button>
                             ` : ''}
                         ` : (isFourTabs ? `
@@ -1210,7 +1244,21 @@ class App {
 
                     <!-- Aktif Başlık & Butonlar -->
                     <div class="flex items-center gap-2 flex-wrap">
-                        ${this.worksheetViewMode === 'photo' ? `
+                        ${this.worksheetViewMode === 'photo' ? (
+                            isPdf ? `
+                            <!-- PDF İndir Butonu -->
+                            <a href="${currentDoc.src}" download class="px-3.5 py-2 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded-xl text-xs flex items-center gap-1.5 transition-all shadow-md active:scale-95">
+                                <i class="fa-solid fa-file-pdf"></i> PDF İndir
+                            </a>
+                            <!-- Sekmede Aç -->
+                            <a href="${currentDoc.src}" target="_blank" class="px-3.5 py-2 bg-indigo-600 hover:bg-indigo-500 text-white font-bold rounded-xl text-xs flex items-center gap-1.5 transition-all shadow-md active:scale-95">
+                                <i class="fa-solid fa-arrow-up-right-from-square"></i> Sekmede Aç
+                            </a>
+                            <!-- A4 Metin Olarak Oku -->
+                            <button onclick="app.setWorksheetViewMode('digital')" class="px-3.5 py-2 bg-amber-600 hover:bg-amber-500 text-white font-bold rounded-xl text-xs flex items-center gap-1.5 transition-all shadow-md active:scale-95">
+                                <i class="fa-solid fa-file-lines"></i> A4 Metin Olarak Oku
+                            </button>
+                            ` : `
                             <!-- Yakınlaştır / Uzaklaştır -->
                             <div class="flex items-center bg-slate-900 rounded-xl border border-slate-700 p-1">
                                 <button onclick="app.zoomPhoto(-0.15)" class="w-8 h-8 rounded-lg hover:bg-slate-800 text-slate-200 flex items-center justify-center text-sm transition-all" title="Uzaklaştır">
@@ -1239,7 +1287,7 @@ class App {
                             <a href="${currentDoc.src}" target="_blank" class="px-3.5 py-2 bg-slate-700 hover:bg-slate-600 text-white font-bold rounded-xl text-xs flex items-center gap-1.5 transition-all">
                                 <i class="fa-solid fa-arrow-up-right-from-square"></i> Sekmede Aç
                             </a>
-                        ` : `
+                        `) : `
                             <!-- A4 Metin Yazdır Butonu -->
                             <button onclick="window.print()" class="px-4 py-2 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded-xl text-xs flex items-center gap-2 transition-all shadow-md active:scale-95">
                                 <i class="fa-solid fa-print"></i> A4 Yazdır / PDF
@@ -1249,7 +1297,50 @@ class App {
                 </div>
 
                 <!-- ANA İÇERİK ALANI -->
-                ${this.worksheetViewMode === 'photo' ? `
+                ${this.worksheetViewMode === 'photo' ? (
+                    isPdf ? `
+                    <!-- 1. PDF GÖRÜNTÜLEME VE İNDİRME ALANI -->
+                    <div class="space-y-4">
+                        <div class="bg-slate-950 p-4 sm:p-6 rounded-2xl border-2 border-indigo-500/40 shadow-2xl flex flex-col md:flex-row items-center justify-between gap-4">
+                            <div class="flex items-center gap-3.5">
+                                <div class="w-12 h-12 rounded-2xl bg-red-600/20 text-red-400 border border-red-500/30 flex items-center justify-center text-2xl shrink-0 shadow-inner">
+                                    <i class="fa-solid fa-file-pdf"></i>
+                                </div>
+                                <div>
+                                    <span class="text-[11px] font-extrabold uppercase tracking-wider text-red-400 bg-red-950/60 px-2 py-0.5 rounded-full border border-red-800/40">Resmî PDF Belgesi</span>
+                                    <h3 class="text-base sm:text-lg font-black text-white mt-0.5">${currentDoc.title}</h3>
+                                    <p class="text-xs text-slate-400">Akıllı tahtada inceleyebilir, indirebilir veya doğrudan yazdırılabilir A4 metin formatına geçebilirsiniz.</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-2 flex-wrap">
+                                <a href="${currentDoc.src}" download class="px-4 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded-xl text-xs flex items-center gap-2 transition-all shadow-lg active:scale-95">
+                                    <i class="fa-solid fa-download"></i> PDF İndir
+                                </a>
+                                <a href="${currentDoc.src}" target="_blank" class="px-4 py-2.5 bg-indigo-600 hover:bg-indigo-500 text-white font-bold rounded-xl text-xs flex items-center gap-2 transition-all shadow-lg active:scale-95">
+                                    <i class="fa-solid fa-arrow-up-right-from-square"></i> Yeni Sekmede Aç
+                                </a>
+                                <button onclick="app.setWorksheetViewMode('digital')" class="px-4 py-2.5 bg-amber-600 hover:bg-amber-500 text-white font-bold rounded-xl text-xs flex items-center gap-2 transition-all shadow-lg active:scale-95">
+                                    <i class="fa-solid fa-file-lines"></i> A4 Metin Olarak Oku
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="w-full h-[720px] bg-slate-950 rounded-2xl border-2 border-slate-800 overflow-hidden shadow-2xl relative">
+                            <iframe src="${currentDoc.src}#toolbar=1&navpanes=0" class="w-full h-full border-0 rounded-2xl" title="${currentDoc.title}"></iframe>
+                        </div>
+                    </div>
+
+                    <!-- Hızlı Dijital Çözüm Butonu -->
+                    <div class="flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-slate-400 pt-2 border-t border-slate-800">
+                        <div class="flex items-center gap-2">
+                            <i class="fa-solid fa-circle-info text-yellow-400"></i>
+                            <span>PDF doğrudan yukarıdaki pencerede açılır. Tarayıcınız önizlemeyi engellerse <strong>Yeni Sekmede Aç</strong> veya <strong>A4 Metin</strong> seçeneğini kullanabilirsiniz.</span>
+                        </div>
+                        <button onclick="app.setWorksheetViewMode('digital')" class="text-xs font-bold text-yellow-400 hover:text-yellow-300 underline flex items-center gap-1">
+                            <i class="fa-solid fa-file-lines"></i> Bu Belgenin Metin / Çözüm Halini Aç ➔
+                        </button>
+                    </div>
+                    ` : `
                     <!-- 1. FOTOĞRAF GÖRÜNTÜLEME ALANI (Zoom & Scroll Desteği) -->
                     <div class="relative bg-slate-950 rounded-2xl border-2 border-slate-800 overflow-auto p-4 flex justify-center items-start min-h-[500px] max-h-[75vh]">
                         <div id="photo-container" class="transition-transform duration-200 origin-top" style="transform: scale(${this.photoZoom});">
@@ -1272,7 +1363,7 @@ class App {
                             <i class="fa-solid fa-file-lines"></i> Bu Belgenin Metin / Çözüm Halini Aç ➔
                         </button>
                     </div>
-                ` : `
+                `) : `
                     <!-- 2. DİJİTAL A4 METİN VE YAZDIRMA ALANI -->
                     <div id="active-printable-document" class="animate-pop">
                         ${activeHtmlContent || '<div class="p-8 text-center text-slate-400 bg-slate-800/40 rounded-2xl border border-slate-700">Bu ders konusunun dijital belgesi hazırlanıyor. Üstteki butonla "Orijinal Belge Görseli" moduna geçebilirsiniz.</div>'}
@@ -1293,22 +1384,26 @@ class App {
             imgEl.dataset.triedAlternates = "1";
             const candidatePaths = {
                 sayfa1: [
+                    'assets/worksheets/1.5_2_sayfa1.png',
                     'assets/worksheets/1.5_sayfa1.png',
                     'assets/worksheets/5.5-1.png',
                     'assets/worksheets/1.4_sayfa1.png'
                 ],
                 sayfa2: [
+                    'assets/worksheets/1.5_2_sayfa2.png',
                     'assets/worksheets/1.5_sayfa2.png',
                     'assets/worksheets/5.5-2.png',
                     'assets/worksheets/1.4_sayfa2.png'
                 ],
                 sayfa3: [
+                    'assets/worksheets/1.5_2_sayfa3.png',
                     'assets/worksheets/1.5_sayfa3.png',
                     'assets/worksheets/5.5-3.png',
                     'assets/worksheets/5.5.-3.png',
                     'assets/worksheets/1.4_sayfa3.png'
                 ],
                 sayfa4: [
+                    'assets/worksheets/1.5_2_sayfa4.png',
                     'assets/worksheets/1.5_sayfa4.png',
                     'assets/worksheets/5.5-4.png',
                     'assets/worksheets/1.4_sayfa4.png'
@@ -1317,8 +1412,14 @@ class App {
                     'assets/worksheets/1.4_sayfa5.png'
                 ],
                 cevap: [
+                    'assets/docs/Cevap_Anahtari_BTY_5_1_5_Konu_2.pdf',
+                    'assets/worksheets/Cevap_Anahtari_BTY_5_1_5_Konu_2.pdf',
                     'assets/worksheets/1.4_cevap.png',
                     'assets/worksheets/1.5_cevap.png'
+                ],
+                defter: [
+                    'assets/docs/Deftere_Yazilacaklar_BTY_5_1_5_Konu_2.pdf',
+                    'assets/worksheets/Deftere_Yazilacaklar_BTY_5_1_5_Konu_2.pdf'
                 ],
                 kagit1: [
                     'assets/worksheets/1.4_sayfa1_soru.png',
@@ -1431,6 +1532,10 @@ class App {
 
     printPhoto(src) {
         sounds.playClick();
+        if (src && typeof src === 'string' && src.toLowerCase().endsWith('.pdf')) {
+            window.open(src, '_blank');
+            return;
+        }
         let fullSrc = src;
         try {
             fullSrc = new URL(src, window.location.href).href;
