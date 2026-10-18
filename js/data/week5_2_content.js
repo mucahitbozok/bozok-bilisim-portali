@@ -1381,6 +1381,237 @@ window.WEEK5_2_CONTENT = {
         }
     ],
 
+    // ========================================================
+    // 🎮 4. SINIF İÇİ PEKİŞTİRME OYUNLARI VERİSİ
+    // ========================================================
+    gameData: {
+        wheelQuiz: [
+            {
+                q: "Bilgisayarın donanım parçalarını yöneten ve çalışmasını sağlayan tüm programlara ne ad verilir?",
+                question: "Bilgisayarın donanım parçalarını yöneten ve çalışmasını sağlayan tüm programlara ne ad verilir?",
+                options: ["Donanım", "Yazılım", "Anakart", "İşlemci"],
+                answer: 1,
+                pts: 200,
+                points: 200
+            },
+            {
+                q: "TÜBİTAK tarafından geliştirilen ülkemizin yerli ve milli işletim sistemi hangisidir?",
+                question: "TÜBİTAK tarafından geliştirilen ülkemizin yerli ve milli işletim sistemi hangisidir?",
+                options: ["Windows", "macOS", "Pardus", "Android"],
+                answer: 2,
+                pts: 250,
+                points: 250
+            },
+            {
+                q: "Bilgisayarların ikili sayı sisteminde kullandığı en küçük veri birimi (0 veya 1) hangisidir?",
+                question: "Bilgisayarların ikili sayı sisteminde kullandığı en küçük veri birimi (0 veya 1) hangisidir?",
+                options: ["Byte", "Bit", "Kilobyte", "Gigabyte"],
+                answer: 1,
+                pts: 200,
+                points: 200
+            },
+            {
+                q: "Klavyeden basılan tek bir harf veya boşluk karakteri bellekte ne kadar yer kaplar?",
+                question: "Klavyeden basılan tek bir harf veya boşluk karakteri bellekte ne kadar yer kaplar?",
+                options: ["1 Byte (8 Bit)", "1 KB", "1 MB", "1 GB"],
+                answer: 0,
+                pts: 200,
+                points: 200
+            },
+            {
+                q: "1024 Megabyte (MB) birleşerek hangi kapasite birimini oluşturur?",
+                question: "1024 Megabyte (MB) birleşerek hangi kapasite birimini oluşturur?",
+                options: ["1 Terabyte", "1 Kilobyte", "1 Gigabyte (GB)", "1 Byte"],
+                answer: 2,
+                pts: 250,
+                points: 250
+            },
+            {
+                q: "Bilgisayarın içinde bulunan, mekanik parçası olmayan, hızlı ve darbelere dayanıklı dahili depolama birimi hangisidir?",
+                question: "Bilgisayarın içinde bulunan, mekanik parçası olmayan, hızlı ve darbelere dayanıklı dahili depolama birimi hangisidir?",
+                options: ["SSD (Solid State Drive)", "Disket", "CD-ROM", "Manyetik Teyp"],
+                answer: 0,
+                pts: 200,
+                points: 200
+            },
+            {
+                q: "Dosyalarımızın internet üzerinden uzak ve güvenli sunucularda saklanması yöntemine ne denir?",
+                question: "Dosyalarımızın internet üzerinden uzak ve güvenli sunucularda saklanması yöntemine ne denir?",
+                options: ["Bulut Depolama", "Dahili Depolama", "Optik Sürücü", "RAM Bellek"],
+                answer: 0,
+                pts: 200,
+                points: 200
+            },
+            {
+                q: "1024 Gigabyte (GB) kapasiteye eşit olan devasa depolama birimi hangisidir?",
+                question: "1024 Gigabyte (GB) kapasiteye eşit olan devasa depolama birimi hangisidir?",
+                options: ["Megabyte", "Kilobyte", "Byte", "Terabyte (TB)"],
+                answer: 3,
+                pts: 250,
+                points: 250
+            }
+        ],
+
+        matchConfig: {
+            timer: 90,
+            leftTitle: "Bilişim Kavramı 💻",
+            rightTitle: "Tanımı & Eşleşmesi 🎯",
+            instruction: "💡 <strong>Nasıl Oynanır?</strong> Soldan bir kavram seçin, ardından sağdaki doğru tanımıyla eşleştirin!"
+        },
+        matchCards: [
+            {
+                id: 1,
+                text: "PARDUS",
+                category: "TÜBİTAK Yerli & Milli İşletim Sistemi",
+                icon: "fa-solid fa-shield-halved",
+                rightIcon: "fa-solid fa-flag"
+            },
+            {
+                id: 2,
+                text: "Bit",
+                category: "0 veya 1 Değerini Alan En Küçük Veri",
+                icon: "fa-solid fa-microchip",
+                rightIcon: "fa-solid fa-bolt"
+            },
+            {
+                id: 3,
+                text: "1 Byte",
+                category: "8 Bit (Klavyedeki Tek Bir Harf)",
+                icon: "fa-solid fa-font",
+                rightIcon: "fa-solid fa-keyboard"
+            },
+            {
+                id: 4,
+                text: "1024 Megabyte",
+                category: "1 Gigabyte (GB) Kapasite",
+                icon: "fa-solid fa-database",
+                rightIcon: "fa-solid fa-film"
+            },
+            {
+                id: 5,
+                text: "SSD",
+                category: "Hızlı & Flash Yongalı Dahili Disk",
+                icon: "fa-solid fa-bolt",
+                rightIcon: "fa-solid fa-hard-drive"
+            },
+            {
+                id: 6,
+                text: "Bulut Depolama",
+                category: "İnternet Sunucularında Güvenli Saklama",
+                icon: "fa-solid fa-cloud",
+                rightIcon: "fa-solid fa-globe"
+            },
+            {
+                id: 7,
+                text: "USB Flash Bellek",
+                category: "Cepte Taşınan Popüler Harici Bellek",
+                icon: "fa-brands fa-usb",
+                rightIcon: "fa-solid fa-box-archive"
+            },
+            {
+                id: 8,
+                text: "Microsoft Word",
+                category: "Ödev ve Metin Yazma Uygulama Yazılımı",
+                icon: "fa-solid fa-file-word",
+                rightIcon: "fa-solid fa-pen-nib"
+            }
+        ],
+
+        reflexStatements: [
+            {
+                text: "Bilgisayardaki tüm donanımları yöneten ana programa İşletim Sistemi denir.",
+                correct: true
+            },
+            {
+                text: "Donanım olmadan yazılımlar tek başına çalışabilir.",
+                correct: false
+            },
+            {
+                text: "Pardus, TÜBİTAK tarafından geliştirilen yerli ve milli işletim sistemimizdir.",
+                correct: true
+            },
+            {
+                text: "Bilgisayarlar ikili sayı sisteminde yalnızca 0 ve 1 elektrik akımlarını anlar.",
+                correct: true
+            },
+            {
+                text: "1 Byte tam olarak 8 Bit'in birleşiminden meydana gelir.",
+                correct: true
+            },
+            {
+                text: "1024 Kilobyte (KB) birleşerek 1 Terabyte oluşturur.",
+                correct: false
+            },
+            {
+                text: "SSD diskler mekanik disklere (HDD) göre çok daha hızlı ve sessiz çalışır.",
+                correct: true
+            },
+            {
+                text: "Bulut depolamadaki dosyalara erişmek için internet bağlantısı gerekir.",
+                correct: true
+            },
+            {
+                text: "Word, Excel ve Scratch birer işletim sistemi örneğidir.",
+                correct: false
+            },
+            {
+                text: "En küçük depolama kapasitesi birimi Terabyte (TB)'tır.",
+                correct: false
+            },
+            {
+                text: "USB bellek, SD kart ve harici diskler taşınabilir depolama birimleridir.",
+                correct: true
+            },
+            {
+                text: "1024 Gigabyte (GB) tam 1 Terabyte (TB)'a eşittir.",
+                correct: true
+            }
+        ],
+
+        duelQuestions: [
+            {
+                q: "Bilgisayarın donanım parçalarını yöneten tüm programlara ne ad verilir?",
+                options: ["Donanım", "Yazılım", "Anakart", "İşlemci"],
+                answer: 1
+            },
+            {
+                q: "TÜBİTAK tarafından geliştirilen milli işletim sistemimiz hangisidir?",
+                options: ["Windows", "macOS", "Pardus", "Android"],
+                answer: 2
+            },
+            {
+                q: "Bilgisayarın kullandığı en küçük veri birimi (0 veya 1) hangisidir?",
+                options: ["Byte", "Bit", "Kilobyte", "Gigabyte"],
+                answer: 1
+            },
+            {
+                q: "1024 Megabyte (MB) birleşerek hangi kapasite birimini oluşturur?",
+                options: ["1 Terabyte", "1 Kilobyte", "1 Gigabyte (GB)", "1 Byte"],
+                answer: 2
+            },
+            {
+                q: "İnternet üzerinden uzak sunucularda dosya saklama yöntemine ne denir?",
+                options: ["Bulut Depolama", "Dahili Depolama", "Optik Disk", "RAM"],
+                answer: 0
+            },
+            {
+                q: "Aşağıdakilerden hangisi bir işletim sistemi (sistem yazılımı) DEĞİLDİR?",
+                options: ["Windows", "Pardus", "Paint", "Linux"],
+                answer: 2
+            },
+            {
+                q: "İçinde hareketli parça olmayan, flash yongalı çok hızlı dahili disk hangisidir?",
+                options: ["SSD", "HDD", "CD-ROM", "Disket"],
+                answer: 0
+            },
+            {
+                q: "1024 Gigabyte (GB) kapasiteye eşit olan devasa birim hangisidir?",
+                options: ["Kilobyte", "Megabyte", "Byte", "Terabyte (TB)"],
+                answer: 3
+            }
+        ]
+    },
+
     extraGames: [
         {
             badge: "Hafıza Deposu",

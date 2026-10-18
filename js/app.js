@@ -2237,9 +2237,10 @@ class App {
 
         const data = this.getCurrentWeekData();
         const extraGames = this.getExtraGamesForWeek(this.currentWeek, data);
-        const hideStandardGames = (data.hideStandardGames === true);
+        const hasStandardGames = !data.hideStandardGames && !!(data.gameData && data.gameData.wheelQuiz);
+        const hideStandardGames = !hasStandardGames;
 
-        if (data.weekInfo?.isPending || (!hideStandardGames && (!data.gameData || !data.gameData.wheelQuiz)) || (hideStandardGames && (!extraGames || extraGames.length === 0))) {
+        if ((!hasStandardGames && (!extraGames || extraGames.length === 0)) || (data.weekInfo?.isPending && (!extraGames || extraGames.length === 0))) {
             this.renderPendingPlaceholder("game-container", "Sınıf İçi Tekrar Oyunları", "fa-solid fa-gamepad");
             return;
         }
@@ -2255,9 +2256,7 @@ class App {
                     </span>
                     <h2 class="text-2xl sm:text-4xl font-black text-white leading-tight">${this.getTopicTitleLabel()} Oyun Arenası (${totalGameCount} Özel Oyun Modu 🎮)</h2>
                     <p class="text-slate-400 text-xs sm:text-sm max-w-xl mx-auto px-2">
-                        ${hideStandardGames 
-                            ? '5. Sınıf "Bilgisayar ve Donanım" konusu için hazırlanan 11 interaktif oyunu akıllı tahtada oynayabilir, donanım parçalarını keşfedebilirsin!' 
-                            : 'Akıllı tahtada tüm sınıfla çarkıfelek oynayabilir, teknoloji mahkemesi kurabilir, maceralara atılabilir veya hızlı reflekslerini test edebilirsin!'}
+                        ${data.weekInfo?.title || 'Bu konu'} için hazırlanan interaktif pekiştirme oyunlarını akıllı tahtada oynayabilir, öğrendiklerini eğlenerek pekiştirebilirsin!
                     </p>
                 </div>
 
@@ -2499,7 +2498,7 @@ class App {
         const titleEl = document.getElementById("standalone-game-title");
         
         let targetUrl = url;
-        if (!targetUrl.startsWith('http') && !targetUrl.startsWith('games/') && !targetUrl.startsWith('/')) {
+        if (!targetUrl.startsWith('http') && !targetUrl.startsWith('games/') && !targetUrl.startsWith('/') && !targetUrl.startsWith('./') && !targetUrl.startsWith('sunu_')) {
             targetUrl = 'games/' + targetUrl;
         }
 
