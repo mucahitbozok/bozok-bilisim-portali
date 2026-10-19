@@ -988,7 +988,7 @@ class App {
         const images = data.weekInfo?.images || data.worksheetDocs?.images;
         const docs = data.worksheetDocs || {};
 
-        const isFiveTabs = !!(images?.sayfa5 || images?.sayfa4 || images?.sayfa3 || ((this.currentWeek === 4 || this.currentWeek === 5 || this.currentWeek === '5_2') && images?.sayfa1));
+        const isFiveTabs = !!(images?.sayfa5 || images?.sayfa4 || images?.sayfa3 || ((this.currentWeek === 4 || this.currentWeek === 5 || this.currentWeek === '5_2' || this.currentWeek === 6 || this.currentWeek === '6') && images?.sayfa1));
         const isFourTabs = !isFiveTabs && !!(docs.hasTwoPages || docs.kagit1Html || (images && (images.kagit1 || images.sayfa1_soru)) || this.currentWeek === '3_2');
 
         if (!this.activePhotoDoc) {
@@ -1022,29 +1022,30 @@ class App {
 
         const isTopic5 = this.currentWeek === 5;
         const isTopic5_2 = this.currentWeek === '5_2';
+        const isTopic6 = this.currentWeek === 6 || this.currentWeek === '6';
         const imgMap = isFiveTabs ? {
             sayfa1: { 
                 src: this.resolveDocPath(images?.sayfa1, this.currentWeek, 'sayfa1'), 
-                title: isTopic5_2 ? "1. Sayfa (Yazılım ve Yazılım Türleri)" : (isTopic5 ? "1. Sayfa (Bilgisayar ve Donanım Genel Bakış)" : "1. Sayfa (Yapay Zekâ Temelleri & Kavramlar)"), 
-                icon: isTopic5_2 ? "fa-solid fa-code" : "fa-solid fa-file-lines", 
+                title: isTopic6 ? "1. Sayfa (Dosya ve Klasör Temelleri)" : (isTopic5_2 ? "1. Sayfa (Yazılım ve Yazılım Türleri)" : (isTopic5 ? "1. Sayfa (Bilgisayar ve Donanım Genel Bakış)" : "1. Sayfa (Yapay Zekâ Temelleri & Kavramlar)")), 
+                icon: isTopic6 ? "fa-solid fa-folder-tree" : (isTopic5_2 ? "fa-solid fa-code" : "fa-solid fa-file-lines"), 
                 badge: "1. Sayfa" 
             },
             sayfa2: { 
                 src: this.resolveDocPath(images?.sayfa2, this.currentWeek, 'sayfa2'), 
-                title: isTopic5_2 ? "2. Sayfa (Kapasite Birimleri: Bit'ten TB'ye)" : (isTopic5 ? "2. Sayfa (İç Donanım Birimleri & Etkinlikler)" : "2. Sayfa (Yapay Zekâ Kullanım Alanları & Örnekler)"), 
-                icon: isTopic5_2 ? "fa-solid fa-stairs" : (isTopic5 ? "fa-solid fa-microchip" : "fa-solid fa-file-lines"), 
+                title: isTopic6 ? "2. Sayfa (Dosya Uzantıları ve Türleri)" : (isTopic5_2 ? "2. Sayfa (Kapasite Birimleri: Bit'ten TB'ye)" : (isTopic5 ? "2. Sayfa (İç Donanım Birimleri & Etkinlikler)" : "2. Sayfa (Yapay Zekâ Kullanım Alanları & Örnekler)")), 
+                icon: isTopic6 ? "fa-solid fa-file-code" : (isTopic5_2 ? "fa-solid fa-stairs" : (isTopic5 ? "fa-solid fa-microchip" : "fa-solid fa-file-lines")), 
                 badge: "2. Sayfa" 
             },
             sayfa3: { 
                 src: this.resolveDocPath(images?.sayfa3, this.currentWeek, 'sayfa3'), 
-                title: isTopic5_2 ? "3. Sayfa (Dahili, Harici ve Bulut Depolama)" : (isTopic5 ? "3. Sayfa (Dış Donanım Birimleri & Sınıflandırma)" : "3. Sayfa (Pekiştirme Soruları & Etkinlikler)"), 
-                icon: isTopic5_2 ? "fa-solid fa-hard-drive" : (isTopic5 ? "fa-solid fa-desktop" : "fa-solid fa-file-lines"), 
+                title: isTopic6 ? "3. Sayfa (Kısayollar, Çöp Kutusu ve Arama)" : (isTopic5_2 ? "3. Sayfa (Dahili, Harici ve Bulut Depolama)" : (isTopic5 ? "3. Sayfa (Dış Donanım Birimleri & Sınıflandırma)" : "3. Sayfa (Pekiştirme Soruları & Etkinlikler)")), 
+                icon: isTopic6 ? "fa-solid fa-keyboard" : (isTopic5_2 ? "fa-solid fa-hard-drive" : (isTopic5 ? "fa-solid fa-desktop" : "fa-solid fa-file-lines")), 
                 badge: "3. Sayfa" 
             },
             sayfa4: { 
                 src: this.resolveDocPath(images?.sayfa4, this.currentWeek, 'sayfa4'), 
-                title: isTopic5_2 ? "4. Sayfa (Pekiştirme Etkinlikleri & Senaryolar)" : (isTopic5 ? "4. Sayfa (Klavye ve Fareyi Tanıyalım)" : "4. Sayfa (Etik, Güvenlik & Değerlendirme)"), 
-                icon: isTopic5_2 ? "fa-solid fa-square-check" : (isTopic5 ? "fa-solid fa-keyboard" : "fa-solid fa-shield-halved"), 
+                title: isTopic6 ? "4. Sayfa (Sıkıştırma, Depolama & Etkinlikler)" : (isTopic5_2 ? "4. Sayfa (Pekiştirme Etkinlikleri & Senaryolar)" : (isTopic5 ? "4. Sayfa (Klavye ve Fareyi Tanıyalım)" : "4. Sayfa (Etik, Güvenlik & Değerlendirme)")), 
+                icon: isTopic6 ? "fa-solid fa-file-zipper" : (isTopic5_2 ? "fa-solid fa-square-check" : (isTopic5 ? "fa-solid fa-keyboard" : "fa-solid fa-shield-halved")), 
                 badge: "4. Sayfa" 
             },
             sayfa5: { 
@@ -1055,13 +1056,13 @@ class App {
             },
             cevap: { 
                 src: this.resolveDocPath(images?.cevap, this.currentWeek, 'cevap'), 
-                title: isTopic5_2 ? "Resmî Cevap Anahtarı (BTY.5.1.5 Çözüm Rehberi)" : "Resmî Cevap Anahtarı", 
+                title: isTopic6 ? "Resmî Cevap Anahtarı (BTY.5.1.6 Çözüm Rehberi)" : (isTopic5_2 ? "Resmî Cevap Anahtarı (BTY.5.1.5 Çözüm Rehberi)" : "Resmî Cevap Anahtarı"), 
                 icon: "fa-solid fa-key", 
                 badge: "Cevap Anahtarı" 
             },
             defter: { 
                 src: this.resolveDocPath(images?.defter, this.currentWeek, 'defter'), 
-                title: isTopic5_2 ? "Deftere Yazılacaklar (BTY.5.1.5 Öğrenci Notları)" : "Ders Defter Notları", 
+                title: isTopic6 ? "Deftere Yazılacaklar (BTY.5.1.6 Öğrenci Notları)" : (isTopic5_2 ? "Deftere Yazılacaklar (BTY.5.1.5 Öğrenci Notları)" : "Ders Defter Notları"), 
                 icon: "fa-solid fa-book", 
                 badge: "Defter Notu" 
             }
@@ -2397,7 +2398,37 @@ class App {
         } else if (weekNum === 6 || weekNum === '6') {
             if (!data || !Array.isArray(data.extraGames) || data.extraGames.length === 0) {
                 extra.push({
-                    badge: "Sıralama Simülasyonu",
+                    badge: "7 Oyun Tek Ekranda 🌟",
+                    badgeColor: "text-amber-300",
+                    title: "Dosya & Klasör Oyun Merkezi",
+                    desc: "7 dev mod bir arada: Dosya Dedektifleri, Klasör Düzenleme, Kısayol Ustası, Çöp Kutusu Kurtarma, Arama Uzmanı, Sıkıştırma ve 2 Takımlı Sınıf Arenası!",
+                    icon: "fa-solid fa-gamepad",
+                    iconBg: "bg-amber-500/30 text-amber-300",
+                    cardGradient: "from-amber-950/90 via-slate-900 to-indigo-950/90",
+                    border: "border-amber-500/50",
+                    descColor: "text-amber-100",
+                    btnText: "Oyun Merkezine Gir!",
+                    btnIcon: "fa-solid fa-crown",
+                    btnGradient: "from-amber-500 via-orange-500 to-indigo-600 hover:from-amber-400 hover:to-indigo-500 text-slate-950 font-black",
+                    action: "app.openStandaloneGame('games/dosya_klasor_oyun_merkezi.html', 'Dosya ve Klasör Yönetimi Oyun Merkezi | Öğretmen Bozok')"
+                });
+                extra.push({
+                    badge: "Görsel Eşleştirme 🎯",
+                    badgeColor: "text-emerald-300",
+                    title: "Dosya Uzantısı Eşleştirme",
+                    desc: "5 büyük kategori panosu: Resim, Video, Ses, Yazı/Belge ve Uygulama! Pinli dosya kartlarını sürükle veya tıkla, komboları topla!",
+                    icon: "fa-solid fa-thumbtack",
+                    iconBg: "bg-emerald-500/30 text-emerald-300",
+                    cardGradient: "from-emerald-950/90 via-slate-900 to-teal-950/90",
+                    border: "border-emerald-500/50",
+                    descColor: "text-emerald-100",
+                    btnText: "Eşleştirmeye Başla!",
+                    btnIcon: "fa-solid fa-play",
+                    btnGradient: "from-emerald-500 via-teal-500 to-cyan-500 hover:from-emerald-400 hover:to-cyan-400 text-slate-950 font-black",
+                    action: "app.openStandaloneGame('games/dosya_uzantisi_eslestirme.html', 'Dosya Uzantısı Eşleştirme Oyunu | Öğretmen Bozok')"
+                });
+                extra.push({
+                    badge: "Laboratuvar Simülasyonu 🧪",
                     badgeColor: "text-purple-300",
                     title: "Dosya & Uzantı Laboratuvarı",
                     desc: "Karışık gelen dosyaları uzantılarına (.docx, .jpg, .mp3, .mp4, .zip vb.) göre 6 doğru klasöre tasnif et! Sürükle veya tıkla, komboları topla!",
@@ -2407,9 +2438,39 @@ class App {
                     border: "border-purple-500/50",
                     descColor: "text-purple-100",
                     btnText: "Laboratuvara Gir!",
-                    btnIcon: "fa-solid fa-play",
+                    btnIcon: "fa-solid fa-flask",
                     btnGradient: "from-purple-600 via-indigo-600 to-cyan-500 hover:from-purple-500 hover:to-cyan-400 text-white font-black",
                     action: "app.openStandaloneGame('games/dosya_uzanti_laboratuvari.html', 'Dosya & Uzantı Laboratuvarı | Öğretmen Bozok')"
+                });
+                extra.push({
+                    badge: "Kelime Bulmaca 🧩",
+                    badgeColor: "text-cyan-300",
+                    title: "Dosya & Klasör Kelime Avı",
+                    desc: "12x12 matriste gizlenen 10 temel dosya ve klasör terimini bul! İpuçlarını kullan, puanları topla ve rekor sürede tamamla!",
+                    icon: "fa-solid fa-magnifying-glass",
+                    iconBg: "bg-cyan-500/30 text-cyan-300",
+                    cardGradient: "from-cyan-950/90 via-slate-900 to-blue-950/90",
+                    border: "border-cyan-500/50",
+                    descColor: "text-cyan-100",
+                    btnText: "Kelime Avına Başla!",
+                    btnIcon: "fa-solid fa-crosshairs",
+                    btnGradient: "from-cyan-500 via-teal-500 to-indigo-600 hover:from-cyan-400 hover:to-indigo-500 text-slate-950 font-black",
+                    action: "app.openStandaloneGame('games/dosya_klasor_kelime_avi.html', 'Dosya ve Klasör Kelime Avı | Öğretmen Bozok')"
+                });
+                extra.push({
+                    badge: "Akıllı Tahta Sunumu 📽️",
+                    badgeColor: "text-yellow-300",
+                    title: "20 Slaytlık Tam Ekran Sunum",
+                    desc: "Öğretmen rehberliğinde akıllı tahtada ders anlatımı için hazırlanmış 20 slaytlık, etkileşimli eşleştirmeli ve hızlı quizli bağımsız sunum!",
+                    icon: "fa-solid fa-chalkboard-user",
+                    iconBg: "bg-yellow-500/30 text-yellow-300",
+                    cardGradient: "from-slate-900 via-indigo-950 to-purple-950",
+                    border: "border-yellow-500/50",
+                    descColor: "text-yellow-100",
+                    btnText: "Tam Ekran Sunuyu Başlat!",
+                    btnIcon: "fa-solid fa-expand",
+                    btnGradient: "from-yellow-500 via-amber-500 to-orange-500 hover:from-yellow-400 hover:to-orange-400 text-slate-950 font-black",
+                    action: "app.openStandaloneGame('games/sunu_dosya_ve_klasor_yonetimi.html', 'Dosya ve Klasör Yönetimi Akıllı Tahta Sunumu | Öğretmen Bozok')"
                 });
             }
         }

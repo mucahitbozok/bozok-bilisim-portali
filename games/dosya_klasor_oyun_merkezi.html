@@ -1,0 +1,1437 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dosya ve Klasör Yönetimi — Etkileşimli Oyun Merkezi | Öğretmen Bozok</title>
+    <style>
+        :root {
+            --bg-main: #060913;
+            --bg-card: rgba(15, 23, 42, 0.95);
+            --border-glow: rgba(56, 189, 248, 0.35);
+            --cyan: #00f0ff;
+            --blue: #38bdf8;
+            --purple: #a855f7;
+            --yellow: #facc15;
+            --green: #10b981;
+            --red: #f43f5e;
+            --text-light: #f8fafc;
+            --text-muted: #94a3b8;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background-color: var(--bg-main);
+            color: var(--text-light);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            overflow-x: hidden;
+            background-image: 
+                radial-gradient(circle at 10% 10%, rgba(168, 85, 247, 0.15) 0%, transparent 40%),
+                radial-gradient(circle at 90% 90%, rgba(0, 240, 255, 0.12) 0%, transparent 40%);
+        }
+
+        #game-frame {
+            width: 96vw;
+            max-width: 1440px;
+            height: 54vw;
+            max-height: 820px;
+            aspect-ratio: 16 / 9;
+            background: linear-gradient(145deg, #0b1120 0%, #060913 100%);
+            border: 2px solid rgba(56, 189, 248, 0.3);
+            border-radius: 24px;
+            box-shadow: 0 25px 60px -15px rgba(0,0,0,0.8), 0 0 30px rgba(56, 189, 248, 0.15);
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        /* Üst Başlık Barı */
+        header.hub-header {
+            padding: 12px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            background: rgba(15, 23, 42, 0.85);
+            backdrop-filter: blur(8px);
+            z-index: 50;
+            flex-shrink: 0;
+        }
+
+        .hub-title {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .hub-title-text h1 {
+            font-size: 1.15rem;
+            font-weight: 900;
+            color: #ffffff;
+            letter-spacing: 0.02em;
+        }
+
+        .hub-title-text p {
+            font-size: 0.78rem;
+            color: var(--blue);
+            font-weight: 700;
+        }
+
+        .hub-stats {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .stat-badge {
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            padding: 6px 14px;
+            border-radius: 999px;
+            font-size: 0.85rem;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .stat-badge.score { color: var(--yellow); border-color: rgba(250, 204, 21, 0.4); background: rgba(250, 204, 21, 0.1); }
+        .stat-badge.progress { color: var(--green); border-color: rgba(16, 185, 129, 0.4); background: rgba(16, 185, 129, 0.1); }
+
+        .btn-header {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #ffffff;
+            padding: 8px 14px;
+            border-radius: 12px;
+            font-size: 0.82rem;
+            font-weight: 800;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .btn-header:hover { background: rgba(255, 255, 255, 0.15); border-color: var(--cyan); }
+
+        /* Ana Ekran Görüntüleyici */
+        main#hub-stage {
+            flex-grow: 1;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+        }
+
+        .hub-view {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            padding: 20px 32px;
+            display: none;
+            flex-direction: column;
+            overflow-y: auto;
+        }
+
+        .hub-view.active {
+            display: flex;
+        }
+
+        /* 7 Kartlı Menü Izgarası */
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+            margin: auto 0;
+            max-width: 1350px;
+            width: 100%;
+            align-self: center;
+        }
+
+        .game-card {
+            background: var(--bg-card);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 18px;
+            padding: 18px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .game-card:hover {
+            transform: translateY(-5px) scale(1.02);
+            border-color: var(--cyan);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.6), 0 0 20px rgba(0, 240, 255, 0.2);
+        }
+
+        .game-card .card-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 12px;
+        }
+
+        .game-card .card-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        .game-card h3 {
+            font-size: 1.1rem;
+            font-weight: 800;
+            color: #ffffff;
+            margin-bottom: 6px;
+        }
+
+        .game-card p {
+            font-size: 0.82rem;
+            color: var(--text-muted);
+            line-height: 1.45;
+            margin-bottom: 14px;
+        }
+
+        .btn-play {
+            background: linear-gradient(135deg, #0284c7, #2563eb);
+            border: none;
+            color: #ffffff;
+            padding: 9px 16px;
+            border-radius: 10px;
+            font-weight: 800;
+            font-size: 0.85rem;
+            cursor: pointer;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            transition: all 0.2s;
+        }
+        .btn-play:hover {
+            background: linear-gradient(135deg, #38bdf8, #3b82f6);
+            box-shadow: 0 4px 15px rgba(56, 189, 248, 0.4);
+        }
+
+        /* Ortak Oyun Arayüz Stilleri */
+        .game-top-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 16px;
+            background: rgba(15, 23, 42, 0.6);
+            padding: 10px 18px;
+            border-radius: 14px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .game-header-title {
+            font-size: 1.3rem;
+            font-weight: 900;
+            color: #ffffff;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .game-body {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .glass-panel {
+            background: var(--bg-card);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 20px;
+            padding: 24px;
+            width: 100%;
+            max-width: 950px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        .btn-action {
+            background: #1e293b;
+            border: 2px solid #334155;
+            color: #ffffff;
+            padding: 12px 20px;
+            border-radius: 14px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+            user-select: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .btn-action:hover { border-color: var(--cyan); background: #283548; transform: translateY(-2px); }
+        .btn-action.correct { background: rgba(16, 185, 129, 0.25); border-color: var(--green); color: #34d399; }
+        .btn-action.wrong { background: rgba(244, 63, 94, 0.25); border-color: var(--red); color: #fb7185; }
+
+        .key-tag {
+            background: #1e293b;
+            border: 2px solid #475569;
+            color: #f8fafc;
+            padding: 4px 10px;
+            border-radius: 8px;
+            font-family: monospace;
+            font-weight: 900;
+        }
+
+        /* 16:9 responsive */
+        @media (max-width: 900px) {
+            #game-frame { height: 96vh; aspect-ratio: auto; border-radius: 0; }
+            .menu-grid { grid-template-columns: 1fr 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="game-frame">
+        <header class="hub-header">
+            <div class="hub-title">
+                <div style="width:36px; height:36px; background:linear-gradient(135deg, #0284c7, #a855f7); border-radius:10px; display:flex; align-items:center; justify-content:center; font-size:1.2rem;">
+                    📁
+                </div>
+                <div class="hub-title-text">
+                    <h1>DOSYA VE KLASÖR YÖNETİMİ</h1>
+                    <p>BTY.5.1.6 • Etkileşimli Oyun Merkezi</p>
+                </div>
+            </div>
+
+            <div class="hub-stats">
+                <div class="stat-badge score" title="Toplam Kazanılan Puan">
+                    <span>🏆</span> <span id="hub-total-score">0 Puan</span>
+                </div>
+                <div class="stat-badge progress" title="Tamamlanan Oyunlar">
+                    <span>🎮</span> <span id="hub-progress">0 / 7 Oyun</span>
+                </div>
+                <button class="btn-header" onclick="toggleMute()" id="mute-btn" title="Ses Aç/Kapat">
+                    <span>🔊</span>
+                </button>
+                <button class="btn-header" onclick="toggleFullscreen()" title="Tam Ekran">
+                    <span>⛶</span>
+                </button>
+            </div>
+        </header>
+
+        <main id="hub-stage">
+
+            <!-- ================= ANA MENÜ (7 OYUN KARTI) ================= -->
+            <div class="hub-view active" id="view-menu">
+                <div style="text-align:center; margin-bottom:16px;">
+                    <h2 style="font-size:1.8rem; font-weight:900; background:linear-gradient(90deg, #fff, #38bdf8); -webkit-background-clip:text; -webkit-text-fill-color:transparent;">
+                        Oyun Arenasını Seç ve Bilişim Becerilerini Kanıtla!
+                    </h2>
+                    <p style="color:#94a3b8; font-size:0.95rem; margin-top:4px;">
+                        7 farklı eğitsel modda dosya uzantılarını, kısayolları ve klasör hiyerarşisini keşfet.
+                    </p>
+                </div>
+
+                <div class="menu-grid">
+                    <!-- Oyun 1 -->
+                    <div class="game-card" onclick="launchGame('dedektif')">
+                        <div class="card-top">
+                            <div class="card-icon" style="background:rgba(56,189,248,0.15); color:var(--blue);">🔍</div>
+                            <span style="font-size:0.75rem; font-weight:800; color:var(--blue); background:rgba(56,189,248,0.1); padding:3px 8px; border-radius:999px;">1. MOD</span>
+                        </div>
+                        <h3>1. Dosya Dedektifleri</h3>
+                        <p>Karışık dosya adlarından ve uzantılarından dosyanın hangi türe ait olduğunu tespit et!</p>
+                        <button class="btn-play">Dedektifliğe Başla 👉</button>
+                    </div>
+
+                    <!-- Oyun 2 -->
+                    <div class="game-card" onclick="launchGame('klasor')">
+                        <div class="card-top">
+                            <div class="card-icon" style="background:rgba(250,204,21,0.15); color:var(--yellow);">📁</div>
+                            <span style="font-size:0.75rem; font-weight:800; color:var(--yellow); background:rgba(250,204,21,0.1); padding:3px 8px; border-radius:999px;">2. MOD</span>
+                        </div>
+                        <h3>2. Klasör Düzenleme</h3>
+                        <p>Dosyaları Ödevler, Resimler, Müzikler ve Video klasörlerine sürükleyip düzen kur!</p>
+                        <button class="btn-play">Düzenlemeye Başla 👉</button>
+                    </div>
+
+                    <!-- Oyun 3 -->
+                    <div class="game-card" onclick="launchGame('kisayol')">
+                        <div class="card-top">
+                            <div class="card-icon" style="background:rgba(168,85,247,0.15); color:var(--purple);">⌨️</div>
+                            <span style="font-size:0.75rem; font-weight:800; color:var(--purple); background:rgba(168,85,247,0.1); padding:3px 8px; border-radius:999px;">3. MOD</span>
+                        </div>
+                        <h3>3. Kısayol Ustası</h3>
+                        <p>Ctrl+C, Ctrl+V, Ctrl+X, Ctrl+Z ve Delete kombinasyonlarında rekor kır!</p>
+                        <button class="btn-play">Klavye Ustalığı 👉</button>
+                    </div>
+
+                    <!-- Oyun 4 -->
+                    <div class="game-card" onclick="launchGame('cop')">
+                        <div class="card-top">
+                            <div class="card-icon" style="background:rgba(244,63,94,0.15); color:var(--red);">🗑️</div>
+                            <span style="font-size:0.75rem; font-weight:800; color:var(--red); background:rgba(244,63,94,0.1); padding:3px 8px; border-radius:999px;">4. MOD</span>
+                        </div>
+                        <h3>4. Çöp Kutusu Kurtarma</h3>
+                        <p>Teknik destek uzmanı olarak silinen dosyaları analiz et, kurtar veya uyar!</p>
+                        <button class="btn-play">Kurtarmaya Başla 👉</button>
+                    </div>
+
+                    <!-- Oyun 5 -->
+                    <div class="game-card" onclick="launchGame('arama')">
+                        <div class="card-top">
+                            <div class="card-icon" style="background:rgba(16,185,129,0.15); color:var(--green);">⚡</div>
+                            <span style="font-size:0.75rem; font-weight:800; color:var(--green); background:rgba(16,185,129,0.1); padding:3px 8px; border-radius:999px;">5. MOD</span>
+                        </div>
+                        <h3>5. Arama Uzmanı</h3>
+                        <p>*.docx ve Bil*.docx gibi arama filtreleriyle kayıp dosyaları anında yakala!</p>
+                        <button class="btn-play">Aramaya Başla 👉</button>
+                    </div>
+
+                    <!-- Oyun 6 -->
+                    <div class="game-card" onclick="launchGame('sikistirma')">
+                        <div class="card-top">
+                            <div class="card-icon" style="background:rgba(217,70,239,0.15); color:#d946ef;">🗜️</div>
+                            <span style="font-size:0.75rem; font-weight:800; color:#d946ef; background:rgba(217,70,239,0.1); padding:3px 8px; border-radius:999px;">6. MOD</span>
+                        </div>
+                        <h3>6. Sıkıştırma Görevi</h3>
+                        <p>ZIP ve RAR arşivleriyle disk alanından tasarruf etmeyi ve dosya paketlemeyi çöz!</p>
+                        <button class="btn-play">Görevi Başlat 👉</button>
+                    </div>
+
+                    <!-- Oyun 7 -->
+                    <div class="game-card" style="grid-column: span 2;" onclick="launchGame('arena')">
+                        <div class="card-top">
+                            <div class="card-icon" style="background:rgba(250,204,21,0.2); color:var(--yellow);">👑</div>
+                            <span style="font-size:0.75rem; font-weight:800; color:var(--yellow); background:rgba(250,204,21,0.15); padding:3px 12px; border-radius:999px;">SINIFA ÖZEL 2 TAKIM MODU</span>
+                        </div>
+                        <h3>7. Dosya Yönetimi Arenası</h3>
+                        <p>Akıllı tahtada Takım A ve Takım B arasında 10 kategoride kıyasıya bilgi yarışması! Öğretmen puanlayıcı desteğiyle tüm sınıf yarışsın!</p>
+                        <button class="btn-play" style="background:linear-gradient(135deg, #eab308, #ca8a04); color:#000; font-weight:900;">Arenaya Gir (Takım Yarışı) 🏆</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ================= OYUN 1: DOSYA DEDEKTİFLERİ ================= -->
+            <div class="hub-view" id="view-game-dedektif">
+                <div class="game-top-bar">
+                    <div class="game-header-title">
+                        <span>🔍</span> <span>Dosya Dedektifleri</span>
+                    </div>
+                    <div style="display:flex; gap:10px; align-items:center;">
+                        <span id="dedektif-qnum" style="color:var(--yellow); font-weight:800;">Soru 1 / 20</span>
+                        <span id="dedektif-score" style="color:var(--green); font-weight:800;">Puan: 0</span>
+                        <button class="btn-header" onclick="returnToMenu()">Ana Menü</button>
+                    </div>
+                </div>
+                <div class="game-body">
+                    <div class="glass-panel" style="text-align:center;">
+                        <div style="font-size:0.85rem; color:#94a3b8; font-weight:700; text-transform:uppercase; margin-bottom:8px;">VAKA DOSYASI İNCELENİYOR</div>
+                        <div id="dedektif-file-display" style="display:inline-flex; align-items:center; gap:12px; background:#0f172a; padding:16px 28px; border-radius:18px; border:2px dashed #475569; margin-bottom:16px; font-family:monospace; font-size:1.6rem; font-weight:900; color:#38bdf8;">
+                            tatil.jpg
+                        </div>
+                        <p style="color:#cbd5e1; font-size:1rem; margin-bottom:20px;">Bu dosyanın <strong>uzantısına (.soyadına)</strong> göre doğru türü hangisidir?</p>
+                        
+                        <div id="dedektif-options" style="display:grid; grid-template-columns:1fr 1fr; gap:12px;"></div>
+                        
+                        <div id="dedektif-feedback" style="margin-top:16px; padding:12px; border-radius:12px; font-size:0.92rem; display:none;"></div>
+                        <button id="dedektif-next-btn" class="btn-play" style="display:none; width:auto; margin:16px auto 0; padding:10px 28px;" onclick="nextDedektifQuestion()">Sonraki Vaka 👉</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ================= OYUN 2: KLASÖR DÜZENLEME ================= -->
+            <div class="hub-view" id="view-game-klasor">
+                <div class="game-top-bar">
+                    <div class="game-header-title">
+                        <span>📁</span> <span>Klasör Düzenleme Yarışı</span>
+                    </div>
+                    <div style="display:flex; gap:10px; align-items:center;">
+                        <span id="klasor-score" style="color:var(--green); font-weight:800;">Puan: 0</span>
+                        <button class="btn-header" onclick="returnToMenu()">Ana Menü</button>
+                    </div>
+                </div>
+                <div class="game-body">
+                    <div style="width:100%; max-width:1100px; display:flex; flex-direction:column; gap:16px;">
+                        <div style="text-align:center; background:rgba(15,23,42,0.8); padding:14px; border-radius:16px; border:1px solid rgba(255,255,255,0.1);">
+                            <span style="color:#facc15; font-size:0.88rem; font-weight:800;">DÜZENLENECEK DOSYA:</span>
+                            <div id="klasor-current-file" style="font-size:1.4rem; font-weight:900; color:#38bdf8; font-family:monospace; margin-top:4px;">
+                                proje.docx
+                            </div>
+                            <p style="font-size:0.85rem; color:#94a3b8; margin-top:4px;">Bu dosyayı yerleştirmek istediğin doğru klasöre dokun!</p>
+                        </div>
+
+                        <!-- 5 Hedef Klasör -->
+                        <div style="display:grid; grid-template-columns:repeat(5, 1fr); gap:12px;" id="klasor-targets-grid">
+                            <div class="btn-action" style="flex-direction:column; text-align:center; padding:18px 10px;" onclick="checkKlasorDrop('odev')">
+                                <div style="font-size:2.2rem;">📁</div>
+                                <div style="font-size:0.95rem; font-weight:800;">Ödevler</div>
+                                <div style="font-size:0.75rem; color:#94a3b8;">.docx, .txt, .pdf</div>
+                            </div>
+                            <div class="btn-action" style="flex-direction:column; text-align:center; padding:18px 10px;" onclick="checkKlasorDrop('resim')">
+                                <div style="font-size:2.2rem;">📁</div>
+                                <div style="font-size:0.95rem; font-weight:800;">Resimler</div>
+                                <div style="font-size:0.75rem; color:#94a3b8;">.jpg, .png, .gif</div>
+                            </div>
+                            <div class="btn-action" style="flex-direction:column; text-align:center; padding:18px 10px;" onclick="checkKlasorDrop('muzik')">
+                                <div style="font-size:2.2rem;">📁</div>
+                                <div style="font-size:0.95rem; font-weight:800;">Müzikler</div>
+                                <div style="font-size:0.75rem; color:#94a3b8;">.mp3, .wav</div>
+                            </div>
+                            <div class="btn-action" style="flex-direction:column; text-align:center; padding:18px 10px;" onclick="checkKlasorDrop('video')">
+                                <div style="font-size:2.2rem;">📁</div>
+                                <div style="font-size:0.95rem; font-weight:800;">Videolar</div>
+                                <div style="font-size:0.75rem; color:#94a3b8;">.mp4, .avi, .mov</div>
+                            </div>
+                            <div class="btn-action" style="flex-direction:column; text-align:center; padding:18px 10px;" onclick="checkKlasorDrop('kitap')">
+                                <div style="font-size:2.2rem;">📁</div>
+                                <div style="font-size:0.95rem; font-weight:800;">Kitaplar</div>
+                                <div style="font-size:0.75rem; color:#94a3b8;">.pdf, .epub</div>
+                            </div>
+                        </div>
+
+                        <div id="klasor-feedback" style="text-align:center; font-weight:800; font-size:1rem; height:24px;"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ================= OYUN 3: KISAYOL USTASI ================= -->
+            <div class="hub-view" id="view-game-kisayol">
+                <div class="game-top-bar">
+                    <div class="game-header-title">
+                        <span>⌨️</span> <span>Kısayol Ustası</span>
+                    </div>
+                    <div style="display:flex; gap:10px; align-items:center;">
+                        <span id="kisayol-streak" style="color:var(--yellow); font-weight:800;">🔥 Seri: 0</span>
+                        <span id="kisayol-score" style="color:var(--green); font-weight:800;">Puan: 0</span>
+                        <button class="btn-header" onclick="returnToMenu()">Ana Menü</button>
+                    </div>
+                </div>
+                <div class="game-body">
+                    <div class="glass-panel" style="text-align:center;">
+                        <span style="font-size:0.85rem; color:#a855f7; font-weight:800; background:rgba(168,85,247,0.1); padding:4px 12px; border-radius:999px;">İŞLEM VE KISAYOL EŞLEŞTİRME</span>
+                        <h3 id="kisayol-task-title" style="font-size:1.35rem; color:#ffffff; margin:16px 0 10px;">
+                            "Bir dosyayı aslına dokunmadan çoğaltmak (KOPYALAMAK) için hangi kısayol kullanılır?"
+                        </h3>
+                        <div id="kisayol-options" style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-top:20px;"></div>
+                        <div id="kisayol-feedback" style="margin-top:16px; padding:12px; border-radius:12px; font-size:0.92rem; display:none;"></div>
+                        <button id="kisayol-next-btn" class="btn-play" style="display:none; width:auto; margin:16px auto 0; padding:10px 28px;" onclick="nextKisayolTask()">Sonraki Kısayol 👉</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ================= OYUN 4: GERİ DÖNÜŞÜM KUTUSU KURTARMA ================= -->
+            <div class="hub-view" id="view-game-cop">
+                <div class="game-top-bar">
+                    <div class="game-header-title">
+                        <span>🗑️</span> <span>Geri Dönüşüm Kutusu Kurtarma (Teknik Destek)</span>
+                    </div>
+                    <div style="display:flex; gap:10px; align-items:center;">
+                        <span id="cop-gauge" style="color:var(--yellow); font-weight:800;">Kurtarma Başarısı: %100</span>
+                        <button class="btn-header" onclick="returnToMenu()">Ana Menü</button>
+                    </div>
+                </div>
+                <div class="game-body">
+                    <div class="glass-panel">
+                        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+                            <span id="cop-case-badge" style="color:var(--blue); font-weight:800; font-size:0.85rem;">VAKA 1 / 15</span>
+                            <span style="color:#94a3b8; font-size:0.85rem;">Kullanıcı Desteği Hattı</span>
+                        </div>
+                        <div id="cop-scenario-text" style="background:#0f172a; padding:16px; border-radius:14px; border-left:4px solid var(--red); color:#f1f5f9; font-size:1.05rem; line-height:1.5; margin-bottom:18px;">
+                            "Öğrenci Ahmet, masaüstündeki ödevini yanlışlıkla Delete tuşuna basarak sildi. Panikle size başvurdu. Ona ilk olarak ne yapmasını tavsiye edersiniz?"
+                        </div>
+                        <div id="cop-options-list" style="display:flex; flex-direction:column; gap:10px;"></div>
+                        <div id="cop-feedback" style="margin-top:14px; padding:12px; border-radius:12px; font-size:0.92rem; display:none;"></div>
+                        <button id="cop-next-btn" class="btn-play" style="display:none; width:auto; margin:16px auto 0; padding:10px 28px;" onclick="nextCopCase()">Sonraki Vaka 👉</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ================= OYUN 5: ARAMA UZMANI ================= -->
+            <div class="hub-view" id="view-game-arama">
+                <div class="game-top-bar">
+                    <div class="game-header-title">
+                        <span>⚡</span> <span>Arama Uzmanı (*.uzantı)</span>
+                    </div>
+                    <div style="display:flex; gap:10px; align-items:center;">
+                        <span id="arama-score" style="color:var(--green); font-weight:800;">Puan: 0</span>
+                        <button class="btn-header" onclick="returnToMenu()">Ana Menü</button>
+                    </div>
+                </div>
+                <div class="game-body">
+                    <div style="width:100%; max-width:1050px; display:grid; grid-template-columns:1fr 1fr; gap:20px;">
+                        <div class="glass-panel" style="padding:20px;">
+                            <span style="font-size:0.82rem; color:var(--yellow); font-weight:800;">GÖREV HEDEFİ</span>
+                            <h3 id="arama-task-desc" style="font-size:1.15rem; color:#ffffff; margin:10px 0 16px;">
+                                "Bilgisayardaki TÜM Word belgelerini tek seferde bulmak istiyorsun. Arama kutusuna ne yazmalısın?"
+                            </h3>
+                            <div id="arama-options" style="display:flex; flex-direction:column; gap:10px;"></div>
+                            <div id="arama-feedback" style="margin-top:12px; font-size:0.88rem; display:none; padding:10px; border-radius:10px;"></div>
+                            <button id="arama-next-btn" class="btn-play" style="display:none; margin-top:12px;" onclick="nextAramaTask()">Sonraki Arama Görevi 👉</button>
+                        </div>
+
+                        <!-- Dosya Havuzu & Eşleşme Simülasyonu -->
+                        <div class="glass-panel" style="padding:20px; display:flex; flex-direction:column;">
+                            <span style="font-size:0.82rem; color:var(--cyan); font-weight:800; margin-bottom:8px;">BİLGİSAYAR DOSYA HAVUZU (Canlı Filtre)</span>
+                            <div id="arama-file-pool" style="display:grid; grid-template-columns:1fr 1fr; gap:8px; font-family:monospace; font-size:0.85rem;">
+                                <!-- Dinamik dosyalar -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ================= OYUN 6: SIKIŞTIRMA GÖREVİ ================= -->
+            <div class="hub-view" id="view-game-sikistirma">
+                <div class="game-top-bar">
+                    <div class="game-header-title">
+                        <span>🗜️</span> <span>Sıkıştırma Görevi (ZIP & RAR)</span>
+                    </div>
+                    <div style="display:flex; gap:10px; align-items:center;">
+                        <span id="sikistirma-score" style="color:var(--green); font-weight:800;">Puan: 0</span>
+                        <button class="btn-header" onclick="returnToMenu()">Ana Menü</button>
+                    </div>
+                </div>
+                <div class="game-body">
+                    <div class="glass-panel" style="text-align:center;">
+                        <span style="font-size:0.85rem; color:#d946ef; font-weight:800; background:rgba(217,70,239,0.1); padding:4px 12px; border-radius:999px;">ARŞİV VE TASARRUF GÖREVİ</span>
+                        <h3 id="sikistirma-q-text" style="font-size:1.25rem; color:#ffffff; margin:16px 0;">
+                            "50 adet ders fotoğrafını öğretmene tek bir dosya halinde göndermek için en uygun yöntem nedir?"
+                        </h3>
+                        <div id="sikistirma-options" style="display:grid; grid-template-columns:1fr 1fr; gap:12px;"></div>
+                        <div id="sikistirma-feedback" style="margin-top:16px; padding:12px; border-radius:12px; font-size:0.92rem; display:none;"></div>
+                        <button id="sikistirma-next-btn" class="btn-play" style="display:none; width:auto; margin:16px auto 0; padding:10px 28px;" onclick="nextSikistirmaTask()">Sonraki Soru 👉</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ================= OYUN 7: DOSYA YÖNETİMİ ARENASI (2 TAKIM) ================= -->
+            <div class="hub-view" id="view-game-arena">
+                <div class="game-top-bar">
+                    <div class="game-header-title">
+                        <span>👑</span> <span>Dosya Yönetimi Arenası (Sınıf İçi Takım Düellosu)</span>
+                    </div>
+                    <div style="display:flex; gap:14px; align-items:center;">
+                        <button class="btn-header" onclick="returnToMenu()">Ana Menü</button>
+                    </div>
+                </div>
+                <div class="game-body" style="width:100%; max-width:1200px;">
+                    <!-- Skor Tablosu -->
+                    <div style="display:grid; grid-template-columns:1fr 1fr; gap:20px; width:100%; margin-bottom:16px;">
+                        <div style="background:rgba(2,132,199,0.2); border:2px solid #0284c7; padding:14px; border-radius:16px; text-align:center;">
+                            <h4 id="team-a-name" style="font-size:1.1rem; color:#38bdf8; font-weight:900;">Mavi Takım (Takım A)</h4>
+                            <div id="team-a-score" style="font-size:2rem; font-weight:900; color:#ffffff;">0 Puan</div>
+                            <button onclick="addScore('A', 10)" style="margin-top:4px; padding:4px 10px; font-size:0.75rem; background:#0284c7; border:none; color:#fff; border-radius:6px; cursor:pointer;">+10</button>
+                            <button onclick="addScore('A', 20)" style="margin-top:4px; padding:4px 10px; font-size:0.75rem; background:#0284c7; border:none; color:#fff; border-radius:6px; cursor:pointer;">+20</button>
+                            <button onclick="addScore('A', 30)" style="margin-top:4px; padding:4px 10px; font-size:0.75rem; background:#0284c7; border:none; color:#fff; border-radius:6px; cursor:pointer;">+30</button>
+                        </div>
+                        <div style="background:rgba(234,88,12,0.2); border:2px solid #ea580c; padding:14px; border-radius:16px; text-align:center;">
+                            <h4 id="team-b-name" style="font-size:1.1rem; color:#fb923c; font-weight:900;">Turuncu Takım (Takım B)</h4>
+                            <div id="team-b-score" style="font-size:2rem; font-weight:900; color:#ffffff;">0 Puan</div>
+                            <button onclick="addScore('B', 10)" style="margin-top:4px; padding:4px 10px; font-size:0.75rem; background:#ea580c; border:none; color:#fff; border-radius:6px; cursor:pointer;">+10</button>
+                            <button onclick="addScore('B', 20)" style="margin-top:4px; padding:4px 10px; font-size:0.75rem; background:#ea580c; border:none; color:#fff; border-radius:6px; cursor:pointer;">+20</button>
+                            <button onclick="addScore('B', 30)" style="margin-top:4px; padding:4px 10px; font-size:0.75rem; background:#ea580c; border:none; color:#fff; border-radius:6px; cursor:pointer;">+30</button>
+                        </div>
+                    </div>
+
+                    <!-- Kategori Seçim Izgarası -->
+                    <div class="glass-panel" style="padding:18px; max-width:100%;">
+                        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+                            <span style="font-size:0.85rem; color:#facc15; font-weight:800;">10 KATEGORİLİ YARIŞMA PANOSU</span>
+                            <span id="arena-turn-indicator" style="font-size:0.85rem; color:#38bdf8; font-weight:800;">Sıra: Takım A</span>
+                        </div>
+                        <div id="arena-cards-grid" style="display:grid; grid-template-columns:repeat(5, 1fr); gap:10px;">
+                            <!-- 10 Kategori Kartı -->
+                        </div>
+                    </div>
+
+                    <!-- Arena Soru Modalı -->
+                    <div id="arena-modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.85); z-index:100; align-items:center; justify-content:center;">
+                        <div style="background:#0f172a; border:2px solid var(--yellow); border-radius:24px; padding:32px; max-width:700px; width:90%; text-align:center;">
+                            <div id="arena-modal-cat" style="color:var(--yellow); font-weight:800; font-size:0.9rem; margin-bottom:8px;"></div>
+                            <h3 id="arena-modal-q" style="font-size:1.35rem; color:#fff; line-height:1.5; margin-bottom:20px;"></h3>
+                            <div id="arena-modal-ans" style="display:none; background:#1e293b; padding:14px; border-radius:12px; color:#34d399; font-weight:800; font-size:1.1rem; margin-bottom:16px;"></div>
+                            <div style="display:flex; justify-content:center; gap:12px;">
+                                <button class="btn-action" onclick="showArenaAnswer()" id="arena-show-ans-btn">Cevabı Göster 👁️</button>
+                                <button class="btn-action correct" onclick="judgeArena(true)">Doğru Bildi (+Puan) 👏</button>
+                                <button class="btn-action wrong" onclick="judgeArena(false)">Bilemedi ❌</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <script>
+        // --- SES SİSTEMİ ---
+        let isMuted = false;
+        class SoundFX {
+            constructor() { this.ctx = null; }
+            init() {
+                if (!this.ctx && !isMuted) {
+                    const AudioContext = window.AudioContext || window.webkitAudioContext;
+                    if (AudioContext) this.ctx = new AudioContext();
+                }
+            }
+            tone(freq, type='sine', dur=0.1, gainVal=0.1) {
+                if (isMuted) return;
+                try {
+                    this.init();
+                    if (!this.ctx) return;
+                    const osc = this.ctx.createOscillator();
+                    const g = this.ctx.createGain();
+                    osc.type = type;
+                    osc.frequency.setValueAtTime(freq, this.ctx.currentTime);
+                    g.gain.setValueAtTime(gainVal, this.ctx.currentTime);
+                    g.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + dur);
+                    osc.connect(g);
+                    g.connect(this.ctx.destination);
+                    osc.start();
+                    osc.stop(this.ctx.currentTime + dur);
+                } catch(e) {}
+            }
+            click() { this.tone(550, 'triangle', 0.06, 0.08); }
+            success() { this.tone(523, 'sine', 0.08, 0.1); setTimeout(() => this.tone(659, 'sine', 0.12, 0.1), 80); }
+            wrong() { this.tone(200, 'sawtooth', 0.14, 0.12); }
+            fanfare() {
+                [523, 659, 784, 1046].forEach((f, i) => setTimeout(() => this.tone(f, 'sine', 0.15, 0.12), i * 100));
+            }
+        }
+        const sfx = new SoundFX();
+
+        function toggleMute() {
+            isMuted = !isMuted;
+            document.getElementById('mute-btn').innerHTML = isMuted ? '<span>🔇</span>' : '<span>🔊</span>';
+        }
+
+        function toggleFullscreen() {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen().catch(() => {});
+            } else {
+                if (document.exitFullscreen) document.exitFullscreen();
+            }
+        }
+
+        // --- GLOBAL PUAN VE MENÜ SİSTEMİ ---
+        let totalScore = 0;
+        let completedGames = new Set();
+
+        function addHubScore(pts) {
+            totalScore += pts;
+            document.getElementById('hub-total-score').innerText = totalScore + " Puan";
+        }
+
+        function markGameCompleted(gameId) {
+            completedGames.add(gameId);
+            document.getElementById('hub-progress').innerText = `${completedGames.size} / 7 Oyun`;
+        }
+
+        function switchView(viewId) {
+            sfx.click();
+            document.querySelectorAll('.hub-view').forEach(v => v.classList.remove('active'));
+            const target = document.getElementById(viewId);
+            if (target) target.classList.add('active');
+        }
+
+        function returnToMenu() {
+            switchView('view-menu');
+        }
+
+        function launchGame(gameId) {
+            if (gameId === 'dedektif') { switchView('view-game-dedektif'); initDedektif(); }
+            else if (gameId === 'klasor') { switchView('view-game-klasor'); initKlasor(); }
+            else if (gameId === 'kisayol') { switchView('view-game-kisayol'); initKisayol(); }
+            else if (gameId === 'cop') { switchView('view-game-cop'); initCop(); }
+            else if (gameId === 'arama') { switchView('view-game-arama'); initArama(); }
+            else if (gameId === 'sikistirma') { switchView('view-game-sikistirma'); initSikistirma(); }
+            else if (gameId === 'arena') { switchView('view-game-arena'); initArena(); }
+        }
+
+        // ================= OYUN 1: DOSYA DEDEKTİFLERİ MANTIĞI =================
+        const dedektifQuestions = [
+            { file: "tatil_fotografi.jpg", type: "Görsel / Resim", options: ["Görsel / Resim", "Ses / Müzik", "Video / Film", "Metin"], correct: 0, exp: ".jpg uzantısı standart fotoğraf ve resim dosyasıdır." },
+            { file: "gitar_solosu.mp3", type: "Ses / Müzik", options: ["Video / Film", "Ses / Müzik", "Uygulama", "E-Kitap"], correct: 1, exp: ".mp3 en popüler ses ve müzik dosyası uzantısıdır." },
+            { file: "fen_odevi.docx", type: "Metin / Belge", options: ["Görsel / Resim", "Sıkıştırılmış", "Metin / Belge", "Video"], correct: 2, exp: ".docx Microsoft Word metin belgesi uzantısıdır." },
+            { file: "okul_tanitimi.mp4", type: "Video / Film", options: ["Video / Film", "Ses / Müzik", "Uygulama", "Metin"], correct: 0, exp: ".mp4 yaygın bir video ve film formatıdır." },
+            { file: "ders_notlari.pdf", type: "Elektronik Kitap / Belge", options: ["Video", "Görsel", "Uygulama", "Elektronik Kitap / Belge"], correct: 3, exp: ".pdf taşınabilir belge ve e-kitap uzantısıdır." },
+            { file: "minecraft_kurulum.exe", type: "Uygulama / Program", options: ["Metin", "Uygulama / Program", "Ses", "Sıkıştırılmış"], correct: 1, exp: ".exe Windows çalıştırılabilir program/kurulum dosyasıdır." },
+            { file: "resim_arsivi.zip", type: "Sıkıştırılmış Arşiv", options: ["Sıkıştırılmış Arşiv", "Video", "Ses", "Görsel"], correct: 0, exp: ".zip dosyaları tek pakette toplayıp küçülten arşiv formatıdır." },
+            { file: "not_defteri.txt", type: "Metin / Belge", options: ["Uygulama", "Metin / Belge", "Ses", "Video"], correct: 1, exp: ".txt sade, düz metin dosyası uzantısıdır." },
+            { file: "animasyon_kedi.gif", type: "Görsel / Animasyon", options: ["Ses", "Video", "Görsel / Animasyon", "E-Kitap"], correct: 2, exp: ".gif hareketli resim (animasyon) formatıdır." },
+            { file: "konusma_kaydi.wav", type: "Ses / Müzik", options: ["Ses / Müzik", "Video", "Metin", "Sıkıştırılmış"], correct: 0, exp: ".wav yüksek kaliteli ham ses kaydı uzantısıdır." },
+            { file: "cizgi_film.avi", type: "Video / Film", options: ["Ses", "Görsel", "Video / Film", "Metin"], correct: 2, exp: ".avi klasik yüksek kaliteli video formatıdır." },
+            { file: "yedek_klasor.rar", type: "Sıkıştırılmış Arşiv", options: ["Uygulama", "Sıkıştırılmış Arşiv", "Metin", "Video"], correct: 1, exp: ".rar WinRAR ile sıkıştırılmış arşiv dosyasıdır." },
+            { file: "seffaf_logo.png", type: "Görsel / Resim", options: ["Görsel / Resim", "Ses", "Uygulama", "E-Kitap"], correct: 0, exp: ".png şeffaf arka planı destekleyen kaliteli resim formatıdır." },
+            { file: "hikaye_kitabi.epub", type: "Elektronik Kitap", options: ["Metin", "Ses", "Video", "Elektronik Kitap"], correct: 3, exp: ".epub e-kitap okuyucular için standart kitap formatıdır." },
+            { file: "oyun_mobil.apk", type: "Uygulama / Mobil", options: ["Uygulama / Mobil", "Görsel", "Ses", "Metin"], correct: 0, exp: ".apk Android cihazlara kurulan uygulama paketidir." },
+            { file: "windows_ses.wma", type: "Ses / Müzik", options: ["Ses / Müzik", "Video", "Metin", "Arşiv"], correct: 0, exp: ".wma Windows Media ses dosyası uzantısıdır." },
+            { file: "belgesel_hd.mov", type: "Video / Film", options: ["Metin", "Video / Film", "Görsel", "Ses"], correct: 1, exp: ".mov Apple QuickTime video formatıdır." },
+            { file: "zengin_metin.rtf", type: "Metin / Belge", options: ["Metin / Belge", "Video", "Ses", "Uygulama"], correct: 0, exp: ".rtf yazı tipi ve biçimlendirme içeren zengin metindir." },
+            { file: "cizim_taslak.bmp", type: "Görsel / Resim", options: ["Ses", "Video", "Görsel / Resim", "Arşiv"], correct: 2, exp: ".bmp ham bitmap çizim dosyasıdır." },
+            { file: "ders_sunusu.flv", type: "Video / Film", options: ["Ses", "Video / Film", "Metin", "Uygulama"], correct: 1, exp: ".flv web tabanlı video akış formatıdır." }
+        ];
+
+        let dedektifIdx = 0;
+        let dedektifScore = 0;
+
+        function initDedektif() {
+            dedektifIdx = 0;
+            dedektifScore = 0;
+            dedektifQuestions.sort(() => Math.random() - 0.5);
+            loadDedektifQ();
+        }
+
+        function loadDedektifQ() {
+            const q = dedektifQuestions[dedektifIdx];
+            document.getElementById('dedektif-qnum').innerText = `Soru ${dedektifIdx + 1} / ${dedektifQuestions.length}`;
+            document.getElementById('dedektif-score').innerText = `Puan: ${dedektifScore}`;
+            document.getElementById('dedektif-file-display').innerText = q.file;
+            document.getElementById('dedektif-feedback').style.display = 'none';
+            document.getElementById('dedektif-next-btn').style.display = 'none';
+
+            const optsBox = document.getElementById('dedektif-options');
+            optsBox.innerHTML = '';
+            q.options.forEach((opt, idx) => {
+                const btn = document.createElement('div');
+                btn.className = 'btn-action';
+                btn.innerHTML = `<span style="width:24px; height:24px; border-radius:50%; background:#334155; display:inline-flex; align-items:center; justify-content:center; font-size:0.8rem;">${String.fromCharCode(65+idx)}</span> <span>${opt}</span>`;
+                btn.onclick = () => answerDedektif(idx, btn);
+                optsBox.appendChild(btn);
+            });
+        }
+
+        function answerDedektif(choice, elem) {
+            const q = dedektifQuestions[dedektifIdx];
+            const allBtns = document.querySelectorAll('#dedektif-options .btn-action');
+            allBtns.forEach(b => b.style.pointerEvents = 'none');
+
+            const fb = document.getElementById('dedektif-feedback');
+            fb.style.display = 'block';
+
+            if (choice === q.correct) {
+                sfx.success();
+                elem.classList.add('correct');
+                dedektifScore += 10;
+                addHubScore(10);
+                fb.style.background = 'rgba(16,185,129,0.15)';
+                fb.style.border = '1px solid var(--green)';
+                fb.style.color = '#34d399';
+                fb.innerHTML = '👏 <strong>Mükemmel Dedektiflik!</strong> ' + q.exp;
+            } else {
+                sfx.wrong();
+                elem.classList.add('wrong');
+                allBtns[q.correct].classList.add('correct');
+                fb.style.background = 'rgba(244,63,94,0.15)';
+                fb.style.border = '1px solid var(--red)';
+                fb.style.color = '#fb7185';
+                fb.innerHTML = '❌ <strong>Yanlış Tahmin!</strong> ' + q.exp;
+            }
+
+            document.getElementById('dedektif-score').innerText = `Puan: ${dedektifScore}`;
+            if (dedektifIdx < dedektifQuestions.length - 1) {
+                document.getElementById('dedektif-next-btn').style.display = 'inline-flex';
+            } else {
+                markGameCompleted('dedektif');
+                document.getElementById('dedektif-next-btn').innerText = "Tebrikler! Menüye Dön 🎉";
+                document.getElementById('dedektif-next-btn').style.display = 'inline-flex';
+                document.getElementById('dedektif-next-btn').onclick = returnToMenu;
+            }
+        }
+
+        function nextDedektifQuestion() {
+            if (dedektifIdx < dedektifQuestions.length - 1) {
+                dedektifIdx++;
+                sfx.click();
+                loadDedektifQ();
+            }
+        }
+
+        // ================= OYUN 2: KLASÖR DÜZENLEME MANTIĞI =================
+        const klasorFiles = [
+            { name: "bilişim_projesi.docx", type: "odev" },
+            { name: "aile_tatil.jpg", type: "resim" },
+            { name: "gitar_sarkisi.mp3", type: "muzik" },
+            { name: "mezuniyet_videosu.mp4", type: "video" },
+            { name: "dunya_klasikleri.pdf", type: "kitap" },
+            { name: "matematik_ozet.txt", type: "odev" },
+            { name: "manzara_resmi.png", type: "resim" },
+            { name: "ses_kaydi_01.wav", type: "muzik" },
+            { name: "okul_gezi_belgeseli.avi", type: "video" },
+            { name: "masallar.epub", type: "kitap" }
+        ];
+
+        let klasorFileIdx = 0;
+        let klasorScore = 0;
+
+        function initKlasor() {
+            klasorFileIdx = 0;
+            klasorScore = 0;
+            klasorFiles.sort(() => Math.random() - 0.5);
+            loadKlasorFile();
+        }
+
+        function loadKlasorFile() {
+            if (klasorFileIdx >= klasorFiles.length) {
+                markGameCompleted('klasor');
+                document.getElementById('klasor-current-file').innerText = "Tüm Dosyalar Düzenlendi! 🎉";
+                document.getElementById('klasor-feedback').innerText = `Tebrikler! Toplam ${klasorScore} Puan kazandınız.`;
+                document.getElementById('klasor-feedback').style.color = "var(--yellow)";
+                return;
+            }
+            const f = klasorFiles[klasorFileIdx];
+            document.getElementById('klasor-current-file').innerText = f.name;
+            document.getElementById('klasor-feedback').innerText = "";
+        }
+
+        function checkKlasorDrop(targetType) {
+            if (klasorFileIdx >= klasorFiles.length) return;
+            const current = klasorFiles[klasorFileIdx];
+            const fb = document.getElementById('klasor-feedback');
+
+            if (current.type === targetType) {
+                sfx.success();
+                klasorScore += 10;
+                addHubScore(10);
+                fb.innerText = "Harika! Doğru klasöre yerleştirdin! 👏 (+10 Puan)";
+                fb.style.color = "var(--green)";
+                klasorFileIdx++;
+                setTimeout(loadKlasorFile, 600);
+            } else {
+                sfx.wrong();
+                fb.innerText = "Bu dosya seçtiğin klasöre uygun değil. Uzantısına dikkat et!";
+                fb.style.color = "var(--red)";
+            }
+            document.getElementById('klasor-score').innerText = `Puan: ${klasorScore}`;
+        }
+
+        // ================= OYUN 3: KISAYOL USTASI =================
+        const kisayolQuestions = [
+            { task: "Seçili bir metni veya dosyayı çoğaltmak (KOPYALAMAK) için:", ans: "Ctrl + C", options: ["Ctrl + C", "Ctrl + X", "Ctrl + V", "Ctrl + Z"], correct: 0, exp: "Ctrl + C kopyalama kısayoludur." },
+            { task: "Hafızadaki (panodaki) dosyayı yeni bir klasöre YAPIŞTIRMAK için:", ans: "Ctrl + V", options: ["Ctrl + V", "Ctrl + P", "Ctrl + A", "Ctrl + Y"], correct: 0, exp: "Ctrl + V yapıştırma kısayoludur." },
+            { task: "Bir dosyayı eski yerinden tamamen alıp TAŞIMAK (KESMEK) için:", ans: "Ctrl + X", options: ["Ctrl + C", "Ctrl + X", "Delete", "Ctrl + S"], correct: 1, exp: "Ctrl + X kesme (taşıma) kısayoludur." },
+            { task: "Yapılan son hatalı işlemi GERİ ALMAK için:", ans: "Ctrl + Z", options: ["Ctrl + Z", "Ctrl + Y", "Ctrl + R", "Escape"], correct: 0, exp: "Ctrl + Z geri alma (Undo) kısayoludur." },
+            { task: "Geri alınan işlemi TEKRARLAMAK (YİNELEMEK) için:", ans: "Ctrl + Y", options: ["Ctrl + Y", "Ctrl + Z", "Ctrl + T", "Ctrl + V"], correct: 0, exp: "Ctrl + Y yineleme (Redo) kısayoludur." },
+            { task: "Klasördeki TÜM DOSYALARI tek seferde seçmek için:", ans: "Ctrl + A", options: ["Ctrl + A", "Ctrl + S", "Ctrl + F", "Shift + A"], correct: 0, exp: "Ctrl + A tümünü seçme kısayoludur." },
+            { task: "Seçili dosyayı Geri Dönüşüm Kutusu'na göndermek (SİLMEK) için:", ans: "Delete Tuşu", options: ["Delete Tuşu", "Backspace", "Space", "Enter"], correct: 0, exp: "Delete tuşu silme işlemidir." },
+            { task: "Dosyanın adını değiştirmek (Yeniden Adlandırmak) için hangi F tuşu kullanılır?", ans: "F2", options: ["F2", "F5", "F1", "F12"], correct: 0, exp: "F2 yeniden adlandırma (Rename) kısayoludur." }
+        ];
+
+        let kisayolIdx = 0;
+        let kisayolScore = 0;
+        let kisayolStreak = 0;
+
+        function initKisayol() {
+            kisayolIdx = 0;
+            kisayolScore = 0;
+            kisayolStreak = 0;
+            kisayolQuestions.sort(() => Math.random() - 0.5);
+            loadKisayolTask();
+        }
+
+        function loadKisayolTask() {
+            const q = kisayolQuestions[kisayolIdx];
+            document.getElementById('kisayol-task-title').innerText = q.task;
+            document.getElementById('kisayol-streak').innerText = `🔥 Seri: ${kisayolStreak}`;
+            document.getElementById('kisayol-score').innerText = `Puan: ${kisayolScore}`;
+            document.getElementById('kisayol-feedback').style.display = 'none';
+            document.getElementById('kisayol-next-btn').style.display = 'none';
+
+            const opts = document.getElementById('kisayol-options');
+            opts.innerHTML = '';
+            q.options.forEach((opt, idx) => {
+                const btn = document.createElement('div');
+                btn.className = 'btn-action';
+                btn.innerHTML = `<span class="key-tag">${opt}</span>`;
+                btn.onclick = () => answerKisayol(idx, btn);
+                opts.appendChild(btn);
+            });
+        }
+
+        function answerKisayol(choice, btn) {
+            const q = kisayolQuestions[kisayolIdx];
+            const allBtns = document.querySelectorAll('#kisayol-options .btn-action');
+            allBtns.forEach(b => b.style.pointerEvents = 'none');
+
+            const fb = document.getElementById('kisayol-feedback');
+            fb.style.display = 'block';
+
+            if (choice === q.correct) {
+                sfx.success();
+                btn.classList.add('correct');
+                kisayolStreak++;
+                let gain = 10;
+                if (kisayolStreak % 5 === 0) {
+                    gain += 20;
+                    fb.innerHTML = `🔥 <strong>5'Lİ KOMBO BONUSU!</strong> +30 Puan kazandın! ${q.exp}`;
+                } else {
+                    fb.innerHTML = `👏 <strong>Doğru!</strong> ${q.exp}`;
+                }
+                kisayolScore += gain;
+                addHubScore(gain);
+                fb.style.background = 'rgba(16,185,129,0.15)';
+                fb.style.color = '#34d399';
+            } else {
+                sfx.wrong();
+                btn.classList.add('wrong');
+                allBtns[q.correct].classList.add('correct');
+                kisayolStreak = 0;
+                fb.style.background = 'rgba(244,63,94,0.15)';
+                fb.style.color = '#fb7185';
+                fb.innerHTML = `❌ <strong>Yanlış Tuş!</strong> Doğru cevap: ${q.ans}. ${q.exp}`;
+            }
+
+            document.getElementById('kisayol-streak').innerText = `🔥 Seri: ${kisayolStreak}`;
+            document.getElementById('kisayol-score').innerText = `Puan: ${kisayolScore}`;
+
+            if (kisayolIdx < kisayolQuestions.length - 1) {
+                document.getElementById('kisayol-next-btn').style.display = 'inline-flex';
+            } else {
+                markGameCompleted('kisayol');
+                document.getElementById('kisayol-next-btn').innerText = "Tebrikler! Menüye Dön 🎉";
+                document.getElementById('kisayol-next-btn').style.display = 'inline-flex';
+                document.getElementById('kisayol-next-btn').onclick = returnToMenu;
+            }
+        }
+
+        function nextKisayolTask() {
+            if (kisayolIdx < kisayolQuestions.length - 1) {
+                kisayolIdx++;
+                sfx.click();
+                loadKisayolTask();
+            }
+        }
+
+        // ================= OYUN 4: ÇÖP KUTUSU KURTARMA =================
+        const copCases = [
+            {
+                scenario: "Öğrenci Ali, 'ödev.docx' dosyasını yanlışlıkla Delete tuşuna basarak sildi. Panikle size sordu: 'Dosyam tamamen yok mu oldu?' Ona ne söylersiniz?",
+                options: [
+                    "Korkma, dosyan Geri Dönüşüm Kutusu'ndadır; oradan 'Geri Yükle' yapabilirsin.",
+                    "Evet, Delete tuşuna bastığın anda dosya evrenden silinir, kurtarılamaz.",
+                    "Bilgisayarı hemen prizden çekersen dosyan kurtulur."
+                ],
+                correct: 0,
+                exp: "Silinen dosyalar ilk önce Geri Dönüşüm Kutusu'na gider ve sağ tıklanıp 'Geri Yükle' denilerek eski yerine döner."
+            },
+            {
+                scenario: "Bir kullanıcı Geri Dönüşüm Kutusuna sağ tıklayıp 'Geri Dönüşüm Kutusunu Boşalt' seçeneğini seçerse ne olur?",
+                options: [
+                    "Çöp kutusundaki dosyalar masaüstüne geri taşınır.",
+                    "Çöp kutusundaki dosyalar kalıcı olarak silinir ve normal yollarla geri getirilemez.",
+                    "Bilgisayarın çalışma hızı iki katına çıkar."
+                ],
+                correct: 1,
+                exp: "Geri Dönüşüm Kutusu boşaltıldığında dosyalar kalıcı olarak silinir."
+            },
+            {
+                scenario: "Dosyayı Geri Dönüşüm Kutusu'na hiç göndermeden doğrudan kalıcı silmek için hangi tuşlar kullanılır?",
+                options: [
+                    "Shift + Delete",
+                    "Ctrl + Delete",
+                    "Alt + Delete"
+                ],
+                correct: 0,
+                exp: "Shift + Delete kombinasyonu çöp kutusunu atlayarak doğrudan kalıcı silme yapar."
+            },
+            {
+                scenario: "Geri Dönüşüm Kutusu'nda bulunmayan veya çöp kutusu boşaltılmış bir dosya kesin olarak geri getirilebilir mi?",
+                options: [
+                    "Evet, her silinen dosya mutlaka %100 geri getirilebilir.",
+                    "Hayır, kalıcı silinen veya çöp kutusu boşaltılan dosyaların geri getirilmesi garanti değildir.",
+                    "Sadece bilgisayarı yeniden başlatmak yeterlidir."
+                ],
+                correct: 1,
+                exp: "Kalıcı silinen dosyaların kurtarılması garanti değildir; bu yüzden önemli dosyalar yedeklenmelidir."
+            },
+            {
+                scenario: "Az önce yanlışlıkla bir dosyayı sildiğin anda klavyeden hangi kısayola basarak bu silme işlemini anında iptal edebilirsin?",
+                options: [
+                    "Ctrl + Z (Geri Al)",
+                    "Ctrl + C (Kopyala)",
+                    "Ctrl + S (Kaydet)"
+                ],
+                correct: 0,
+                exp: "Ctrl + Z son yapılan işlemi anında geri alır!"
+            }
+        ];
+
+        let copIdx = 0;
+        let copSuccessRate = 100;
+
+        function initCop() {
+            copIdx = 0;
+            copSuccessRate = 100;
+            loadCopCase();
+        }
+
+        function loadCopCase() {
+            const item = copCases[copIdx];
+            document.getElementById('cop-case-badge').innerText = `VAKA ${copIdx + 1} / ${copCases.length}`;
+            document.getElementById('cop-gauge').innerText = `Kurtarma Başarısı: %${copSuccessRate}`;
+            document.getElementById('cop-scenario-text').innerText = item.scenario;
+            document.getElementById('cop-feedback').style.display = 'none';
+            document.getElementById('cop-next-btn').style.display = 'none';
+
+            const list = document.getElementById('cop-options-list');
+            list.innerHTML = '';
+            item.options.forEach((opt, idx) => {
+                const btn = document.createElement('div');
+                btn.className = 'btn-action';
+                btn.innerHTML = `<span style="width:24px; height:24px; border-radius:50%; background:#334155; display:inline-flex; align-items:center; justify-content:center; font-size:0.8rem;">${idx+1}</span> <span>${opt}</span>`;
+                btn.onclick = () => answerCopCase(idx, btn);
+                list.appendChild(btn);
+            });
+        }
+
+        function answerCopCase(choice, btn) {
+            const item = copCases[copIdx];
+            const allBtns = document.querySelectorAll('#cop-options-list .btn-action');
+            allBtns.forEach(b => b.style.pointerEvents = 'none');
+
+            const fb = document.getElementById('cop-feedback');
+            fb.style.display = 'block';
+
+            if (choice === item.correct) {
+                sfx.success();
+                btn.classList.add('correct');
+                addHubScore(10);
+                fb.style.background = 'rgba(16,185,129,0.15)';
+                fb.style.color = '#34d399';
+                fb.innerHTML = '👏 <strong>Doğru Teşhis & Müdahale!</strong> ' + item.exp;
+            } else {
+                sfx.wrong();
+                btn.classList.add('wrong');
+                allBtns[item.correct].classList.add('correct');
+                copSuccessRate = Math.max(20, copSuccessRate - 15);
+                fb.style.background = 'rgba(244,63,94,0.15)';
+                fb.style.color = '#fb7185';
+                fb.innerHTML = '❌ <strong>Hatalı Tavsiye!</strong> ' + item.exp;
+            }
+
+            document.getElementById('cop-gauge').innerText = `Kurtarma Başarısı: %${copSuccessRate}`;
+
+            if (copIdx < copCases.length - 1) {
+                document.getElementById('cop-next-btn').style.display = 'inline-flex';
+            } else {
+                markGameCompleted('cop');
+                document.getElementById('cop-next-btn').innerText = "Tebrikler! Menüye Dön 🎉";
+                document.getElementById('cop-next-btn').style.display = 'inline-flex';
+                document.getElementById('cop-next-btn').onclick = returnToMenu;
+            }
+        }
+
+        function nextCopCase() {
+            if (copIdx < copCases.length - 1) {
+                copIdx++;
+                sfx.click();
+                loadCopCase();
+            }
+        }
+
+        // ================= OYUN 5: ARAMA UZMANI =================
+        const aramaPool = [
+            "BilimProjesi.docx", "BilgiNotu.docx", "tatil.jpg", "okul.png",
+            "şarkı.mp3", "video.mp4", "kitap.pdf", "Bilgisayar.txt",
+            "matematik.docx", "resim.jpg", "proje.docx", "oyun.exe"
+        ];
+
+        const aramaTasks = [
+            { desc: "Bilgisayardaki TÜM Word belgelerini (.docx) bulmak için ne yazarsın?", query: "*.docx", options: ["*.docx", "Bil*.docx", "*.jpg", "docx.*"], correct: 0, filter: f => f.endsWith('.docx') },
+            { desc: "Adı 'Bil' ile başlayan TÜM Word belgelerini bulmak için ne yazarsın?", query: "Bil*.docx", options: ["Bil*.docx", "*.docx", "*Bil.docx", "Bil.txt"], correct: 0, filter: f => f.startsWith('Bil') && f.endsWith('.docx') },
+            { desc: "Bilgisayardaki TÜM JPG fotoğraflarını listelemek için ne yazarsın?", query: "*.jpg", options: ["*.jpg", "tatil.*", "*.png", "foto.*"], correct: 0, filter: f => f.endsWith('.jpg') },
+            { desc: "Adı tam olarak 'kitap.pdf' olan dosyayı bulmak için:", query: "kitap.pdf", options: ["kitap.pdf", "*.pdf", "kitap.*", "*kitap*"], correct: 0, filter: f => f === 'kitap.pdf' }
+        ];
+
+        let aramaIdx = 0;
+        let aramaScore = 0;
+
+        function initArama() {
+            aramaIdx = 0;
+            aramaScore = 0;
+            loadAramaTask();
+        }
+
+        function renderFilePool(filterFn) {
+            const container = document.getElementById('arama-file-pool');
+            container.innerHTML = '';
+            aramaPool.forEach(fname => {
+                const match = filterFn ? filterFn(fname) : false;
+                const div = document.createElement('div');
+                div.style.padding = '8px 10px';
+                div.style.borderRadius = '8px';
+                div.style.background = match ? 'rgba(0,240,255,0.2)' : '#1e293b';
+                div.style.border = match ? '1px solid var(--cyan)' : '1px solid #334155';
+                div.style.color = match ? '#ffffff' : '#94a3b8';
+                div.style.fontWeight = match ? '900' : '500';
+                div.innerText = (match ? '🔍 ' : '📄 ') + fname;
+                container.appendChild(div);
+            });
+        }
+
+        function loadAramaTask() {
+            const item = aramaTasks[aramaIdx];
+            document.getElementById('arama-task-desc').innerText = item.desc;
+            document.getElementById('arama-feedback').style.display = 'none';
+            document.getElementById('arama-next-btn').style.display = 'none';
+            renderFilePool(null);
+
+            const optsBox = document.getElementById('arama-options');
+            optsBox.innerHTML = '';
+            item.options.forEach((opt, idx) => {
+                const btn = document.createElement('div');
+                btn.className = 'btn-action';
+                btn.innerHTML = `<span class="key-tag" style="color:var(--cyan);">${opt}</span>`;
+                btn.onclick = () => answerAramaTask(idx, btn);
+                optsBox.appendChild(btn);
+            });
+        }
+
+        function answerAramaTask(choice, btn) {
+            const item = aramaTasks[aramaIdx];
+            const allBtns = document.querySelectorAll('#arama-options .btn-action');
+            allBtns.forEach(b => b.style.pointerEvents = 'none');
+
+            const fb = document.getElementById('arama-feedback');
+            fb.style.display = 'block';
+
+            renderFilePool(item.filter);
+
+            if (choice === item.correct) {
+                sfx.success();
+                btn.classList.add('correct');
+                aramaScore += 10;
+                addHubScore(10);
+                fb.style.background = 'rgba(16,185,129,0.15)';
+                fb.style.color = '#34d399';
+                fb.innerHTML = `👏 <strong>Doğru Filtre!</strong> Sağ tarafta eşleşen dosyalar maviyle vurgulandı!`;
+            } else {
+                sfx.wrong();
+                btn.classList.add('wrong');
+                allBtns[item.correct].classList.add('correct');
+                fb.style.background = 'rgba(244,63,94,0.15)';
+                fb.style.color = '#fb7185';
+                fb.innerHTML = `❌ Doğru arama ifadesi <strong>${item.query}</strong> olmalıydı.`;
+            }
+
+            document.getElementById('arama-score').innerText = `Puan: ${aramaScore}`;
+
+            if (aramaIdx < aramaTasks.length - 1) {
+                document.getElementById('arama-next-btn').style.display = 'inline-flex';
+            } else {
+                markGameCompleted('arama');
+                document.getElementById('arama-next-btn').innerText = "Tebrikler! Menüye Dön 🎉";
+                document.getElementById('arama-next-btn').style.display = 'inline-flex';
+                document.getElementById('arama-next-btn').onclick = returnToMenu;
+            }
+        }
+
+        function nextAramaTask() {
+            if (aramaIdx < aramaTasks.length - 1) {
+                aramaIdx++;
+                sfx.click();
+                loadAramaTask();
+            }
+        }
+
+        // ================= OYUN 6: SIKIŞTIRMA GÖREVİ =================
+        const sikistirmaQuestions = [
+            { q: "50 adet ders fotoğrafını öğretmene tek bir dosya halinde göndermek için en uygun yöntem nedir?", options: ["Fotoğrafları tek tek 50 e-posta ile atmak", "Hepsini .zip veya .rar olarak sıkıştırmak", "Fotoğrafları silmek", "Bilgisayarı yeniden başlatmak"], correct: 1, exp: "Sıkıştırma birden fazla dosyayı tek bir arşiv paketi yapar." },
+            { q: "Aşağıdakilerden hangisi sıkıştırılmış dosya (arşiv) uzantısıdır?", options: [".docx", ".mp3", ".zip", ".exe"], correct: 2, exp: ".zip ve .rar sıkıştırılmış arşiv dosyası uzantılarıdır." },
+            { q: "Dosyaları sıkıştırmanın (arşivlemenin) en büyük 2 faydası nedir?", options: ["Boyutu büyütmek ve yavaşlatmak", "Disk tasarrufu sağlamak ve paylaşımı kolaylaştırmak", "Dosyanın rengini değiştirmek", "İnterneti kapatmak"], correct: 1, exp: "Sıkıştırma yer kazandırır ve internette hızlı dosya gönderimi sağlar." },
+            { q: "Her dosya sıkıştırıldığında aynı oranda küçülür mü?", options: ["Evet, her dosya tam %50 küçülür.", "Hayır, metinler çok küçülürken zaten sıkışmış MP3/MP4 dosyaları çok az küçülür.", "Hiçbir dosya küçülmez."], correct: 1, exp: "Doğru! Her dosyanın yapısı farklıdır; MP3 ve video dosyaları zaten önceden sıkıştırıldığı için az küçülür." }
+        ];
+
+        let sikistirmaIdx = 0;
+        let sikistirmaScore = 0;
+
+        function initSikistirma() {
+            sikistirmaIdx = 0;
+            sikistirmaScore = 0;
+            loadSikistirmaTask();
+        }
+
+        function loadSikistirmaTask() {
+            const item = sikistirmaQuestions[sikistirmaIdx];
+            document.getElementById('sikistirma-q-text').innerText = item.q;
+            document.getElementById('sikistirma-feedback').style.display = 'none';
+            document.getElementById('sikistirma-next-btn').style.display = 'none';
+
+            const opts = document.getElementById('sikistirma-options');
+            opts.innerHTML = '';
+            item.options.forEach((opt, idx) => {
+                const btn = document.createElement('div');
+                btn.className = 'btn-action';
+                btn.innerHTML = `<span style="width:24px; height:24px; border-radius:50%; background:#334155; display:inline-flex; align-items:center; justify-content:center; font-size:0.8rem;">${String.fromCharCode(65+idx)}</span> <span>${opt}</span>`;
+                btn.onclick = () => answerSikistirma(idx, btn);
+                opts.appendChild(btn);
+            });
+        }
+
+        function answerSikistirma(choice, btn) {
+            const item = sikistirmaQuestions[sikistirmaIdx];
+            const allBtns = document.querySelectorAll('#sikistirma-options .btn-action');
+            allBtns.forEach(b => b.style.pointerEvents = 'none');
+
+            const fb = document.getElementById('sikistirma-feedback');
+            fb.style.display = 'block';
+
+            if (choice === item.correct) {
+                sfx.success();
+                btn.classList.add('correct');
+                sikistirmaScore += 10;
+                addHubScore(10);
+                fb.style.background = 'rgba(16,185,129,0.15)';
+                fb.style.color = '#34d399';
+                fb.innerHTML = '👏 ' + item.exp;
+            } else {
+                sfx.wrong();
+                btn.classList.add('wrong');
+                allBtns[item.correct].classList.add('correct');
+                fb.style.background = 'rgba(244,63,94,0.15)';
+                fb.style.color = '#fb7185';
+                fb.innerHTML = '❌ ' + item.exp;
+            }
+
+            document.getElementById('sikistirma-score').innerText = `Puan: ${sikistirmaScore}`;
+
+            if (sikistirmaIdx < sikistirmaQuestions.length - 1) {
+                document.getElementById('sikistirma-next-btn').style.display = 'inline-flex';
+            } else {
+                markGameCompleted('sikistirma');
+                document.getElementById('sikistirma-next-btn').innerText = "Tebrikler! Menüye Dön 🎉";
+                document.getElementById('sikistirma-next-btn').style.display = 'inline-flex';
+                document.getElementById('sikistirma-next-btn').onclick = returnToMenu;
+            }
+        }
+
+        function nextSikistirmaTask() {
+            if (sikistirmaIdx < sikistirmaQuestions.length - 1) {
+                sikistirmaIdx++;
+                sfx.click();
+                loadSikistirmaTask();
+            }
+        }
+
+        // ================= OYUN 7: DOSYA YÖNETİMİ ARENASI (2 TAKIM) =================
+        let scoreA = 0;
+        let scoreB = 0;
+        let currentArenaTeam = 'A';
+        let currentCardPts = 10;
+        let currentCardElem = null;
+
+        const arenaCategories = [
+            { id: 1, name: "1. Dosya Adı & Uzantı", q: "Ali Babanın Çiftliği.mp3 dosyasında dosya uzantısı nedir?", a: "mp3 (Dosyanın türünü gösterir)", pts: 10 },
+            { id: 2, name: "2. Dosya Türleri", q: ".docx, .pdf ve .txt hangi dosya türüne aittir?", a: "Metin / Belge dosyaları", pts: 20 },
+            { id: 3, name: "3. Klasör & Alt Klasör", q: "Bir klasörün içine açılan yeni klasöre ne ad verilir?", a: "Alt Klasör (Subfolder)", pts: 10 },
+            { id: 4, name: "4. Kopyalama vs Taşıma", q: "Kopyalama ile Taşıma (Kesme) arasındaki temel fark nedir?", a: "Kopyalamada aslı kalır çoğalır; Taşımada dosya yer değiştirir.", pts: 30 },
+            { id: 5, name: "5. Klavye Kısayolları", q: "Kopyala, Kes ve Yapıştır kısayollarını sırasıyla söyleyiniz.", a: "Ctrl+C (Kopyala), Ctrl+X (Kes), Ctrl+V (Yapıştır)", pts: 20 },
+            { id: 6, name: "6. Geri Dönüşüm Kutusu", q: "Geri Dönüşüm Kutusundaki dosya eski yerine nasıl döndürülür?", a: "Sağ tıklayıp 'Geri Yükle' denilerek.", pts: 10 },
+            { id: 7, name: "7. Dosya Arama (*)", q: "Arama kutusuna *.docx yazıldığında ne bulunur?", a: "Bilgisayardaki TÜM Word belgeleri.", pts: 20 },
+            { id: 8, name: "8. Sıkıştırma (.zip)", q: "Sıkıştırılmış dosyaların en yaygın 2 uzantısı nedir?", a: ".zip ve .rar", pts: 20 },
+            { id: 9, name: "9. Depolama Araçları", q: "İnternet üzerinden her cihazdan erişilen depolama türüne ne denir?", a: "Bulut Depolama (Google Drive, OneDrive)", pts: 10 },
+            { id: 10, name: "10. Basılıdan Dijitale", q: "Kâğıt üzerindeki resmi bilgisayara aktaran cihazın adı nedir?", a: "Tarayıcı (Scanner) veya Kamera", pts: 20 }
+        ];
+
+        function initArena() {
+            scoreA = 0;
+            scoreB = 0;
+            currentArenaTeam = 'A';
+            document.getElementById('team-a-score').innerText = "0 Puan";
+            document.getElementById('team-b-score').innerText = "0 Puan";
+            document.getElementById('arena-turn-indicator').innerText = "Sıra: Takım A";
+
+            const grid = document.getElementById('arena-cards-grid');
+            grid.innerHTML = '';
+            arenaCategories.forEach(cat => {
+                const btn = document.createElement('div');
+                btn.className = 'btn-action';
+                btn.style.flexDirection = 'column';
+                btn.style.padding = '12px 6px';
+                btn.style.textAlign = 'center';
+                btn.innerHTML = `
+                    <span style="font-size:0.75rem; color:var(--yellow); font-weight:800;">${cat.pts} PUAN</span>
+                    <span style="font-size:0.85rem; font-weight:800; color:#fff;">${cat.name}</span>
+                `;
+                btn.onclick = () => openArenaQuestion(cat, btn);
+                grid.appendChild(btn);
+            });
+        }
+
+        function openArenaQuestion(cat, elem) {
+            currentCardPts = cat.pts;
+            currentCardElem = elem;
+            sfx.click();
+            document.getElementById('arena-modal-cat').innerText = `KATEGORİ: ${cat.name} (${cat.pts} Puan)`;
+            document.getElementById('arena-modal-q').innerText = cat.q;
+            document.getElementById('arena-modal-ans').innerText = "DOĞRU CEVAP: " + cat.a;
+            document.getElementById('arena-modal-ans').style.display = 'none';
+            document.getElementById('arena-show-ans-btn').style.display = 'inline-flex';
+            document.getElementById('arena-modal').style.display = 'flex';
+        }
+
+        function showArenaAnswer() {
+            sfx.click();
+            document.getElementById('arena-modal-ans').style.display = 'block';
+            document.getElementById('arena-show-ans-btn').style.display = 'none';
+        }
+
+        function judgeArena(isCorrect) {
+            document.getElementById('arena-modal').style.display = 'none';
+            if (isCorrect) {
+                sfx.success();
+                if (currentArenaTeam === 'A') {
+                    scoreA += currentCardPts;
+                    document.getElementById('team-a-score').innerText = scoreA + " Puan";
+                } else {
+                    scoreB += currentCardPts;
+                    document.getElementById('team-b-score').innerText = scoreB + " Puan";
+                }
+            } else {
+                sfx.wrong();
+            }
+
+            if (currentCardElem) {
+                currentCardElem.style.pointerEvents = 'none';
+                currentCardElem.style.opacity = '0.4';
+                currentCardElem.style.borderColor = isCorrect ? 'var(--green)' : 'var(--red)';
+            }
+
+            // Sırayı diğer takıma geçir
+            currentArenaTeam = (currentArenaTeam === 'A') ? 'B' : 'A';
+            document.getElementById('arena-turn-indicator').innerText = `Sıra: Takım ${currentArenaTeam}`;
+        }
+
+        function addScore(team, pts) {
+            sfx.click();
+            if (team === 'A') {
+                scoreA += pts;
+                document.getElementById('team-a-score').innerText = scoreA + " Puan";
+            } else {
+                scoreB += pts;
+                document.getElementById('team-b-score').innerText = scoreB + " Puan";
+            }
+        }
+    </script>
+</body>
+</html>
