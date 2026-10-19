@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>1. Dosya Dedektifleri | Bozok Bilişim Portalı</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-dark: #090d16;
+            --panel-bg: rgba(15, 23, 42, 0.85);
+            --panel-border: rgba(255, 255, 255, 0.12);
+            --blue: #0284c7;
+            --cyan: #06b6d4;
+            --green: #10b981;
+            --yellow: #f59e0b;
+            --purple: #8b5cf6;
+            --pink: #ec4899;
+            --red: #ef4444;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: radial-gradient(circle at 50% 10%, #1e1b4b 0%, #090d16 100%);
+            color: #f8fafc;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow-x: hidden;
+            padding: 12px;
+        }
+
+        #game-frame {
+            width: 100%;
+            max-width: 1200px;
+            min-height: 90vh;
+            background: var(--panel-bg);
+            border: 2px solid var(--panel-border);
+            border-radius: 28px;
+            backdrop-filter: blur(16px);
+            box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.8), 0 0 35px rgba(139, 92, 246, 0.2);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        header {
+            padding: 14px 24px;
+            background: rgba(15, 23, 42, 0.95);
+            border-bottom: 2px solid rgba(255, 255, 255, 0.08);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .header-icon {
+            width: 44px;
+            height: 44px;
+            background: linear-gradient(135deg, var(--purple), var(--cyan));
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            color: #fff;
+            box-shadow: 0 4px 14px rgba(6, 182, 212, 0.35);
+        }
+
+        .header-title h1 {
+            font-size: 1.25rem;
+            font-weight: 900;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .header-title p {
+            font-size: 0.75rem;
+            color: #94a3b8;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .header-controls {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-ctrl {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            color: #f1f5f9;
+            padding: 8px 14px;
+            border-radius: 12px;
+            font-size: 0.82rem;
+            font-weight: 800;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.2s;
+        }
+
+        .btn-ctrl:hover {
+            background: rgba(255, 255, 255, 0.18);
+            transform: translateY(-1px);
+        }
+
+        .btn-ctrl:active {
+            transform: scale(0.96);
+        }
+
+        .stat-badge {
+            background: rgba(15, 23, 42, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            padding: 8px 14px;
+            border-radius: 12px;
+            font-size: 0.85rem;
+            font-weight: 900;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        main {
+            flex: 1;
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            overflow-y: auto;
+        }
+
+        .card-box {
+            width: 100%;
+            max-width: 900px;
+            background: rgba(15, 23, 42, 0.7);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 24px;
+            padding: 28px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+            text-align: center;
+        }
+
+        .btn-opt {
+            background: rgba(30, 41, 59, 0.9);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            color: #fff;
+            padding: 16px 20px;
+            border-radius: 16px;
+            font-size: 1rem;
+            font-weight: 800;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-align: left;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .btn-opt:hover {
+            background: rgba(79, 70, 229, 0.3);
+            border-color: #818cf8;
+            transform: translateY(-2px);
+        }
+
+        .btn-opt:active {
+            transform: scale(0.98);
+        }
+
+        .btn-opt.correct {
+            background: rgba(16, 185, 129, 0.3) !important;
+            border-color: var(--green) !important;
+            color: #34d399 !important;
+        }
+
+        .btn-opt.wrong {
+            background: rgba(239, 68, 68, 0.3) !important;
+            border-color: var(--red) !important;
+            color: #f87171 !important;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #0284c7, #6366f1);
+            border: none;
+            color: #fff;
+            padding: 14px 28px;
+            border-radius: 16px;
+            font-size: 1rem;
+            font-weight: 900;
+            cursor: pointer;
+            box-shadow: 0 8px 20px rgba(99, 102, 241, 0.35);
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 25px rgba(99, 102, 241, 0.45);
+        }
+
+        .btn-primary:active {
+            transform: scale(0.96);
+        }
+
+        .feedback-box {
+            margin-top: 18px;
+            padding: 16px;
+            border-radius: 16px;
+            font-size: 0.95rem;
+            font-weight: 800;
+            line-height: 1.5;
+            display: none;
+            animation: popIn 0.3s ease;
+        }
+
+        @keyframes popIn {
+            0% { transform: scale(0.95); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        @media (max-width: 768px) {
+            #game-frame { min-height: 98vh; border-radius: 16px; }
+            header { padding: 10px 14px; }
+            main { padding: 14px; }
+            .card-box { padding: 18px; }
+        }
+
+        
+    </style>
+</head>
+<body>
+    <div id="game-frame">
+        <header>
+            <div class="header-left">
+                <div class="header-icon">🔍</div>
+                <div class="header-title">
+                    <h1>1. Dosya Dedektifleri</h1>
+                    <p>BTY.5.1.6 • 6. Konu: Dosya ve Klasör Yönetimi</p>
+                </div>
+            </div>
+            <div class="header-controls">
+                <span id="stat-score" class="stat-badge" style="color:var(--yellow);"><i class="fa-solid fa-star"></i> <span id="score-val">0</span></span>
+                <button class="btn-ctrl" onclick="sfx.toggleMute()" id="btn-sound"><i class="fa-solid fa-volume-high"></i></button>
+                <button class="btn-ctrl" onclick="toggleFullscreen()"><i class="fa-solid fa-expand"></i></button>
+                <button class="btn-ctrl" onclick="restartGame()"><i class="fa-solid fa-rotate-left"></i> Yeniden</button>
+            </div>
+        </header>
+
+        <main>
+            
+<div class="card-box" id="quiz-box">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+        <span id="q-counter" style="color:var(--cyan); font-weight:800; font-size:0.9rem;">Vaka 1 / 15</span>
+        <span style="color:#94a3b8; font-size:0.8rem; font-weight:700;">DEDEKTİF DOSYASI</span>
+    </div>
+    
+    <div id="file-card" style="background:#0f172a; padding:18px 24px; border-radius:20px; border:2px dashed #475569; display:inline-block; font-family:monospace; font-size:1.8rem; font-weight:900; color:#38bdf8; margin-bottom:18px; letter-spacing:1px;">
+        tatil.jpg
+    </div>
+
+    <p style="color:#e2e8f0; font-size:1.1rem; font-weight:700; margin-bottom:20px;">
+        Bu dosyanın <strong>uzantısına (.soyadına)</strong> göre türü hangisidir?
+    </p>
+
+    <div id="options-grid" style="display:grid; grid-template-columns:1fr 1fr; gap:12px;"></div>
+
+    <div id="feedback-area" class="feedback-box"></div>
+
+    <div style="margin-top:20px; display:flex; justify-content:center;">
+        <button id="next-btn" class="btn-primary" style="display:none;" onclick="nextQuestion()">Sonraki Vaka 👉</button>
+    </div>
+</div>
+
+        </main>
+    </div>
+
+    <script>
+        // Web Audio API Sound Effects
+        class SoundFX {
+            constructor() {
+                this.ctx = null;
+                this.muted = false;
+            }
+            init() {
+                if (!this.ctx && !this.muted) {
+                    const AudioContext = window.AudioContext || window.webkitAudioContext;
+                    if (AudioContext) this.ctx = new AudioContext();
+                }
+            }
+            tone(freq, type='sine', dur=0.1, gainVal=0.1) {
+                if (this.muted) return;
+                try {
+                    this.init();
+                    if (!this.ctx) return;
+                    const osc = this.ctx.createOscillator();
+                    const g = this.ctx.createGain();
+                    osc.type = type;
+                    osc.frequency.setValueAtTime(freq, this.ctx.currentTime);
+                    g.gain.setValueAtTime(gainVal, this.ctx.currentTime);
+                    g.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + dur);
+                    osc.connect(g);
+                    g.connect(this.ctx.destination);
+                    osc.start();
+                    osc.stop(this.ctx.currentTime + dur);
+                } catch(e) {}
+            }
+            click() { this.tone(550, 'triangle', 0.05, 0.08); }
+            correct() { this.tone(523, 'sine', 0.08, 0.1); setTimeout(() => this.tone(659, 'sine', 0.12, 0.1), 80); }
+            wrong() { this.tone(200, 'sawtooth', 0.15, 0.12); }
+            fanfare() {
+                [523, 659, 784, 1046].forEach((f, i) => setTimeout(() => this.tone(f, 'sine', 0.15, 0.12), i * 100));
+            }
+            toggleMute() {
+                this.muted = !this.muted;
+                const b = document.getElementById('btn-sound');
+                if (b) b.innerHTML = this.muted ? '<i class="fa-solid fa-volume-xmark"></i>' : '<i class="fa-solid fa-volume-high"></i>';
+            }
+        }
+        const sfx = new SoundFX();
+
+        function toggleFullscreen() {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen().catch(() => {});
+            } else {
+                if (document.exitFullscreen) document.exitFullscreen();
+            }
+        }
+
+        
+const questions = [
+    { file: "tatil_fotografi.jpg", type: "Görsel / Resim", options: ["Görsel / Resim", "Ses / Müzik", "Video / Film", "Metin Belgesi"], correct: 0, exp: ".jpg standart sıkıştırılmış resim ve fotoğraf formatıdır." },
+    { file: "ali_baba_ciftlik.mp3", type: "Ses / Müzik", options: ["Metin Belgesi", "Ses / Müzik", "Video", "Uygulama"], correct: 1, exp: ".mp3 en yaygın dijital ses ve müzik dosyası uzantısıdır." },
+    { file: "turkce_odevi.docx", type: "Metin Belgesi", options: ["Görsel", "Video", "Metin Belgesi (Word)", "Elektronik Kitap"], correct: 2, exp: ".docx Microsoft Word ile oluşturulan metin belgesidir." },
+    { file: "okul_tanitim.mp4", type: "Video / Film", options: ["Video / Film", "Ses", "Sıkıştırılmış", "Uygulama"], correct: 0, exp: ".mp4 akıllı tahta ve telefonlarda en çok kullanılan video formatıdır." },
+    { file: "dijital_kitap.pdf", type: "Elektronik Belge (PDF)", options: ["Görsel", "Ses", "Elektronik Belge / E-Kitap (PDF)", "Video"], correct: 2, exp: ".pdf sayfa düzenini koruyan evrensel elektronik belge formatıdır." },
+    { file: "hesap_tablosu.xlsx", type: "Hesap Tablosu (Excel)", options: ["Hesap Tablosu (Excel)", "Ses", "Görsel", "Sunum"], correct: 0, exp: ".xlsx Excel çalışma ve hesap tablosu uzantısıdır." },
+    { file: "tarih_sunumu.pptx", type: "Sunum (PowerPoint)", options: ["Müzik", "Sunum (PowerPoint)", "Video", "Arşiv"], correct: 1, exp: ".pptx slaytlardan oluşan PowerPoint sunum uzantısıdır." },
+    { file: "arsiv_yedek.zip", type: "Sıkıştırılmış Dosya", options: ["Uygulama", "Görsel", "Sıkıştırılmış Arşiv (ZIP)", "Video"], correct: 2, exp: ".zip birden çok dosyayı tek bir arşivde sıkıştırır." },
+    { file: "kodlama_kurulum.exe", type: "Çalıştırılabilir Program", options: ["Çalıştırılabilir Program (Uygulama)", "Ses", "Metin", "Resim"], correct: 0, exp: ".exe Windows işletim sisteminde program çalıştıran uygulama uzantısıdır." },
+    { file: "animasyon_kedi.gif", type: "Hareketli Görsel", options: ["Ses", "Hareketli Görsel (GIF)", "Video", "E-Kitap"], correct: 1, exp: ".gif hareketli karelerden oluşan animasyonlu resim formatıdır." },
+    { file: "roportaj_ses.wav", type: "Ses Kaydı", options: ["Ses Kaydı (WAV)", "Video", "Metin", "Sunum"], correct: 0, exp: ".wav yüksek kaliteli ve sıkıştırılmamış ses formatıdır." },
+    { file: "belgesel_fragman.avi", type: "Video / Film", options: ["Metin", "Resim", "Video / Film (AVI)", "Müzik"], correct: 2, exp: ".avi yüksek kaliteli video film formatıdır." },
+    { file: "proje_klasoru.rar", type: "Sıkıştırılmış Arşiv", options: ["Uygulama", "Sıkıştırılmış Arşiv (RAR)", "E-Kitap", "Görsel"], correct: 1, exp: ".rar WinRAR ile sıkıştırılmış dosya paketidir." },
+    { file: "mobil_oyun.apk", type: "Mobil Uygulama", options: ["Mobil Uygulama (Android)", "Resim", "Ses", "Metin"], correct: 0, exp: ".apk Android telefon ve tablet uygulama paketidir." },
+    { file: "zengin_yazi.rtf", type: "Zengin Metin Belgesi", options: ["Video", "Ses", "Zengin Metin Belgesi (RTF)", "Uygulama"], correct: 2, exp: ".rtf farklı kelime işlemciler arasında ortak çalışan zengin metin dosyasıdır." }
+];
+
+let curIdx = 0;
+let score = 0;
+
+function initGame() {
+    curIdx = 0;
+    score = 0;
+    questions.sort(() => Math.random() - 0.5);
+    updateScore();
+    loadQuestion();
+}
+
+function updateScore() {
+    document.getElementById('score-val').innerText = score + " Puan";
+}
+
+function loadQuestion() {
+    const q = questions[curIdx];
+    document.getElementById('q-counter').innerText = 'Vaka ' + (curIdx + 1) + ' / ' + questions.length;
+    document.getElementById('file-card').innerText = q.file;
+    document.getElementById('feedback-area').style.display = 'none';
+    document.getElementById('next-btn').style.display = 'none';
+
+    const grid = document.getElementById('options-grid');
+    grid.innerHTML = '';
+    q.options.forEach((opt, idx) => {
+        const btn = document.createElement('button');
+        btn.className = 'btn-opt';
+        btn.innerHTML = '<span style="width:28px; height:28px; border-radius:50%; background:#1e1b4b; color:#38bdf8; display:inline-flex; align-items:center; justify-content:center; font-size:0.85rem; font-weight:900;">' + String.fromCharCode(65 + idx) + '</span> <span>' + opt + '</span>';
+        btn.onclick = () => answer(idx, btn);
+        grid.appendChild(btn);
+    });
+}
+
+function answer(chosen, btn) {
+    const q = questions[curIdx];
+    const allBtns = document.querySelectorAll('.btn-opt');
+    allBtns.forEach(b => b.disabled = true);
+
+    const fb = document.getElementById('feedback-area');
+    fb.style.display = 'block';
+
+    if (chosen === q.correct) {
+        sfx.correct();
+        btn.classList.add('correct');
+        score += 10;
+        updateScore();
+        fb.style.background = 'rgba(16, 185, 129, 0.2)';
+        fb.style.border = '2px solid var(--green)';
+        fb.style.color = '#34d399';
+        fb.innerHTML = '🎉 <strong>MÜKEMMEL DEDEKTİFLİK!</strong> ' + q.exp;
+    } else {
+        sfx.wrong();
+        btn.classList.add('wrong');
+        allBtns[q.correct].classList.add('correct');
+        fb.style.background = 'rgba(239, 68, 68, 0.2)';
+        fb.style.border = '2px solid var(--red)';
+        fb.style.color = '#f87171';
+        fb.innerHTML = '⚠️ <strong>YANLIŞ TAHMİN!</strong> ' + q.exp;
+    }
+
+    const nextBtn = document.getElementById('next-btn');
+    if (curIdx < questions.length - 1) {
+        nextBtn.style.display = 'inline-flex';
+        nextBtn.innerText = 'Sonraki Vaka 👉';
+        nextBtn.onclick = nextQuestion;
+    } else {
+        sfx.fanfare();
+        nextBtn.style.display = 'inline-flex';
+        nextBtn.innerText = '🏆 Sonuçları Gör';
+        nextBtn.onclick = showResults;
+    }
+}
+
+function nextQuestion() {
+    sfx.click();
+    curIdx++;
+    loadQuestion();
+}
+
+function showResults() {
+    const box = document.getElementById('quiz-box');
+    box.innerHTML = '<div style="padding:24px; text-align:center;">' +
+        '<div style="font-size:4rem; margin-bottom:12px;">🕵️‍♂️ 🏆</div>' +
+        '<h2 style="font-size:2rem; font-weight:900; color:#fff; margin-bottom:8px;">Dedektiflik Görevi Tamamlandı!</h2>' +
+        '<p style="font-size:1.4rem; font-weight:900; color:var(--yellow); margin-bottom:12px;">Toplam Puan: ' + score + ' / ' + (questions.length * 10) + '</p>' +
+        '<p style="font-size:0.95rem; color:#cbd5e1; max-width:500px; margin:0 auto 24px;">Dosya uzantılarını (.soyadlarını) başarıyla analiz ettiniz ve doğru kategorilere ulaştınız!</p>' +
+        '<button class="btn-primary" onclick="location.reload()"><i class="fa-solid fa-rotate-left"></i> Yeniden Oyna</button>' +
+    '</div>';
+}
+
+function restartGame() {
+    initGame();
+}
+
+window.onload = initGame;
+
+    </script>
+</body>
+</html>

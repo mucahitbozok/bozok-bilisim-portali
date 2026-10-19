@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>5. Arama Uzmanı (*.uzantı) | Bozok Bilişim Portalı</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-dark: #090d16;
+            --panel-bg: rgba(15, 23, 42, 0.85);
+            --panel-border: rgba(255, 255, 255, 0.12);
+            --blue: #0284c7;
+            --cyan: #06b6d4;
+            --green: #10b981;
+            --yellow: #f59e0b;
+            --purple: #8b5cf6;
+            --pink: #ec4899;
+            --red: #ef4444;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: radial-gradient(circle at 50% 10%, #1e1b4b 0%, #090d16 100%);
+            color: #f8fafc;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow-x: hidden;
+            padding: 12px;
+        }
+
+        #game-frame {
+            width: 100%;
+            max-width: 1200px;
+            min-height: 90vh;
+            background: var(--panel-bg);
+            border: 2px solid var(--panel-border);
+            border-radius: 28px;
+            backdrop-filter: blur(16px);
+            box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.8), 0 0 35px rgba(139, 92, 246, 0.2);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        header {
+            padding: 14px 24px;
+            background: rgba(15, 23, 42, 0.95);
+            border-bottom: 2px solid rgba(255, 255, 255, 0.08);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .header-icon {
+            width: 44px;
+            height: 44px;
+            background: linear-gradient(135deg, var(--purple), var(--cyan));
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            color: #fff;
+            box-shadow: 0 4px 14px rgba(6, 182, 212, 0.35);
+        }
+
+        .header-title h1 {
+            font-size: 1.25rem;
+            font-weight: 900;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .header-title p {
+            font-size: 0.75rem;
+            color: #94a3b8;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .header-controls {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-ctrl {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            color: #f1f5f9;
+            padding: 8px 14px;
+            border-radius: 12px;
+            font-size: 0.82rem;
+            font-weight: 800;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.2s;
+        }
+
+        .btn-ctrl:hover {
+            background: rgba(255, 255, 255, 0.18);
+            transform: translateY(-1px);
+        }
+
+        .btn-ctrl:active {
+            transform: scale(0.96);
+        }
+
+        .stat-badge {
+            background: rgba(15, 23, 42, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            padding: 8px 14px;
+            border-radius: 12px;
+            font-size: 0.85rem;
+            font-weight: 900;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        main {
+            flex: 1;
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            overflow-y: auto;
+        }
+
+        .card-box {
+            width: 100%;
+            max-width: 900px;
+            background: rgba(15, 23, 42, 0.7);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 24px;
+            padding: 28px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+            text-align: center;
+        }
+
+        .btn-opt {
+            background: rgba(30, 41, 59, 0.9);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            color: #fff;
+            padding: 16px 20px;
+            border-radius: 16px;
+            font-size: 1rem;
+            font-weight: 800;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-align: left;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .btn-opt:hover {
+            background: rgba(79, 70, 229, 0.3);
+            border-color: #818cf8;
+            transform: translateY(-2px);
+        }
+
+        .btn-opt:active {
+            transform: scale(0.98);
+        }
+
+        .btn-opt.correct {
+            background: rgba(16, 185, 129, 0.3) !important;
+            border-color: var(--green) !important;
+            color: #34d399 !important;
+        }
+
+        .btn-opt.wrong {
+            background: rgba(239, 68, 68, 0.3) !important;
+            border-color: var(--red) !important;
+            color: #f87171 !important;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #0284c7, #6366f1);
+            border: none;
+            color: #fff;
+            padding: 14px 28px;
+            border-radius: 16px;
+            font-size: 1rem;
+            font-weight: 900;
+            cursor: pointer;
+            box-shadow: 0 8px 20px rgba(99, 102, 241, 0.35);
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 25px rgba(99, 102, 241, 0.45);
+        }
+
+        .btn-primary:active {
+            transform: scale(0.96);
+        }
+
+        .feedback-box {
+            margin-top: 18px;
+            padding: 16px;
+            border-radius: 16px;
+            font-size: 0.95rem;
+            font-weight: 800;
+            line-height: 1.5;
+            display: none;
+            animation: popIn 0.3s ease;
+        }
+
+        @keyframes popIn {
+            0% { transform: scale(0.95); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        @media (max-width: 768px) {
+            #game-frame { min-height: 98vh; border-radius: 16px; }
+            header { padding: 10px 14px; }
+            main { padding: 14px; }
+            .card-box { padding: 18px; }
+        }
+
+        
+    </style>
+</head>
+<body>
+    <div id="game-frame">
+        <header>
+            <div class="header-left">
+                <div class="header-icon">⚡</div>
+                <div class="header-title">
+                    <h1>5. Arama Uzmanı (*.uzantı)</h1>
+                    <p>BTY.5.1.6 • 6. Konu: Dosya ve Klasör Yönetimi</p>
+                </div>
+            </div>
+            <div class="header-controls">
+                <span id="stat-score" class="stat-badge" style="color:var(--yellow);"><i class="fa-solid fa-star"></i> <span id="score-val">0</span></span>
+                <button class="btn-ctrl" onclick="sfx.toggleMute()" id="btn-sound"><i class="fa-solid fa-volume-high"></i></button>
+                <button class="btn-ctrl" onclick="toggleFullscreen()"><i class="fa-solid fa-expand"></i></button>
+                <button class="btn-ctrl" onclick="restartGame()"><i class="fa-solid fa-rotate-left"></i> Yeniden</button>
+            </div>
+        </header>
+
+        <main>
+            
+<div class="card-box" id="arama-box" style="max-width:1050px;">
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:20px; text-align:left;">
+        <div>
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+                <span id="arama-counter" style="color:var(--yellow); font-weight:800; font-size:0.85rem;">GÖREV 1 / 6</span>
+                <span style="color:#94a3b8; font-size:0.8rem;">JOKER KARAKTER: *</span>
+            </div>
+
+            <h3 id="arama-task" style="font-size:1.2rem; color:#fff; font-weight:800; min-height:60px; line-height:1.4; margin-bottom:16px;">
+                Yükleniyor...
+            </h3>
+
+            <div id="arama-opts" style="display:flex; flex-direction:column; gap:10px;"></div>
+
+            <div id="arama-fb" class="feedback-box"></div>
+
+            <div style="margin-top:16px;">
+                <button id="next-btn" class="btn-primary" style="display:none;" onclick="nextTask()">Sonraki Arama Görevi 👉</button>
+            </div>
+        </div>
+
+        <!-- Canlı Dosya Havuzu -->
+        <div style="background:#0f172a; padding:18px; border-radius:18px; border:1px solid #334155; display:flex; flex-direction:column;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+                <span style="font-size:0.8rem; font-weight:900; color:var(--cyan); text-transform:uppercase;">BİLGİSAYAR DOSYA HAVUZU</span>
+                <span id="match-badge" style="font-size:0.75rem; color:#94a3b8;">Filtrelenmemiş</span>
+            </div>
+            <div id="file-pool-grid" style="display:grid; grid-template-columns:1fr 1fr; gap:8px; font-family:monospace; font-size:0.85rem;"></div>
+        </div>
+    </div>
+</div>
+
+        </main>
+    </div>
+
+    <script>
+        // Web Audio API Sound Effects
+        class SoundFX {
+            constructor() {
+                this.ctx = null;
+                this.muted = false;
+            }
+            init() {
+                if (!this.ctx && !this.muted) {
+                    const AudioContext = window.AudioContext || window.webkitAudioContext;
+                    if (AudioContext) this.ctx = new AudioContext();
+                }
+            }
+            tone(freq, type='sine', dur=0.1, gainVal=0.1) {
+                if (this.muted) return;
+                try {
+                    this.init();
+                    if (!this.ctx) return;
+                    const osc = this.ctx.createOscillator();
+                    const g = this.ctx.createGain();
+                    osc.type = type;
+                    osc.frequency.setValueAtTime(freq, this.ctx.currentTime);
+                    g.gain.setValueAtTime(gainVal, this.ctx.currentTime);
+                    g.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + dur);
+                    osc.connect(g);
+                    g.connect(this.ctx.destination);
+                    osc.start();
+                    osc.stop(this.ctx.currentTime + dur);
+                } catch(e) {}
+            }
+            click() { this.tone(550, 'triangle', 0.05, 0.08); }
+            correct() { this.tone(523, 'sine', 0.08, 0.1); setTimeout(() => this.tone(659, 'sine', 0.12, 0.1), 80); }
+            wrong() { this.tone(200, 'sawtooth', 0.15, 0.12); }
+            fanfare() {
+                [523, 659, 784, 1046].forEach((f, i) => setTimeout(() => this.tone(f, 'sine', 0.15, 0.12), i * 100));
+            }
+            toggleMute() {
+                this.muted = !this.muted;
+                const b = document.getElementById('btn-sound');
+                if (b) b.innerHTML = this.muted ? '<i class="fa-solid fa-volume-xmark"></i>' : '<i class="fa-solid fa-volume-high"></i>';
+            }
+        }
+        const sfx = new SoundFX();
+
+        function toggleFullscreen() {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen().catch(() => {});
+            } else {
+                if (document.exitFullscreen) document.exitFullscreen();
+            }
+        }
+
+        
+const pool = [
+    "BilimProjesi.docx", "BilgiNotu.docx", "tatil_2026.jpg", "okul_logo.png",
+    "muzik_sarki.mp3", "tatil_videosu.mp4", "bilisim_kitap.pdf", "Bilgisayar_tarihi.txt",
+    "matematik_odev.docx", "manzara.jpg", "kodlama_proje.docx", "oyun_kur.exe"
+];
+
+const tasks = [
+    { desc: "Bilgisayardaki TÜM Word belgelerini (.docx) tek seferde bulmak için arama kutusuna ne yazmalısın?", query: "*.docx", options: ["*.docx", "Bil*.docx", "*.jpg", "docx.*"], correct: 0, filter: f => f.endsWith('.docx') },
+    { desc: "Adı 'Bil' ile başlayan TÜM Word belgelerini bulmak için ne yazmalısın?", query: "Bil*.docx", options: ["Bil*.docx", "*.docx", "*Bil.docx", "Bil.txt"], correct: 0, filter: f => f.startsWith('Bil') && f.endsWith('.docx') },
+    { desc: "Bilgisayardaki TÜM JPG fotoğraflarını listelemek için arama kutusuna ne yazarsın?", query: "*.jpg", options: ["*.jpg", "tatil.*", "*.png", "foto.*"], correct: 0, filter: f => f.endsWith('.jpg') },
+    { desc: "Adı tam olarak 'bilisim_kitap.pdf' olan dosyayı bulmak için ne yazarsın?", query: "bilisim_kitap.pdf", options: ["bilisim_kitap.pdf", "*.pdf", "kitap.*", "*kitap*"], correct: 0, filter: f => f === 'bilisim_kitap.pdf' },
+    { desc: "İçinde 'tatil' kelimesi geçen TÜM video ve resimleri bulmak için hangi joker arama uygundur?", query: "*tatil*", options: ["*tatil*", "tatil.mp4", "*.tatil", "tatil*.*"], correct: 0, filter: f => f.includes('tatil') },
+    { desc: "Bilgisayardaki adı ne olursa olsun TÜM MP3 müzik dosyalarını bulmak için:", query: "*.mp3", options: ["*.mp3", "muzik.*", "sarki.mp3", "*.*"], correct: 0, filter: f => f.endsWith('.mp3') }
+];
+
+let curIdx = 0;
+let score = 0;
+
+function initGame() {
+    curIdx = 0;
+    score = 0;
+    updateScore();
+    loadTask();
+}
+
+function updateScore() {
+    document.getElementById('score-val').innerText = score + " Puan";
+}
+
+function renderPool(filterFn) {
+    const grid = document.getElementById('file-pool-grid');
+    grid.innerHTML = '';
+    let matchCount = 0;
+    pool.forEach(fname => {
+        const match = filterFn ? filterFn(fname) : false;
+        if (match) matchCount++;
+        const div = document.createElement('div');
+        div.style.padding = '8px 10px';
+        div.style.borderRadius = '10px';
+        div.style.background = match ? 'rgba(6, 182, 212, 0.25)' : '#1e293b';
+        div.style.border = match ? '2px solid var(--cyan)' : '1px solid #334155';
+        div.style.color = match ? '#fff' : '#94a3b8';
+        div.style.fontWeight = match ? '900' : '600';
+        div.innerHTML = (match ? '🔍 ' : '📄 ') + fname;
+        grid.appendChild(div);
+    });
+
+    const badge = document.getElementById('match-badge');
+    badge.innerText = filterFn ? matchCount + ' Dosya Eşleşti' : 'Filtrelenmemiş';
+    badge.style.color = filterFn ? 'var(--cyan)' : '#94a3b8';
+}
+
+function loadTask() {
+    const t = tasks[curIdx];
+    document.getElementById('arama-counter').innerText = 'GÖREV ' + (curIdx + 1) + ' / ' + tasks.length;
+    document.getElementById('arama-task').innerText = t.desc;
+    document.getElementById('arama-fb').style.display = 'none';
+    document.getElementById('next-btn').style.display = 'none';
+    renderPool(null);
+
+    const optsContainer = document.getElementById('arama-opts');
+    optsContainer.innerHTML = '';
+    t.options.forEach((opt, idx) => {
+        const btn = document.createElement('button');
+        btn.className = 'btn-opt';
+        btn.innerHTML = '<span style="padding:4px 10px; background:#0f172a; border:1px solid #475569; border-radius:8px; font-family:monospace; color:var(--cyan); font-size:1.1rem; font-weight:900;">' + opt + '</span>';
+        btn.onclick = () => answer(idx, btn);
+        optsContainer.appendChild(btn);
+    });
+}
+
+function answer(chosen, btn) {
+    const t = tasks[curIdx];
+    const allBtns = document.querySelectorAll('.btn-opt');
+    allBtns.forEach(b => b.disabled = true);
+
+    const fb = document.getElementById('arama-fb');
+    fb.style.display = 'block';
+
+    renderPool(t.filter);
+
+    if (chosen === t.correct) {
+        sfx.correct();
+        btn.classList.add('correct');
+        score += 15;
+        updateScore();
+        fb.style.background = 'rgba(16, 185, 129, 0.2)';
+        fb.style.border = '2px solid var(--green)';
+        fb.style.color = '#34d399';
+        fb.innerHTML = '🎉 <strong>DOĞRU ARAMA İFADESİ!</strong> Sağdaki dosya havuzunda eşleşen tüm dosyalar mavi ile filtrelendi!';
+    } else {
+        sfx.wrong();
+        btn.classList.add('wrong');
+        allBtns[t.correct].classList.add('correct');
+        fb.style.background = 'rgba(239, 68, 68, 0.2)';
+        fb.style.border = '2px solid var(--red)';
+        fb.style.color = '#f87171';
+        fb.innerHTML = '⚠️ Doğru arama sorgusu <strong>' + t.query + '</strong> olmalıydı.';
+    }
+
+    const nextBtn = document.getElementById('next-btn');
+    if (curIdx < tasks.length - 1) {
+        nextBtn.style.display = 'inline-flex';
+        nextBtn.innerText = 'Sonraki Arama Görevi 👉';
+        nextBtn.onclick = nextTask;
+    } else {
+        sfx.fanfare();
+        nextBtn.style.display = 'inline-flex';
+        nextBtn.innerText = '🏆 Sonuçları Gör';
+        nextBtn.onclick = showResults;
+    }
+}
+
+function nextTask() {
+    sfx.click();
+    curIdx++;
+    loadTask();
+}
+
+function showResults() {
+    const box = document.getElementById('arama-box');
+    box.innerHTML = '<div style="padding:24px; text-align:center;">' +
+        '<div style="font-size:4rem; margin-bottom:12px;">🔍 ⚡</div>' +
+        '<h2 style="font-size:2rem; font-weight:900; color:#fff; margin-bottom:8px;">Arama Uzmanlığı Tamamlandı!</h2>' +
+        '<p style="font-size:1.4rem; font-weight:900; color:var(--yellow); margin-bottom:12px;">Toplam Puan: ' + score + '</p>' +
+        '<p style="font-size:0.95rem; color:#cbd5e1; max-width:500px; margin:0 auto 24px;">*.uzantı ve joker karakterli arama yöntemleriyle binlerce dosya arasından istediğinizi saniyeler içinde bulabilirsiniz!</p>' +
+        '<button class="btn-primary" onclick="location.reload()"><i class="fa-solid fa-rotate-left"></i> Yeniden Dene</button>' +
+    '</div>';
+}
+
+function restartGame() {
+    initGame();
+}
+
+window.onload = initGame;
+
+    </script>
+</body>
+</html>

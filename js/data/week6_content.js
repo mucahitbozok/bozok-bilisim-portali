@@ -228,19 +228,109 @@ window.WEEK6_CONTENT = {
 
     extraGames: [
         {
-            badge: "7 Oyun Tek Ekranda 🌟",
+            badge: "Dedektiflik Görevi 🔍",
             badgeColor: "text-amber-300",
-            title: "Dosya & Klasör Oyun Merkezi",
-            desc: "7 dev mod bir arada: Dosya Dedektifleri, Klasör Düzenleme, Kısayol Ustası, Çöp Kutusu Kurtarma, Arama Uzmanı, Sıkıştırma ve 2 Takımlı Sınıf Arenası!",
-            icon: "fa-solid fa-gamepad",
+            title: "Dosya Dedektifleri",
+            desc: "Dosyaların uzantılarını (.jpg, .mp3, .docx, .mp4, .pdf vb.) inceleyip doğru dosya türünü tespit eden usta bir bilişim dedektifi ol!",
+            icon: "fa-solid fa-user-secret",
             iconBg: "bg-amber-500/30 text-amber-300",
             cardGradient: "from-amber-950/90 via-slate-900 to-indigo-950/90",
             border: "border-amber-500/50",
             descColor: "text-amber-100",
-            btnText: "Oyun Merkezine Gir!",
-            btnIcon: "fa-solid fa-crown",
+            btnText: "Dedektifliğe Başla!",
+            btnIcon: "fa-solid fa-magnifying-glass",
             btnGradient: "from-amber-500 via-orange-500 to-indigo-600 hover:from-amber-400 hover:to-indigo-500 text-slate-950 font-black",
-            action: "app.openStandaloneGame('games/dosya_klasor_oyun_merkezi.html', 'Dosya ve Klasör Yönetimi Oyun Merkezi | Öğretmen Bozok')"
+            action: "app.openStandaloneGame('games/dosya_dedektifleri.html', '1. Dosya Dedektifleri | Öğretmen Bozok')"
+        },
+        {
+            badge: "Klasörleme Yarışı 📁",
+            badgeColor: "text-cyan-300",
+            title: "Klasör Düzenleme Yarışı",
+            desc: "Karışık gelen belgeleri, müzikleri, fotoğrafları ve videoları doğru hedef klasörlere taşıyarak bilgisayarı düzenli hale getir!",
+            icon: "fa-solid fa-folder-tree",
+            iconBg: "bg-cyan-500/30 text-cyan-300",
+            cardGradient: "from-blue-950/90 via-slate-900 to-cyan-950/90",
+            border: "border-cyan-500/50",
+            descColor: "text-cyan-100",
+            btnText: "Düzenlemeye Başla!",
+            btnIcon: "fa-solid fa-folder-open",
+            btnGradient: "from-cyan-500 via-blue-600 to-indigo-600 hover:from-cyan-400 hover:to-indigo-500 text-slate-950 font-black",
+            action: "app.openStandaloneGame('games/klasor_duzenleme_yarisi.html', '2. Klasör Düzenleme Yarışı | Öğretmen Bozok')"
+        },
+        {
+            badge: "Klavye Hızı ⌨️",
+            badgeColor: "text-purple-300",
+            title: "Kısayol Ustası",
+            desc: "Ctrl+C (Kopyala), Ctrl+X (Kes), Ctrl+V (Yapıştır), Ctrl+Z (Geri Al) ve F2 kısayollarında kombolar yap, bonus puanları topla!",
+            icon: "fa-solid fa-keyboard",
+            iconBg: "bg-purple-500/30 text-purple-300",
+            cardGradient: "from-purple-950/90 via-slate-900 to-indigo-950/90",
+            border: "border-purple-500/50",
+            descColor: "text-purple-100",
+            btnText: "Kısayolları Çöz!",
+            btnIcon: "fa-solid fa-bolt",
+            btnGradient: "from-purple-600 via-indigo-600 to-cyan-500 hover:from-purple-500 hover:to-cyan-400 text-white font-black",
+            action: "app.openStandaloneGame('games/kisayol_ustasi.html', '3. Kısayol Ustası | Öğretmen Bozok')"
+        },
+        {
+            badge: "Teknik Destek 🛡️",
+            badgeColor: "text-rose-300",
+            title: "Geri Dönüşüm Kutusu Kurtarma",
+            desc: "Silinen, kaybolan veya kurtarılmayı bekleyen dosyalar için kullanıcılara teknik destek ver! Kurtarma başarısını %100 yap!",
+            icon: "fa-solid fa-trash-can-arrow-up",
+            iconBg: "bg-rose-500/30 text-rose-300",
+            cardGradient: "from-rose-950/90 via-slate-900 to-pink-950/90",
+            border: "border-rose-500/50",
+            descColor: "text-rose-100",
+            btnText: "Dosyaları Kurtar!",
+            btnIcon: "fa-solid fa-life-ring",
+            btnGradient: "from-rose-500 via-pink-600 to-purple-600 hover:from-rose-400 hover:to-purple-500 text-white font-black",
+            action: "app.openStandaloneGame('games/cop_kutusu_kurtarma.html', '4. Geri Dönüşüm Kutusu Kurtarma | Öğretmen Bozok')"
+        },
+        {
+            badge: "Filtreleme Simülasyonu ⚡",
+            badgeColor: "text-yellow-300",
+            title: "Arama Uzmanı (*.uzantı)",
+            desc: "Joker karakterler (*) ve dosya uzantılarıyla bilgisayardaki binlerce dosyayı saniyeler içinde filtrele ve bul!",
+            icon: "fa-solid fa-magnifying-glass-chart",
+            iconBg: "bg-yellow-500/30 text-yellow-300",
+            cardGradient: "from-amber-950/90 via-slate-900 to-blue-950/90",
+            border: "border-yellow-500/50",
+            descColor: "text-yellow-100",
+            btnText: "Aramaya Başla!",
+            btnIcon: "fa-solid fa-filter",
+            btnGradient: "from-yellow-500 via-amber-500 to-cyan-500 hover:from-yellow-400 hover:to-cyan-400 text-slate-950 font-black",
+            action: "app.openStandaloneGame('games/arama_uzmani.html', '5. Arama Uzmanı | Öğretmen Bozok')"
+        },
+        {
+            badge: "Arşiv & Tasarruf 🗜️",
+            badgeColor: "text-pink-300",
+            title: "Sıkıştırma Görevi (ZIP & RAR)",
+            desc: "Dosya boyutunu küçültme, disk tasarrufu sağlama ve onlarca dosyayı tek pakette paylaşma görevlerini tamamla!",
+            icon: "fa-solid fa-file-zipper",
+            iconBg: "bg-pink-500/30 text-pink-300",
+            cardGradient: "from-pink-950/90 via-slate-900 to-purple-950/90",
+            border: "border-pink-500/50",
+            descColor: "text-pink-100",
+            btnText: "Görevi Başlat!",
+            btnIcon: "fa-solid fa-box-archive",
+            btnGradient: "from-pink-500 via-rose-600 to-indigo-600 hover:from-pink-400 hover:to-indigo-500 text-white font-black",
+            action: "app.openStandaloneGame('games/sikistirma_gorevi.html', '6. Sıkıştırma Görevi | Öğretmen Bozok')"
+        },
+        {
+            badge: "Sınıf İçi Düello 👑",
+            badgeColor: "text-amber-300",
+            title: "Dosya Yönetimi Arenası (2 Takım)",
+            desc: "Mavi Takım ve Turuncu Takım karşılıklı yarışıyor! 10 farklı kategoriden soru seç, doğru bil ve takımına puan kazandır!",
+            icon: "fa-solid fa-trophy",
+            iconBg: "bg-amber-500/30 text-amber-300",
+            cardGradient: "from-amber-950/90 via-slate-900 to-orange-950/90",
+            border: "border-amber-500/50",
+            descColor: "text-amber-100",
+            btnText: "Arenaya Gir!",
+            btnIcon: "fa-solid fa-crown",
+            btnGradient: "from-amber-500 via-orange-500 to-red-600 hover:from-amber-400 hover:to-red-500 text-slate-950 font-black",
+            action: "app.openStandaloneGame('games/dosya_yonetimi_arenasi.html', '7. Dosya Yönetimi Arenası | Öğretmen Bozok')"
         },
         {
             badge: "Görsel Eşleştirme 🎯",
@@ -286,6 +376,21 @@ window.WEEK6_CONTENT = {
             btnIcon: "fa-solid fa-crosshairs",
             btnGradient: "from-cyan-500 via-teal-500 to-indigo-600 hover:from-cyan-400 hover:to-indigo-500 text-slate-950 font-black",
             action: "app.openStandaloneGame('games/dosya_klasor_kelime_avi.html', 'Dosya ve Klasör Kelime Avı | Öğretmen Bozok')"
+        },
+        {
+            badge: "Tüm Oyunlar Bir Arada 🌟",
+            badgeColor: "text-amber-300",
+            title: "Dosya & Klasör Oyun Merkezi",
+            desc: "7 dev mod tek bir ekranda: Dosya Dedektifleri, Klasör Düzenleme, Kısayol Ustası, Çöp Kutusu, Arama, Sıkıştırma ve Sınıf Arenası!",
+            icon: "fa-solid fa-gamepad",
+            iconBg: "bg-amber-500/30 text-amber-300",
+            cardGradient: "from-amber-950/90 via-slate-900 to-indigo-950/90",
+            border: "border-amber-500/50",
+            descColor: "text-amber-100",
+            btnText: "Oyun Merkezine Gir!",
+            btnIcon: "fa-solid fa-crown",
+            btnGradient: "from-amber-500 via-orange-500 to-indigo-600 hover:from-amber-400 hover:to-indigo-500 text-slate-950 font-black",
+            action: "app.openStandaloneGame('games/dosya_klasor_oyun_merkezi.html', 'Dosya ve Klasör Yönetimi Oyun Merkezi | Öğretmen Bozok')"
         }
     ],
 
@@ -337,13 +442,13 @@ window.WEEK6_CONTENT = {
                     </div>
 
                     <div class="flex items-center justify-center gap-3 pt-2 flex-wrap">
-                        <button onclick="app.openStandaloneGame('games/sunu_dosya_ve_klasor_yonetimi.html', 'Dosya ve Klasör Sunumu | Öğretmen Bozok'); sounds.playClick();" class="px-6 py-3.5 bg-gradient-to-r from-yellow-500 via-amber-500 to-orange-500 hover:from-yellow-400 hover:to-orange-400 text-slate-950 font-black text-sm rounded-2xl shadow-xl shadow-yellow-500/25 flex items-center gap-2.5 transition-all hover:scale-105 active:scale-95">
-                            <i class="fa-solid fa-expand"></i>
-                            <span>20 Slaytlık Tam Ekran Sunuyu Başlat 📽️</span>
+                        <button onclick="app.nextSlide(); sounds.playClick();" class="px-6 py-3.5 bg-gradient-to-r from-yellow-500 via-amber-500 to-orange-500 hover:from-yellow-400 hover:to-orange-400 text-slate-950 font-black text-sm rounded-2xl shadow-xl shadow-yellow-500/25 flex items-center gap-2.5 transition-all hover:scale-105 active:scale-95">
+                            <i class="fa-solid fa-play"></i>
+                            <span>Ders Sunusunu Başlat 👉</span>
                         </button>
                         <button onclick="app.switchTab('games'); sounds.playClick();" class="px-5 py-3.5 bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold text-sm rounded-2xl border border-slate-700 shadow-lg flex items-center gap-2 transition-all active:scale-95">
                             <i class="fa-solid fa-gamepad text-purple-400"></i>
-                            <span>Oyun Arenasına Git (7 Mod) 🎮</span>
+                            <span>Tekrar Oyunlarına Git 🎮</span>
                         </button>
                     </div>
 

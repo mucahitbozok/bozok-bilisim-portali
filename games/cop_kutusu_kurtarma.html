@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>4. Geri Dönüşüm Kutusu Kurtarma | Bozok Bilişim Portalı</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-dark: #090d16;
+            --panel-bg: rgba(15, 23, 42, 0.85);
+            --panel-border: rgba(255, 255, 255, 0.12);
+            --blue: #0284c7;
+            --cyan: #06b6d4;
+            --green: #10b981;
+            --yellow: #f59e0b;
+            --purple: #8b5cf6;
+            --pink: #ec4899;
+            --red: #ef4444;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: radial-gradient(circle at 50% 10%, #1e1b4b 0%, #090d16 100%);
+            color: #f8fafc;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow-x: hidden;
+            padding: 12px;
+        }
+
+        #game-frame {
+            width: 100%;
+            max-width: 1200px;
+            min-height: 90vh;
+            background: var(--panel-bg);
+            border: 2px solid var(--panel-border);
+            border-radius: 28px;
+            backdrop-filter: blur(16px);
+            box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.8), 0 0 35px rgba(139, 92, 246, 0.2);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        header {
+            padding: 14px 24px;
+            background: rgba(15, 23, 42, 0.95);
+            border-bottom: 2px solid rgba(255, 255, 255, 0.08);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .header-icon {
+            width: 44px;
+            height: 44px;
+            background: linear-gradient(135deg, var(--purple), var(--cyan));
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            color: #fff;
+            box-shadow: 0 4px 14px rgba(6, 182, 212, 0.35);
+        }
+
+        .header-title h1 {
+            font-size: 1.25rem;
+            font-weight: 900;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .header-title p {
+            font-size: 0.75rem;
+            color: #94a3b8;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .header-controls {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-ctrl {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            color: #f1f5f9;
+            padding: 8px 14px;
+            border-radius: 12px;
+            font-size: 0.82rem;
+            font-weight: 800;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.2s;
+        }
+
+        .btn-ctrl:hover {
+            background: rgba(255, 255, 255, 0.18);
+            transform: translateY(-1px);
+        }
+
+        .btn-ctrl:active {
+            transform: scale(0.96);
+        }
+
+        .stat-badge {
+            background: rgba(15, 23, 42, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            padding: 8px 14px;
+            border-radius: 12px;
+            font-size: 0.85rem;
+            font-weight: 900;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        main {
+            flex: 1;
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            overflow-y: auto;
+        }
+
+        .card-box {
+            width: 100%;
+            max-width: 900px;
+            background: rgba(15, 23, 42, 0.7);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 24px;
+            padding: 28px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+            text-align: center;
+        }
+
+        .btn-opt {
+            background: rgba(30, 41, 59, 0.9);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            color: #fff;
+            padding: 16px 20px;
+            border-radius: 16px;
+            font-size: 1rem;
+            font-weight: 800;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-align: left;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .btn-opt:hover {
+            background: rgba(79, 70, 229, 0.3);
+            border-color: #818cf8;
+            transform: translateY(-2px);
+        }
+
+        .btn-opt:active {
+            transform: scale(0.98);
+        }
+
+        .btn-opt.correct {
+            background: rgba(16, 185, 129, 0.3) !important;
+            border-color: var(--green) !important;
+            color: #34d399 !important;
+        }
+
+        .btn-opt.wrong {
+            background: rgba(239, 68, 68, 0.3) !important;
+            border-color: var(--red) !important;
+            color: #f87171 !important;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #0284c7, #6366f1);
+            border: none;
+            color: #fff;
+            padding: 14px 28px;
+            border-radius: 16px;
+            font-size: 1rem;
+            font-weight: 900;
+            cursor: pointer;
+            box-shadow: 0 8px 20px rgba(99, 102, 241, 0.35);
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 25px rgba(99, 102, 241, 0.45);
+        }
+
+        .btn-primary:active {
+            transform: scale(0.96);
+        }
+
+        .feedback-box {
+            margin-top: 18px;
+            padding: 16px;
+            border-radius: 16px;
+            font-size: 0.95rem;
+            font-weight: 800;
+            line-height: 1.5;
+            display: none;
+            animation: popIn 0.3s ease;
+        }
+
+        @keyframes popIn {
+            0% { transform: scale(0.95); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        @media (max-width: 768px) {
+            #game-frame { min-height: 98vh; border-radius: 16px; }
+            header { padding: 10px 14px; }
+            main { padding: 14px; }
+            .card-box { padding: 18px; }
+        }
+
+        
+    </style>
+</head>
+<body>
+    <div id="game-frame">
+        <header>
+            <div class="header-left">
+                <div class="header-icon">🗑️</div>
+                <div class="header-title">
+                    <h1>4. Geri Dönüşüm Kutusu Kurtarma</h1>
+                    <p>BTY.5.1.6 • 6. Konu: Dosya ve Klasör Yönetimi</p>
+                </div>
+            </div>
+            <div class="header-controls">
+                <span id="stat-score" class="stat-badge" style="color:var(--yellow);"><i class="fa-solid fa-star"></i> <span id="score-val">0</span></span>
+                <button class="btn-ctrl" onclick="sfx.toggleMute()" id="btn-sound"><i class="fa-solid fa-volume-high"></i></button>
+                <button class="btn-ctrl" onclick="toggleFullscreen()"><i class="fa-solid fa-expand"></i></button>
+                <button class="btn-ctrl" onclick="restartGame()"><i class="fa-solid fa-rotate-left"></i> Yeniden</button>
+            </div>
+        </header>
+
+        <main>
+            
+<div class="card-box" id="cop-box">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
+        <span id="case-counter" style="color:var(--cyan); font-weight:800; font-size:0.9rem;">Vaka 1 / 8</span>
+        <span id="gauge-badge" style="color:var(--green); font-weight:900; font-size:0.95rem; background:rgba(16,185,129,0.15); padding:6px 14px; border-radius:999px; border:1px solid rgba(16,185,129,0.3);">
+            🛡️ Kurtarma Başarısı: %100
+        </span>
+    </div>
+
+    <div id="scenario-card" style="background:#0f172a; padding:18px 22px; border-radius:18px; border-left:5px solid var(--yellow); text-align:left; color:#f1f5f9; font-size:1.05rem; line-height:1.5; margin-bottom:20px;">
+        Yükleniyor...
+    </div>
+
+    <div id="cop-options" style="display:flex; flex-direction:column; gap:10px;"></div>
+
+    <div id="cop-fb" class="feedback-box"></div>
+
+    <div style="margin-top:20px; display:flex; justify-content:center;">
+        <button id="next-btn" class="btn-primary" style="display:none;" onclick="nextCase()">Sonraki Vaka 👉</button>
+    </div>
+</div>
+
+        </main>
+    </div>
+
+    <script>
+        // Web Audio API Sound Effects
+        class SoundFX {
+            constructor() {
+                this.ctx = null;
+                this.muted = false;
+            }
+            init() {
+                if (!this.ctx && !this.muted) {
+                    const AudioContext = window.AudioContext || window.webkitAudioContext;
+                    if (AudioContext) this.ctx = new AudioContext();
+                }
+            }
+            tone(freq, type='sine', dur=0.1, gainVal=0.1) {
+                if (this.muted) return;
+                try {
+                    this.init();
+                    if (!this.ctx) return;
+                    const osc = this.ctx.createOscillator();
+                    const g = this.ctx.createGain();
+                    osc.type = type;
+                    osc.frequency.setValueAtTime(freq, this.ctx.currentTime);
+                    g.gain.setValueAtTime(gainVal, this.ctx.currentTime);
+                    g.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + dur);
+                    osc.connect(g);
+                    g.connect(this.ctx.destination);
+                    osc.start();
+                    osc.stop(this.ctx.currentTime + dur);
+                } catch(e) {}
+            }
+            click() { this.tone(550, 'triangle', 0.05, 0.08); }
+            correct() { this.tone(523, 'sine', 0.08, 0.1); setTimeout(() => this.tone(659, 'sine', 0.12, 0.1), 80); }
+            wrong() { this.tone(200, 'sawtooth', 0.15, 0.12); }
+            fanfare() {
+                [523, 659, 784, 1046].forEach((f, i) => setTimeout(() => this.tone(f, 'sine', 0.15, 0.12), i * 100));
+            }
+            toggleMute() {
+                this.muted = !this.muted;
+                const b = document.getElementById('btn-sound');
+                if (b) b.innerHTML = this.muted ? '<i class="fa-solid fa-volume-xmark"></i>' : '<i class="fa-solid fa-volume-high"></i>';
+            }
+        }
+        const sfx = new SoundFX();
+
+        function toggleFullscreen() {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen().catch(() => {});
+            } else {
+                if (document.exitFullscreen) document.exitFullscreen();
+            }
+        }
+
+        
+const cases = [
+    {
+        scenario: "Öğrenci Ali, masaüstündeki 'ödev.docx' dosyasını yanlışlıkla Delete tuşuna basarak sildi. Panikle size başvurdu. Ona ilk olarak ne yapmasını söylersiniz?",
+        options: [
+            "Korkma! Dosyan Geri Dönüşüm Kutusu'ndadır. Çöp kutusunu açıp dosyaya sağ tıklayarak 'Geri Yükle' seçeneğini seç.",
+            "Evet, dosya tamamen evrenden silindi, artık hiçbir şekilde geri getirilemez.",
+            "Bilgisayarı prizden aniden çekersen dosya otomatik olarak masaüstüne döner."
+        ],
+        correct: 0,
+        exp: "Delete ile silinen dosyalar ilk olarak Geri Dönüşüm Kutusu'na gider ve sağ tıklanıp 'Geri Yükle' denilerek eski yerine döndürülür."
+    },
+    {
+        scenario: "Bir kullanıcı Geri Dönüşüm Kutusuna sağ tıklayıp 'Geri Dönüşüm Kutusunu Boşalt' seçeneğini seçerse ne olur?",
+        options: [
+            "Geri Dönüşüm Kutusu'ndaki dosyalar kalıcı olarak silinir ve normal yollarla geri getirilemez.",
+            "Çöp kutusundaki tüm dosyalar masaüstüne geri yüklenir.",
+            "Bilgisayarın ekran parlaklığı artar."
+        ],
+        correct: 0,
+        exp: "Geri Dönüşüm Kutusu boşaltıldığında içerisindeki dosyalar kalıcı olarak silinir."
+    },
+    {
+        scenario: "Dosyayı Geri Dönüşüm Kutusu'na hiç göndermeden DOĞRUDAN KALICI OLARAK silmek için hangi tuş kombinasyonu kullanılır?",
+        options: [
+            "Shift + Delete",
+            "Ctrl + Delete",
+            "Alt + Delete"
+        ],
+        correct: 0,
+        exp: "Shift + Delete kombinasyonu çöp kutusunu atlayarak doğrudan kalıcı silme gerçekleştirir."
+    },
+    {
+        scenario: "Geri Dönüşüm Kutusu'nda bulunmayan veya çöp kutusu boşaltılmış bir dosya kesinlikle geri getirilebilir mi?",
+        options: [
+            "Hayır, kalıcı olarak silinen dosyaların kurtarılması garanti değildir; bu yüzden önemli dosyalar mutlaka yedeklenmelidir.",
+            "Evet, her dosya mutlaka %100 geri getirilebilir.",
+            "Yalnızca ekran kartını kapatıp açmak yeterlidir."
+        ],
+        correct: 0,
+        exp: "Kalıcı silinen dosyaların kurtarılması kesin değildir; yedekleme hayati öneme sahiptir."
+    },
+    {
+        scenario: "Az önce yanlışlıkla bir dosyayı sildiğin anda klavyeden hangi kısayola basarak bu silme işlemini anında iptal edip dosyayı kurtarabilirsin?",
+        options: [
+            "Ctrl + Z (Geri Al)",
+            "Ctrl + C (Kopyala)",
+            "Ctrl + S (Kaydet)"
+        ],
+        correct: 0,
+        exp: "Ctrl + Z son yapılan işlemi hemen geri alarak silinen dosyayı anında eski yerine döndürür."
+    },
+    {
+        scenario: "Geri Dönüşüm Kutusu'ndaki bir dosyayı açıp doğrudan düzenleyebilir veya çalabilir misin?",
+        options: [
+            "Hayır, dosyayı kullanabilmek için önce Geri Dönüşüm Kutusu'ndan 'Geri Yükle' yapmalısın.",
+            "Evet, çöp kutusundaki dosyalar normal dosyalar gibi açılır ve çalışır.",
+            "Sadece ses dosyaları çalışır, diğerleri çalışmaz."
+        ],
+        correct: 0,
+        exp: "Çöp kutusundaki dosyalar çalıştırılamaz; kullanılabilmesi için önce 'Geri Yükle' ile orijinal klasörüne çıkarılmalıdır."
+    },
+    {
+        scenario: "Flash bellekten (USB bellekten) silinen bir dosya Geri Dönüşüm Kutusu'na gider mi?",
+        options: [
+            "Hayır, harici belleklerden (USB bellek vb.) silinen dosyalar genellikle doğrudan kalıcı silinir.",
+            "Evet, flash bellekten silinen her şey bilgisayarın çöp kutusuna gider.",
+            "Sadece resim dosyaları çöp kutusuna gider."
+        ],
+        correct: 0,
+        exp: "Harici USB belleklerden silinen dosyalar çoğu zaman çöp kutusuna gitmeden kalıcı olarak silinir."
+    },
+    {
+        scenario: "Geri Dönüşüm Kutusu bilgisayarın hangi depolama alanında yer kaplar?",
+        options: [
+            "Bilgisayarın ana dahili sabit diskinde (C: sürücüsünde).",
+            "İnternet bulut sunucusunda.",
+            "Yalnızca monitörün belleğinde."
+        ],
+        correct: 0,
+        exp: "Geri Dönüşüm Kutusu bilgisayarın kendi yerel diskinde yer kaplar."
+    }
+];
+
+let curIdx = 0;
+let score = 0;
+let health = 100;
+
+function initGame() {
+    curIdx = 0;
+    score = 0;
+    health = 100;
+    cases.sort(() => Math.random() - 0.5);
+    updateScore();
+    loadCase();
+}
+
+function updateScore() {
+    document.getElementById('score-val').innerText = score + " Puan";
+    document.getElementById('gauge-badge').innerText = "🛡️ Kurtarma Başarısı: %" + health;
+}
+
+function loadCase() {
+    const c = cases[curIdx];
+    document.getElementById('case-counter').innerText = 'Vaka ' + (curIdx + 1) + ' / ' + cases.length;
+    document.getElementById('scenario-card').innerText = c.scenario;
+    document.getElementById('cop-fb').style.display = 'none';
+    document.getElementById('next-btn').style.display = 'none';
+
+    const optsContainer = document.getElementById('cop-options');
+    optsContainer.innerHTML = '';
+    c.options.forEach((opt, idx) => {
+        const btn = document.createElement('button');
+        btn.className = 'btn-opt';
+        btn.innerHTML = '<span style="width:28px; height:28px; border-radius:50%; background:#0f172a; color:#38bdf8; display:inline-flex; align-items:center; justify-content:center; font-size:0.85rem; font-weight:900;">' + (idx + 1) + '</span> <span>' + opt + '</span>';
+        btn.onclick = () => answer(idx, btn);
+        optsContainer.appendChild(btn);
+    });
+}
+
+function answer(chosen, btn) {
+    const c = cases[curIdx];
+    const allBtns = document.querySelectorAll('.btn-opt');
+    allBtns.forEach(b => b.disabled = true);
+
+    const fb = document.getElementById('cop-fb');
+    fb.style.display = 'block';
+
+    if (chosen === c.correct) {
+        sfx.correct();
+        btn.classList.add('correct');
+        score += 15;
+        updateScore();
+        fb.style.background = 'rgba(16, 185, 129, 0.2)';
+        fb.style.border = '2px solid var(--green)';
+        fb.style.color = '#34d399';
+        fb.innerHTML = '🎉 <strong>DOĞRU TEŞHİS & MÜDAHALE!</strong> ' + c.exp;
+    } else {
+        sfx.wrong();
+        btn.classList.add('wrong');
+        allBtns[c.correct].classList.add('correct');
+        health = Math.max(20, health - 15);
+        updateScore();
+        fb.style.background = 'rgba(239, 68, 68, 0.2)';
+        fb.style.border = '2px solid var(--red)';
+        fb.style.color = '#f87171';
+        fb.innerHTML = '⚠️ <strong>HATALI YÖNLENDİRME!</strong> ' + c.exp;
+    }
+
+    const nextBtn = document.getElementById('next-btn');
+    if (curIdx < cases.length - 1) {
+        nextBtn.style.display = 'inline-flex';
+        nextBtn.innerText = 'Sonraki Vaka 👉';
+        nextBtn.onclick = nextCase;
+    } else {
+        sfx.fanfare();
+        nextBtn.style.display = 'inline-flex';
+        nextBtn.innerText = '🏆 Sonuçları Gör';
+        nextBtn.onclick = showResults;
+    }
+}
+
+function nextCase() {
+    sfx.click();
+    curIdx++;
+    loadCase();
+}
+
+function showResults() {
+    const box = document.getElementById('cop-box');
+    box.innerHTML = '<div style="padding:24px; text-align:center;">' +
+        '<div style="font-size:4rem; margin-bottom:12px;">🗑️ 🛡️</div>' +
+        '<h2 style="font-size:2rem; font-weight:900; color:#fff; margin-bottom:8px;">Teknik Destek Görevi Tamamlandı!</h2>' +
+        '<p style="font-size:1.4rem; font-weight:900; color:var(--yellow); margin-bottom:12px;">Toplam Puan: ' + score + ' (Başarı: %' + health + ')</p>' +
+        '<p style="font-size:0.95rem; color:#cbd5e1; max-width:500px; margin:0 auto 24px;">Geri Dönüşüm Kutusu, kalıcı silme ve dosya kurtarma kurallarını kusursuz öğrendiniz!</p>' +
+        '<button class="btn-primary" onclick="location.reload()"><i class="fa-solid fa-rotate-left"></i> Tekrar Oyna</button>' +
+    '</div>';
+}
+
+function restartGame() {
+    initGame();
+}
+
+window.onload = initGame;
+
+    </script>
+</body>
+</html>
