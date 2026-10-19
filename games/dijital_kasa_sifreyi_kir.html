@@ -1,0 +1,780 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dijital Kasa: Şifreyi Kır | Öğretmen Bozok</title>
+    <style>
+        :root {
+            --bg-vault: #050811;
+            --panel-bg: rgba(15, 23, 42, 0.95);
+            --gold: #f59e0b;
+            --emerald: #10b981;
+            --cyan: #38bdf8;
+            --indigo: #6366f1;
+            --rose: #f43f5e;
+            --slate: #94a3b8;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            user-select: none;
+            -webkit-user-select: none;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+
+        body {
+            background: radial-gradient(circle at center, #1e1b4b 0%, #050811 100%);
+            color: #f8fafc;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            padding: 12px;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1100px;
+            width: 100%;
+            margin: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        /* Top Control Bar */
+        .header {
+            background: var(--panel-bg);
+            border: 2px solid rgba(245, 158, 11, 0.3);
+            border-radius: 18px;
+            padding: 12px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 10px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.6);
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .vault-badge {
+            width: 44px;
+            height: 44px;
+            background: linear-gradient(135deg, var(--gold), #b45309);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 14px rgba(245, 158, 11, 0.4);
+        }
+
+        .stats {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .chip {
+            background: #0f172a;
+            border: 1px solid rgba(255,255,255,0.1);
+            padding: 6px 14px;
+            border-radius: 12px;
+            font-size: 0.85rem;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-ctrl {
+            width: 38px;
+            height: 38px;
+            background: #1e293b;
+            border: 1px solid rgba(255,255,255,0.15);
+            color: #fff;
+            border-radius: 10px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+
+        .btn-ctrl:hover {
+            background: #334155;
+            transform: scale(1.05);
+        }
+
+        /* PIN Display */
+        .pin-vault-display {
+            background: rgba(10, 15, 30, 0.95);
+            border: 2px solid rgba(245, 158, 11, 0.4);
+            border-radius: 20px;
+            padding: 16px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 12px;
+            box-shadow: inset 0 2px 10px rgba(0,0,0,0.8);
+        }
+
+        .pin-slots {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .pin-slot {
+            width: 52px;
+            height: 58px;
+            background: #0f172a;
+            border: 2px dashed #475569;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.6rem;
+            font-weight: 900;
+            color: #64748b;
+            transition: all 0.3s;
+        }
+
+        .pin-slot.unlocked {
+            border: 2px solid var(--emerald);
+            background: rgba(16, 185, 129, 0.15);
+            color: var(--emerald);
+            box-shadow: 0 0 15px rgba(16, 185, 129, 0.4);
+            animation: pinGlow 1s ease;
+        }
+
+        @keyframes pinGlow {
+            0% { transform: scale(1.3); }
+            100% { transform: scale(1); }
+        }
+
+        /* Mission Stage Area */
+        .stage-box {
+            background: var(--panel-bg);
+            border: 2px solid rgba(99, 102, 241, 0.3);
+            border-radius: 24px;
+            padding: 24px;
+            min-height: 480px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: relative;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+        }
+
+        .stage-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            padding-bottom: 12px;
+            margin-bottom: 16px;
+        }
+
+        .stage-tag {
+            background: rgba(245, 158, 11, 0.2);
+            color: var(--gold);
+            border: 1px solid var(--gold);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 900;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .stage-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            gap: 16px;
+        }
+
+        .hint-btn {
+            background: #1e293b;
+            color: #cbd5e1;
+            border: 1px solid #475569;
+            padding: 8px 16px;
+            border-radius: 12px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.2s;
+        }
+
+        .hint-btn:hover {
+            background: #334155;
+            color: #fbbf24;
+            border-color: #fbbf24;
+        }
+
+        .hint-text {
+            background: rgba(245, 158, 11, 0.15);
+            border-left: 4px solid var(--gold);
+            color: #fde68a;
+            padding: 10px 16px;
+            border-radius: 0 10px 10px 0;
+            font-size: 0.9rem;
+            max-width: 600px;
+            margin-top: 8px;
+            display: none;
+            text-align: left;
+        }
+
+        /* Buttons Grid */
+        .options-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 12px;
+            width: 100%;
+            max-width: 700px;
+            margin-top: 14px;
+        }
+
+        .opt-btn {
+            background: #1e293b;
+            border: 2px solid rgba(255,255,255,0.15);
+            color: #fff;
+            padding: 16px 20px;
+            border-radius: 16px;
+            font-size: 1rem;
+            font-weight: 800;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .opt-btn:hover {
+            background: #334155;
+            border-color: var(--cyan);
+            transform: translateY(-2px);
+        }
+
+        /* Ladder Sorting area */
+        .ladder-slots {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            width: 100%;
+            max-width: 550px;
+        }
+
+        .ladder-slot {
+            background: rgba(15, 23, 42, 0.8);
+            border: 2px dashed #475569;
+            border-radius: 12px;
+            padding: 10px 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-weight: 800;
+            font-size: 0.95rem;
+        }
+
+        .ladder-slot.filled {
+            border: 2px solid var(--emerald);
+            background: rgba(16, 185, 129, 0.15);
+            color: #6ee7b7;
+        }
+
+        .unit-choices {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            justify-content: center;
+            margin-top: 10px;
+        }
+
+        .unit-pill {
+            background: #1e293b;
+            border: 1px solid #6366f1;
+            color: #fff;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 800;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .unit-pill:hover {
+            background: #4f46e5;
+            transform: scale(1.05);
+        }
+
+        /* Overlay Screens */
+        .overlay {
+            position: absolute;
+            inset: 0;
+            background: rgba(5, 8, 17, 0.96);
+            backdrop-filter: blur(10px);
+            border-radius: 24px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 30px;
+            text-align: center;
+            z-index: 100;
+        }
+
+        .btn-action {
+            background: linear-gradient(135deg, var(--gold), #ea580c);
+            color: #050811;
+            font-weight: 900;
+            font-size: 1.15rem;
+            border: none;
+            padding: 14px 38px;
+            border-radius: 14px;
+            cursor: pointer;
+            box-shadow: 0 8px 20px rgba(245, 158, 11, 0.4);
+            transition: all 0.2s;
+            margin-top: 20px;
+        }
+
+        .btn-action:hover {
+            transform: scale(1.04);
+            box-shadow: 0 12px 25px rgba(245, 158, 11, 0.6);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- TOP HEADER -->
+        <header class="header">
+            <div class="brand">
+                <div class="vault-badge">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                </div>
+                <div>
+                    <h1 style="font-size:1.25rem; font-weight:900;">Dijital Kasa: Şifreyi Kır</h1>
+                    <span style="font-size:0.75rem; color:var(--gold); font-weight:700; text-transform:uppercase;">5 Aşamalı Kaçış Odası • BTY.5.1.5</span>
+                </div>
+            </div>
+
+            <div class="stats">
+                <div class="chip">
+                    <span style="color:var(--cyan)">⏱️ Süre:</span>
+                    <span id="stat-time">00:00</span>
+                </div>
+                <div class="chip">
+                    <span style="color:var(--emerald)">⭐ Puan:</span>
+                    <span id="stat-score">0</span>
+                </div>
+                <button class="btn-ctrl" onclick="vaultGame.toggleSound()" id="sound-btn" title="Ses">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg>
+                </button>
+                <button class="btn-ctrl" onclick="vaultGame.toggleFullscreen()" title="Tam Ekran">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path></svg>
+                </button>
+            </div>
+        </header>
+
+        <!-- PIN VAULT DISPLAY -->
+        <div class="pin-vault-display">
+            <div>
+                <span style="font-size:0.75rem; color:#94a3b8; font-weight:800; text-transform:uppercase; letter-spacing:1px; display:block;">Dijital Kasa Kilit Durumu</span>
+                <strong style="color:var(--gold); font-size:1.05rem;">5 Haneli Ana Şifre Paneli</strong>
+            </div>
+            <div class="pin-slots">
+                <div id="pin-0" class="pin-slot">?</div>
+                <div id="pin-1" class="pin-slot">?</div>
+                <div id="pin-2" class="pin-slot">?</div>
+                <div id="pin-3" class="pin-slot">?</div>
+                <div id="pin-4" class="pin-slot">?</div>
+            </div>
+        </div>
+
+        <!-- STAGE AREA -->
+        <main class="stage-box">
+            <div class="stage-header">
+                <div class="stage-tag" id="stage-badge">AŞAMA 1 / 5</div>
+                <button class="hint-btn" onclick="vaultGame.toggleHint()">
+                    <span>💡 İpucu Al</span>
+                </button>
+            </div>
+
+            <!-- DYNAMIC STAGE CONTENT -->
+            <div id="stage-inner" class="stage-content">
+                <!-- Injected via JavaScript -->
+            </div>
+
+            <div id="hint-box" class="hint-text"></div>
+
+            <!-- START SCREEN -->
+            <div id="start-screen" class="overlay">
+                <div style="width:78px; height:78px; border-radius:24px; background:linear-gradient(135deg, var(--gold), #ea580c); display:flex; align-items:center; justify-content:center; margin-bottom:16px;">
+                    <svg width="42" height="42" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                </div>
+                <h2 style="font-size:2rem; font-weight:900; margin-bottom:10px;">Teknoloji Kasası Kilitlendi!</h2>
+                <p style="color:#cbd5e1; max-width:620px; font-size:1.05rem; line-height:1.6; margin-bottom:24px;">
+                    Laboratuvarın büyük dijital kasasında 5 gizli güvenlik kilidi bulunuyor. 
+                    Yazılım türleri, makine dili, kapasite merdiveni, birim dönüşümleri ve depolama kilitlerini çözerek kasanın 5 şifre rakamını açığa çıkar!
+                </p>
+                <button class="btn-action" onclick="vaultGame.start()">
+                    <span>Kasa Kilidini Kırmaya Başla ➔</span>
+                </button>
+            </div>
+
+            <!-- SUCCESS SCREEN -->
+            <div id="win-screen" class="overlay" style="display:none;">
+                <div style="width:84px; height:84px; border-radius:50%; background:linear-gradient(135deg, var(--emerald), #047857); display:flex; align-items:center; justify-content:center; margin-bottom:16px; box-shadow:0 0 30px rgba(16, 185, 129, 0.5);">
+                    <svg width="46" height="46" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                </div>
+                <h2 style="font-size:2.2rem; font-weight:900; margin-bottom:8px; color:#fff;">DİJİTAL KASA AÇILDI! 🏆</h2>
+                <p style="color:var(--gold); font-size:1.2rem; font-weight:800; margin-bottom:12px;">Şifre Çözüldü: <span id="final-pin">7 - 3 - 8 - 4 - 2</span></p>
+                <p id="final-stats" style="color:#cbd5e1; font-size:1.05rem; line-height:1.6; margin-bottom:24px;">
+                    Tüm 5 aşamayı başarıyla tamamladın.<br>
+                    Toplam Süre: <strong id="res-time">01:25</strong> • Kazanılan Puan: <strong id="res-score" style="color:#34d399">100</strong>
+                </p>
+                <button class="btn-action" onclick="vaultGame.start()">
+                    <span>Kasayı Yeniden Kilitle & Oyna 🔄</span>
+                </button>
+            </div>
+
+        </main>
+    </div>
+
+    <script>
+        // Web Audio Synthesizer
+        const AudioFX = {
+            ctx: null,
+            enabled: true,
+            init() {
+                if (!this.ctx) {
+                    const AC = window.AudioContext || window.webkitAudioContext;
+                    if (AC) this.ctx = new AC();
+                }
+            },
+            play(type) {
+                if (!this.enabled) return;
+                try {
+                    this.init();
+                    if (!this.ctx) return;
+                    if (this.ctx.state === 'suspended') this.ctx.resume();
+
+                    const t = this.ctx.currentTime;
+                    const o = this.ctx.createOscillator();
+                    const g = this.ctx.createGain();
+                    o.connect(g);
+                    g.connect(this.ctx.destination);
+
+                    if (type === 'unlock') {
+                        o.type = 'triangle';
+                        o.frequency.setValueAtTime(587.33, t); // D5
+                        o.frequency.setValueAtTime(880, t + 0.1); // A5
+                        g.gain.setValueAtTime(0.3, t);
+                        g.gain.exponentialRampToValueAtTime(0.01, t + 0.5);
+                        o.start(t);
+                        o.stop(t + 0.5);
+                    } else if (type === 'error') {
+                        o.type = 'sawtooth';
+                        o.frequency.setValueAtTime(220, t);
+                        o.frequency.linearRampToValueAtTime(110, t + 0.25);
+                        g.gain.setValueAtTime(0.25, t);
+                        g.gain.exponentialRampToValueAtTime(0.01, t + 0.25);
+                        o.start(t);
+                        o.stop(t + 0.25);
+                    } else if (type === 'victory') {
+                        [523.25, 659.25, 783.99, 1046.50].forEach((f, i) => {
+                            const osc = this.ctx.createOscillator();
+                            const gn = this.ctx.createGain();
+                            osc.type = 'triangle';
+                            osc.connect(gn);
+                            gn.connect(this.ctx.destination);
+                            osc.frequency.setValueAtTime(f, t + i * 0.12);
+                            gn.gain.setValueAtTime(0.25, t + i * 0.12);
+                            gn.gain.exponentialRampToValueAtTime(0.001, t + i * 0.12 + 0.4);
+                            osc.start(t + i * 0.12);
+                            osc.stop(t + i * 0.12 + 0.4);
+                        });
+                    }
+                } catch(e) {}
+            }
+        };
+
+        // Stages Configuration
+        const vaultGame = {
+            stage: 0,
+            score: 0,
+            timerSec: 0,
+            timerInterval: null,
+            pinDigits: [7, 3, 8, 4, 2],
+            ladderCurrent: [],
+
+            start() {
+                AudioFX.init();
+                AudioFX.play('unlock');
+                document.getElementById('start-screen').style.display = 'none';
+                document.getElementById('win-screen').style.display = 'none';
+                
+                this.stage = 0;
+                this.score = 0;
+                this.timerSec = 0;
+                this.pinDigits = [
+                    Math.floor(Math.random() * 9) + 1,
+                    Math.floor(Math.random() * 9) + 1,
+                    Math.floor(Math.random() * 9) + 1,
+                    Math.floor(Math.random() * 9) + 1,
+                    Math.floor(Math.random() * 9) + 1
+                ];
+
+                for (let i = 0; i < 5; i++) {
+                    const slot = document.getElementById(`pin-${i}`);
+                    slot.innerText = '?';
+                    slot.classList.remove('unlocked');
+                }
+
+                clearInterval(this.timerInterval);
+                this.timerInterval = setInterval(() => {
+                    this.timerSec++;
+                    const m = String(Math.floor(this.timerSec / 60)).padStart(2, '0');
+                    const s = String(this.timerSec % 60).padStart(2, '0');
+                    document.getElementById('stat-time').innerText = `${m}:${s}`;
+                }, 1000);
+
+                this.loadStage();
+            },
+
+            loadStage() {
+                document.getElementById('stage-badge').innerText = `AŞAMA ${this.stage + 1} / 5`;
+                document.getElementById('stat-score').innerText = this.score;
+                document.getElementById('hint-box').style.display = 'none';
+
+                const container = document.getElementById('stage-inner');
+
+                if (this.stage === 0) {
+                    // Stage 1: Software Classification
+                    container.innerHTML = `
+                        <h2 style="font-size:1.6rem; font-weight:900; color:var(--cyan);">1. Kilit: Yazılım Şifresi</h2>
+                        <p style="color:#cbd5e1; max-width:600px; font-size:1.05rem;">
+                            TÜBİTAK tarafından geliştirilen milli gururumuz <strong>PARDUS</strong> ve telefonlarımızdaki <strong>Android</strong> hangi yazılım türüne örnektir?
+                        </p>
+                        <div class="options-grid">
+                            <button class="opt-btn" onclick="vaultGame.checkStage1('os')">
+                                💻 İşletim Sistemi Yazılımı
+                            </button>
+                            <button class="opt-btn" onclick="vaultGame.checkStage1('app')">
+                                📱 Uygulama Yazılımı
+                            </button>
+                        </div>
+                    `;
+                    this.currentHint = "İpucu: Bu yazılımlar sadece yazı yazmak gibi tek bir işi değil, tüm bilgisayarı ve telefon donanımını yönetir!";
+                } 
+                else if (this.stage === 1) {
+                    // Stage 2: Robot Language (Binary)
+                    container.innerHTML = `
+                        <h2 style="font-size:1.6rem; font-weight:900; color:var(--cyan);">2. Kilit: Robotun Dili</h2>
+                        <p style="color:#cbd5e1; max-width:600px; font-size:1.05rem;">
+                            Bilgisayarlar ve işlemciler elektrik akımının varlığı (1) ve yokluğu (0) esasına dayalı ikili sayı sistemiyle çalışır.<br>
+                            <strong>Makine dili hangi iki rakamdan oluşur?</strong>
+                        </p>
+                        <div class="options-grid">
+                            <button class="opt-btn" onclick="vaultGame.checkStage2(false)">
+                                1 ve 2
+                            </button>
+                            <button class="opt-btn" onclick="vaultGame.checkStage2(true)">
+                                0 ve 1 (İkili Sistem)
+                            </button>
+                            <button class="opt-btn" onclick="vaultGame.checkStage2(false)">
+                                0 ve 9
+                            </button>
+                        </div>
+                    `;
+                    this.currentHint = "İpucu: Elektrik anahtarı gibi: 'Açık' (1) ve 'Kapalı' (0). Yalnızca bu iki sembol kullanılır!";
+                }
+                else if (this.stage === 2) {
+                    // Stage 3: Capacity Ladder Sorting
+                    this.ladderCurrent = [];
+                    const units = ['Byte', 'GB', 'bit', 'TB', 'KB', 'MB'];
+                    container.innerHTML = `
+                        <h2 style="font-size:1.6rem; font-weight:900; color:var(--cyan);">3. Kilit: Kapasite Sıralaması</h2>
+                        <p style="color:#cbd5e1; max-width:650px; font-size:1rem;">
+                            Kapasite birimlerini <strong>EN KÜÇÜKTEN EN BÜYÜĞE</strong> doğru tıklayarak merdivene yerleştir!
+                        </p>
+                        <div class="ladder-slots">
+                            <div id="lslot-0" class="ladder-slot">1. Basamak: [Seçiniz]</div>
+                            <div id="lslot-1" class="ladder-slot">2. Basamak: [Seçiniz]</div>
+                            <div id="lslot-2" class="ladder-slot">3. Basamak: [Seçiniz]</div>
+                            <div id="lslot-3" class="ladder-slot">4. Basamak: [Seçiniz]</div>
+                            <div id="lslot-4" class="ladder-slot">5. Basamak: [Seçiniz]</div>
+                            <div id="lslot-5" class="ladder-slot">6. Basamak: [Seçiniz]</div>
+                        </div>
+                        <div class="unit-choices" id="unit-pills">
+                            ${units.map(u => `<button class="unit-pill" id="pill-${u}" onclick="vaultGame.pickUnit('${u}')">${u}</button>`).join('')}
+                        </div>
+                    `;
+                    this.currentHint = "İpucu: En küçük tek bir sinyal olan 'bit' ile başla! bit ➔ Byte ➔ KB ➔ MB ➔ GB ➔ TB";
+                }
+                else if (this.stage === 3) {
+                    // Stage 4: Conversion Lock
+                    container.innerHTML = `
+                        <h2 style="font-size:1.6rem; font-weight:900; color:var(--cyan);">4. Kilit: Dönüşüm Kilidi</h2>
+                        <p style="color:#cbd5e1; max-width:600px; font-size:1.05rem;">
+                            Kapasite merdiveninde bir üst basamağa geçmek için 1024 kat kuralı uygulanır.<br>
+                            <strong>1024 Megabyte (MB) bir araya geldiğinde hangi dev kapasiteyi oluşturur?</strong>
+                        </p>
+                        <div class="options-grid">
+                            <button class="opt-btn" onclick="vaultGame.checkStage4(false)">
+                                1 Kilobyte (KB)
+                            </button>
+                            <button class="opt-btn" onclick="vaultGame.checkStage4(true)">
+                                1 Gigabyte (GB)
+                            </button>
+                            <button class="opt-btn" onclick="vaultGame.checkStage4(false)">
+                                1 Terabyte (TB)
+                            </button>
+                        </div>
+                    `;
+                    this.currentHint = "İpucu: Sıralamayı hatırla: Byte ➔ KB ➔ MB ➔ GB ➔ TB. MB'nin hemen bir üst basamağındaki birim GB'dir!";
+                }
+                else if (this.stage === 4) {
+                    // Stage 5: Storage Selection
+                    container.innerHTML = `
+                        <h2 style="font-size:1.6rem; font-weight:900; color:var(--cyan);">5. Kilit: Depolama Kasası</h2>
+                        <p style="color:#cbd5e1; max-width:600px; font-size:1.05rem;">
+                            Dosyalarımızı fiziksel bir alete gerek olmadan, internet üzerinden Google Drive veya OneDrive gibi uzak sunucularda saklamaya ne ad verilir?
+                        </p>
+                        <div class="options-grid">
+                            <button class="opt-btn" onclick="vaultGame.checkStage5(false)">
+                                Dahili Depolama
+                            </button>
+                            <button class="opt-btn" onclick="vaultGame.checkStage5(false)">
+                                Harici Depolama
+                            </button>
+                            <button class="opt-btn" onclick="vaultGame.checkStage5(true)">
+                                Bulut Depolama
+                            </button>
+                        </div>
+                    `;
+                    this.currentHint = "İpucu: İnternet ağı gökyüzündeki bir buluta benzetilir; Google Drive gibi hizmetler Bulut Depolamadır!";
+                }
+            },
+
+            unlockCurrentStage() {
+                AudioFX.play('unlock');
+                this.score += 20;
+                document.getElementById('stat-score').innerText = this.score;
+
+                // Unlock PIN slot
+                const slot = document.getElementById(`pin-${this.stage}`);
+                if (slot) {
+                    slot.innerText = this.pinDigits[this.stage];
+                    slot.classList.add('unlocked');
+                }
+
+                this.stage++;
+                if (this.stage < 5) {
+                    setTimeout(() => this.loadStage(), 600);
+                } else {
+                    setTimeout(() => this.winGame(), 800);
+                }
+            },
+
+            wrongAnswer(msg) {
+                AudioFX.play('error');
+                alert(msg || "Hatalı şifre denemesi! İpucunu oku ve tekrar dene.");
+            },
+
+            checkStage1(choice) {
+                if (choice === 'os') this.unlockCurrentStage();
+                else this.wrongAnswer("Pardus ve Android işletim sistemidir! Bilgisayarı ve telefonu yönetirler.");
+            },
+
+            checkStage2(isCorrect) {
+                if (isCorrect) this.unlockCurrentStage();
+                else this.wrongAnswer("Makine dili ikili sistemdir; sadece 0 ve 1 sinyallerinden oluşur!");
+            },
+
+            pickUnit(unit) {
+                const targetOrder = ['bit', 'Byte', 'KB', 'MB', 'GB', 'TB'];
+                const expected = targetOrder[this.ladderCurrent.length];
+
+                if (unit === expected) {
+                    AudioFX.play('unlock');
+                    this.ladderCurrent.push(unit);
+                    const slot = document.getElementById(`lslot-${this.ladderCurrent.length - 1}`);
+                    slot.innerText = `${this.ladderCurrent.length}. Basamak: ${unit} ✓`;
+                    slot.classList.add('filled');
+                    document.getElementById(`pill-${unit}`).style.display = 'none';
+
+                    if (this.ladderCurrent.length === 6) {
+                        this.unlockCurrentStage();
+                    }
+                } else {
+                    this.wrongAnswer(`Hatalı sıra! ${this.ladderCurrent.length + 1}. basamağa ${unit} gelemez. Küçükten büyüğe: bit ➔ Byte ➔ KB ➔ MB ➔ GB ➔ TB`);
+                }
+            },
+
+            checkStage4(isCorrect) {
+                if (isCorrect) this.unlockCurrentStage();
+                else this.wrongAnswer("1024 MB tam 1 GB (Gigabyte) eder!");
+            },
+
+            checkStage5(isCorrect) {
+                if (isCorrect) this.unlockCurrentStage();
+                else this.wrongAnswer("İnternet üzerinden sunucularda saklanan teknoloji Bulut Depolamadır!");
+            },
+
+            toggleHint() {
+                const box = document.getElementById('hint-box');
+                if (box.style.display === 'block') {
+                    box.style.display = 'none';
+                } else {
+                    box.innerText = this.currentHint;
+                    box.style.display = 'block';
+                }
+            },
+
+            winGame() {
+                clearInterval(this.timerInterval);
+                AudioFX.play('victory');
+                document.getElementById('final-pin').innerText = this.pinDigits.join(' - ');
+                document.getElementById('res-score').innerText = this.score;
+                const m = String(Math.floor(this.timerSec / 60)).padStart(2, '0');
+                const s = String(this.timerSec % 60).padStart(2, '0');
+                document.getElementById('res-time').innerText = `${m}:${s}`;
+                document.getElementById('win-screen').style.display = 'flex';
+            },
+
+            toggleSound() {
+                AudioFX.enabled = !AudioFX.enabled;
+                const btn = document.getElementById('sound-btn');
+                btn.style.opacity = AudioFX.enabled ? '1' : '0.4';
+                if (AudioFX.enabled) AudioFX.play('unlock');
+            },
+
+            toggleFullscreen() {
+                if (!document.fullscreenElement) {
+                    document.documentElement.requestFullscreen().catch(() => {});
+                } else {
+                    if (document.exitFullscreen) document.exitFullscreen();
+                }
+            }
+        };
+    </script>
+</body>
+</html>

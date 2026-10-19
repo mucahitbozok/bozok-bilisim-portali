@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Robotun Gizli Mesajı | Öğretmen Bozok</title>
+    <style>
+        :root {
+            --bg-cyber: #050b14;
+            --panel-bg: rgba(13, 22, 38, 0.95);
+            --cyan-glow: #06b6d4;
+            --emerald-glow: #10b981;
+            --amber-glow: #f59e0b;
+            --text-light: #f8fafc;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            user-select: none;
+            -webkit-user-select: none;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+
+        body {
+            background: radial-gradient(circle at 50% 30%, #0c213d 0%, #050b14 100%);
+            color: var(--text-light);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            padding: 12px;
+            overflow-x: hidden;
+        }
+
+        .wrapper {
+            max-width: 1100px;
+            width: 100%;
+            margin: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        /* Header Bar */
+        .top-nav {
+            background: var(--panel-bg);
+            border: 2px solid rgba(6, 182, 212, 0.3);
+            border-radius: 18px;
+            padding: 10px 18px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 10px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.6);
+        }
+
+        .brand-zone {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .bot-badge-icon {
+            width: 44px;
+            height: 44px;
+            background: linear-gradient(135deg, var(--cyan-glow), #0284c7);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 14px rgba(6, 182, 212, 0.4);
+        }
+
+        .stat-tags {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .badge-pill {
+            background: #091322;
+            border: 1px solid rgba(255,255,255,0.1);
+            padding: 6px 14px;
+            border-radius: 12px;
+            font-size: 0.85rem;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-action-tool {
+            width: 38px;
+            height: 38px;
+            background: #1e293b;
+            border: 1px solid rgba(255,255,255,0.15);
+            color: #fff;
+            border-radius: 10px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+
+        .btn-action-tool:hover {
+            background: #334155;
+            transform: scale(1.05);
+        }
+
+        /* Robot Energy Battery Display */
+        .battery-container {
+            background: rgba(9, 19, 34, 0.9);
+            border: 2px solid rgba(16, 185, 129, 0.3);
+            border-radius: 16px;
+            padding: 12px 18px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 14px;
+        }
+
+        .battery-meter {
+            flex: 1;
+            height: 16px;
+            background: #030712;
+            border-radius: 10px;
+            border: 1px solid rgba(255,255,255,0.15);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .battery-fill {
+            height: 100%;
+            width: 10%;
+            background: linear-gradient(90deg, #06b6d4, #10b981);
+            transition: width 0.4s ease;
+            box-shadow: 0 0 15px rgba(16, 185, 129, 0.5);
+        }
+
+        /* Main Game Stage */
+        .lab-stage {
+            background: var(--panel-bg);
+            border: 2px solid rgba(6, 182, 212, 0.3);
+            border-radius: 24px;
+            padding: 24px;
+            min-height: 490px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: relative;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+        }
+
+        .robot-center {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            gap: 12px;
+        }
+
+        /* SVG Animated Robot */
+        .robot-avatar {
+            width: 100px;
+            height: 100px;
+            position: relative;
+            filter: drop-shadow(0 0 15px rgba(6, 182, 212, 0.4));
+            animation: botBob 2.5s infinite ease-in-out;
+        }
+
+        @keyframes botBob {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+        }
+
+        /* Speech Bubble Screen */
+        .robot-speech {
+            background: rgba(9, 19, 34, 0.95);
+            border: 2px solid var(--cyan-glow);
+            border-radius: 18px;
+            padding: 18px 24px;
+            max-width: 680px;
+            width: 100%;
+            box-shadow: 0 0 20px rgba(6, 182, 212, 0.2);
+            position: relative;
+        }
+
+        .binary-banner {
+            font-family: 'Courier New', monospace;
+            background: rgba(0,0,0,0.6);
+            border: 1px solid rgba(6, 182, 212, 0.4);
+            color: #38bdf8;
+            font-size: 1.25rem;
+            font-weight: 900;
+            letter-spacing: 4px;
+            padding: 8px 16px;
+            border-radius: 10px;
+            display: inline-block;
+            margin-bottom: 8px;
+        }
+
+        .robot-question {
+            font-size: 1.15rem;
+            font-weight: 800;
+            color: #fff;
+            line-height: 1.5;
+        }
+
+        /* Options Grid */
+        .answers-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 14px;
+            width: 100%;
+            max-width: 720px;
+            margin: 16px auto 0 auto;
+        }
+
+        .ans-btn {
+            background: #111d33;
+            border: 2px solid rgba(255,255,255,0.15);
+            color: #fff;
+            padding: 16px 20px;
+            border-radius: 16px;
+            font-size: 1.05rem;
+            font-weight: 800;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .ans-btn:hover {
+            border-color: var(--cyan-glow);
+            background: #1e3052;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(6, 182, 212, 0.3);
+        }
+
+        /* Feedback Layer */
+        .feedback-box {
+            position: absolute;
+            inset: 0;
+            background: rgba(5, 11, 20, 0.94);
+            backdrop-filter: blur(8px);
+            border-radius: 24px;
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 30px;
+            text-align: center;
+            z-index: 50;
+        }
+
+        .btn-next {
+            background: linear-gradient(135deg, var(--cyan-glow), #0284c7);
+            color: #031020;
+            font-weight: 900;
+            font-size: 1.1rem;
+            border: none;
+            padding: 14px 36px;
+            border-radius: 14px;
+            cursor: pointer;
+            box-shadow: 0 8px 20px rgba(6, 182, 212, 0.4);
+            transition: all 0.2s;
+            margin-top: 20px;
+        }
+
+        .btn-next:hover {
+            transform: scale(1.04);
+            box-shadow: 0 12px 25px rgba(6, 182, 212, 0.6);
+        }
+
+        /* Overlay Screens */
+        .overlay-screen {
+            position: absolute;
+            inset: 0;
+            background: rgba(5, 11, 20, 0.96);
+            backdrop-filter: blur(12px);
+            border-radius: 24px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 30px;
+            text-align: center;
+            z-index: 100;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="wrapper">
+        <!-- TOP HEADER -->
+        <header class="top-nav">
+            <div class="brand-zone">
+                <div class="bot-badge-icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5"><rect x="3" y="11" width="18" height="10" rx="2"></rect><circle cx="12" cy="5" r="2"></circle><path d="M12 7v4"></path><line x1="8" y1="16" x2="8.01" y2="16"></line><line x1="16" y1="16" x2="16.01" y2="16"></line></svg>
+                </div>
+                <div>
+                    <h1 style="font-size:1.25rem; font-weight:900;">Robotun Gizli Mesajı</h1>
+                    <span style="font-size:0.75rem; color:var(--cyan-glow); font-weight:700; text-transform:uppercase;">Makine Dili & İkili Sayı Sistemi (0 ve 1)</span>
+                </div>
+            </div>
+
+            <div class="stat-tags">
+                <div class="badge-pill">
+                    <span style="color:var(--amber-glow)">🎯 Görev:</span>
+                    <span id="stat-quest">1 / 14</span>
+                </div>
+                <div class="badge-pill">
+                    <span style="color:var(--emerald-glow)">⭐ Puan:</span>
+                    <span id="stat-score">0</span>
+                </div>
+                <button class="btn-action-tool" onclick="robotApp.toggleSound()" id="sound-btn" title="Ses">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg>
+                </button>
+                <button class="btn-action-tool" onclick="robotApp.toggleFullscreen()" title="Tam Ekran">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path></svg>
+                </button>
+            </div>
+        </header>
+
+        <!-- BATTERY GAUGE -->
+        <div class="battery-container">
+            <div style="display:flex; align-items:center; gap:8px;">
+                <span style="font-size:1.2rem;">⚡</span>
+                <strong style="font-size:0.85rem; color:#6ee7b7; text-transform:uppercase;">Robot Robo-5 Enerjisi:</strong>
+            </div>
+            <div class="battery-meter">
+                <div id="battery-fill" class="battery-fill"></div>
+            </div>
+            <strong id="battery-pct" style="color:#6ee7b7; font-size:0.9rem; min-width:45px;">%10</strong>
+        </div>
+
+        <!-- MAIN STAGE -->
+        <main class="lab-stage">
+            <div class="robot-center">
+                <!-- SVG Cute Robot -->
+                <div class="robot-avatar">
+                    <svg width="100" height="100" viewBox="0 0 100 100">
+                        <circle cx="50" cy="18" r="6" fill="#38bdf8"/>
+                        <line x1="50" y1="24" x2="50" y2="35" stroke="#38bdf8" stroke-width="4"/>
+                        <rect x="22" y="35" width="56" height="42" rx="12" fill="#1e293b" stroke="#38bdf8" stroke-width="3"/>
+                        <circle cx="38" cy="52" r="7" fill="#06b6d4"/>
+                        <circle cx="62" cy="52" r="7" fill="#06b6d4"/>
+                        <circle cx="40" cy="50" r="2.5" fill="#fff"/>
+                        <circle cx="64" cy="50" r="2.5" fill="#fff"/>
+                        <rect x="36" y="65" width="28" height="4" rx="2" fill="#38bdf8"/>
+                    </svg>
+                </div>
+
+                <!-- SPEECH DISPLAY -->
+                <div class="robot-speech">
+                    <div id="binary-stream" class="binary-banner">01001011 01001111</div>
+                    <div id="quest-text" class="robot-question">Yükleniyor...</div>
+                </div>
+            </div>
+
+            <!-- CHOICES -->
+            <div id="choices-grid" class="answers-grid">
+                <!-- Answers injected by JS -->
+            </div>
+
+            <!-- FEEDBACK SCREEN -->
+            <div id="fb-overlay" class="feedback-box">
+                <div id="fb-avatar" style="width:68px; height:68px; border-radius:50%; display:flex; align-items:center; justify-content:center; margin-bottom:14px;"></div>
+                <h2 id="fb-head" style="font-size:1.8rem; font-weight:900; margin-bottom:8px;">Harika!</h2>
+                <p id="fb-detail" style="color:#cbd5e1; font-size:1.05rem; max-width:600px; line-height:1.6;"></p>
+                <button class="btn-next" onclick="robotApp.next()">
+                    <span>Sonraki Kod Akışına Geç ➔</span>
+                </button>
+            </div>
+
+            <!-- START SCREEN -->
+            <div id="start-screen" class="overlay-screen">
+                <div style="width:78px; height:78px; border-radius:24px; background:linear-gradient(135deg, var(--cyan-glow), #0284c7); display:flex; align-items:center; justify-content:center; margin-bottom:16px;">
+                    <svg width="42" height="42" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5"><rect x="3" y="11" width="18" height="10" rx="2"></rect><circle cx="12" cy="5" r="2"></circle><path d="M12 7v4"></path></svg>
+                </div>
+                <h2 style="font-size:2rem; font-weight:900; margin-bottom:8px;">Robo-5'in Dilini Çöz!</h2>
+                <p style="color:#cbd5e1; max-width:600px; font-size:1.05rem; line-height:1.6; margin-bottom:20px;">
+                    Laboratuvardaki akıllı robot Robo-5 yalnızca <strong>0 ve 1 (Makine Dili)</strong> sinyalleriyle konuşabiliyor! 
+                    İkili sayı sistemi, elektrik akımı ve sinyal örüntüleri hakkındaki soruları doğru cevaplayarak robotun enerjisini doldur!
+                </p>
+                <button class="btn-next" onclick="robotApp.start()">
+                    <span>Robotla İletişime Başla ➔</span>
+                </button>
+            </div>
+
+            <!-- FINISH SCREEN -->
+            <div id="finish-screen" class="overlay-screen" style="display:none;">
+                <div style="width:84px; height:84px; border-radius:50%; background:linear-gradient(135deg, #10b981, #059669); display:flex; align-items:center; justify-content:center; margin-bottom:16px;">
+                    <svg width="46" height="46" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+                </div>
+                <h2 style="font-size:2.2rem; font-weight:900; margin-bottom:8px;">ENERJİ %100 DOLDU! ⚡</h2>
+                <p style="color:var(--amber-glow); font-size:1.2rem; font-weight:800; margin-bottom:12px;">🏆 'İkili Sistem Kod Çözücüsü' Rozetini Kazandın!</p>
+                <p id="finish-stats" style="color:#cbd5e1; font-size:1.05rem; line-height:1.6; margin-bottom:20px;">
+                    Toplam 14 görevden 14'ünü başarıyla çözdün.<br>
+                    Kazanılan Puan: <strong style="color:#38bdf8; font-size:1.4rem;">140</strong>
+                </p>
+                <button class="btn-next" onclick="robotApp.start()">
+                    <span>Yeniden İletişim Kur 🔄</span>
+                </button>
+            </div>
+
+        </main>
+    </div>
+
+    <script>
+        // Web Audio Synthesizer
+        const AudioFX = {
+            ctx: null,
+            active: true,
+            init() {
+                if (!this.ctx) {
+                    const AC = window.AudioContext || window.webkitAudioContext;
+                    if (AC) this.ctx = new AC();
+                }
+            },
+            play(type) {
+                if (!this.active) return;
+                try {
+                    this.init();
+                    if (!this.ctx) return;
+                    if (this.ctx.state === 'suspended') this.ctx.resume();
+
+                    const t = this.ctx.currentTime;
+                    const o = this.ctx.createOscillator();
+                    const g = this.ctx.createGain();
+                    o.connect(g);
+                    g.connect(this.ctx.destination);
+
+                    if (type === 'beep') {
+                        o.type = 'sine';
+                        o.frequency.setValueAtTime(800, t);
+                        g.gain.setValueAtTime(0.2, t);
+                        g.gain.exponentialRampToValueAtTime(0.01, t + 0.1);
+                        o.start(t);
+                        o.stop(t + 0.1);
+                    } else if (type === 'win') {
+                        [523.25, 659.25, 783.99, 1046.50].forEach((f, i) => {
+                            const osc = this.ctx.createOscillator();
+                            const gn = this.ctx.createGain();
+                            osc.type = 'triangle';
+                            osc.connect(gn);
+                            gn.connect(this.ctx.destination);
+                            osc.frequency.setValueAtTime(f, t + i * 0.1);
+                            gn.gain.setValueAtTime(0.2, t + i * 0.1);
+                            gn.gain.exponentialRampToValueAtTime(0.001, t + i * 0.1 + 0.35);
+                            osc.start(t + i * 0.1);
+                            osc.stop(t + i * 0.1 + 0.35);
+                        });
+                    }
+                } catch(e) {}
+            }
+        };
+
+        // 14 Curriculum-Pure Binary & Machine Language Questions
+        const robotTasks = [
+            {
+                q: "Robotların ve bilgisayarların anladığı tek dil olan MAKİNE DİLİ hangi iki rakamla ifade edilir?",
+                stream: "01001101 01001100",
+                options: ["1 ve 2", "0 ve 1 (İkili Sistem)", "0 ve 9", "1 ve 10"],
+                ans: 1,
+                desc: "Doğru! Bilgisayarlar sadece 0 ve 1 sinyallerinden oluşan ikili sayı sistemini (Binary) kullanır."
+            },
+            {
+                q: "Aşağıdaki sinyal dizilerinden hangisi gerçek bir makine dili koduna uygundur?",
+                stream: "10110010 01101001",
+                options: ["01101001 (Yalnızca 0 ve 1)", "12849503 (Rakamlar)", "ABCDEF (Harfler)", "XYZ123 (Karışık)"],
+                ans: 0,
+                desc: "Harika! Makine dilinde sadece 0 ve 1 bulunur, başka hiçbir rakam yer almaz."
+            },
+            {
+                q: "Bilgisayarların dili neden sadece 0 ve 1 rakamlarından oluşur?",
+                stream: "11000011 00111100",
+                options: [
+                    "Çünkü klavyede sadece iki tuş vardır.",
+                    "Elektrik akımının VAR (1) ve YOK (0) olması esasına dayandığı için.",
+                    "Bilgisayarlar 2'ye kadar saymayı bildiği için."
+                ],
+                ans: 1,
+                desc: "Tam isabet! Donanım parçaları elektrik sinyaliyle çalışır: Akım varsa 1, yoksa 0!"
+            },
+            {
+                q: "Robo-5'in ekranındaki ikili örüntüde soru işareti yerine hangi rakam gelmelidir?<br><strong>1 - 0 - 1 - 0 - 1 - [ ? ]</strong>",
+                stream: "1 0 1 0 1 ?",
+                options: ["0", "1", "2"],
+                ans: 0,
+                desc: "Tebrikler! 1 ve 0 sırayla gidiyor, sıradaki sinyal 0'dır."
+            },
+            {
+                q: "Doğru mu / Yanlış mı: 'Bilgisayarlar ve robotlar Türkçe veya İngilizceyi doğrudan anlar.'",
+                stream: "00110101 11001010",
+                options: [
+                    "Doğru (Doğrudan anlarlar)",
+                    "Yanlış (Yazılımlar önce kelimeleri 0 ve 1 sinyallerine çevirir)"
+                ],
+                ans: 1,
+                desc: "Doğru tespit! İşlemci sadece 0 ve 1'i anlar. Yazılımlar kelimeleri makine diline çevirir."
+            },
+            {
+                q: "Bilgisayardaki en küçük veri birimi olan BIT neyi temsil eder?",
+                stream: "00000001 BIT",
+                options: [
+                    "Tek bir 0 veya 1 değerini",
+                    "Kocaman bir filmi",
+                    "1024 tane fotoğrafı"
+                ],
+                ans: 0,
+                desc: "Bravo! BIT (Binary Digit), bilgisayar hafızasındaki tek bir 0 veya 1 değeridir."
+            },
+            {
+                q: "Robo-5'in çift sinyal örüntüsündeki boşluğu tamamla:<br><strong>00 - 11 - 00 - 11 - [ ? ]</strong>",
+                stream: "00 11 00 11 ??",
+                options: ["00", "11", "01"],
+                ans: 0,
+                desc: "Harika! İkili bloklar 00 ve 11 şeklinde sıralanıyor, sıradaki blok 00'dır."
+            },
+            {
+                q: "8 tane BIT (örneğin: 01000001) yan yana geldiğinde hangi kapasite birimini oluşturur?",
+                stream: "01000001 = 1 BYTE",
+                options: ["1 Byte", "1 Kilobyte", "1 Gigabyte"],
+                ans: 0,
+                desc: "Mükemmel! 8 bit = 1 Byte eder. Klavyedeki bir harf hafızada yaklaşık 1 Byte yer kaplar."
+            },
+            {
+                q: "Doğru mu / Yanlış mı: 'Makine dilinde 2, 3, 5, 8 gibi rakamlar doğrudan kullanılmaz.'",
+                stream: "01010101 10101010",
+                options: [
+                    "Doğru (Sadece 0 ve 1 vardır)",
+                    "Yanlış (Tüm rakamlar serbestçe kullanılır)"
+                ],
+                ans: 0,
+                desc: "Doğru! İkili sayı sisteminde 2 ve üstü rakamlar bulunmaz."
+            },
+            {
+                q: "Robotun devresinde '1' sinyali görüldüğünde elektriğin durumu nedir?",
+                stream: "SIGNAL: 1 (HIGH)",
+                options: [
+                    "Elektrik akımı VAR (Açık devre)",
+                    "Elektrik akımı YOK (Kapalı devre)"
+                ],
+                ans: 0,
+                desc: "Harika! 1 sinyali yüksek voltajı / elektrik akımının olduğunu temsil eder."
+            },
+            {
+                q: "Robotun devresinde '0' sinyali görüldüğünde elektriğin durumu nedir?",
+                stream: "SIGNAL: 0 (LOW)",
+                options: [
+                    "Elektrik akımı YOK / Kapalı",
+                    "Elektrik akımı VAR / Açık"
+                ],
+                ans: 0,
+                desc: "Tebrikler! 0 sinyali elektriğin kesik olduğunu temsil eder."
+            },
+            {
+                q: "Robo-5'in üçlü sinyal örüntüsünü çöz:<br><strong>101 - 101 - [ ? ] - 101</strong>",
+                stream: "101 101 ??? 101",
+                options: ["101", "010", "111"],
+                ans: 0,
+                desc: "Süper! Örüntü 101 şeklinde tekrar ediyor."
+            },
+            {
+                q: "Fotoğraf, video ve oyunlarımızın bilgisayarda saklanabilmesi için neye dönüştürülmesi gerekir?",
+                stream: "IMAGE ➔ 01010111",
+                options: [
+                    "0 ve 1'lerden oluşan ikili kodlara",
+                    "Kâğıt mektuplara",
+                    "Tahta bloklara"
+                ],
+                ans: 0,
+                desc: "Harika! Ekranda gördüğümüz tüm renkler ve sesler arka planda milyonlarca 0 ve 1'dir."
+            },
+            {
+                q: "Bilgisayarın beyni olan İşlemci (CPU) donanımının doğrudan çalıştırdığı ana dil hangisidir?",
+                stream: "CPU ➔ 01000011",
+                options: [
+                    "Makine Dili (İkili Sayı Sistemi)",
+                    "İngilizce Konuşma Dili",
+                    "İşaret Dili"
+                ],
+                ans: 0,
+                desc: "Mükemmel! İşlemci doğrudan makine dili komutlarını işler."
+            }
+        ];
+
+        // Robot Game Engine
+        const robotApp = {
+            list: [],
+            curr: 0,
+            score: 0,
+
+            start() {
+                AudioFX.init();
+                AudioFX.play('beep');
+                document.getElementById('start-screen').style.display = 'none';
+                document.getElementById('finish-screen').style.display = 'none';
+                document.getElementById('fb-overlay').style.display = 'none';
+
+                this.list = [...robotTasks].sort(() => Math.random() - 0.5);
+                this.curr = 0;
+                this.score = 0;
+                this.render();
+            },
+
+            render() {
+                const item = this.list[this.curr];
+                const total = this.list.length;
+
+                document.getElementById('stat-quest').innerText = `${this.curr + 1} / ${total}`;
+                document.getElementById('stat-score').innerText = this.score;
+                document.getElementById('binary-stream').innerText = item.stream;
+                document.getElementById('quest-text').innerHTML = item.q;
+
+                // Battery Meter
+                const pct = Math.min(100, Math.round(((this.curr + 1) / total) * 100));
+                document.getElementById('battery-fill').style.width = `${pct}%`;
+                document.getElementById('battery-pct').innerText = `%${pct}`;
+
+                // Render Answer Buttons
+                const container = document.getElementById('choices-grid');
+                container.innerHTML = item.options.map((opt, i) => `
+                    <button class="ans-btn" onclick="robotApp.choose(${i})">
+                        <span>${opt}</span>
+                    </button>
+                `).join('');
+            },
+
+            choose(choiceIdx) {
+                const item = this.list[this.curr];
+                const isRight = (choiceIdx === item.ans);
+                const overlay = document.getElementById('fb-overlay');
+                const avatar = document.getElementById('fb-avatar');
+                const head = document.getElementById('fb-head');
+                const detail = document.getElementById('fb-detail');
+
+                if (isRight) {
+                    AudioFX.play('beep');
+                    this.score += 10;
+                    avatar.style.background = 'rgba(16, 185, 129, 0.2)';
+                    avatar.innerHTML = '<svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>';
+                    head.innerText = "Robot Sinyali Doğrulandı! 🤖";
+                    head.style.color = "var(--emerald-glow)";
+                    detail.innerHTML = item.desc;
+                } else {
+                    avatar.style.background = 'rgba(239, 68, 68, 0.2)';
+                    avatar.innerHTML = '<svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="3"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>';
+                    head.innerText = "Sinyal Karıştı!";
+                    head.style.color = "#f87171";
+                    detail.innerHTML = `Robo-5 uyardı: Doğru cevap <strong>"${item.options[item.ans]}"</strong> olmalıydı. ${item.desc}`;
+                }
+
+                document.getElementById('stat-score').innerText = this.score;
+                overlay.style.display = 'flex';
+            },
+
+            next() {
+                AudioFX.play('beep');
+                document.getElementById('fb-overlay').style.display = 'none';
+                this.curr++;
+
+                if (this.curr < this.list.length) {
+                    this.render();
+                } else {
+                    this.finish();
+                }
+            },
+
+            finish() {
+                AudioFX.play('win');
+                document.getElementById('battery-fill').style.width = '100%';
+                document.getElementById('battery-pct').innerText = '%100';
+
+                const screen = document.getElementById('finish-screen');
+                document.getElementById('finish-stats').innerHTML = `
+                    Toplam <strong>${this.list.length}</strong> ikili sistem görevinden <strong>${this.score / 10}</strong> tanesini tam isabet çözdün!<br>
+                    Robo-5'in Batarya Gücü: <strong>%100 TAM DOLU</strong> ⚡<br>
+                    Kazanılan Puan: <strong style="color:var(--cyan-glow); font-size:1.4rem;">${this.score}</strong>
+                `;
+                screen.style.display = 'flex';
+            },
+
+            toggleSound() {
+                AudioFX.active = !AudioFX.active;
+                const btn = document.getElementById('sound-btn');
+                btn.style.opacity = AudioFX.active ? '1' : '0.4';
+                if (AudioFX.active) AudioFX.play('beep');
+            },
+
+            toggleFullscreen() {
+                if (!document.fullscreenElement) {
+                    document.documentElement.requestFullscreen().catch(() => {});
+                } else {
+                    if (document.exitFullscreen) document.exitFullscreen();
+                }
+            }
+        };
+    </script>
+</body>
+</html>

@@ -1,0 +1,851 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teknoloji Çarkı | Öğretmen Bozok</title>
+    <style>
+        :root {
+            --bg-deep: #060914;
+            --panel-bg: rgba(15, 23, 42, 0.95);
+            --cat-software: #3b82f6;
+            --cat-machine: #10b981;
+            --cat-capacity: #f59e0b;
+            --cat-storage: #a855f7;
+            --text-light: #f8fafc;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            user-select: none;
+            -webkit-user-select: none;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+
+        body {
+            background: radial-gradient(circle at 50% 25%, #172554 0%, #060914 100%);
+            color: var(--text-light);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            padding: 12px;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            width: 100%;
+            margin: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        /* Top Bar */
+        .top-bar {
+            background: var(--panel-bg);
+            border: 2px solid rgba(59, 130, 246, 0.3);
+            border-radius: 18px;
+            padding: 10px 18px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 10px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.6);
+        }
+
+        .brand-box {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .brand-icon {
+            width: 44px;
+            height: 44px;
+            background: linear-gradient(135deg, #f59e0b, #ec4899);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 14px rgba(245, 158, 11, 0.4);
+        }
+
+        .tool-btn {
+            width: 38px;
+            height: 38px;
+            background: #1e293b;
+            border: 1px solid rgba(255,255,255,0.15);
+            color: #fff;
+            border-radius: 10px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+
+        .tool-btn:hover {
+            background: #334155;
+            transform: scale(1.05);
+        }
+
+        /* Teams Scoreboard */
+        .score-board {
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .team-box {
+            background: rgba(15, 23, 42, 0.9);
+            border: 3px solid rgba(255,255,255,0.1);
+            border-radius: 16px;
+            padding: 10px 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: all 0.3s;
+        }
+
+        .team-box.active {
+            border-color: #38bdf8;
+            background: rgba(14, 165, 233, 0.15);
+            box-shadow: 0 0 20px rgba(56, 189, 248, 0.3);
+            transform: scale(1.02);
+        }
+
+        .team-box.team-b.active {
+            border-color: #f43f5e;
+            background: rgba(244, 63, 94, 0.15);
+            box-shadow: 0 0 20px rgba(244, 63, 94, 0.3);
+        }
+
+        /* Main Game Arena: Wheel Left + Question Right */
+        .arena-grid {
+            display: grid;
+            grid-template-columns: 460px 1fr;
+            gap: 16px;
+        }
+
+        .wheel-panel {
+            background: var(--panel-bg);
+            border: 2px solid rgba(59, 130, 246, 0.3);
+            border-radius: 24px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+            position: relative;
+        }
+
+        /* Wheel Canvas & Pointer */
+        .wheel-box {
+            position: relative;
+            width: 360px;
+            height: 360px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .wheel-pointer {
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 0;
+            border-left: 18px solid transparent;
+            border-right: 18px solid transparent;
+            border-top: 36px solid #fbbf24;
+            z-index: 20;
+            filter: drop-shadow(0 4px 8px rgba(0,0,0,0.8));
+        }
+
+        .wheel-center-btn {
+            position: absolute;
+            width: 76px;
+            height: 76px;
+            background: radial-gradient(circle, #f59e0b, #b45309);
+            border: 4px solid #fff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 0.9rem;
+            font-weight: 900;
+            cursor: pointer;
+            box-shadow: 0 6px 18px rgba(0,0,0,0.6);
+            z-index: 10;
+            transition: all 0.2s;
+            text-align: center;
+            line-height: 1.1;
+        }
+
+        .wheel-center-btn:hover {
+            transform: scale(1.08);
+            box-shadow: 0 8px 24px rgba(245, 158, 11, 0.6);
+        }
+
+        .wheel-center-btn:active {
+            transform: scale(0.95);
+        }
+
+        /* Question Panel */
+        .question-panel {
+            background: var(--panel-bg);
+            border: 2px solid rgba(59, 130, 246, 0.3);
+            border-radius: 24px;
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+            position: relative;
+            min-height: 480px;
+        }
+
+        .q-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            padding-bottom: 12px;
+            margin-bottom: 14px;
+        }
+
+        .cat-tag {
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .points-tag {
+            background: rgba(245, 158, 11, 0.2);
+            color: #f59e0b;
+            border: 1px solid #f59e0b;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 900;
+        }
+
+        .q-body {
+            font-size: 1.3rem;
+            font-weight: 800;
+            color: #fff;
+            line-height: 1.5;
+            margin-bottom: 18px;
+        }
+
+        .options-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .option-item {
+            background: #111d33;
+            border: 2px solid rgba(255,255,255,0.12);
+            border-radius: 14px;
+            padding: 14px 18px;
+            color: #fff;
+            font-size: 1.05rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-align: left;
+        }
+
+        .option-item:hover {
+            border-color: #38bdf8;
+            background: #1e3052;
+            transform: translateX(4px);
+        }
+
+        .opt-letter {
+            width: 30px;
+            height: 30px;
+            background: rgba(56, 189, 248, 0.2);
+            color: #38bdf8;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 900;
+            font-size: 0.9rem;
+            flex-shrink: 0;
+        }
+
+        /* Feedback Layer inside Question Panel */
+        .q-feedback {
+            position: absolute;
+            inset: 0;
+            background: rgba(10, 15, 30, 0.95);
+            backdrop-filter: blur(8px);
+            border-radius: 24px;
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 28px;
+            text-align: center;
+            z-index: 30;
+        }
+
+        .btn-continue {
+            background: linear-gradient(135deg, #f59e0b, #ea580c);
+            color: #060914;
+            font-weight: 900;
+            font-size: 1.1rem;
+            border: none;
+            padding: 14px 36px;
+            border-radius: 14px;
+            cursor: pointer;
+            box-shadow: 0 8px 20px rgba(245, 158, 11, 0.4);
+            transition: all 0.2s;
+            margin-top: 20px;
+        }
+
+        .btn-continue:hover {
+            transform: scale(1.04);
+            box-shadow: 0 12px 25px rgba(245, 158, 11, 0.6);
+        }
+
+        /* Modal Overlays */
+        .screen-modal {
+            position: absolute;
+            inset: 0;
+            background: rgba(6, 9, 20, 0.96);
+            backdrop-filter: blur(12px);
+            border-radius: 24px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 30px;
+            text-align: center;
+            z-index: 100;
+        }
+
+        @media (max-width: 900px) {
+            .arena-grid {
+                grid-template-columns: 1fr;
+            }
+            .wheel-box {
+                width: 300px;
+                height: 300px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- TOP CONTROLS -->
+        <header class="top-bar">
+            <div class="brand-box">
+                <div class="brand-icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5"><circle cx="12" cy="12" r="10"></circle><path d="M12 2v20M2 12h20"></path></svg>
+                </div>
+                <div>
+                    <h1 style="font-size:1.25rem; font-weight:900;">Teknoloji Çarkı</h1>
+                    <span style="font-size:0.75rem; color:#38bdf8; font-weight:700; text-transform:uppercase;">Akıllı Tahta Bilgi Yarışması • BTY.5.1.5</span>
+                </div>
+            </div>
+
+            <div style="display:flex; align-items:center; gap:8px;">
+                <button class="tool-btn" onclick="wheelApp.toggleSound()" id="sound-btn" title="Ses">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg>
+                </button>
+                <button class="tool-btn" onclick="wheelApp.toggleFullscreen()" title="Tam Ekran">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path></svg>
+                </button>
+                <button class="tool-btn" onclick="wheelApp.showSetup()" title="Yeniden Başlat">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="1 4 1 10 7 10"></polyline><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path></svg>
+                </button>
+            </div>
+        </header>
+
+        <!-- SCOREBOARD -->
+        <div class="score-board">
+            <div id="team-a-box" class="team-box team-a active">
+                <div>
+                    <span style="font-size:0.75rem; color:#94a3b8; font-weight:800; text-transform:uppercase;">1. Ekip</span>
+                    <h3 id="team-a-name" style="font-size:1.15rem; font-weight:900; color:#38bdf8;">A Takımı</h3>
+                </div>
+                <div id="team-a-score" style="font-size:1.8rem; font-weight:900; color:#38bdf8;">0</div>
+            </div>
+
+            <div style="font-size:0.85rem; font-weight:900; color:#f59e0b; background:#1e293b; padding:6px 14px; border-radius:20px; border:1px solid #f59e0b;">
+                VS
+            </div>
+
+            <div id="team-b-box" class="team-box team-b">
+                <div>
+                    <span style="font-size:0.75rem; color:#94a3b8; font-weight:800; text-transform:uppercase;">2. Ekip</span>
+                    <h3 id="team-b-name" style="font-size:1.15rem; font-weight:900; color:#f43f5e;">B Takımı</h3>
+                </div>
+                <div id="team-b-score" style="font-size:1.8rem; font-weight:900; color:#f43f5e;">0</div>
+            </div>
+        </div>
+
+        <!-- MAIN ARENA -->
+        <main class="arena-grid">
+            
+            <!-- LEFT: WHEEL -->
+            <div class="wheel-panel">
+                <div class="wheel-box">
+                    <div class="wheel-pointer"></div>
+                    <canvas id="wheel-canvas" width="360" height="360"></canvas>
+                    <button class="wheel-center-btn" onclick="wheelApp.spinWheel()" id="spin-btn">
+                        ÇARKI<br>ÇEVİR!
+                    </button>
+                </div>
+                <p id="wheel-status-text" style="color:#94a3b8; font-size:0.9rem; font-weight:700; margin-top:14px; text-align:center;">
+                    Ortadaki butona basarak çarkı çevirin!
+                </p>
+            </div>
+
+            <!-- RIGHT: QUESTION DISPLAY -->
+            <div class="question-panel" id="question-panel">
+                <div id="panel-content-waiting" style="margin:auto; text-align:center; padding:30px;">
+                    <div style="font-size:3.5rem; margin-bottom:12px;">🎡</div>
+                    <h3 style="font-size:1.5rem; font-weight:900; color:#fff; margin-bottom:8px;">Çarkın Dönmesini Bekleyin!</h3>
+                    <p style="color:#94a3b8; font-size:1rem; max-width:420px; margin:auto;">
+                        Sol taraftaki çarkı çevirerek 4 kategoriden birini seçin: Yazılım Türleri, Makine Dili, Kapasite veya Depolama!
+                    </p>
+                </div>
+
+                <div id="panel-content-active" style="display:none; flex:1; display:flex; flex-direction:column; justify-content:space-between;">
+                    <div>
+                        <div class="q-header">
+                            <span id="q-category-tag" class="cat-tag">Kategori</span>
+                            <span id="q-points-tag" class="points-tag">+20 Puan</span>
+                        </div>
+                        <div id="q-text" class="q-body">Soru metni...</div>
+                    </div>
+
+                    <div id="q-options" class="options-list">
+                        <!-- Options injected -->
+                    </div>
+                </div>
+
+                <!-- FEEDBACK POPUP -->
+                <div id="q-feedback" class="q-feedback">
+                    <div id="fb-icon" style="width:68px; height:68px; border-radius:50%; display:flex; align-items:center; justify-content:center; margin-bottom:14px;"></div>
+                    <h2 id="fb-title" style="font-size:1.8rem; font-weight:900; margin-bottom:8px;">Cevap</h2>
+                    <p id="fb-desc" style="color:#cbd5e1; font-size:1.05rem; max-width:540px; line-height:1.6;"></p>
+                    <button class="btn-continue" onclick="wheelApp.closeQuestionFeedback()">
+                        <span>Çarka Geri Dön ➔</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- SETUP MODAL -->
+            <div id="setup-modal" class="screen-modal">
+                <div style="width:78px; height:78px; border-radius:24px; background:linear-gradient(135deg, #f59e0b, #ec4899); display:flex; align-items:center; justify-content:center; margin-bottom:16px;">
+                    <svg width="42" height="42" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5"><circle cx="12" cy="12" r="10"></circle><path d="M12 2v20M2 12h20"></path></svg>
+                </div>
+                <h2 style="font-size:2rem; font-weight:900; margin-bottom:8px;">Teknoloji Çarkı Başlıyor!</h2>
+                <p style="color:#cbd5e1; max-width:580px; font-size:1.05rem; margin-bottom:20px;">
+                    Sınıfta takımlar halinde veya bireysel olarak çarkı çevirin, 4 farklı kategorideki soruları cevaplayarak en yüksek puanı toplayın!
+                </p>
+
+                <div style="display:flex; gap:16px; margin-bottom:20px; flex-wrap:wrap; justify-content:center;">
+                    <div>
+                        <span style="font-size:0.75rem; color:#38bdf8; font-weight:800; display:block; margin-bottom:4px;">1. Takım Adı</span>
+                        <input id="team-a-input" value="A Takımı" style="background:#1e293b; border:2px solid #475569; border-radius:12px; padding:10px 16px; color:#fff; font-weight:700; width:200px;" />
+                    </div>
+                    <div>
+                        <span style="font-size:0.75rem; color:#f43f5e; font-weight:800; display:block; margin-bottom:4px;">2. Takım Adı</span>
+                        <input id="team-b-input" value="B Takımı" style="background:#1e293b; border:2px solid #475569; border-radius:12px; padding:10px 16px; color:#fff; font-weight:700; width:200px;" />
+                    </div>
+                </div>
+
+                <button class="btn-continue" onclick="wheelApp.start()">
+                    <span>Yarışmaya Başla ➔</span>
+                </button>
+            </div>
+
+        </main>
+    </div>
+
+    <script>
+        // Web Audio Synthesizer
+        const SoundFX = {
+            ctx: null,
+            active: true,
+            init() {
+                if (!this.ctx) {
+                    const AC = window.AudioContext || window.webkitAudioContext;
+                    if (AC) this.ctx = new AC();
+                }
+            },
+            play(type) {
+                if (!this.active) return;
+                try {
+                    this.init();
+                    if (!this.ctx) return;
+                    if (this.ctx.state === 'suspended') this.ctx.resume();
+
+                    const t = this.ctx.currentTime;
+                    const o = this.ctx.createOscillator();
+                    const g = this.ctx.createGain();
+                    o.connect(g);
+                    g.connect(this.ctx.destination);
+
+                    if (type === 'tick') {
+                        o.type = 'triangle';
+                        o.frequency.setValueAtTime(650, t);
+                        g.gain.setValueAtTime(0.08, t);
+                        g.gain.exponentialRampToValueAtTime(0.001, t + 0.04);
+                        o.start(t);
+                        o.stop(t + 0.04);
+                    } else if (type === 'win') {
+                        o.type = 'triangle';
+                        o.frequency.setValueAtTime(523.25, t);
+                        o.frequency.setValueAtTime(659.25, t + 0.08);
+                        o.frequency.setValueAtTime(783.99, t + 0.16);
+                        g.gain.setValueAtTime(0.25, t);
+                        g.gain.exponentialRampToValueAtTime(0.01, t + 0.4);
+                        o.start(t);
+                        o.stop(t + 0.4);
+                    } else if (type === 'wrong') {
+                        o.type = 'sawtooth';
+                        o.frequency.setValueAtTime(220, t);
+                        o.frequency.linearRampToValueAtTime(110, t + 0.25);
+                        g.gain.setValueAtTime(0.2, t);
+                        g.gain.exponentialRampToValueAtTime(0.01, t + 0.25);
+                        o.start(t);
+                        o.stop(t + 0.25);
+                    }
+                } catch(e) {}
+            }
+        };
+
+        // 4 Categories
+        const categories = [
+            { id: "software", name: "Yazılım Türleri", color: "#3b82f6" },
+            { id: "machine", name: "Makine Dili", color: "#10b981" },
+            { id: "capacity", name: "Kapasite Birimleri", color: "#f59e0b" },
+            { id: "storage", name: "Depolama Türleri", color: "#a855f7" }
+        ];
+
+        // 8 Wheel Slices (each category appears twice for rich visual spinning)
+        const wheelSlices = [
+            categories[0], categories[1], categories[2], categories[3],
+            categories[0], categories[1], categories[2], categories[3]
+        ];
+
+        // Question Pool (at least 8-10 per category)
+        const questionBank = {
+            software: [
+                { q: "Windows, Pardus, Android ve iOS hangi yazılım türüne örnektir?", opts: ["İşletim Sistemi", "Uygulama Yazılımı", "Oyun Yazılımı"], ans: 0, pts: 10, exp: "Bu yazılımlar tüm bilgisayarı ve cihazları yöneten İŞLETİM SİSTEMLERİDİR." },
+                { q: "Ödevlerimizi ve metinlerimizi hazırladığımız Microsoft Word hangi yazılım türüdür?", opts: ["İşletim Sistemi", "Uygulama Yazılımı", "Donanım Birimi"], ans: 1, pts: 10, exp: "Word belirli bir amaca hizmet eden UYGULAMA YAZILIMIDIR." },
+                { q: "TÜBİTAK tarafından geliştirilen milli işletim sistemimiz hangisidir?", opts: ["Windows", "Pardus", "Android"], ans: 1, pts: 10, exp: "PARDUS, ülkemizin gururu milli işletim sistemimizdir." },
+                { q: "İşletim sistemi olmadan bir bilgisayarda oyun veya Word çalıştırılabilir mi?", opts: ["Evet, her zaman çalışır", "Hayır, işletim sistemi olmadan hiçbir uygulama çalışamaz"], ans: 1, pts: 20, exp: "İşletim sistemi olmadan bilgisayar donanımları çalışmaz ve hiçbir uygulama açılamaz." },
+                { q: "Blok tabanlı kodlama yaparak oyun geliştirdiğimiz Scratch hangi yazılım türüdür?", opts: ["Uygulama Yazılımı", "İşletim Sistemi", "Depolama Birimi"], ans: 0, pts: 10, exp: "Scratch bir kodlama ve oyun UYGULAMA YAZILIMIDIR." },
+                { q: "Apple marka bilgisayarların (Mac) işletim sistemi hangisidir?", opts: ["macOS", "Windows", "Pardus"], ans: 0, pts: 20, exp: "Apple bilgisayarlar macOS işletim sistemini kullanır." },
+                { q: "Fotoğraf düzenlemek için kullanılan Photoshop ve çizim programı Paint hangi gruptadır?", opts: ["Uygulama Yazılımı", "İşletim Sistemi", "İç Donanım"], ans: 0, pts: 10, exp: "Görsel ve çizim programları UYGULAMA YAZILIMIDIR." },
+                { q: "Akıllı telefonlarda en yaygın kullanılan açık kaynaklı mobil işletim sistemi hangisidir?", opts: ["Android", "Excel", "Scratch"], ans: 0, pts: 20, exp: "Android, milyarlarca telefona güç veren mobil işletim sistemidir." }
+            ],
+            machine: [
+                { q: "Bilgisayarların ve robotların anladığı tek dil olan Makine Dili hangi iki rakamla gösterilir?", opts: ["0 ve 1", "1 ve 2", "0 ve 9"], ans: 0, pts: 10, exp: "Makine dili ikili sayı sistemiyle (0 ve 1) çalışır." },
+                { q: "Elektrik akımının VAR (Açık) olduğunu temsil eden ikili sayı değeri hangisidir?", opts: ["1", "0", "10"], ans: 0, pts: 10, exp: "Elektrik sinyali varsa 1, yoksa 0 değerini alır." },
+                { q: "Elektrik akımının YOK (Kapalı) olduğunu temsil eden ikili sayı değeri hangisidir?", opts: ["0", "1", "9"], ans: 0, pts: 10, exp: "0 değeri akımın kesik/yok olduğunu simgeler." },
+                { q: "Bilgisayardaki en küçük veri birimi (0 veya 1) hangisidir?", opts: ["Bit", "Byte", "Kilobyte"], ans: 0, pts: 20, exp: "En küçük birim tek bir 0 veya 1'i temsil eden BIT'tir." },
+                { q: "Aşağıdaki dizilerden hangisi geçerli bir makine dili kodudur?", opts: ["01101001", "24981720", "ABCDEFGH"], ans: 0, pts: 10, exp: "Makine dilinde sadece 0 ve 1 rakamları yer alabilir." },
+                { q: "8 tane bit yan yana geldiğinde hangi kapasite birimini oluşturur?", opts: ["1 Byte", "1 KB", "1 GB"], ans: 0, pts: 20, exp: "8 bit = 1 Byte eder." },
+                { q: "Bilgisayarlar insan dillerini doğrudan anlayabilir mi?", opts: ["Hayır, önce makine diline (0 ve 1'e) çevrilir", "Evet, doğrudan Türkçe anlarlar"], ans: 0, pts: 20, exp: "İşlemciler kelimeleri anlamaz; her komut 0 ve 1'lere dönüştürülür." },
+                { q: "Ekranda gördüğümüz renkli fotoğraflar hafızada nasıl saklanır?", opts: ["Milyonlarca 0 ve 1 sinyali olarak", "Kâğıt üzerine basılarak", "Mürekkep kartuşunda"], ans: 0, pts: 30, exp: "Dijital dünyadaki her veri en temelde 0 ve 1 sinyalleridir." }
+            ],
+            capacity: [
+                { q: "Kapasite birimlerinde bir üst basamağa geçerken kullanılan kural nedir?", opts: ["1024 kat kuralı", "10 kat kuralı", "100 kat kuralı"], ans: 0, pts: 20, exp: "Bilişimde birimler 1024 kat (2 üzeri 10) katlanarak büyür." },
+                { q: "1024 Megabyte (MB) hangi birime eşittir?", opts: ["1 Gigabyte (GB)", "1 Kilobyte (KB)", "1 Terabyte (TB)"], ans: 0, pts: 10, exp: "1024 MB tam 1 GB eder." },
+                { q: "1024 Gigabyte (GB) hangi dev kapasiteye eşittir?", opts: ["1 Terabyte (TB)", "1 Megabyte (MB)", "1 Byte"], ans: 0, pts: 20, exp: "1024 GB = 1 TB eder." },
+                { q: "Kapasite birimlerinin KÜÇÜKTEN BÜYÜĞE doğru sıralanışı hangisidir?", opts: ["bit ➔ Byte ➔ KB ➔ MB ➔ GB ➔ TB", "TB ➔ GB ➔ MB ➔ KB ➔ Byte", "Byte ➔ bit ➔ GB ➔ MB"], ans: 0, pts: 30, exp: "Doğru sıra: bit ➔ Byte ➔ KB ➔ MB ➔ GB ➔ TB'dir." },
+                { q: "1024 Byte kaç KB eder?", opts: ["1 KB (Kilobyte)", "10 KB", "100 KB"], ans: 0, pts: 10, exp: "1024 Byte = 1 Kilobyte'tır." },
+                { q: "Klavyeden basılan tek bir harf (örneğin 'A' harfi) hafızada yaklaşık ne kadar yer tutar?", opts: ["1 Byte (8 bit)", "1 Gigabyte", "1 Terabyte"], ans: 0, pts: 20, exp: "Tek bir karakter bellekte yaklaşık 1 Byte yer kaplar." },
+                { q: "Aşağıdakilerden hangisi en BÜYÜK kapasiteyi ifade eder?", opts: ["Terabyte (TB)", "Gigabyte (GB)", "Megabyte (MB)"], ans: 0, pts: 10, exp: "Verilenler arasında en büyük birim Terabyte'tır (1 TB = 1024 GB)." },
+                { q: "8 bit bir araya geldiğinde kaç Byte eder?", opts: ["1 Byte", "8 Byte", "1024 Byte"], ans: 0, pts: 10, exp: "8 bit = 1 Byte'tır." }
+            ],
+            storage: [
+                { q: "Bilgisayarın kasasının içine monte edilmiş sabit diskler (HDD ve SSD) hangi depolama türüdür?", opts: ["İç Depolama (Dahili)", "Harici Depolama", "Bulut Depolama"], ans: 0, pts: 10, exp: "Kasanın içinde sabit duran birimler İÇ DEPOLAMADIR (Dahili)." },
+                { q: "Cebimizde taşıyıp başka bilgisayarlara taktığımız USB Bellek hangi gruptadır?", opts: ["Harici Depolama", "İç Depolama", "Bulut Depolama"], ans: 0, pts: 10, exp: "Taşınabilir USB bellekler HARİCİ DEPOLAMADIR." },
+                { q: "Google Drive, Microsoft OneDrive ve Yandex Disk hangi depolama türüne örnektir?", opts: ["Bulut Depolama", "Dahili Depolama", "Manyetik Disk"], ans: 0, pts: 10, exp: "İnternet üzerinden uzak sunucularda saklanan sistemler BULUT DEPOLAMADIR." },
+                { q: "Fotoğraf makinesine takılan ve çekimleri saklayan SD kart hangi depolama türüdür?", opts: ["Harici Depolama", "Dahili Depolama", "Bulut Depolama"], ans: 0, pts: 10, exp: "Çıkarılıp taşınabilen SD kartlar HARİCİ DEPOLAMADIR." },
+                { q: "Geleneksel HDD ile yeni nesil SSD arasındaki temel fark nedir?", opts: ["SSD çok daha hızlıdır ve sessiz çalışır", "HDD daha hızlıdır", "İkisi de aynıdır"], ans: 0, pts: 20, exp: "SSD içinde mekanik dönen parça olmadığı için kat kat daha hızlı ve sessizdir." },
+                { q: "Bulut depolamadaki dosyalarımıza erişebilmek için neye ihtiyacımız vardır?", opts: ["İnternet bağlantısına ve kullanıcı hesabına", "Sadece kâğıt kaleme", "Özel bir tornavidaya"], ans: 0, pts: 10, exp: "Bulut sistemlere internet üzerinden güvenli şifremizle erişiriz." },
+                { q: "CD ve DVD gibi yuvarlak optik diskler hangi kategoridedir?", opts: ["Harici Depolama", "İç Depolama", "Bulut Depolama"], ans: 0, pts: 10, exp: "CD/DVD diskler taşınabilir HARİCİ DEPOLAMA araçlarıdır." },
+                { q: "Çantamızda taşıdığımız 1 TB kapasiteli Taşınabilir Sabit Disk hangi türdür?", opts: ["Harici Depolama", "İç Depolama", "Bulut Depolama"], ans: 0, pts: 10, exp: "Kabloyla dışarıdan bağlanan taşınabilir diskler HARİCİ DEPOLAMADIR." }
+            ]
+        };
+
+        // Wheel Application Controller
+        const wheelApp = {
+            currentTeam: 'A',
+            teamScores: { A: 0, B: 0 },
+            teamNames: { A: "A Takımı", B: "B Takımı" },
+            isSpinning: false,
+            currentRotation: 0,
+            activeQuestion: null,
+            usedQuestions: new Set(),
+
+            init() {
+                this.drawWheel();
+            },
+
+            showSetup() {
+                document.getElementById('setup-modal').style.display = 'flex';
+            },
+
+            start() {
+                SoundFX.init();
+                SoundFX.play('win');
+
+                this.teamNames.A = document.getElementById('team-a-input').value.trim() || "A Takımı";
+                this.teamNames.B = document.getElementById('team-b-input').value.trim() || "B Takımı";
+
+                document.getElementById('team-a-name').innerText = this.teamNames.A;
+                document.getElementById('team-b-name').innerText = this.teamNames.B;
+
+                document.getElementById('setup-modal').style.display = 'none';
+                this.teamScores = { A: 0, B: 0 };
+                this.currentTeam = 'A';
+                this.updateTeamsUI();
+                this.drawWheel();
+            },
+
+            updateTeamsUI() {
+                document.getElementById('team-a-score').innerText = this.teamScores.A;
+                document.getElementById('team-b-score').innerText = this.teamScores.B;
+
+                const boxA = document.getElementById('team-a-box');
+                const boxB = document.getElementById('team-b-box');
+
+                if (this.currentTeam === 'A') {
+                    boxA.classList.add('active');
+                    boxB.classList.remove('active');
+                } else {
+                    boxB.classList.add('active');
+                    boxA.classList.remove('active');
+                }
+            },
+
+            drawWheel(angle = 0) {
+                const canvas = document.getElementById('wheel-canvas');
+                if (!canvas) return;
+                const ctx = canvas.getContext('2d');
+                const numSlices = wheelSlices.length;
+                const arc = (2 * Math.PI) / numSlices;
+                const cx = canvas.width / 2;
+                const cy = canvas.height / 2;
+                const radius = cx - 10;
+
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+                for (let i = 0; i < numSlices; i++) {
+                    const startAngle = angle + i * arc;
+                    const endAngle = startAngle + arc;
+                    const slice = wheelSlices[i];
+
+                    ctx.beginPath();
+                    ctx.fillStyle = slice.color;
+                    ctx.moveTo(cx, cy);
+                    ctx.arc(cx, cy, radius, startAngle, endAngle);
+                    ctx.closePath();
+                    ctx.fill();
+
+                    ctx.lineWidth = 3;
+                    ctx.strokeStyle = '#ffffff';
+                    ctx.stroke();
+
+                    // Text
+                    ctx.save();
+                    ctx.translate(cx, cy);
+                    ctx.rotate(startAngle + arc / 2);
+                    ctx.textAlign = 'right';
+                    ctx.fillStyle = '#ffffff';
+                    ctx.font = 'bold 13px system-ui';
+                    ctx.shadowColor = 'rgba(0,0,0,0.8)';
+                    ctx.shadowBlur = 4;
+                    ctx.fillText(slice.name, radius - 20, 5);
+                    ctx.restore();
+                }
+            },
+
+            spinWheel() {
+                if (this.isSpinning) return;
+                this.isSpinning = true;
+                SoundFX.init();
+
+                document.getElementById('spin-btn').disabled = true;
+                document.getElementById('wheel-status-text').innerText = "Çark Dönüyor... Şansını bekle!";
+
+                const numSlices = wheelSlices.length;
+                const sliceAngle = (2 * Math.PI) / numSlices;
+                
+                // Pick a target slice randomly
+                const targetSliceIdx = Math.floor(Math.random() * numSlices);
+                
+                // We want the target slice to end up under the pointer at top (3 * Math.PI / 2 or -Math.PI / 2)
+                // In canvas, top is 1.5 * Math.PI.
+                const extraSpins = (Math.floor(Math.random() * 4) + 5) * (2 * Math.PI); // 5 to 8 full turns
+                const pointerAngle = 1.5 * Math.PI;
+                const targetSliceMiddle = targetSliceIdx * sliceAngle + sliceAngle / 2;
+                const finalAngle = this.currentRotation + extraSpins + (pointerAngle - (this.currentRotation % (2 * Math.PI) + targetSliceMiddle));
+
+                const startAngle = this.currentRotation;
+                const totalRotation = finalAngle - startAngle;
+                const duration = 3800; // ms
+                const startTime = performance.now();
+                let lastTickAngle = startAngle;
+
+                const animate = (currentTime) => {
+                    const elapsed = currentTime - startTime;
+                    const progress = Math.min(1, elapsed / duration);
+                    // Ease-out cubic
+                    const easeOut = 1 - Math.pow(1 - progress, 3);
+                    const currentA = startAngle + totalRotation * easeOut;
+
+                    this.drawWheel(currentA);
+
+                    if (Math.abs(currentA - lastTickAngle) > sliceAngle) {
+                        SoundFX.play('tick');
+                        lastTickAngle = currentA;
+                    }
+
+                    if (progress < 1) {
+                        requestAnimationFrame(animate);
+                    } else {
+                        this.isSpinning = false;
+                        this.currentRotation = finalAngle;
+                        document.getElementById('spin-btn').disabled = false;
+                        const pickedSlice = wheelSlices[targetSliceIdx];
+                        document.getElementById('wheel-status-text').innerText = `Kategori: ${pickedSlice.name}!`;
+                        SoundFX.play('win');
+                        this.displayQuestionForCategory(pickedSlice.id);
+                    }
+                };
+
+                requestAnimationFrame(animate);
+            },
+
+            displayQuestionForCategory(catId) {
+                const pool = questionBank[catId] || [];
+                // Filter unused questions if possible
+                let available = pool.filter(q => !this.usedQuestions.has(q.q));
+                if (available.length === 0) {
+                    available = pool; // Reset if all used
+                }
+
+                const q = available[Math.floor(Math.random() * available.length)];
+                this.usedQuestions.add(q.q);
+                this.activeQuestion = { ...q, catId };
+
+                const catObj = categories.find(c => c.id === catId);
+                const tagEl = document.getElementById('q-category-tag');
+                tagEl.innerText = catObj.name;
+                tagEl.style.background = catObj.color + '33';
+                tagEl.style.color = catObj.color;
+                tagEl.style.border = `1px solid ${catObj.color}`;
+
+                document.getElementById('q-points-tag').innerText = `+${q.pts} Puan`;
+                document.getElementById('q-text').innerText = q.q;
+
+                const optionsContainer = document.getElementById('q-options');
+                const letters = ['A', 'B', 'C', 'D'];
+                optionsContainer.innerHTML = q.opts.map((opt, idx) => `
+                    <button class="option-item" onclick="wheelApp.answerQuestion(${idx})">
+                        <span class="opt-letter">${letters[idx]}</span>
+                        <span>${opt}</span>
+                    </button>
+                `).join('');
+
+                document.getElementById('panel-content-waiting').style.display = 'none';
+                document.getElementById('panel-content-active').style.display = 'flex';
+            },
+
+            answerQuestion(optIdx) {
+                const q = this.activeQuestion;
+                if (!q) return;
+
+                const isCorrect = (optIdx === q.ans);
+                const fbLayer = document.getElementById('q-feedback');
+                const fbIcon = document.getElementById('fb-icon');
+                const fbTitle = document.getElementById('fb-title');
+                const fbDesc = document.getElementById('fb-desc');
+
+                const teamName = (this.currentTeam === 'A') ? this.teamNames.A : this.teamNames.B;
+
+                if (isCorrect) {
+                    SoundFX.play('win');
+                    this.teamScores[this.currentTeam] += q.pts;
+                    fbIcon.style.background = 'rgba(16, 185, 129, 0.2)';
+                    fbIcon.innerHTML = '<svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>';
+                    fbTitle.innerText = `Tebrikler ${teamName}! (+${q.pts} Puan)`;
+                    fbTitle.style.color = "#10b981";
+                    fbDesc.innerText = q.exp;
+                } else {
+                    SoundFX.play('wrong');
+                    fbIcon.style.background = 'rgba(239, 68, 68, 0.2)';
+                    fbIcon.innerHTML = '<svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="3"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>';
+                    fbTitle.innerText = `Puan Kazanılamadı!`;
+                    fbTitle.style.color = "#f87171";
+                    fbDesc.innerHTML = `Doğru cevap <strong>"${q.opts[q.ans]}"</strong> olmalıydı. ${q.exp}`;
+                }
+
+                this.updateTeamsUI();
+                fbLayer.style.display = 'flex';
+            },
+
+            closeQuestionFeedback() {
+                document.getElementById('q-feedback').style.display = 'none';
+                document.getElementById('panel-content-active').style.display = 'none';
+                document.getElementById('panel-content-waiting').style.display = 'block';
+
+                // Switch Team Turn
+                this.currentTeam = (this.currentTeam === 'A') ? 'B' : 'A';
+                this.updateTeamsUI();
+                const nextTeamName = (this.currentTeam === 'A') ? this.teamNames.A : this.teamNames.B;
+                document.getElementById('wheel-status-text').innerText = `Sıra ${nextTeamName} takımında! Çarkı çevir!`;
+            },
+
+            toggleSound() {
+                SoundFX.active = !SoundFX.active;
+                const btn = document.getElementById('sound-btn');
+                btn.style.opacity = SoundFX.active ? '1' : '0.4';
+                if (SoundFX.active) SoundFX.play('win');
+            },
+
+            toggleFullscreen() {
+                if (!document.fullscreenElement) {
+                    document.documentElement.requestFullscreen().catch(() => {});
+                } else {
+                    if (document.exitFullscreen) document.exitFullscreen();
+                }
+            }
+        };
+
+        window.onload = () => wheelApp.init();
+    </script>
+</body>
+</html>

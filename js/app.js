@@ -2259,6 +2259,111 @@ class App {
         } else if (weekNum === '5_2' || weekNum === '5-2') {
             if (!data || !Array.isArray(data.extraGames) || data.extraGames.length === 0) {
                 extra.push({
+                    badge: "Dedektiflik Görevi",
+                    badgeColor: "text-amber-300",
+                    title: "Yazılım Dedektifleri",
+                    desc: "İşletim sistemi ve uygulama yazılımları birbirine karıştı! İpuçlarını incele, delilleri doğru kategoriye teslim et!",
+                    icon: "fa-solid fa-magnifying-glass",
+                    iconBg: "bg-amber-500/30 text-amber-300",
+                    cardGradient: "from-amber-950/90 via-slate-900 to-indigo-950/90",
+                    border: "border-amber-500/50",
+                    descColor: "text-amber-100",
+                    btnText: "Dedektifliğe Başla!",
+                    btnIcon: "fa-solid fa-user-secret",
+                    btnGradient: "from-amber-500 via-orange-500 to-indigo-600 hover:from-amber-400 hover:to-indigo-500 text-slate-950 font-black",
+                    action: "app.openStandaloneGame('games/yazilim_dedektifleri.html', 'Yazılım Dedektifleri | Öğretmen Bozok')"
+                });
+                extra.push({
+                    badge: "Depolama Simülasyonu",
+                    badgeColor: "text-cyan-300",
+                    title: "Veriler Nereye Saklandı?",
+                    desc: "İç depolama (SSD/HDD), harici depolama (USB/SD) ve bulut depolama (Drive/OneDrive) birimlerini doğru senaryolarla eşleştir!",
+                    icon: "fa-solid fa-hard-drive",
+                    iconBg: "bg-cyan-500/30 text-cyan-300",
+                    cardGradient: "from-blue-950/90 via-slate-900 to-cyan-950/90",
+                    border: "border-cyan-500/50",
+                    descColor: "text-cyan-100",
+                    btnText: "Laboratuvarı Düzenle!",
+                    btnIcon: "fa-solid fa-server",
+                    btnGradient: "from-cyan-500 via-blue-600 to-indigo-600 hover:from-cyan-400 hover:to-indigo-500 text-slate-950 font-black",
+                    action: "app.openStandaloneGame('games/veriler_nereye_saklandi.html', 'Veriler Nereye Saklandı? | Öğretmen Bozok')"
+                });
+                extra.push({
+                    badge: "Kaçış Odası",
+                    badgeColor: "text-emerald-300",
+                    title: "Dijital Kasa: Şifreyi Kır",
+                    desc: "5 kilitli güvenlik aşamasını tamamla! Yazılım, makine dili, kapasite merdiveni, birim dönüşümü ve depolama şifrelerini çözüp kasayı aç!",
+                    icon: "fa-solid fa-vault",
+                    iconBg: "bg-emerald-500/30 text-emerald-300",
+                    cardGradient: "from-emerald-950/90 via-slate-900 to-teal-950/90",
+                    border: "border-emerald-500/50",
+                    descColor: "text-emerald-100",
+                    btnText: "Kasayı Aç!",
+                    btnIcon: "fa-solid fa-key",
+                    btnGradient: "from-emerald-500 via-teal-600 to-cyan-600 hover:from-emerald-400 hover:to-cyan-500 text-slate-950 font-black",
+                    action: "app.openStandaloneGame('games/dijital_kasa_sifreyi_kir.html', 'Dijital Kasa: Şifreyi Kır | Öğretmen Bozok')"
+                });
+                extra.push({
+                    badge: "2 Oyunculu Düello",
+                    badgeColor: "text-pink-300",
+                    title: "Teknoloji Hafıza Düellosu",
+                    desc: "Akıllı tahtada iki kişi karşılıklı hafıza kartlarını açın! Yazılım türleri, kapasite birimleri ve depolama eşleşmelerini bulan ekstra hamle kazanır!",
+                    icon: "fa-solid fa-clone",
+                    iconBg: "bg-pink-500/30 text-pink-300",
+                    cardGradient: "from-pink-950/90 via-slate-900 to-purple-950/90",
+                    border: "border-pink-500/50",
+                    descColor: "text-pink-100",
+                    btnText: "Düelloya Başla!",
+                    btnIcon: "fa-solid fa-gamepad",
+                    btnGradient: "from-pink-500 via-rose-600 to-purple-600 hover:from-pink-400 hover:to-purple-500 text-white font-black",
+                    action: "app.openStandaloneGame('games/teknoloji_hafiza_duellosu.html', 'Teknoloji Hafıza Düellosu | Öğretmen Bozok')"
+                });
+                extra.push({
+                    badge: "İkili Sistem",
+                    badgeColor: "text-teal-300",
+                    title: "Robotun Gizli Mesajı",
+                    desc: "Robo-5 yalnızca 0 ve 1 sinyalleriyle konuşuyor! Makine dili ve ikili örüntü görevlerini tamamla, robotun enerjisini %100 doldur!",
+                    icon: "fa-solid fa-robot",
+                    iconBg: "bg-teal-500/30 text-teal-300",
+                    cardGradient: "from-teal-950/90 via-slate-900 to-blue-950/90",
+                    border: "border-teal-500/50",
+                    descColor: "text-teal-100",
+                    btnText: "Robota Bağlan!",
+                    btnIcon: "fa-solid fa-bolt",
+                    btnGradient: "from-teal-500 via-cyan-600 to-blue-600 hover:from-teal-400 hover:to-blue-500 text-slate-950 font-black",
+                    action: "app.openStandaloneGame('games/robotun_gizli_mesaji.html', 'Robotun Gizli Mesajı | Öğretmen Bozok')"
+                });
+                extra.push({
+                    badge: "Bilgi Çarkı",
+                    badgeColor: "text-yellow-300",
+                    title: "Teknoloji Çarkı",
+                    desc: "Çarkı çevir, şansına gelen kategorideki (Yazılım, Makine Dili, Kapasite, Depolama) soruları cevaplayıp takımına puan kazandır!",
+                    icon: "fa-solid fa-dharmachakra",
+                    iconBg: "bg-yellow-500/30 text-yellow-300",
+                    cardGradient: "from-amber-950/90 via-slate-900 to-rose-950/90",
+                    border: "border-yellow-500/50",
+                    descColor: "text-yellow-100",
+                    btnText: "Çarkı Çevir!",
+                    btnIcon: "fa-solid fa-rotate",
+                    btnGradient: "from-yellow-500 via-amber-500 to-red-600 hover:from-yellow-400 hover:to-red-500 text-slate-950 font-black",
+                    action: "app.openStandaloneGame('games/teknoloji_carki.html', 'Teknoloji Çarkı | Öğretmen Bozok')"
+                });
+                extra.push({
+                    badge: "BT Uzmanı",
+                    badgeColor: "text-sky-300",
+                    title: "Bilgisayarı Kurtar",
+                    desc: "Laboratuvar bilgisayarları arızalandı! Yazılım, makine dili, kapasite ve depolama problemlerini doğru teşhis ederek sistem sağlığını %100 yap!",
+                    icon: "fa-solid fa-laptop-medical",
+                    iconBg: "bg-sky-500/30 text-sky-300",
+                    cardGradient: "from-sky-950/90 via-slate-900 to-indigo-950/90",
+                    border: "border-sky-500/50",
+                    descColor: "text-sky-100",
+                    btnText: "Sistemi Kurtar!",
+                    btnIcon: "fa-solid fa-wrench",
+                    btnGradient: "from-sky-500 via-blue-600 to-indigo-600 hover:from-sky-400 hover:to-indigo-500 text-white font-black",
+                    action: "app.openStandaloneGame('games/bilgisayari_kurtar.html', 'Bilgisayarı Kurtar | Öğretmen Bozok')"
+                });
+                extra.push({
                     badge: "Hafıza Deposu",
                     badgeColor: "text-cyan-300",
                     title: "Kapasite Merdiveni & Hafıza Deposu",
@@ -2286,7 +2391,7 @@ class App {
                     btnText: "Kelime Avına Başla!",
                     btnIcon: "fa-solid fa-crosshairs",
                     btnGradient: "from-amber-500 via-orange-500 to-purple-600 hover:from-amber-400 hover:to-purple-500 text-slate-950 font-black",
-                    action: "app.openStandaloneGame('games/yazilim_dosya_kelime_avi.html', 'Yazılım, Kapasite ve Depolama Kelime Avı | Öğretmen Bozok')"
+                    action: "app.openStandaloneGame('games/yazilim_kapasite_kelime_avi.html', 'Yazılım, Kapasite ve Depolama Kelime Avı | Öğretmen Bozok')"
                 });
             }
         } else if (weekNum === 6 || weekNum === '6') {

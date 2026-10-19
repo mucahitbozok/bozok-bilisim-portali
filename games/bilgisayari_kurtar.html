@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bilgisayarı Kurtar | Öğretmen Bozok</title>
+    <style>
+        :root {
+            --bg-cyber: #040814;
+            --panel-bg: rgba(13, 21, 38, 0.95);
+            --neon-blue: #0ea5e9;
+            --neon-green: #10b981;
+            --neon-amber: #f59e0b;
+            --neon-rose: #f43f5e;
+            --text-white: #f8fafc;
+            --text-dim: #94a3b8;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            user-select: none;
+            -webkit-user-select: none;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+
+        body {
+            background: radial-gradient(circle at 50% 20%, #0f274a 0%, #040814 100%);
+            color: var(--text-white);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            padding: 12px;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1150px;
+            width: 100%;
+            margin: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        /* Top Header */
+        .header-bar {
+            background: var(--panel-bg);
+            border: 2px solid rgba(14, 165, 233, 0.3);
+            border-radius: 18px;
+            padding: 10px 18px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 10px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.6);
+        }
+
+        .brand-unit {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .brand-icon-box {
+            width: 44px;
+            height: 44px;
+            background: linear-gradient(135deg, var(--neon-blue), #2563eb);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 14px rgba(14, 165, 233, 0.4);
+        }
+
+        .tool-btn {
+            width: 38px;
+            height: 38px;
+            background: #1e293b;
+            border: 1px solid rgba(255,255,255,0.15);
+            color: #fff;
+            border-radius: 10px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+
+        .tool-btn:hover {
+            background: #334155;
+            transform: scale(1.05);
+        }
+
+        /* System Health Diagnostic Meter */
+        .health-bar-card {
+            background: rgba(9, 17, 31, 0.9);
+            border: 2px solid rgba(16, 185, 129, 0.3);
+            border-radius: 16px;
+            padding: 12px 18px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 14px;
+        }
+
+        .health-track {
+            flex: 1;
+            height: 16px;
+            background: #020617;
+            border-radius: 10px;
+            border: 1px solid rgba(255,255,255,0.15);
+            overflow: hidden;
+        }
+
+        .health-fill {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #f59e0b, #10b981);
+            transition: width 0.4s ease;
+            box-shadow: 0 0 15px rgba(16, 185, 129, 0.5);
+        }
+
+        /* Repair Workbench Stage */
+        .stage-card {
+            background: var(--panel-bg);
+            border: 2px solid rgba(14, 165, 233, 0.3);
+            border-radius: 24px;
+            padding: 24px;
+            min-height: 480px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: relative;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+        }
+
+        /* Fault Case Display */
+        .fault-card {
+            background: rgba(15, 23, 42, 0.8);
+            border: 2px dashed rgba(14, 165, 233, 0.4);
+            border-radius: 20px;
+            padding: 22px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .case-tag {
+            background: rgba(244, 63, 94, 0.2);
+            color: #f43f5e;
+            border: 1px solid #f43f5e;
+            font-size: 0.75rem;
+            font-weight: 900;
+            padding: 4px 14px;
+            border-radius: 20px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .pc-screen-visual {
+            width: 90px;
+            height: 90px;
+            background: linear-gradient(135deg, #1e293b, #0f172a);
+            border: 3px solid var(--neon-blue);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 25px rgba(14, 165, 233, 0.3);
+            animation: pulse-screen 2s infinite alternate;
+        }
+
+        @keyframes pulse-screen {
+            0% { box-shadow: 0 0 15px rgba(14, 165, 233, 0.2); }
+            100% { box-shadow: 0 0 30px rgba(14, 165, 233, 0.6); }
+        }
+
+        .fault-title {
+            font-size: 1.6rem;
+            font-weight: 900;
+            color: #fff;
+        }
+
+        .fault-desc {
+            font-size: 1.05rem;
+            color: #cbd5e1;
+            max-width: 680px;
+            line-height: 1.6;
+        }
+
+        /* Solutions Action Buttons */
+        .solutions-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-top: 18px;
+            width: 100%;
+            max-width: 780px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .solution-btn {
+            background: #111d33;
+            border: 2px solid rgba(255,255,255,0.12);
+            border-radius: 16px;
+            padding: 16px 20px;
+            color: #fff;
+            font-size: 1rem;
+            font-weight: 800;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            text-align: left;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .solution-btn:hover {
+            border-color: var(--neon-blue);
+            background: #1e3052;
+            transform: translateX(4px);
+        }
+
+        .sol-badge {
+            width: 32px;
+            height: 32px;
+            background: rgba(14, 165, 233, 0.2);
+            color: var(--neon-blue);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 900;
+            flex-shrink: 0;
+        }
+
+        /* Diagnostic Feedback Layer */
+        .feedback-overlay {
+            position: absolute;
+            inset: 0;
+            background: rgba(4, 8, 20, 0.95);
+            backdrop-filter: blur(8px);
+            border-radius: 24px;
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 30px;
+            text-align: center;
+            z-index: 50;
+        }
+
+        .btn-continue {
+            background: linear-gradient(135deg, var(--neon-blue), #2563eb);
+            color: #fff;
+            font-weight: 900;
+            font-size: 1.1rem;
+            border: none;
+            padding: 14px 36px;
+            border-radius: 14px;
+            cursor: pointer;
+            box-shadow: 0 8px 20px rgba(14, 165, 233, 0.4);
+            transition: all 0.2s;
+            margin-top: 20px;
+        }
+
+        .btn-continue:hover {
+            transform: scale(1.04);
+            box-shadow: 0 12px 25px rgba(14, 165, 233, 0.6);
+        }
+
+        /* Modal Screens */
+        .screen-modal {
+            position: absolute;
+            inset: 0;
+            background: rgba(4, 8, 20, 0.96);
+            backdrop-filter: blur(12px);
+            border-radius: 24px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 30px;
+            text-align: center;
+            z-index: 100;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- TOP CONTROLS -->
+        <header class="header-bar">
+            <div class="brand-unit">
+                <div class="brand-icon-box">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5"><rect x="2" y="3" width="20" height="14" rx="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg>
+                </div>
+                <div>
+                    <h1 style="font-size:1.25rem; font-weight:900;">Bilgisayarı Kurtar</h1>
+                    <span style="font-size:0.75rem; color:var(--neon-blue); font-weight:700; text-transform:uppercase;">Teknik Destek Senaryo Simülasyonu • BTY.5.1.5</span>
+                </div>
+            </div>
+
+            <div style="display:flex; align-items:center; gap:10px;">
+                <div style="background:#0f172a; border:1px solid rgba(255,255,255,0.1); padding:6px 14px; border-radius:12px; font-size:0.85rem; font-weight:800; display:flex; align-items:center; gap:8px;">
+                    <span style="color:var(--neon-amber)">🔧 Arıza:</span>
+                    <span id="case-counter">1 / 5</span>
+                </div>
+                <div style="background:#0f172a; border:1px solid rgba(255,255,255,0.1); padding:6px 14px; border-radius:12px; font-size:0.85rem; font-weight:800; display:flex; align-items:center; gap:8px;">
+                    <span style="color:var(--neon-green)">⭐ Puan:</span>
+                    <span id="score-counter">0</span>
+                </div>
+                <button class="tool-btn" onclick="pcRescue.toggleSound()" id="sound-btn" title="Ses">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg>
+                </button>
+                <button class="tool-btn" onclick="pcRescue.toggleFullscreen()" title="Tam Ekran">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path></svg>
+                </button>
+            </div>
+        </header>
+
+        <!-- SYSTEM HEALTH METER -->
+        <div class="health-bar-card">
+            <div style="display:flex; align-items:center; gap:8px;">
+                <span style="font-size:1.2rem;">🖥️</span>
+                <strong style="font-size:0.85rem; color:#6ee7b7; text-transform:uppercase;">Laboratuvar Sistem Sağlığı:</strong>
+            </div>
+            <div class="health-track">
+                <div id="health-fill" class="health-fill"></div>
+            </div>
+            <strong id="health-pct" style="color:#6ee7b7; font-size:0.9rem; min-width:45px;">%0</strong>
+        </div>
+
+        <!-- MAIN STAGE -->
+        <main class="stage-card">
+            
+            <!-- FAULT SCENARIO CARD -->
+            <div class="fault-card">
+                <div class="case-tag" id="fault-badge">ARIZA VAKASI #1</div>
+                <div class="pc-screen-visual" id="fault-icon"></div>
+                <div class="fault-title" id="fault-title">Yükleniyor...</div>
+                <div class="fault-desc" id="fault-desc">Senaryo açıklaması bekleniyor.</div>
+            </div>
+
+            <!-- SOLUTIONS GRID -->
+            <div id="solutions-list" class="solutions-grid">
+                <!-- Injected via JS -->
+            </div>
+
+            <!-- FEEDBACK POPUP -->
+            <div id="feedback-overlay" class="feedback-overlay">
+                <div id="fb-icon" style="width:68px; height:68px; border-radius:50%; display:flex; align-items:center; justify-content:center; margin-bottom:14px;"></div>
+                <h2 id="fb-title" style="font-size:1.8rem; font-weight:900; margin-bottom:8px;">Teşhis Sonucu</h2>
+                <p id="fb-desc" style="color:#cbd5e1; font-size:1.05rem; max-width:600px; line-height:1.6;"></p>
+                <button class="btn-continue" onclick="pcRescue.nextCase()">
+                    <span>Sıradaki Arızayı Çöz ➔</span>
+                </button>
+            </div>
+
+            <!-- START SCREEN -->
+            <div id="start-screen" class="screen-modal">
+                <div style="width:78px; height:78px; border-radius:24px; background:linear-gradient(135deg, var(--neon-blue), #2563eb); display:flex; align-items:center; justify-content:center; margin-bottom:16px;">
+                    <svg width="42" height="42" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5"><rect x="2" y="3" width="20" height="14" rx="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line></svg>
+                </div>
+                <h2 style="font-size:2rem; font-weight:900; margin-bottom:8px;">Bilişim Laboratuvarını Kurtar!</h2>
+                <p style="color:#cbd5e1; max-width:620px; font-size:1.05rem; line-height:1.6; margin-bottom:20px;">
+                    Teknoloji sınıfındaki bilgisayarlar yazılım, kapasite yetersizliği, makine dili sinyalleri ve yanlış depolama seçimi nedeniyle durdu!
+                    Bir <strong>Bilişim Uzmanı</strong> olarak duruma el koy ve doğru teknik kararlarla sistemleri %100 sağlığına kavuştur!
+                </p>
+                <button class="btn-continue" onclick="pcRescue.start()">
+                    <span>Teknik Desteğe Başla ➔</span>
+                </button>
+            </div>
+
+            <!-- RESCUE SUCCESS SCREEN -->
+            <div id="win-screen" class="screen-modal" style="display:none;">
+                <div style="width:84px; height:84px; border-radius:50%; background:linear-gradient(135deg, #10b981, #047857); display:flex; align-items:center; justify-content:center; margin-bottom:16px;">
+                    <svg width="46" height="46" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                </div>
+                <h2 style="font-size:2.2rem; font-weight:900; margin-bottom:8px;">LABORATUVAR KURTARILDI! 🏆</h2>
+                <p style="color:var(--neon-green); font-size:1.2rem; font-weight:800; margin-bottom:12px;">Sistem Sağlığı: %100 Kusursuz Çalışıyor</p>
+                <p id="win-stats" style="color:#cbd5e1; font-size:1.05rem; line-height:1.6; margin-bottom:24px;">
+                    Tüm kritik arızalar doğru teşhisle çözüldü.<br>
+                    Kazanılan Puan: <strong style="color:var(--neon-blue); font-size:1.4rem;">100</strong>
+                </p>
+                <button class="btn-continue" onclick="pcRescue.start()">
+                    <span>Yeniden Simüle Et 🔄</span>
+                </button>
+            </div>
+
+        </main>
+    </div>
+
+    <script>
+        // Web Audio Synthesizer
+        const SoundFX = {
+            ctx: null,
+            active: true,
+            init() {
+                if (!this.ctx) {
+                    const AC = window.AudioContext || window.webkitAudioContext;
+                    if (AC) this.ctx = new AC();
+                }
+            },
+            play(type) {
+                if (!this.active) return;
+                try {
+                    this.init();
+                    if (!this.ctx) return;
+                    if (this.ctx.state === 'suspended') this.ctx.resume();
+
+                    const t = this.ctx.currentTime;
+                    const o = this.ctx.createOscillator();
+                    const g = this.ctx.createGain();
+                    o.connect(g);
+                    g.connect(this.ctx.destination);
+
+                    if (type === 'good') {
+                        o.type = 'triangle';
+                        o.frequency.setValueAtTime(523.25, t);
+                        o.frequency.setValueAtTime(659.25, t + 0.1);
+                        g.gain.setValueAtTime(0.25, t);
+                        g.gain.exponentialRampToValueAtTime(0.01, t + 0.4);
+                        o.start(t);
+                        o.stop(t + 0.4);
+                    } else if (type === 'bad') {
+                        o.type = 'sawtooth';
+                        o.frequency.setValueAtTime(240, t);
+                        o.frequency.linearRampToValueAtTime(120, t + 0.25);
+                        g.gain.setValueAtTime(0.25, t);
+                        g.gain.exponentialRampToValueAtTime(0.01, t + 0.25);
+                        o.start(t);
+                        o.stop(t + 0.25);
+                    } else if (type === 'fanfare') {
+                        [523.25, 659.25, 783.99, 1046.50].forEach((f, i) => {
+                            const osc = this.ctx.createOscillator();
+                            const gn = this.ctx.createGain();
+                            osc.type = 'triangle';
+                            osc.connect(gn);
+                            gn.connect(this.ctx.destination);
+                            osc.frequency.setValueAtTime(f, t + i * 0.12);
+                            gn.gain.setValueAtTime(0.25, t + i * 0.12);
+                            gn.gain.exponentialRampToValueAtTime(0.001, t + i * 0.12 + 0.4);
+                            osc.start(t + i * 0.12);
+                            osc.stop(t + i * 0.12 + 0.4);
+                        });
+                    }
+                } catch(e) {}
+            }
+        };
+
+        // 16 Real-World Problem Solving Scenarios
+        const allScenarios = [
+            // Task 1: Software issues
+            {
+                category: "Yazılım Sorunu",
+                title: "Bilgisayar Açılmıyor: 'İşletim Sistemi Bulunamadı'",
+                desc: "Öğrenci bilgisayarı açtığında siyah ekranda 'Operating System Not Found' uyarısı görüyor. Bilgisayara can vermek için hangi yazılım kurulmalıdır?",
+                options: [
+                    "Microsoft Word kelime işlemci programı",
+                    "Pardus veya Windows İşletim Sistemi",
+                    "Scratch kodlama oyunu"
+                ],
+                ans: 1,
+                exp: "Harika teşhis! Bilgisayarın açılabilmesi ve donanımları yönetebilmesi için öncelikle İŞLETİM SİSTEMİ (Pardus / Windows) kurulmalıdır.",
+                svg: '<svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#f43f5e" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>'
+            },
+            {
+                category: "Yazılım Sorunu",
+                title: "Kullanıcı Şaşkın: 'Kelime İşlemci Neden Açılmıyor?'",
+                desc: "Bir öğretmen öğrencilere ödev yazdırmak istiyor ancak işletim sisteminin kendisinde yazı yazmaya çalışıyor. Hangi uygulama yazılımını açmalıdır?",
+                options: [
+                    "Microsoft Word veya LibreOffice Writer",
+                    "Bilgisayarın Anakartı",
+                    "Ekran Kartı Ayarları"
+                ],
+                ans: 0,
+                exp: "Doğru! Metin ve ödev hazırlamak için UYGULAMA YAZILIMI olan Microsoft Word gibi kelime işlemciler kullanılır.",
+                svg: '<svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#0ea5e9" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line></svg>'
+            },
+
+            // Task 2: Machine Language / Robot Communication
+            {
+                category: "Robotun Dili",
+                title: "İşlemciye Giden Kodlar Karıştı!",
+                desc: "Robotun işlemcisine klavyeden gelen sinyallerde '5, 8, 9' gibi geçersiz rakamlar tespit edildi. İşlemcinin anlayacağı tek dil nedir?",
+                options: [
+                    "Yalnızca 0 ve 1 sinyallerinden oluşan Makine Dili",
+                    "İngilizce konuşma dili",
+                    "Renk paleti"
+                ],
+                ans: 0,
+                exp: "Tam isabet! İşlemci ve donanımlar sadece elektrik akımının varlığı (1) ve yokluğu (0) ile yani Makine Diliyle çalışır.",
+                svg: '<svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2"><rect x="4" y="4" width="16" height="16" rx="2"></rect><rect x="9" y="9" width="6" height="6"></rect><line x1="9" y1="1" x2="9" y2="4"></line><line x1="15" y1="1" x2="15" y2="4"></line></svg>'
+            },
+            {
+                category: "Robotun Dili",
+                title: "Sensör Sinyali: Elektrik Akımı Kesildi!",
+                desc: "Laboratuvar kapısındaki akıllı sensörün elektriği kesildi. Bu durum ikili sayı sisteminde (Binary) hangi değerle ifade edilir?",
+                options: [
+                    "1 (Elektrik Var)",
+                    "0 (Elektrik Yok / Kesik)",
+                    "1024"
+                ],
+                ans: 1,
+                exp: "Doğru! Elektrik akımının olmaması 0, akımın olması ise 1 sinyali ile temsil edilir.",
+                svg: '<svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><path d="M12 2a10 10 0 0 0 0 20v-4a6 6 0 0 1 0-12V2z"></path></svg>'
+            },
+
+            // Task 3: Capacity Calculation
+            {
+                category: "Kapasite Hesabı",
+                title: "Flash Bellek Doldu Mu?",
+                desc: "Bir öğrencinin 2 GB (2048 MB) boş kapasiteli flash belleği var. 1024 MB boyutundaki ders videosunu içine kopyalarsa bellekte ne kadar boş yer kalır?",
+                options: [
+                    "1024 MB (yani 1 GB) boş yer kalır",
+                    "Hiç yer kalmaz, bellek taşar",
+                    "10 MB yer kalır"
+                ],
+                ans: 0,
+                exp: "Mükemmel hesaplama! 2 GB = 2048 MB eder. 2048 - 1024 = 1024 MB (1 GB) boş yer kalır.",
+                svg: '<svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>'
+            },
+            {
+                category: "Kapasite Hesabı",
+                title: "Birim Karışıklığı: 1024 KB Dosya",
+                desc: "Bir web sitesinden indirdiğimiz ders sunumu tam 1024 Kilobyte (KB) büyüklüğündedir. Bu dosya kaç Megabyte (MB)'a eşittir?",
+                options: [
+                    "Tam 1 MB (Megabyte)",
+                    "10 MB",
+                    "1 Gigabyte"
+                ],
+                ans: 0,
+                exp: "Doğru! 1024 KB tam 1 MB (Megabyte) kapasiteye eşittir.",
+                svg: '<svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path></svg>'
+            },
+
+            // Task 4: Storage Selection
+            {
+                category: "Depolama Seçimi",
+                title: "İnternetsiz Köy Okuluna Dosya Taşıma",
+                desc: "Öğretmen, internet bağlantısı olmayan bir dağ köyündeki okula hazırladığı ders videolarını götürmek istiyor. En uygun depolama hangisidir?",
+                options: [
+                    "Bulut Depolama (Google Drive)",
+                    "Taşınabilir USB Bellek veya Harici Disk",
+                    "Bilgisayarın içindeki sabit anakart"
+                ],
+                ans: 1,
+                exp: "Doğru seçim! İnternet olmayan yerde bulut çalışmaz. Cebimizde taşınabilen USB Bellek veya Harici Disk en doğru çözümdür.",
+                svg: '<svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#a855f7" stroke-width="2"><rect x="7" y="2" width="10" height="20" rx="2"></rect></svg>'
+            },
+            {
+                category: "Depolama Seçimi",
+                title: "Yangın ve Cihaz Kaybına Karşı Güvenli Yedekleme",
+                desc: "Okul müdürü, bilgisayar çalınsa veya bozulsa bile öğrenci notlarının asla kaybolmamasını ve her yerden erişilmesini istiyor. Hangi depolamayı kurmalıyız?",
+                options: [
+                    "Bulut Depolama (Güvenli internet sunucuları)",
+                    "Sadece masadaki bir CD",
+                    "Bilgisayarın kasasının içi"
+                ],
+                ans: 0,
+                exp: "Mükemmel! Cihaz zarar görse bile verilerin internette güvenle kalmasını sağlayan sistem BULUT DEPOLAMADIR.",
+                svg: '<svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#a855f7" stroke-width="2"><path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"></path></svg>'
+            },
+            {
+                category: "Depolama Seçimi",
+                title: "Bilgisayar Çok Yavaş Açılıyor!",
+                desc: "Bilgisayarın içinde eski tip dönen manyetik tablalı mekanik HDD var ve açılışı 3 dakika sürüyor. Hangi iç depolama takılırsa hızlanır?",
+                options: [
+                    "Yeni nesil hızlı ve sessiz SSD (Katı Hâl Sürücüsü)",
+                    "Daha büyük bir hoparlör",
+                    "Plastik bir USB kablosu"
+                ],
+                ans: 0,
+                exp: "Harika teknik teşhis! SSD mekanik parça içermez; elektrik hızında okuma yaptığı için sistemi saniyeler içinde açar.",
+                svg: '<svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#0ea5e9" stroke-width="2"><rect x="3" y="4" width="18" height="16" rx="2"></rect><text x="12" y="14" font-size="7" font-weight="900" fill="#0ea5e9" text-anchor="middle">SSD</text></svg>'
+            },
+
+            // Task 5: Mixed Case / Multi-step
+            {
+                category: "Karışık Vaka",
+                title: "Yeni Laboratuvar Bilgisayarının Kurulumu",
+                desc: "Kutusu yeni açılan bir bilgisayarın çalışması için sırasıyla hangi iki temel unsur sağlanmalıdır?",
+                options: [
+                    "Önce İşletim Sistemi kurulmalı, ardından amaca uygun Uygulama Yazılımları yüklenmelidir.",
+                    "Sadece bir oyun CD'si takıp çalıştırılmalıdır.",
+                    "Bilgisayara hiç yazılım yüklenmeden internete girilmelidir."
+                ],
+                ans: 0,
+                exp: "Kusursuz planlama! Bilgisayar önce İŞLETİM SİSTEMİYLE hayata başlar, ardından ihtiyacımız olan UYGULAMA YAZILIMLARI kurulur.",
+                svg: '<svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>'
+            }
+        ];
+
+        // Rescue Simulation Engine
+        const pcRescue = {
+            currentList: [],
+            currIdx: 0,
+            score: 0,
+
+            start() {
+                SoundFX.init();
+                SoundFX.play('good');
+                document.getElementById('start-screen').style.display = 'none';
+                document.getElementById('win-screen').style.display = 'none';
+                document.getElementById('feedback-overlay').style.display = 'none';
+
+                // Pick 5 distinct scenarios for a complete mission
+                this.currentList = [...allScenarios].sort(() => Math.random() - 0.5).slice(0, 5);
+                this.currIdx = 0;
+                this.score = 0;
+                this.renderCase();
+            },
+
+            renderCase() {
+                const item = this.currentList[this.currIdx];
+                const total = this.currentList.length;
+
+                document.getElementById('case-counter').innerText = `${this.currIdx + 1} / ${total}`;
+                document.getElementById('score-counter').innerText = this.score;
+                document.getElementById('fault-badge').innerText = `${item.category} • VAKA #${this.currIdx + 1}`;
+                document.getElementById('fault-title').innerText = item.title;
+                document.getElementById('fault-desc').innerText = item.desc;
+                document.getElementById('fault-icon').innerHTML = item.svg;
+
+                // Health Bar
+                const pct = Math.round((this.currIdx / total) * 100);
+                document.getElementById('health-fill').style.width = `${pct}%`;
+                document.getElementById('health-pct').innerText = `%${pct}`;
+
+                // Solutions
+                const letters = ['A', 'B', 'C', 'D'];
+                const container = document.getElementById('solutions-list');
+                container.innerHTML = item.options.map((opt, i) => `
+                    <button class="solution-btn" onclick="pcRescue.applySolution(${i})">
+                        <span class="sol-badge">${letters[i]}</span>
+                        <span>${opt}</span>
+                    </button>
+                `).join('');
+            },
+
+            applySolution(choice) {
+                const item = this.currentList[this.currIdx];
+                const isRight = (choice === item.ans);
+                const overlay = document.getElementById('feedback-overlay');
+                const fbIcon = document.getElementById('fb-icon');
+                const fbTitle = document.getElementById('fb-title');
+                const fbDesc = document.getElementById('fb-desc');
+
+                if (isRight) {
+                    SoundFX.play('good');
+                    this.score += 20;
+                    fbIcon.style.background = 'rgba(16, 185, 129, 0.2)';
+                    fbIcon.innerHTML = '<svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>';
+                    fbTitle.innerText = "Arıza Giderildi! Sistem Düzeliyor";
+                    fbTitle.style.color = "var(--neon-green)";
+                    fbDesc.innerText = item.exp;
+                } else {
+                    SoundFX.play('bad');
+                    fbIcon.style.background = 'rgba(244, 63, 94, 0.2)';
+                    fbIcon.innerHTML = '<svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#f43f5e" stroke-width="3"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>';
+                    fbTitle.innerText = "Bu Çözüm Yetersiz Kaldı!";
+                    fbTitle.style.color = "#f87171";
+                    fbDesc.innerHTML = `Doğru yaklaşım: <strong>"${item.options[item.ans]}"</strong>. ${item.exp}`;
+                }
+
+                document.getElementById('score-counter').innerText = this.score;
+                overlay.style.display = 'flex';
+            },
+
+            nextCase() {
+                SoundFX.play('good');
+                document.getElementById('feedback-overlay').style.display = 'none';
+                this.currIdx++;
+
+                if (this.currIdx < this.currentList.length) {
+                    this.renderCase();
+                } else {
+                    this.winMission();
+                }
+            },
+
+            winMission() {
+                SoundFX.play('fanfare');
+                document.getElementById('health-fill').style.width = '100%';
+                document.getElementById('health-pct').innerText = '%100';
+
+                const screen = document.getElementById('win-screen');
+                document.getElementById('win-stats').innerHTML = `
+                    Tüm 5 teknik arıza başarıyla onarıldı.<br>
+                    Laboratuvar Sağlığı: <strong style="color:var(--neon-green)">%100 AKTİF</strong><br>
+                    Teknik Uzman Puanı: <strong style="color:var(--neon-blue); font-size:1.4rem;">${this.score} / 100</strong>
+                `;
+                screen.style.display = 'flex';
+            },
+
+            toggleSound() {
+                SoundFX.active = !SoundFX.active;
+                const btn = document.getElementById('sound-btn');
+                btn.style.opacity = SoundFX.active ? '1' : '0.4';
+                if (SoundFX.active) SoundFX.play('good');
+            },
+
+            toggleFullscreen() {
+                if (!document.fullscreenElement) {
+                    document.documentElement.requestFullscreen().catch(() => {});
+                } else {
+                    if (document.exitFullscreen) document.exitFullscreen();
+                }
+            }
+        };
+    </script>
+</body>
+</html>
