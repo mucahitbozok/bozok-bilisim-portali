@@ -635,92 +635,180 @@ window.WEEK6_CONTENT = {
     }
 ],
 
-    questions: {
-        trueFalse: [
-            { q: "Dosya uzantısı, dosyanın türü hakkında bilgi verebilir.", answer: true, explanation: "Doğru! Örneğin .mp3 ses, .jpg görsel, .docx ise metin belgesi olduğunu gösterir." },
-            { q: "MP3 uzantısı genellikle video dosyalarında kullanılır.", answer: false, explanation: "Yanlış! MP3 ses ve müzik dosyaları için kullanılır. Video için MP4 veya AVI kullanılır." },
-            { q: "Bir klasörün içinde başka klasörler bulunabilir.", answer: true, explanation: "Doğru! Bir klasörün içine açılan klasörlere alt klasör (subfolder) denir." },
-            { q: "Ctrl + C kopyalama işlemi için kullanılan yaygın bir kısayoldur.", answer: true, explanation: "Doğru! Ctrl + C kopyalar, dosyanın aslı yerinde kalır." },
-            { q: "Ctrl + X kesme işlemi için kullanılır.", answer: true, explanation: "Doğru! Ctrl + X kesme (taşıma) kısayoludur." },
-            { q: "Ctrl + V, seçili dosyayı yapıştırmak için kullanılabilir.", answer: true, explanation: "Doğru! Kopyalanan veya kesilen dosya Ctrl + V ile yeni yere yapıştırılır." },
-            { q: "Ctrl + Z, yapılan bir işlemi geri almaya yardımcı olur.", answer: true, explanation: "Doğru! Ctrl + Z yapılan son işlemi iptal edip geri alır." },
-            { q: "Geri Dönüşüm Kutusu'ndaki bir dosya geri yüklenebilir.", answer: true, explanation: "Doğru! Dosyaya sağ tıklanıp 'Geri Yükle' denildiğinde silindiği eski yerine döner." },
-            { q: "Bir dosya Geri Dönüşüm Kutusu'nda yoksa kesinlikle geri getirilebilir.", answer: false, explanation: "Yanlış! Çöp kutusu boşaltılmış veya kalıcı silinmiş dosyaların geri getirilmesi garanti değildir." },
-            { q: "PDF uzantısı elektronik kitap ve belge dosyalarında kullanılabilir.", answer: true, explanation: "Doğru! PDF sayfa düzenli evrensel belge ve e-kitap formatıdır." },
-            { q: "ZIP ve RAR, sıkıştırılmış dosyalarla ilişkili uzantılardır.", answer: true, explanation: "Doğru! .zip ve .rar en popüler sıkıştırılmış arşiv uzantılarıdır." },
-            { q: "Bil*.docx araması, adı Bil ile başlayan DOCX dosyalarını bulmak için kullanılabilir.", answer: true, explanation: "Doğru! Yıldız (*) joker karakteri 'herhangi bir ek' anlamına gelir." },
-            { q: "Dosyaları uygun klasörlerde toplamak, dosyaları düzenlemeyi kolaylaştırır.", answer: true, explanation: "Doğru! Klasörleme aranan dosyaya saniyeler içinde ulaşmayı sağlar." },
-            { q: "Bir dosyanın adını değiştirmek için mutlaka dosyanın içeriğini değiştirmek gerekir.", answer: false, explanation: "Yanlış! Dosya adı içeriğe hiç dokunmadan sağ tık -> Yeniden Adlandır (veya F2) ile değiştirilebilir." },
-            { q: "Tarayıcı, kâğıt üzerindeki bilgileri dijital ortama aktarmak için kullanılabilir.", answer: true, explanation: "Doğru! Tarayıcı (Scanner) fiziksel kâğıtları bilgisayara PDF veya resim olarak aktarır." }
-        ],
-        multipleChoice: [
-            {
-                q: "Aşağıdakilerden hangisi bir resim (görsel) dosyası uzantısıdır?",
-                options: [".mp3", ".jpg", ".docx", ".exe"],
-                answer: 1,
-                explanation: ".jpg standart fotoğraf ve resim dosyası uzantısıdır."
-            },
-            {
-                q: "'Ali Babanın Çiftliği.mp3' dosyasındaki '.mp3' bölümü neyi ifade eder?",
-                options: ["Dosyanın boyutunu", "Dosyayı yazan kişiyi", "Dosyanın türünü (Uzantısını)", "Dosyanın silinme tarihini"],
-                answer: 2,
-                explanation: "Noktadan sonra gelen kısım dosya uzantısıdır ve dosyanın türünü belirtir."
-            },
-            {
-                q: "Ortak özelliğe sahip dosyaların düzenli bir şekilde saklandığı birime ne ad verilir?",
-                options: ["Klasör (Dizin)", "İkili Kod", "Bit", "Uzantı"],
-                answer: 0,
-                explanation: "Dosyaları düzenli tutmak için sarı renkli klasörler (dizinler) kullanılır."
-            },
-            {
-                q: "Bir dosyayı bulunduğu yerden tamamen alıp başka bir klasöre TAŞIMAK için sırasıyla hangi kısayollar kullanılır?",
-                options: ["Ctrl + C ve Ctrl + V", "Ctrl + X ve Ctrl + V", "Ctrl + Z ve Ctrl + Y", "Delete ve Enter"],
-                answer: 1,
-                explanation: "Taşıma işlemi için önce KES (Ctrl+X) sonra YAPIŞTIR (Ctrl+V) yapılır."
-            },
-            {
-                q: "Yapılan son hatalı işlemi zamanı geriye sarar gibi iptal etmek (GERİ ALMAK) için hangi kısayol kullanılır?",
-                options: ["Ctrl + Z", "Ctrl + Y", "Ctrl + C", "Ctrl + S"],
-                answer: 0,
-                explanation: "Ctrl + Z yapılan son işlemi geri almaya (Undo) yarar."
-            },
-            {
-                q: "Arama kutusuna '*.mp4' yazıldığında bilgisayar hangi dosyaları listeler?",
-                options: ["Tüm Word belgelerini", "Adı 'mp4' olan tek bir resmi", "Bilgisayardaki tüm video dosyalarını", "Tüm sıkıştırılmış dosyaları"],
-                answer: 2,
-                explanation: "*.mp4 ifadesi, adı ne olursa olsun tüm .mp4 video dosyalarını bulur."
-            },
-            {
-                q: "Aşağıdakilerden hangisi sıkıştırılmış dosya (arşiv) uzantısıdır?",
-                options: [".txt", ".zip", ".wav", ".bmp"],
-                answer: 1,
-                explanation: ".zip ve .rar dosyaları sıkıştırmak ve arşivlemek için kullanılır."
-            },
-            {
-                q: "Geri Dönüşüm Kutusu'ndaki bir dosya silindiği eski konumuna nasıl geri getirilir?",
-                options: ["Dosyaya sağ tıklayıp 'Geri Yükle' seçilerek", "Bilgisayarı yeniden başlatarak", "Delete tuşuna basarak", "Dosyayı kapatarak"],
-                answer: 0,
-                explanation: "Çöp kutusundaki dosyaya sağ tıklanıp 'Geri Yükle' denildiğinde eski yerine döner."
-            },
-            {
-                q: "Dosyaları sıkıştırmanın (arşivlemenin) en büyük 2 faydası nedir?",
-                options: [
-                    "Bilgisayarı hızlandırmak ve ekranı büyütmek",
-                    "Disk alanından tasarruf etmek ve dosya paylaşımını kolaylaştırmak",
-                    "Dosyanın rengini değiştirmek ve sesini açmak",
-                    "İnterneti kapatmak ve pili korumak"
-                ],
-                answer: 1,
-                explanation: "Sıkıştırma dosya boyutunu küçülterek yer kazandırır ve internette hızlı gönderim sağlar."
-            },
-            {
-                q: "Kâğıt üzerindeki bir resmi veya yazıyı bilgisayara dijital dosya olarak aktaran donanım hangisidir?",
-                options: ["Yazıcı (Printer)", "Tarayıcı (Scanner)", "Hoparlör", "Klavye"],
-                answer: 1,
-                explanation: "Tarayıcı (Scanner) kâğıt üzerindeki basılı belgeleri tarayarak bilgisayara aktarır."
-            }
-        ]
-    },
+    questions: [
+        null,
+        {
+            id: 1,
+            type: "true_false",
+            title: "1. Etkinlik: Doğru / Yanlış Pekiştirme Etkinliği (15 Soru)",
+            description: "Aşağıdaki 15 ifadeyi dikkatle okuyarak Doğru veya Yanlış butonuna basınız:",
+            items: [
+                {
+                    statement: "Dosya uzantısı, dosyanın türü hakkında bilgi verebilir.",
+                    isCorrect: true,
+                    correct: true,
+                    explanation: "Doğru! Örneğin .mp3 ses, .jpg görsel, .docx ise metin belgesi olduğunu gösterir."
+                },
+                {
+                    statement: "MP3 uzantısı genellikle video dosyalarında kullanılır.",
+                    isCorrect: false,
+                    correct: false,
+                    explanation: "Yanlış! MP3 ses ve müzik dosyaları için kullanılır. Video için MP4 veya AVI kullanılır."
+                },
+                {
+                    statement: "Bir klasörün içinde başka klasörler bulunabilir.",
+                    isCorrect: true,
+                    correct: true,
+                    explanation: "Doğru! Bir klasörün içine açılan klasörlere alt klasör (subfolder) denir."
+                },
+                {
+                    statement: "Ctrl + C kopyalama işlemi için kullanılan yaygın bir kısayoldur.",
+                    isCorrect: true,
+                    correct: true,
+                    explanation: "Doğru! Ctrl + C kopyalar, dosyanın aslı yerinde kalır."
+                },
+                {
+                    statement: "Ctrl + X kesme işlemi için kullanılır.",
+                    isCorrect: true,
+                    correct: true,
+                    explanation: "Doğru! Ctrl + X kesme (taşıma) kısayoludur."
+                },
+                {
+                    statement: "Ctrl + V, seçili dosyayı yapıştırmak için kullanılabilir.",
+                    isCorrect: true,
+                    correct: true,
+                    explanation: "Doğru! Kopyalanan veya kesilen dosya Ctrl + V ile yeni yere yapıştırılır."
+                },
+                {
+                    statement: "Ctrl + Z, yapılan bir işlemi geri almaya yardımcı olur.",
+                    isCorrect: true,
+                    correct: true,
+                    explanation: "Doğru! Ctrl + Z yapılan son işlemi iptal edip geri alır."
+                },
+                {
+                    statement: "Geri Dönüşüm Kutusu'ndaki bir dosya geri yüklenebilir.",
+                    isCorrect: true,
+                    correct: true,
+                    explanation: "Doğru! Dosyaya sağ tıklanıp 'Geri Yükle' denildiğinde silindiği eski yerine döner."
+                },
+                {
+                    statement: "Bir dosya Geri Dönüşüm Kutusu'nda yoksa kesinlikle geri getirilebilir.",
+                    isCorrect: false,
+                    correct: false,
+                    explanation: "Yanlış! Çöp kutusu boşaltılmış veya kalıcı silinmiş dosyaların geri getirilmesi garanti değildir."
+                },
+                {
+                    statement: "PDF uzantısı elektronik kitap ve belge dosyalarında kullanılabilir.",
+                    isCorrect: true,
+                    correct: true,
+                    explanation: "Doğru! PDF sayfa düzenli evrensel belge ve e-kitap formatıdır."
+                },
+                {
+                    statement: "ZIP ve RAR, sıkıştırılmış dosyalarla ilişkili uzantılardır.",
+                    isCorrect: true,
+                    correct: true,
+                    explanation: "Doğru! .zip ve .rar en popüler sıkıştırılmış arşiv uzantılarıdır."
+                },
+                {
+                    statement: "Bil*.docx araması, adı Bil ile başlayan DOCX dosyalarını bulmak için kullanılabilir.",
+                    isCorrect: true,
+                    correct: true,
+                    explanation: "Doğru! Yıldız (*) joker karakteri 'herhangi bir ek' anlamına gelir."
+                },
+                {
+                    statement: "Dosyaları uygun klasörlerde toplamak, dosyaları düzenlemeyi kolaylaştırır.",
+                    isCorrect: true,
+                    correct: true,
+                    explanation: "Doğru! Klasörleme aranan dosyaya saniyeler içinde ulaşmayı sağlar."
+                },
+                {
+                    statement: "Bir dosyanın adını değiştirmek için mutlaka dosyanın içeriğini değiştirmek gerekir.",
+                    isCorrect: false,
+                    correct: false,
+                    explanation: "Yanlış! Dosya adı içeriğe hiç dokunmadan sağ tık -> Yeniden Adlandır (veya F2) ile değiştirilebilir."
+                },
+                {
+                    statement: "Tarayıcı, kâğıt üzerindeki bilgileri dijital ortama aktarmak için kullanılabilir.",
+                    isCorrect: true,
+                    correct: true,
+                    explanation: "Doğru! Tarayıcı (Scanner) fiziksel kâğıtları bilgisayara PDF veya resim olarak aktarır."
+                }
+            ]
+        },
+        {
+            id: 2,
+            type: "multiple_choice",
+            title: "2. Etkinlik: Çoktan Seçmeli Değerlendirme Testi (10 Soru)",
+            description: "Aşağıdaki test sorularını dikkatle okuyarak doğru seçeneği işaretleyiniz:",
+            questions: [
+                {
+                    q: "Aşağıdakilerden hangisi bir resim (görsel) dosyası uzantısıdır?",
+                    options: [".mp3", ".jpg", ".docx", ".exe"],
+                    answer: 1,
+                    explanation: ".jpg standart fotoğraf ve resim dosyası uzantısıdır."
+                },
+                {
+                    q: "'Ali Babanın Çiftliği.mp3' dosyasındaki '.mp3' bölümü neyi ifade eder?",
+                    options: ["Dosyanın boyutunu", "Dosyayı yazan kişiyi", "Dosyanın türünü (ses/müzik)", "Dosyanın silinme tarihini"],
+                    answer: 2,
+                    explanation: "Noktadan sonra gelen kısım dosya uzantısıdır ve dosyanın türünü belirtir."
+                },
+                {
+                    q: "Ortak özelliğe sahip dosyaların düzenli bir şekilde saklandığı birime ne ad verilir?",
+                    options: ["Klasör (Dizin)", "İkili Kod", "Bit", "Uzantı"],
+                    answer: 0,
+                    explanation: "Dosyaları düzenli tutmak için sarı renkli klasörler (dizinler) kullanılır."
+                },
+                {
+                    q: "Bir dosyayı bulunduğu yerden tamamen alıp başka bir klasöre TAŞIMAK için sırasıyla hangi kısayollar kullanılır?",
+                    options: ["Ctrl + C ve Ctrl + V", "Ctrl + X ve Ctrl + V", "Ctrl + Z ve Ctrl + Y", "Delete ve Enter"],
+                    answer: 1,
+                    explanation: "Taşıma işlemi için önce KES (Ctrl+X) sonra YAPIŞTIR (Ctrl+V) yapılır."
+                },
+                {
+                    q: "Yapılan son hatalı işlemi zamanı geriye sarar gibi iptal etmek (GERİ ALMAK) için hangi kısayol kullanılır?",
+                    options: ["Ctrl + Z", "Ctrl + Y", "Ctrl + C", "Ctrl + S"],
+                    answer: 0,
+                    explanation: "Ctrl + Z yapılan son işlemi geri almaya (Undo) yarar."
+                },
+                {
+                    q: "Arama kutusuna '*.mp4' yazıldığında bilgisayar hangi dosyaları listeler?",
+                    options: ["Tüm Word belgelerini", "Adı 'mp4' olan tek bir resmi", "Bilgisayardaki tüm video dosyalarını", "Tüm sıkıştırılmış dosyaları"],
+                    answer: 2,
+                    explanation: "*.mp4 ifadesi, adı ne olursa olsun tüm .mp4 video dosyalarını bulur."
+                },
+                {
+                    q: "Aşağıdakilerden hangisi sıkıştırılmış dosya (arşiv) uzantısıdır?",
+                    options: [".txt", ".zip", ".wav", ".bmp"],
+                    answer: 1,
+                    explanation: ".zip ve .rar dosyaları sıkıştırmak ve arşivlemek için kullanılır."
+                },
+                {
+                    q: "Geri Dönüşüm Kutusu'ndaki bir dosya silindiği eski konumuna nasıl geri getirilir?",
+                    options: ["Dosyaya sağ tıklayıp 'Geri Yükle' seçilerek", "Bilgisayarı yeniden başlatarak", "Delete tuşuna basarak", "Dosyayı kapatarak"],
+                    answer: 0,
+                    explanation: "Çöp kutusundaki dosyaya sağ tıklanıp 'Geri Yükle' denildiğinde eski yerine döner."
+                },
+                {
+                    q: "Dosyaları sıkıştırmanın (arşivlemenin) en büyük 2 faydası nedir?",
+                    options: [
+                        "Bilgisayarı hızlandırmak ve ekranı büyütmek",
+                        "Disk alanından tasarruf etmek ve dosya paylaşımını kolaylaştırmak",
+                        "Dosyanın rengini değiştirmek ve sesini açmak",
+                        "İnterneti kapatmak ve pili korumak"
+                    ],
+                    answer: 1,
+                    explanation: "Sıkıştırma dosya boyutunu küçülterek yer kazandırır ve internette hızlı gönderim sağlar."
+                },
+                {
+                    q: "Kâğıt üzerindeki bir resmi veya yazıyı bilgisayara dijital dosya olarak aktaran donanım hangisidir?",
+                    options: ["Yazıcı (Printer)", "Tarayıcı (Scanner)", "Hoparlör", "Klavye"],
+                    answer: 1,
+                    explanation: "Tarayıcı (Scanner) kâğıt üzerindeki basılı belgeleri tarayarak bilgisayara aktarır."
+                }
+            ]
+        }
+    ],
 
     gameData: null
 };

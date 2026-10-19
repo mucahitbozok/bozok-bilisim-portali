@@ -1568,15 +1568,73 @@ class App {
     }
 
     // --- 3. PEKİŞTİRME SORULARI & TEST MODÜLÜ ---
+    getNormalizedQuestions(data) {
+        if (!data) return [null, null, null];
+        const raw = data.questions;
+        if (!raw) return [null, null, null];
+
+        // Case 1: Standard array
+        if (Array.isArray(raw)) {
+            if (raw.length > 0 && raw[0]?.q && raw[0]?.options) {
+                return [
+                    null,
+                    null,
+                    {
+                        id: 2,
+                        type: "multiple_choice",
+                        title: "Çoktan Seçmeli Değerlendirme Testi",
+                        description: "Doğru şıkkı işaretleyerek kendinizi test edin.",
+                        questions: raw
+                    }
+                ];
+            }
+            return raw;
+        }
+
+        // Case 2: Object with trueFalse and/or multipleChoice
+        if (typeof raw === "object") {
+            const tfItems = (raw.trueFalse || []).map(item => ({
+                statement: item.statement || item.q,
+                isCorrect: item.isCorrect !== undefined ? item.isCorrect : item.answer,
+                correct: item.isCorrect !== undefined ? item.isCorrect : item.answer,
+                explanation: item.explanation || ""
+            }));
+
+            const mcQuestions = raw.multipleChoice || [];
+
+            return [
+                null,
+                tfItems.length ? {
+                    id: 1,
+                    type: "true_false",
+                    title: "1. Etkinlik: Doğru / Yanlış Pekiştirme Etkinliği (" + tfItems.length + " Soru)",
+                    description: "İfadeleri okuyarak Doğru veya Yanlış butonuna basınız.",
+                    items: tfItems
+                } : null,
+                mcQuestions.length ? {
+                    id: 2,
+                    type: "multiple_choice",
+                    title: "2. Etkinlik: Çoktan Seçmeli Değerlendirme Testi (" + mcQuestions.length + " Soru)",
+                    description: "Doğru şıkkı işaretleyerek kendinizi test edin.",
+                    questions: mcQuestions
+                } : null
+            ];
+        }
+
+        return [null, null, null];
+    }
+
     renderQuiz() {
         const quizContainer = document.getElementById("quiz-render-area");
         if (!quizContainer) return;
 
         const data = this.getCurrentWeekData();
-        const questions = data.questions || [];
+        const questions = this.getNormalizedQuestions(data);
         const images = data.weekInfo?.images;
 
-        if (data.weekInfo?.isPending || !questions || !questions.length) {
+        const hasQuestions = (questions[1]?.items?.length > 0) || (questions[2]?.questions?.length > 0);
+
+        if (data.weekInfo?.isPending || !hasQuestions) {
             this.renderPendingPlaceholder("quiz-render-area", "Pekiştirme Testi & Etkinlikler", "fa-solid fa-clipboard-question");
             return;
         }
@@ -1584,30 +1642,34 @@ class App {
         quizContainer.innerHTML = `
             <div class="max-w-4xl mx-auto space-y-8">
                 <!-- Orijinal Fotoğraf Hızlı Erişim Barı (Varsa) -->
-                ${images ? `
+                ${images && (images.soru || images.sayfa1 || images.cevap) ? `
                 <div class="bg-gradient-to-r from-blue-900/60 to-indigo-900/60 rounded-2xl p-4 border border-blue-500/40 flex items-center justify-between gap-4 flex-wrap shadow-xl">
                     <div class="flex items-center gap-3">
                         <div class="w-10 h-10 rounded-xl bg-blue-500/30 text-yellow-300 flex items-center justify-center text-xl">
                             <i class="fa-solid fa-file-image"></i>
                         </div>
                         <div>
-                            <h4 class="font-bold text-white text-sm">Orijinal Soru & Cevap Fotoğrafları</h4>
+                            <h4 class="font-bold text-white text-sm">Orijinal Soru & Cevap Belgeleri</h4>
                             <p class="text-xs text-blue-200">Çalışma kağıdını veya çözümlü cevap anahtarını tam boyutta açın</p>
                         </div>
                     </div>
                     <div class="flex items-center gap-2 flex-wrap">
-                        <button onclick="app.openPhotoLightbox('${images.soru}', 'Pekiştirme Soruları & Etkinlikler')" class="px-4 py-2 bg-blue-600 hover:bg-blue-500 text-white font-bold rounded-xl text-xs flex items-center gap-2 transition-all shadow-md">
+                        ${(images.soru || images.sayfa1) ? `
+                        <button onclick="app.openPhotoLightbox('${images.soru || images.sayfa1}', 'Pekiştirme Soruları & Etkinlikler')" class="px-4 py-2 bg-blue-600 hover:bg-blue-500 text-white font-bold rounded-xl text-xs flex items-center gap-2 transition-all shadow-md">
                             <i class="fa-solid fa-circle-question"></i> Soru Kağıdını Aç
                         </button>
-                        <button onclick="app.openPhotoLightbox('${images.cevap}', 'Cevap Anahtarı (Çözümler)')" class="px-4 py-2 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded-xl text-xs flex items-center gap-2 transition-all shadow-md">
+                        ` : ''}
+                        ${images.cevap ? `
+                        <button onclick="${images.cevap.endsWith('.pdf') ? `app.openPdfModal('${images.cevap}', 'Cevap Anahtarı (PDF)')` : `app.openPhotoLightbox('${images.cevap}', 'Cevap Anahtarı (Çözümler)')`}" class="px-4 py-2 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded-xl text-xs flex items-center gap-2 transition-all shadow-md">
                             <i class="fa-solid fa-key"></i> Cevap Anahtarını Aç
                         </button>
+                        ` : ''}
                     </div>
                 </div>
                 ` : ''}
 
                 <!-- 1. Etkinlik: Doğru / Yanlış Testi -->
-                ${questions[1] ? `
+                ${questions[1] && questions[1].items && questions[1].items.length ? `
                 <div class="bg-slate-900 text-white rounded-3xl p-6 sm:p-8 border-2 border-indigo-500/50 shadow-2xl space-y-4">
                     <div class="flex items-center justify-between border-b border-slate-700 pb-4">
                         <div class="flex items-center gap-3">
@@ -1703,7 +1765,7 @@ class App {
                 ` : ''}
 
                 <!-- 2. Etkinlik: Çoktan Seçmeli Test -->
-                ${questions[2] ? `
+                ${questions[2] && questions[2].questions && questions[2].questions.length ? `
                 <div class="bg-slate-900 text-white rounded-3xl p-6 sm:p-8 border-2 border-purple-500/50 shadow-2xl space-y-6">
                     <div class="flex items-center justify-between border-b border-slate-700 pb-4">
                         <div class="flex items-center gap-3">
@@ -1749,7 +1811,7 @@ class App {
                                         }).join('')}
                                     </div>
                                     <div id="mc-exp-${qIdx}" class="${isAnswered ? '' : 'hidden '}p-3 bg-slate-900/80 rounded-xl text-xs text-indigo-200 border border-indigo-500/30">
-                                        ${isAnswered ? `<strong>Açıklama:</strong> ${q.explanation}` : ''}
+                                        ${isAnswered ? `<strong>Açıklama:</strong> ${q.explanation || ''}` : ''}
                                     </div>
                                 </div>
                             `;
@@ -1790,10 +1852,11 @@ class App {
 
     checkTF(itemIdx, userAns) {
         const data = this.getCurrentWeekData();
-        const item = data.questions?.[1]?.items?.[itemIdx];
+        const questions = this.getNormalizedQuestions(data);
+        const item = questions?.[1]?.items?.[itemIdx];
         if (!item) return;
 
-        const isRight = (userAns === item.isCorrect);
+        const isRight = (userAns === (item.isCorrect !== undefined ? item.isCorrect : item.correct));
         const state = this.getQuizState(this.currentWeek);
         state.tf[itemIdx] = { userAns, isRight };
 
@@ -1869,7 +1932,8 @@ class App {
 
     checkMC(qIdx, optIdx) {
         const data = this.getCurrentWeekData();
-        const q = data.questions?.[2]?.questions?.[qIdx];
+        const questions = this.getNormalizedQuestions(data);
+        const q = questions?.[2]?.questions?.[qIdx];
         if (!q) return;
 
         const isRight = (optIdx === q.answer);

@@ -1665,65 +1665,87 @@ window.WEEK5_2_CONTENT = {
     // ❓ 3. PORTAL MİNİ TESTİ (BTY.5.1.5 Konu Soruları)
     // ========================================================
     questions: [
+        null,
+        null,
         {
-            q: "Bilgisayarın donanım parçalarını yöneten ve çalışmasını sağlayan tüm programlara ne ad verilir?",
-            options: ["Yazıcı", "Yazılım", "Monitör", "Klavye"],
-            answer: 1
-        },
-        {
-            q: "TÜBİTAK tarafından geliştirilen ve etkileşimli tahtalarda kullanılan milli işletim sistemimiz hangisidir?",
-            options: ["Windows", "macOS", "Pardus", "Android"],
-            answer: 2
-        },
-        {
-            q: "Bilgisayarın hafızasındaki 0 veya 1 elektrik sinyalinden oluşan en küçük veri birimi hangisidir?",
-            options: ["Byte", "Kilobyte", "Megabyte", "Bit"],
-            answer: 3
-        },
-        {
-            q: "Klavyeden basılan tek bir harf veya boşluk karakteri bellekte ne kadar yer kaplar?",
-            options: ["1 Byte (8 Bit)", "1 KB", "1 MB", "1 GB"],
-            answer: 0
-        },
-        {
-            q: "1024 Megabyte (MB) birleştiğinde hangi kapasite birimine eşit olur?",
-            options: ["1 Terabyte", "1 Gigabyte (GB)", "1 Kilobyte", "1 Byte"],
-            answer: 1
-        },
-        {
-            q: "Aşağıdakilerden hangisi bir işletim sistemi (sistem yazılımı) DEĞİLDİR?",
-            options: ["Windows", "Paint", "Linux", "Android"],
-            answer: 1
-        },
-        {
-            q: "Bilgisayarın içinde bulunan, mekanik parçası olmayan, hızlı ve darbelere dayanıklı dahili depolama birimi hangisidir?",
-            options: ["SSD (Solid State Drive)", "Disket", "CD-ROM", "Manyetik Teyp"],
-            answer: 0
-        },
-        {
-            q: "1024 Gigabyte (GB) kapasiteye eşit olan devasa depolama birimi hangisidir?",
-            options: ["Megabyte", "Kilobyte", "Byte", "Terabyte (TB)"],
-            answer: 3
-        },
-        {
-            q: "Dosyalarımızın internet üzerinden uzak ve güvenli sunucularda saklanması yöntemine ne denir?",
-            options: ["Bulut Depolama", "Dahili Depolama", "Optik Sürücü", "RAM"],
-            answer: 0
-        },
-        {
-            q: "Aşağıdaki kapasite birimlerinden hangisi EN KÜÇÜKTÜR?",
-            options: ["Gigabyte", "Megabyte", "Kilobyte (KB)", "Terabyte"],
-            answer: 2
-        },
-        {
-            q: "Bir ödev dosyasını evdeki bilgisayardan okulun akıllı tahtasına taşımak için en pratik harici birim hangisidir?",
-            options: ["USB Flash Bellek", "Kasa Güç Kaynağı", "İşlemci Fanı", "Anakart"],
-            answer: 0
-        },
-        {
-            q: "Aşağıdakilerden hangisi bir bulut depolama hizmeti örneğidir?",
-            options: ["Google Drive", "VGA Kablosu", "Ekran Kartı", "Yazıcı Kartuşu"],
-            answer: 0
+            id: 2,
+            type: "multiple_choice",
+            title: "5. Hafta 2. Konu: Yazılım ve Kapasite Birimleri – Çoktan Seçmeli Test (12 Soru)",
+            description: "Aşağıdaki test sorularını dikkatle okuyarak doğru seçeneği işaretleyiniz:",
+            questions: [
+                {
+                    q: "Bilgisayarın donanım parçalarını yöneten ve çalışmasını sağlayan tüm programlara ne ad verilir?",
+                    options: ["Yazıcı", "Yazılım", "Monitör", "Klavye"],
+                    answer: 1,
+                    explanation: "Fiziksel parçalar donanım, bu parçaları yönetip çalıştıran tüm programlar ise yazılımdır."
+                },
+                {
+                    q: "TÜBİTAK tarafından geliştirilen ve etkileşimli tahtalarda kullanılan milli işletim sistemimiz hangisidir?",
+                    options: ["Windows", "macOS", "Pardus", "Android"],
+                    answer: 2,
+                    explanation: "Pardus, TÜBİTAK tarafından geliştirilen yerli ve milli işletim sistemimizdir."
+                },
+                {
+                    q: "Bilgisayarın hafızasındaki 0 veya 1 elektrik sinyalinden oluşan en küçük veri birimi hangisidir?",
+                    options: ["Byte", "Kilobyte", "Megabyte", "Bit"],
+                    answer: 3,
+                    explanation: "Bilgisayarların makine dilinde kullandığı en küçük veri birimi 0 veya 1 olan Bit'tir."
+                },
+                {
+                    q: "Klavyeden basılan tek bir harf veya boşluk karakteri bellekte ne kadar yer kaplar?",
+                    options: ["1 Byte (8 Bit)", "1 KB", "1 MB", "1 GB"],
+                    answer: 0,
+                    explanation: "8 bit bir araya gelerek 1 Byte oluşturur ve her klavye karakteri hafızada 1 Byte yer tutar."
+                },
+                {
+                    q: "1024 Megabyte (MB) birleştiğinde hangi kapasite birimine eşit olur?",
+                    options: ["1 Terabyte", "1 Gigabyte (GB)", "1 Kilobyte", "1 Byte"],
+                    answer: 1,
+                    explanation: "1024 Megabyte = 1 Gigabyte (GB) eder."
+                },
+                {
+                    q: "Aşağıdakilerden hangisi bir işletim sistemi (sistem yazılımı) DEĞİLDİR?",
+                    options: ["Windows", "Paint", "Linux", "Android"],
+                    answer: 1,
+                    explanation: "Paint bir uygulama yazılımıdır (çizim programı). Windows, Linux ve Android işletim sistemidir."
+                },
+                {
+                    q: "Bilgisayarın içinde bulunan, mekanik parçası olmayan, hızlı ve darbelere dayanıklı dahili depolama birimi hangisidir?",
+                    options: ["SSD (Solid State Drive)", "Disket", "CD-ROM", "Manyetik Teyp"],
+                    answer: 0,
+                    explanation: "SSD (Katı Hâl Sürücüsü), hareketli parçası olmayan son derece hızlı bir dahili depolama birimidir."
+                },
+                {
+                    q: "1024 Gigabyte (GB) kapasiteye eşit olan devasa depolama birimi hangisidir?",
+                    options: ["Megabyte", "Kilobyte", "Byte", "Terabyte (TB)"],
+                    answer: 3,
+                    explanation: "1024 GB = 1 Terabyte (TB)'tır."
+                },
+                {
+                    q: "Dosyalarımızın internet üzerinden uzak ve güvenli sunucularda saklanması yöntemine ne denir?",
+                    options: ["Bulut Depolama", "Dahili Depolama", "Optik Sürücü", "RAM"],
+                    answer: 0,
+                    explanation: "İnternet üzerinden dosya saklama hizmetlerine Bulut Depolama (Cloud Storage) denir."
+                },
+                {
+                    q: "Aşağıdaki kapasite birimlerinden hangisi EN KÜÇÜKTÜR?",
+                    options: ["Gigabyte", "Megabyte", "Kilobyte (KB)", "Terabyte"],
+                    answer: 2,
+                    explanation: "Sıralama: Bit < Byte < KB < MB < GB < TB şeklindedir. Seçenekler arasında en küçüğü Kilobyte (KB)'tır."
+                },
+                {
+                    q: "Bir ödev dosyasını evdeki bilgisayardan okulun akıllı tahtasına taşımak için en pratik harici birim hangisidir?",
+                    options: ["USB Flash Bellek", "Kasa Güç Kaynağı", "İşlemci Fanı", "Anakart"],
+                    answer: 0,
+                    explanation: "USB Flash Bellek, taşınabilir ve pratik bir harici depolama aracıdır."
+                },
+                {
+                    q: "Aşağıdakilerden hangisi bir bulut depolama hizmeti örneğidir?",
+                    options: ["Google Drive", "VGA Kablosu", "Ekran Kartı", "Yazıcı Kartuşu"],
+                    answer: 0,
+                    explanation: "Google Drive, OneDrive ve Dropbox popüler bulut depolama hizmetleridir."
+                }
+            ]
         }
     ],
 
