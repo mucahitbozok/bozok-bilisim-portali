@@ -5,6 +5,195 @@
 // Hazırlayan: Öğretmen Bozok
 // ==========================================
 
+// --- SLAYT 18 VE 19 İNTERAKTİF YARDIMCILARI ---
+window.slide18MatchGame = {
+    selectedLeft: null,
+    matchedCount: 0,
+    selectLeft: function(key, val, el) {
+        if (typeof sounds !== "undefined") sounds.playClick();
+        document.querySelectorAll(".s18-left-btn").forEach(b => b.classList.remove("ring-4", "ring-yellow-400", "bg-yellow-950/80"));
+        el.classList.add("ring-4", "ring-yellow-400", "bg-yellow-950/80");
+        this.selectedLeft = { key, val, el };
+        const fb = document.getElementById("s18-fb");
+        if (fb) {
+            fb.className = "p-3 rounded-2xl bg-cyan-950/80 border border-cyan-500/40 text-cyan-200 text-xs sm:text-sm font-bold text-center";
+            fb.innerText = "Şimdi sağ taraftan '" + val + "' uzantısına ait doğru dosya türünü seçin!";
+        }
+    },
+    selectRight: function(targetKey, targetName, el) {
+        const fb = document.getElementById("s18-fb");
+        if (!this.selectedLeft) {
+            if (fb) {
+                fb.className = "p-3 rounded-2xl bg-amber-950/80 border border-amber-500/40 text-amber-200 text-xs sm:text-sm font-bold text-center";
+                fb.innerText = "Lütfen önce sol taraftan bir uzantı seçiniz!";
+            }
+            return;
+        }
+
+        if (this.selectedLeft.key === targetKey) {
+            if (typeof sounds !== "undefined") sounds.playCorrect();
+            this.selectedLeft.el.classList.remove("ring-4", "ring-yellow-400", "bg-yellow-950/80");
+            this.selectedLeft.el.classList.add("opacity-40", "pointer-events-none", "bg-emerald-900/60", "border-emerald-500");
+            el.classList.add("opacity-40", "pointer-events-none", "bg-emerald-900/60", "border-emerald-500");
+            this.matchedCount++;
+            if (fb) {
+                fb.className = "p-3 rounded-2xl bg-emerald-950/90 border-2 border-emerald-500 text-emerald-200 text-xs sm:text-sm font-bold text-center animate-pop";
+                fb.innerHTML = "🎉 DOĞRU EŞLEŞTİRME! <strong>" + this.selectedLeft.val + "</strong> → <strong>" + targetName + "</strong>";
+            }
+            this.selectedLeft = null;
+            if (this.matchedCount === 6) {
+                setTimeout(() => {
+                    if (typeof sounds !== "undefined") sounds.playFanfare();
+                    if (fb) {
+                        fb.className = "p-4 rounded-2xl bg-gradient-to-r from-emerald-600 to-cyan-600 text-white font-black text-sm text-center shadow-2xl animate-pop";
+                        fb.innerHTML = "🏆 TEBRİKLER! 6 uzantının tamamını doğru eşleştirdiniz!";
+                    }
+                }, 500);
+            }
+        } else {
+            if (typeof sounds !== "undefined") sounds.playWrong();
+            if (fb) {
+                fb.className = "p-3 rounded-2xl bg-rose-950/90 border-2 border-rose-500 text-rose-200 text-xs sm:text-sm font-bold text-center animate-pop";
+                fb.innerHTML = "⚠️ Yanlış Eşleştirme! <strong>" + this.selectedLeft.val + "</strong> uzantısı '" + targetName + "' değildir. Tekrar deneyin!";
+            }
+            this.selectedLeft.el.classList.remove("ring-4", "ring-yellow-400", "bg-yellow-950/80");
+            this.selectedLeft = null;
+        }
+    },
+    reset: function() {
+        if (typeof sounds !== "undefined") sounds.playClick();
+        this.selectedLeft = null;
+        this.matchedCount = 0;
+        document.querySelectorAll(".s18-left-btn, .s18-right-btn").forEach(b => {
+            b.className = b.className.replace(/opacity-40|pointer-events-none|bg-emerald-900\/60|border-emerald-500|ring-4|ring-yellow-400|bg-yellow-950\/80/g, "").trim();
+        });
+        const fb = document.getElementById("s18-fb");
+        if (fb) {
+            fb.className = "p-3 rounded-2xl bg-slate-800/80 border border-slate-700 text-slate-300 text-xs sm:text-sm text-center";
+            fb.innerText = "Önce sol taraftan bir uzantıya, ardından sağdaki doğru dosya türüne dokunun.";
+        }
+    }
+};
+
+window.slide19MiniQuiz = {
+    idx: 0,
+    score: 0,
+    questions: [
+        {
+            q: "1. 'tatil.jpg' dosyasındaki '.jpg' kısmı dosyanın nesini belirtir?",
+            opts: ["Dosyanın boyutunu", "Dosyanın türünü (Resim)", "Dosyanın oluşturulma yılını", "Dosyayı yazan kişiyi"],
+            ans: 1,
+            exp: "Noktadan sonra gelen dosya uzantısı dosyanın türünü (Resim/Görsel) belirtir."
+        },
+        {
+            q: "2. Ortak özelliğe sahip dosyaların düzenli tutulduğu sarı renkli dijital birime ne denir?",
+            opts: ["Uzantı", "İkili Kod", "Klasör (Dizin)", "Bit"],
+            ans: 2,
+            exp: "Dosyaları düzenlemek için sarı renkli klasörler (dizinler) kullanılır."
+        },
+        {
+            q: "3. Bir dosyayı aslına dokunmadan yeni bir yere çoğaltmak için hangi kısayol kullanılır?",
+            opts: ["Ctrl + C", "Ctrl + X", "Ctrl + Z", "Delete"],
+            ans: 0,
+            exp: "Ctrl + C kopyalama (çoğaltma) kısayoludur; aslı yerinde kalır."
+        },
+        {
+            q: "4. Arama kutusuna '*.docx' yazıldığında bilgisayar neyi bulur?",
+            opts: ["Yalnızca adı 'docx' olan bir dosyayı", "Bilgisayardaki TÜM Word belgelerini", "Tüm müzik dosyalarını", "Hiçbir şey bulamaz"],
+            ans: 1,
+            exp: "Yıldız (*) joker karakteri 'adı ne olursa olsun tüm .docx dosyalarını bul' anlamına gelir."
+        },
+        {
+            q: "5. Dosyaları sıkıştırmanın (.zip, .rar) en önemli 2 faydası nedir?",
+            opts: [
+                "Ekranı büyütmek ve pili korumak",
+                "Disk tasarrufu sağlamak ve paylaşımı kolaylaştırmak",
+                "Dosyanın rengini ve sesini değiştirmek",
+                "İnterneti hızlandırıp bilgisayarı kapatmak"
+            ],
+            ans: 1,
+            exp: "Sıkıştırma dosya boyutunu küçülterek disk alanı kazandırır ve internette hızlı gönderim sunar."
+        }
+    ],
+    answer: function(chosen) {
+        const q = this.questions[this.idx];
+        const fb = document.getElementById("s19-fb");
+        const nextBtn = document.getElementById("s19-next-btn");
+        document.querySelectorAll(".s19-opt-btn").forEach(b => b.disabled = true);
+
+        if (chosen === q.ans) {
+            if (typeof sounds !== "undefined") sounds.playCorrect();
+            this.score += 20;
+            const scoreEl = document.getElementById("s19-score");
+            if (scoreEl) scoreEl.innerText = "Puan: " + this.score + " / 100";
+            if (fb) {
+                fb.className = "p-3 rounded-2xl bg-emerald-950/90 border-2 border-emerald-500 text-emerald-200 text-xs sm:text-sm font-bold shadow-lg animate-pop";
+                fb.innerHTML = "🎉 DOĞRU! " + q.exp;
+            }
+        } else {
+            if (typeof sounds !== "undefined") sounds.playWrong();
+            if (fb) {
+                fb.className = "p-3 rounded-2xl bg-rose-950/90 border-2 border-rose-500 text-rose-200 text-xs sm:text-sm font-bold shadow-lg animate-pop";
+                fb.innerHTML = "⚠️ YANLIŞ! Doğru seçenek <strong>" + String.fromCharCode(65 + q.ans) + "</strong> olmalıydı. " + q.exp;
+            }
+        }
+
+        if (nextBtn) nextBtn.classList.remove("hidden");
+    },
+    next: function() {
+        if (typeof sounds !== "undefined") sounds.playClick();
+        if (this.idx < this.questions.length - 1) {
+            this.idx++;
+            this.render();
+        } else {
+            const box = document.getElementById("s19-quiz-box");
+            if (box) {
+                if (typeof sounds !== "undefined") sounds.playFanfare();
+                box.innerHTML = `
+                    <div class="text-center p-6 space-y-4 animate-pop">
+                        <div class="text-5xl">🏆 🎉</div>
+                        <h3 class="text-2xl font-black text-white">Yarışma Tamamlandı!</h3>
+                        <p class="text-base text-yellow-300 font-bold">Toplam Puanınız: ${this.score} / 100</p>
+                        <p class="text-xs sm:text-sm text-slate-300">Dosya ve klasör yönetiminin temellerini başarıyla öğrendiniz!</p>
+                        <button onclick="window.slide19MiniQuiz.reset()" class="px-5 py-2.5 bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs rounded-xl shadow-lg">
+                            Testi Tekrar Çöz 🔄
+                        </button>
+                    </div>
+                `;
+            }
+        }
+    },
+    render: function() {
+        const q = this.questions[this.idx];
+        const qText = document.getElementById("s19-q-text");
+        const qBadge = document.getElementById("s19-q-badge");
+        const optsContainer = document.getElementById("s19-opts-container");
+        const fb = document.getElementById("s19-fb");
+        const nextBtn = document.getElementById("s19-next-btn");
+
+        if (qText) qText.innerText = q.q;
+        if (qBadge) qBadge.innerText = "Soru: " + (this.idx + 1) + " / " + this.questions.length;
+        if (fb) fb.className = "hidden";
+        if (nextBtn) nextBtn.classList.add("hidden");
+
+        if (optsContainer) {
+            optsContainer.innerHTML = q.opts.map((opt, i) => `
+                <button onclick="window.slide19MiniQuiz.answer(${i})" class="s19-opt-btn p-3.5 rounded-xl bg-slate-800 hover:bg-indigo-600/80 border border-slate-700 text-left font-bold text-xs sm:text-sm text-white transition-all flex items-center gap-3">
+                    <span class="w-7 h-7 rounded-lg bg-slate-900 border border-slate-700 flex items-center justify-center font-black text-xs text-yellow-400 shrink-0">${String.fromCharCode(65 + i)}</span>
+                    <span>${opt}</span>
+                </button>
+            `).join("");
+        }
+    },
+    reset: function() {
+        this.idx = 0;
+        this.score = 0;
+        const scoreEl = document.getElementById("s19-score");
+        if (scoreEl) scoreEl.innerText = "Puan: 0 / 100";
+        this.render();
+    }
+};
+
 window.WEEK6_CONTENT = {
     weekInfo: {
         weekNumber: 6,
@@ -97,21 +286,6 @@ window.WEEK6_CONTENT = {
             btnIcon: "fa-solid fa-crosshairs",
             btnGradient: "from-cyan-500 via-teal-500 to-indigo-600 hover:from-cyan-400 hover:to-indigo-500 text-slate-950 font-black",
             action: "app.openStandaloneGame('games/dosya_klasor_kelime_avi.html', 'Dosya ve Klasör Kelime Avı | Öğretmen Bozok')"
-        },
-        {
-            badge: "Akıllı Tahta Sunumu 📽️",
-            badgeColor: "text-yellow-300",
-            title: "20 Slaytlık Tam Ekran Sunum",
-            desc: "Öğretmen rehberliğinde akıllı tahtada ders anlatımı için hazırlanmış 20 slaytlık, etkileşimli eşleştirmeli ve hızlı quizli bağımsız sunum!",
-            icon: "fa-solid fa-chalkboard-user",
-            iconBg: "bg-yellow-500/30 text-yellow-300",
-            cardGradient: "from-slate-900 via-indigo-950 to-purple-950",
-            border: "border-yellow-500/50",
-            descColor: "text-yellow-100",
-            btnText: "Tam Ekran Sunuyu Başlat!",
-            btnIcon: "fa-solid fa-expand",
-            btnGradient: "from-yellow-500 via-amber-500 to-orange-500 hover:from-yellow-400 hover:to-orange-400 text-slate-950 font-black",
-            action: "app.openStandaloneGame('games/sunu_dosya_ve_klasor_yonetimi.html', 'Dosya ve Klasör Yönetimi Akıllı Tahta Sunumu | Öğretmen Bozok')"
         }
     ],
 
@@ -130,7 +304,11 @@ window.WEEK6_CONTENT = {
         }
     },
 
+    // =========================================================================
+    // 20 SLAYTLIK TAM EĞİTSEL DERS SUNUSU (BTY.5.1.6 DOSYA VE KLASÖR YÖNETİMİ)
+    // =========================================================================
     slides: [
+        // SLAYT 1: KAPAK
         {
             id: 1,
             title: "DOSYA VE KLASÖR YÖNETİMİ 📁",
@@ -154,7 +332,7 @@ window.WEEK6_CONTENT = {
                             Dosya ve Klasör Yönetimi
                         </h2>
                         <p class="text-sm sm:text-base text-indigo-200 max-w-xl mx-auto leading-relaxed">
-                            Dosya adı, dosya uzantısı, klasör hiyerarşisi, klavye kısayolları ve dosya sıkıştırma dünyasını keşfetmeye hazır mısınız?
+                            Dosya adı, dosya uzantısı, klasör hiyerarşisi, kısayollar ve sıkıştırma ile bilgisayarımızı düzenli bir kütüphaneye dönüştürüyoruz!
                         </p>
                     </div>
 
@@ -176,46 +354,70 @@ window.WEEK6_CONTENT = {
                 </div>
             `
         },
+
+        // SLAYT 2: NELER ÖĞRENECEĞİZ?
         {
             id: 2,
-            title: "Öğrenme Hedefleri ve Yol Haritası 🗺️",
-            subtitle: "Ders Boyunca Neler Keşfedeceğiz?",
+            title: "Bu Derste Neler Öğreneceğiz? 🗺️",
+            subtitle: "Öğrenme Yol Haritası",
             badge: "YOL HARİTASI",
             icon: "fa-solid fa-compass",
             bgColor: "from-slate-900 via-indigo-950 to-blue-950",
             gradient: "from-slate-900 via-indigo-950 to-blue-950",
             content: `
-                <div class="max-w-5xl mx-auto space-y-5 my-auto py-1">
+                <div class="max-w-5xl mx-auto space-y-4 my-auto py-1">
                     <div class="text-center space-y-1">
-                        <h3 class="text-xl sm:text-2xl font-black text-white">Bu Derste Kazanacağımız Bilişim Süper Güçleri:</h3>
-                        <p class="text-xs sm:text-sm text-cyan-200">Dosyalarımızı düzenli, güvenli ve verimli bir şekilde yönetmeyi öğreniyoruz.</p>
+                        <h3 class="text-xl sm:text-2xl font-black text-white">Ders Boyunca Keşfedeceğimiz 8 Temel Bilişim Durağı:</h3>
+                        <p class="text-xs sm:text-sm text-cyan-200">Dosyalarımızı düzenli, güvenli ve verimli bir şekilde yönetmeyi adım adım öğreniyoruz.</p>
                     </div>
 
                     <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
-                        <div class="p-4 rounded-2xl bg-slate-800/80 border border-slate-700 text-center space-y-1">
+                        <div class="p-3.5 rounded-2xl bg-slate-800/80 border border-slate-700 text-center space-y-1">
                             <div class="text-2xl">📄</div>
                             <h4 class="font-black text-sm text-cyan-300">1. Dosya Nedir?</h4>
                             <p class="text-xs text-slate-400">Verilerin kaydedildiği temel dijital birim.</p>
                         </div>
-                        <div class="p-4 rounded-2xl bg-slate-800/80 border border-slate-700 text-center space-y-1">
+                        <div class="p-3.5 rounded-2xl bg-slate-800/80 border border-slate-700 text-center space-y-1">
                             <div class="text-2xl">🏷️</div>
                             <h4 class="font-black text-sm text-purple-300">2. Dosya Uzantısı</h4>
                             <p class="text-xs text-slate-400">.docx, .mp3, .mp4, .jpg ne anlama gelir?</p>
                         </div>
-                        <div class="p-4 rounded-2xl bg-slate-800/80 border border-slate-700 text-center space-y-1">
+                        <div class="p-3.5 rounded-2xl bg-slate-800/80 border border-slate-700 text-center space-y-1">
                             <div class="text-2xl">📁</div>
                             <h4 class="font-black text-sm text-amber-300">3. Klasör & Dizin</h4>
                             <p class="text-xs text-slate-400">Ortak dosyaları düzenleme ve alt klasör ağacı.</p>
                         </div>
-                        <div class="p-4 rounded-2xl bg-slate-800/80 border border-slate-700 text-center space-y-1">
+                        <div class="p-3.5 rounded-2xl bg-slate-800/80 border border-slate-700 text-center space-y-1">
+                            <div class="text-2xl">🖱️</div>
+                            <h4 class="font-black text-sm text-emerald-300">4. Temel İşlemler</h4>
+                            <p class="text-xs text-slate-400">Oluşturma, kopyalama, taşıma, silme, yeniden adlandırma.</p>
+                        </div>
+                        <div class="p-3.5 rounded-2xl bg-slate-800/80 border border-slate-700 text-center space-y-1">
                             <div class="text-2xl">⌨️</div>
-                            <h4 class="font-black text-sm text-emerald-300">4. Kısayol Tuşları</h4>
+                            <h4 class="font-black text-sm text-cyan-300">5. Kısayol Tuşları</h4>
                             <p class="text-xs text-slate-400">Ctrl+C, Ctrl+X, Ctrl+V, Ctrl+Z, Ctrl+Y.</p>
+                        </div>
+                        <div class="p-3.5 rounded-2xl bg-slate-800/80 border border-slate-700 text-center space-y-1">
+                            <div class="text-2xl">🗑️</div>
+                            <h4 class="font-black text-sm text-rose-300">6. Geri Dönüşüm</h4>
+                            <p class="text-xs text-slate-400">Çöp kutusu mantığı ve geri yükleme.</p>
+                        </div>
+                        <div class="p-3.5 rounded-2xl bg-slate-800/80 border border-slate-700 text-center space-y-1">
+                            <div class="text-2xl">🔍</div>
+                            <h4 class="font-black text-sm text-yellow-300">7. Dosya Arama</h4>
+                            <p class="text-xs text-slate-400">*.docx ve Bil*.docx gibi arama ifadeleri.</p>
+                        </div>
+                        <div class="p-3.5 rounded-2xl bg-slate-800/80 border border-slate-700 text-center space-y-1">
+                            <div class="text-2xl">🗜️</div>
+                            <h4 class="font-black text-sm text-purple-300">8. Sıkıştırma (.zip)</h4>
+                            <p class="text-xs text-slate-400">Boyutu küçültme ve tek pakette arşivleme.</p>
                         </div>
                     </div>
                 </div>
             `
         },
+
+        // SLAYT 3: DOSYA NEDİR?
         {
             id: 3,
             title: "Dosya (File) Nedir? 📄",
@@ -231,11 +433,11 @@ window.WEEK6_CONTENT = {
                             <span class="w-12 h-12 rounded-2xl bg-blue-500/20 text-blue-400 flex items-center justify-center text-2xl font-black">📄</span>
                             <div>
                                 <h3 class="text-xl font-black text-white">Dosya (File) Tanımı:</h3>
-                                <p class="text-xs text-slate-400">Bilgisayarda verilerin saklandığı en küçük anlamlı birim</p>
+                                <p class="text-xs text-slate-400">Bilgisayarda verilerin saklandığı en temel birim</p>
                             </div>
                         </div>
                         <p class="text-slate-200 text-base leading-relaxed">
-                            Bilgisayarda <strong>metin, resim, ses, video veya çizim</strong> gibi bilgilerin kaydedildiği birimlere <strong>DOSYA</strong> denir. Tıpkı bir defter yaprağı gibi! Her dosya belirli bir türdeki içeriği içinde barındırır.
+                            Bilgisayarda <strong>yazı, resim, ses, video veya çizim</strong> gibi bilgilerin kaydedildiği birimlere <strong>DOSYA</strong> denir. Tıpkı bir defter yaprağı gibi! Her dosya belirli bir türdeki içeriği içinde barındırır.
                         </p>
                     </div>
 
@@ -264,6 +466,8 @@ window.WEEK6_CONTENT = {
                 </div>
             `
         },
+
+        // SLAYT 4: DOSYA ADI VE UZANTISI
         {
             id: 4,
             title: "Dosya Adı ve Uzantısı (Soyadı) 🏷️",
@@ -303,6 +507,8 @@ window.WEEK6_CONTENT = {
                 </div>
             `
         },
+
+        // SLAYT 5: YAYGIN DOSYA UZANTILARI TABLOSU
         {
             id: 5,
             title: "Yaygın Dosya Uzantıları Tablosu 📊",
@@ -383,12 +589,14 @@ window.WEEK6_CONTENT = {
                 </div>
             `
         },
+
+        // SLAYT 6: KLASÖR NEDİR?
         {
             id: 6,
-            title: "Klasör (Dizin) ve Alt Klasör Nedir? 📁",
+            title: "Klasör (Dizin / Folder) Nedir? 📁",
             subtitle: "Dijital Çekmeceler ve Düzen",
             badge: "HİYERARŞİ",
-            icon: "fa-solid fa-folder-open",
+            icon: "fa-solid fa-folder",
             bgColor: "from-slate-900 via-indigo-950 to-slate-900",
             gradient: "from-slate-900 via-indigo-950 to-slate-900",
             content: `
@@ -407,26 +615,63 @@ window.WEEK6_CONTENT = {
                         </div>
 
                         <div class="p-5 rounded-2xl bg-slate-800/80 border border-slate-700 space-y-3">
-                            <div class="flex items-center gap-2 font-black text-purple-300 text-base">
-                                <span>🌳</span> <span>Alt Klasör Ağacı</span>
+                            <div class="flex items-center gap-2 font-black text-cyan-300 text-base">
+                                <span>✨</span> <span>Neden Klasör Kullanırız?</span>
                             </div>
                             <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
-                                Bir klasörün içine açılan yeni klasöre <strong>ALT KLASÖR</strong> denir. Böylece hiyerarşik bir ağaç yapısı kurulur.
+                                Masaüstünde yüzlerce dosyanın birbirine karışmasını engeller. Aradığımız herhangi bir ödeve veya şarkıya saniyeler içinde ulaşmamızı sağlar.
                             </p>
-                            <div class="p-3 bg-slate-900/60 rounded-xl font-mono text-xs text-cyan-300">
-                                📁 OKUL<br>
-                                ├── 📁 Ödevler (Alt Klasör)<br>
-                                ├── 📁 Resimler (Alt Klasör)<br>
-                                └── 📁 Projeler (Alt Klasör)
+                            <div class="p-3 bg-emerald-950/40 border border-emerald-500/30 rounded-xl text-xs text-emerald-300 font-bold">
+                                Düzenli Klasör = Hızlı ve Başarılı Çalışma!
                             </div>
                         </div>
                     </div>
                 </div>
             `
         },
+
+        // SLAYT 7: ALT KLASÖR NEDİR?
         {
             id: 7,
-            title: "Yeni Klasör Oluşturma Adımları 🖱️",
+            title: "Alt Klasör (Subfolder) ve Ağaç Yapısı 🌳",
+            subtitle: "İç İçe Klasörleme Düzeni",
+            badge: "AĞAÇ YAPISI",
+            icon: "fa-solid fa-folder-tree",
+            bgColor: "from-slate-900 via-purple-950 to-indigo-950",
+            gradient: "from-slate-900 via-purple-950 to-indigo-950",
+            content: `
+                <div class="max-w-4xl mx-auto space-y-5 my-auto">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div class="p-5 rounded-2xl bg-slate-800/80 border border-slate-700 space-y-3">
+                            <div class="flex items-center gap-2 font-black text-purple-300 text-base">
+                                <span>🌳</span> <span>Alt Klasör Tanımı</span>
+                            </div>
+                            <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
+                                Bir klasörün içine açılan yeni klasöre <strong>ALT KLASÖR</strong> denir. Böylece hiyerarşik bir ağaç yapısı kurulur.
+                            </p>
+                            <p class="text-xs text-slate-400">
+                                Tıpkı bir okul dolabının içindeki ders bölmeleri gibi!
+                            </p>
+                        </div>
+
+                        <div class="p-5 rounded-2xl bg-slate-900/90 border border-slate-700 font-mono text-xs sm:text-sm text-cyan-300 space-y-1">
+                            <div class="text-yellow-400 font-bold">📁 OKUL (Ana Klasör)</div>
+                            <div class="pl-4 text-purple-300">├── 📁 Ödevler (Alt Klasör)</div>
+                            <div class="pl-8 text-slate-400">│   ├── 📄 Bilisim_Odevi.docx</div>
+                            <div class="pl-8 text-slate-400">│   └── 📄 Matematik.pdf</div>
+                            <div class="pl-4 text-purple-300">├── 📁 Resimler (Alt Klasör)</div>
+                            <div class="pl-8 text-slate-400">│   └── 🖼️ 23_Nisan.jpg</div>
+                            <div class="pl-4 text-purple-300">└── 📁 Projeler (Alt Klasör)</div>
+                        </div>
+                    </div>
+                </div>
+            `
+        },
+
+        // SLAYT 8: YENİ KLASÖR OLUŞTURMA
+        {
+            id: 8,
+            title: "Adım Adım Yeni Klasör Oluşturma 🖱️",
             subtitle: "4 Kolay Adımda Yeni Bir Klasör Aç",
             badge: "UYGULAMA ADIMI",
             icon: "fa-solid fa-folder-plus",
@@ -460,53 +705,95 @@ window.WEEK6_CONTENT = {
                 </div>
             `
         },
+
+        // SLAYT 9: DOSYA VE KLASÖR İŞLEMLERİ
         {
-            id: 8,
-            title: "Sihirli Kısayol Tuşları ⌨️",
-            subtitle: "Kes, Kopyala, Yapıştır, Geri Al, Yinele",
-            badge: "KLAVYE KISAYOLLARI",
-            icon: "fa-solid fa-keyboard",
-            bgColor: "from-slate-900 via-slate-950 to-indigo-950",
-            gradient: "from-slate-900 via-slate-950 to-indigo-950",
+            id: 9,
+            title: "Temel Dosya ve Klasör İşlemleri 🛠️",
+            subtitle: "5 Ana Dosya Yönetimi Hamlesi",
+            badge: "TEMEL İŞLEMLER",
+            icon: "fa-solid fa-sliders",
+            bgColor: "from-slate-900 via-indigo-950 to-slate-900",
+            gradient: "from-slate-900 via-indigo-950 to-slate-900",
             content: `
                 <div class="max-w-4xl mx-auto space-y-4 my-auto">
                     <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 text-center">
-                        <div class="p-4 rounded-2xl bg-slate-800/80 border border-cyan-500/30 space-y-1">
-                            <span class="px-2.5 py-1 bg-slate-950 rounded-lg font-mono text-cyan-300 font-black text-sm border border-slate-700">Ctrl + C</span>
-                            <h4 class="font-bold text-sm text-white mt-1">KOPYALA</h4>
-                            <p class="text-xs text-slate-400">Dosyayı çoğaltır, aslı yerinde kalır.</p>
+                        <div class="p-4 rounded-2xl bg-slate-800/80 border border-slate-700 space-y-1">
+                            <div class="text-2xl">✨</div>
+                            <h4 class="font-bold text-sm text-cyan-300">1. Oluşturma</h4>
+                            <p class="text-xs text-slate-400">İhtiyaç duyulan yeni bir dosya veya klasör açma.</p>
                         </div>
-                        <div class="p-4 rounded-2xl bg-slate-800/80 border border-rose-500/30 space-y-1">
-                            <span class="px-2.5 py-1 bg-slate-950 rounded-lg font-mono text-rose-300 font-black text-sm border border-slate-700">Ctrl + X</span>
-                            <h4 class="font-bold text-sm text-white mt-1">KES (TAŞI)</h4>
-                            <p class="text-xs text-slate-400">Dosyayı eski yerinden tamamen söker.</p>
+                        <div class="p-4 rounded-2xl bg-slate-800/80 border border-slate-700 space-y-1">
+                            <div class="text-2xl">📋</div>
+                            <h4 class="font-bold text-sm text-yellow-300">2. Kopyalama</h4>
+                            <p class="text-xs text-slate-400">Dosyanın ikizini üretme; aslı yerinde kalır!</p>
                         </div>
-                        <div class="p-4 rounded-2xl bg-slate-800/80 border border-emerald-500/30 space-y-1">
-                            <span class="px-2.5 py-1 bg-slate-950 rounded-lg font-mono text-emerald-300 font-black text-sm border border-slate-700">Ctrl + V</span>
-                            <h4 class="font-bold text-sm text-white mt-1">YAPIŞTIR</h4>
-                            <p class="text-xs text-slate-400">Kesilen veya kopyalananı yeni yere bırakır.</p>
+                        <div class="p-4 rounded-2xl bg-slate-800/80 border border-slate-700 space-y-1">
+                            <div class="text-2xl">🚚</div>
+                            <h4 class="font-bold text-sm text-emerald-300">3. Taşıma (Kesme)</h4>
+                            <p class="text-xs text-slate-400">Dosyayı eski yerinden alıp yeni yere götürme.</p>
                         </div>
-                        <div class="p-4 rounded-2xl bg-slate-800/80 border border-amber-500/30 space-y-1">
-                            <span class="px-2.5 py-1 bg-slate-950 rounded-lg font-mono text-amber-300 font-black text-sm border border-slate-700">Ctrl + Z</span>
-                            <h4 class="font-bold text-sm text-white mt-1">GERİ AL (Undo)</h4>
-                            <p class="text-xs text-slate-400">Son yapılan hatalı işlemi iptal eder.</p>
+                        <div class="p-4 rounded-2xl bg-slate-800/80 border border-slate-700 space-y-1">
+                            <div class="text-2xl">✏️</div>
+                            <h4 class="font-bold text-sm text-purple-300">4. Yeniden Adlandırma</h4>
+                            <p class="text-xs text-slate-400">Dosya içeriği değişmeden ismini değiştirme (F2).</p>
                         </div>
-                        <div class="p-4 rounded-2xl bg-slate-800/80 border border-purple-500/30 space-y-1">
-                            <span class="px-2.5 py-1 bg-slate-950 rounded-lg font-mono text-purple-300 font-black text-sm border border-slate-700">Ctrl + Y</span>
-                            <h4 class="font-bold text-sm text-white mt-1">YİNELE (Redo)</h4>
-                            <p class="text-xs text-slate-400">Geri alınan işlemi tekrar uygular.</p>
+                        <div class="p-4 rounded-2xl bg-slate-800/80 border border-slate-700 space-y-1">
+                            <div class="text-2xl">🗑️</div>
+                            <h4 class="font-bold text-sm text-rose-300">5. Silme</h4>
+                            <p class="text-xs text-slate-400">Gerekmeyen dosyayı çöp kutusuna gönderme (Delete).</p>
                         </div>
-                        <div class="p-4 rounded-2xl bg-slate-800/80 border border-red-500/30 space-y-1">
-                            <span class="px-2.5 py-1 bg-slate-950 rounded-lg font-mono text-red-300 font-black text-sm border border-slate-700">Delete</span>
-                            <h4 class="font-bold text-sm text-white mt-1">SİL</h4>
-                            <p class="text-xs text-slate-400">Geri Dönüşüm Kutusu'na gönderir.</p>
+                        <div class="p-4 rounded-2xl bg-slate-900/90 border border-cyan-500/40 space-y-1">
+                            <div class="text-2xl">💡</div>
+                            <h4 class="font-bold text-sm text-white">Önemli Fark</h4>
+                            <p class="text-xs text-cyan-300">Kopyalamada 2 dosya oluşur; Taşımada dosya sadece yer değiştirir.</p>
                         </div>
                     </div>
                 </div>
             `
         },
+
+        // SLAYT 10: KES, KOPYALA VE YAPIŞTIR
         {
-            id: 9,
+            id: 10,
+            title: "Kes, Kopyala ve Yapıştır Kısayolları ⌨️",
+            subtitle: "Ctrl+X, Ctrl+C ve Ctrl+V Gücü",
+            badge: "KISAYOLLAR",
+            icon: "fa-solid fa-copy",
+            bgColor: "from-slate-900 via-slate-950 to-indigo-950",
+            gradient: "from-slate-900 via-slate-950 to-indigo-950",
+            content: `
+                <div class="max-w-4xl mx-auto space-y-4 my-auto">
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 text-center">
+                        <div class="p-5 rounded-2xl bg-slate-800/80 border-t-4 border-rose-400 space-y-2">
+                            <div class="text-3xl">✂️</div>
+                            <span class="px-3 py-1 bg-slate-950 rounded-lg font-mono text-rose-300 font-black text-sm border border-slate-700">Ctrl + X</span>
+                            <h4 class="font-bold text-sm text-white mt-1">KES (Taşıma)</h4>
+                            <p class="text-xs text-slate-300">Dosyayı bulunduğu yerden söker ve panoya alır.</p>
+                        </div>
+                        <div class="p-5 rounded-2xl bg-slate-800/80 border-t-4 border-cyan-400 space-y-2">
+                            <div class="text-3xl">📄📄</div>
+                            <span class="px-3 py-1 bg-slate-950 rounded-lg font-mono text-cyan-300 font-black text-sm border border-slate-700">Ctrl + C</span>
+                            <h4 class="font-bold text-sm text-white mt-1">KOPYALA (Çoğaltma)</h4>
+                            <p class="text-xs text-slate-300">Aslına dokunmaz, tıpatıp aynısını hafızaya çoğaltır.</p>
+                        </div>
+                        <div class="p-5 rounded-2xl bg-slate-800/80 border-t-4 border-emerald-400 space-y-2">
+                            <div class="text-3xl">📋</div>
+                            <span class="px-3 py-1 bg-slate-950 rounded-lg font-mono text-emerald-300 font-black text-sm border border-slate-700">Ctrl + V</span>
+                            <h4 class="font-bold text-sm text-white mt-1">YAPIŞTIR</h4>
+                            <p class="text-xs text-slate-300">Kesilen veya kopyalananı yeni klasöre bırakır.</p>
+                        </div>
+                    </div>
+                    <div class="p-3 bg-slate-900/60 rounded-xl text-center text-xs text-slate-400">
+                        🔑 <em>Unutma: Yapıştırma (Ctrl+V) yapılmadan Kesme veya Kopyalama işlemi tamamlanmış sayılmaz!</em>
+                    </div>
+                </div>
+            `
+        },
+
+        // SLAYT 11: SİLME VE GERİ DÖNÜŞÜM KUTUSU
+        {
+            id: 11,
             title: "Silme ve Geri Dönüşüm Kutusu 🗑️",
             subtitle: "Çöp Kutusunun Güvenlik Mantığı",
             badge: "GÜVENLİK",
@@ -515,121 +802,414 @@ window.WEEK6_CONTENT = {
             gradient: "from-slate-900 via-rose-950 to-slate-900",
             content: `
                 <div class="max-w-4xl mx-auto space-y-4 my-auto">
-                    <div class="p-6 rounded-3xl bg-slate-800/80 border border-slate-700 shadow-xl space-y-3">
-                        <div class="flex items-center gap-3">
-                            <span class="text-3xl">🗑️</span>
-                            <h3 class="text-lg font-black text-white">Geri Dönüşüm Kutusu (Recycle Bin)</h3>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div class="p-5 rounded-2xl bg-slate-800/80 border border-slate-700 space-y-3">
+                            <div class="flex items-center gap-2 font-black text-cyan-300 text-base">
+                                <span>🗑️</span> <span>Geri Dönüşüm Kutusu</span>
+                            </div>
+                            <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
+                                Silinen dosyalar doğrudan yok olmaz; Geri Dönüşüm Kutusu'na taşınır. Yanlışlıkla silinen bir dosya sağ tıklanıp <strong>"Geri Yükle"</strong> denilerek kurtarılabilir.
+                            </p>
                         </div>
-                        <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
-                            Bilgisayarda silinen dosyalar ilk olarak Geri Dönüşüm Kutusu'na atılır. Kullanıcı <em>"Boşalt"</em> komutu verene kadar orada bekler. Yanlışlıkla silinen dosyalar sağ tıklanıp <strong>"Geri Yükle"</strong> denilerek kurtarılabilir.
-                        </p>
-                        <div class="p-3 bg-rose-950/40 border border-rose-500/40 rounded-xl text-xs text-rose-200 font-bold">
-                            ⚠️ Dikkat: Çöp kutusu boşaltıldığında veya kalıcı silindiğinde (Shift+Delete) dosyaların geri getirilmesi garanti değildir!
+
+                        <div class="p-5 rounded-2xl bg-rose-950/40 border-2 border-rose-500/40 space-y-3">
+                            <div class="flex items-center gap-2 font-black text-rose-300 text-base">
+                                <span>⚠️</span> <span>Kalıcı Silme Uyarısı</span>
+                            </div>
+                            <p class="text-xs sm:text-sm text-rose-200 leading-relaxed">
+                                Çöp kutusu <em>"Boşaltıldığında"</em> veya <span class="font-mono bg-black/40 px-1.5 py-0.5 rounded">Shift + Delete</span> yapıldığında dosya kalıcı silinir. Kalıcı silinen dosyaların kurtarılması garanti değildir!
+                            </p>
                         </div>
                     </div>
                 </div>
             `
         },
+
+        // SLAYT 12: GERİ AL VE YİNELE
         {
-            id: 10,
-            title: "Dosya Arama ve Yıldız (*) İşareti 🔍",
-            subtitle: "Dedektif Gibi Dosya Bulma",
-            badge: "ARAMA İŞLEMİ",
+            id: 12,
+            title: "Zaman Makinesi: Geri Al ve Yinele ⏱️",
+            subtitle: "Ctrl+Z ve Ctrl+Y Kısayolları",
+            badge: "ZAMAN MAKİNESİ",
+            icon: "fa-solid fa-clock-rotate-left",
+            bgColor: "from-slate-900 via-indigo-950 to-purple-950",
+            gradient: "from-slate-900 via-indigo-950 to-purple-950",
+            content: `
+                <div class="max-w-4xl mx-auto space-y-4 my-auto">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-center">
+                        <div class="p-6 rounded-2xl bg-slate-800/80 border-t-4 border-amber-400 space-y-2">
+                            <div class="text-4xl">↩️</div>
+                            <span class="px-3 py-1 bg-slate-950 rounded-lg font-mono text-amber-300 font-black text-sm border border-slate-700">Ctrl + Z</span>
+                            <h4 class="font-bold text-base text-white mt-1">GERİ AL (Undo)</h4>
+                            <p class="text-xs text-slate-300">
+                                Az önce yapılan son hatalı işlemi iptal eder ve zamanı bir adım geriye sarar!
+                            </p>
+                        </div>
+                        <div class="p-6 rounded-2xl bg-slate-800/80 border-t-4 border-cyan-400 space-y-2">
+                            <div class="text-4xl">↪️</div>
+                            <span class="px-3 py-1 bg-slate-950 rounded-lg font-mono text-cyan-300 font-black text-sm border border-slate-700">Ctrl + Y</span>
+                            <h4 class="font-bold text-base text-white mt-1">YİNELE (Redo)</h4>
+                            <p class="text-xs text-slate-300">
+                                Geri alınan işlemi "aslında doğruymuş" diyerek tekrarlar ve ileri sarar!
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            `
+        },
+
+        // SLAYT 13: DOSYA ARAMA
+        {
+            id: 13,
+            title: "Dedektif Gibi Dosya Arama (*) 🔍",
+            subtitle: "Joker Karakter Yıldızın Gücü",
+            badge: "ARAMA",
             icon: "fa-solid fa-magnifying-glass",
             bgColor: "from-slate-900 via-indigo-950 to-cyan-950",
             gradient: "from-slate-900 via-indigo-950 to-cyan-950",
             content: `
                 <div class="max-w-4xl mx-auto space-y-4 my-auto">
-                    <div class="p-6 rounded-3xl bg-slate-800/80 border border-slate-700 shadow-xl space-y-3">
+                    <div class="p-6 rounded-3xl bg-slate-800/80 border border-slate-700 shadow-xl space-y-4">
                         <div class="flex items-center gap-3">
                             <span class="text-3xl">⭐</span>
-                            <h3 class="text-lg font-black text-white">Yıldız (*) Joker Karakteri Nedir?</h3>
-                        </div>
-                        <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
-                            Dosya arama kutusuna yazılan yıldız (*) işareti <strong>"burada herhangi bir isim veya harfler olabilir"</strong> anlamına gelir.
-                        </p>
-                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
-                            <div class="p-3 bg-slate-900/60 rounded-xl border border-cyan-500/30">
-                                <span class="font-mono text-cyan-300 font-bold">*.docx</span>
-                                <div class="text-xs text-slate-400 mt-1">Bilgisayardaki TÜM Word belgelerini listeler.</div>
+                            <div>
+                                <h3 class="text-lg font-black text-white">Yıldız (*) Ne Anlama Gelir?</h3>
+                                <p class="text-xs text-slate-400">Arama yaparken 'burada herhangi bir harf olabilir' demektir.</p>
                             </div>
-                            <div class="p-3 bg-slate-900/60 rounded-xl border border-purple-500/30">
-                                <span class="font-mono text-purple-300 font-bold">Bil*.docx</span>
-                                <div class="text-xs text-slate-400 mt-1">Adı "Bil" ile başlayan tüm Word belgelerini bulur.</div>
+                        </div>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                            <div class="p-4 bg-slate-900/60 rounded-xl border border-cyan-500/30">
+                                <span class="font-mono text-cyan-300 font-bold text-sm">*.docx</span>
+                                <div class="text-xs text-slate-300 mt-1">Bilgisayardaki <strong>tüm Word belgelerini</strong> listeler.</div>
+                            </div>
+                            <div class="p-4 bg-slate-900/60 rounded-xl border border-purple-500/30">
+                                <span class="font-mono text-purple-300 font-bold text-sm">Bil*.docx</span>
+                                <div class="text-xs text-slate-300 mt-1">Adı <strong>"Bil" ile başlayan</strong> tüm Word belgelerini bulur.</div>
                             </div>
                         </div>
                     </div>
                 </div>
             `
         },
+
+        // SLAYT 14: SIKIŞTIRMA (ARŞİVLEME) NEDİR?
         {
-            id: 11,
-            title: "Dosya Sıkıştırma (Arşivleme) 🗜️",
-            subtitle: "ZIP, RAR ve Tasarruf",
-            badge: "SIKIŞTIRMA",
+            id: 14,
+            title: "Dosya Sıkıştırma (Arşivleme) Nedir? 🗜️",
+            subtitle: "ZIP ve RAR Paketleme Mantığı",
+            badge: "ARŞİVLEME",
             icon: "fa-solid fa-file-zipper",
             bgColor: "from-slate-900 via-purple-950 to-indigo-950",
             gradient: "from-slate-900 via-purple-950 to-indigo-950",
             content: `
                 <div class="max-w-4xl mx-auto space-y-4 my-auto">
-                    <div class="p-6 rounded-3xl bg-slate-800/80 border border-slate-700 shadow-xl space-y-3">
+                    <div class="p-6 rounded-3xl bg-slate-800/80 border border-slate-700 shadow-xl space-y-4">
                         <div class="flex items-center gap-3">
                             <span class="text-3xl">📦</span>
-                            <h3 class="text-lg font-black text-white">Sıkıştırmanın 3 Büyük Faydası:</h3>
-                        </div>
-                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2">
-                            <div class="p-3 bg-slate-900/60 rounded-xl border border-blue-500/30 text-center">
-                                <div class="text-2xl mb-1">💾</div>
-                                <div class="font-bold text-xs text-white">Alandan Tasarruf</div>
-                                <div class="text-[11px] text-slate-400">Dosya boyutunu küçültür.</div>
-                            </div>
-                            <div class="p-3 bg-slate-900/60 rounded-xl border border-emerald-500/30 text-center">
-                                <div class="text-2xl mb-1">🚀</div>
-                                <div class="font-bold text-xs text-white">Hızlı Paylaşım</div>
-                                <div class="text-[11px] text-slate-400">İnternette çabuk yüklenir.</div>
-                            </div>
-                            <div class="p-3 bg-slate-900/60 rounded-xl border border-purple-500/30 text-center">
-                                <div class="text-2xl mb-1">🗂️</div>
-                                <div class="font-bold text-xs text-white">Tek Paket</div>
-                                <div class="text-[11px] text-slate-400">Onlarca dosyayı birleştirir.</div>
+                            <div>
+                                <h3 class="text-lg font-black text-white">Sıkıştırma Tanımı:</h3>
+                                <p class="text-xs text-slate-400">Bavul hazırlar gibi dosyaları paketleme sanatı!</p>
                             </div>
                         </div>
-                        <div class="text-xs text-slate-400 italic text-center pt-2">
-                            Popüler programlar: WinRAR, WinZip • Uzantılar: .zip, .rar
+                        <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
+                            Dosya ve klasörlerin boyutunu <strong>küçültmek</strong> ve birden fazla dosyayı <strong>tek bir arşiv paketi</strong> haline getirmek için yapılan işleme <strong>SIKIŞTIRMA</strong> denir.
+                        </p>
+                        <div class="grid grid-cols-2 gap-3 text-center pt-2">
+                            <div class="p-3 bg-slate-900/60 rounded-xl border border-purple-500/30">
+                                <div class="font-mono font-bold text-purple-300">.zip / .rar</div>
+                                <div class="text-[11px] text-slate-400">En yaygın uzantılar</div>
+                            </div>
+                            <div class="p-3 bg-slate-900/60 rounded-xl border border-cyan-500/30">
+                                <div class="font-bold text-cyan-300">WinRAR / WinZip</div>
+                                <div class="text-[11px] text-slate-400">Arşivleme programları</div>
+                            </div>
                         </div>
                     </div>
                 </div>
             `
         },
+
+        // SLAYT 15: SIKIŞTIRMANIN FAYDALARI
         {
-            id: 12,
-            title: "Depolama ve Dijitale Aktarım 💾",
-            subtitle: "Verileri Nerede Saklarız ve Nasıl Aktarırız?",
-            badge: "DEPOLAMA",
-            icon: "fa-solid fa-hard-drive",
+            id: 15,
+            title: "Dosyaları Neden Sıkıştırırız? 📦",
+            subtitle: "Sıkıştırmanın 3 Büyük Faydası",
+            badge: "VERİMLİLİK",
+            icon: "fa-solid fa-box-archive",
             bgColor: "from-slate-900 via-indigo-950 to-slate-900",
             gradient: "from-slate-900 via-indigo-950 to-slate-900",
             content: `
                 <div class="max-w-4xl mx-auto space-y-4 my-auto">
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 text-center">
+                        <div class="p-4 rounded-2xl bg-slate-800/80 border-t-4 border-cyan-400 space-y-2">
+                            <div class="text-3xl">💾</div>
+                            <h4 class="font-bold text-sm text-white">1. Yer Tasarrufu</h4>
+                            <p class="text-xs text-slate-300">Diskte kapladığı alanı küçülterek hafızada yer açar.</p>
+                        </div>
+                        <div class="p-4 rounded-2xl bg-slate-800/80 border-t-4 border-emerald-400 space-y-2">
+                            <div class="text-3xl">🚀</div>
+                            <h4 class="font-bold text-sm text-white">2. Hızlı Paylaşım</h4>
+                            <p class="text-xs text-slate-300">İnternette e-posta veya mesajla çok daha çabuk gönderilir.</p>
+                        </div>
+                        <div class="p-4 rounded-2xl bg-slate-800/80 border-t-4 border-purple-400 space-y-2">
+                            <div class="text-3xl">🗂️</div>
+                            <h4 class="font-bold text-sm text-white">3. Tek Paketleme</h4>
+                            <p class="text-xs text-slate-300">50 farklı dosyayı tek bir .zip paketinde birleştirir.</p>
+                        </div>
+                    </div>
+                    <div class="p-3 bg-amber-500/10 border border-amber-500/30 rounded-xl text-center text-xs text-amber-200">
+                        💡 <em>Not: Her dosya aynı oranda küçülmez! Metinler çok küçülürken zaten sıkışmış olan MP3/MP4 dosyaları az küçülür.</em>
+                    </div>
+                </div>
+            `
+        },
+
+        // SLAYT 16: DEPOLAMA ARAÇLARI
+        {
+            id: 16,
+            title: "Dosyalarımızı Nerede Saklarız? 💾",
+            subtitle: "Dahili, Harici ve Bulut Depolama",
+            badge: "DEPOLAMA",
+            icon: "fa-solid fa-hard-drive",
+            bgColor: "from-slate-900 via-blue-950 to-indigo-950",
+            gradient: "from-slate-900 via-blue-950 to-indigo-950",
+            content: `
+                <div class="max-w-5xl mx-auto space-y-4 my-auto py-1">
+                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 text-center">
+                        <div class="p-3.5 rounded-2xl bg-slate-800/80 border border-slate-700 space-y-1">
+                            <div class="text-3xl">💽</div>
+                            <h4 class="font-bold text-sm text-cyan-300">Sabit Disk (HDD/SSD)</h4>
+                            <p class="text-xs text-slate-400">Bilgisayar kasası içindeki ana depolama alanı.</p>
+                        </div>
+                        <div class="p-3.5 rounded-2xl bg-slate-800/80 border border-slate-700 space-y-1">
+                            <div class="text-3xl">🔌</div>
+                            <h4 class="font-bold text-sm text-yellow-300">USB Flash Bellek</h4>
+                            <p class="text-xs text-slate-400">Cebimizde taşıdığımız taşınabilir bellek.</p>
+                        </div>
+                        <div class="p-3.5 rounded-2xl bg-slate-800/80 border border-slate-700 space-y-1">
+                            <div class="text-3xl">📱</div>
+                            <h4 class="font-bold text-sm text-emerald-300">Hafıza Kartı (SD)</h4>
+                            <p class="text-xs text-slate-400">Telefon ve kameralardaki minik kartlar.</p>
+                        </div>
+                        <div class="p-3.5 rounded-2xl bg-slate-800/80 border border-slate-700 space-y-1">
+                            <div class="text-3xl">☁️</div>
+                            <h4 class="font-bold text-sm text-purple-300">Bulut Depolama</h4>
+                            <p class="text-xs text-slate-400">İnternet üzerinden erişilen alan (Drive, OneDrive).</p>
+                        </div>
+                    </div>
+                </div>
+            `
+        },
+
+        // SLAYT 17: BASILI VERİLERİ DİJİTALE AKTARMA
+        {
+            id: 17,
+            title: "Basılı Verileri Dijitale Aktarma 📠",
+            subtitle: "Kâğıttan Ekrana Yolculuk",
+            badge: "DİJİTALLEŞTİRME",
+            icon: "fa-solid fa-print",
+            bgColor: "from-slate-900 via-indigo-950 to-slate-900",
+            gradient: "from-slate-900 via-indigo-950 to-slate-900",
+            content: `
+                <div class="max-w-4xl mx-auto space-y-4 my-auto">
+                    <div class="p-6 rounded-3xl bg-slate-800/80 border border-slate-700 shadow-xl space-y-4">
+                        <div class="flex items-center gap-3">
+                            <span class="text-3xl">📸</span>
+                            <h3 class="text-lg font-black text-white">Kâğıt Üzerindeki Bilgi Nasıl Dosya Olur?</h3>
+                        </div>
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 text-center pt-2">
+                            <div class="p-4 bg-slate-900/60 rounded-xl border border-cyan-500/30 space-y-1">
+                                <div class="text-2xl">📠</div>
+                                <div class="font-bold text-xs text-cyan-300">Tarayıcı (Scanner)</div>
+                                <div class="text-[11px] text-slate-400">Kâğıdı ışıkla tarayıp PDF veya JPG yapar.</div>
+                            </div>
+                            <div class="p-4 bg-slate-900/60 rounded-xl border border-yellow-500/30 space-y-1">
+                                <div class="text-2xl">📱</div>
+                                <div class="font-bold text-xs text-yellow-300">Telefon Kamerası</div>
+                                <div class="text-[11px] text-slate-400">Belgenin fotoğrafını çekip anında dijitalleştirir.</div>
+                            </div>
+                            <div class="p-4 bg-slate-900/60 rounded-xl border border-emerald-500/30 space-y-1">
+                                <div class="text-2xl">📲</div>
+                                <div class="font-bold text-xs text-emerald-300">Tabletler</div>
+                                <div class="text-[11px] text-slate-400">Taranan notun üzerinde kalemle düzenleme sunar.</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `
+        },
+
+        // SLAYT 18: ETKİLEŞİMLİ EŞLEŞTİRME
+        {
+            id: 18,
+            title: "Uzantıları Dosya Türleriyle Eşleştirelim! 🎯",
+            subtitle: "Akıllı Tahta Etkileşimli Eşleştirme Alanı",
+            badge: "ETKİLEŞİM",
+            icon: "fa-solid fa-gamepad",
+            bgColor: "from-slate-900 via-purple-950 to-indigo-950",
+            gradient: "from-slate-900 via-purple-950 to-indigo-950",
+            content: `
+                <div class="max-w-4xl mx-auto space-y-4 my-auto">
+                    <div id="s18-fb" class="p-3 rounded-2xl bg-slate-800/80 border border-slate-700 text-slate-300 text-xs sm:text-sm text-center">
+                        Önce sol taraftan bir uzantıya, ardından sağdaki doğru dosya türüne dokunun.
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-4">
+                        <!-- Sol Sütun: Uzantılar -->
+                        <div class="space-y-2">
+                            <button onclick="window.slide18MatchGame.selectLeft(1, '.mp3', this)" class="s18-left-btn w-full p-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-700 text-left font-mono font-bold text-xs sm:text-sm text-cyan-300 transition-all flex items-center gap-2">
+                                <span>🎵</span> <span>.mp3</span>
+                            </button>
+                            <button onclick="window.slide18MatchGame.selectLeft(2, '.docx', this)" class="s18-left-btn w-full p-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-700 text-left font-mono font-bold text-xs sm:text-sm text-blue-300 transition-all flex items-center gap-2">
+                                <span>📄</span> <span>.docx</span>
+                            </button>
+                            <button onclick="window.slide18MatchGame.selectLeft(3, '.jpg', this)" class="s18-left-btn w-full p-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-700 text-left font-mono font-bold text-xs sm:text-sm text-amber-300 transition-all flex items-center gap-2">
+                                <span>🖼️</span> <span>.jpg</span>
+                            </button>
+                            <button onclick="window.slide18MatchGame.selectLeft(4, '.mp4', this)" class="s18-left-btn w-full p-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-700 text-left font-mono font-bold text-xs sm:text-sm text-rose-300 transition-all flex items-center gap-2">
+                                <span>🎬</span> <span>.mp4</span>
+                            </button>
+                            <button onclick="window.slide18MatchGame.selectLeft(5, '.zip', this)" class="s18-left-btn w-full p-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-700 text-left font-mono font-bold text-xs sm:text-sm text-purple-300 transition-all flex items-center gap-2">
+                                <span>🗜️</span> <span>.zip</span>
+                            </button>
+                            <button onclick="window.slide18MatchGame.selectLeft(6, '.pdf', this)" class="s18-left-btn w-full p-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-700 text-left font-mono font-bold text-xs sm:text-sm text-emerald-300 transition-all flex items-center gap-2">
+                                <span>📚</span> <span>.pdf</span>
+                            </button>
+                        </div>
+
+                        <!-- Sağ Sütun: Dosya Türleri -->
+                        <div class="space-y-2">
+                            <button onclick="window.slide18MatchGame.selectRight(2, 'Metin / Belge', this)" class="s18-right-btn w-full p-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-700 text-left font-bold text-xs sm:text-sm text-white transition-all">
+                                Metin / Belge
+                            </button>
+                            <button onclick="window.slide18MatchGame.selectRight(1, 'Ses / Müzik', this)" class="s18-right-btn w-full p-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-700 text-left font-bold text-xs sm:text-sm text-white transition-all">
+                                Ses / Müzik
+                            </button>
+                            <button onclick="window.slide18MatchGame.selectRight(4, 'Video / Film', this)" class="s18-right-btn w-full p-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-700 text-left font-bold text-xs sm:text-sm text-white transition-all">
+                                Video / Film
+                            </button>
+                            <button onclick="window.slide18MatchGame.selectRight(3, 'Görsel / Resim', this)" class="s18-right-btn w-full p-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-700 text-left font-bold text-xs sm:text-sm text-white transition-all">
+                                Görsel / Resim
+                            </button>
+                            <button onclick="window.slide18MatchGame.selectRight(6, 'E-Kitap / Belge', this)" class="s18-right-btn w-full p-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-700 text-left font-bold text-xs sm:text-sm text-white transition-all">
+                                E-Kitap / Belge
+                            </button>
+                            <button onclick="window.slide18MatchGame.selectRight(5, 'Sıkıştırılmış Arşiv', this)" class="s18-right-btn w-full p-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-700 text-left font-bold text-xs sm:text-sm text-white transition-all">
+                                Sıkıştırılmış Arşiv
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="text-center pt-1">
+                        <button onclick="window.slide18MatchGame.reset()" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold text-xs rounded-xl border border-slate-700">
+                            Eşleştirmeyi Sıfırla 🔄
+                        </button>
+                    </div>
+                </div>
+            `
+        },
+
+        // SLAYT 19: HIZLI BİLGİ YARIŞMASI
+        {
+            id: 19,
+            title: "Hızlı Bilgi Yarışması 🏆",
+            subtitle: "5 Soruluk Hızlı Quiz",
+            badge: "MİNİ TEST",
+            icon: "fa-solid fa-trophy",
+            bgColor: "from-slate-900 via-indigo-950 to-blue-950",
+            gradient: "from-slate-900 via-indigo-950 to-blue-950",
+            content: `
+                <div class="max-w-4xl mx-auto space-y-4 my-auto" id="s19-quiz-box">
+                    <div class="flex items-center justify-between">
+                        <span id="s19-q-badge" class="px-3 py-1 rounded-full bg-cyan-500/20 text-cyan-300 font-black text-xs">Soru: 1 / 5</span>
+                        <span id="s19-score" class="font-black text-xs sm:text-sm text-yellow-400">Puan: 0 / 100</span>
+                    </div>
+
+                    <div class="p-5 rounded-2xl bg-slate-800/80 border border-slate-700 shadow-xl space-y-3">
+                        <h4 id="s19-q-text" class="text-sm sm:text-base font-black text-white leading-relaxed">
+                            1. 'tatil.jpg' dosyasındaki '.jpg' kısmı dosyanın nesini belirtir?
+                        </h4>
+
+                        <div id="s19-opts-container" class="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-1">
+                            <button onclick="window.slide19MiniQuiz.answer(0)" class="s19-opt-btn p-3 rounded-xl bg-slate-800 hover:bg-indigo-600/80 border border-slate-700 text-left font-bold text-xs sm:text-sm text-white transition-all flex items-center gap-2">
+                                <span class="w-6 h-6 rounded-lg bg-slate-900 flex items-center justify-center font-black text-xs text-yellow-400 shrink-0">A</span>
+                                <span>Dosyanın boyutunu</span>
+                            </button>
+                            <button onclick="window.slide19MiniQuiz.answer(1)" class="s19-opt-btn p-3 rounded-xl bg-slate-800 hover:bg-indigo-600/80 border border-slate-700 text-left font-bold text-xs sm:text-sm text-white transition-all flex items-center gap-2">
+                                <span class="w-6 h-6 rounded-lg bg-slate-900 flex items-center justify-center font-black text-xs text-yellow-400 shrink-0">B</span>
+                                <span>Dosyanın türünü (Resim)</span>
+                            </button>
+                            <button onclick="window.slide19MiniQuiz.answer(2)" class="s19-opt-btn p-3 rounded-xl bg-slate-800 hover:bg-indigo-600/80 border border-slate-700 text-left font-bold text-xs sm:text-sm text-white transition-all flex items-center gap-2">
+                                <span class="w-6 h-6 rounded-lg bg-slate-900 flex items-center justify-center font-black text-xs text-yellow-400 shrink-0">C</span>
+                                <span>Dosyanın oluşturulma yılını</span>
+                            </button>
+                            <button onclick="window.slide19MiniQuiz.answer(3)" class="s19-opt-btn p-3 rounded-xl bg-slate-800 hover:bg-indigo-600/80 border border-slate-700 text-left font-bold text-xs sm:text-sm text-white transition-all flex items-center gap-2">
+                                <span class="w-6 h-6 rounded-lg bg-slate-900 flex items-center justify-center font-black text-xs text-yellow-400 shrink-0">D</span>
+                                <span>Dosyayı yazan kişiyi</span>
+                            </button>
+                        </div>
+
+                        <div id="s19-fb" class="hidden"></div>
+
+                        <div class="flex justify-end pt-2">
+                            <button id="s19-next-btn" onclick="window.slide19MiniQuiz.next()" class="hidden px-4 py-2 bg-gradient-to-r from-emerald-600 to-cyan-600 hover:from-emerald-500 hover:to-cyan-500 text-white font-black text-xs rounded-xl shadow-lg flex items-center gap-1.5 transition-all">
+                                <span>Sonraki Soru 👉</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `
+        },
+
+        // SLAYT 20: KONU ÖZETİ VE ÇIKIŞ BİLETİ
+        {
+            id: 20,
+            title: "Konu Özeti ve Çıkış Bileti 🎫",
+            subtitle: "Ders Değerlendirmesi",
+            badge: "ÖZET & ÇIKIŞ",
+            icon: "fa-solid fa-ticket",
+            bgColor: "from-slate-900 via-purple-950 to-slate-950",
+            gradient: "from-slate-900 via-purple-950 to-slate-950",
+            content: `
+                <div class="max-w-4xl mx-auto space-y-4 my-auto">
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div class="p-5 rounded-2xl bg-slate-800/80 border border-slate-700 space-y-2">
-                            <h4 class="font-black text-amber-300 text-sm flex items-center gap-2">
-                                <span>💽</span> <span>Depolama Araçları</span>
+                            <h4 class="font-black text-emerald-300 text-sm flex items-center gap-2">
+                                <span>📌</span> <span>Günün Kritik Özeti</span>
                             </h4>
                             <ul class="text-xs text-slate-300 space-y-1 list-disc pl-4">
-                                <li><strong>Sabit Disk (HDD/SSD):</strong> Bilgisayar içi ana depolama.</li>
-                                <li><strong>Flash Bellek / SD Kart:</strong> Taşınabilir harici bellek.</li>
-                                <li><strong>Bulut Depolama:</strong> İnternet üzerinden erişilen alan (Google Drive vb.).</li>
+                                <li><strong>Dosya:</strong> Veri kayıt birimidir; adı ve uzantısı vardır.</li>
+                                <li><strong>Klasör:</strong> Ortak dosyaları düzenler; uzantısı olmaz.</li>
+                                <li><strong>Kısayollar:</strong> Ctrl+C (Kopyala), Ctrl+X (Kes), Ctrl+V (Yapıştır), Ctrl+Z (Geri Al).</li>
+                                <li><strong>Çöp Kutusu:</strong> Silinen dosyaların ilk bekleme yeridir.</li>
+                                <li><strong>Sıkıştırma:</strong> Boyutu küçültür ve tek arşivde toplar (.zip, .rar).</li>
                             </ul>
                         </div>
-                        <div class="p-5 rounded-2xl bg-slate-800/80 border border-slate-700 space-y-2">
-                            <h4 class="font-black text-cyan-300 text-sm flex items-center gap-2">
-                                <span>📠</span> <span>Basılı Veriyi Dijitale Aktarma</span>
+
+                        <div class="p-5 rounded-2xl bg-amber-950/40 border border-amber-500/40 space-y-2">
+                            <h4 class="font-black text-yellow-300 text-sm flex items-center gap-2">
+                                <span>🎫</span> <span>Sınıf İçi Çıkış Soruları</span>
                             </h4>
-                            <p class="text-xs text-slate-300 leading-relaxed">
-                                Kâğıt üzerindeki metin ve resimler <strong>Tarayıcı (Scanner)</strong>, telefon veya tablet kamerasıyla bilgisayara taranıp dijital dosya (PDF / JPG) haline getirilebilir.
-                            </p>
+                            <ol class="text-xs text-amber-100 space-y-1 list-decimal pl-4">
+                                <li>Dosya uzantısı (soyadı) ne işe yarar?</li>
+                                <li>Kopyalama ile Taşıma arasındaki fark nedir?</li>
+                                <li>Çöp kutusundaki bir dosya nasıl kurtarılır?</li>
+                                <li>Dosya sıkıştırmanın 2 faydası nedir?</li>
+                                <li>Bulut depolamaya nasıl erişilir?</li>
+                            </ol>
                         </div>
+                    </div>
+
+                    <div class="flex items-center justify-center gap-3 pt-2">
+                        <button onclick="app.currentSlideIndex = 0; app.renderSlides(); sounds.playClick();" class="px-5 py-2.5 bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs rounded-xl shadow-lg flex items-center gap-2">
+                            <i class="fa-solid fa-rotate-left"></i>
+                            <span>Sunumu Baştan Başlat 🔄</span>
+                        </button>
+                        <button onclick="app.switchTab('quiz'); sounds.playClick();" class="px-5 py-2.5 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-black text-xs rounded-xl shadow-lg flex items-center gap-2">
+                            <i class="fa-solid fa-circle-question"></i>
+                            <span>Pekiştirme Sorularına Geç 👉</span>
+                        </button>
                     </div>
                 </div>
             `

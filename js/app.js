@@ -2457,21 +2457,6 @@ class App {
                     btnGradient: "from-cyan-500 via-teal-500 to-indigo-600 hover:from-cyan-400 hover:to-indigo-500 text-slate-950 font-black",
                     action: "app.openStandaloneGame('games/dosya_klasor_kelime_avi.html', 'Dosya ve Klasör Kelime Avı | Öğretmen Bozok')"
                 });
-                extra.push({
-                    badge: "Akıllı Tahta Sunumu 📽️",
-                    badgeColor: "text-yellow-300",
-                    title: "20 Slaytlık Tam Ekran Sunum",
-                    desc: "Öğretmen rehberliğinde akıllı tahtada ders anlatımı için hazırlanmış 20 slaytlık, etkileşimli eşleştirmeli ve hızlı quizli bağımsız sunum!",
-                    icon: "fa-solid fa-chalkboard-user",
-                    iconBg: "bg-yellow-500/30 text-yellow-300",
-                    cardGradient: "from-slate-900 via-indigo-950 to-purple-950",
-                    border: "border-yellow-500/50",
-                    descColor: "text-yellow-100",
-                    btnText: "Tam Ekran Sunuyu Başlat!",
-                    btnIcon: "fa-solid fa-expand",
-                    btnGradient: "from-yellow-500 via-amber-500 to-orange-500 hover:from-yellow-400 hover:to-orange-400 text-slate-950 font-black",
-                    action: "app.openStandaloneGame('games/sunu_dosya_ve_klasor_yonetimi.html', 'Dosya ve Klasör Yönetimi Akıllı Tahta Sunumu | Öğretmen Bozok')"
-                });
             }
         }
 
