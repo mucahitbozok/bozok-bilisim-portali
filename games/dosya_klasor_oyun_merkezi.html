@@ -799,6 +799,7 @@
             dedektifIdx = 0;
             dedektifScore = 0;
             dedektifQuestions.sort(() => Math.random() - 0.5);
+            dedektifQuestions.forEach(q => { delete q.activeOptions; delete q.activeCorrect; });
             loadDedektifQ();
         }
 
@@ -810,9 +811,21 @@
             document.getElementById('dedektif-feedback').style.display = 'none';
             document.getElementById('dedektif-next-btn').style.display = 'none';
 
+            if (!q.activeOptions) {
+                const origOpts = [...q.options];
+                const corrText = origOpts[q.correct];
+                const shuf = [...origOpts];
+                for (let i = shuf.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [shuf[i], shuf[j]] = [shuf[j], shuf[i]];
+                }
+                q.activeOptions = shuf;
+                q.activeCorrect = shuf.indexOf(corrText);
+            }
+
             const optsBox = document.getElementById('dedektif-options');
             optsBox.innerHTML = '';
-            q.options.forEach((opt, idx) => {
+            q.activeOptions.forEach((opt, idx) => {
                 const btn = document.createElement('div');
                 btn.className = 'btn-action';
                 btn.innerHTML = `<span style="width:24px; height:24px; border-radius:50%; background:#334155; display:inline-flex; align-items:center; justify-content:center; font-size:0.8rem;">${String.fromCharCode(65+idx)}</span> <span>${opt}</span>`;
@@ -829,7 +842,7 @@
             const fb = document.getElementById('dedektif-feedback');
             fb.style.display = 'block';
 
-            if (choice === q.correct) {
+            if (choice === q.activeCorrect) {
                 sfx.success();
                 elem.classList.add('correct');
                 dedektifScore += 10;
@@ -841,7 +854,7 @@
             } else {
                 sfx.wrong();
                 elem.classList.add('wrong');
-                allBtns[q.correct].classList.add('correct');
+                allBtns[q.activeCorrect].classList.add('correct');
                 fb.style.background = 'rgba(244,63,94,0.15)';
                 fb.style.border = '1px solid var(--red)';
                 fb.style.color = '#fb7185';
@@ -946,6 +959,7 @@
             kisayolScore = 0;
             kisayolStreak = 0;
             kisayolQuestions.sort(() => Math.random() - 0.5);
+            kisayolQuestions.forEach(q => { delete q.activeOptions; delete q.activeCorrect; });
             loadKisayolTask();
         }
 
@@ -957,9 +971,21 @@
             document.getElementById('kisayol-feedback').style.display = 'none';
             document.getElementById('kisayol-next-btn').style.display = 'none';
 
+            if (!q.activeOptions) {
+                const origOpts = [...q.options];
+                const corrText = origOpts[q.correct];
+                const shuf = [...origOpts];
+                for (let i = shuf.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [shuf[i], shuf[j]] = [shuf[j], shuf[i]];
+                }
+                q.activeOptions = shuf;
+                q.activeCorrect = shuf.indexOf(corrText);
+            }
+
             const opts = document.getElementById('kisayol-options');
             opts.innerHTML = '';
-            q.options.forEach((opt, idx) => {
+            q.activeOptions.forEach((opt, idx) => {
                 const btn = document.createElement('div');
                 btn.className = 'btn-action';
                 btn.innerHTML = `<span class="key-tag">${opt}</span>`;
@@ -976,7 +1002,7 @@
             const fb = document.getElementById('kisayol-feedback');
             fb.style.display = 'block';
 
-            if (choice === q.correct) {
+            if (choice === q.activeCorrect) {
                 sfx.success();
                 btn.classList.add('correct');
                 kisayolStreak++;
@@ -994,7 +1020,7 @@
             } else {
                 sfx.wrong();
                 btn.classList.add('wrong');
-                allBtns[q.correct].classList.add('correct');
+                allBtns[q.activeCorrect].classList.add('correct');
                 kisayolStreak = 0;
                 fb.style.background = 'rgba(244,63,94,0.15)';
                 fb.style.color = '#fb7185';
@@ -1082,6 +1108,8 @@
         function initCop() {
             copIdx = 0;
             copSuccessRate = 100;
+            copCases.sort(() => Math.random() - 0.5);
+            copCases.forEach(c => { delete c.activeOptions; delete c.activeCorrect; });
             loadCopCase();
         }
 
@@ -1093,9 +1121,21 @@
             document.getElementById('cop-feedback').style.display = 'none';
             document.getElementById('cop-next-btn').style.display = 'none';
 
+            if (!item.activeOptions) {
+                const origOpts = [...item.options];
+                const corrText = origOpts[item.correct];
+                const shuf = [...origOpts];
+                for (let i = shuf.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [shuf[i], shuf[j]] = [shuf[j], shuf[i]];
+                }
+                item.activeOptions = shuf;
+                item.activeCorrect = shuf.indexOf(corrText);
+            }
+
             const list = document.getElementById('cop-options-list');
             list.innerHTML = '';
-            item.options.forEach((opt, idx) => {
+            item.activeOptions.forEach((opt, idx) => {
                 const btn = document.createElement('div');
                 btn.className = 'btn-action';
                 btn.innerHTML = `<span style="width:24px; height:24px; border-radius:50%; background:#334155; display:inline-flex; align-items:center; justify-content:center; font-size:0.8rem;">${idx+1}</span> <span>${opt}</span>`;
@@ -1112,7 +1152,7 @@
             const fb = document.getElementById('cop-feedback');
             fb.style.display = 'block';
 
-            if (choice === item.correct) {
+            if (choice === item.activeCorrect) {
                 sfx.success();
                 btn.classList.add('correct');
                 addHubScore(10);
@@ -1122,7 +1162,7 @@
             } else {
                 sfx.wrong();
                 btn.classList.add('wrong');
-                allBtns[item.correct].classList.add('correct');
+                allBtns[item.activeCorrect].classList.add('correct');
                 copSuccessRate = Math.max(20, copSuccessRate - 15);
                 fb.style.background = 'rgba(244,63,94,0.15)';
                 fb.style.color = '#fb7185';
@@ -1169,6 +1209,8 @@
         function initArama() {
             aramaIdx = 0;
             aramaScore = 0;
+            aramaTasks.sort(() => Math.random() - 0.5);
+            aramaTasks.forEach(t => { delete t.activeOptions; delete t.activeCorrect; });
             loadAramaTask();
         }
 
@@ -1196,9 +1238,21 @@
             document.getElementById('arama-next-btn').style.display = 'none';
             renderFilePool(null);
 
+            if (!item.activeOptions) {
+                const origOpts = [...item.options];
+                const corrText = origOpts[item.correct];
+                const shuf = [...origOpts];
+                for (let i = shuf.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [shuf[i], shuf[j]] = [shuf[j], shuf[i]];
+                }
+                item.activeOptions = shuf;
+                item.activeCorrect = shuf.indexOf(corrText);
+            }
+
             const optsBox = document.getElementById('arama-options');
             optsBox.innerHTML = '';
-            item.options.forEach((opt, idx) => {
+            item.activeOptions.forEach((opt, idx) => {
                 const btn = document.createElement('div');
                 btn.className = 'btn-action';
                 btn.innerHTML = `<span class="key-tag" style="color:var(--cyan);">${opt}</span>`;
@@ -1217,7 +1271,7 @@
 
             renderFilePool(item.filter);
 
-            if (choice === item.correct) {
+            if (choice === item.activeCorrect) {
                 sfx.success();
                 btn.classList.add('correct');
                 aramaScore += 10;
@@ -1228,7 +1282,7 @@
             } else {
                 sfx.wrong();
                 btn.classList.add('wrong');
-                allBtns[item.correct].classList.add('correct');
+                allBtns[item.activeCorrect].classList.add('correct');
                 fb.style.background = 'rgba(244,63,94,0.15)';
                 fb.style.color = '#fb7185';
                 fb.innerHTML = `❌ Doğru arama ifadesi <strong>${item.query}</strong> olmalıydı.`;
@@ -1268,6 +1322,8 @@
         function initSikistirma() {
             sikistirmaIdx = 0;
             sikistirmaScore = 0;
+            sikistirmaQuestions.sort(() => Math.random() - 0.5);
+            sikistirmaQuestions.forEach(q => { delete q.activeOptions; delete q.activeCorrect; });
             loadSikistirmaTask();
         }
 
@@ -1277,9 +1333,21 @@
             document.getElementById('sikistirma-feedback').style.display = 'none';
             document.getElementById('sikistirma-next-btn').style.display = 'none';
 
+            if (!item.activeOptions) {
+                const origOpts = [...item.options];
+                const corrText = origOpts[item.correct];
+                const shuf = [...origOpts];
+                for (let i = shuf.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [shuf[i], shuf[j]] = [shuf[j], shuf[i]];
+                }
+                item.activeOptions = shuf;
+                item.activeCorrect = shuf.indexOf(corrText);
+            }
+
             const opts = document.getElementById('sikistirma-options');
             opts.innerHTML = '';
-            item.options.forEach((opt, idx) => {
+            item.activeOptions.forEach((opt, idx) => {
                 const btn = document.createElement('div');
                 btn.className = 'btn-action';
                 btn.innerHTML = `<span style="width:24px; height:24px; border-radius:50%; background:#334155; display:inline-flex; align-items:center; justify-content:center; font-size:0.8rem;">${String.fromCharCode(65+idx)}</span> <span>${opt}</span>`;
@@ -1296,7 +1364,7 @@
             const fb = document.getElementById('sikistirma-feedback');
             fb.style.display = 'block';
 
-            if (choice === item.correct) {
+            if (choice === item.activeCorrect) {
                 sfx.success();
                 btn.classList.add('correct');
                 sikistirmaScore += 10;
@@ -1307,7 +1375,7 @@
             } else {
                 sfx.wrong();
                 btn.classList.add('wrong');
-                allBtns[item.correct].classList.add('correct');
+                allBtns[item.activeCorrect].classList.add('correct');
                 fb.style.background = 'rgba(244,63,94,0.15)';
                 fb.style.color = '#fb7185';
                 fb.innerHTML = '❌ ' + item.exp;

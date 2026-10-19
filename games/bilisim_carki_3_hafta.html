@@ -569,7 +569,24 @@ TASARIM:
                 }
 
                 this.usedTasks.add(`${catIndex}-${chosenIndex}`);
-                this.currentTask = pool[chosenIndex];
+                const rawTask = pool[chosenIndex];
+                if ((rawTask.type === 'mc' || rawTask.type === 'fill') && rawTask.options) {
+                    const origOpts = [...rawTask.options];
+                    const corrText = origOpts[rawTask.ans];
+                    const shufOpts = [...origOpts];
+                    for (let i = shufOpts.length - 1; i > 0; i--) {
+                        const j = Math.floor(Math.random() * (i + 1));
+                        [shufOpts[i], shufOpts[j]] = [shufOpts[j], shufOpts[i]];
+                    }
+                    this.currentTask = {
+                        ...rawTask,
+                        options: shufOpts,
+                        ans: shufOpts.indexOf(corrText),
+                        origAnsText: corrText
+                    };
+                } else {
+                    this.currentTask = { ...rawTask };
+                }
                 this.state = 'question';
                 this.render();
             }

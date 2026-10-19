@@ -337,6 +337,11 @@
                 this.currentQuestionIndex = 0;
                 this.turn = 'blue';
                 this.answered = false;
+                this.questions.sort(() => Math.random() - 0.5);
+                this.questions.forEach(q => {
+                    delete q.shuffledOptions;
+                    delete q.shuffledAnswer;
+                });
                 this.state = 'playing';
                 this.render();
             }
@@ -346,7 +351,7 @@
                 this.answered = true;
 
                 const q = this.questions[this.currentQuestionIndex];
-                const isCorrect = (choiceIndex === q.answer);
+                const isCorrect = (choiceIndex === (q.shuffledAnswer !== undefined ? q.shuffledAnswer : q.answer));
                 const activeTeam = (this.turn === 'blue') ? this.teamBlue : this.teamRed;
 
                 if (isCorrect) {
@@ -511,14 +516,28 @@
 
                             <!-- SEÇENEKLER -->
                             <div id="options-container" class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 sm:gap-3 pt-2">
-                                ${q.options.map((opt, idx) => `
-                                    <button onclick="game.handleAnswer(${idx})" class="option-btn p-3 sm:p-4 rounded-xl sm:rounded-2xl bg-slate-900/90 hover:bg-slate-800 border-2 border-slate-700 text-left font-bold text-xs sm:text-base text-slate-200 flex items-center gap-2.5 sm:gap-3 active:scale-95 transition-all">
-                                        <span class="w-7 h-7 sm:w-8 sm:h-8 rounded-lg sm:rounded-xl bg-slate-800 border border-slate-700 text-yellow-400 font-black flex items-center justify-center text-xs shrink-0">
-                                            ${String.fromCharCode(65 + idx)}
-                                        </span>
-                                        <span>${opt}</span>
-                                    </button>
-                                `).join('')}
+                                ${(() => {
+                                    if (!q.shuffledOptions) {
+                                        const origOpts = [...q.options];
+                                        const corrText = origOpts[q.answer];
+                                        const shuf = [...origOpts];
+                                        for (let i = shuf.length - 1; i > 0; i--) {
+                                            const j = Math.floor(Math.random() * (i + 1));
+                                            [shuf[i], shuf[j]] = [shuf[j], shuf[i]];
+                                        }
+                                        q.shuffledOptions = shuf;
+                                        q.shuffledAnswer = shuf.indexOf(corrText);
+                                        q.correctText = corrText;
+                                    }
+                                    return q.shuffledOptions.map((opt, idx) => `
+                                        <button onclick="game.handleAnswer(${idx})" class="option-btn p-3 sm:p-4 rounded-xl sm:rounded-2xl bg-slate-900/90 hover:bg-slate-800 border-2 border-slate-700 text-left font-bold text-xs sm:text-base text-slate-200 flex items-center gap-2.5 sm:gap-3 active:scale-95 transition-all">
+                                            <span class="w-7 h-7 sm:w-8 sm:h-8 rounded-lg sm:rounded-xl bg-slate-800 border border-slate-700 text-yellow-400 font-black flex items-center justify-center text-xs shrink-0">
+                                                ${String.fromCharCode(65 + idx)}
+                                            </span>
+                                            <span>${opt}</span>
+                                        </button>
+                                    `).join('');
+                                })()}
                             </div>
 
                             <!-- GERİ BİLDİRİM PANELİ -->
@@ -555,7 +574,7 @@
                             </div>
                             <div class="p-3 bg-slate-900/80 rounded-xl border border-slate-800 text-xs sm:text-sm text-slate-300 space-y-1">
                                 <div class="font-bold text-yellow-400 flex items-center gap-1.5">
-                                    <i class="fa-solid fa-circle-check"></i> Doğru Cevap: <span class="text-white">${q.options[q.answer]}</span>
+                                    <i class="fa-solid fa-circle-check"></i> Doğru Cevap: <span class="text-white">${q.correctText || q.options[q.answer]}</span>
                                 </div>
                                 <p class="leading-relaxed">${q.exp}</p>
                             </div>

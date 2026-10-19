@@ -1254,8 +1254,17 @@ TASARIM:
             const container = document.getElementById('s1OptionsContainer');
             container.innerHTML = '';
 
+            if (!q.shuffledOptions) {
+                const shuf = [...q.options];
+                for (let i = shuf.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [shuf[i], shuf[j]] = [shuf[j], shuf[i]];
+                }
+                q.shuffledOptions = shuf;
+            }
+
             const letters = ['A', 'B', 'C', 'D'];
-            q.options.forEach((opt, optIdx) => {
+            q.shuffledOptions.forEach((opt, optIdx) => {
                 const btn = document.createElement('button');
                 btn.className = "s1-btn w-full text-left p-4 rounded-2xl bg-slate-800/90 hover:bg-slate-750 border-2 border-slate-700 hover:border-indigo-400 text-white font-medium transition-all shadow-md flex items-start gap-3";
                 btn.innerHTML = `
@@ -1291,8 +1300,9 @@ TASARIM:
                 fBox.innerHTML = `<strong>Yanlış Seçenek!</strong> Doğru cevap yeşille gösterilen seçenektir.`;
 
                 // Doğru olanı yak / işaretle
+                const activeOpts = STAGE1_QUESTIONS[s1Index].shuffledOptions || STAGE1_QUESTIONS[s1Index].options;
                 document.querySelectorAll('.s1-btn').forEach((b, i) => {
-                    if (STAGE1_QUESTIONS[s1Index].options[i].correct) {
+                    if (activeOpts[i] && activeOpts[i].correct) {
                         b.classList.add('bg-emerald-950/60', 'border-emerald-400', 'text-emerald-200');
                     }
                 });
@@ -1332,7 +1342,16 @@ TASARIM:
             const container = document.getElementById('s2OptionsContainer');
             container.innerHTML = '';
 
-            q.options.forEach((opt, optIdx) => {
+            if (!q.shuffledOptions) {
+                const shuf = [...q.options];
+                for (let i = shuf.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [shuf[i], shuf[j]] = [shuf[j], shuf[i]];
+                }
+                q.shuffledOptions = shuf;
+            }
+
+            q.shuffledOptions.forEach((opt, optIdx) => {
                 const btn = document.createElement('button');
                 btn.className = "s2-btn w-full text-left p-4 rounded-2xl bg-slate-800/90 hover:bg-slate-750 border-2 border-slate-700 hover:border-emerald-400 text-white font-black transition-all shadow-md flex items-center gap-3";
                 btn.innerHTML = `
@@ -1367,8 +1386,9 @@ TASARIM:
                 fBox.className = "p-4 rounded-2xl border-2 bg-rose-950/70 border-rose-500 text-rose-200";
                 fBox.innerHTML = `<strong>Yanlış Konu!</strong> Doğru alan yeşil ile işaretlendi.`;
 
+                const activeOpts = STAGE2_QUESTIONS[s2Index].shuffledOptions || STAGE2_QUESTIONS[s2Index].options;
                 document.querySelectorAll('.s2-btn').forEach((b, i) => {
-                    if (STAGE2_QUESTIONS[s2Index].options[i].correct) {
+                    if (activeOpts[i] && activeOpts[i].correct) {
                         b.classList.add('bg-emerald-950/60', 'border-emerald-400', 'text-emerald-200');
                     }
                 });
@@ -1427,7 +1447,16 @@ TASARIM:
             const container = document.getElementById('s4OptionsContainer');
             container.innerHTML = '';
 
-            dec.options.forEach((opt, optIdx) => {
+            if (!dec.shuffledOptions) {
+                const shuf = [...dec.options];
+                for (let i = shuf.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [shuf[i], shuf[j]] = [shuf[j], shuf[i]];
+                }
+                dec.shuffledOptions = shuf;
+            }
+
+            dec.shuffledOptions.forEach((opt, optIdx) => {
                 const btn = document.createElement('button');
                 btn.className = "s4-btn w-full text-left p-4 rounded-2xl bg-slate-800/90 hover:bg-slate-750 border-2 border-slate-700 hover:border-purple-400 text-white font-bold transition-all shadow-md flex items-start gap-3";
                 btn.innerHTML = `
@@ -1462,8 +1491,9 @@ TASARIM:
                 fBox.className = "p-4 rounded-2xl border-2 bg-rose-950/70 border-rose-500 text-rose-200";
                 fBox.innerHTML = `<strong>Sakıncalı Karar!</strong><br><span class="text-xs text-slate-300 mt-1 block">${opt.rationale}</span>`;
 
+                const activeOpts = dec.shuffledOptions || dec.options;
                 document.querySelectorAll('.s4-btn').forEach((b, i) => {
-                    if (dec.options[i].correct) {
+                    if (activeOpts[i] && activeOpts[i].correct) {
                         b.classList.add('bg-emerald-950/60', 'border-emerald-400', 'text-emerald-200');
                     }
                 });

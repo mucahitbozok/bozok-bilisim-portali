@@ -387,9 +387,20 @@ function loadTask() {
     document.getElementById('kisayol-fb').style.display = 'none';
     document.getElementById('next-btn').style.display = 'none';
 
+    // Dinamik Şık Karıştırma (Fisher-Yates) - İlk seçeneğin hep doğru olmasını engeller
+    const originalOptions = [...t.options];
+    const correctText = originalOptions[t.correct];
+    const shuffled = [...originalOptions];
+    for (let i = shuffled.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+    }
+    t.activeOptions = shuffled;
+    t.activeCorrect = shuffled.indexOf(correctText);
+
     const grid = document.getElementById('shortcut-options');
     grid.innerHTML = '';
-    t.options.forEach((opt, idx) => {
+    t.activeOptions.forEach((opt, idx) => {
         const btn = document.createElement('button');
         btn.className = 'btn-opt';
         btn.innerHTML = '<span style="padding:4px 10px; background:#0f172a; border:1px solid #475569; border-radius:8px; font-family:monospace; color:var(--yellow); font-size:1.1rem;">' + opt + '</span>';
@@ -406,7 +417,7 @@ function answer(chosen, btn) {
     const fb = document.getElementById('kisayol-fb');
     fb.style.display = 'block';
 
-    if (chosen === t.correct) {
+    if (chosen === t.activeCorrect) {
         sfx.correct();
         btn.classList.add('correct');
         streak++;
@@ -425,7 +436,7 @@ function answer(chosen, btn) {
     } else {
         sfx.wrong();
         btn.classList.add('wrong');
-        allBtns[t.correct].classList.add('correct');
+        if (allBtns[t.activeCorrect]) allBtns[t.activeCorrect].classList.add('correct');
         streak = 0;
         updateScore();
         fb.style.background = 'rgba(239, 68, 68, 0.2)';

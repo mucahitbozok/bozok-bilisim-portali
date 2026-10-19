@@ -1156,6 +1156,7 @@
         gameState.currentChapterIndex = 0;
         gameState.score = 0;
         gameState.userChoicesHistory = [];
+        CHAPTERS.forEach(ch => delete ch.shuffledChoices);
         renderChapter();
       });
     }
@@ -1164,6 +1165,15 @@
     function renderChapter() {
       const chapter = CHAPTERS[gameState.currentChapterIndex];
       updateTheme(chapter.period);
+
+      if (!chapter.shuffledChoices) {
+        const shuf = [...chapter.choices];
+        for (let i = shuf.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [shuf[i], shuf[j]] = [shuf[j], shuf[i]];
+        }
+        chapter.shuffledChoices = shuf;
+      }
 
       const progressPercent = ((gameState.currentChapterIndex) / CHAPTERS.length) * 100;
 
@@ -1213,12 +1223,15 @@
 
               <!-- Seçenek Butonları -->
               <div class="choices-container" id="choicesContainer">
-                ${chapter.choices.map((ch, idx) => `
+                ${(chapter.shuffledChoices || chapter.choices).map((ch, idx) => {
+                  const cleanText = ch.text.replace(/^[A-Z]\)\s*/, '');
+                  return `
                   <button class="btn-choice" data-choice-idx="${idx}">
                     <span class="choice-letter">${String.fromCharCode(65 + idx)}</span>
-                    <span>${ch.text}</span>
+                    <span>${cleanText}</span>
                   </button>
-                `).join('')}
+                `;
+                }).join('')}
               </div>
 
               <!-- Geri Bildirim Açıklama Paneli -->
@@ -1262,7 +1275,8 @@
     // Karar Verme Mantığı
     function handleChoiceSelection(choiceIdx) {
       const chapter = CHAPTERS[gameState.currentChapterIndex];
-      const selectedChoice = chapter.choices[choiceIdx];
+      const activeChoices = chapter.shuffledChoices || chapter.choices;
+      const selectedChoice = activeChoices[choiceIdx];
 
       // Puan Güncelle
       if (selectedChoice.points > 0) {

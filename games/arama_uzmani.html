@@ -367,12 +367,12 @@ const pool = [
 ];
 
 const tasks = [
-    { desc: "Bilgisayardaki TÜM Word belgelerini (.docx) tek seferde bulmak için arama kutusuna ne yazmalısın?", query: "*.docx", options: ["*.docx", "Bil*.docx", "*.jpg", "docx.*"], correct: 0, filter: f => f.endsWith('.docx') },
-    { desc: "Adı 'Bil' ile başlayan TÜM Word belgelerini bulmak için ne yazmalısın?", query: "Bil*.docx", options: ["Bil*.docx", "*.docx", "*Bil.docx", "Bil.txt"], correct: 0, filter: f => f.startsWith('Bil') && f.endsWith('.docx') },
-    { desc: "Bilgisayardaki TÜM JPG fotoğraflarını listelemek için arama kutusuna ne yazarsın?", query: "*.jpg", options: ["*.jpg", "tatil.*", "*.png", "foto.*"], correct: 0, filter: f => f.endsWith('.jpg') },
+    { desc: "Bilgisayardaki TÜM Word belgelerini (.docx) tek seferde bulmak için arama kutusuna ne yazmalısın?", query: "*.docx", options: ["Bil*.docx", "*.docx", "*.jpg", "docx.*"], correct: 1, filter: f => f.endsWith('.docx') },
+    { desc: "Adı 'Bil' ile başlayan TÜM Word belgelerini bulmak için ne yazmalısın?", query: "Bil*.docx", options: ["*.docx", "*Bil.docx", "Bil*.docx", "Bil.txt"], correct: 2, filter: f => f.startsWith('Bil') && f.endsWith('.docx') },
+    { desc: "Bilgisayardaki TÜM JPG fotoğraflarını listelemek için arama kutusuna ne yazarsın?", query: "*.jpg", options: ["tatil.*", "*.png", "foto.*", "*.jpg"], correct: 3, filter: f => f.endsWith('.jpg') },
     { desc: "Adı tam olarak 'bilisim_kitap.pdf' olan dosyayı bulmak için ne yazarsın?", query: "bilisim_kitap.pdf", options: ["bilisim_kitap.pdf", "*.pdf", "kitap.*", "*kitap*"], correct: 0, filter: f => f === 'bilisim_kitap.pdf' },
-    { desc: "İçinde 'tatil' kelimesi geçen TÜM video ve resimleri bulmak için hangi joker arama uygundur?", query: "*tatil*", options: ["*tatil*", "tatil.mp4", "*.tatil", "tatil*.*"], correct: 0, filter: f => f.includes('tatil') },
-    { desc: "Bilgisayardaki adı ne olursa olsun TÜM MP3 müzik dosyalarını bulmak için:", query: "*.mp3", options: ["*.mp3", "muzik.*", "sarki.mp3", "*.*"], correct: 0, filter: f => f.endsWith('.mp3') }
+    { desc: "İçinde 'tatil' kelimesi geçen TÜM video ve resimleri bulmak için hangi joker arama uygundur?", query: "*tatil*", options: ["tatil.mp4", "*.tatil", "*tatil*", "tatil*.*"], correct: 2, filter: f => f.includes('tatil') },
+    { desc: "Bilgisayardaki adı ne olursa olsun TÜM MP3 müzik dosyalarını bulmak için:", query: "*.mp3", options: ["muzik.*", "*.mp3", "sarki.mp3", "*.*"], correct: 1, filter: f => f.endsWith('.mp3') }
 ];
 
 let curIdx = 0;
@@ -420,9 +420,20 @@ function loadTask() {
     document.getElementById('next-btn').style.display = 'none';
     renderPool(null);
 
+    // Dinamik Şık Karıştırma (Fisher-Yates) - İlk seçeneğin hep doğru olmasını engeller
+    const originalOptions = [...t.options];
+    const correctText = originalOptions[t.correct];
+    const shuffled = [...originalOptions];
+    for (let i = shuffled.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+    }
+    t.activeOptions = shuffled;
+    t.activeCorrect = shuffled.indexOf(correctText);
+
     const optsContainer = document.getElementById('arama-opts');
     optsContainer.innerHTML = '';
-    t.options.forEach((opt, idx) => {
+    t.activeOptions.forEach((opt, idx) => {
         const btn = document.createElement('button');
         btn.className = 'btn-opt';
         btn.innerHTML = '<span style="padding:4px 10px; background:#0f172a; border:1px solid #475569; border-radius:8px; font-family:monospace; color:var(--cyan); font-size:1.1rem; font-weight:900;">' + opt + '</span>';
@@ -441,7 +452,7 @@ function answer(chosen, btn) {
 
     renderPool(t.filter);
 
-    if (chosen === t.correct) {
+    if (chosen === t.activeCorrect) {
         sfx.correct();
         btn.classList.add('correct');
         score += 15;

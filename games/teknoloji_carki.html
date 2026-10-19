@@ -759,7 +759,23 @@
 
                 const q = available[Math.floor(Math.random() * available.length)];
                 this.usedQuestions.add(q.q);
-                this.activeQuestion = { ...q, catId };
+
+                const origOpts = [...q.opts];
+                const corrText = origOpts[q.ans];
+                const shuf = [...origOpts];
+                for (let i = shuf.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [shuf[i], shuf[j]] = [shuf[j], shuf[i]];
+                }
+                const newAnsIdx = shuf.indexOf(corrText);
+
+                this.activeQuestion = { 
+                    ...q, 
+                    catId, 
+                    activeOpts: shuf, 
+                    activeAns: newAnsIdx, 
+                    origCorrectText: corrText 
+                };
 
                 const catObj = categories.find(c => c.id === catId);
                 const tagEl = document.getElementById('q-category-tag');
@@ -773,7 +789,7 @@
 
                 const optionsContainer = document.getElementById('q-options');
                 const letters = ['A', 'B', 'C', 'D'];
-                optionsContainer.innerHTML = q.opts.map((opt, idx) => `
+                optionsContainer.innerHTML = this.activeQuestion.activeOpts.map((opt, idx) => `
                     <button class="option-item" onclick="wheelApp.answerQuestion(${idx})">
                         <span class="opt-letter">${letters[idx]}</span>
                         <span>${opt}</span>
@@ -788,7 +804,7 @@
                 const q = this.activeQuestion;
                 if (!q) return;
 
-                const isCorrect = (optIdx === q.ans);
+                const isCorrect = (optIdx === q.activeAns);
                 const fbLayer = document.getElementById('q-feedback');
                 const fbIcon = document.getElementById('fb-icon');
                 const fbTitle = document.getElementById('fb-title');
@@ -810,7 +826,7 @@
                     fbIcon.innerHTML = '<svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="3"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>';
                     fbTitle.innerText = `Puan Kazanılamadı!`;
                     fbTitle.style.color = "#f87171";
-                    fbDesc.innerHTML = `Doğru cevap <strong>"${q.opts[q.ans]}"</strong> olmalıydı. ${q.exp}`;
+                    fbDesc.innerHTML = `Doğru cevap <strong>"${q.origCorrectText || q.activeOpts[q.activeAns]}"</strong> olmalıydı. ${q.exp}`;
                 }
 
                 this.updateTeamsUI();

@@ -611,6 +611,10 @@
                 document.getElementById('win-screen').style.display = 'none';
                 document.getElementById('feedback-overlay').style.display = 'none';
 
+                allScenarios.forEach(s => {
+                    delete s.activeOptions;
+                    delete s.activeAns;
+                });
                 // Pick 5 distinct scenarios for a complete mission
                 this.currentList = [...allScenarios].sort(() => Math.random() - 0.5).slice(0, 5);
                 this.currIdx = 0;
@@ -634,10 +638,23 @@
                 document.getElementById('health-fill').style.width = `${pct}%`;
                 document.getElementById('health-pct').innerText = `%${pct}`;
 
+                if (!item.activeOptions) {
+                    const origOpts = [...item.options];
+                    const corrText = origOpts[item.ans];
+                    const shuf = [...origOpts];
+                    for (let i = shuf.length - 1; i > 0; i--) {
+                        const j = Math.floor(Math.random() * (i + 1));
+                        [shuf[i], shuf[j]] = [shuf[j], shuf[i]];
+                    }
+                    item.activeOptions = shuf;
+                    item.activeAns = shuf.indexOf(corrText);
+                    item.origAnsText = corrText;
+                }
+
                 // Solutions
                 const letters = ['A', 'B', 'C', 'D'];
                 const container = document.getElementById('solutions-list');
-                container.innerHTML = item.options.map((opt, i) => `
+                container.innerHTML = item.activeOptions.map((opt, i) => `
                     <button class="solution-btn" onclick="pcRescue.applySolution(${i})">
                         <span class="sol-badge">${letters[i]}</span>
                         <span>${opt}</span>
@@ -647,7 +664,7 @@
 
             applySolution(choice) {
                 const item = this.currentList[this.currIdx];
-                const isRight = (choice === item.ans);
+                const isRight = (choice === (item.activeAns !== undefined ? item.activeAns : item.ans));
                 const overlay = document.getElementById('feedback-overlay');
                 const fbIcon = document.getElementById('fb-icon');
                 const fbTitle = document.getElementById('fb-title');
@@ -667,7 +684,7 @@
                     fbIcon.innerHTML = '<svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#f43f5e" stroke-width="3"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>';
                     fbTitle.innerText = "Bu Çözüm Yetersiz Kaldı!";
                     fbTitle.style.color = "#f87171";
-                    fbDesc.innerHTML = `Doğru yaklaşım: <strong>"${item.options[item.ans]}"</strong>. ${item.exp}`;
+                    fbDesc.innerHTML = `Doğru yaklaşım: <strong>"${item.origAnsText || item.options[item.ans]}"</strong>. ${item.exp}`;
                 }
 
                 document.getElementById('score-counter').innerText = this.score;

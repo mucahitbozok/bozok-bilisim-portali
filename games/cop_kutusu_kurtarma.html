@@ -457,9 +457,20 @@ function loadCase() {
     document.getElementById('cop-fb').style.display = 'none';
     document.getElementById('next-btn').style.display = 'none';
 
+    // Dinamik Şık Karıştırma (Fisher-Yates) - İlk seçeneğin hep doğru olmasını engeller
+    const originalOptions = [...c.options];
+    const correctText = originalOptions[c.correct];
+    const shuffled = [...originalOptions];
+    for (let i = shuffled.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+    }
+    c.activeOptions = shuffled;
+    c.activeCorrect = shuffled.indexOf(correctText);
+
     const optsContainer = document.getElementById('cop-options');
     optsContainer.innerHTML = '';
-    c.options.forEach((opt, idx) => {
+    c.activeOptions.forEach((opt, idx) => {
         const btn = document.createElement('button');
         btn.className = 'btn-opt';
         btn.innerHTML = '<span style="width:28px; height:28px; border-radius:50%; background:#0f172a; color:#38bdf8; display:inline-flex; align-items:center; justify-content:center; font-size:0.85rem; font-weight:900;">' + (idx + 1) + '</span> <span>' + opt + '</span>';
@@ -476,7 +487,7 @@ function answer(chosen, btn) {
     const fb = document.getElementById('cop-fb');
     fb.style.display = 'block';
 
-    if (chosen === c.correct) {
+    if (chosen === c.activeCorrect) {
         sfx.correct();
         btn.classList.add('correct');
         score += 15;
@@ -488,7 +499,7 @@ function answer(chosen, btn) {
     } else {
         sfx.wrong();
         btn.classList.add('wrong');
-        allBtns[c.correct].classList.add('correct');
+        if (allBtns[c.activeCorrect]) allBtns[c.activeCorrect].classList.add('correct');
         health = Math.max(20, health - 15);
         updateScore();
         fb.style.background = 'rgba(239, 68, 68, 0.2)';

@@ -601,9 +601,19 @@ TASARIM:
 
             renderOptions(clue) {
                 if (clue.type === 'single') {
+                    if (!clue.shuffledOptions) {
+                        const shuf = [...clue.options];
+                        for (let i = shuf.length - 1; i > 0; i--) {
+                            const j = Math.floor(Math.random() * (i + 1));
+                            [shuf[i], shuf[j]] = [shuf[j], shuf[i]];
+                        }
+                        const letters = ['A', 'B', 'C', 'D'];
+                        shuf.forEach((o, i) => o.badge = letters[i]);
+                        clue.shuffledOptions = shuf;
+                    }
                     return `
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
-                            ${clue.options.map((opt, idx) => `
+                            ${clue.shuffledOptions.map((opt, idx) => `
                                 <button onclick="game.handleSingleChoice(${idx})" class="btn-card p-4 sm:p-5 rounded-2xl bg-slate-900/90 hover:bg-slate-800 border-2 border-slate-700 hover:border-amber-400 text-left flex items-center justify-between gap-3 text-white transition-all group">
                                     <div class="flex items-center gap-3">
                                         <span class="w-9 h-9 rounded-xl bg-slate-800 text-amber-300 group-hover:bg-amber-500 group-hover:text-slate-950 font-black text-sm flex items-center justify-center transition-colors">
@@ -673,7 +683,7 @@ TASARIM:
 
             handleSingleChoice(idx) {
                 const clue = this.clues[this.currentClue];
-                const opt = clue.options[idx];
+                const opt = (clue.shuffledOptions || clue.options)[idx];
                 const isCorrect = opt.isCorrect;
 
                 if (isCorrect) {
@@ -865,6 +875,7 @@ TASARIM:
 
             startClues() {
                 sounds.playClick();
+                this.clues.forEach(c => delete c.shuffledOptions);
                 this.state = 'clue';
                 this.currentClue = 0;
                 this.score = 0;

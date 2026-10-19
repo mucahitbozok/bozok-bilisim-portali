@@ -471,6 +471,21 @@
             startGame() {
                 sounds.playFanfare();
                 this.currentQuestionIndex = 0;
+                this.questions.forEach(q => {
+                    if (!q.originalOptions) {
+                        q.originalOptions = [...q.options];
+                        q.originalCorrect = q.correct;
+                    }
+                    const origOpts = [...q.originalOptions];
+                    const corrText = origOpts[q.originalCorrect];
+                    const shuf = [...origOpts];
+                    for (let i = shuf.length - 1; i > 0; i--) {
+                        const j = Math.floor(Math.random() * (i + 1));
+                        [shuf[i], shuf[j]] = [shuf[j], shuf[i]];
+                    }
+                    q.options = shuf;
+                    q.correct = shuf.indexOf(corrText);
+                });
                 this.userAnswers = new Array(this.questions.length).fill(null);
                 this.answerRevealed = new Array(this.questions.length).fill(false);
                 this.renderQuestionScreen();

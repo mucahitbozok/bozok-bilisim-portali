@@ -605,6 +605,10 @@
                 document.getElementById('finish-screen').style.display = 'none';
                 document.getElementById('fb-overlay').style.display = 'none';
 
+                robotTasks.forEach(t => {
+                    delete t.activeOptions;
+                    delete t.activeAns;
+                });
                 this.list = [...robotTasks].sort(() => Math.random() - 0.5);
                 this.curr = 0;
                 this.score = 0;
@@ -625,9 +629,22 @@
                 document.getElementById('battery-fill').style.width = `${pct}%`;
                 document.getElementById('battery-pct').innerText = `%${pct}`;
 
+                if (!item.activeOptions) {
+                    const origOpts = [...item.options];
+                    const corrText = origOpts[item.ans];
+                    const shuf = [...origOpts];
+                    for (let i = shuf.length - 1; i > 0; i--) {
+                        const j = Math.floor(Math.random() * (i + 1));
+                        [shuf[i], shuf[j]] = [shuf[j], shuf[i]];
+                    }
+                    item.activeOptions = shuf;
+                    item.activeAns = shuf.indexOf(corrText);
+                    item.origAnsText = corrText;
+                }
+
                 // Render Answer Buttons
                 const container = document.getElementById('choices-grid');
-                container.innerHTML = item.options.map((opt, i) => `
+                container.innerHTML = item.activeOptions.map((opt, i) => `
                     <button class="ans-btn" onclick="robotApp.choose(${i})">
                         <span>${opt}</span>
                     </button>
@@ -636,7 +653,7 @@
 
             choose(choiceIdx) {
                 const item = this.list[this.curr];
-                const isRight = (choiceIdx === item.ans);
+                const isRight = (choiceIdx === (item.activeAns !== undefined ? item.activeAns : item.ans));
                 const overlay = document.getElementById('fb-overlay');
                 const avatar = document.getElementById('fb-avatar');
                 const head = document.getElementById('fb-head');
@@ -655,7 +672,7 @@
                     avatar.innerHTML = '<svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="3"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>';
                     head.innerText = "Sinyal Karıştı!";
                     head.style.color = "#f87171";
-                    detail.innerHTML = `Robo-5 uyardı: Doğru cevap <strong>"${item.options[item.ans]}"</strong> olmalıydı. ${item.desc}`;
+                    detail.innerHTML = `Robo-5 uyardı: Doğru cevap <strong>"${item.origAnsText || item.options[item.ans]}"</strong> olmalıydı. ${item.desc}`;
                 }
 
                 document.getElementById('stat-score').innerText = this.score;

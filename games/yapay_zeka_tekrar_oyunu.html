@@ -308,11 +308,15 @@
                 sounds.playClick();
                 // Soruları hazırla ve her sorunun şıklarını karıştır
                 this.questions = this.rawQuestions.map((qObj, index) => {
-                    const shuffledOpts = [...qObj.options].sort(() => Math.random() - 0.5);
+                    const shuf = [...qObj.options];
+                    for (let i = shuf.length - 1; i > 0; i--) {
+                        const j = Math.floor(Math.random() * (i + 1));
+                        [shuf[i], shuf[j]] = [shuf[j], shuf[i]];
+                    }
                     return {
                         id: index + 1,
                         q: qObj.q,
-                        options: shuffledOpts,
+                        options: shuf,
                         correctAnswer: qObj.correctAnswer,
                         explanation: qObj.explanation
                     };

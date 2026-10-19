@@ -421,6 +421,7 @@ function initGame() {
     curIdx = 0;
     score = 0;
     questions.sort(() => Math.random() - 0.5);
+    questions.forEach(q => { delete q.activeOptions; delete q.activeCorrect; });
     updateScore();
     loadQuestion();
 }
@@ -436,9 +437,21 @@ function loadQuestion() {
     document.getElementById('sikistirma-fb').style.display = 'none';
     document.getElementById('next-btn').style.display = 'none';
 
+    if (!q.activeOptions) {
+        const origOpts = [...q.options];
+        const corrText = origOpts[q.correct];
+        const shuf = [...origOpts];
+        for (let i = shuf.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [shuf[i], shuf[j]] = [shuf[j], shuf[i]];
+        }
+        q.activeOptions = shuf;
+        q.activeCorrect = shuf.indexOf(corrText);
+    }
+
     const grid = document.getElementById('options-grid');
     grid.innerHTML = '';
-    q.options.forEach((opt, idx) => {
+    q.activeOptions.forEach((opt, idx) => {
         const btn = document.createElement('button');
         btn.className = 'btn-opt';
         btn.innerHTML = '<span style="width:28px; height:28px; border-radius:50%; background:#0f172a; color:var(--pink); display:inline-flex; align-items:center; justify-content:center; font-size:0.85rem; font-weight:900;">' + String.fromCharCode(65 + idx) + '</span> <span>' + opt + '</span>';
@@ -455,7 +468,7 @@ function answer(chosen, btn) {
     const fb = document.getElementById('sikistirma-fb');
     fb.style.display = 'block';
 
-    if (chosen === q.correct) {
+    if (chosen === q.activeCorrect) {
         sfx.correct();
         btn.classList.add('correct');
         score += 15;
@@ -467,7 +480,7 @@ function answer(chosen, btn) {
     } else {
         sfx.wrong();
         btn.classList.add('wrong');
-        allBtns[q.correct].classList.add('correct');
+        allBtns[q.activeCorrect].classList.add('correct');
         fb.style.background = 'rgba(239, 68, 68, 0.2)';
         fb.style.border = '2px solid var(--red)';
         fb.style.color = '#f87171';

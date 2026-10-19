@@ -841,6 +841,7 @@ Tasarım:
             currentSceneIndex = 0;
             score = 0;
             sceneResults = [];
+            SCENES.forEach(s => delete s.shuffledOptions);
             updateScoreDisplay();
 
             document.getElementById('introScreen').classList.add('hidden');
@@ -882,9 +883,17 @@ Tasarım:
             const optionsContainer = document.getElementById('optionsContainer');
             optionsContainer.innerHTML = '';
 
-            // Seçenekleri karıştır (isteğe bağlı ama 1. seçenek doğruysa harflendir)
+            if (!scene.shuffledOptions) {
+                const shuf = [...scene.options];
+                for (let i = shuf.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [shuf[i], shuf[j]] = [shuf[j], shuf[i]];
+                }
+                scene.shuffledOptions = shuf;
+            }
+
             const letters = ['A', 'B', 'C', 'D'];
-            scene.options.forEach((opt, optIdx) => {
+            scene.shuffledOptions.forEach((opt, optIdx) => {
                 const btn = document.createElement('button');
                 btn.className = `option-btn w-full text-left p-4 rounded-2xl bg-slate-800/90 hover:bg-slate-750 border-2 border-slate-700 hover:border-indigo-400 text-white font-medium transition-all shadow-md flex items-start gap-3 active:scale-[0.98]`;
                 btn.innerHTML = `
@@ -936,8 +945,9 @@ Tasarım:
                 btnElement.classList.add('bg-rose-950/80', 'border-rose-400', 'text-rose-200');
 
                 // Doğru olanı yeşil yap
+                const activeOpts = scene.shuffledOptions || scene.options;
                 allBtns.forEach((b, i) => {
-                    if (scene.options[i] && scene.options[i].correct) {
+                    if (activeOpts[i] && activeOpts[i].correct) {
                         b.classList.remove('opacity-70');
                         b.classList.add('bg-emerald-950/50', 'border-emerald-500/60', 'text-emerald-200');
                     }
