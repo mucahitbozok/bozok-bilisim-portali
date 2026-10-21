@@ -944,7 +944,8 @@ class App {
                 sayfa4: 'assets/worksheets/1.5_sayfa4.png',
                 konu: 'assets/worksheets/1.5_sayfa1.png',
                 soru: 'assets/worksheets/1.5_sayfa2.png',
-                cevap: 'assets/worksheets/1.5_cevap.png'
+                cevap: 'assets/worksheets/1.5_cevap.png',
+                tekrar: 'assets/worksheets/bilgisayar_konusu_tekrar.png'
             },
             '5_2': {
                 sayfa1: 'assets/worksheets/1.5_2_sayfa1.png',
@@ -954,7 +955,8 @@ class App {
                 konu: 'assets/worksheets/1.5_2_sayfa1.png',
                 soru: 'assets/worksheets/1.5_2_sayfa2.png',
                 cevap: 'assets/docs/Cevap_Anahtari_BTY_5_1_5_Konu_2.pdf',
-                defter: 'assets/docs/Deftere_Yazilacaklar_BTY_5_1_5_Konu_2.pdf'
+                defter: 'assets/docs/Deftere_Yazilacaklar_BTY_5_1_5_Konu_2.pdf',
+                tekrar: 'assets/worksheets/bilgisayar_konusu_tekrar.png'
             }
         };
         if (defaultMap[weekNum] && defaultMap[weekNum][docType]) {
@@ -996,6 +998,7 @@ class App {
         } else if (isFiveTabs) {
             const validTabs = ['sayfa1', 'sayfa2', 'sayfa3', 'sayfa4'];
             if (images?.sayfa5) validTabs.push('sayfa5');
+            if (images?.tekrar || docs?.tekrar || docs?.tekrarHtml) validTabs.push('tekrar');
             if (images?.cevap || docs?.cevapHtml) validTabs.push('cevap');
             if (images?.defter || docs?.defterHtml) validTabs.push('defter');
             if (!validTabs.includes(this.activePhotoDoc)) {
@@ -1053,6 +1056,12 @@ class App {
                 title: "5. Sayfa (Yapay Zekânın Kısa Tarihi)", 
                 icon: "fa-solid fa-clock-rotate-left", 
                 badge: "5. Sayfa" 
+            },
+            tekrar: { 
+                src: this.resolveDocPath(images?.tekrar || docs?.tekrar, this.currentWeek, 'tekrar'), 
+                title: isTopic5_2 ? "Tekrar (Yazılım, Kapasite ve Depolama - Bilgisayar Konusu Tekrar)" : (isTopic5 ? "Tekrar (Bilgisayar ve Donanım - Bilgisayar Konusu Tekrar)" : "Tekrar Çalışma Kağıdı"), 
+                icon: "fa-solid fa-arrows-rotate", 
+                badge: "Tekrar" 
             },
             cevap: { 
                 src: this.resolveDocPath(images?.cevap, this.currentWeek, 'cevap'), 
@@ -1181,6 +1190,12 @@ class App {
                             <button onclick="app.setPhotoDoc('sayfa5')" class="px-3 sm:px-4 py-2 sm:py-2.5 rounded-xl font-bold text-xs sm:text-sm flex items-center gap-2 transition-all ${this.activePhotoDoc === 'sayfa5' ? 'bg-indigo-600 text-white shadow-lg ring-2 ring-indigo-400' : 'text-slate-300 hover:bg-slate-700'}">
                                 <i class="fa-solid fa-clock-rotate-left text-rose-400"></i>
                                 <span>5. Sayfa (Tarihçe)</span>
+                            </button>
+                            ` : ''}
+                            ${(images?.tekrar || docs?.tekrar || docs?.tekrarHtml) ? `
+                            <button onclick="app.setPhotoDoc('tekrar')" class="px-3 sm:px-4 py-2 sm:py-2.5 rounded-xl font-bold text-xs sm:text-sm flex items-center gap-2 transition-all ${this.activePhotoDoc === 'tekrar' ? 'bg-gradient-to-r from-amber-500 to-yellow-500 text-slate-950 font-black shadow-lg ring-2 ring-yellow-400' : 'text-slate-300 hover:bg-slate-700'}">
+                                <i class="fa-solid fa-arrows-rotate text-yellow-300"></i>
+                                <span>Tekrar</span>
                             </button>
                             ` : ''}
                             ${(images?.cevap || docs?.cevapHtml) ? `
@@ -1421,6 +1436,10 @@ class App {
                 defter: [
                     'assets/docs/Deftere_Yazilacaklar_BTY_5_1_5_Konu_2.pdf',
                     'assets/worksheets/Deftere_Yazilacaklar_BTY_5_1_5_Konu_2.pdf'
+                ],
+                tekrar: [
+                    'assets/worksheets/bilgisayar_konusu_tekrar.png',
+                    'assets/worksheets/bilgisayar konusu tekrar.png'
                 ],
                 kagit1: [
                     'assets/worksheets/1.4_sayfa1_soru.png',

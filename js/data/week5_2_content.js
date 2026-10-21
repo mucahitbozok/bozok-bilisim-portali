@@ -343,6 +343,7 @@ window.WEEK5_2_CONTENT = {
             sayfa2: "assets/worksheets/1.5_2_sayfa2.png",
             sayfa3: "assets/worksheets/1.5_2_sayfa3.png",
             sayfa4: "assets/worksheets/1.5_2_sayfa4.png",
+            tekrar: "assets/worksheets/bilgisayar_konusu_tekrar.png",
             cevap: "assets/docs/Cevap_Anahtari_BTY_5_1_5_Konu_2.pdf",
             defter: "assets/docs/Deftere_Yazilacaklar_BTY_5_1_5_Konu_2.pdf"
         }
@@ -1311,6 +1312,122 @@ window.WEEK5_2_CONTENT = {
     ],
 
     worksheetDocs: {
+        tekrar: "assets/worksheets/bilgisayar_konusu_tekrar.png",
+        tekrarHtml: `
+            <div class="space-y-6 text-slate-100 print:text-black">
+                <div class="border-b-2 border-amber-500/40 pb-4 flex items-center justify-between flex-wrap gap-2">
+                    <div>
+                        <span class="px-3 py-1 bg-amber-500/30 text-yellow-300 font-black rounded-lg text-xs tracking-wider uppercase">
+                            5. KONU • BTY.5.1.5 GENEL TEKRAR
+                        </span>
+                        <h1 class="text-xl sm:text-2xl font-black text-white mt-1">
+                            BİLGİSAYAR VE BİLİŞİM SİSTEMLERİ GENEL TEKRAR
+                        </h1>
+                        <p class="text-xs text-amber-300">Öğretmen Bozok • Bozok Bilişim Portalı 2026</p>
+                    </div>
+                    <span class="px-3.5 py-1.5 bg-gradient-to-r from-amber-500 to-yellow-400 text-slate-950 font-black rounded-xl text-xs uppercase tracking-wider shadow">
+                        Tekrar Çalışma Kağıdı
+                    </span>
+                </div>
+
+                <!-- 1. BİLGİSAYAR ÇALIŞMA MANTIĞI VE DÖNGÜSÜ -->
+                <div class="p-4 bg-slate-850 rounded-2xl border border-amber-500/30 space-y-3">
+                    <div class="flex items-center gap-2">
+                        <span class="w-8 h-8 rounded-lg bg-amber-600 flex items-center justify-center text-slate-950 font-black text-sm">1</span>
+                        <h3 class="text-base font-black text-yellow-300">BİLGİSAYARIN ÇALIŞMA MANTIĞI VE VERİ DÖNGÜSÜ</h3>
+                    </div>
+                    <p class="text-sm leading-relaxed">
+                        Bilgisayar; kullanıcıdan aldığı ham verileri (girdi) işlemci ve bellek yardımıyla işleyen, sonuçları bize (çıktı) sunan ve gerektiğinde kalıcı depolama birimlerinde saklayan elektronik bir sistemdir.
+                    </p>
+                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5 text-center text-xs font-bold pt-1">
+                        <div class="p-3 bg-slate-900 rounded-xl border border-emerald-500/40 text-emerald-300">
+                            <i class="fa-solid fa-arrow-right-to-bracket text-lg mb-1 block"></i>
+                            <span>1. Girdi (Veri)</span>
+                        </div>
+                        <div class="p-3 bg-slate-900 rounded-xl border border-cyan-500/40 text-cyan-300">
+                            <i class="fa-solid fa-microchip text-lg mb-1 block"></i>
+                            <span>2. İşlem (CPU/RAM)</span>
+                        </div>
+                        <div class="p-3 bg-slate-900 rounded-xl border border-purple-500/40 text-purple-300">
+                            <i class="fa-solid fa-desktop text-lg mb-1 block"></i>
+                            <span>3. Çıktı (Bilgi)</span>
+                        </div>
+                        <div class="p-3 bg-slate-900 rounded-xl border border-amber-500/40 text-amber-300">
+                            <i class="fa-solid fa-hard-drive text-lg mb-1 block"></i>
+                            <span>4. Depolama (SSD/Disk)</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 2. DONANIM VE YAZILIM AYRIMI -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div class="p-4 bg-slate-850 rounded-2xl border border-indigo-500/30 space-y-2">
+                        <h4 class="font-black text-indigo-300 text-sm flex items-center gap-2">
+                            <i class="fa-solid fa-microchip text-indigo-400"></i> DONANIM (Fiziksel Parçalar)
+                        </h4>
+                        <p class="text-xs text-slate-300 leading-relaxed">
+                            Elle tutulup gözle görülebilen somut parçalardır. Kasa içindekiler <strong>İç Donanım</strong> (Anakart, İşlemci, RAM, Sabit Disk), dışındakiler ise <strong>Dış Donanım</strong> (Klavye, Fare, Monitör vb.) olarak ayrılır.
+                        </p>
+                    </div>
+                    <div class="p-4 bg-slate-850 rounded-2xl border border-cyan-500/30 space-y-2">
+                        <h4 class="font-black text-cyan-300 text-sm flex items-center gap-2">
+                            <i class="fa-solid fa-code text-cyan-400"></i> YAZILIM (Programlar & Komutlar)
+                        </h4>
+                        <p class="text-xs text-slate-300 leading-relaxed">
+                            Donanımları çalıştıran ve belirli görevleri yerine getiren komutlar bütünüdür. <strong>İşletim Sistemleri</strong> (Windows, Pardus, Android) ve <strong>Uygulama Yazılımları</strong> (Word, Scratch, Paint) olarak ikiye ayrılır.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- 3. GİRİŞ VE ÇIKIŞ BİRİMLERİ TABLOSU -->
+                <div class="p-4 bg-slate-850 rounded-2xl border border-emerald-500/30 space-y-3">
+                    <div class="flex items-center gap-2">
+                        <span class="w-8 h-8 rounded-lg bg-emerald-600 flex items-center justify-center text-white font-black text-sm">2</span>
+                        <h3 class="text-base font-black text-emerald-300">GİRİŞ, ÇIKIŞ VE ÇİFT YÖNLÜ BİRİMLER</h3>
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
+                        <div class="p-3 bg-slate-900 rounded-xl border border-emerald-400/30 space-y-1">
+                            <strong class="text-emerald-400 font-bold block"><i class="fa-solid fa-arrow-right-to-bracket mr-1"></i>Giriş Birimleri:</strong>
+                            <p class="text-slate-300">Klavye, Fare, Mikrofon, Web Kamerası, Tarayıcı, Oyun Kolu.</p>
+                        </div>
+                        <div class="p-3 bg-slate-900 rounded-xl border border-cyan-400/30 space-y-1">
+                            <strong class="text-cyan-400 font-bold block"><i class="fa-solid fa-desktop mr-1"></i>Çıkış Birimleri:</strong>
+                            <p class="text-slate-300">Monitör (Ekran), Hoparlör, Kulaklık, Yazıcı (Printer), Projeksiyon.</p>
+                        </div>
+                        <div class="p-3 bg-slate-900 rounded-xl border border-purple-400/30 space-y-1">
+                            <strong class="text-purple-300 font-bold block"><i class="fa-solid fa-arrows-left-right mr-1"></i>Çift Yönlü Birimler:</strong>
+                            <p class="text-slate-300">Dokunmatik Ekran, USB Bellek, Harici Disk, Modem.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 4. KAPASİTE VE DEPOLAMA BİRİMLERİ -->
+                <div class="p-4 bg-slate-850 rounded-2xl border border-purple-500/30 space-y-3">
+                    <div class="flex items-center gap-2">
+                        <span class="w-8 h-8 rounded-lg bg-purple-600 flex items-center justify-center text-white font-black text-sm">3</span>
+                        <h3 class="text-base font-black text-purple-300">KAPASİTE VE DEPOLAMA BİRİMLERİ</h3>
+                    </div>
+                    <div class="p-3 bg-slate-900 rounded-xl border border-slate-700 text-xs font-semibold text-center text-yellow-300">
+                        Kapasite Merdiveni (Küçükten Büyüğe):<br>
+                        <span class="text-white font-mono text-sm">Bit &lt; Byte (8 Bit) &lt; KB &lt; MB &lt; GB &lt; TB</span> (Her basamak 1024 katıdır)
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 text-xs">
+                        <div class="p-2.5 bg-slate-900/80 rounded-xl border border-slate-800">
+                            <strong class="text-indigo-300 block">Dahili Depolama:</strong>
+                            <span class="text-slate-400">SSD, Sabit Disk (Kasa içinde kalıcı)</span>
+                        </div>
+                        <div class="p-2.5 bg-slate-900/80 rounded-xl border border-slate-800">
+                            <strong class="text-amber-300 block">Harici Depolama:</strong>
+                            <span class="text-slate-400">USB Bellek, Taşınabilir Hard Disk</span>
+                        </div>
+                        <div class="p-2.5 bg-slate-900/80 rounded-xl border border-slate-800">
+                            <strong class="text-cyan-300 block">Bulut Depolama:</strong>
+                            <span class="text-slate-400">Google Drive, OneDrive (İnternet sunucuları)</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `,
         sayfa1: "assets/worksheets/1.5_2_sayfa1.png",
         sayfa2: "assets/worksheets/1.5_2_sayfa2.png",
         sayfa3: "assets/worksheets/1.5_2_sayfa3.png",
