@@ -373,7 +373,7 @@ class App {
     }
 
     getCurrentWeekData() {
-        return window[`WEEK${this.currentWeek}_CONTENT`] || window.WEEK1_CONTENT;
+        return window[`WEEK${this.currentWeek}_CONTENT`] || window[`WEEK_${this.currentWeek}_CONTENT`] || window[`WEEK${String(this.currentWeek).toUpperCase()}_CONTENT`] || window.WEEK1_CONTENT;
     }
 
     loadWeek(weekNum) {
@@ -451,6 +451,16 @@ class App {
                     <button onclick="app.loadWeek('5_2')" class="px-3.5 py-2 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-black text-xs rounded-xl shadow-lg flex items-center gap-1.5 transition-all hover:scale-105 active:scale-95" title="5. Konu - 2 (Yazılım, Kapasite Birimleri ve Depolama Birimleri)">
                         <i class="fa-solid fa-arrow-left"></i>
                         <span>5. Konu - 2'ye Dön</span>
+                    </button>
+                    <button onclick="app.loadWeek('tema1_tekrar')" class="px-3.5 py-2 bg-gradient-to-r from-amber-500 to-yellow-500 hover:from-amber-400 hover:to-yellow-400 text-slate-950 font-black text-xs rounded-xl shadow-lg flex items-center gap-1.5 transition-all hover:scale-105 active:scale-95" title="1. Tema Genel Tekrarı ve Değerlendirme">
+                        <i class="fa-solid fa-trophy"></i>
+                        <span>1. Tema Tekrar'a Geç 👉</span>
+                    </button>
+                ` : ''}
+                ${String(this.currentWeek) === 'tema1_tekrar' ? `
+                    <button onclick="app.loadWeek(6)" class="px-3.5 py-2 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-black text-xs rounded-xl shadow-lg flex items-center gap-1.5 transition-all hover:scale-105 active:scale-95" title="6. Konu: Dosya ve Klasör Yönetimi">
+                        <i class="fa-solid fa-arrow-left"></i>
+                        <span>6. Konuya Dön</span>
                     </button>
                 ` : ''}
                 ${hasVideos ? `
@@ -957,6 +967,15 @@ class App {
                 cevap: 'assets/docs/Cevap_Anahtari_BTY_5_1_5_Konu_2.pdf',
                 defter: 'assets/docs/Deftere_Yazilacaklar_BTY_5_1_5_Konu_2.pdf',
                 tekrar: 'assets/worksheets/bilgisayar_konusu_tekrar.png'
+            },
+            'tema1_tekrar': {
+                sayfa1: 'assets/worksheets/1.4_sayfa1.png',
+                sayfa2: 'assets/worksheets/1.4_sayfa2.png',
+                sayfa3: 'assets/worksheets/1.5_2_sayfa1.png',
+                sayfa4: 'assets/worksheets/1.6_sayfa1.png',
+                tekrar: 'assets/worksheets/bilgisayar_konusu_tekrar.png',
+                cevap: 'assets/worksheets/bilgisayar_konusu_tekrar.png',
+                defter: 'assets/worksheets/bilgisayar_konusu_tekrar.png'
             }
         };
         if (defaultMap[weekNum] && defaultMap[weekNum][docType]) {
@@ -990,7 +1009,7 @@ class App {
         const images = data.weekInfo?.images || data.worksheetDocs?.images;
         const docs = data.worksheetDocs || {};
 
-        const isFiveTabs = !!(images?.sayfa5 || images?.sayfa4 || images?.sayfa3 || ((this.currentWeek === 4 || this.currentWeek === 5 || this.currentWeek === '5_2' || this.currentWeek === 6 || this.currentWeek === '6') && images?.sayfa1));
+        const isFiveTabs = !!(images?.sayfa5 || images?.sayfa4 || images?.sayfa3 || ((this.currentWeek === 4 || this.currentWeek === 5 || this.currentWeek === '5_2' || this.currentWeek === 6 || this.currentWeek === '6' || this.currentWeek === 'tema1_tekrar') && images?.sayfa1));
         const isFourTabs = !isFiveTabs && !!(docs.hasTwoPages || docs.kagit1Html || (images && (images.kagit1 || images.sayfa1_soru)) || this.currentWeek === '3_2');
 
         if (!this.activePhotoDoc) {
@@ -1026,29 +1045,30 @@ class App {
         const isTopic5 = this.currentWeek === 5;
         const isTopic5_2 = this.currentWeek === '5_2';
         const isTopic6 = this.currentWeek === 6 || this.currentWeek === '6';
+        const isTopicTema1 = this.currentWeek === 'tema1_tekrar';
         const imgMap = isFiveTabs ? {
             sayfa1: { 
                 src: this.resolveDocPath(images?.sayfa1, this.currentWeek, 'sayfa1'), 
-                title: isTopic6 ? "1. Sayfa (Dosya ve Klasör Temelleri)" : (isTopic5_2 ? "1. Sayfa (Yazılım ve Yazılım Türleri)" : (isTopic5 ? "1. Sayfa (Bilgisayar ve Donanım Genel Bakış)" : "1. Sayfa (Yapay Zekâ Temelleri & Kavramlar)")), 
-                icon: isTopic6 ? "fa-solid fa-folder-tree" : (isTopic5_2 ? "fa-solid fa-code" : "fa-solid fa-file-lines"), 
+                title: isTopicTema1 ? "1. Sayfa (Bilişim Alanları, Sağlık & Dijital Vatandaşlık)" : (isTopic6 ? "1. Sayfa (Dosya ve Klasör Temelleri)" : (isTopic5_2 ? "1. Sayfa (Yazılım ve Yazılım Türleri)" : (isTopic5 ? "1. Sayfa (Bilgisayar ve Donanım Genel Bakış)" : "1. Sayfa (Yapay Zekâ Temelleri & Kavramlar)"))), 
+                icon: isTopicTema1 ? "fa-solid fa-award" : (isTopic6 ? "fa-solid fa-folder-tree" : (isTopic5_2 ? "fa-solid fa-code" : "fa-solid fa-file-lines")), 
                 badge: "1. Sayfa" 
             },
             sayfa2: { 
                 src: this.resolveDocPath(images?.sayfa2, this.currentWeek, 'sayfa2'), 
-                title: isTopic6 ? "2. Sayfa (Dosya Uzantıları ve Türleri)" : (isTopic5_2 ? "2. Sayfa (Kapasite Birimleri: Bit'ten TB'ye)" : (isTopic5 ? "2. Sayfa (İç Donanım Birimleri & Etkinlikler)" : "2. Sayfa (Yapay Zekâ Kullanım Alanları & Örnekler)")), 
-                icon: isTopic6 ? "fa-solid fa-file-code" : (isTopic5_2 ? "fa-solid fa-stairs" : (isTopic5 ? "fa-solid fa-microchip" : "fa-solid fa-file-lines")), 
+                title: isTopicTema1 ? "2. Sayfa (Yapay Zekâ Dünyası ve Temel Kavramlar)" : (isTopic6 ? "2. Sayfa (Dosya Uzantıları ve Türleri)" : (isTopic5_2 ? "2. Sayfa (Kapasite Birimleri: Bit'ten TB'ye)" : (isTopic5 ? "2. Sayfa (İç Donanım Birimleri & Etkinlikler)" : "2. Sayfa (Yapay Zekâ Kullanım Alanları & Örnekler)"))), 
+                icon: isTopicTema1 ? "fa-solid fa-brain" : (isTopic6 ? "fa-solid fa-file-code" : (isTopic5_2 ? "fa-solid fa-stairs" : (isTopic5 ? "fa-solid fa-microchip" : "fa-solid fa-file-lines"))), 
                 badge: "2. Sayfa" 
             },
             sayfa3: { 
                 src: this.resolveDocPath(images?.sayfa3, this.currentWeek, 'sayfa3'), 
-                title: isTopic6 ? "3. Sayfa (Kısayollar, Çöp Kutusu ve Arama)" : (isTopic5_2 ? "3. Sayfa (Dahili, Harici ve Bulut Depolama)" : (isTopic5 ? "3. Sayfa (Dış Donanım Birimleri & Sınıflandırma)" : "3. Sayfa (Pekiştirme Soruları & Etkinlikler)")), 
-                icon: isTopic6 ? "fa-solid fa-keyboard" : (isTopic5_2 ? "fa-solid fa-hard-drive" : (isTopic5 ? "fa-solid fa-desktop" : "fa-solid fa-file-lines")), 
+                title: isTopicTema1 ? "3. Sayfa (Donanım, Yazılım, Makine Dili & Kapasite)" : (isTopic6 ? "3. Sayfa (Kısayollar, Çöp Kutusu ve Arama)" : (isTopic5_2 ? "3. Sayfa (Dahili, Harici ve Bulut Depolama)" : (isTopic5 ? "3. Sayfa (Dış Donanım Birimleri & Sınıflandırma)" : "3. Sayfa (Pekiştirme Soruları & Etkinlikler)"))), 
+                icon: isTopicTema1 ? "fa-solid fa-microchip" : (isTopic6 ? "fa-solid fa-keyboard" : (isTopic5_2 ? "fa-solid fa-hard-drive" : (isTopic5 ? "fa-solid fa-desktop" : "fa-solid fa-file-lines"))), 
                 badge: "3. Sayfa" 
             },
             sayfa4: { 
                 src: this.resolveDocPath(images?.sayfa4, this.currentWeek, 'sayfa4'), 
-                title: isTopic6 ? "4. Sayfa (Sıkıştırma, Depolama & Etkinlikler)" : (isTopic5_2 ? "4. Sayfa (Pekiştirme Etkinlikleri & Senaryolar)" : (isTopic5 ? "4. Sayfa (Klavye ve Fareyi Tanıyalım)" : "4. Sayfa (Etik, Güvenlik & Değerlendirme)")), 
-                icon: isTopic6 ? "fa-solid fa-file-zipper" : (isTopic5_2 ? "fa-solid fa-square-check" : (isTopic5 ? "fa-solid fa-keyboard" : "fa-solid fa-shield-halved")), 
+                title: isTopicTema1 ? "4. Sayfa (Dosya ve Klasör Yönetimi Temelleri)" : (isTopic6 ? "4. Sayfa (Sıkıştırma, Depolama & Etkinlikler)" : (isTopic5_2 ? "4. Sayfa (Pekiştirme Etkinlikleri & Senaryolar)" : (isTopic5 ? "4. Sayfa (Klavye ve Fareyi Tanıyalım)" : "4. Sayfa (Etik, Güvenlik & Değerlendirme)"))), 
+                icon: isTopicTema1 ? "fa-solid fa-folder-tree" : (isTopic6 ? "fa-solid fa-file-zipper" : (isTopic5_2 ? "fa-solid fa-square-check" : (isTopic5 ? "fa-solid fa-keyboard" : "fa-solid fa-shield-halved"))), 
                 badge: "4. Sayfa" 
             },
             sayfa5: { 
@@ -1065,13 +1085,13 @@ class App {
             },
             cevap: { 
                 src: this.resolveDocPath(images?.cevap, this.currentWeek, 'cevap'), 
-                title: isTopic6 ? "Resmî Cevap Anahtarı (BTY.5.1.6 Çözüm Rehberi)" : (isTopic5_2 ? "Resmî Cevap Anahtarı (BTY.5.1.5 Çözüm Rehberi)" : "Resmî Cevap Anahtarı"), 
+                title: isTopicTema1 ? "1. Tema Şampiyonlar Özeti (Büyük Değerlendirme)" : (isTopic6 ? "Resmî Cevap Anahtarı (BTY.5.1.6 Çözüm Rehberi)" : (isTopic5_2 ? "Resmî Cevap Anahtarı (BTY.5.1.5 Çözüm Rehberi)" : "Resmî Cevap Anahtarı")), 
                 icon: "fa-solid fa-key", 
                 badge: "Cevap Anahtarı" 
             },
             defter: { 
                 src: this.resolveDocPath(images?.defter, this.currentWeek, 'defter'), 
-                title: isTopic6 ? "Deftere Yazılacaklar (BTY.5.1.6 Öğrenci Notları)" : (isTopic5_2 ? "Deftere Yazılacaklar (BTY.5.1.5 Öğrenci Notları)" : "Ders Defter Notları"), 
+                title: isTopicTema1 ? "1. Tema Kapsamlı Ders Defter Notları" : (isTopic6 ? "Deftere Yazılacaklar (BTY.5.1.6 Öğrenci Notları)" : (isTopic5_2 ? "Deftere Yazılacaklar (BTY.5.1.5 Öğrenci Notları)" : "Ders Defter Notları")), 
                 icon: "fa-solid fa-book", 
                 badge: "Defter Notu" 
             }

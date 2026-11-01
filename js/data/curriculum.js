@@ -89,6 +89,16 @@ const CURRICULUM_DATA = [
                 "badge": "Hazır",
                 "customLabel": "6. Konu",
                 "customHeaderTitle": "6. Konu: Dosya ve Klasör Yönetimi"
+            },
+            {
+                "week": "tema1_tekrar",
+                "title": "1. Tema Genel Tekrarı ve Değerlendirme",
+                "code": "1. TEMA: Bilişim Teknolojilerinin Hayatımızdaki Yeri (1-6. Konular Kapsamlı Tekrar)",
+                "outcome": "a) 1. Tema kapsamındaki tüm konuları (bilişim alanları, dijital sağlık, ergonomi, dijital vatandaşlık, yapay zekâ, bilgisayar donanımı, yazılım türleri, kapasite ve depolama birimleri, dosya ve klasör yönetimi) bütünsel olarak pekiştirir.\nb) Kapsamlı tema testi ve etkileşimli tahta turnuva oyunları ile öğrenme düzeyini değerlendirir.",
+                "isAvailable": true,
+                "badge": "Hazır",
+                "customLabel": "1. Tema Tekrar",
+                "customHeaderTitle": "1. Tema Tekrar: Bilişim Teknolojilerinin Hayatımızdaki Yeri Genel Tekrarı"
             }
         ],
         "themeTitle": "1. Tema: Bilişim Teknolojilerinin Hayatımızdaki Yeri",
