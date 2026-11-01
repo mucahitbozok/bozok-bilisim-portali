@@ -1,0 +1,49 @@
+# TASARIM USTALARI – EĞİTSEL OYUN
+
+5. sınıf BTY.5.2.1 kazanımı için dijital ürün tasarımı konusunda etkileşimli bir oyun oluştur.
+
+### KONU
+- Problemi belirleme.
+- Kurgu oluşturma.
+- Dijital ürün tasarlama.
+- Ürünü geliştirme ve değerlendirme.
+- Görsel bütünlük.
+- Okunabilirlik.
+- Telif hakkı.
+- Yapay zekâ kullanımında etik.
+- Dosya adlandırma.
+
+### OYUN MEKANİĞİ
+
+Öğrenciye farklı afiş ve tasarım örnekleri göster.
+
+Görevler:
+1. Hatalı tasarımı bul.
+2. Okunması zor olan afişi belirle.
+3. Renk ve görsel uyumunu değerlendir.
+4. Verilen probleme uygun dijital ürün seç.
+5. Tasarım sürecinin doğru sıralamasını oluştur.
+6. Telif hakkına uygun davranışı seç.
+7. Yapay zekâ kullanımında etik davranışı belirle.
+8. Doğru dosya adını seç.
+
+### TASARIM
+Öğrenci kendisini bir grafik tasarım uzmanı gibi hissetsin. Tasarım örnekleri görsel ağırlıklı olsun. Hatalı ve doğru tasarımları karşılaştırmalı göster.
+
+### PUANLAMA
+- 10 görev, her biri 10 puan.
+- Doğru cevapta puan kazan.
+- Yanlış cevapta açıklama göster.
+- Oyun sonunda başarı puanı ve sonuç değerlendirmesi göster.
+- Tekrar oynama butonu ekle.
+
+### TEKNİK GEREKSİNİMLER
+- Akıllı tahta uyumu.
+- 16:9 ekran desteği.
+- Çalışan butonlar.
+- Gerçek cevap kontrolü.
+- Doğru puan hesaplama.
+- Açılış ve sonuç ekranları.
+- Hatasız oyun akışı.
+
+Oyun tamamlandıktan sonra bütün görevleri ve etkileşimleri test et.

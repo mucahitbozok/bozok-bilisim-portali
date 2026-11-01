@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Tasarım Ustaları | Öğretmen Bozok</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800;900&display=swap');
+        * { font-family: 'Plus Jakarta Sans', sans-serif; box-sizing: border-box; }
+        body { background: radial-gradient(circle at top, #1c1917 0%, #0c0a09 40%, #030712 100%); min-height: 100vh; overflow-x: hidden; }
+        .craft-grid {
+            background-size: 20px 20px;
+            background-image: 
+                linear-gradient(to right, rgba(245, 158, 11, 0.07) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(245, 158, 11, 0.07) 1px, transparent 1px);
+        }
+    </style>
+</head>
+<body class="craft-grid text-slate-100 flex flex-col items-center justify-center p-3 sm:p-6 min-h-screen">
+
+    <div class="w-full max-w-4xl bg-slate-900/90 border-2 border-amber-500/40 rounded-3xl shadow-2xl p-4 sm:p-8 backdrop-blur-xl relative overflow-hidden">
+        
+        <!-- Üst Başlık & Skor -->
+        <header class="flex items-center justify-between border-b border-amber-500/30 pb-4 mb-6">
+            <div class="flex items-center gap-3">
+                <div class="w-12 h-12 rounded-2xl bg-gradient-to-tr from-amber-600 to-orange-500 flex items-center justify-center text-white text-2xl shadow-lg shadow-amber-500/30">
+                    <i class="fa-solid fa-crown"></i>
+                </div>
+                <div>
+                    <div class="flex items-center gap-2">
+                        <span class="px-2 py-0.5 text-[10px] font-black uppercase tracking-wider bg-amber-500/20 text-amber-300 rounded-md border border-amber-500/30">BTY.5.2.1 • 4. Oyun</span>
+                        <span class="text-xs font-bold text-amber-400"><i class="fa-solid fa-crown mr-1"></i>Öğretmen Bozok</span>
+                    </div>
+                    <h1 class="text-xl sm:text-2xl font-black text-white">Tasarım Ustaları</h1>
+                </div>
+            </div>
+
+            <div class="flex items-center gap-3">
+                <div class="bg-slate-800/80 px-4 py-2 rounded-2xl border border-amber-500/30 text-right">
+                    <div class="text-[10px] uppercase font-bold text-slate-400">Puan</div>
+                    <div id="score-display" class="text-xl font-black text-amber-400">0 / 100</div>
+                </div>
+            </div>
+        </header>
+
+        <!-- İlerleme Çubuğu -->
+        <div class="w-full bg-slate-800 rounded-full h-3 mb-6 overflow-hidden border border-slate-700">
+            <div id="progress-bar" class="bg-gradient-to-r from-amber-500 to-orange-500 h-full w-0 transition-all duration-300"></div>
+        </div>
+
+        <!-- Başlangıç Ekranı -->
+        <div id="start-screen" class="text-center py-8 space-y-6">
+            <div class="w-24 h-24 mx-auto rounded-3xl bg-amber-500/20 border-2 border-amber-500/50 flex items-center justify-center text-amber-400 text-5xl shadow-xl animate-pulse">
+                <i class="fa-solid fa-compass-drafting"></i>
+            </div>
+            <div class="max-w-xl mx-auto space-y-3">
+                <h2 class="text-2xl sm:text-3xl font-black text-white">Usta Tasarımcı Akademisi!</h2>
+                <p class="text-slate-300 text-sm leading-relaxed">
+                    Afişler, broşürler, renk uyumu, okunabilirlik, telif hakları ve yapay zekâ etiği! Gerçek bir sanat yönetmeni gibi hatalı tasarımları yakala, en doğru tasarım kararlarını ver ve Altın Rozeti kazan!
+                </p>
+                <div class="grid grid-cols-2 gap-3 text-left bg-slate-800/60 p-4 rounded-2xl border border-slate-700/60 text-xs text-slate-300">
+                    <div class="flex items-center gap-2"><i class="fa-solid fa-check text-emerald-400"></i> 10 Tasarım İmtihanı</div>
+                    <div class="flex items-center gap-2"><i class="fa-solid fa-check text-emerald-400"></i> Her Görev 10 Puan</div>
+                    <div class="flex items-center gap-2"><i class="fa-solid fa-check text-emerald-400"></i> Telif Hakkı & Etik İlkeler</div>
+                    <div class="flex items-center gap-2"><i class="fa-solid fa-check text-emerald-400"></i> Akıllı Tahta Uyumlu</div>
+                </div>
+            </div>
+            <button onclick="game.start()" class="px-8 py-4 bg-gradient-to-r from-amber-600 via-orange-600 to-rose-600 hover:from-amber-500 hover:to-rose-500 text-white font-black text-lg rounded-2xl shadow-xl shadow-amber-600/40 hover:scale-105 active:scale-95 transition-all">
+                <i class="fa-solid fa-compass-drafting mr-2"></i> Tasarım Arenasına Çık!
+            </button>
+        </div>
+
+        <!-- Soru / Oyun Ekranı -->
+        <div id="game-screen" class="hidden space-y-6">
+            
+            <div class="bg-slate-800/60 border border-slate-700 rounded-2xl p-4 sm:p-6 flex flex-col md:flex-row items-center gap-6">
+                <!-- Tasarım Görsel / Sembol Alanı -->
+                <div id="q-visual" class="w-full md:w-56 h-40 bg-slate-900 rounded-xl border border-amber-500/30 flex flex-col items-center justify-center p-3 text-center shrink-0 shadow-inner relative overflow-hidden">
+                </div>
+                
+                <!-- Soru Metni & İpucu -->
+                <div class="flex-1 space-y-2">
+                    <div class="flex items-center justify-between">
+                        <span id="q-number" class="text-xs font-black text-amber-400 uppercase tracking-wider">İmtihan 1 / 10</span>
+                        <span id="q-category" class="px-2.5 py-1 text-[11px] font-bold bg-orange-500/20 text-orange-300 rounded-lg border border-orange-500/30">Tasarım İlkeleri</span>
+                    </div>
+                    <h3 id="q-text" class="text-base sm:text-lg font-bold text-white leading-relaxed">
+                        Soru metni yükleniyor...
+                    </h3>
+                    <p id="q-hint" class="text-xs text-amber-300/80 italic flex items-center gap-1.5">
+                        <i class="fa-solid fa-gem"></i> <span id="q-hint-text">Tasarımcı Sırrı</span>
+                    </p>
+                </div>
+            </div>
+
+            <!-- Seçenekler Grid -->
+            <div id="options-grid" class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            </div>
+
+            <!-- Açıklama Alanı (Cevaplandıktan sonra açılır) -->
+            <div id="feedback-box" class="hidden p-4 rounded-2xl border text-sm flex items-start gap-3 transition-all animate-fade-in">
+                <div id="feedback-icon" class="text-2xl mt-0.5 shrink-0"></div>
+                <div class="space-y-1 flex-1">
+                    <h4 id="feedback-title" class="font-black text-base"></h4>
+                    <p id="feedback-text" class="text-xs text-slate-200 leading-relaxed"></p>
+                </div>
+                <button id="next-btn" onclick="game.nextQuestion()" class="px-5 py-2.5 bg-amber-600 hover:bg-amber-500 text-white font-black text-xs rounded-xl shadow-lg shrink-0 self-center">
+                    Sonraki İmtihan <i class="fa-solid fa-arrow-right ml-1"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Bitiş / Sonuç Ekranı -->
+        <div id="end-screen" class="hidden text-center py-8 space-y-6">
+            <div id="end-badge" class="w-24 h-24 mx-auto rounded-3xl bg-amber-500/20 border-2 border-amber-500/50 flex items-center justify-center text-amber-400 text-5xl shadow-xl">
+                <i class="fa-solid fa-trophy"></i>
+            </div>
+            <div class="space-y-2">
+                <h2 id="end-title" class="text-2xl sm:text-3xl font-black text-white">İmtihan Başarıyla Bitti!</h2>
+                <p id="end-desc" class="text-slate-300 text-sm max-w-md mx-auto">
+                    Tasarım süreçlerini, ilkelerini ve etik kuralları harika kavradın!
+                </p>
+                <div class="text-4xl font-black text-amber-400 pt-2" id="end-score">100 / 100</div>
+            </div>
+
+            <div class="flex justify-center gap-4">
+                <button onclick="game.restart()" class="px-6 py-3 bg-amber-600 hover:bg-amber-500 text-white font-black text-sm rounded-xl shadow-lg hover:scale-105 active:scale-95 transition-all">
+                    <i class="fa-solid fa-rotate-right mr-1"></i> Tekrar Tasarla
+                </button>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        const AudioKit = {
+            ctx: null,
+            init() {
+                if (!this.ctx) this.ctx = new (window.AudioContext || window.webkitAudioContext)();
+            },
+            playCorrect() {
+                try {
+                    this.init();
+                    const now = this.ctx.currentTime;
+                    const osc = this.ctx.createOscillator();
+                    const gain = this.ctx.createGain();
+                    osc.connect(gain);
+                    gain.connect(this.ctx.destination);
+                    osc.frequency.setValueAtTime(523.25, now);
+                    osc.frequency.setValueAtTime(659.25, now + 0.1);
+                    osc.frequency.setValueAtTime(783.99, now + 0.2);
+                    gain.gain.setValueAtTime(0.2, now);
+                    gain.gain.exponentialRampToValueAtTime(0.01, now + 0.4);
+                    osc.start(now);
+                    osc.stop(now + 0.4);
+                } catch(e) {}
+            },
+            playWrong() {
+                try {
+                    this.init();
+                    const now = this.ctx.currentTime;
+                    const osc = this.ctx.createOscillator();
+                    const gain = this.ctx.createGain();
+                    osc.connect(gain);
+                    gain.connect(this.ctx.destination);
+                    osc.frequency.setValueAtTime(220, now);
+                    osc.frequency.setValueAtTime(160, now + 0.15);
+                    gain.gain.setValueAtTime(0.25, now);
+                    gain.gain.exponentialRampToValueAtTime(0.01, now + 0.35);
+                    osc.start(now);
+                    osc.stop(now + 0.35);
+                } catch(e) {}
+            },
+            playWin() {
+                try {
+                    this.init();
+                    [523.25, 659.25, 783.99, 1046.50].forEach((freq, idx) => {
+                        const now = this.ctx.currentTime + (idx * 0.12);
+                        const osc = this.ctx.createOscillator();
+                        const gain = this.ctx.createGain();
+                        osc.connect(gain);
+                        gain.connect(this.ctx.destination);
+                        osc.frequency.setValueAtTime(freq, now);
+                        gain.gain.setValueAtTime(0.2, now);
+                        gain.gain.exponentialRampToValueAtTime(0.01, now + 0.3);
+                        osc.start(now);
+                        osc.stop(now + 0.3);
+                    });
+                } catch(e) {}
+            }
+        };
+
+        const QUESTIONS = [
+            {
+                category: "Tasarım Başlangıcı",
+                text: "Okulunda çevre kirliliği ve geri dönüşüm konusunda farkındalık oluşturmak isteyen bir öğrenci, afiş tasarımına başlarken İLK OLARAK ne yapmalıdır?",
+                visual: `<div class="text-4xl text-emerald-400 mb-1"><i class="fa-solid fa-seedling"></i></div><div class="text-xs font-bold text-emerald-300">1. Aşama</div><div class="text-[10px] text-slate-400">Tasarımın ilk adımı</div>`,
+                hint: "Neden tasarım yapıyoruz ve kime sesleniyoruz sorusunun yanıtı.",
+                options: [
+                    "Hemen rastgele internetten fotoğraflar indirmelidir",
+                    "Problemi ve hedef kitleyi belirlemelidir",
+                    "Bilgisayarı kapatıp beklemelidir",
+                    "Dosyaları rastgele silmelidir"
+                ],
+                correctAnswer: 1, // B
+                explanation: "Tasarım sürecinin ilk ve en önemli aşaması 'Problemi Belirleme'dir (Ne için yapıyoruz, hedef kitle kim?)."
+            },
+            {
+                category: "Okunabilirlik & Tipografi",
+                text: "Bir afişte 8 farklı karmaşık süslü yazı tipi ve birbirini boğan neon renkler bir arada kullanılmıştır. Burada ihlal edilen en büyük tasarım ilkesi nedir?",
+                visual: `<div class="text-4xl text-rose-400 mb-1"><i class="fa-solid fa-font"></i></div><div class="text-xs font-bold text-rose-300">Karmaşık Tipografi</div><div class="text-[10px] text-slate-400">Gözü yoran çok fazla font</div>`,
+                hint: "Afişin uzaktan bakıldığında anlaşılmasını sağlayan temel kural.",
+                options: [
+                    "Bilgisayarın klavyesinin eskimesi",
+                    "Dosyanın uzantısının yanlış seçilmesi",
+                    "Görsel bütünlük ve okunabilirliğin bozulması",
+                    "Afişin çok hızlı yazdırılması"
+                ],
+                correctAnswer: 2, // C
+                explanation: "Çok fazla font ve karmaşık renkler mesajın algılanmasını engeller; sadelik, okunabilirlik ve görsel bütünlük esastır."
+            },
+            {
+                category: "Renk & Kontrast",
+                text: "Bir afişin uzaktan bakan biri tarafından anında fark edilip rahatça okunabilmesi için arka plan ile yazı renkleri nasıl seçilmelidir?",
+                visual: `<div class="flex items-center justify-center gap-3"><div class="w-12 h-12 bg-slate-900 border border-amber-400 flex items-center justify-center font-black text-amber-300 text-lg rounded">A</div><div class="w-12 h-12 bg-amber-400 text-slate-900 flex items-center justify-center font-black text-lg rounded">B</div></div><div class="text-[10px] text-slate-400 mt-2">Yüksek Kontrast İlkesi</div>`,
+                hint: "Zıt tonlar yazının arka plandan ayrışmasını sağlar.",
+                options: [
+                    "Yüksek kontrastlı (Koyu zemin üzerine açık renk yazı veya tam tersi)",
+                    "Açık sarı zemin üzerine beyaz renk yazı",
+                    "Koyu gri zemin üzerine siyah renk yazı",
+                    "Tüm yazıların zeminle aynı renkte seçilmesi"
+                ],
+                correctAnswer: 0, // A
+                explanation: "Yüksek kontrast (zıtlık), yazının arka plandan belirgin şekilde ayrışarak uzaktan kolayca okunmasını sağlar."
+            },
+            {
+                category: "Telif Hakkı Kuralları",
+                text: "İnternette bulduğu telif korumalı çok güzel bir fotoğrafı okul panosu afişinde kullanmak isteyen Elif nasıl davranmalıdır?",
+                visual: `<div class="text-4xl text-sky-400 mb-1"><i class="fa-solid fa-copyright"></i></div><div class="text-xs font-bold text-sky-300">Telif Hakkı (Copyright)</div><div class="text-[10px] text-slate-400">Emeğe saygı ve yasal hak</div>`,
+                hint: "Eser sahibinin emeğine saygı duymak ve yasal izin almak.",
+                options: [
+                    "Fotoğrafın imzasını silip kendisi çekmiş gibi göstermelidir",
+                    "Fotoğrafı izinsiz her ticari yerde paylaşmalıdır",
+                    "Eser sahibini gizlemelidir",
+                    "Telif durumunu kontrol etmeli, izin almalı ve gerektiğinde kaynak belirtmelidir"
+                ],
+                correctAnswer: 3, // D
+                explanation: "Başkalarının ürettiği eserler telif hakkıyla korunur. İzin almak, telifsiz (Creative Commons) görselleri tercih etmek ve kaynak belirtmek zorunludur."
+            },
+            {
+                category: "Tasarım Aşamaları",
+                text: "Dijital ürün tasarım sürecinin 4 temel aşamasının DOĞRU VE MANTIKLI SIRALANIŞI aşağıdakilerden hangisidir?",
+                visual: `<div class="flex items-center justify-center gap-1 text-xs text-amber-300 font-bold"><span class="px-2 py-1 bg-slate-800 rounded">1</span><i class="fa-solid fa-arrow-right text-[10px]"></i><span class="px-2 py-1 bg-slate-800 rounded">2</span><i class="fa-solid fa-arrow-right text-[10px]"></i><span class="px-2 py-1 bg-slate-800 rounded">3</span><i class="fa-solid fa-arrow-right text-[10px]"></i><span class="px-2 py-1 bg-slate-800 rounded">4</span></div><div class="text-[10px] text-slate-400 mt-2">Süreç Adımları</div>`,
+                hint: "Problemle başlar, kontrol ve paylaşımla biter.",
+                options: [
+                    "Paylaş -> Problemi Belirle -> Tasarla -> Planla",
+                    "Problemi Belirle -> Planla & Kurgu Oluştur -> Tasarla & Geliştir -> Kontrol Et & Paylaş",
+                    "Tasarla -> Sil -> Kurgu Oluştur -> Problemi Belirle",
+                    "Kontrol Et -> Baskıya Gönder -> Problemi Bul -> Tasarla"
+                ],
+                correctAnswer: 1, // B
+                explanation: "Tasarım süreci: 1. Problemi Belirle, 2. Planla & Kurgu Oluştur, 3. Tasarla & Geliştir, 4. Kontrol Et & Paylaş."
+            },
+            {
+                category: "Yapay Zekâ ve Etik",
+                text: "Yapay zekâ görsel oluşturma araçlarını (AI Image Generators) kullanırken aşağıdaki davranışlardan hangisi ETİK VE DOĞRU bir yaklaşımdır?",
+                visual: `<div class="text-4xl text-purple-400 mb-1"><i class="fa-solid fa-robot"></i></div><div class="text-xs font-bold text-purple-300">Yapay Zekâ Etiği</div><div class="text-[10px] text-slate-400">Doğruluk ve dürüstlük</div>`,
+                hint: "İnsanları aldatıcı sahte görüntülerden (deepfake vb.) uzak durmak.",
+                options: [
+                    "İnsanları kandıracak sahte haber görselleri hazırlamak",
+                    "Başkalarının çizimlerini kopyalayıp telif haklarını hiçe saymak",
+                    "Her üretilen görselin kesinlikle gerçek olduğunu savunmak",
+                    "Etik kurallara uymak, sahte içerik üretmemek ve AI desteği alındığını dürüstçe belirtmek"
+                ],
+                correctAnswer: 3, // D
+                explanation: "Yapay zekâ ile görsel üretirken telif haklarına saygı duyulmalı, aldatıcı/zararlı içerik üretilmemeli ve şeffaf olunmalıdır."
+            },
+            {
+                category: "Dosya Adlandırma Disiplini",
+                text: "Bir öğrenci hazırladığı Çevre Günü afişini bilgisayarına kaydederken aradığında hemen bulabilmek için hangi dosya adını seçmelidir?",
+                visual: `<div class="p-2.5 bg-slate-800 rounded-xl border border-amber-500/30 text-center"><span class="text-xs text-slate-400">Örnek İsimlendirme</span><div class="text-sm font-black text-amber-300 font-mono">Ali_Demir_Cevre_Afisi.png</div></div>`,
+                hint: "Anlamsız sayılar veya 'adsız' yerine kimin ne yaptığı belli olmalı.",
+                options: [
+                    "Ali_Demir_Cevre_Koruma_Afisi_v1.png",
+                    "11223344.png",
+                    "Adsiz_Yeni_Belge_99.png",
+                    "a.png"
+                ],
+                correctAnswer: 0, // A
+                explanation: "Düzenli dosya adlandırmada öğrenci adı, konu ve versiyon bilgisi yer almalıdır; böylece dosyalar karışmaz."
+            },
+            {
+                category: "Hedef Kitle Analizi",
+                text: "Hedef kitlesi 1. ve 2. sınıf öğrencileri olan 'Trafik Kuralları' konulu bir afiş tasarlanırken hangi yöntem benimsenmelidir?",
+                visual: `<div class="text-4xl text-yellow-400 mb-1"><i class="fa-solid fa-children"></i></div><div class="text-xs font-bold text-yellow-300">Küçük Yaş Grubu</div><div class="text-[10px] text-slate-400">Görsel ağırlıklı anlatım</div>`,
+                hint: "Uzun kanun maddeleri yerine resimler ve sıcak renkler.",
+                options: [
+                    "Sayfalarca küçük yazılı trafik kanun maddeleri yazmak",
+                    "Yalnızca siyah beyaz renksiz grafikler koymak",
+                    "Canlı renkli, büyük sevimli çizimler ve kısa akılda kalıcı sloganlar kullanmak",
+                    "Görsel kullanmadan sadece dipnotlar eklemek"
+                ],
+                correctAnswer: 2, // C
+                explanation: "Tasarım hedef kitleye uygun olmalıdır. Küçük yaştaki çocuklar için canlı renkler, büyük illüstrasyonlar ve kısa sloganlar etkilidir."
+            },
+            {
+                category: "Görsel Hiyerarşi",
+                text: "Afişte en önemli ana başlığın en büyük, alt bilgilerin orta boy, detayların ise daha küçük yazılması kuralına ne ad verilir?",
+                visual: `<div class="text-center space-y-1"><div class="text-base font-black text-white">ANA BAŞLIK</div><div class="text-xs font-bold text-amber-400">Alt Başlık Bilgisi</div><div class="text-[9px] text-slate-400">Tarih, Yer ve Saat Detayları</div></div><div class="text-[10px] text-slate-400 mt-2">Büyüklükten küçüğe sıralama</div>`,
+                hint: "Gözün afişi hangi sırayla okuyacağını belirleyen düzen.",
+                options: [
+                    "Ses Ayarı",
+                    "Görsel Hiyerarşi ve Düzen",
+                    "Donanım Sürücüsü",
+                    "Yazıcı Kuyruğu"
+                ],
+                correctAnswer: 1, // B
+                explanation: "Görsel Hiyerarşi; önemli bilgileri büyüklük, renk veya konumla vurgulayarak okuyucunun gözünü yönlendirme sanatıdır."
+            },
+            {
+                category: "Son Kontrol & Paylaşım",
+                text: "Afiş veya broşür tasarımını tamamlayıp matbaaya veya sosyal medyaya göndermeden önceki EN SON KRİTİK ADIM nedir?",
+                visual: `<div class="text-4xl text-teal-400 mb-1"><i class="fa-solid fa-clipboard-check"></i></div><div class="text-xs font-bold text-teal-300">Son İnceleme</div><div class="text-[10px] text-slate-400">Hataları yakalama aşaması</div>`,
+                hint: "Yazım hatalarını incelemek ve başkalarından geri bildirim almak.",
+                options: [
+                    "Tüm dosyaları hemen silip bilgisayarı kapatmak",
+                    "Yazıların hepsini silmek",
+                    "Afişin renklerini siyaha boyamak",
+                    "Yazım ve bilgi hatalarını kontrol etmek, geri bildirim alıp son rötuşları yapmak"
+                ],
+                correctAnswer: 3, // D
+                explanation: "Son aşamada (Kontrol Et ve Paylaş); yazım hataları, tarih/saat bilgileri ve tasarım uyumu dikkatle kontrol edilir."
+            }
+        ];
+
+        const game = {
+            currentIndex: 0,
+            score: 0,
+            answered: false,
+
+            start() {
+                this.currentIndex = 0;
+                this.score = 0;
+                this.answered = false;
+                document.getElementById('start-screen').classList.add('hidden');
+                document.getElementById('end-screen').classList.add('hidden');
+                document.getElementById('game-screen').classList.remove('hidden');
+                this.renderQuestion();
+                this.updateScore();
+            },
+
+            renderQuestion() {
+                this.answered = false;
+                const q = QUESTIONS[this.currentIndex];
+                
+                const pct = ((this.currentIndex) / QUESTIONS.length) * 100;
+                document.getElementById('progress-bar').style.width = pct + '%';
+                
+                document.getElementById('q-number').innerText = `İmtihan ${this.currentIndex + 1} / ${QUESTIONS.length}`;
+                document.getElementById('q-category').innerText = q.category;
+                document.getElementById('q-text').innerText = q.text;
+                document.getElementById('q-hint-text').innerText = q.hint;
+                document.getElementById('q-visual').innerHTML = q.visual;
+                
+                const fb = document.getElementById('feedback-box');
+                fb.classList.add('hidden');
+
+                const optsContainer = document.getElementById('options-grid');
+                optsContainer.innerHTML = '';
+
+                const letters = ['A', 'B', 'C', 'D'];
+                q.options.forEach((opt, idx) => {
+                    const btn = document.createElement('button');
+                    btn.id = `opt-btn-${idx}`;
+                    btn.className = "p-3.5 sm:p-4 bg-slate-800 hover:bg-amber-600/50 border border-slate-700 hover:border-amber-500 rounded-2xl text-left font-semibold text-xs sm:text-sm text-slate-100 flex items-center gap-3 transition-all active:scale-95 shadow-md";
+                    btn.innerHTML = `
+                        <span class="w-7 h-7 rounded-xl bg-slate-900 border border-slate-700 text-amber-400 font-black text-xs flex items-center justify-center shrink-0">
+                            ${letters[idx]}
+                        </span>
+                        <span class="flex-1">${opt}</span>
+                    `;
+                    btn.onclick = () => this.handleAnswer(idx);
+                    optsContainer.appendChild(btn);
+                });
+            },
+
+            handleAnswer(selectedIdx) {
+                if (this.answered) return;
+                this.answered = true;
+
+                const q = QUESTIONS[this.currentIndex];
+                const isCorrect = (selectedIdx === q.correctAnswer);
+
+                q.options.forEach((_, idx) => {
+                    const btn = document.getElementById(`opt-btn-${idx}`);
+                    btn.disabled = true;
+                    if (idx === q.correctAnswer) {
+                        btn.className = "p-3.5 sm:p-4 bg-emerald-600 border-2 border-emerald-400 text-white rounded-2xl text-left font-bold text-xs sm:text-sm flex items-center gap-3 shadow-lg ring-2 ring-emerald-400/30";
+                    } else if (idx === selectedIdx) {
+                        btn.className = "p-3.5 sm:p-4 bg-rose-600 border-2 border-rose-400 text-white rounded-2xl text-left font-bold text-xs sm:text-sm flex items-center gap-3 shadow-lg ring-2 ring-rose-400/30";
+                    } else {
+                        btn.className = "p-3.5 sm:p-4 bg-slate-800/40 border border-slate-800 text-slate-500 rounded-2xl text-left font-medium text-xs sm:text-sm flex items-center gap-3 opacity-40";
+                    }
+                });
+
+                const fbBox = document.getElementById('feedback-box');
+                const fbIcon = document.getElementById('feedback-icon');
+                const fbTitle = document.getElementById('feedback-title');
+                const fbText = document.getElementById('feedback-text');
+
+                fbBox.classList.remove('hidden');
+
+                if (isCorrect) {
+                    this.score += 10;
+                    AudioKit.playCorrect();
+                    fbBox.className = "p-4 rounded-2xl border text-sm flex items-start gap-3 bg-emerald-950/80 border-emerald-500 text-emerald-100 shadow-xl animate-fade-in";
+                    fbIcon.innerHTML = `<i class="fa-solid fa-circle-check text-emerald-400"></i>`;
+                    fbTitle.innerText = "Usta Kararı! (+10 Puan)";
+                    fbTitle.className = "font-black text-base text-emerald-300";
+                } else {
+                    AudioKit.playWrong();
+                    fbBox.className = "p-4 rounded-2xl border text-sm flex items-start gap-3 bg-rose-950/80 border-rose-500 text-rose-100 shadow-xl animate-fade-in";
+                    fbIcon.innerHTML = `<i class="fa-solid fa-circle-xmark text-rose-400"></i>`;
+                    fbTitle.innerText = "Tasarım Kusuru Tespit Edildi!";
+                    fbTitle.className = "font-black text-base text-rose-300";
+                }
+
+                fbText.innerText = q.explanation;
+                this.updateScore();
+            },
+
+            nextQuestion() {
+                this.currentIndex++;
+                if (this.currentIndex < QUESTIONS.length) {
+                    this.renderQuestion();
+                } else {
+                    this.endGame();
+                }
+            },
+
+            updateScore() {
+                document.getElementById('score-display').innerText = `${this.score} / 100`;
+            },
+
+            endGame() {
+                AudioKit.playWin();
+                document.getElementById('progress-bar').style.width = '100%';
+                document.getElementById('game-screen').classList.add('hidden');
+                document.getElementById('end-screen').classList.remove('hidden');
+
+                document.getElementById('end-score').innerText = `${this.score} / 100`;
+                const title = document.getElementById('end-title');
+                const desc = document.getElementById('end-desc');
+                const badge = document.getElementById('end-badge');
+
+                if (this.score >= 90) {
+                    title.innerText = "Altın Rozetli Sanat Yönetmeni! 🏆";
+                    desc.innerText = "Tasarım ilkelerini, telif haklarını ve yapay zekâ etiğini mükemmel biliyorsun!";
+                    badge.innerHTML = `<i class="fa-solid fa-crown text-amber-400"></i>`;
+                } else if (this.score >= 70) {
+                    title.innerText = "Kıdemli Grafik Sanatçısı! 🎨";
+                    desc.innerText = "Tasarım sürecine çok iyi hâkimsin. Küçük detayları da tamamlayarak zirveye ulaşabilirsin.";
+                    badge.innerHTML = `<i class="fa-solid fa-award text-orange-400"></i>`;
+                } else {
+                    title.innerText = "Tasarım Asistanı! 📐";
+                    desc.innerText = "Tasarım süreci ve telif haklarını tekrar gözden geçirip bir tur daha pratik yapabilirsin.";
+                    badge.innerHTML = `<i class="fa-solid fa-pen-ruler text-slate-300"></i>`;
+                }
+            },
+
+            restart() {
+                this.start();
+            }
+        };
+    </script>
+</body>
+</html>

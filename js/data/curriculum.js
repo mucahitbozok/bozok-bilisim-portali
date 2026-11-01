@@ -115,9 +115,11 @@ const CURRICULUM_DATA = [
                 "week": 7,
                 "title": "Görsel Düzenleme Programlarına Giriş",
                 "code": "BTY.5.2.1 Görsel düzenleme programlarından yararlanabilme",
-                "outcome": "a) Görsellerin temel özelliklerini tanır. b) Uygun görsel düzenleme programını belirler. c) Belirlenen görsel düzenleme programının arayüz özelliklerini kullanır. ç) Kullanılan görsel düzenleme programını kullanım alanları/verimliliği açısından değerlendirir.",
-                "isAvailable": false,
-                "badge": "Yakında"
+                "outcome": "a) Görsellerin temel özelliklerini tanır (piksel, bitmap, vektörel).\nb) Görsel ihtiyacına uygun dosya formatını (JPG, PNG, GIF, SVG, AI vb.) seçer.\nc) Amaca uygun görsel düzenleme programını (Paint, Canva, GIMP, Photoshop, Illustrator vb.) belirler ve temel düzenleme işlemlerini (kırpma, döndürme, boyutlandırma, renk ayarı) uygular.\nç) Dijital ürün tasarım sürecini, görsel bütünlüğü, okunabilirliği, telif haklarını ve yapay zekâ etiğini kavrar.",
+                "isAvailable": true,
+                "badge": "Hazır",
+                "customLabel": "7. Konu",
+                "customHeaderTitle": "7. Konu: Görsel Düzenleme Programlarına Giriş (BTY.5.2.1)"
             },
             {
                 "week": 8,

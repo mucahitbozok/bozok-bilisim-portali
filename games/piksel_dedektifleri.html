@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Piksel Dedektifleri | Öğretmen Bozok</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800;900&display=swap');
+        * { font-family: 'Plus Jakarta Sans', sans-serif; box-sizing: border-box; }
+        body { background: radial-gradient(circle at top, #1e1b4b 0%, #0f172a 100%); min-height: 100vh; overflow-x: hidden; }
+        .pixel-grid {
+            background-size: 16px 16px;
+            background-image: 
+                linear-gradient(to right, rgba(99, 102, 241, 0.08) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(99, 102, 241, 0.08) 1px, transparent 1px);
+        }
+        .zoom-in-effect {
+            image-rendering: pixelated;
+        }
+    </style>
+</head>
+<body class="pixel-grid text-slate-100 flex flex-col items-center justify-center p-3 sm:p-6 min-h-screen">
+
+    <div class="w-full max-w-4xl bg-slate-900/90 border-2 border-indigo-500/40 rounded-3xl shadow-2xl p-4 sm:p-8 backdrop-blur-xl relative overflow-hidden">
+        
+        <!-- Üst Başlık & Skor -->
+        <header class="flex items-center justify-between border-b border-indigo-500/30 pb-4 mb-6">
+            <div class="flex items-center gap-3">
+                <div class="w-12 h-12 rounded-2xl bg-gradient-to-tr from-indigo-600 to-purple-600 flex items-center justify-center text-white text-2xl shadow-lg shadow-indigo-500/30">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                </div>
+                <div>
+                    <div class="flex items-center gap-2">
+                        <span class="px-2 py-0.5 text-[10px] font-black uppercase tracking-wider bg-indigo-500/20 text-indigo-300 rounded-md border border-indigo-500/30">BTY.5.2.1 • 1. Oyun</span>
+                        <span class="text-xs font-bold text-amber-400"><i class="fa-solid fa-crown mr-1"></i>Öğretmen Bozok</span>
+                    </div>
+                    <h1 class="text-xl sm:text-2xl font-black text-white">Piksel Dedektifleri</h1>
+                </div>
+            </div>
+
+            <div class="flex items-center gap-3">
+                <div class="bg-slate-800/80 px-4 py-2 rounded-2xl border border-indigo-500/30 text-right">
+                    <div class="text-[10px] uppercase font-bold text-slate-400">Puan</div>
+                    <div id="score-display" class="text-xl font-black text-amber-400">0 / 100</div>
+                </div>
+            </div>
+        </header>
+
+        <!-- İlerleme Çubuğu -->
+        <div class="w-full bg-slate-800 rounded-full h-3 mb-6 overflow-hidden border border-slate-700">
+            <div id="progress-bar" class="bg-gradient-to-r from-indigo-500 to-purple-500 h-full w-0 transition-all duration-300"></div>
+        </div>
+
+        <!-- Başlangıç Ekranı -->
+        <div id="start-screen" class="text-center py-8 space-y-6">
+            <div class="w-24 h-24 mx-auto rounded-3xl bg-indigo-500/20 border-2 border-indigo-500/50 flex items-center justify-center text-indigo-400 text-5xl shadow-xl animate-bounce">
+                <i class="fa-solid fa-user-secret"></i>
+            </div>
+            <div class="max-w-xl mx-auto space-y-3">
+                <h2 class="text-2xl sm:text-3xl font-black text-white">Bilişim Dosyası: Piksel Dedektifleri!</h2>
+                <p class="text-slate-300 text-sm leading-relaxed">
+                    Merhaba dedektif! Görsellerin gizli dünyasına hoş geldin. Bitmap ve vektörel görüntülerin gizemini çöz, piksellerin izini sür ve büyük dedektif rozetini kazan!
+                </p>
+                <div class="grid grid-cols-2 gap-3 text-left bg-slate-800/60 p-4 rounded-2xl border border-slate-700/60 text-xs text-slate-300">
+                    <div class="flex items-center gap-2"><i class="fa-solid fa-check text-emerald-400"></i> 10 Gizemli Görev</div>
+                    <div class="flex items-center gap-2"><i class="fa-solid fa-check text-emerald-400"></i> Her Görev 10 Puan</div>
+                    <div class="flex items-center gap-2"><i class="fa-solid fa-check text-emerald-400"></i> Görsel İpuçları & Büyüteç</div>
+                    <div class="flex items-center gap-2"><i class="fa-solid fa-check text-emerald-400"></i> Akıllı Tahta Uyumlu</div>
+                </div>
+            </div>
+            <button onclick="game.start()" class="px-8 py-4 bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 hover:from-indigo-500 hover:to-pink-500 text-white font-black text-lg rounded-2xl shadow-xl shadow-purple-600/40 hover:scale-105 active:scale-95 transition-all">
+                <i class="fa-solid fa-play mr-2"></i> Dedektiflik Görevine Başla!
+            </button>
+        </div>
+
+        <!-- Soru / Oyun Ekranı -->
+        <div id="game-screen" class="hidden space-y-6">
+            
+            <div class="bg-slate-800/60 border border-slate-700 rounded-2xl p-4 sm:p-6 flex flex-col md:flex-row items-center gap-6">
+                <!-- Görsel / İkon Alanı -->
+                <div id="q-visual" class="w-full md:w-56 h-40 bg-slate-900 rounded-xl border border-indigo-500/30 flex flex-col items-center justify-center p-3 text-center shrink-0 shadow-inner relative overflow-hidden">
+                    <!-- Dinamik içerik gelecek -->
+                </div>
+                
+                <!-- Soru Metni & İpucu -->
+                <div class="flex-1 space-y-2">
+                    <div class="flex items-center justify-between">
+                        <span id="q-number" class="text-xs font-black text-indigo-400 uppercase tracking-wider">Görev 1 / 10</span>
+                        <span id="q-category" class="px-2.5 py-1 text-[11px] font-bold bg-purple-500/20 text-purple-300 rounded-lg border border-purple-500/30">Görsel Türleri</span>
+                    </div>
+                    <h3 id="q-text" class="text-base sm:text-lg font-bold text-white leading-relaxed">
+                        Soru metni yükleniyor...
+                    </h3>
+                    <p id="q-hint" class="text-xs text-amber-300/80 italic flex items-center gap-1.5">
+                        <i class="fa-solid fa-lightbulb"></i> <span id="q-hint-text">Dedektif İpucu</span>
+                    </p>
+                </div>
+            </div>
+
+            <!-- Seçenekler Grid -->
+            <div id="options-grid" class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <!-- Dinamik Seçenek Butonları -->
+            </div>
+
+            <!-- Açıklama Alanı (Cevaplandıktan sonra açılır) -->
+            <div id="feedback-box" class="hidden p-4 rounded-2xl border text-sm flex items-start gap-3 transition-all animate-fade-in">
+                <div id="feedback-icon" class="text-2xl mt-0.5 shrink-0"></div>
+                <div class="space-y-1 flex-1">
+                    <h4 id="feedback-title" class="font-black text-base"></h4>
+                    <p id="feedback-text" class="text-xs text-slate-200 leading-relaxed"></p>
+                </div>
+                <button id="next-btn" onclick="game.nextQuestion()" class="px-5 py-2.5 bg-indigo-600 hover:bg-indigo-500 text-white font-black text-xs rounded-xl shadow-lg shrink-0 self-center">
+                    Sonraki Görev <i class="fa-solid fa-arrow-right ml-1"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Bitiş / Sonuç Ekranı -->
+        <div id="end-screen" class="hidden text-center py-8 space-y-6">
+            <div id="end-badge" class="w-24 h-24 mx-auto rounded-3xl bg-amber-500/20 border-2 border-amber-500/50 flex items-center justify-center text-amber-400 text-5xl shadow-xl">
+                <i class="fa-solid fa-award"></i>
+            </div>
+            <div class="space-y-2">
+                <h2 id="end-title" class="text-2xl sm:text-3xl font-black text-white">Tebrikler Dedektif!</h2>
+                <p id="end-desc" class="text-slate-300 text-sm max-w-md mx-auto">
+                    Piksel ve vektör dosyasını başarıyla tamamladın!
+                </p>
+                <div class="text-4xl font-black text-amber-400 pt-2" id="end-score">100 / 100</div>
+            </div>
+
+            <div class="flex justify-center gap-4">
+                <button onclick="game.restart()" class="px-6 py-3 bg-indigo-600 hover:bg-indigo-500 text-white font-black text-sm rounded-xl shadow-lg hover:scale-105 active:scale-95 transition-all">
+                    <i class="fa-solid fa-rotate-right mr-1"></i> Tekrar Oyna
+                </button>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // Web Audio API Basit Ses Üreteci
+        const AudioKit = {
+            ctx: null,
+            init() {
+                if (!this.ctx) this.ctx = new (window.AudioContext || window.webkitAudioContext)();
+            },
+            playCorrect() {
+                try {
+                    this.init();
+                    const now = this.ctx.currentTime;
+                    const osc = this.ctx.createOscillator();
+                    const gain = this.ctx.createGain();
+                    osc.connect(gain);
+                    gain.connect(this.ctx.destination);
+                    osc.frequency.setValueAtTime(523.25, now); // C5
+                    osc.frequency.setValueAtTime(659.25, now + 0.1); // E5
+                    osc.frequency.setValueAtTime(783.99, now + 0.2); // G5
+                    gain.gain.setValueAtTime(0.2, now);
+                    gain.gain.exponentialRampToValueAtTime(0.01, now + 0.4);
+                    osc.start(now);
+                    osc.stop(now + 0.4);
+                } catch(e) {}
+            },
+            playWrong() {
+                try {
+                    this.init();
+                    const now = this.ctx.currentTime;
+                    const osc = this.ctx.createOscillator();
+                    const gain = this.ctx.createGain();
+                    osc.connect(gain);
+                    gain.connect(this.ctx.destination);
+                    osc.frequency.setValueAtTime(220, now);
+                    osc.frequency.setValueAtTime(180, now + 0.15);
+                    gain.gain.setValueAtTime(0.25, now);
+                    gain.gain.exponentialRampToValueAtTime(0.01, now + 0.35);
+                    osc.start(now);
+                    osc.stop(now + 0.35);
+                } catch(e) {}
+            },
+            playWin() {
+                try {
+                    this.init();
+                    [523.25, 659.25, 783.99, 1046.50].forEach((freq, idx) => {
+                        const now = this.ctx.currentTime + (idx * 0.12);
+                        const osc = this.ctx.createOscillator();
+                        const gain = this.ctx.createGain();
+                        osc.connect(gain);
+                        gain.connect(this.ctx.destination);
+                        osc.frequency.setValueAtTime(freq, now);
+                        gain.gain.setValueAtTime(0.2, now);
+                        gain.gain.exponentialRampToValueAtTime(0.01, now + 0.3);
+                        osc.start(now);
+                        osc.stop(now + 0.3);
+                    });
+                } catch(e) {}
+            }
+        };
+
+        const QUESTIONS = [
+            {
+                category: "Görsel Türleri",
+                text: "Ece, cep telefonu kamerasıyla okul bahçesinde arkadaşlarıyla güzel bir anı fotoğrafı çekti. Bu görüntü türü aşağıdakilerden hangisidir?",
+                visual: `<div class="text-4xl text-sky-400 mb-1"><i class="fa-solid fa-camera-retro"></i></div><div class="text-xs font-bold text-slate-300">Telefon Fotoğrafı</div><div class="text-[10px] text-slate-500">Milyonlarca renk & piksel</div>`,
+                hint: "Işığın sensör tarafından kaydedildiği gerçek dünya kayıtlarıdır.",
+                options: [
+                    "Vektörel Çizim Grafiği",
+                    "Fotoğraf (Bitmap Görüntü)",
+                    "3 Boyutlu Animasyon",
+                    "Düz Metin Belgesi"
+                ],
+                correctAnswer: 1, // B
+                explanation: "Kamera ve telefonla çekilen tüm gerçek hayat görüntüleri 'Fotoğraf'tır ve piksel tabanlı (Bitmap) görüntülerdir."
+            },
+            {
+                category: "Piksel ve Çözünürlük",
+                text: "Bitmap (nokta eşlemli) görüntüler yakından incelendiğinde veya çok fazla büyütüldüğünde görülen en küçük renkli kare birimlere ne ad verilir?",
+                visual: `<div class="grid grid-cols-4 gap-1 p-2 bg-slate-800 rounded"><div class="w-4 h-4 bg-red-500 rounded-sm"></div><div class="w-4 h-4 bg-blue-500 rounded-sm"></div><div class="w-4 h-4 bg-yellow-500 rounded-sm"></div><div class="w-4 h-4 bg-emerald-500 rounded-sm"></div></div><div class="text-[10px] text-slate-400 mt-1">Görüntünün En Küçük Renkli Kareleri</div>`,
+                hint: "Resmin yapı taşı olan mikroskobik renk kutucuklarıdır.",
+                options: [
+                    "Klasör",
+                    "Piksel (Pixel)",
+                    "Karakter",
+                    "Frekans"
+                ],
+                correctAnswer: 1, // B
+                explanation: "Dijital ekranlarda görüntüyü oluşturan her bir bağımsız renkli kareye 'Piksel' denir. Milyonlarca piksel birleşerek resmi oluşturur."
+            },
+            {
+                category: "Bitmap vs Vektörel",
+                text: "Bir fotoğrafı bilgisayarda dev bir afiş boyutuna kadar büyüttüğümüzde kenarlarının tırtıklı ve bulanık (piksel piksel) görünmesinin TEMEL SEBEBİ nedir?",
+                visual: `<div class="text-4xl text-rose-400 mb-1"><i class="fa-solid fa-magnifying-glass-plus"></i></div><div class="text-xs font-bold text-rose-300">Aşırı Yakınlaştırma (Zoom)</div><div class="text-[10px] text-slate-400">Kareler belirginleşiyor</div>`,
+                hint: "Bitmap görüntüler sabit sayıda piksel ızgarasından oluşur.",
+                options: [
+                    "Görüntünün sabit sayıda piksellerden oluşması ve piksellerin büyümesi",
+                    "Bilgisayarın ekran kartının yetersiz olması",
+                    "Görsel dosyasının virüslü olması",
+                    "Fotoğrafın siyah-beyaz çekilmiş olması"
+                ],
+                correctAnswer: 0, // A
+                explanation: "Bitmap görüntüler belirli sayıda piksel barındırır. Çok büyütüldüğünde yeni piksel eklenemez, mevcut kareler irileşir ve 'pikselleşme' oluşur."
+            },
+            {
+                category: "Vektörel Özellikler",
+                text: "Aşağıdakilerden hangisi Vektörel (çizgisel/geometrik) görüntülerin en belirgin ve güçlü özelliğidir?",
+                visual: `<div class="text-4xl text-emerald-400 mb-1"><i class="fa-solid fa-bezier-curve"></i></div><div class="text-xs font-bold text-emerald-300">Matematiksel Çizgiler</div><div class="text-[10px] text-slate-400">Her boyutta %100 keskin</div>`,
+                hint: "Kartvizitten gökdelene kadar büyütülseniz bile kenarları jilet gibi kalır.",
+                options: [
+                    "Yalnızca siyah ve beyaz renkler içerebilmesi",
+                    "Büyütüldüğünde piksellerinin hemen bozulması",
+                    "Fotoğraflara göre her zaman daha büyük dosya boyutu kaplaması",
+                    "Matematiksel formüllerle çizildiği için ne kadar büyütülürse büyütülsün kalitesini koruması"
+                ],
+                correctAnswer: 3, // D
+                explanation: "Vektörel görseller piksellerden değil, matematiksel nokta, çizgi ve eğrilerden oluşur. Bu yüzden büyütüldükçe yeniden hesaplanır ve asla bozulmaz."
+            },
+            {
+                category: "Tasarım Senaryosu",
+                text: "Bir şirket için tasarlanacak 'Kurumsal Logo'; hem küçücük bir kalemde hem de dev bir bina cephesi afişinde kullanılacaktır. Dedektif olarak hangi görüntü türünü önerirsin?",
+                visual: `<div class="text-4xl text-amber-400 mb-1"><i class="fa-solid fa-shapes"></i></div><div class="text-xs font-bold text-amber-300">Kurumsal Logo Tasarımı</div><div class="text-[10px] text-slate-400">Kalemden binaya aynı keskinlik</div>`,
+                hint: "Farklı ölçeklerde sıfır kalite kaybı gereken durum.",
+                options: [
+                    "Vektörel Görüntü (Örn: SVG veya AI formatında)",
+                    "Bitmap Fotoğraf (Örn: Düşük çözünürlüklü JPG)",
+                    "Ses Kaydı Belgesi",
+                    "Sıkıştırılmış Metin Dosyası"
+                ],
+                correctAnswer: 0, // A
+                explanation: "Logolar farklı boyutlarda esnekçe kullanılacağı için kesinlikle vektörel çizim olarak hazırlanmalıdır."
+            },
+            {
+                category: "Piksel Karşılaştırması",
+                text: "Bir ekranda '1920 x 1080' çözünürlük ifadesi neyi anlatır?",
+                visual: `<div class="text-3xl text-indigo-400 mb-1"><i class="fa-solid fa-display"></i></div><div class="text-xs font-bold text-white">Full HD Çözünürlük</div><div class="text-[10px] text-indigo-300">1920 x 1080 Piksel</div>`,
+                hint: "Genişlik ve yükseklikte bulunan toplam piksel miktarını ifade eder.",
+                options: [
+                    "Ekranın kilogram cinsinden ağırlığını",
+                    "Ekranın yatayda 1920, dikeyde 1080 pikselden oluştuğunu",
+                    "Bilgisayarın elektrik harcama miktarını",
+                    "Ekrandaki dosya ve klasör sayısını"
+                ],
+                correctAnswer: 1, // B
+                explanation: "Çözünürlük (Resolution), yatay ve dikeydeki piksel adedidir. 1920x1080 ekranda yaklaşık 2 milyon piksel bulunur."
+            },
+            {
+                category: "Görsel Dedektifliği",
+                text: "Dedektif büyüteciyle incelenen bir görselin kenarlarında pürüzsüz yaylar ve kusursuz renk geçişleri var ve 10 kat büyütülse de piksellenmiyor. Bu dosya hangi türdür?",
+                visual: `<div class="text-4xl text-teal-400 mb-1"><i class="fa-solid fa-vector-square"></i></div><div class="text-xs font-bold text-teal-300">Kusursuz Kenarlar</div><div class="text-[10px] text-slate-400">Sonsuz yakınlaştırma</div>`,
+                hint: "Piksel içermez, matematiksel koordinatlarla yönetilir.",
+                options: [
+                    "Bitmap (Piksel tabanlı) Fotoğraf",
+                    "Bozuk Sistem Dosyası",
+                    "Vektörel Görüntü",
+                    "Geri Dönüşüm Kutusu Kaydı"
+                ],
+                correctAnswer: 2, // C
+                explanation: "Sonsuz büyütmede bile pürüzsüz ve net kalan görüntüler Vektörel görüntülerdir."
+            },
+            {
+                category: "Uygulama Alanı",
+                text: "Hangi görsel çalışma için BITMAP (piksel tabanlı) görüntü kullanmak ZORUNLUDUR?",
+                visual: `<div class="text-4xl text-purple-400 mb-1"><i class="fa-solid fa-mountain-sun"></i></div><div class="text-xs font-bold text-purple-300">Tabiat Manzarası</div><div class="text-[10px] text-slate-400">Milyonlarca ton ve gölge</div>`,
+                hint: "Doğadaki ışık tonları, insan yüzü ve karmaşık renk geçişleri.",
+                options: [
+                    "Basit geometrik üçgen çizimi",
+                    "Şirket amblemi ve semboller",
+                    "Doğa ve portre fotoğrafçılığı",
+                    "Trafik uyarı levhası simgesi"
+                ],
+                correctAnswer: 2, // C
+                explanation: "Doğadaki karmaşık renk, ışık ve gölgeleri matematiksel çizgiyle oluşturmak imkânsızdır; bu yüzden fotoğraflar Bitmap olmak zorundadır."
+            },
+            {
+                category: "Dedektif Kuralı",
+                text: "Bir görselin dosya boyutu; çözünürlüğü (piksel sayısı) ve renk derinliği arttıkça nasıl değişir?",
+                visual: `<div class="text-4xl text-rose-400 mb-1"><i class="fa-solid fa-weight-hanging"></i></div><div class="text-xs font-bold text-slate-300">Piksel Sayısı & Boyut</div><div class="text-[10px] text-slate-400">Depolama etkisi</div>`,
+                hint: "Kare sayısı arttıkça bilgisayarın saklaması gereken veri artar.",
+                options: [
+                    "Dosya boyutu artar ve diskte daha fazla yer kaplar",
+                    "Dosya boyutu sıfıra iner",
+                    "Görsel ses dosyasına dönüşür",
+                    "Dosya boyutu hiç değişmez"
+                ],
+                correctAnswer: 0, // A
+                explanation: "Piksel sayısı (çözünürlük) arttıkça her bir pikselin renk bilgisi kaydedilir; böylece dosya boyutu (MB) artar."
+            },
+            {
+                category: "Büyük Final Karşılaştırması",
+                text: "Dedektif toplantısında Bitmap ve Vektör arasındaki fark özetleniyor. Aşağıdaki ifadelerden hangisi TAMAMEN DOĞRUDUR?",
+                visual: `<div class="flex items-center justify-center gap-4 text-3xl"><i class="fa-solid fa-border-all text-blue-400"></i><span class="text-xs font-bold text-slate-500">VS</span><i class="fa-solid fa-draw-polygon text-emerald-400"></i></div><div class="text-xs font-bold text-amber-300 mt-2">Büyük Karşılaştırma</div>`,
+                hint: "Biri piksellerden oluşur büyütülünce bozulur; diğeri matematikseldir ve bozulmaz.",
+                options: [
+                    "Vektörel görseller piksellerden, Bitmap görseller çizgilerden oluşur.",
+                    "Bitmap görseller büyütülünce piksellenir; Vektörel görseller her boyutta net kalır.",
+                    "Fotoğraflar vektöreldir, logolar ise her zaman bitmaptir.",
+                    "Her iki görüntü türü de büyütüldüğünde aynı oranda bozulur."
+                ],
+                correctAnswer: 1, // B
+                explanation: "Temel Kural: Bitmap piksellerden oluşur ve büyütülünce kalitesi bozulur. Vektörel matematiksel formüllerden oluşur ve büyütüldüğünde kalitesini korur."
+            }
+        ];
+
+        const game = {
+            currentIndex: 0,
+            score: 0,
+            answered: false,
+
+            start() {
+                this.currentIndex = 0;
+                this.score = 0;
+                this.answered = false;
+                document.getElementById('start-screen').classList.add('hidden');
+                document.getElementById('end-screen').classList.add('hidden');
+                document.getElementById('game-screen').classList.remove('hidden');
+                this.renderQuestion();
+                this.updateScore();
+            },
+
+            renderQuestion() {
+                this.answered = false;
+                const q = QUESTIONS[this.currentIndex];
+                
+                // Progress Bar
+                const pct = ((this.currentIndex) / QUESTIONS.length) * 100;
+                document.getElementById('progress-bar').style.width = pct + '%';
+                
+                // Texts
+                document.getElementById('q-number').innerText = `Görev ${this.currentIndex + 1} / ${QUESTIONS.length}`;
+                document.getElementById('q-category').innerText = q.category;
+                document.getElementById('q-text').innerText = q.text;
+                document.getElementById('q-hint-text').innerText = q.hint;
+                document.getElementById('q-visual').innerHTML = q.visual;
+                
+                // Feedback gizle
+                const fb = document.getElementById('feedback-box');
+                fb.classList.add('hidden');
+
+                // Options
+                const optsContainer = document.getElementById('options-grid');
+                optsContainer.innerHTML = '';
+
+                const letters = ['A', 'B', 'C', 'D'];
+                q.options.forEach((opt, idx) => {
+                    const btn = document.createElement('button');
+                    btn.id = `opt-btn-${idx}`;
+                    btn.className = "p-3.5 sm:p-4 bg-slate-800 hover:bg-indigo-600/60 border border-slate-700 hover:border-indigo-500 rounded-2xl text-left font-semibold text-xs sm:text-sm text-slate-100 flex items-center gap-3 transition-all active:scale-95 shadow-md";
+                    btn.innerHTML = `
+                        <span class="w-7 h-7 rounded-xl bg-slate-900 border border-slate-700 text-amber-400 font-black text-xs flex items-center justify-center shrink-0">
+                            ${letters[idx]}
+                        </span>
+                        <span class="flex-1">${opt}</span>
+                    `;
+                    btn.onclick = () => this.handleAnswer(idx);
+                    optsContainer.appendChild(btn);
+                });
+            },
+
+            handleAnswer(selectedIdx) {
+                if (this.answered) return;
+                this.answered = true;
+
+                const q = QUESTIONS[this.currentIndex];
+                const isCorrect = (selectedIdx === q.correctAnswer);
+
+                // Buton durumlarını güncelle
+                q.options.forEach((_, idx) => {
+                    const btn = document.getElementById(`opt-btn-${idx}`);
+                    btn.disabled = true;
+                    if (idx === q.correctAnswer) {
+                        btn.className = "p-3.5 sm:p-4 bg-emerald-600 border-2 border-emerald-400 text-white rounded-2xl text-left font-bold text-xs sm:text-sm flex items-center gap-3 shadow-lg ring-2 ring-emerald-400/30";
+                    } else if (idx === selectedIdx) {
+                        btn.className = "p-3.5 sm:p-4 bg-rose-600 border-2 border-rose-400 text-white rounded-2xl text-left font-bold text-xs sm:text-sm flex items-center gap-3 shadow-lg ring-2 ring-rose-400/30";
+                    } else {
+                        btn.className = "p-3.5 sm:p-4 bg-slate-800/40 border border-slate-800 text-slate-500 rounded-2xl text-left font-medium text-xs sm:text-sm flex items-center gap-3 opacity-40";
+                    }
+                });
+
+                // Puan & Ses
+                const fbBox = document.getElementById('feedback-box');
+                const fbIcon = document.getElementById('feedback-icon');
+                const fbTitle = document.getElementById('feedback-title');
+                const fbText = document.getElementById('feedback-text');
+
+                fbBox.classList.remove('hidden');
+
+                if (isCorrect) {
+                    this.score += 10;
+                    AudioKit.playCorrect();
+                    fbBox.className = "p-4 rounded-2xl border text-sm flex items-start gap-3 bg-emerald-950/80 border-emerald-500 text-emerald-100 shadow-xl animate-fade-in";
+                    fbIcon.innerHTML = `<i class="fa-solid fa-circle-check text-emerald-400"></i>`;
+                    fbTitle.innerText = "Harika İpucu Dedektif! (+10 Puan)";
+                    fbTitle.className = "font-black text-base text-emerald-300";
+                } else {
+                    AudioKit.playWrong();
+                    fbBox.className = "p-4 rounded-2xl border text-sm flex items-start gap-3 bg-rose-950/80 border-rose-500 text-rose-100 shadow-xl animate-fade-in";
+                    fbIcon.innerHTML = `<i class="fa-solid fa-circle-xmark text-rose-400"></i>`;
+                    fbTitle.innerText = "Dikkat Dedektif! Yanlış Çıkarım";
+                    fbTitle.className = "font-black text-base text-rose-300";
+                }
+
+                fbText.innerText = q.explanation;
+                this.updateScore();
+            },
+
+            nextQuestion() {
+                this.currentIndex++;
+                if (this.currentIndex < QUESTIONS.length) {
+                    this.renderQuestion();
+                } else {
+                    this.endGame();
+                }
+            },
+
+            updateScore() {
+                document.getElementById('score-display').innerText = `${this.score} / 100`;
+            },
+
+            endGame() {
+                AudioKit.playWin();
+                document.getElementById('progress-bar').style.width = '100%';
+                document.getElementById('game-screen').classList.add('hidden');
+                document.getElementById('end-screen').classList.remove('hidden');
+
+                document.getElementById('end-score').innerText = `${this.score} / 100`;
+                const title = document.getElementById('end-title');
+                const desc = document.getElementById('end-desc');
+                const badge = document.getElementById('end-badge');
+
+                if (this.score >= 90) {
+                    title.innerText = "Mükemmel! Baş Dedektif Rozeti 🏆";
+                    desc.innerText = "Piksellerin ve vektörlerin sırrını çözdün! Tam bir dijital görüntü ustasısın.";
+                    badge.innerHTML = `<i class="fa-solid fa-award text-amber-400"></i>`;
+                } else if (this.score >= 70) {
+                    title.innerText = "Tebrikler! Kıdemli Dedektif 🔍";
+                    desc.innerText = "Gayet başarılı bir soruşturma yürüttün. Küçük detayları tekrar gözden geçirebilirsin.";
+                    badge.innerHTML = `<i class="fa-solid fa-medal text-indigo-400"></i>`;
+                } else {
+                    title.innerText = "Görevi Tamamladın! Stajyer Dedektif 🕵️";
+                    desc.innerText = "Piksel ve vektör kavramlarını biraz daha pekiştirmek için bir tur daha oyna!";
+                    badge.innerHTML = `<i class="fa-solid fa-magnifying-glass text-slate-300"></i>`;
+                }
+            },
+
+            restart() {
+                this.start();
+            }
+        };
+    </script>
+</body>
+</html>

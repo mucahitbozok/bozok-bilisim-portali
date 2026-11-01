@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Uzantı Avcıları | Öğretmen Bozok</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800;900&display=swap');
+        * { font-family: 'Plus Jakarta Sans', sans-serif; box-sizing: border-box; }
+        body { background: radial-gradient(circle at top, #064e3b 0%, #022c22 40%, #0f172a 100%); min-height: 100vh; overflow-x: hidden; }
+        .hunt-grid {
+            background-size: 20px 20px;
+            background-image: 
+                linear-gradient(to right, rgba(16, 185, 129, 0.08) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(16, 185, 129, 0.08) 1px, transparent 1px);
+        }
+    </style>
+</head>
+<body class="hunt-grid text-slate-100 flex flex-col items-center justify-center p-3 sm:p-6 min-h-screen">
+
+    <div class="w-full max-w-4xl bg-slate-900/90 border-2 border-emerald-500/40 rounded-3xl shadow-2xl p-4 sm:p-8 backdrop-blur-xl relative overflow-hidden">
+        
+        <!-- Üst Başlık & Skor -->
+        <header class="flex items-center justify-between border-b border-emerald-500/30 pb-4 mb-6">
+            <div class="flex items-center gap-3">
+                <div class="w-12 h-12 rounded-2xl bg-gradient-to-tr from-emerald-600 to-teal-500 flex items-center justify-center text-white text-2xl shadow-lg shadow-emerald-500/30">
+                    <i class="fa-solid fa-bullseye"></i>
+                </div>
+                <div>
+                    <div class="flex items-center gap-2">
+                        <span class="px-2 py-0.5 text-[10px] font-black uppercase tracking-wider bg-emerald-500/20 text-emerald-300 rounded-md border border-emerald-500/30">BTY.5.2.1 • 2. Oyun</span>
+                        <span class="text-xs font-bold text-amber-400"><i class="fa-solid fa-crown mr-1"></i>Öğretmen Bozok</span>
+                    </div>
+                    <h1 class="text-xl sm:text-2xl font-black text-white">Uzantı Avcıları</h1>
+                </div>
+            </div>
+
+            <div class="flex items-center gap-3">
+                <div class="bg-slate-800/80 px-4 py-2 rounded-2xl border border-emerald-500/30 text-right">
+                    <div class="text-[10px] uppercase font-bold text-slate-400">Puan</div>
+                    <div id="score-display" class="text-xl font-black text-amber-400">0 / 100</div>
+                </div>
+            </div>
+        </header>
+
+        <!-- İlerleme Çubuğu -->
+        <div class="w-full bg-slate-800 rounded-full h-3 mb-6 overflow-hidden border border-slate-700">
+            <div id="progress-bar" class="bg-gradient-to-r from-emerald-500 to-teal-400 h-full w-0 transition-all duration-300"></div>
+        </div>
+
+        <!-- Başlangıç Ekranı -->
+        <div id="start-screen" class="text-center py-8 space-y-6">
+            <div class="w-24 h-24 mx-auto rounded-3xl bg-emerald-500/20 border-2 border-emerald-500/50 flex items-center justify-center text-emerald-400 text-5xl shadow-xl animate-pulse">
+                <i class="fa-solid fa-crosshairs"></i>
+            </div>
+            <div class="max-w-xl mx-auto space-y-3">
+                <h2 class="text-2xl sm:text-3xl font-black text-white">Hazine Avı: Doğru Uzantıyı Yakala!</h2>
+                <p class="text-slate-300 text-sm leading-relaxed">
+                    JPG, PNG, GIF, SVG, AI ve daha fazlası! Görsellerin kimlik kartı olan dosya uzantılarını hedefe al, doğru dosya türlerini avla ve usta bir uzantı avcısı olduğunu kanıtla!
+                </p>
+                <div class="grid grid-cols-2 gap-3 text-left bg-slate-800/60 p-4 rounded-2xl border border-slate-700/60 text-xs text-slate-300">
+                    <div class="flex items-center gap-2"><i class="fa-solid fa-check text-emerald-400"></i> 10 Av Görevi</div>
+                    <div class="flex items-center gap-2"><i class="fa-solid fa-check text-emerald-400"></i> Her Görev 10 Puan</div>
+                    <div class="flex items-center gap-2"><i class="fa-solid fa-check text-emerald-400"></i> Bitmap vs Vektörel Biçimler</div>
+                    <div class="flex items-center gap-2"><i class="fa-solid fa-check text-emerald-400"></i> Akıllı Tahta Uyumlu</div>
+                </div>
+            </div>
+            <button onclick="game.start()" class="px-8 py-4 bg-gradient-to-r from-emerald-600 via-teal-600 to-cyan-600 hover:from-emerald-500 hover:to-cyan-500 text-white font-black text-lg rounded-2xl shadow-xl shadow-emerald-600/40 hover:scale-105 active:scale-95 transition-all">
+                <i class="fa-solid fa-crosshairs mr-2"></i> Uzantı Avını Başlat!
+            </button>
+        </div>
+
+        <!-- Soru / Oyun Ekranı -->
+        <div id="game-screen" class="hidden space-y-6">
+            
+            <div class="bg-slate-800/60 border border-slate-700 rounded-2xl p-4 sm:p-6 flex flex-col md:flex-row items-center gap-6">
+                <!-- Dosya Rozeti / Simge Alanı -->
+                <div id="q-visual" class="w-full md:w-56 h-40 bg-slate-900 rounded-xl border border-emerald-500/30 flex flex-col items-center justify-center p-3 text-center shrink-0 shadow-inner relative overflow-hidden">
+                </div>
+                
+                <!-- Soru Metni & İpucu -->
+                <div class="flex-1 space-y-2">
+                    <div class="flex items-center justify-between">
+                        <span id="q-number" class="text-xs font-black text-emerald-400 uppercase tracking-wider">Av Görevi 1 / 10</span>
+                        <span id="q-category" class="px-2.5 py-1 text-[11px] font-bold bg-teal-500/20 text-teal-300 rounded-lg border border-teal-500/30">Uzantı Tespiti</span>
+                    </div>
+                    <h3 id="q-text" class="text-base sm:text-lg font-bold text-white leading-relaxed">
+                        Soru metni yükleniyor...
+                    </h3>
+                    <p id="q-hint" class="text-xs text-amber-300/80 italic flex items-center gap-1.5">
+                        <i class="fa-solid fa-compass"></i> <span id="q-hint-text">Avcı Pusulası</span>
+                    </p>
+                </div>
+            </div>
+
+            <!-- Seçenekler Grid -->
+            <div id="options-grid" class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            </div>
+
+            <!-- Açıklama Alanı (Cevaplandıktan sonra açılır) -->
+            <div id="feedback-box" class="hidden p-4 rounded-2xl border text-sm flex items-start gap-3 transition-all animate-fade-in">
+                <div id="feedback-icon" class="text-2xl mt-0.5 shrink-0"></div>
+                <div class="space-y-1 flex-1">
+                    <h4 id="feedback-title" class="font-black text-base"></h4>
+                    <p id="feedback-text" class="text-xs text-slate-200 leading-relaxed"></p>
+                </div>
+                <button id="next-btn" onclick="game.nextQuestion()" class="px-5 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white font-black text-xs rounded-xl shadow-lg shrink-0 self-center">
+                    Sonraki Av <i class="fa-solid fa-arrow-right ml-1"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Bitiş / Sonuç Ekranı -->
+        <div id="end-screen" class="hidden text-center py-8 space-y-6">
+            <div id="end-badge" class="w-24 h-24 mx-auto rounded-3xl bg-amber-500/20 border-2 border-amber-500/50 flex items-center justify-center text-amber-400 text-5xl shadow-xl">
+                <i class="fa-solid fa-trophy"></i>
+            </div>
+            <div class="space-y-2">
+                <h2 id="end-title" class="text-2xl sm:text-3xl font-black text-white">Av Başarıyla Tamamlandı!</h2>
+                <p id="end-desc" class="text-slate-300 text-sm max-w-md mx-auto">
+                    Görüntü dosyalarının tüm uzantılarını kusursuz yakaladın!
+                </p>
+                <div class="text-4xl font-black text-amber-400 pt-2" id="end-score">100 / 100</div>
+            </div>
+
+            <div class="flex justify-center gap-4">
+                <button onclick="game.restart()" class="px-6 py-3 bg-emerald-600 hover:bg-emerald-500 text-white font-black text-sm rounded-xl shadow-lg hover:scale-105 active:scale-95 transition-all">
+                    <i class="fa-solid fa-rotate-right mr-1"></i> Yeniden Avlan
+                </button>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        const AudioKit = {
+            ctx: null,
+            init() {
+                if (!this.ctx) this.ctx = new (window.AudioContext || window.webkitAudioContext)();
+            },
+            playCorrect() {
+                try {
+                    this.init();
+                    const now = this.ctx.currentTime;
+                    const osc = this.ctx.createOscillator();
+                    const gain = this.ctx.createGain();
+                    osc.connect(gain);
+                    gain.connect(this.ctx.destination);
+                    osc.frequency.setValueAtTime(440, now);
+                    osc.frequency.setValueAtTime(554.37, now + 0.1);
+                    osc.frequency.setValueAtTime(659.25, now + 0.2);
+                    gain.gain.setValueAtTime(0.2, now);
+                    gain.gain.exponentialRampToValueAtTime(0.01, now + 0.4);
+                    osc.start(now);
+                    osc.stop(now + 0.4);
+                } catch(e) {}
+            },
+            playWrong() {
+                try {
+                    this.init();
+                    const now = this.ctx.currentTime;
+                    const osc = this.ctx.createOscillator();
+                    const gain = this.ctx.createGain();
+                    osc.connect(gain);
+                    gain.connect(this.ctx.destination);
+                    osc.frequency.setValueAtTime(240, now);
+                    osc.frequency.setValueAtTime(170, now + 0.15);
+                    gain.gain.setValueAtTime(0.25, now);
+                    gain.gain.exponentialRampToValueAtTime(0.01, now + 0.35);
+                    osc.start(now);
+                    osc.stop(now + 0.35);
+                } catch(e) {}
+            },
+            playWin() {
+                try {
+                    this.init();
+                    [587.33, 739.99, 880, 1174.66].forEach((freq, idx) => {
+                        const now = this.ctx.currentTime + (idx * 0.12);
+                        const osc = this.ctx.createOscillator();
+                        const gain = this.ctx.createGain();
+                        osc.connect(gain);
+                        gain.connect(this.ctx.destination);
+                        osc.frequency.setValueAtTime(freq, now);
+                        gain.gain.setValueAtTime(0.2, now);
+                        gain.gain.exponentialRampToValueAtTime(0.01, now + 0.3);
+                        osc.start(now);
+                        osc.stop(now + 0.3);
+                    });
+                } catch(e) {}
+            }
+        };
+
+        const QUESTIONS = [
+            {
+                category: "Dosya Uzantısı Nedir?",
+                text: "Bir klasörde gördüğümüz 'tatil_fotografi.jpg' dosyasında noktadan sonra gelen '.jpg' ifadesi bize neyi bildirir?",
+                visual: `<div class="p-3 bg-slate-800 rounded-xl border border-emerald-500/40 text-center"><span class="text-xs text-slate-400">Dosya Adı:</span><div class="text-base font-black text-amber-300 font-mono">tatil_fotografi<span class="text-emerald-400">.jpg</span></div></div><div class="text-[10px] text-slate-400 mt-2">Noktadan sonraki uzantı</div>`,
+                hint: "Dosyanın türünü ve hangi programla açılacağını belirten kısımdır.",
+                options: [
+                    "Dosyanın kaç megabayt olduğunu",
+                    "Dosyanın türünü belirten uzantısını",
+                    "Dosyanın yazıldığı dili",
+                    "Bilgisayarın marka adını"
+                ],
+                correctAnswer: 1, // B
+                explanation: "Dosya adındaki noktadan sonraki kısım (örn: .jpg, .png) dosya uzantısıdır ve dosyanın türünü belirtir."
+            },
+            {
+                category: "Saydam / Şeffaf Format",
+                text: "Arka planı şeffaf (saydam) bir logo kaydetmek ve web sitesine eklemek istiyoruz. Hangi dosya biçimi saydam arka planı kusursuz destekler?",
+                visual: `<div class="w-16 h-16 rounded-xl border-2 border-dashed border-teal-400 flex items-center justify-center text-teal-300 text-3xl mx-auto"><i class="fa-solid fa-border-none"></i></div><div class="text-xs font-bold text-teal-300 mt-2">Şeffaf Arka Plan</div><div class="text-[10px] text-slate-400">Kareli transparan alan</div>`,
+                hint: "Taşınabilir Ağ Grafiği anlamına gelen popüler web formatı.",
+                options: [
+                    "BMP (Sıkıştırmasız Ağır Resim)",
+                    "TXT (Düz Metin)",
+                    "PNG (Taşınabilir Ağ Grafiği)",
+                    "MP3 (Ses Dosyası)"
+                ],
+                correctAnswer: 2, // C
+                explanation: "PNG (Portable Network Graphics) formatı şeffaf (transparan) arka planı destekler; logolar ve ikonlar için idealdir."
+            },
+            {
+                category: "Hareketli Görseller",
+                text: "Kısa süreli hareketli animasyonlar ve mini döngüsel klipler içeren görsel dosya biçimi aşağıdakilerden hangisidir?",
+                visual: `<div class="text-4xl text-amber-400 mb-1 animate-bounce"><i class="fa-solid fa-film"></i></div><div class="text-xs font-bold text-amber-300">Hareketli Animasyon</div><div class="text-[10px] text-slate-400">Döngüsel görsel</div>`,
+                hint: "Mizahi animasyonlarda ve çıkartmalarda çok yaygındır.",
+                options: [
+                    "GIF",
+                    "DOCX",
+                    "XLSX",
+                    "PDF"
+                ],
+                correctAnswer: 0, // A
+                explanation: "GIF (Graphics Interchange Format) formatı birden fazla kareyi ardışık oynatarak hareketli animasyonlar oluşturur."
+            },
+            {
+                category: "Web Vektörel Biçimi",
+                text: "Web sitelerinde kullanılan, ne kadar büyütülürse büyütülsün netliğini asla kaybetmeyen XML tabanlı VEKTÖREL dosya uzantısı hangisidir?",
+                visual: `<div class="text-4xl text-sky-400 mb-1"><i class="fa-solid fa-code"></i></div><div class="text-xs font-bold text-sky-300">Vektörel Web Çizimi</div><div class="text-[10px] text-slate-400">XML Kod tabanlı grafik</div>`,
+                hint: "Ölçeklenebilir Vektör Grafikleri (Scalable Vector Graphics).",
+                options: [
+                    "JPG",
+                    "BMP",
+                    "TIFF",
+                    "SVG"
+                ],
+                correctAnswer: 3, // D
+                explanation: "SVG (Scalable Vector Graphics), modern web tarayıcılarında kullanılan en popüler vektörel görüntü formatıdır."
+            },
+            {
+                category: "Baskı ve Matbaa",
+                text: "Yüksek çözünürlüklü tarayıcılardan alınan ve profesyonel matbaa baskılarında kayıpsız fotoğraf saklamak için tercih edilen format hangisidir?",
+                visual: `<div class="text-4xl text-purple-400 mb-1"><i class="fa-solid fa-print"></i></div><div class="text-xs font-bold text-purple-300">Profesyonel Matbaa</div><div class="text-[10px] text-slate-400">Kayıpsız en yüksek kalite</div>`,
+                hint: "Etiketli Görüntü Dosya Biçimi (TIFF).",
+                options: [
+                    "GIF",
+                    "TIFF",
+                    "MP4",
+                    "EXE"
+                ],
+                correctAnswer: 1, // B
+                explanation: "TIFF formatı kayıpsız sıkıştırma sunar ve yayıncılık/matbaa sektöründe en yüksek kalitede baskı için kullanılır."
+            },
+            {
+                category: "Tasarım Proje Dosyası",
+                text: "Adobe Illustrator programında hazırlanan ve katmanları, vektör çizgileri korunarak saklanan yerel proje dosya uzantısı hangisidir?",
+                visual: `<div class="p-2.5 bg-amber-500/20 border border-amber-500 rounded-xl text-center"><div class="text-2xl font-black text-amber-400">Ai</div><div class="text-[10px] text-slate-300">Illustrator Projesi</div></div>`,
+                hint: "Illustrator kelimesinin baş harflerinden oluşur.",
+                options: [
+                    ".ai",
+                    ".mp3",
+                    ".zip",
+                    ".avi"
+                ],
+                correctAnswer: 0, // A
+                explanation: ".ai uzantısı Adobe Illustrator programının yerel vektörel tasarım dosyasıdır."
+            },
+            {
+                category: "Eski & Sıkıştırmasız",
+                text: "Windows Paint'in eski sürümlerinde varsayılan olan, pikselleri hiç sıkıştırmadığı için dosya boyutu çok büyük olan format hangisidir?",
+                visual: `<div class="text-4xl text-rose-400 mb-1"><i class="fa-solid fa-floppy-disk"></i></div><div class="text-xs font-bold text-rose-300">Eski Windows Formatı</div><div class="text-[10px] text-slate-400">Sıkıştırmasız büyük dosya</div>`,
+                hint: "Bitmap kelimesinin kısaltmasıdır.",
+                options: [
+                    "SVG",
+                    "PDF",
+                    "BMP",
+                    "PNG"
+                ],
+                correctAnswer: 2, // C
+                explanation: "BMP (Bitmap Picture), sıkıştırmasız bir biçim olduğundan gereksiz yere çok fazla disk alanı kaplar."
+            },
+            {
+                category: "Vektörel Uzantılar Grubu",
+                text: "Aşağıdaki seçeneklerden hangisinde yer alan dosya uzantılarının TAMAMI VEKTÖREL (çizgisel) görüntü türüdür?",
+                visual: `<div class="flex items-center justify-center gap-2 text-emerald-400 text-2xl"><i class="fa-solid fa-shapes"></i><i class="fa-solid fa-pen-nib"></i><i class="fa-solid fa-bezier-curve"></i></div><div class="text-xs font-bold text-emerald-300 mt-2">Vektörel Dosya Ailesi</div>`,
+                hint: "SVG, EPS ve AI üçlüsünü ara.",
+                options: [
+                    "JPG, PNG, GIF",
+                    "BMP, TIFF, JPG",
+                    "MP3, WAV, AAC",
+                    "SVG, EPS, AI"
+                ],
+                correctAnswer: 3, // D
+                explanation: "SVG, EPS ve AI formatları matematiksel formüllerle çalışan Vektörel görüntü biçimleridir."
+            },
+            {
+                category: "Fotoğrafların Şahı",
+                text: "Milyonlarca rengi akıllıca sıkıştırarak webde ve telefonlarda hızlı yüklenen, günümüzün en yaygın FOTOĞRAF dosya uzantısı hangisidir?",
+                visual: `<div class="text-4xl text-blue-400 mb-1"><i class="fa-solid fa-image"></i></div><div class="text-xs font-bold text-blue-300">Standart Fotoğraf</div><div class="text-[10px] text-slate-400">Milyonlarca renk</div>`,
+                hint: "Joint Photographic Experts Group kısaltmasıdır.",
+                options: [
+                    "JPG / JPEG",
+                    "TXT",
+                    "SVG",
+                    "DOCX"
+                ],
+                correctAnswer: 0, // A
+                explanation: "JPG (veya JPEG), fotoğraflarda en çok kullanılan, sıkıştırma oranı yüksek standart görüntü formatıdır."
+            },
+            {
+                category: "Grafiker Paylaşımı",
+                text: "Tasarımcıların hazırladıkları vektörel logoları matbaalara ve farklı grafik programlarına aktarırken kullandığı evrensel vektörel format hangisidir?",
+                visual: `<div class="p-2.5 bg-indigo-500/20 border border-indigo-500 rounded-xl text-center"><div class="text-2xl font-black text-indigo-400">EPS</div><div class="text-[10px] text-slate-300">Encapsulated PostScript</div></div>`,
+                hint: "Vektörel baskı standardı olan 3 harfli uzantı.",
+                options: [
+                    "BMP",
+                    "AVI",
+                    "EPS",
+                    "MP3"
+                ],
+                correctAnswer: 2, // C
+                explanation: "EPS (Encapsulated PostScript), profesyonel baskı ve vektörel veri aktarımında kullanılan endüstri standardı formattır."
+            }
+        ];
+
+        const game = {
+            currentIndex: 0,
+            score: 0,
+            answered: false,
+
+            start() {
+                this.currentIndex = 0;
+                this.score = 0;
+                this.answered = false;
+                document.getElementById('start-screen').classList.add('hidden');
+                document.getElementById('end-screen').classList.add('hidden');
+                document.getElementById('game-screen').classList.remove('hidden');
+                this.renderQuestion();
+                this.updateScore();
+            },
+
+            renderQuestion() {
+                this.answered = false;
+                const q = QUESTIONS[this.currentIndex];
+                
+                const pct = ((this.currentIndex) / QUESTIONS.length) * 100;
+                document.getElementById('progress-bar').style.width = pct + '%';
+                
+                document.getElementById('q-number').innerText = `Av Görevi ${this.currentIndex + 1} / ${QUESTIONS.length}`;
+                document.getElementById('q-category').innerText = q.category;
+                document.getElementById('q-text').innerText = q.text;
+                document.getElementById('q-hint-text').innerText = q.hint;
+                document.getElementById('q-visual').innerHTML = q.visual;
+                
+                const fb = document.getElementById('feedback-box');
+                fb.classList.add('hidden');
+
+                const optsContainer = document.getElementById('options-grid');
+                optsContainer.innerHTML = '';
+
+                const letters = ['A', 'B', 'C', 'D'];
+                q.options.forEach((opt, idx) => {
+                    const btn = document.createElement('button');
+                    btn.id = `opt-btn-${idx}`;
+                    btn.className = "p-3.5 sm:p-4 bg-slate-800 hover:bg-emerald-600/50 border border-slate-700 hover:border-emerald-500 rounded-2xl text-left font-semibold text-xs sm:text-sm text-slate-100 flex items-center gap-3 transition-all active:scale-95 shadow-md";
+                    btn.innerHTML = `
+                        <span class="w-7 h-7 rounded-xl bg-slate-900 border border-slate-700 text-amber-400 font-black text-xs flex items-center justify-center shrink-0">
+                            ${letters[idx]}
+                        </span>
+                        <span class="flex-1">${opt}</span>
+                    `;
+                    btn.onclick = () => this.handleAnswer(idx);
+                    optsContainer.appendChild(btn);
+                });
+            },
+
+            handleAnswer(selectedIdx) {
+                if (this.answered) return;
+                this.answered = true;
+
+                const q = QUESTIONS[this.currentIndex];
+                const isCorrect = (selectedIdx === q.correctAnswer);
+
+                q.options.forEach((_, idx) => {
+                    const btn = document.getElementById(`opt-btn-${idx}`);
+                    btn.disabled = true;
+                    if (idx === q.correctAnswer) {
+                        btn.className = "p-3.5 sm:p-4 bg-emerald-600 border-2 border-emerald-400 text-white rounded-2xl text-left font-bold text-xs sm:text-sm flex items-center gap-3 shadow-lg ring-2 ring-emerald-400/30";
+                    } else if (idx === selectedIdx) {
+                        btn.className = "p-3.5 sm:p-4 bg-rose-600 border-2 border-rose-400 text-white rounded-2xl text-left font-bold text-xs sm:text-sm flex items-center gap-3 shadow-lg ring-2 ring-rose-400/30";
+                    } else {
+                        btn.className = "p-3.5 sm:p-4 bg-slate-800/40 border border-slate-800 text-slate-500 rounded-2xl text-left font-medium text-xs sm:text-sm flex items-center gap-3 opacity-40";
+                    }
+                });
+
+                const fbBox = document.getElementById('feedback-box');
+                const fbIcon = document.getElementById('feedback-icon');
+                const fbTitle = document.getElementById('feedback-title');
+                const fbText = document.getElementById('feedback-text');
+
+                fbBox.classList.remove('hidden');
+
+                if (isCorrect) {
+                    this.score += 10;
+                    AudioKit.playCorrect();
+                    fbBox.className = "p-4 rounded-2xl border text-sm flex items-start gap-3 bg-emerald-950/80 border-emerald-500 text-emerald-100 shadow-xl animate-fade-in";
+                    fbIcon.innerHTML = `<i class="fa-solid fa-circle-check text-emerald-400"></i>`;
+                    fbTitle.innerText = "Tam İsabet Avcı! (+10 Puan)";
+                    fbTitle.className = "font-black text-base text-emerald-300";
+                } else {
+                    AudioKit.playWrong();
+                    fbBox.className = "p-4 rounded-2xl border text-sm flex items-start gap-3 bg-rose-950/80 border-rose-500 text-rose-100 shadow-xl animate-fade-in";
+                    fbIcon.innerHTML = `<i class="fa-solid fa-circle-xmark text-rose-400"></i>`;
+                    fbTitle.innerText = "Hedef Kaçtı! Yanlış Uzantı";
+                    fbTitle.className = "font-black text-base text-rose-300";
+                }
+
+                fbText.innerText = q.explanation;
+                this.updateScore();
+            },
+
+            nextQuestion() {
+                this.currentIndex++;
+                if (this.currentIndex < QUESTIONS.length) {
+                    this.renderQuestion();
+                } else {
+                    this.endGame();
+                }
+            },
+
+            updateScore() {
+                document.getElementById('score-display').innerText = `${this.score} / 100`;
+            },
+
+            endGame() {
+                AudioKit.playWin();
+                document.getElementById('progress-bar').style.width = '100%';
+                document.getElementById('game-screen').classList.add('hidden');
+                document.getElementById('end-screen').classList.remove('hidden');
+
+                document.getElementById('end-score').innerText = `${this.score} / 100`;
+                const title = document.getElementById('end-title');
+                const desc = document.getElementById('end-desc');
+                const badge = document.getElementById('end-badge');
+
+                if (this.score >= 90) {
+                    title.innerText = "Efsanevi Uzantı Avcısı! 🎯";
+                    desc.innerText = "JPG'den SVG'ye tüm uzantıları gözü kapalı tanıyorsun. Tebrikler!";
+                    badge.innerHTML = `<i class="fa-solid fa-crosshairs text-amber-400"></i>`;
+                } else if (this.score >= 70) {
+                    title.innerText = "Usta Avcı Rozeti! 🏹";
+                    desc.innerText = "Çok iyi bir performans sergiledin. Uzantılar konusunda oldukça yetkinsin.";
+                    badge.innerHTML = `<i class="fa-solid fa-medal text-emerald-400"></i>`;
+                } else {
+                    title.innerText = "Çırak Avcı! 🧭";
+                    desc.innerText = "Dosya uzantılarını tekrar gözden geçirip bir tur daha pratik yapabilirsin.";
+                    badge.innerHTML = `<i class="fa-solid fa-compass text-slate-300"></i>`;
+                }
+            },
+
+            restart() {
+                this.start();
+            }
+        };
+    </script>
+</body>
+</html>

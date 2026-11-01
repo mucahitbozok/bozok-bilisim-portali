@@ -1,0 +1,43 @@
+# HANGİ PROGRAMI SEÇMELİYİM? – EĞİTSEL OYUN
+
+5. sınıf BTY.5.2.1 kazanımı için görsel düzenleme programlarının kullanım amaçlarını öğreten etkileşimli bir oyun oluştur.
+
+### TANITILACAK PROGRAMLAR
+- Paint
+- Canva
+- GIMP
+- Adobe Photoshop
+- Adobe Illustrator
+- Google Çizimler
+- Tinkercad
+
+### OYUN MEKANİĞİ
+Öğrenciye günlük yaşamdan görevler ver.
+
+Örnek görevler:
+- Basit bir bilgisayar çizimi yapmak.
+- Okul etkinliği için afiş hazırlamak.
+- Fotoğraf düzenlemek.
+- Vektörel çizim oluşturmak.
+- Tarayıcı üzerinden şekillerle çizim yapmak.
+- Üç boyutlu tasarım hazırlamak.
+
+Öğrenci, verilen görev için uygun programı seçsin.
+
+### EK GÖREVLER
+- Kırpma işlemini tanı.
+- Döndürme işlemini tanı.
+- Boyutlandırma işlemini tanı.
+- Renk düzenlemeyi tanı.
+- Metin ve şekil ekleme işlemlerini tanı.
+
+### TASARIM
+Bir tasarım stüdyosu atmosferi oluştur. Programların isimlerini ve kullanım amaçlarını görsellerle destekle.
+
+### PUANLAMA
+- 10 görev, her biri 10 puan.
+- Yanlış cevapta kısa açıklama.
+- Sonuç ekranında puan ve doğru cevap sayısı.
+- Yeniden başlatma seçeneği.
+
+Bütün butonlar çalışmalı. Programların kullanım amaçlarını kaynak föydeki bilgilerle uyumlu tut. Oyunu oluştur ve işlevlerini test et.

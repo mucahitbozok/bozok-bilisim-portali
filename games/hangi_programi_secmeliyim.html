@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Hangi Programı Seçmeliyim? | Öğretmen Bozok</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800;900&display=swap');
+        * { font-family: 'Plus Jakarta Sans', sans-serif; box-sizing: border-box; }
+        body { background: radial-gradient(circle at top, #311042 0%, #170b28 40%, #09090b 100%); min-height: 100vh; overflow-x: hidden; }
+        .studio-grid {
+            background-size: 24px 24px;
+            background-image: 
+                linear-gradient(to right, rgba(217, 70, 239, 0.06) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(217, 70, 239, 0.06) 1px, transparent 1px);
+        }
+    </style>
+</head>
+<body class="studio-grid text-slate-100 flex flex-col items-center justify-center p-3 sm:p-6 min-h-screen">
+
+    <div class="w-full max-w-4xl bg-slate-900/90 border-2 border-fuchsia-500/40 rounded-3xl shadow-2xl p-4 sm:p-8 backdrop-blur-xl relative overflow-hidden">
+        
+        <!-- Üst Başlık & Skor -->
+        <header class="flex items-center justify-between border-b border-fuchsia-500/30 pb-4 mb-6">
+            <div class="flex items-center gap-3">
+                <div class="w-12 h-12 rounded-2xl bg-gradient-to-tr from-fuchsia-600 to-pink-500 flex items-center justify-center text-white text-2xl shadow-lg shadow-fuchsia-500/30">
+                    <i class="fa-solid fa-palette"></i>
+                </div>
+                <div>
+                    <div class="flex items-center gap-2">
+                        <span class="px-2 py-0.5 text-[10px] font-black uppercase tracking-wider bg-fuchsia-500/20 text-fuchsia-300 rounded-md border border-fuchsia-500/30">BTY.5.2.1 • 3. Oyun</span>
+                        <span class="text-xs font-bold text-amber-400"><i class="fa-solid fa-crown mr-1"></i>Öğretmen Bozok</span>
+                    </div>
+                    <h1 class="text-xl sm:text-2xl font-black text-white">Hangi Programı Seçmeliyim?</h1>
+                </div>
+            </div>
+
+            <div class="flex items-center gap-3">
+                <div class="bg-slate-800/80 px-4 py-2 rounded-2xl border border-fuchsia-500/30 text-right">
+                    <div class="text-[10px] uppercase font-bold text-slate-400">Puan</div>
+                    <div id="score-display" class="text-xl font-black text-amber-400">0 / 100</div>
+                </div>
+            </div>
+        </header>
+
+        <!-- İlerleme Çubuğu -->
+        <div class="w-full bg-slate-800 rounded-full h-3 mb-6 overflow-hidden border border-slate-700">
+            <div id="progress-bar" class="bg-gradient-to-r from-fuchsia-500 to-pink-500 h-full w-0 transition-all duration-300"></div>
+        </div>
+
+        <!-- Başlangıç Ekranı -->
+        <div id="start-screen" class="text-center py-8 space-y-6">
+            <div class="w-24 h-24 mx-auto rounded-3xl bg-fuchsia-500/20 border-2 border-fuchsia-500/50 flex items-center justify-center text-fuchsia-400 text-5xl shadow-xl animate-bounce">
+                <i class="fa-solid fa-wand-magic-sparkles"></i>
+            </div>
+            <div class="max-w-xl mx-auto space-y-3">
+                <h2 class="text-2xl sm:text-3xl font-black text-white">Tasarım Stüdyosuna Hoş Geldin!</h2>
+                <p class="text-slate-300 text-sm leading-relaxed">
+                    Paint, Canva, GIMP, Photoshop, Illustrator, Google Çizimler ve Tinkercad! Her görevin bir süper kahraman programı vardır. Göreve en uygun aracı seç, tasarım stüdyosunun ustası ol!
+                </p>
+                <div class="grid grid-cols-2 gap-3 text-left bg-slate-800/60 p-4 rounded-2xl border border-slate-700/60 text-xs text-slate-300">
+                    <div class="flex items-center gap-2"><i class="fa-solid fa-check text-emerald-400"></i> 10 Stüdyo Görevi</div>
+                    <div class="flex items-center gap-2"><i class="fa-solid fa-check text-emerald-400"></i> Her Görev 10 Puan</div>
+                    <div class="flex items-center gap-2"><i class="fa-solid fa-check text-emerald-400"></i> Programlar & Düzenleme İşlemleri</div>
+                    <div class="flex items-center gap-2"><i class="fa-solid fa-check text-emerald-400"></i> Akıllı Tahta Uyumlu</div>
+                </div>
+            </div>
+            <button onclick="game.start()" class="px-8 py-4 bg-gradient-to-r from-fuchsia-600 via-pink-600 to-rose-600 hover:from-fuchsia-500 hover:to-rose-500 text-white font-black text-lg rounded-2xl shadow-xl shadow-fuchsia-600/40 hover:scale-105 active:scale-95 transition-all">
+                <i class="fa-solid fa-palette mr-2"></i> Stüdyo Görevine Başla!
+            </button>
+        </div>
+
+        <!-- Soru / Oyun Ekranı -->
+        <div id="game-screen" class="hidden space-y-6">
+            
+            <div class="bg-slate-800/60 border border-slate-700 rounded-2xl p-4 sm:p-6 flex flex-col md:flex-row items-center gap-6">
+                <!-- Stüdyo Rozeti Alanı -->
+                <div id="q-visual" class="w-full md:w-56 h-40 bg-slate-900 rounded-xl border border-fuchsia-500/30 flex flex-col items-center justify-center p-3 text-center shrink-0 shadow-inner relative overflow-hidden">
+                </div>
+                
+                <!-- Soru Metni & İpucu -->
+                <div class="flex-1 space-y-2">
+                    <div class="flex items-center justify-between">
+                        <span id="q-number" class="text-xs font-black text-fuchsia-400 uppercase tracking-wider">Stüdyo Görevi 1 / 10</span>
+                        <span id="q-category" class="px-2.5 py-1 text-[11px] font-bold bg-pink-500/20 text-pink-300 rounded-lg border border-pink-500/30">Program Seçimi</span>
+                    </div>
+                    <h3 id="q-text" class="text-base sm:text-lg font-bold text-white leading-relaxed">
+                        Soru metni yükleniyor...
+                    </h3>
+                    <p id="q-hint" class="text-xs text-amber-300/80 italic flex items-center gap-1.5">
+                        <i class="fa-solid fa-lightbulb"></i> <span id="q-hint-text">Stüdyo Rehberi</span>
+                    </p>
+                </div>
+            </div>
+
+            <!-- Seçenekler Grid -->
+            <div id="options-grid" class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            </div>
+
+            <!-- Açıklama Alanı (Cevaplandıktan sonra açılır) -->
+            <div id="feedback-box" class="hidden p-4 rounded-2xl border text-sm flex items-start gap-3 transition-all animate-fade-in">
+                <div id="feedback-icon" class="text-2xl mt-0.5 shrink-0"></div>
+                <div class="space-y-1 flex-1">
+                    <h4 id="feedback-title" class="font-black text-base"></h4>
+                    <p id="feedback-text" class="text-xs text-slate-200 leading-relaxed"></p>
+                </div>
+                <button id="next-btn" onclick="game.nextQuestion()" class="px-5 py-2.5 bg-fuchsia-600 hover:bg-fuchsia-500 text-white font-black text-xs rounded-xl shadow-lg shrink-0 self-center">
+                    Sonraki Görev <i class="fa-solid fa-arrow-right ml-1"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Bitiş / Sonuç Ekranı -->
+        <div id="end-screen" class="hidden text-center py-8 space-y-6">
+            <div id="end-badge" class="w-24 h-24 mx-auto rounded-3xl bg-amber-500/20 border-2 border-amber-500/50 flex items-center justify-center text-amber-400 text-5xl shadow-xl">
+                <i class="fa-solid fa-award"></i>
+            </div>
+            <div class="space-y-2">
+                <h2 id="end-title" class="text-2xl sm:text-3xl font-black text-white">Stüdyo Görevi Başarıyla Tamamlandı!</h2>
+                <p id="end-desc" class="text-slate-300 text-sm max-w-md mx-auto">
+                    Programları ve düzenleme araçlarını harika tanıdın!
+                </p>
+                <div class="text-4xl font-black text-amber-400 pt-2" id="end-score">100 / 100</div>
+            </div>
+
+            <div class="flex justify-center gap-4">
+                <button onclick="game.restart()" class="px-6 py-3 bg-fuchsia-600 hover:bg-fuchsia-500 text-white font-black text-sm rounded-xl shadow-lg hover:scale-105 active:scale-95 transition-all">
+                    <i class="fa-solid fa-rotate-right mr-1"></i> Yeni Göreve Başla
+                </button>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        const AudioKit = {
+            ctx: null,
+            init() {
+                if (!this.ctx) this.ctx = new (window.AudioContext || window.webkitAudioContext)();
+            },
+            playCorrect() {
+                try {
+                    this.init();
+                    const now = this.ctx.currentTime;
+                    const osc = this.ctx.createOscillator();
+                    const gain = this.ctx.createGain();
+                    osc.connect(gain);
+                    gain.connect(this.ctx.destination);
+                    osc.frequency.setValueAtTime(523.25, now);
+                    osc.frequency.setValueAtTime(659.25, now + 0.1);
+                    osc.frequency.setValueAtTime(783.99, now + 0.2);
+                    gain.gain.setValueAtTime(0.2, now);
+                    gain.gain.exponentialRampToValueAtTime(0.01, now + 0.4);
+                    osc.start(now);
+                    osc.stop(now + 0.4);
+                } catch(e) {}
+            },
+            playWrong() {
+                try {
+                    this.init();
+                    const now = this.ctx.currentTime;
+                    const osc = this.ctx.createOscillator();
+                    const gain = this.ctx.createGain();
+                    osc.connect(gain);
+                    gain.connect(this.ctx.destination);
+                    osc.frequency.setValueAtTime(220, now);
+                    osc.frequency.setValueAtTime(175, now + 0.15);
+                    gain.gain.setValueAtTime(0.25, now);
+                    gain.gain.exponentialRampToValueAtTime(0.01, now + 0.35);
+                    osc.start(now);
+                    osc.stop(now + 0.35);
+                } catch(e) {}
+            },
+            playWin() {
+                try {
+                    this.init();
+                    [523.25, 659.25, 783.99, 1046.50].forEach((freq, idx) => {
+                        const now = this.ctx.currentTime + (idx * 0.12);
+                        const osc = this.ctx.createOscillator();
+                        const gain = this.ctx.createGain();
+                        osc.connect(gain);
+                        gain.connect(this.ctx.destination);
+                        osc.frequency.setValueAtTime(freq, now);
+                        gain.gain.setValueAtTime(0.2, now);
+                        gain.gain.exponentialRampToValueAtTime(0.01, now + 0.3);
+                        osc.start(now);
+                        osc.stop(now + 0.3);
+                    });
+                } catch(e) {}
+            }
+        };
+
+        const QUESTIONS = [
+            {
+                category: "Giriş Seviyesi Program",
+                text: "Ali, bilgisayarında hiçbir ek kurulum yapmadan basit bir ev ve ağaç resmi çizmek istiyor. Hangi temel programdan yararlanabilir?",
+                visual: `<div class="text-4xl text-sky-400 mb-1"><i class="fa-solid fa-paintbrush"></i></div><div class="text-xs font-bold text-sky-300">Basit Çizim</div><div class="text-[10px] text-slate-400">Windows standart aracı</div>`,
+                hint: "Windows işletim sistemiyle hazır gelen klasik çizim aracıdır.",
+                options: [
+                    "Hesap Makinesi",
+                    "Müzik Çalar",
+                    "Paint",
+                    "Not Defteri"
+                ],
+                correctAnswer: 2, // C
+                explanation: "Paint, basit resimler çizmek ve küçük düzenlemeler yapmak için kullanılan kullanımı en kolay standart programdır."
+            },
+            {
+                category: "Şablon & Afiş Tasarımı",
+                text: "Zeynep, okulunun bilim şenliği için binlerce hazır renkli şablon, şekil ve yazı tipini kullanarak modern bir afiş tasarlamak istiyor. Hangi popüler web aracını seçmelidir?",
+                visual: `<div class="text-4xl text-teal-400 mb-1"><i class="fa-solid fa-shapes"></i></div><div class="text-xs font-bold text-teal-300">Hazır Şablonlar</div><div class="text-[10px] text-slate-400">Zengin kütüphane</div>`,
+                hint: "Tarayıcıdan çalışan ve afiş, broşür, sunum şablonları sunan ünlü araç.",
+                options: [
+                    "Canva",
+                    "Hesap Makinesi",
+                    "Disk Temizleme",
+                    "Ağ Bağlantıları"
+                ],
+                correctAnswer: 0, // A
+                explanation: "Canva; zengin şablonları, hazır görselleri ve kolay sürükle-bırak arayüzüyle afiş ve broşür hazırlamak için harika bir seçenektir."
+            },
+            {
+                category: "Profesyonel Fotoğrafçılık",
+                text: "Bir fotoğrafçı, çektiği portre fotoğraflardaki renk tonlarını hassasça ayarlamak, katmanlarla çalışmak ve profesyonel rötuş yapmak istiyor. Hangi sektörel programı seçmelidir?",
+                visual: `<div class="p-2.5 bg-blue-500/20 border border-blue-500 rounded-xl text-center"><div class="text-2xl font-black text-blue-400">Ps</div><div class="text-[10px] text-slate-300">Photoshop</div></div>`,
+                hint: "Dünyanın en bilinen profesyonel fotoğraf düzenleme yazılımı.",
+                options: [
+                    "Paint",
+                    "Adobe Photoshop",
+                    "Ses Kaydedicisi",
+                    "Görev Yöneticisi"
+                ],
+                correctAnswer: 1, // B
+                explanation: "Adobe Photoshop, piksel tabanlı fotoğraf düzenleme ve manipülasyon konusunda dünya standardı profesyonel bir yazılımdır."
+            },
+            {
+                category: "Vektörel Çizim & Logo",
+                text: "Grafik tasarımcı Selin, bir okul amblemini her boyutta (kartvizitten dev bina afişine kadar) bozulmadan basılacak Vektörel bir logo olarak çizmek istiyor. Hangi programı seçmelidir?",
+                visual: `<div class="p-2.5 bg-amber-500/20 border border-amber-500 rounded-xl text-center"><div class="text-2xl font-black text-amber-400">Ai</div><div class="text-[10px] text-slate-300">Illustrator</div></div>`,
+                hint: "Vektörel grafiklerin lider tasarım programı.",
+                options: [
+                    "Windows Not Defteri",
+                    "Müzik Çalar",
+                    "Paint",
+                    "Adobe Illustrator"
+                ],
+                correctAnswer: 3, // D
+                explanation: "Adobe Illustrator, matematiksel eğriler ve vektörel çizimler oluşturmak için geliştirilmiş profesyonel bir vektör tasarım programıdır."
+            },
+            {
+                category: "Açık Kaynak & Ücretsiz",
+                text: "Emre, bilgisayarına hiçbir lisans ücreti ödemeden kurabileceği, açık kaynak kodlu ve katman destekli güçlü bir fotoğraf düzenleme programı arıyor. Hangi program tam ona göredir?",
+                visual: `<div class="text-4xl text-orange-400 mb-1"><i class="fa-solid fa-code-branch"></i></div><div class="text-xs font-bold text-orange-300">Özgür & Açık Kaynak</div><div class="text-[10px] text-slate-400">Gelişmiş katman desteği</div>`,
+                hint: "Maskotu tilki/köpek olan ünlü açık kaynak yazılım.",
+                options: [
+                    "WordPad",
+                    "Paint",
+                    "GIMP",
+                    "Ekran Alıntısı Aracı"
+                ],
+                correctAnswer: 2, // C
+                explanation: "GIMP (GNU Image Manipulation Program), tamamen ücretsiz ve açık kaynak kodlu çok güçlü bir görsel işleme programıdır."
+            },
+            {
+                category: "Ortak Çalışma & Web Çizimi",
+                text: "Buket, arkadaşlarıyla okul projesi için Google Drive üzerinde eşzamanlı olarak kavram haritaları ve geometrik akış şemaları çizmek istiyor. Hangi bulut aracını kullanmalıdır?",
+                visual: `<div class="text-4xl text-rose-400 mb-1"><i class="fa-solid fa-users"></i></div><div class="text-xs font-bold text-rose-300">Ortaklaşa Çizim</div><div class="text-[10px] text-slate-400">Tarayıcı üzerinden canlı</div>`,
+                hint: "Google'ın ücretsiz vektörel şema çizim aracı.",
+                options: [
+                    "Google Çizimler",
+                    "Ses Denetimi",
+                    "BIOS Ekranı",
+                    "Sabit Disk Bölücü"
+                ],
+                correctAnswer: 0, // A
+                explanation: "Google Çizimler (Google Drawings), tarayıcı üzerinden arkadaşlarla aynı anda ortak şekil ve şemalar çizmeye olanak tanır."
+            },
+            {
+                category: "3 Boyutlu Tasarım",
+                text: "Okulun bilişim laboratuvarındaki 3D yazıcıdan sevimli bir robot gövdesi ve anahtarlık basmak isteyen Beren, hangi 3B modelleme aracını seçmelidir?",
+                visual: `<div class="text-4xl text-sky-400 mb-1"><i class="fa-solid fa-cube"></i></div><div class="text-xs font-bold text-sky-300">3 Boyutlu Modelleme</div><div class="text-[10px] text-slate-400">3D Yazıcı hazırlığı</div>`,
+                hint: "Blokları birleştirerek 3B model tasarlanan eğlenceli Autodesk aracı.",
+                options: [
+                    "Paint",
+                    "Tinkercad",
+                    "Not Defteri",
+                    "Hesap Makinesi"
+                ],
+                correctAnswer: 1, // B
+                explanation: "Tinkercad, 3 boyutlu tasarımlar hazırlamak ve 3D yazıcılara baskı dosyası üretmek için kullanılan harika bir eğitim aracıdır."
+            },
+            {
+                category: "Düzenleme İşlemleri",
+                text: "Fotoğrafta masadaki gereksiz bardakları ve boşlukları atıp sadece ortadaki doğum günü pastasını bırakmak isteyen Ece hangi düzenleme işlemini uygulamalıdır?",
+                visual: `<div class="text-4xl text-amber-400 mb-1"><i class="fa-solid fa-crop-simple"></i></div><div class="text-xs font-bold text-amber-300">Kenarları Kesme</div><div class="text-[10px] text-slate-400">İstenmeyen kısımları atma</div>`,
+                hint: "İngilizcesi 'Crop' olan kenar kesme aracı.",
+                options: [
+                    "Döndürme (Rotate)",
+                    "Silme (Delete)",
+                    "Yeniden Başlatma",
+                    "Kırpma (Crop)"
+                ],
+                correctAnswer: 3, // D
+                explanation: "Kırpma (Crop) işlemi, görselin istenmeyen dış kısımlarını kesip sadece odaklanılan bölgeyi çerçevelemek için kullanılır."
+            },
+            {
+                category: "Yön Değiştirme",
+                text: "Fotoğraf makinesini dik tutarak çektiğimiz ama bilgisayarda yan yatmış olarak açılan bir fotoğrafı düzgün hâle getirmek için hangi işlem uygulanır?",
+                visual: `<div class="text-4xl text-emerald-400 mb-1"><i class="fa-solid fa-rotate-right"></i></div><div class="text-xs font-bold text-emerald-300">90 Derece Çevirme</div><div class="text-[10px] text-slate-400">Yön düzeltme</div>`,
+                hint: "Görseli saat yönünde veya tersinde çevirme işlemi.",
+                options: [
+                    "Döndürme (Rotate)",
+                    "Boyutlandırma (Resize)",
+                    "Format Değiştirme",
+                    "Sıkıştırma (Zip)"
+                ],
+                correctAnswer: 0, // A
+                explanation: "Döndürme (Rotate) işlemi, yan veya ters duran görselleri 90, 180 veya 270 derece çevirerek doğru konuma getirmemizi sağlar."
+            },
+            {
+                category: "Görsel İyileştirme",
+                text: "Bulutlu bir günde çekildiği için karanlık ve cansız çıkan bir okul bahçesi fotoğrafının renklerini canlandırmak ve aydınlatmak için hangi işlem seçilir?",
+                visual: `<div class="text-4xl text-fuchsia-400 mb-1"><i class="fa-solid fa-sliders"></i></div><div class="text-xs font-bold text-fuchsia-300">Işık & Kontrast</div><div class="text-[10px] text-slate-400">Renk canlılığı ayarı</div>`,
+                hint: "Parlaklık, kontrast ve doygunluk ayarlarının yapıldığı menü.",
+                options: [
+                    "Dosyayı Yeniden Adlandırma",
+                    "Dosyayı Çöp Kutusuna Taşıma",
+                    "Renk Düzenleme (Parlaklık & Kontrast Ayarı)",
+                    "Bilgisayarı Kapatma"
+                ],
+                correctAnswer: 2, // C
+                explanation: "Renk düzenleme (Color Adjustment) ile görselin parlaklık, kontrast ve renk doygunluğu ayarlanarak daha canlı bir görüntü elde edilir."
+            }
+        ];
+
+        const game = {
+            currentIndex: 0,
+            score: 0,
+            answered: false,
+
+            start() {
+                this.currentIndex = 0;
+                this.score = 0;
+                this.answered = false;
+                document.getElementById('start-screen').classList.add('hidden');
+                document.getElementById('end-screen').classList.add('hidden');
+                document.getElementById('game-screen').classList.remove('hidden');
+                this.renderQuestion();
+                this.updateScore();
+            },
+
+            renderQuestion() {
+                this.answered = false;
+                const q = QUESTIONS[this.currentIndex];
+                
+                const pct = ((this.currentIndex) / QUESTIONS.length) * 100;
+                document.getElementById('progress-bar').style.width = pct + '%';
+                
+                document.getElementById('q-number').innerText = `Stüdyo Görevi ${this.currentIndex + 1} / ${QUESTIONS.length}`;
+                document.getElementById('q-category').innerText = q.category;
+                document.getElementById('q-text').innerText = q.text;
+                document.getElementById('q-hint-text').innerText = q.hint;
+                document.getElementById('q-visual').innerHTML = q.visual;
+                
+                const fb = document.getElementById('feedback-box');
+                fb.classList.add('hidden');
+
+                const optsContainer = document.getElementById('options-grid');
+                optsContainer.innerHTML = '';
+
+                const letters = ['A', 'B', 'C', 'D'];
+                q.options.forEach((opt, idx) => {
+                    const btn = document.createElement('button');
+                    btn.id = `opt-btn-${idx}`;
+                    btn.className = "p-3.5 sm:p-4 bg-slate-800 hover:bg-fuchsia-600/50 border border-slate-700 hover:border-fuchsia-500 rounded-2xl text-left font-semibold text-xs sm:text-sm text-slate-100 flex items-center gap-3 transition-all active:scale-95 shadow-md";
+                    btn.innerHTML = `
+                        <span class="w-7 h-7 rounded-xl bg-slate-900 border border-slate-700 text-amber-400 font-black text-xs flex items-center justify-center shrink-0">
+                            ${letters[idx]}
+                        </span>
+                        <span class="flex-1">${opt}</span>
+                    `;
+                    btn.onclick = () => this.handleAnswer(idx);
+                    optsContainer.appendChild(btn);
+                });
+            },
+
+            handleAnswer(selectedIdx) {
+                if (this.answered) return;
+                this.answered = true;
+
+                const q = QUESTIONS[this.currentIndex];
+                const isCorrect = (selectedIdx === q.correctAnswer);
+
+                q.options.forEach((_, idx) => {
+                    const btn = document.getElementById(`opt-btn-${idx}`);
+                    btn.disabled = true;
+                    if (idx === q.correctAnswer) {
+                        btn.className = "p-3.5 sm:p-4 bg-emerald-600 border-2 border-emerald-400 text-white rounded-2xl text-left font-bold text-xs sm:text-sm flex items-center gap-3 shadow-lg ring-2 ring-emerald-400/30";
+                    } else if (idx === selectedIdx) {
+                        btn.className = "p-3.5 sm:p-4 bg-rose-600 border-2 border-rose-400 text-white rounded-2xl text-left font-bold text-xs sm:text-sm flex items-center gap-3 shadow-lg ring-2 ring-rose-400/30";
+                    } else {
+                        btn.className = "p-3.5 sm:p-4 bg-slate-800/40 border border-slate-800 text-slate-500 rounded-2xl text-left font-medium text-xs sm:text-sm flex items-center gap-3 opacity-40";
+                    }
+                });
+
+                const fbBox = document.getElementById('feedback-box');
+                const fbIcon = document.getElementById('feedback-icon');
+                const fbTitle = document.getElementById('feedback-title');
+                const fbText = document.getElementById('feedback-text');
+
+                fbBox.classList.remove('hidden');
+
+                if (isCorrect) {
+                    this.score += 10;
+                    AudioKit.playCorrect();
+                    fbBox.className = "p-4 rounded-2xl border text-sm flex items-start gap-3 bg-emerald-950/80 border-emerald-500 text-emerald-100 shadow-xl animate-fade-in";
+                    fbIcon.innerHTML = `<i class="fa-solid fa-circle-check text-emerald-400"></i>`;
+                    fbTitle.innerText = "Doğru Araç Seçimi! (+10 Puan)";
+                    fbTitle.className = "font-black text-base text-emerald-300";
+                } else {
+                    AudioKit.playWrong();
+                    fbBox.className = "p-4 rounded-2xl border text-sm flex items-start gap-3 bg-rose-950/80 border-rose-500 text-rose-100 shadow-xl animate-fade-in";
+                    fbIcon.innerHTML = `<i class="fa-solid fa-circle-xmark text-rose-400"></i>`;
+                    fbTitle.innerText = "Yanlış Program / İşlem!";
+                    fbTitle.className = "font-black text-base text-rose-300";
+                }
+
+                fbText.innerText = q.explanation;
+                this.updateScore();
+            },
+
+            nextQuestion() {
+                this.currentIndex++;
+                if (this.currentIndex < QUESTIONS.length) {
+                    this.renderQuestion();
+                } else {
+                    this.endGame();
+                }
+            },
+
+            updateScore() {
+                document.getElementById('score-display').innerText = `${this.score} / 100`;
+            },
+
+            endGame() {
+                AudioKit.playWin();
+                document.getElementById('progress-bar').style.width = '100%';
+                document.getElementById('game-screen').classList.add('hidden');
+                document.getElementById('end-screen').classList.remove('hidden');
+
+                document.getElementById('end-score').innerText = `${this.score} / 100`;
+                const title = document.getElementById('end-title');
+                const desc = document.getElementById('end-desc');
+                const badge = document.getElementById('end-badge');
+
+                if (this.score >= 90) {
+                    title.innerText = "Tasarım Stüdyosu Lideri! 🎨";
+                    desc.innerText = "Hangi göreve hangi programın gideceğini ve düzenleme adımlarını kusursuz biliyorsun!";
+                    badge.innerHTML = `<i class="fa-solid fa-palette text-amber-400"></i>`;
+                } else if (this.score >= 70) {
+                    title.innerText = "Kıdemli Tasarımcı! ✨";
+                    desc.innerText = "Program bilgilerinde çok başarılısın. Küçük detayları da gözden geçirerek tam puan alabilirsin.";
+                    badge.innerHTML = `<i class="fa-solid fa-wand-magic-sparkles text-fuchsia-400"></i>`;
+                } else {
+                    title.innerText = "Çırak Grafiker! 🖌️";
+                    desc.innerText = "Programların kullanım amaçlarını tekrar inceleyip bir tur daha pratik yapabilirsin.";
+                    badge.innerHTML = `<i class="fa-solid fa-paintbrush text-slate-300"></i>`;
+                }
+            },
+
+            restart() {
+                this.start();
+            }
+        };
+    </script>
+</body>
+</html>

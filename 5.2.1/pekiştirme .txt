@@ -1,0 +1,189 @@
+1. Görsel türleri, bitmap, vektörel ve piksel
+1. Ece, telefonuyla okul bahçesinin fotoğrafını çekiyor. Bu görüntü aşağıdakilerden hangisine örnektir?
+
+A) Vektörel çizim
+B) Fotoğraf
+C) Animasyon
+D) Metin belgesi
+Doğru cevap: B
+2. Bitmap görüntüler hangi yapılardan oluşur?
+
+A) Seslerden
+B) Harflerden
+C) Piksellerden
+D) Klasörlerden
+Doğru cevap: C
+3. Bir fotoğraf bilgisayarda çok fazla büyütüldüğünde küçük kareler belirginleşiyor. Bunun temel nedeni nedir?
+
+A) Görüntünün piksellerden oluşması
+B) Dosyanın silinmesi
+C) Bilgisayarın kapanması
+D) Görüntünün ses içermesi
+Doğru cevap: A
+4. Aşağıdakilerden hangisi vektörel görüntülerin özelliklerinden biridir?
+
+A) Yalnızca fotoğraflardan oluşması
+B) Büyütüldüğünde mutlaka bozulması
+C) Sadece siyah-beyaz olması
+D) Büyütüldüğünde kalitesini koruması
+Doğru cevap: D
+5. Bir şirket logosunun farklı boyutlarda kullanılacağı düşünülürse hangi görüntü türü daha uygun olabilir?
+
+A) Vektörel görüntü
+B) Ses dosyası
+C) Metin dosyası
+D) Video dosyası
+Doğru cevap: A
+2. Görüntü dosyaları ve uzantıları
+6. tatil_fotografi.jpg dosyasındaki .jpg ifadesi neyi belirtir?
+
+A) Dosyanın boyutunu
+B) Dosyanın uzantısını
+C) Dosyanın oluşturulduğu kişiyi
+D) Bilgisayarın adını
+Doğru cevap: B
+7. Aşağıdakilerden hangisi kaynaklarda vektörel görüntü dosya uzantısı olarak verilmiştir?
+
+A) JPG
+B) BMP
+C) SVG
+D) JPEG
+Doğru cevap: C
+8. Hareketli görsellerle de karşılaşabileceğimiz dosya biçimi hangisidir?
+
+A) GIF
+B) TXT
+C) DOCX
+D) XLSX
+Doğru cevap: A
+9. Aşağıdaki dosyalardan hangisi bir görüntü dosyasıdır?
+
+A) odev.docx
+B) liste.xlsx
+C) muzik.mp3
+D) resim.png
+Doğru cevap: D
+10. Aşağıdakilerden hangisi kaynaklarda vektörel dosya uzantısı örneği olarak verilmemiştir?
+
+A) EPS
+B) JPG
+C) AI
+D) SVG
+Doğru cevap: B
+3. Görsel işleme programları
+11. Ali, bilgisayarında basit bir resim çizmek istiyor. Hangi programdan yararlanabilir?
+
+A) Hesap makinesi
+B) Müzik çalar
+C) Paint
+D) Takvim
+Doğru cevap: C
+12. Okul etkinliği için renkli bir afiş hazırlamak isteyen Zeynep hangi programdan yararlanabilir?
+
+A) Canva
+B) Hesap makinesi
+C) Dosya yöneticisi
+D) Not Defteri
+Doğru cevap: A
+13. Aşağıdakilerden hangisi görsel işleme programıdır?
+
+A) Saat
+B) Takvim
+C) Müzik çalar
+D) GIMP
+Doğru cevap: D
+14. Fotoğraf düzenleme konusunda kullanılan program aşağıdakilerden hangisidir?
+
+A) Paint dışındaki hiçbir program kullanılamaz.
+B) Adobe Photoshop
+C) Hesap makinesi
+D) Dosya sıkıştırma aracı
+Doğru cevap: B
+15. Vektörel çizimler hazırlamak isteyen bir tasarımcı aşağıdaki programlardan hangisini tercih edebilir?
+
+A) Müzik çalar
+B) Takvim
+C) Adobe Illustrator
+D) Hesap makinesi
+Doğru cevap: C
+4. Görsel düzenleme işlemleri
+16. Bir fotoğrafın gereksiz kenarlarını kaldırıp yalnızca istenen bölümünü bırakmak isteyen öğrenci hangi işlemi yapmalıdır?
+
+A) Kırpma
+B) Döndürme
+C) Yazdırma
+D) Silme
+Doğru cevap: A
+17. Yan çekilmiş bir fotoğrafı düzgün hâle getirmek için hangi işlem kullanılır?
+
+A) Kopyalama
+B) Boyutlandırma
+C) Döndürme
+D) Dosya adlandırma
+Doğru cevap: C
+18. Hazırladığı afişin boyutları çok büyük olan Mert, afişi küçültmek istiyor. Hangi işlemi kullanmalıdır?
+
+A) Kırpma
+B) Boyutlandırma
+C) Silme
+D) Yeniden adlandırma
+Doğru cevap: B
+19. Bir fotoğrafın renklerini daha canlı hâle getirmek isteyen öğrenci hangi düzenlemeyi yapmalıdır?
+
+A) Dosyayı silme
+B) Klasör oluşturma
+C) Dosyayı taşıma
+D) Renk düzenleme
+Doğru cevap: D
+20. Bir öğrenci hazırladığı görsele başlık ve şekiller eklemek istiyor. Hangi işlemlerden yararlanabilir?
+
+A) Metin ve şekil ekleme
+B) Bilgisayarı kapatma
+C) Dosyayı silme
+D) Klasörü yeniden adlandırma
+Doğru cevap: A
+5. Dijital ürün tasarımı, telif ve etik
+21. Okulunda çevre temizliği konusunda farkındalık oluşturmak isteyen bir öğrenci öncelikle ne yapmalıdır?
+
+A) Bilgisayarı kapatmalıdır.
+B) Problemi belirlemelidir.
+C) Rastgele görseller seçmelidir.
+D) Dosyalarını silmelidir.
+Doğru cevap: B
+22. Dijital ürün tasarımında aşağıdakilerden hangisi önemlidir?
+
+A) Yazıların okunamayacak kadar küçük olması
+B) Her rengin bir arada kullanılması
+C) Görsel bütünlük ve okunabilirlik
+D) Konuyla ilgisiz görseller kullanılması
+Doğru cevap: C
+23. Elif, internetten bulduğu bir görseli ödevinde kullanmak istiyor. Nasıl davranmalıdır?
+
+A) Görselin telif hakkına dikkat etmeli ve gerektiğinde kaynağını belirtmelidir.
+B) Görseli kendisininmiş gibi göstermelidir.
+C) Görselin sahibini gizlemelidir.
+D) Görseli izinsiz her yerde kullanmalıdır.
+Doğru cevap: A
+24. Yapay zekâ ile görsel oluştururken aşağıdakilerden hangisi doğru bir davranıştır?
+
+A) İnsanları yanıltacak sahte görseller hazırlamak
+B) Başkalarının haklarını önemsememek
+C) Her üretilen görselin gerçek olduğunu düşünmek
+D) Etik kurallara ve telif haklarına dikkat etmek
+Doğru cevap: D
+25. Öğrenci, hazırladığı çevre afişini daha sonra kolayca bulabilmek için hangi dosya adını tercih etmelidir?
+
+A) 12345.png
+B) Ad_Soyad_Cevre_Afisi.png
+C) Yeni_Dosya_1.png
+D) Dosya.png
+Doğru cevap: B
+
+
+Yukarıdaki 25 soruyu hiçbirini değiştirmeden, eksiltmeden veya tekrar etmeden etkileşimli değerlendirme testine aktar.
+
+Her soru 4 puan değerinde olsun. Toplam puan 100 üzerinden hesaplansın.
+
+Doğru cevapta olumlu geri bildirim, yanlış cevapta doğru cevap ve kısa açıklama gösterilsin. Öğrenci cevap vermeden sonraki soruya geçemesin. Test sonunda doğru, yanlış, boş ve toplam puan bilgileri gösterilsin.
+
+Soruların sırası ve cevap seçenekleri korunsun. Cevap anahtarı öğrenciye test başlamadan gösterilmesin.
