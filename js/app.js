@@ -653,7 +653,7 @@ class App {
 
             <!-- Slayt İçeriği (Genişletilmiş ve Yüksek Okunabilirlik) -->
             <div class="slide-content-scroll my-auto py-3">
-                ${slide.content}
+                ${slide.content || slide.html || ""}
             </div>
 
             <!-- Slayt Alt Bilgi -->
@@ -1026,6 +1026,13 @@ class App {
         sounds.playClick();
         this.activePhotoDoc = docType;
         this.photoZoom = 1.0;
+        const data = this.getCurrentWeekData();
+        const images = data.weekInfo?.images || data.worksheetDocs?.images;
+        if ((docType === 'cevap' || docType === 'defter') && (!images?.[docType] || images[docType].includes('sayfa1.png') || images[docType].includes('sayfa2.png') || images[docType].includes('bilgisayar_konusu_tekrar.png'))) {
+            this.worksheetViewMode = 'digital';
+        } else if (docType.startsWith('sayfa') || docType === 'kagit1' || docType === 'kagit2' || docType === 'konu') {
+            this.worksheetViewMode = 'photo';
+        }
         this.renderWorksheet();
     }
 
@@ -2822,22 +2829,31 @@ class App {
                     <!-- ÖZEL OYUNLAR (1, 2, 3... ya da 5, 6, 7...) -->
                     ${extraGames.map((game, idx) => {
                         const gameNumber = hideStandardGames ? (1 + idx) : (5 + idx);
+                        const cardGradient = game.cardGradient || 'from-indigo-950/90 via-slate-900 to-purple-950/90';
+                        const border = game.border || 'border-indigo-500/50';
+                        const iconBg = game.iconBg || 'bg-indigo-500/30 text-yellow-300';
+                        const badgeColor = game.badgeColor || 'text-yellow-300';
+                        const descColor = game.descColor || 'text-slate-300';
+                        const btnGradient = game.btnGradient || (game.gradient ? `${game.gradient} text-white` : 'from-indigo-600 via-purple-600 to-pink-600 hover:from-indigo-500 hover:to-pink-500 text-white font-black');
+                        const btnIcon = game.btnIcon || game.icon || 'fa-solid fa-play';
+                        const btnText = game.btnText || 'Oyunu Başlat 🎮';
+
                         return `
-                        <div class="game-mode-card bg-gradient-to-br ${game.cardGradient} rounded-2xl sm:rounded-3xl p-4 sm:p-6 border-2 ${game.border} shadow-2xl flex flex-col justify-between space-y-3.5 sm:space-y-4">
+                        <div class="game-mode-card bg-gradient-to-br ${cardGradient} rounded-2xl sm:rounded-3xl p-4 sm:p-6 border-2 ${border} shadow-2xl flex flex-col justify-between space-y-3.5 sm:space-y-4">
                             <div class="flex items-center gap-3 sm:gap-4">
-                                <div class="w-11 h-11 sm:w-14 sm:h-14 rounded-xl sm:rounded-2xl ${game.iconBg} flex items-center justify-center text-2xl sm:text-3xl shadow-inner shrink-0">
-                                    <i class="${game.icon}"></i>
+                                <div class="w-11 h-11 sm:w-14 sm:h-14 rounded-xl sm:rounded-2xl ${iconBg} flex items-center justify-center text-2xl sm:text-3xl shadow-inner shrink-0">
+                                    <i class="${game.icon || 'fa-solid fa-gamepad'}"></i>
                                 </div>
                                 <div>
-                                    <span class="text-[10px] sm:text-xs font-bold ${game.badgeColor} uppercase">${gameNumber}. Oyun Modu (${game.badge})</span>
+                                    <span class="text-[10px] sm:text-xs font-bold ${badgeColor} uppercase">${gameNumber}. Oyun Modu (${game.badge || 'Özel Görev'})</span>
                                     <h3 class="text-lg sm:text-xl font-black text-white">${game.title}</h3>
                                 </div>
                             </div>
-                            <p class="text-xs sm:text-sm ${game.descColor} flex-1 leading-relaxed">
+                            <p class="text-xs sm:text-sm ${descColor} flex-1 leading-relaxed">
                                 ${game.desc}
                             </p>
-                            <button onclick="${game.action}" class="w-full py-3 sm:py-3.5 bg-gradient-to-r ${game.btnGradient} font-black text-sm sm:text-base rounded-xl sm:rounded-2xl shadow-xl flex items-center justify-center gap-2 transition-all hover:scale-[1.02] active:scale-95">
-                                <i class="${game.btnIcon}"></i> ${game.btnText}
+                            <button onclick="${game.action}" class="w-full py-3 sm:py-3.5 bg-gradient-to-r ${btnGradient} font-black text-sm sm:text-base rounded-xl sm:rounded-2xl shadow-xl flex items-center justify-center gap-2 transition-all hover:scale-[1.02] active:scale-95">
+                                <i class="${btnIcon}"></i> ${btnText}
                             </button>
                         </div>
                         `;
