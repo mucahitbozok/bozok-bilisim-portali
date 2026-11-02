@@ -3,6 +3,92 @@
 // 7. KONU (BTY.5.2.1): Görsel Düzenleme Programlarına Giriş
 // Eksiksiz ve Kusursuz Akıllı Tahta İçerik Paketi (Öğretmen Bozok)
 
+// İnteraktif Slayt 3: Piksel Büyüteci & Çizim Stüdyosu Motoru
+window.week7Slide3PixelGame = {
+    color: '#facc15',
+    pixels: [
+        0,0,1,1,1,1,0,0,
+        0,1,0,0,0,0,1,0,
+        1,0,1,0,0,1,0,1,
+        1,0,0,0,0,0,0,1,
+        1,0,1,0,0,1,0,1,
+        1,0,0,1,1,0,0,1,
+        0,1,0,0,0,0,1,0,
+        0,0,1,1,1,1,0,0
+    ].map(x => x ? '#facc15' : 0),
+    setColor(c) {
+        this.color = c;
+        if (typeof sounds !== 'undefined') sounds.playClick();
+        document.querySelectorAll('.s3-color-btn').forEach(b => {
+            const match = (b.dataset.color === c);
+            b.classList.toggle('ring-4', match);
+            b.classList.toggle('ring-white', match);
+        });
+    },
+    toggle(idx) {
+        if (typeof sounds !== 'undefined') sounds.playClick();
+        const cur = this.pixels[idx];
+        this.pixels[idx] = (cur === this.color) ? 0 : this.color;
+        this.render();
+    },
+    loadPreset(name) {
+        if (typeof sounds !== 'undefined') sounds.playFanfare();
+        if (name === 'smile') {
+            this.pixels = [
+                0,0,1,1,1,1,0,0,
+                0,1,0,0,0,0,1,0,
+                1,0,1,0,0,1,0,1,
+                1,0,0,0,0,0,0,1,
+                1,0,1,0,0,1,0,1,
+                1,0,0,1,1,0,0,1,
+                0,1,0,0,0,0,1,0,
+                0,0,1,1,1,1,0,0
+            ].map(x => x ? '#facc15' : 0);
+        } else if (name === 'heart') {
+            this.pixels = [
+                0,1,1,0,0,1,1,0,
+                1,1,1,1,1,1,1,1,
+                1,1,1,1,1,1,1,1,
+                1,1,1,1,1,1,1,1,
+                0,1,1,1,1,1,1,0,
+                0,0,1,1,1,1,0,0,
+                0,0,0,1,1,0,0,0,
+                0,0,0,0,0,0,0,0
+            ].map(x => x ? '#ef4444' : 0);
+        } else if (name === 'rocket') {
+            this.pixels = [
+                0,0,0,1,1,0,0,0,
+                0,0,1,1,1,1,0,0,
+                0,0,1,0,0,1,0,0,
+                0,1,1,1,1,1,1,0,
+                0,1,1,1,1,1,1,0,
+                1,1,0,1,1,0,1,1,
+                1,0,0,1,1,0,0,1,
+                0,0,1,0,0,1,0,0
+            ].map(x => x ? '#38bdf8' : 0);
+        } else if (name === 'clear') {
+            this.pixels = new Array(64).fill(0);
+        }
+        this.render();
+    },
+    render() {
+        const grid = document.getElementById('s3-pixel-grid');
+        if (!grid) return;
+        let activeCount = 0;
+        grid.innerHTML = this.pixels.map((col, i) => {
+            if (col !== 0) activeCount++;
+            const bg = col === 0 ? 'background:#0f172a;' : `background:${col};`;
+            const shadow = col === 0 ? '' : `box-shadow: 0 0 10px ${col}80;`;
+            return `<div onclick="window.week7Slide3PixelGame.toggle(${i})" 
+                         style="${bg} ${shadow} width:100%; aspect-ratio:1/1; border-radius:6px; border:1px solid rgba(255,255,255,0.18); cursor:pointer; transition:all 0.15s;" 
+                         class="hover:scale-110 active:scale-95"
+                         title="Piksel #${i+1}"></div>`;
+        }).join('');
+        const stat = document.getElementById('s3-pixel-stat');
+        if (stat) stat.innerText = `Dolu Piksel: ${activeCount} / 64`;
+    }
+};
+
 window.WEEK7_CONTENT = {
     weekInfo: {
     "weekNumber": 7,
@@ -27,6 +113,414 @@ window.WEEK7_CONTENT = {
         "sayfa3": "assets/worksheets/2.1_sayfa3.png",
         "sayfa4": "assets/worksheets/2.1_sayfa4.png"
     }
+},
+    gameData: {
+    "wheelQuiz": [
+        {
+            "question": "Ekrandaki görüntüyü oluşturan en küçük renkli kare birime ne ad verilir?",
+            "options": [
+                "Piksel",
+                "Megabayt",
+                "Vektör",
+                "Çözünürlük"
+            ],
+            "answer": 0,
+            "points": 100
+        },
+        {
+            "question": "Telefon veya kamera ile çekilen gerçek hayat fotoğrafları hangi tür görüntüdür?",
+            "options": [
+                "Vektörel Grafik",
+                "Bitmap (Nokta Eşlemli)",
+                "3D Model",
+                "Metin Dosyası"
+            ],
+            "answer": 1,
+            "points": 100
+        },
+        {
+            "question": "Matematiksel çizgilerle çizilen ve büyütüldüğünde asla bozulmayan görüntü hangisidir?",
+            "options": [
+                "Bitmap",
+                "Piksel Tabanlı",
+                "Vektörel Görüntü",
+                "Ham Fotoğraf"
+            ],
+            "answer": 2,
+            "points": 150
+        },
+        {
+            "question": "Şeffaf (saydam) arka planı destekleyen ve logolarda sıkça kullanılan uzantı?",
+            "options": [
+                ".JPG",
+                ".PNG",
+                ".BMP",
+                ".TXT"
+            ],
+            "answer": 1,
+            "points": 100
+        },
+        {
+            "question": "Kısa süreli döngüsel hareketli animasyonlar oluşturmak için kullanılan format?",
+            "options": [
+                ".GIF",
+                ".PDF",
+                ".MP3",
+                ".DOCX"
+            ],
+            "answer": 0,
+            "points": 100
+        },
+        {
+            "question": "Web sitelerinde büyüyüp küçülen logoların net kalması için kullanılan standart vektör uzantısı?",
+            "options": [
+                ".SVG",
+                ".JPG",
+                ".BMP",
+                ".GIF"
+            ],
+            "answer": 0,
+            "points": 150
+        },
+        {
+            "question": "Windows ile birlikte gelen temel ve pratik resim çizim programı hangisidir?",
+            "options": [
+                "Adobe Photoshop",
+                "Paint",
+                "Blender",
+                "Canva"
+            ],
+            "answer": 1,
+            "points": 100
+        },
+        {
+            "question": "Hazır şablonlarla web üzerinden kolayca afiş ve broşür hazırlanan popüler araç?",
+            "options": [
+                "Canva",
+                "Excel",
+                "Not Defteri",
+                "Hesap Makinesi"
+            ],
+            "answer": 0,
+            "points": 100
+        },
+        {
+            "question": "Piksel tabanlı profesyonel fotoğraf düzenleme ve rötuş programı hangisidir?",
+            "options": [
+                "Photoshop",
+                "Word",
+                "PowerPoint",
+                "Scratch"
+            ],
+            "answer": 0,
+            "points": 150
+        },
+        {
+            "question": "Fotoğrafın istenmeyen kenar alanlarını kesip çıkarma işlemine ne ad verilir?",
+            "options": [
+                "Kırpma (Crop)",
+                "Döndürme (Rotate)",
+                "Boyutlandırma",
+                "Filtreleme"
+            ],
+            "answer": 0,
+            "points": 100
+        },
+        {
+            "question": "Yan veya baş aşağı çekilmiş fotoğrafı dik ve düzgün konuma getirme işlemi?",
+            "options": [
+                "Döndürme (Rotate)",
+                "Kırpma",
+                "Doygunluk",
+                "Silme"
+            ],
+            "answer": 0,
+            "points": 100
+        },
+        {
+            "question": "Dijital ürün tasarım sürecinin ilk ve en önemli aşaması hangisidir?",
+            "options": [
+                "Problemi Belirleme",
+                "Hemen Baskıya Gönderme",
+                "Rastgele Boyama",
+                "Yazı Tipini Büyütme"
+            ],
+            "answer": 0,
+            "points": 150
+        }
+    ],
+    "matchConfig": {
+        "matchCount": 8,
+        "timeLimit": 60
+    },
+    "matchCards": [
+        {
+            "id": 1,
+            "text": "Piksel",
+            "category": "Görüntünün En Küçük Renkli Karesi",
+            "icon": "fa-solid fa-border-all"
+        },
+        {
+            "id": 2,
+            "text": "Bitmap",
+            "category": "Piksellerden Oluşan Gerçekçi Fotoğraf",
+            "icon": "fa-solid fa-camera"
+        },
+        {
+            "id": 3,
+            "text": "Vektörel",
+            "category": "Sonsuz Büyüyebilen Çizgisel Grafik",
+            "icon": "fa-solid fa-bezier-curve"
+        },
+        {
+            "id": 4,
+            "text": ".PNG",
+            "category": "Saydam / Şeffaf Arka Plan Destekli Format",
+            "icon": "fa-solid fa-clone"
+        },
+        {
+            "id": 5,
+            "text": ".GIF",
+            "category": "Kısa Süreli Hareketli Animasyon",
+            "icon": "fa-solid fa-play"
+        },
+        {
+            "id": 6,
+            "text": "Kırpma (Crop)",
+            "category": "İstenmeyen Kenarları Kesip Atma",
+            "icon": "fa-solid fa-crop-simple"
+        },
+        {
+            "id": 7,
+            "text": "Canva",
+            "category": "Hazır Şablonlu Web Afiş Tasarım Aracı",
+            "icon": "fa-solid fa-cloud"
+        },
+        {
+            "id": 8,
+            "text": "Photoshop",
+            "category": "Profesyonel Piksel Fotoğraf Düzenleyici",
+            "icon": "fa-solid fa-wand-magic-sparkles"
+        }
+    ],
+    "reflexStatements": [
+        {
+            "text": "Telefonla çekilen manzara fotoğrafları piksel tabanlı (Bitmap) görüntüdür.",
+            "correct": true
+        },
+        {
+            "text": "Vektörel görüntüler çok fazla büyütüldüğünde kenarları hemen bozulur ve piksellenir.",
+            "correct": false
+        },
+        {
+            "text": ".PNG formatı şeffaf (saydam) arka planı destekler.",
+            "correct": true
+        },
+        {
+            "text": ".JPG fotoğraflar şeffaf arka planı desteklemez, boşlukları renkle doldurur.",
+            "correct": true
+        },
+        {
+            "text": "Paint, profesyonel 3 boyutlu film animasyonları hazırlamak için tasarlanmıştır.",
+            "correct": false
+        },
+        {
+            "text": ".SVG dosyaları web tarayıcılarında çalışan ölçeklenebilir vektör formatıdır.",
+            "correct": true
+        },
+        {
+            "text": "Çözünürlük bir görseldeki veya ekrandaki toplam piksel yoğunluğudur.",
+            "correct": true
+        },
+        {
+            "text": "Fotoğrafı döndürmek (Rotate) sadece görselin parlaklık ayarını artırır.",
+            "correct": false
+        },
+        {
+            "text": "Kırpma (Crop) işlemi fotoğrafın kenarındaki gereksiz detayları kesmeyi sağlar.",
+            "correct": true
+        },
+        {
+            "text": "İnternette bulduğumuz her resmi sahibinden izin almadan dilediğimizce satabiliriz.",
+            "correct": false
+        },
+        {
+            "text": "Adobe Illustrator piksel tabanlı değil vektörel çizim programıdır.",
+            "correct": true
+        },
+        {
+            "text": ".GIF formatı en fazla 256 renk desteklediği için fotoğraf kalitesi düşüktür.",
+            "correct": true
+        },
+        {
+            "text": "Boyutlandırma yaparken en-boy oranını kilitlemek fotoğrafın basık görünmesini engeller.",
+            "correct": true
+        },
+        {
+            "text": "Tasarım sürecinin ilk aşaması hemen renkleri seçip matbaaya göndermektir.",
+            "correct": false
+        },
+        {
+            "text": "GIMP, açık kaynak kodlu ve ücretsiz gelişmiş bir görsel düzenleyicidir.",
+            "correct": true
+        },
+        {
+            "text": "Bitmap görüntüler çizgisel formüllerle değil renkli piksellerle oluşur.",
+            "correct": true
+        }
+    ],
+    "duelQuestions": [
+        {
+            "q": "Görüntüyü oluşturan en küçük renkli kare birim hangisidir?",
+            "options": [
+                "Piksel",
+                "Bit",
+                "Bayt",
+                "Klasör"
+            ],
+            "answer": 0
+        },
+        {
+            "q": "Telefon kamerasıyla çekilen okul fotoğrafı hangi tür görüntüdür?",
+            "options": [
+                "Vektörel",
+                "Bitmap",
+                "Algoritma",
+                "Ses Dalgaları"
+            ],
+            "answer": 1
+        },
+        {
+            "q": "Sonsuz büyütüldüğünde asla kalitesi bozulmayan görüntü türü?",
+            "options": [
+                "Bitmap",
+                "Vektörel",
+                "Piksel Haritası",
+                "Ham Baskı"
+            ],
+            "answer": 1
+        },
+        {
+            "q": "Şeffaf (saydam) arka planı destekleyen görüntü uzantısı hangisidir?",
+            "options": [
+                ".PNG",
+                ".JPG",
+                ".BMP",
+                ".TXT"
+            ],
+            "answer": 0
+        },
+        {
+            "q": "Kısa döngülü hareketli animasyonları oynatan dosya formatı?",
+            "options": [
+                ".MP3",
+                ".GIF",
+                ".PDF",
+                ".DOCX"
+            ],
+            "answer": 1
+        },
+        {
+            "q": "Bir şirket logosunu hem küçük rozete hem gökdelene basmak için hangi tür uygundur?",
+            "options": [
+                "Bitmap",
+                "Vektörel",
+                "Piksel Izgarası",
+                "Ekran Görüntüsü"
+            ],
+            "answer": 1
+        },
+        {
+            "q": "Web standartlarında kullanılan en yaygın vektör dosya uzantısı hangisidir?",
+            "options": [
+                ".SVG",
+                ".JPG",
+                ".BMP",
+                ".GIF"
+            ],
+            "answer": 0
+        },
+        {
+            "q": "Windows işletim sistemiyle hazır gelen pratik çizim programı?",
+            "options": [
+                "Canva",
+                "Paint",
+                "Illustrator",
+                "Tinkercad"
+            ],
+            "answer": 1
+        },
+        {
+            "q": "Hazır şablonlarla webde afiş ve sunum yapmayı kolaylaştıran popüler araç?",
+            "options": [
+                "Canva",
+                "Excel",
+                "Hesap Makinesi",
+                "BIOS"
+            ],
+            "answer": 0
+        },
+        {
+            "q": "Profesyonel piksel tabanlı fotoğraf rötuş programı hangisidir?",
+            "options": [
+                "Adobe Photoshop",
+                "Adobe Illustrator",
+                "Not Defteri",
+                "WordPad"
+            ],
+            "answer": 0
+        },
+        {
+            "q": "Fotoğrafın kenarlarındaki gereksiz alanları kesip atma işlemine ne ad verilir?",
+            "options": [
+                "Kırpma (Crop)",
+                "Döndürme",
+                "Doygunluk",
+                "Yakınlaştırma"
+            ],
+            "answer": 0
+        },
+        {
+            "q": "Ters veya yan çekilmiş bir fotoğrafı düzgün hâle getirme işlemi?",
+            "options": [
+                "Döndürme (Rotate)",
+                "Kırpma",
+                "Silme",
+                "Boyutlandırma"
+            ],
+            "answer": 0
+        },
+        {
+            "q": "Afiş tasarlarken uzaktan okunabilirliği artırmak için neye dikkat edilir?",
+            "options": [
+                "Zıt (Kontrast) Renkler",
+                "Çok Küçük Yazı",
+                "10 Farklı Yazı Tipi",
+                "Karmaşık Arka Plan"
+            ],
+            "answer": 0
+        },
+        {
+            "q": "İnternetten bulduğumuz bir görseli kullanırken nasıl davranmalıyız?",
+            "options": [
+                "İzin Almalı / Telifsiz Seçmeliyiz",
+                "İzinsiz Satmalıyız",
+                "İmzayı Silmeliyiz",
+                "Fark Etmez"
+            ],
+            "answer": 0
+        },
+        {
+            "q": "Tasarım sürecinin ilk aşaması hangisidir?",
+            "options": [
+                "Problemi Belirleme",
+                "Hemen Çizim",
+                "Matbaa Baskısı",
+                "Filtre Seçimi"
+            ],
+            "answer": 0
+        }
+    ]
 },
     extraGames: [
     {
@@ -92,6 +586,22 @@ window.WEEK7_CONTENT = {
         "btnIcon": "fa-solid fa-trophy",
         "btnGradient": "from-amber-500 to-orange-500 hover:from-amber-400 hover:to-orange-400 text-slate-950 font-black",
         "action": "app.openStandaloneGame('games/tasarim_ustalari.html', 'Tasarım Ustaları | Öğretmen Bozok')"
+    },
+    {
+        "id": "gorsel_duzenleme_kelime_avi",
+        "badge": "Kelime Avı 🧩",
+        "badgeColor": "text-purple-300",
+        "title": "5. Görsel Düzenleme Kelime Avı",
+        "desc": "12x12 harf matrisinde gizlenen 10 görsel düzenleme, piksel ve vektör terimini bul! Her oyunda kelimelerin yerleri rastgele değişir!",
+        "icon": "fa-solid fa-puzzle-piece",
+        "iconBg": "bg-purple-500/30 text-purple-300",
+        "cardGradient": "from-purple-950/90 via-slate-900 to-pink-950/90",
+        "border": "border-purple-500/50",
+        "descColor": "text-purple-100",
+        "btnText": "Kelime Avına Başla!",
+        "btnIcon": "fa-solid fa-crosshairs",
+        "btnGradient": "from-purple-600 via-pink-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white font-black",
+        "action": "app.openStandaloneGame('games/gorsel_duzenleme_kelime_avi.html', 'Görsel Düzenleme Kelime Avı | Öğretmen Bozok')"
     }
 ],
     slides: [
@@ -119,14 +629,14 @@ window.WEEK7_CONTENT = {
     },
     {
         "id": 3,
-        "title": "Piksel Nedir? Görüntünün Mikroskobik Renkli Kareleri 🔍",
+        "title": "Piksel Nedir? İnteraktif Piksel Stüdyosu 🔍",
         "subtitle": "Picture + Element = Pixel",
         "topic": "2. TEMA • BTY.5.2.1",
-        "badge": "PİKSEL KAVRAMI",
+        "badge": "İNTERAKTİF PİKSEL",
         "icon": "fa-solid fa-magnifying-glass-plus",
         "bgColor": "from-slate-900 via-purple-950 to-indigo-950",
         "gradient": "from-slate-900 via-purple-950 to-indigo-950",
-        "content": "\n            <div class=\"grid grid-cols-1 md:grid-cols-12 gap-6 items-center max-w-5xl mx-auto my-auto\">\n                <div class=\"md:col-span-7 space-y-4 text-left\">\n                    <div class=\"p-4 rounded-2xl bg-indigo-900/60 border border-indigo-400/40 space-y-2\">\n                        <span class=\"text-xs font-extrabold uppercase tracking-wider text-yellow-300\">Tanım</span>\n                        <h3 class=\"text-2xl font-black text-white\">Picture (Resim) + Element (Öğe)</h3>\n                        <p class=\"text-sm sm:text-base text-slate-200 leading-relaxed\">\n                            Dijital ekrandaki görüntüyü oluşturan, yan yana dizilmiş <strong>en küçük renkli kare birime PİKSEL</strong> denir.\n                        </p>\n                    </div>\n\n                    <div class=\"space-y-2.5\">\n                        <div class=\"flex items-start gap-3 p-3 rounded-xl bg-slate-800/80 border border-slate-700\">\n                            <span class=\"w-8 h-8 rounded-lg bg-pink-500/20 text-pink-400 flex items-center justify-center font-black shrink-0\">1</span>\n                            <div class=\"text-xs sm:text-sm text-slate-300\">\n                                <strong>Her Piksel Tek Bir Renk Taşır:</strong> Kırmızı, yeşil ve mavi (RGB) ışık karışımıyla tek bir renk alır.\n                            </div>\n                        </div>\n                        <div class=\"flex items-start gap-3 p-3 rounded-xl bg-slate-800/80 border border-slate-700\">\n                            <span class=\"w-8 h-8 rounded-lg bg-cyan-500/20 text-cyan-400 flex items-center justify-center font-black shrink-0\">2</span>\n                            <div class=\"text-xs sm:text-sm text-slate-300\">\n                                <strong>Çözünürlük (Resolution):</strong> Bir ekrandaki veya görseldeki toplam piksel sayısıdır. (Örn: 1920x1080 = 2 Milyon piksel!)\n                            </div>\n                        </div>\n                        <div class=\"flex items-start gap-3 p-3 rounded-xl bg-slate-800/80 border border-slate-700\">\n                            <span class=\"w-8 h-8 rounded-lg bg-amber-500/20 text-amber-400 flex items-center justify-center font-black shrink-0\">3</span>\n                            <div class=\"text-xs sm:text-sm text-slate-300\">\n                                <strong>Pikselleşme (Pixelation):</strong> Fotoğraf aşırı büyütüldüğünde bu renkli karelerin çıplak gözle tek tek görünür hâle gelmesidir.\n                            </div>\n                        </div>\n                    </div>\n                </div>\n\n                <div class=\"md:col-span-5 flex flex-col items-center justify-center p-6 bg-slate-800/90 rounded-3xl border-2 border-yellow-400/40 shadow-2xl space-y-4\">\n                    <span class=\"text-xs font-black uppercase tracking-widest text-yellow-300\">Akıllı Tahta İnteraktif Büyüteç</span>\n                    \n                    <!-- 8x8 Pixel Grid Simülasyonu -->\n                    <div class=\"grid grid-cols-8 gap-1 p-3 bg-slate-950 rounded-2xl border-2 border-indigo-400/50 shadow-inner\">\n                        <div class=\"w-6 h-6 bg-slate-900 rounded-sm\"></div><div class=\"w-6 h-6 bg-yellow-400 rounded-sm\"></div><div class=\"w-6 h-6 bg-yellow-400 rounded-sm\"></div><div class=\"w-6 h-6 bg-slate-900 rounded-sm\"></div><div class=\"w-6 h-6 bg-slate-900 rounded-sm\"></div><div class=\"w-6 h-6 bg-yellow-400 rounded-sm\"></div><div class=\"w-6 h-6 bg-yellow-400 rounded-sm\"></div><div class=\"w-6 h-6 bg-slate-900 rounded-sm\"></div>\n                        <div class=\"w-6 h-6 bg-yellow-400 rounded-sm\"></div><div class=\"w-6 h-6 bg-yellow-400 rounded-sm\"></div><div class=\"w-6 h-6 bg-yellow-400 rounded-sm\"></div><div class=\"w-6 h-6 bg-yellow-400 rounded-sm\"></div><div class=\"w-6 h-6 bg-yellow-400 rounded-sm\"></div><div class=\"w-6 h-6 bg-yellow-400 rounded-sm\"></div><div class=\"w-6 h-6 bg-yellow-400 rounded-sm\"></div><div class=\"w-6 h-6 bg-yellow-400 rounded-sm\"></div>\n                        <div class=\"w-6 h-6 bg-yellow-400 rounded-sm\"></div><div class=\"w-6 h-6 bg-slate-900 rounded-sm\"></div><div class=\"w-6 h-6 bg-yellow-400 rounded-sm\"></div><div class=\"w-6 h-6 bg-yellow-400 rounded-sm\"></div><div class=\"w-6 h-6 bg-yellow-400 rounded-sm\"></div><div class=\"w-6 h-6 bg-slate-900 rounded-sm\"></div><div class=\"w-6 h-6 bg-yellow-400 rounded-sm\"></div><div class=\"w-6 h-6 bg-yellow-400 rounded-sm\"></div>\n                        <div class=\"w-6 h-6 bg-yellow-400 rounded-sm\"></div><div class=\"w-6 h-6 bg-yellow-400 rounded-sm\"></div><div class=\"w-6 h-6 bg-yellow-400 rounded-sm\"></div><div class=\"w-6 h-6 bg-yellow-400 rounded-sm\"></div><div class=\"w-6 h-6 bg-yellow-400 rounded-sm\"></div><div class=\"w-6 h-6 bg-yellow-400 rounded-sm\"></div><div class=\"w-6 h-6 bg-yellow-400 rounded-sm\"></div><div class=\"w-6 h-6 bg-yellow-400 rounded-sm\"></div>\n                        <div class=\"w-6 h-6 bg-yellow-400 rounded-sm\"></div><div class=\"w-6 h-6 bg-slate-900 rounded-sm\"></div><div class=\"w-6 h-6 bg-yellow-400 rounded-sm\"></div><div class=\"w-6 h-6 bg-yellow-400 rounded-sm\"></div><div class=\"w-6 h-6 bg-yellow-400 rounded-sm\"></div><div class=\"w-6 h-6 bg-slate-900 rounded-sm\"></div><div class=\"w-6 h-6 bg-yellow-400 rounded-sm\"></div><div class=\"w-6 h-6 bg-yellow-400 rounded-sm\"></div>\n                        <div class=\"w-6 h-6 bg-yellow-400 rounded-sm\"></div><div class=\"w-6 h-6 bg-yellow-400 rounded-sm\"></div><div class=\"w-6 h-6 bg-slate-900 rounded-sm\"></div><div class=\"w-6 h-6 bg-slate-900 rounded-sm\"></div><div class=\"w-6 h-6 bg-slate-900 rounded-sm\"></div><div class=\"w-6 h-6 bg-yellow-400 rounded-sm\"></div><div class=\"w-6 h-6 bg-yellow-400 rounded-sm\"></div><div class=\"w-6 h-6 bg-yellow-400 rounded-sm\"></div>\n                        <div class=\"w-6 h-6 bg-slate-900 rounded-sm\"></div><div class=\"w-6 h-6 bg-yellow-400 rounded-sm\"></div><div class=\"w-6 h-6 bg-yellow-400 rounded-sm\"></div><div class=\"w-6 h-6 bg-yellow-400 rounded-sm\"></div><div class=\"w-6 h-6 bg-yellow-400 rounded-sm\"></div><div class=\"w-6 h-6 bg-yellow-400 rounded-sm\"></div><div class=\"w-6 h-6 bg-yellow-400 rounded-sm\"></div><div class=\"w-6 h-6 bg-slate-900 rounded-sm\"></div>\n                        <div class=\"w-6 h-6 bg-slate-900 rounded-sm\"></div><div class=\"w-6 h-6 bg-slate-900 rounded-sm\"></div><div class=\"w-6 h-6 bg-yellow-400 rounded-sm\"></div><div class=\"w-6 h-6 bg-yellow-400 rounded-sm\"></div><div class=\"w-6 h-6 bg-yellow-400 rounded-sm\"></div><div class=\"w-6 h-6 bg-slate-900 rounded-sm\"></div><div class=\"w-6 h-6 bg-slate-900 rounded-sm\"></div><div class=\"w-6 h-6 bg-slate-900 rounded-sm\"></div>\n                    </div>\n\n                    <p class=\"text-xs text-center text-slate-300 font-medium\">\n                        🔍 Gülen yüz emojisine çok yakından baktığımızda aslında sadece karelerden oluştuğunu görürüz!\n                    </p>\n                </div>\n            </div>\n        "
+        "content": "\n                <div class=\"grid grid-cols-1 md:grid-cols-12 gap-6 items-center max-w-5xl mx-auto my-auto py-2\">\n                    <!-- Sol Taraf: Tanım, Kurallar ve Palet -->\n                    <div class=\"md:col-span-6 space-y-4 text-left\">\n                        <div class=\"p-4 rounded-2xl bg-indigo-900/60 border border-indigo-400/40 space-y-2\">\n                            <span class=\"text-xs font-extrabold uppercase tracking-wider text-yellow-300\">Temel Tanım</span>\n                            <h3 class=\"text-xl sm:text-2xl font-black text-white\">Picture (Resim) + Element (Öğe)</h3>\n                            <p class=\"text-xs sm:text-sm text-slate-200 leading-relaxed\">\n                                Dijital ekrandaki görüntüyü oluşturan, yan yana dizilmiş <strong>en küçük renkli kare birime PİKSEL</strong> denir.\n                            </p>\n                        </div>\n\n                        <!-- Palet & Renk Seçimi -->\n                        <div class=\"p-3.5 bg-slate-800/90 rounded-2xl border border-slate-700 space-y-2.5\">\n                            <div class=\"flex items-center justify-between text-xs font-black text-yellow-300\">\n                                <span>🎨 Çizim Rengini Seç:</span>\n                                <span id=\"s3-pixel-stat\" class=\"text-cyan-300 font-mono\">Dolu Piksel: 24 / 64</span>\n                            </div>\n                            <div class=\"flex items-center gap-2 flex-wrap\">\n                                <button onclick=\"window.week7Slide3PixelGame.setColor('#facc15')\" data-color=\"#facc15\" class=\"s3-color-btn w-9 h-9 rounded-xl bg-yellow-400 ring-4 ring-white shadow transition-all hover:scale-110 active:scale-95\" title=\"Sarı\"></button>\n                                <button onclick=\"window.week7Slide3PixelGame.setColor('#38bdf8')\" data-color=\"#38bdf8\" class=\"s3-color-btn w-9 h-9 rounded-xl bg-sky-400 shadow transition-all hover:scale-110 active:scale-95\" title=\"Mavi / Camgöbeği\"></button>\n                                <button onclick=\"window.week7Slide3PixelGame.setColor('#ef4444')\" data-color=\"#ef4444\" class=\"s3-color-btn w-9 h-9 rounded-xl bg-red-500 shadow transition-all hover:scale-110 active:scale-95\" title=\"Kırmızı\"></button>\n                                <button onclick=\"window.week7Slide3PixelGame.setColor('#10b981')\" data-color=\"#10b981\" class=\"s3-color-btn w-9 h-9 rounded-xl bg-emerald-500 shadow transition-all hover:scale-110 active:scale-95\" title=\"Yeşil\"></button>\n                                <button onclick=\"window.week7Slide3PixelGame.setColor('#c084fc')\" data-color=\"#c084fc\" class=\"s3-color-btn w-9 h-9 rounded-xl bg-purple-400 shadow transition-all hover:scale-110 active:scale-95\" title=\"Mor\"></button>\n                                <button onclick=\"window.week7Slide3PixelGame.setColor('#0f172a')\" data-color=\"#0f172a\" class=\"s3-color-btn w-9 h-9 rounded-xl bg-slate-900 border border-slate-600 shadow transition-all hover:scale-110 active:scale-95 flex items-center justify-center text-xs text-slate-300 font-bold\" title=\"Silgi / Temizle\">\n                                    <i class=\"fa-solid fa-eraser\"></i>\n                                </button>\n                            </div>\n                        </div>\n\n                        <!-- Şablon Butonları -->\n                        <div class=\"flex items-center gap-2 flex-wrap\">\n                            <span class=\"text-xs font-bold text-slate-400\">Hazır Şablonlar:</span>\n                            <button onclick=\"window.week7Slide3PixelGame.loadPreset('smile')\" class=\"px-3 py-1.5 bg-yellow-400/20 hover:bg-yellow-400/30 text-yellow-300 border border-yellow-400/40 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 active:scale-95\">\n                                😀 Gülen Yüz\n                            </button>\n                            <button onclick=\"window.week7Slide3PixelGame.loadPreset('heart')\" class=\"px-3 py-1.5 bg-rose-500/20 hover:bg-rose-500/30 text-rose-300 border border-rose-500/40 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 active:scale-95\">\n                                ❤️ Kalp\n                            </button>\n                            <button onclick=\"window.week7Slide3PixelGame.loadPreset('rocket')\" class=\"px-3 py-1.5 bg-sky-500/20 hover:bg-sky-500/30 text-sky-300 border border-sky-500/40 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 active:scale-95\">\n                                🚀 Roket\n                            </button>\n                            <button onclick=\"window.week7Slide3PixelGame.loadPreset('clear')\" class=\"px-3 py-1.5 bg-slate-700 hover:bg-slate-600 text-slate-300 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 active:scale-95\">\n                                🧹 Temizle\n                            </button>\n                        </div>\n                    </div>\n\n                    <!-- Sağ Taraf: 8x8 İnteraktif Akıllı Tahta Kanvası -->\n                    <div class=\"md:col-span-6 flex flex-col items-center justify-center p-5 bg-slate-900/90 rounded-3xl border-2 border-yellow-400/50 shadow-2xl space-y-3\">\n                        <div class=\"flex items-center justify-between w-full\">\n                            <span class=\"text-xs font-black uppercase tracking-widest text-yellow-300\">\n                                <i class=\"fa-solid fa-hand-pointer mr-1.5 animate-bounce\"></i> Akıllı Tahta Dokunmatik Kanvas\n                            </span>\n                            <span class=\"text-[11px] font-bold text-indigo-300\">8 x 8 = 64 Piksel</span>\n                        </div>\n\n                        <div id=\"s3-pixel-grid\" class=\"grid grid-cols-8 gap-1.5 p-3.5 bg-slate-950 rounded-2xl border-2 border-indigo-400/50 shadow-inner w-full max-w-[340px]\">\n                            <div onclick=\"window.week7Slide3PixelGame.toggle(0)\" id=\"s3-px-0\" style=\"background:#0f172a; width:100%; aspect-ratio:1/1; border-radius:6px; border:1px solid rgba(255,255,255,0.18); cursor:pointer; transition:all 0.15s;\" class=\"hover:scale-110 active:scale-95\" title=\"Piksel #1\"></div><div onclick=\"window.week7Slide3PixelGame.toggle(1)\" id=\"s3-px-1\" style=\"background:#0f172a; width:100%; aspect-ratio:1/1; border-radius:6px; border:1px solid rgba(255,255,255,0.18); cursor:pointer; transition:all 0.15s;\" class=\"hover:scale-110 active:scale-95\" title=\"Piksel #2\"></div><div onclick=\"window.week7Slide3PixelGame.toggle(2)\" id=\"s3-px-2\" style=\"background:#facc15; box-shadow:0 0 10px #facc1580; width:100%; aspect-ratio:1/1; border-radius:6px; border:1px solid rgba(255,255,255,0.18); cursor:pointer; transition:all 0.15s;\" class=\"hover:scale-110 active:scale-95\" title=\"Piksel #3\"></div><div onclick=\"window.week7Slide3PixelGame.toggle(3)\" id=\"s3-px-3\" style=\"background:#facc15; box-shadow:0 0 10px #facc1580; width:100%; aspect-ratio:1/1; border-radius:6px; border:1px solid rgba(255,255,255,0.18); cursor:pointer; transition:all 0.15s;\" class=\"hover:scale-110 active:scale-95\" title=\"Piksel #4\"></div><div onclick=\"window.week7Slide3PixelGame.toggle(4)\" id=\"s3-px-4\" style=\"background:#facc15; box-shadow:0 0 10px #facc1580; width:100%; aspect-ratio:1/1; border-radius:6px; border:1px solid rgba(255,255,255,0.18); cursor:pointer; transition:all 0.15s;\" class=\"hover:scale-110 active:scale-95\" title=\"Piksel #5\"></div><div onclick=\"window.week7Slide3PixelGame.toggle(5)\" id=\"s3-px-5\" style=\"background:#facc15; box-shadow:0 0 10px #facc1580; width:100%; aspect-ratio:1/1; border-radius:6px; border:1px solid rgba(255,255,255,0.18); cursor:pointer; transition:all 0.15s;\" class=\"hover:scale-110 active:scale-95\" title=\"Piksel #6\"></div><div onclick=\"window.week7Slide3PixelGame.toggle(6)\" id=\"s3-px-6\" style=\"background:#0f172a; width:100%; aspect-ratio:1/1; border-radius:6px; border:1px solid rgba(255,255,255,0.18); cursor:pointer; transition:all 0.15s;\" class=\"hover:scale-110 active:scale-95\" title=\"Piksel #7\"></div><div onclick=\"window.week7Slide3PixelGame.toggle(7)\" id=\"s3-px-7\" style=\"background:#0f172a; width:100%; aspect-ratio:1/1; border-radius:6px; border:1px solid rgba(255,255,255,0.18); cursor:pointer; transition:all 0.15s;\" class=\"hover:scale-110 active:scale-95\" title=\"Piksel #8\"></div><div onclick=\"window.week7Slide3PixelGame.toggle(8)\" id=\"s3-px-8\" style=\"background:#0f172a; width:100%; aspect-ratio:1/1; border-radius:6px; border:1px solid rgba(255,255,255,0.18); cursor:pointer; transition:all 0.15s;\" class=\"hover:scale-110 active:scale-95\" title=\"Piksel #9\"></div><div onclick=\"window.week7Slide3PixelGame.toggle(9)\" id=\"s3-px-9\" style=\"background:#facc15; box-shadow:0 0 10px #facc1580; width:100%; aspect-ratio:1/1; border-radius:6px; border:1px solid rgba(255,255,255,0.18); cursor:pointer; transition:all 0.15s;\" class=\"hover:scale-110 active:scale-95\" title=\"Piksel #10\"></div><div onclick=\"window.week7Slide3PixelGame.toggle(10)\" id=\"s3-px-10\" style=\"background:#0f172a; width:100%; aspect-ratio:1/1; border-radius:6px; border:1px solid rgba(255,255,255,0.18); cursor:pointer; transition:all 0.15s;\" class=\"hover:scale-110 active:scale-95\" title=\"Piksel #11\"></div><div onclick=\"window.week7Slide3PixelGame.toggle(11)\" id=\"s3-px-11\" style=\"background:#0f172a; width:100%; aspect-ratio:1/1; border-radius:6px; border:1px solid rgba(255,255,255,0.18); cursor:pointer; transition:all 0.15s;\" class=\"hover:scale-110 active:scale-95\" title=\"Piksel #12\"></div><div onclick=\"window.week7Slide3PixelGame.toggle(12)\" id=\"s3-px-12\" style=\"background:#0f172a; width:100%; aspect-ratio:1/1; border-radius:6px; border:1px solid rgba(255,255,255,0.18); cursor:pointer; transition:all 0.15s;\" class=\"hover:scale-110 active:scale-95\" title=\"Piksel #13\"></div><div onclick=\"window.week7Slide3PixelGame.toggle(13)\" id=\"s3-px-13\" style=\"background:#0f172a; width:100%; aspect-ratio:1/1; border-radius:6px; border:1px solid rgba(255,255,255,0.18); cursor:pointer; transition:all 0.15s;\" class=\"hover:scale-110 active:scale-95\" title=\"Piksel #14\"></div><div onclick=\"window.week7Slide3PixelGame.toggle(14)\" id=\"s3-px-14\" style=\"background:#facc15; box-shadow:0 0 10px #facc1580; width:100%; aspect-ratio:1/1; border-radius:6px; border:1px solid rgba(255,255,255,0.18); cursor:pointer; transition:all 0.15s;\" class=\"hover:scale-110 active:scale-95\" title=\"Piksel #15\"></div><div onclick=\"window.week7Slide3PixelGame.toggle(15)\" id=\"s3-px-15\" style=\"background:#0f172a; width:100%; aspect-ratio:1/1; border-radius:6px; border:1px solid rgba(255,255,255,0.18); cursor:pointer; transition:all 0.15s;\" class=\"hover:scale-110 active:scale-95\" title=\"Piksel #16\"></div><div onclick=\"window.week7Slide3PixelGame.toggle(16)\" id=\"s3-px-16\" style=\"background:#facc15; box-shadow:0 0 10px #facc1580; width:100%; aspect-ratio:1/1; border-radius:6px; border:1px solid rgba(255,255,255,0.18); cursor:pointer; transition:all 0.15s;\" class=\"hover:scale-110 active:scale-95\" title=\"Piksel #17\"></div><div onclick=\"window.week7Slide3PixelGame.toggle(17)\" id=\"s3-px-17\" style=\"background:#0f172a; width:100%; aspect-ratio:1/1; border-radius:6px; border:1px solid rgba(255,255,255,0.18); cursor:pointer; transition:all 0.15s;\" class=\"hover:scale-110 active:scale-95\" title=\"Piksel #18\"></div><div onclick=\"window.week7Slide3PixelGame.toggle(18)\" id=\"s3-px-18\" style=\"background:#facc15; box-shadow:0 0 10px #facc1580; width:100%; aspect-ratio:1/1; border-radius:6px; border:1px solid rgba(255,255,255,0.18); cursor:pointer; transition:all 0.15s;\" class=\"hover:scale-110 active:scale-95\" title=\"Piksel #19\"></div><div onclick=\"window.week7Slide3PixelGame.toggle(19)\" id=\"s3-px-19\" style=\"background:#0f172a; width:100%; aspect-ratio:1/1; border-radius:6px; border:1px solid rgba(255,255,255,0.18); cursor:pointer; transition:all 0.15s;\" class=\"hover:scale-110 active:scale-95\" title=\"Piksel #20\"></div><div onclick=\"window.week7Slide3PixelGame.toggle(20)\" id=\"s3-px-20\" style=\"background:#0f172a; width:100%; aspect-ratio:1/1; border-radius:6px; border:1px solid rgba(255,255,255,0.18); cursor:pointer; transition:all 0.15s;\" class=\"hover:scale-110 active:scale-95\" title=\"Piksel #21\"></div><div onclick=\"window.week7Slide3PixelGame.toggle(21)\" id=\"s3-px-21\" style=\"background:#facc15; box-shadow:0 0 10px #facc1580; width:100%; aspect-ratio:1/1; border-radius:6px; border:1px solid rgba(255,255,255,0.18); cursor:pointer; transition:all 0.15s;\" class=\"hover:scale-110 active:scale-95\" title=\"Piksel #22\"></div><div onclick=\"window.week7Slide3PixelGame.toggle(22)\" id=\"s3-px-22\" style=\"background:#0f172a; width:100%; aspect-ratio:1/1; border-radius:6px; border:1px solid rgba(255,255,255,0.18); cursor:pointer; transition:all 0.15s;\" class=\"hover:scale-110 active:scale-95\" title=\"Piksel #23\"></div><div onclick=\"window.week7Slide3PixelGame.toggle(23)\" id=\"s3-px-23\" style=\"background:#facc15; box-shadow:0 0 10px #facc1580; width:100%; aspect-ratio:1/1; border-radius:6px; border:1px solid rgba(255,255,255,0.18); cursor:pointer; transition:all 0.15s;\" class=\"hover:scale-110 active:scale-95\" title=\"Piksel #24\"></div><div onclick=\"window.week7Slide3PixelGame.toggle(24)\" id=\"s3-px-24\" style=\"background:#facc15; box-shadow:0 0 10px #facc1580; width:100%; aspect-ratio:1/1; border-radius:6px; border:1px solid rgba(255,255,255,0.18); cursor:pointer; transition:all 0.15s;\" class=\"hover:scale-110 active:scale-95\" title=\"Piksel #25\"></div><div onclick=\"window.week7Slide3PixelGame.toggle(25)\" id=\"s3-px-25\" style=\"background:#0f172a; width:100%; aspect-ratio:1/1; border-radius:6px; border:1px solid rgba(255,255,255,0.18); cursor:pointer; transition:all 0.15s;\" class=\"hover:scale-110 active:scale-95\" title=\"Piksel #26\"></div><div onclick=\"window.week7Slide3PixelGame.toggle(26)\" id=\"s3-px-26\" style=\"background:#0f172a; width:100%; aspect-ratio:1/1; border-radius:6px; border:1px solid rgba(255,255,255,0.18); cursor:pointer; transition:all 0.15s;\" class=\"hover:scale-110 active:scale-95\" title=\"Piksel #27\"></div><div onclick=\"window.week7Slide3PixelGame.toggle(27)\" id=\"s3-px-27\" style=\"background:#0f172a; width:100%; aspect-ratio:1/1; border-radius:6px; border:1px solid rgba(255,255,255,0.18); cursor:pointer; transition:all 0.15s;\" class=\"hover:scale-110 active:scale-95\" title=\"Piksel #28\"></div><div onclick=\"window.week7Slide3PixelGame.toggle(28)\" id=\"s3-px-28\" style=\"background:#0f172a; width:100%; aspect-ratio:1/1; border-radius:6px; border:1px solid rgba(255,255,255,0.18); cursor:pointer; transition:all 0.15s;\" class=\"hover:scale-110 active:scale-95\" title=\"Piksel #29\"></div><div onclick=\"window.week7Slide3PixelGame.toggle(29)\" id=\"s3-px-29\" style=\"background:#0f172a; width:100%; aspect-ratio:1/1; border-radius:6px; border:1px solid rgba(255,255,255,0.18); cursor:pointer; transition:all 0.15s;\" class=\"hover:scale-110 active:scale-95\" title=\"Piksel #30\"></div><div onclick=\"window.week7Slide3PixelGame.toggle(30)\" id=\"s3-px-30\" style=\"background:#0f172a; width:100%; aspect-ratio:1/1; border-radius:6px; border:1px solid rgba(255,255,255,0.18); cursor:pointer; transition:all 0.15s;\" class=\"hover:scale-110 active:scale-95\" title=\"Piksel #31\"></div><div onclick=\"window.week7Slide3PixelGame.toggle(31)\" id=\"s3-px-31\" style=\"background:#facc15; box-shadow:0 0 10px #facc1580; width:100%; aspect-ratio:1/1; border-radius:6px; border:1px solid rgba(255,255,255,0.18); cursor:pointer; transition:all 0.15s;\" class=\"hover:scale-110 active:scale-95\" title=\"Piksel #32\"></div><div onclick=\"window.week7Slide3PixelGame.toggle(32)\" id=\"s3-px-32\" style=\"background:#facc15; box-shadow:0 0 10px #facc1580; width:100%; aspect-ratio:1/1; border-radius:6px; border:1px solid rgba(255,255,255,0.18); cursor:pointer; transition:all 0.15s;\" class=\"hover:scale-110 active:scale-95\" title=\"Piksel #33\"></div><div onclick=\"window.week7Slide3PixelGame.toggle(33)\" id=\"s3-px-33\" style=\"background:#0f172a; width:100%; aspect-ratio:1/1; border-radius:6px; border:1px solid rgba(255,255,255,0.18); cursor:pointer; transition:all 0.15s;\" class=\"hover:scale-110 active:scale-95\" title=\"Piksel #34\"></div><div onclick=\"window.week7Slide3PixelGame.toggle(34)\" id=\"s3-px-34\" style=\"background:#facc15; box-shadow:0 0 10px #facc1580; width:100%; aspect-ratio:1/1; border-radius:6px; border:1px solid rgba(255,255,255,0.18); cursor:pointer; transition:all 0.15s;\" class=\"hover:scale-110 active:scale-95\" title=\"Piksel #35\"></div><div onclick=\"window.week7Slide3PixelGame.toggle(35)\" id=\"s3-px-35\" style=\"background:#0f172a; width:100%; aspect-ratio:1/1; border-radius:6px; border:1px solid rgba(255,255,255,0.18); cursor:pointer; transition:all 0.15s;\" class=\"hover:scale-110 active:scale-95\" title=\"Piksel #36\"></div><div onclick=\"window.week7Slide3PixelGame.toggle(36)\" id=\"s3-px-36\" style=\"background:#0f172a; width:100%; aspect-ratio:1/1; border-radius:6px; border:1px solid rgba(255,255,255,0.18); cursor:pointer; transition:all 0.15s;\" class=\"hover:scale-110 active:scale-95\" title=\"Piksel #37\"></div><div onclick=\"window.week7Slide3PixelGame.toggle(37)\" id=\"s3-px-37\" style=\"background:#facc15; box-shadow:0 0 10px #facc1580; width:100%; aspect-ratio:1/1; border-radius:6px; border:1px solid rgba(255,255,255,0.18); cursor:pointer; transition:all 0.15s;\" class=\"hover:scale-110 active:scale-95\" title=\"Piksel #38\"></div><div onclick=\"window.week7Slide3PixelGame.toggle(38)\" id=\"s3-px-38\" style=\"background:#0f172a; width:100%; aspect-ratio:1/1; border-radius:6px; border:1px solid rgba(255,255,255,0.18); cursor:pointer; transition:all 0.15s;\" class=\"hover:scale-110 active:scale-95\" title=\"Piksel #39\"></div><div onclick=\"window.week7Slide3PixelGame.toggle(39)\" id=\"s3-px-39\" style=\"background:#facc15; box-shadow:0 0 10px #facc1580; width:100%; aspect-ratio:1/1; border-radius:6px; border:1px solid rgba(255,255,255,0.18); cursor:pointer; transition:all 0.15s;\" class=\"hover:scale-110 active:scale-95\" title=\"Piksel #40\"></div><div onclick=\"window.week7Slide3PixelGame.toggle(40)\" id=\"s3-px-40\" style=\"background:#facc15; box-shadow:0 0 10px #facc1580; width:100%; aspect-ratio:1/1; border-radius:6px; border:1px solid rgba(255,255,255,0.18); cursor:pointer; transition:all 0.15s;\" class=\"hover:scale-110 active:scale-95\" title=\"Piksel #41\"></div><div onclick=\"window.week7Slide3PixelGame.toggle(41)\" id=\"s3-px-41\" style=\"background:#0f172a; width:100%; aspect-ratio:1/1; border-radius:6px; border:1px solid rgba(255,255,255,0.18); cursor:pointer; transition:all 0.15s;\" class=\"hover:scale-110 active:scale-95\" title=\"Piksel #42\"></div><div onclick=\"window.week7Slide3PixelGame.toggle(42)\" id=\"s3-px-42\" style=\"background:#0f172a; width:100%; aspect-ratio:1/1; border-radius:6px; border:1px solid rgba(255,255,255,0.18); cursor:pointer; transition:all 0.15s;\" class=\"hover:scale-110 active:scale-95\" title=\"Piksel #43\"></div><div onclick=\"window.week7Slide3PixelGame.toggle(43)\" id=\"s3-px-43\" style=\"background:#facc15; box-shadow:0 0 10px #facc1580; width:100%; aspect-ratio:1/1; border-radius:6px; border:1px solid rgba(255,255,255,0.18); cursor:pointer; transition:all 0.15s;\" class=\"hover:scale-110 active:scale-95\" title=\"Piksel #44\"></div><div onclick=\"window.week7Slide3PixelGame.toggle(44)\" id=\"s3-px-44\" style=\"background:#facc15; box-shadow:0 0 10px #facc1580; width:100%; aspect-ratio:1/1; border-radius:6px; border:1px solid rgba(255,255,255,0.18); cursor:pointer; transition:all 0.15s;\" class=\"hover:scale-110 active:scale-95\" title=\"Piksel #45\"></div><div onclick=\"window.week7Slide3PixelGame.toggle(45)\" id=\"s3-px-45\" style=\"background:#0f172a; width:100%; aspect-ratio:1/1; border-radius:6px; border:1px solid rgba(255,255,255,0.18); cursor:pointer; transition:all 0.15s;\" class=\"hover:scale-110 active:scale-95\" title=\"Piksel #46\"></div><div onclick=\"window.week7Slide3PixelGame.toggle(46)\" id=\"s3-px-46\" style=\"background:#0f172a; width:100%; aspect-ratio:1/1; border-radius:6px; border:1px solid rgba(255,255,255,0.18); cursor:pointer; transition:all 0.15s;\" class=\"hover:scale-110 active:scale-95\" title=\"Piksel #47\"></div><div onclick=\"window.week7Slide3PixelGame.toggle(47)\" id=\"s3-px-47\" style=\"background:#facc15; box-shadow:0 0 10px #facc1580; width:100%; aspect-ratio:1/1; border-radius:6px; border:1px solid rgba(255,255,255,0.18); cursor:pointer; transition:all 0.15s;\" class=\"hover:scale-110 active:scale-95\" title=\"Piksel #48\"></div><div onclick=\"window.week7Slide3PixelGame.toggle(48)\" id=\"s3-px-48\" style=\"background:#0f172a; width:100%; aspect-ratio:1/1; border-radius:6px; border:1px solid rgba(255,255,255,0.18); cursor:pointer; transition:all 0.15s;\" class=\"hover:scale-110 active:scale-95\" title=\"Piksel #49\"></div><div onclick=\"window.week7Slide3PixelGame.toggle(49)\" id=\"s3-px-49\" style=\"background:#facc15; box-shadow:0 0 10px #facc1580; width:100%; aspect-ratio:1/1; border-radius:6px; border:1px solid rgba(255,255,255,0.18); cursor:pointer; transition:all 0.15s;\" class=\"hover:scale-110 active:scale-95\" title=\"Piksel #50\"></div><div onclick=\"window.week7Slide3PixelGame.toggle(50)\" id=\"s3-px-50\" style=\"background:#0f172a; width:100%; aspect-ratio:1/1; border-radius:6px; border:1px solid rgba(255,255,255,0.18); cursor:pointer; transition:all 0.15s;\" class=\"hover:scale-110 active:scale-95\" title=\"Piksel #51\"></div><div onclick=\"window.week7Slide3PixelGame.toggle(51)\" id=\"s3-px-51\" style=\"background:#0f172a; width:100%; aspect-ratio:1/1; border-radius:6px; border:1px solid rgba(255,255,255,0.18); cursor:pointer; transition:all 0.15s;\" class=\"hover:scale-110 active:scale-95\" title=\"Piksel #52\"></div><div onclick=\"window.week7Slide3PixelGame.toggle(52)\" id=\"s3-px-52\" style=\"background:#0f172a; width:100%; aspect-ratio:1/1; border-radius:6px; border:1px solid rgba(255,255,255,0.18); cursor:pointer; transition:all 0.15s;\" class=\"hover:scale-110 active:scale-95\" title=\"Piksel #53\"></div><div onclick=\"window.week7Slide3PixelGame.toggle(53)\" id=\"s3-px-53\" style=\"background:#0f172a; width:100%; aspect-ratio:1/1; border-radius:6px; border:1px solid rgba(255,255,255,0.18); cursor:pointer; transition:all 0.15s;\" class=\"hover:scale-110 active:scale-95\" title=\"Piksel #54\"></div><div onclick=\"window.week7Slide3PixelGame.toggle(54)\" id=\"s3-px-54\" style=\"background:#facc15; box-shadow:0 0 10px #facc1580; width:100%; aspect-ratio:1/1; border-radius:6px; border:1px solid rgba(255,255,255,0.18); cursor:pointer; transition:all 0.15s;\" class=\"hover:scale-110 active:scale-95\" title=\"Piksel #55\"></div><div onclick=\"window.week7Slide3PixelGame.toggle(55)\" id=\"s3-px-55\" style=\"background:#0f172a; width:100%; aspect-ratio:1/1; border-radius:6px; border:1px solid rgba(255,255,255,0.18); cursor:pointer; transition:all 0.15s;\" class=\"hover:scale-110 active:scale-95\" title=\"Piksel #56\"></div><div onclick=\"window.week7Slide3PixelGame.toggle(56)\" id=\"s3-px-56\" style=\"background:#0f172a; width:100%; aspect-ratio:1/1; border-radius:6px; border:1px solid rgba(255,255,255,0.18); cursor:pointer; transition:all 0.15s;\" class=\"hover:scale-110 active:scale-95\" title=\"Piksel #57\"></div><div onclick=\"window.week7Slide3PixelGame.toggle(57)\" id=\"s3-px-57\" style=\"background:#0f172a; width:100%; aspect-ratio:1/1; border-radius:6px; border:1px solid rgba(255,255,255,0.18); cursor:pointer; transition:all 0.15s;\" class=\"hover:scale-110 active:scale-95\" title=\"Piksel #58\"></div><div onclick=\"window.week7Slide3PixelGame.toggle(58)\" id=\"s3-px-58\" style=\"background:#facc15; box-shadow:0 0 10px #facc1580; width:100%; aspect-ratio:1/1; border-radius:6px; border:1px solid rgba(255,255,255,0.18); cursor:pointer; transition:all 0.15s;\" class=\"hover:scale-110 active:scale-95\" title=\"Piksel #59\"></div><div onclick=\"window.week7Slide3PixelGame.toggle(59)\" id=\"s3-px-59\" style=\"background:#facc15; box-shadow:0 0 10px #facc1580; width:100%; aspect-ratio:1/1; border-radius:6px; border:1px solid rgba(255,255,255,0.18); cursor:pointer; transition:all 0.15s;\" class=\"hover:scale-110 active:scale-95\" title=\"Piksel #60\"></div><div onclick=\"window.week7Slide3PixelGame.toggle(60)\" id=\"s3-px-60\" style=\"background:#facc15; box-shadow:0 0 10px #facc1580; width:100%; aspect-ratio:1/1; border-radius:6px; border:1px solid rgba(255,255,255,0.18); cursor:pointer; transition:all 0.15s;\" class=\"hover:scale-110 active:scale-95\" title=\"Piksel #61\"></div><div onclick=\"window.week7Slide3PixelGame.toggle(61)\" id=\"s3-px-61\" style=\"background:#facc15; box-shadow:0 0 10px #facc1580; width:100%; aspect-ratio:1/1; border-radius:6px; border:1px solid rgba(255,255,255,0.18); cursor:pointer; transition:all 0.15s;\" class=\"hover:scale-110 active:scale-95\" title=\"Piksel #62\"></div><div onclick=\"window.week7Slide3PixelGame.toggle(62)\" id=\"s3-px-62\" style=\"background:#0f172a; width:100%; aspect-ratio:1/1; border-radius:6px; border:1px solid rgba(255,255,255,0.18); cursor:pointer; transition:all 0.15s;\" class=\"hover:scale-110 active:scale-95\" title=\"Piksel #63\"></div><div onclick=\"window.week7Slide3PixelGame.toggle(63)\" id=\"s3-px-63\" style=\"background:#0f172a; width:100%; aspect-ratio:1/1; border-radius:6px; border:1px solid rgba(255,255,255,0.18); cursor:pointer; transition:all 0.15s;\" class=\"hover:scale-110 active:scale-95\" title=\"Piksel #64\"></div>\n                        </div>\n\n                        <p class=\"text-[11px] text-center text-slate-300 font-medium\">\n                            💡 <strong>Akıllı Tahta İpucu:</strong> Karelere dokunarak kendi piksel çiziminizi yapabilir ya da hazır şablonları açıp pikselleri yakından inceleyebilirsiniz!\n                        </p>\n                    </div>\n\n                    <img src=\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg'/>\" \n                         onload=\"window.week7Slide3PixelGame && window.week7Slide3PixelGame.render()\" \n                         style=\"display:none;\" />\n                </div>\n            "
     },
     {
         "id": 4,

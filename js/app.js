@@ -662,6 +662,11 @@ class App {
                 <span>Akıllı Tahta Sunu Modu 🖥️</span>
             </div>
         `;
+
+        // 7. Konu 3. Slayt (İnteraktif Piksel Stüdyosu) render tetikleyicisi
+        if ((this.currentWeek === 7 || this.currentWeek === '7') && this.currentSlideIndex === 2 && window.week7Slide3PixelGame) {
+            setTimeout(() => window.week7Slide3PixelGame.render(), 10);
+        }
     }
 
     nextSlide() {
