@@ -25,3 +25,7 @@ desktop.ini
 # Node / Scratch
 node_modules/
 npm-debug.log*
+
+# Yerel Çevrim Dışı Yedekler (Sadece Bilgisayarda Kalacak Dosyalar)
+bozokyedek/
+
