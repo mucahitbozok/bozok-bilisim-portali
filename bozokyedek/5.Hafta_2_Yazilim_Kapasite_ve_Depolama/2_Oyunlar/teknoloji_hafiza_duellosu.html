@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teknoloji Hafıza Düellosu | Öğretmen Bozok</title>
+    <style>
+        :root {
+            --bg-page: #060913;
+            --card-surface: rgba(15, 23, 42, 0.95);
+            --p1-color: #38bdf8;
+            --p2-color: #ec4899;
+            --accent-gold: #f59e0b;
+            --text-main: #f8fafc;
+            --border-dim: rgba(255, 255, 255, 0.12);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            user-select: none;
+            -webkit-user-select: none;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+
+        body {
+            background: radial-gradient(circle at 50% 20%, #1e1b4b 0%, #060913 100%);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            padding: 12px;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            width: 100%;
+            margin: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        /* Top Header */
+        .top-bar {
+            background: var(--card-surface);
+            border: 2px solid rgba(99, 102, 241, 0.3);
+            border-radius: 18px;
+            padding: 10px 18px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 10px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.6);
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .brand-icon {
+            width: 44px;
+            height: 44px;
+            background: linear-gradient(135deg, #ec4899, #38bdf8);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 14px rgba(236, 72, 153, 0.4);
+        }
+
+        .btn-tool {
+            width: 38px;
+            height: 38px;
+            background: #1e293b;
+            border: 1px solid rgba(255,255,255,0.15);
+            color: #fff;
+            border-radius: 10px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+
+        .btn-tool:hover {
+            background: #334155;
+            transform: scale(1.05);
+        }
+
+        /* Players Scoreboard & Turn Display */
+        .duel-board {
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .player-card {
+            background: rgba(15, 23, 42, 0.9);
+            border: 3px solid var(--border-dim);
+            border-radius: 18px;
+            padding: 12px 18px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: all 0.3s;
+        }
+
+        .player-card.active-turn {
+            border-color: currentColor;
+            transform: scale(1.02);
+            box-shadow: 0 0 25px rgba(56, 189, 248, 0.35);
+        }
+
+        .player-card.p1 { color: var(--p1-color); }
+        .player-card.p2 { color: var(--p2-color); }
+
+        .player-info h3 {
+            font-size: 1.15rem;
+            font-weight: 900;
+        }
+
+        .player-score {
+            font-size: 1.8rem;
+            font-weight: 900;
+            background: rgba(0,0,0,0.4);
+            padding: 4px 14px;
+            border-radius: 12px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .vs-badge {
+            background: #1e293b;
+            border: 2px solid var(--accent-gold);
+            color: var(--accent-gold);
+            font-weight: 900;
+            font-size: 0.9rem;
+            padding: 6px 14px;
+            border-radius: 20px;
+            box-shadow: 0 0 15px rgba(245, 158, 11, 0.3);
+        }
+
+        /* Card Matrix Grid */
+        .board-arena {
+            background: var(--card-surface);
+            border: 2px solid rgba(99, 102, 241, 0.3);
+            border-radius: 24px;
+            padding: 20px;
+            min-height: 500px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+            perspective: 1000px;
+        }
+
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+            width: 100%;
+            max-width: 950px;
+            margin: auto;
+        }
+
+        @media (min-width: 900px) {
+            .cards-grid.normal-mode {
+                grid-template-columns: repeat(5, 1fr);
+            }
+        }
+
+        /* 3D Flip Card */
+        .memory-card {
+            height: 110px;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            cursor: pointer;
+        }
+
+        .memory-card.flipped {
+            transform: rotateY(180deg);
+        }
+
+        .memory-card.matched {
+            transform: rotateY(180deg);
+            opacity: 0.75;
+            cursor: default;
+        }
+
+        .card-face {
+            position: absolute;
+            inset: 0;
+            border-radius: 16px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            backface-visibility: hidden;
+            padding: 8px;
+            text-align: center;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.4);
+        }
+
+        .card-back {
+            background: linear-gradient(135deg, #1e293b, #0f172a);
+            border: 2px solid #334155;
+            color: #64748b;
+        }
+
+        .card-back:hover {
+            border-color: var(--p1-color);
+            transform: scale(1.02);
+        }
+
+        .card-back svg {
+            stroke: #475569;
+            transition: all 0.2s;
+        }
+
+        .card-back:hover svg {
+            stroke: var(--p1-color);
+        }
+
+        .card-front {
+            background: linear-gradient(135deg, #1e1b4b, #0f172a);
+            border: 2px solid var(--accent-gold);
+            color: #fff;
+            transform: rotateY(180deg);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+
+        .card-text {
+            font-size: 0.85rem;
+            font-weight: 800;
+            line-height: 1.2;
+        }
+
+        /* Overlay Modals */
+        .screen-modal {
+            position: absolute;
+            inset: 0;
+            background: rgba(6, 9, 19, 0.96);
+            backdrop-filter: blur(12px);
+            border-radius: 24px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 30px;
+            text-align: center;
+            z-index: 100;
+        }
+
+        .inputs-row {
+            display: flex;
+            gap: 16px;
+            margin: 16px 0;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .player-input-box {
+            background: #1e293b;
+            border: 2px solid #475569;
+            border-radius: 14px;
+            padding: 10px 16px;
+            color: #fff;
+            font-size: 1rem;
+            font-weight: 700;
+            width: 220px;
+            outline: none;
+        }
+
+        .player-input-box:focus {
+            border-color: var(--p1-color);
+        }
+
+        .mode-toggles {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .btn-mode {
+            background: #0f172a;
+            border: 2px solid #334155;
+            color: #94a3b8;
+            padding: 10px 20px;
+            border-radius: 12px;
+            font-weight: 800;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-mode.active {
+            border-color: var(--accent-gold);
+            color: var(--accent-gold);
+            background: rgba(245, 158, 11, 0.15);
+        }
+
+        .btn-play {
+            background: linear-gradient(135deg, #38bdf8, #6366f1);
+            color: #041427;
+            font-size: 1.15rem;
+            font-weight: 900;
+            border: none;
+            padding: 14px 40px;
+            border-radius: 14px;
+            cursor: pointer;
+            box-shadow: 0 8px 25px rgba(56, 189, 248, 0.4);
+            transition: all 0.2s;
+        }
+
+        .btn-play:hover {
+            transform: scale(1.04);
+            box-shadow: 0 12px 30px rgba(56, 189, 248, 0.6);
+        }
+
+        @media (max-width: 768px) {
+            .cards-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+            .duel-board {
+                grid-template-columns: 1fr;
+            }
+            .memory-card {
+                height: 90px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- TOP CONTROLS -->
+        <header class="top-bar">
+            <div class="brand">
+                <div class="brand-icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5"><rect x="2" y="2" width="20" height="8" rx="2" ry="2"></rect><rect x="2" y="14" width="20" height="8" rx="2" ry="2"></rect><line x1="6" y1="6" x2="6.01" y2="6"></line><line x1="6" y1="18" x2="6.01" y2="18"></line></svg>
+                </div>
+                <div>
+                    <h1 style="font-size:1.25rem; font-weight:900;">Teknoloji Hafıza Düellosu</h1>
+                    <span style="font-size:0.75rem; color:var(--p1-color); font-weight:700; text-transform:uppercase;">2 Kişilik Akıllı Tahta Yarışması</span>
+                </div>
+            </div>
+
+            <div style="display:flex; align-items:center; gap:8px;">
+                <button class="btn-tool" onclick="duelGame.toggleSound()" id="sound-btn" title="Ses">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg>
+                </button>
+                <button class="btn-tool" onclick="duelGame.toggleFullscreen()" title="Tam Ekran">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path></svg>
+                </button>
+                <button class="btn-tool" onclick="duelGame.showSetup()" title="Yeniden Başlat">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="1 4 1 10 7 10"></polyline><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path></svg>
+                </button>
+            </div>
+        </header>
+
+        <!-- DUEL SCOREBOARD -->
+        <div class="duel-board">
+            <div id="p1-card" class="player-card p1 active-turn">
+                <div class="player-info">
+                    <span style="font-size:0.75rem; font-weight:800; text-transform:uppercase;">1. Oyuncu</span>
+                    <h3 id="p1-name-display">Oyuncu 1</h3>
+                </div>
+                <div class="player-score" id="p1-score">0</div>
+            </div>
+
+            <div class="vs-badge">VS</div>
+
+            <div id="p2-card" class="player-card p2">
+                <div class="player-info">
+                    <span style="font-size:0.75rem; font-weight:800; text-transform:uppercase;">2. Oyuncu</span>
+                    <h3 id="p2-name-display">Oyuncu 2</h3>
+                </div>
+                <div class="player-score" id="p2-score">0</div>
+            </div>
+        </div>
+
+        <!-- BOARD ARENA -->
+        <main class="board-arena">
+            <div id="cards-container" class="cards-grid">
+                <!-- Cards rendered by JS -->
+            </div>
+
+            <!-- SETUP SCREEN -->
+            <div id="setup-modal" class="screen-modal">
+                <div style="width:74px; height:74px; border-radius:20px; background:linear-gradient(135deg, var(--p1-color), var(--p2-color)); display:flex; align-items:center; justify-content:center; margin-bottom:14px;">
+                    <svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5"><rect x="2" y="2" width="20" height="8" rx="2" ry="2"></rect><rect x="2" y="14" width="20" height="8" rx="2" ry="2"></rect></svg>
+                </div>
+                <h2 style="font-size:2rem; font-weight:900; margin-bottom:8px;">Hafıza Düellosuna Hazır Mısınız?</h2>
+                <p style="color:#cbd5e1; max-width:600px; font-size:1.05rem; margin-bottom:18px;">
+                    Akıllı tahtada iki kişi sırayla kartları açın! Eşleşen kavramları bulun, doğru eşleşmede <strong>+10 puan</strong> ve <strong>tekrar oynama hakkı</strong> kazanın!
+                </p>
+
+                <div class="inputs-row">
+                    <div>
+                        <span style="font-size:0.75rem; color:var(--p1-color); font-weight:800; display:block; margin-bottom:4px;">1. Oyuncu Adı</span>
+                        <input id="p1-name-input" class="player-input-box" value="1. Oyuncu" maxlength="15" />
+                    </div>
+                    <div>
+                        <span style="font-size:0.75rem; color:var(--p2-color); font-weight:800; display:block; margin-bottom:4px;">2. Oyuncu Adı</span>
+                        <input id="p2-name-input" class="player-input-box" value="2. Oyuncu" maxlength="15" />
+                    </div>
+                </div>
+
+                <div class="mode-toggles">
+                    <button id="mode-btn-easy" class="btn-mode active" onclick="duelGame.setDifficulty('easy')">
+                        Kolay Mod (12 Kart - 6 Çift)
+                    </button>
+                    <button id="mode-btn-normal" class="btn-mode" onclick="duelGame.setDifficulty('normal')">
+                        Normal Mod (20 Kart - 10 Çift)
+                    </button>
+                </div>
+
+                <button class="btn-play" onclick="duelGame.start()">
+                    <span>Düelloyu Başlat ➔</span>
+                </button>
+            </div>
+
+            <!-- GAME OVER MODAL -->
+            <div id="winner-modal" class="screen-modal" style="display:none;">
+                <div style="width:84px; height:84px; border-radius:50%; background:linear-gradient(135deg, #f59e0b, #d97706); display:flex; align-items:center; justify-content:center; margin-bottom:16px;">
+                    <svg width="46" height="46" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+                </div>
+                <h2 id="winner-title" style="font-size:2.2rem; font-weight:900; margin-bottom:8px;">Tebrikler!</h2>
+                <p id="winner-subtitle" style="color:#cbd5e1; font-size:1.15rem; max-width:600px; line-height:1.6; margin-bottom:24px;"></p>
+                <button class="btn-play" onclick="duelGame.showSetup()">
+                    <span>Yeni Düello Başlat 🔄</span>
+                </button>
+            </div>
+
+        </main>
+    </div>
+
+    <script>
+        // Web Audio Synthesizer
+        const AudioFX = {
+            ctx: null,
+            active: true,
+            init() {
+                if (!this.ctx) {
+                    const AC = window.AudioContext || window.webkitAudioContext;
+                    if (AC) this.ctx = new AC();
+                }
+            },
+            play(type) {
+                if (!this.active) return;
+                try {
+                    this.init();
+                    if (!this.ctx) return;
+                    if (this.ctx.state === 'suspended') this.ctx.resume();
+
+                    const t = this.ctx.currentTime;
+                    const o = this.ctx.createOscillator();
+                    const g = this.ctx.createGain();
+                    o.connect(g);
+                    g.connect(this.ctx.destination);
+
+                    if (type === 'flip') {
+                        o.type = 'sine';
+                        o.frequency.setValueAtTime(600, t);
+                        g.gain.setValueAtTime(0.15, t);
+                        g.gain.exponentialRampToValueAtTime(0.01, t + 0.1);
+                        o.start(t);
+                        o.stop(t + 0.1);
+                    } else if (type === 'match') {
+                        o.type = 'triangle';
+                        o.frequency.setValueAtTime(523.25, t); // C5
+                        o.frequency.setValueAtTime(659.25, t + 0.08); // E5
+                        o.frequency.setValueAtTime(783.99, t + 0.16); // G5
+                        g.gain.setValueAtTime(0.25, t);
+                        g.gain.exponentialRampToValueAtTime(0.01, t + 0.4);
+                        o.start(t);
+                        o.stop(t + 0.4);
+                    } else if (type === 'nomatch') {
+                        o.type = 'sawtooth';
+                        o.frequency.setValueAtTime(260, t);
+                        o.frequency.linearRampToValueAtTime(130, t + 0.25);
+                        g.gain.setValueAtTime(0.2, t);
+                        g.gain.exponentialRampToValueAtTime(0.01, t + 0.25);
+                        o.start(t);
+                        o.stop(t + 0.25);
+                    } else if (type === 'victory') {
+                        [523.25, 659.25, 783.99, 1046.50].forEach((f, i) => {
+                            const osc = this.ctx.createOscillator();
+                            const gn = this.ctx.createGain();
+                            osc.type = 'triangle';
+                            osc.connect(gn);
+                            gn.connect(this.ctx.destination);
+                            osc.frequency.setValueAtTime(f, t + i * 0.12);
+                            gn.gain.setValueAtTime(0.25, t + i * 0.12);
+                            gn.gain.exponentialRampToValueAtTime(0.001, t + i * 0.12 + 0.4);
+                            osc.start(t + i * 0.12);
+                            osc.stop(t + i * 0.12 + 0.4);
+                        });
+                    }
+                } catch(e) {}
+            }
+        };
+
+        // All Valid Card Pairs (Pedagogically Pure BTY.5.1.5)
+        const masterPairs = [
+            { id: 1, a: "Windows", b: "İşletim Sistemi", icon: "💻" },
+            { id: 2, a: "Android", b: "İşletim Sistemi", icon: "📱" },
+            { id: 3, a: "Scratch", b: "Uygulama Yazılımı", icon: "🐱" },
+            { id: 4, a: "Word", b: "Uygulama Yazılımı", icon: "📝" },
+            { id: 5, a: "8 bit", b: "1 Byte", icon: "🧮" },
+            { id: 6, a: "1024 Byte", b: "1 KB (Kilobyte)", icon: "📦" },
+            { id: 7, a: "1024 KB", b: "1 MB (Megabyte)", icon: "📊" },
+            { id: 8, a: "1024 MB", b: "1 GB (Gigabyte)", icon: "💾" },
+            { id: 9, a: "SSD", b: "İç Depolama (Dahili)", icon: "⚡" },
+            { id: 10, a: "USB Bellek", b: "Harici Depolama", icon: "🔌" },
+            { id: 11, a: "Google Drive", b: "Bulut Depolama", icon: "☁️" },
+            { id: 12, a: "Pardus", b: "Yerli İşletim Sistemi", icon: "🇹🇷" }
+        ];
+
+        // Duel Game Engine
+        const duelGame = {
+            difficulty: 'easy', // 'easy' (6 pairs = 12 cards) or 'normal' (10 pairs = 20 cards)
+            cards: [],
+            flippedCards: [],
+            isLocked: false,
+            turn: 1, // 1 or 2
+            scores: { 1: 0, 2: 0 },
+            names: { 1: "Oyuncu 1", 2: "Oyuncu 2" },
+            matchesFound: 0,
+
+            setDifficulty(diff) {
+                AudioFX.play('flip');
+                this.difficulty = diff;
+                document.getElementById('mode-btn-easy').classList.toggle('active', diff === 'easy');
+                document.getElementById('mode-btn-normal').classList.toggle('active', diff === 'normal');
+            },
+
+            showSetup() {
+                document.getElementById('winner-modal').style.display = 'none';
+                document.getElementById('setup-modal').style.display = 'flex';
+            },
+
+            start() {
+                AudioFX.init();
+                AudioFX.play('flip');
+
+                this.names[1] = document.getElementById('p1-name-input').value.trim() || "1. Oyuncu";
+                this.names[2] = document.getElementById('p2-name-input').value.trim() || "2. Oyuncu";
+
+                document.getElementById('p1-name-display').innerText = this.names[1];
+                document.getElementById('p2-name-display').innerText = this.names[2];
+
+                document.getElementById('setup-modal').style.display = 'none';
+                document.getElementById('winner-modal').style.display = 'none';
+
+                this.scores = { 1: 0, 2: 0 };
+                this.turn = 1;
+                this.matchesFound = 0;
+                this.flippedCards = [];
+                this.isLocked = false;
+                this.updateScoreboard();
+
+                // Select Pairs
+                const pairCount = (this.difficulty === 'easy') ? 6 : 10;
+                const selectedPairs = [...masterPairs].sort(() => Math.random() - 0.5).slice(0, pairCount);
+
+                // Build deck
+                let deck = [];
+                selectedPairs.forEach(p => {
+                    deck.push({ pairId: p.id, text: p.a, icon: p.icon, key: p.id + '_a' });
+                    deck.push({ pairId: p.id, text: p.b, icon: p.icon, key: p.id + '_b' });
+                });
+
+                // Shuffle deck
+                deck.sort(() => Math.random() - 0.5);
+                this.cards = deck;
+
+                // Render Grid
+                const container = document.getElementById('cards-container');
+                container.className = `cards-grid ${this.difficulty === 'normal' ? 'normal-mode' : ''}`;
+                container.innerHTML = deck.map((c, idx) => `
+                    <div class="memory-card" id="card-${idx}" onclick="duelGame.flipCard(${idx})">
+                        <div class="card-face card-back">
+                            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke-width="2.5"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+                        </div>
+                        <div class="card-face card-front">
+                            <span style="font-size:1.4rem;">${c.icon}</span>
+                            <span class="card-text">${c.text}</span>
+                        </div>
+                    </div>
+                `).join('');
+            },
+
+            flipCard(idx) {
+                if (this.isLocked) return;
+                const cardEl = document.getElementById(`card-${idx}`);
+                if (!cardEl || cardEl.classList.contains('flipped') || cardEl.classList.contains('matched')) return;
+
+                AudioFX.play('flip');
+                cardEl.classList.add('flipped');
+                this.flippedCards.push({ idx, data: this.cards[idx] });
+
+                if (this.flippedCards.length === 2) {
+                    this.checkMatch();
+                }
+            },
+
+            checkMatch() {
+                this.isLocked = true;
+                const [c1, c2] = this.flippedCards;
+                const isMatch = (c1.data.pairId === c2.data.pairId);
+
+                if (isMatch) {
+                    AudioFX.play('match');
+                    setTimeout(() => {
+                        document.getElementById(`card-${c1.idx}`).classList.add('matched');
+                        document.getElementById(`card-${c2.idx}`).classList.add('matched');
+                        
+                        this.scores[this.turn] += 10;
+                        this.matchesFound++;
+                        this.flippedCards = [];
+                        this.isLocked = false;
+                        this.updateScoreboard();
+
+                        const totalPairs = (this.difficulty === 'easy') ? 6 : 10;
+                        if (this.matchesFound >= totalPairs) {
+                            this.endGame();
+                        }
+                        // Matched! Same player plays again (turn does not change)
+                    }, 500);
+                } else {
+                    AudioFX.play('nomatch');
+                    setTimeout(() => {
+                        document.getElementById(`card-${c1.idx}`).classList.remove('flipped');
+                        document.getElementById(`card-${c2.idx}`).classList.remove('flipped');
+                        this.flippedCards = [];
+                        this.turn = (this.turn === 1) ? 2 : 1; // Switch turn
+                        this.isLocked = false;
+                        this.updateScoreboard();
+                    }, 1100);
+                }
+            },
+
+            updateScoreboard() {
+                document.getElementById('p1-score').innerText = this.scores[1];
+                document.getElementById('p2-score').innerText = this.scores[2];
+
+                const cardP1 = document.getElementById('p1-card');
+                const cardP2 = document.getElementById('p2-card');
+
+                if (this.turn === 1) {
+                    cardP1.classList.add('active-turn');
+                    cardP2.classList.remove('active-turn');
+                } else {
+                    cardP2.classList.add('active-turn');
+                    cardP1.classList.remove('active-turn');
+                }
+            },
+
+            endGame() {
+                AudioFX.play('victory');
+                const modal = document.getElementById('winner-modal');
+                const title = document.getElementById('winner-title');
+                const sub = document.getElementById('winner-subtitle');
+
+                if (this.scores[1] > this.scores[2]) {
+                    title.innerText = `🏆 KAZANAN: ${this.names[1]}!`;
+                    title.style.color = "var(--p1-color)";
+                    sub.innerHTML = `Mükemmel hafıza ve strateji!<br>${this.names[1]}: <strong>${this.scores[1]}</strong> Puan • ${this.names[2]}: <strong>${this.scores[2]}</strong> Puan`;
+                } else if (this.scores[2] > this.scores[1]) {
+                    title.innerText = `🏆 KAZANAN: ${this.names[2]}!`;
+                    title.style.color = "var(--p2-color)";
+                    sub.innerHTML = `Tebrikler şampiyon!<br>${this.names[2]}: <strong>${this.scores[2]}</strong> Puan • ${this.names[1]}: <strong>${this.scores[1]}</strong> Puan`;
+                } else {
+                    title.innerText = `🤝 DOSTLUK KAZANDI: BERABERE!`;
+                    title.style.color = "var(--accent-gold)";
+                    sub.innerHTML = `Her iki oyuncu da harika yarıştı!<br>Eşit Puan: <strong>${this.scores[1]}</strong> Puan`;
+                }
+
+                modal.style.display = 'flex';
+            },
+
+            toggleSound() {
+                AudioFX.active = !AudioFX.active;
+                const btn = document.getElementById('sound-btn');
+                btn.style.opacity = AudioFX.active ? '1' : '0.4';
+                if (AudioFX.active) AudioFX.play('flip');
+            },
+
+            toggleFullscreen() {
+                if (!document.fullscreenElement) {
+                    document.documentElement.requestFullscreen().catch(() => {});
+                } else {
+                    if (document.exitFullscreen) document.exitFullscreen();
+                }
+            }
+        };
+    </script>
+</body>
+</html>

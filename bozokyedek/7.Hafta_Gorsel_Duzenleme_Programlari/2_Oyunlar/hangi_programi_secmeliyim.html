@@ -1,0 +1,740 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>3. Hangi Programı Seçmeliyim? | Öğretmen Bozok</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <style>
+        :root {
+            --bg-dark: #090d16;
+            --panel-bg: rgba(15, 23, 42, 0.88);
+            --panel-border: rgba(255, 255, 255, 0.14);
+            --primary: #c026d3;
+            --accent: #db2777;
+            --green: #10b981;
+            --yellow: #f59e0b;
+            --red: #ef4444;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: radial-gradient(circle at 50% 10%, #1e1b4b 0%, #090d16 100%);
+            color: #f8fafc;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow-x: hidden;
+            padding: 16px;
+        }
+
+        #game-frame {
+            width: 100%;
+            max-width: 1200px;
+            min-height: 90vh;
+            background: var(--panel-bg);
+            border: 2px solid var(--panel-border);
+            border-radius: 28px;
+            backdrop-filter: blur(20px);
+            box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.85), 0 0 35px rgba(99, 102, 241, 0.2);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        header {
+            padding: 16px 28px;
+            background: rgba(15, 23, 42, 0.95);
+            border-bottom: 2px solid rgba(255, 255, 255, 0.08);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .header-icon {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: #fff;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+        }
+
+        .header-title h1 {
+            font-size: 1.35rem;
+            font-weight: 900;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .header-title p {
+            font-size: 0.8rem;
+            color: #94a3b8;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.6px;
+        }
+
+        .header-controls {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn-ctrl {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.16);
+            color: #f1f5f9;
+            padding: 10px 16px;
+            border-radius: 14px;
+            font-size: 0.85rem;
+            font-weight: 800;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s;
+        }
+
+        .btn-ctrl:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .btn-ctrl:active {
+            transform: scale(0.96);
+        }
+
+        .stat-badge {
+            background: rgba(15, 23, 42, 0.85);
+            border: 1px solid rgba(255, 255, 255, 0.16);
+            padding: 10px 16px;
+            border-radius: 14px;
+            font-size: 0.9rem;
+            font-weight: 900;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        main {
+            flex: 1;
+            padding: 28px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            overflow-y: auto;
+        }
+
+        .card-box {
+            width: 100%;
+            max-width: 960px;
+            background: rgba(15, 23, 42, 0.75);
+            border: 2px solid rgba(255, 255, 255, 0.12);
+            border-radius: 28px;
+            padding: 32px sm:40px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.5);
+            text-align: center;
+            animation: popIn 0.35s ease;
+        }
+
+        .category-pill {
+            display: inline-block;
+            padding: 6px 16px;
+            background: rgba(99, 102, 241, 0.2);
+            color: #a5b4fc;
+            border: 1px solid rgba(99, 102, 241, 0.4);
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 16px;
+        }
+
+        .question-text {
+            color: #ffffff;
+            font-size: 1.35rem;
+            font-weight: 800;
+            line-height: 1.5;
+            margin-bottom: 24px;
+        }
+
+        .visual-box {
+            background: rgba(2, 6, 23, 0.6);
+            border: 2px dashed rgba(255, 255, 255, 0.15);
+            border-radius: 20px;
+            padding: 20px;
+            margin-bottom: 24px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .options-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+            margin-top: 10px;
+        }
+
+        .btn-opt {
+            background: rgba(30, 41, 59, 0.9);
+            border: 2px solid rgba(255, 255, 255, 0.12);
+            color: #f8fafc;
+            padding: 18px 24px;
+            border-radius: 20px;
+            font-size: 1.1rem;
+            font-weight: 800;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            text-align: left;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            min-height: 72px;
+        }
+
+        .btn-opt:hover {
+            background: rgba(99, 102, 241, 0.3);
+            border-color: #818cf8;
+            transform: translateY(-2px);
+        }
+
+        .btn-opt:active {
+            transform: scale(0.98);
+        }
+
+        .opt-letter {
+            width: 36px;
+            height: 36px;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.12);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            font-weight: 900;
+            color: var(--yellow);
+            flex-shrink: 0;
+        }
+
+        .btn-opt.correct {
+            background: rgba(16, 185, 129, 0.35) !important;
+            border-color: var(--green) !important;
+            color: #6ee7b7 !important;
+        }
+
+        .btn-opt.correct .opt-letter {
+            background: var(--green);
+            color: #064e3b;
+        }
+
+        .btn-opt.wrong {
+            background: rgba(239, 68, 68, 0.35) !important;
+            border-color: var(--red) !important;
+            color: #fca5a5 !important;
+        }
+
+        .btn-opt.wrong .opt-letter {
+            background: var(--red);
+            color: #fff;
+        }
+
+        .feedback-box {
+            margin-top: 20px;
+            padding: 18px 24px;
+            border-radius: 20px;
+            font-size: 1.05rem;
+            font-weight: 800;
+            line-height: 1.5;
+            display: none;
+            animation: popIn 0.3s ease;
+        }
+
+        .feedback-correct {
+            background: rgba(16, 185, 129, 0.2);
+            border: 2px solid var(--green);
+            color: #a7f3d0;
+        }
+
+        .feedback-wrong {
+            background: rgba(239, 68, 68, 0.2);
+            border: 2px solid var(--red);
+            color: #fecaca;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            border: none;
+            color: #fff;
+            padding: 16px 36px;
+            border-radius: 18px;
+            font-size: 1.1rem;
+            font-weight: 900;
+            cursor: pointer;
+            box-shadow: 0 8px 25px rgba(99, 102, 241, 0.4);
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 30px rgba(99, 102, 241, 0.55);
+        }
+
+        .btn-primary:active {
+            transform: scale(0.96);
+        }
+
+        @keyframes popIn {
+            0% { transform: scale(0.95); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        @media (max-width: 860px) {
+            #game-frame { min-height: 98vh; border-radius: 20px; }
+            header { padding: 12px 18px; }
+            main { padding: 16px; }
+            .card-box { padding: 20px; }
+            .options-grid { grid-template-columns: 1fr; }
+            .question-text { font-size: 1.15rem; }
+            .btn-opt { font-size: 1rem; padding: 14px 18px; min-height: 60px; }
+        }
+    </style>
+</head>
+<body>
+    <div id="game-frame">
+        <header>
+            <div class="header-left">
+                <div class="header-icon">
+                    <i class="fa-solid fa-palette"></i>
+                </div>
+                <div class="header-title">
+                    <h1>3. Hangi Programı Seçmeliyim?</h1>
+                    <p>BTY.5.2.1 • 7. Konu: Görsel Düzenleme Programları</p>
+                </div>
+            </div>
+            <div class="header-controls">
+                <span id="stat-progress" class="stat-badge" style="color:var(--accent);">
+                    <i class="fa-solid fa-layer-group"></i> <span id="q-counter">1 / 10</span>
+                </span>
+                <span id="stat-score" class="stat-badge" style="color:var(--yellow);">
+                    <i class="fa-solid fa-star"></i> <span id="score-val">0</span> Puan
+                </span>
+                <button class="btn-ctrl" onclick="sfx.toggleMute()" id="btn-sound" title="Sesi Aç/Kapat">
+                    <i class="fa-solid fa-volume-high"></i>
+                </button>
+                <button class="btn-ctrl" onclick="toggleFullscreen()" title="Tam Ekran">
+                    <i class="fa-solid fa-expand"></i>
+                </button>
+                <button class="btn-ctrl" onclick="restartGame()" title="Yeniden Başlat">
+                    <i class="fa-solid fa-rotate-left"></i> Yeniden
+                </button>
+            </div>
+        </header>
+
+        <main id="main-area">
+            <div class="card-box" id="quiz-box">
+                <div id="q-category" class="category-pill">Görsel Düzenleme</div>
+                <div id="q-visual" class="visual-box"></div>
+                <h2 id="q-text" class="question-text">Soru metni yükleniyor...</h2>
+                <div id="options-grid" class="options-grid"></div>
+                <div id="feedback-area" class="feedback-box"></div>
+                <div style="margin-top: 24px; display: flex; justify-content: center;">
+                    <button id="next-btn" class="btn-primary" style="display: none;" onclick="nextQuestion()">
+                        Sonraki Soru 👉
+                    </button>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        class SoundEngine {
+            constructor() {
+                this.ctx = null;
+                this.muted = false;
+            }
+            init() {
+                if (!this.ctx) {
+                    const AudioContext = window.AudioContext || window.webkitAudioContext;
+                    if (AudioContext) this.ctx = new AudioContext();
+                }
+                if (this.ctx && this.ctx.state === 'suspended') {
+                    this.ctx.resume();
+                }
+            }
+            playTone(freq, type, dur, gainVal = 0.2) {
+                if (this.muted) return;
+                this.init();
+                if (!this.ctx) return;
+                try {
+                    const osc = this.ctx.createOscillator();
+                    const gain = this.ctx.createGain();
+                    osc.type = type;
+                    osc.frequency.setValueAtTime(freq, this.ctx.currentTime);
+                    gain.gain.setValueAtTime(gainVal, this.ctx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.0001, this.ctx.currentTime + dur);
+                    osc.connect(gain);
+                    gain.connect(this.ctx.destination);
+                    osc.start();
+                    osc.stop(this.ctx.currentTime + dur);
+                } catch(e) {}
+            }
+            playClick() { this.playTone(600, 'sine', 0.08, 0.15); }
+            playCorrect() {
+                this.playTone(523.25, 'triangle', 0.12, 0.25);
+                setTimeout(() => this.playTone(659.25, 'triangle', 0.15, 0.25), 100);
+                setTimeout(() => this.playTone(783.99, 'triangle', 0.25, 0.3), 220);
+            }
+            playWrong() {
+                this.playTone(260, 'sawtooth', 0.15, 0.25);
+                setTimeout(() => this.playTone(200, 'sawtooth', 0.25, 0.25), 130);
+            }
+            playFanfare() {
+                [523.25, 659.25, 783.99, 1046.50].forEach((f, i) => {
+                    setTimeout(() => this.playTone(f, 'triangle', 0.3, 0.3), i * 140);
+                });
+            }
+            toggleMute() {
+                this.muted = !this.muted;
+                const btn = document.getElementById("btn-sound");
+                if (btn) {
+                    btn.innerHTML = this.muted ? '<i class="fa-solid fa-volume-xmark"></i>' : '<i class="fa-solid fa-volume-high"></i>';
+                }
+            }
+        }
+
+        const sfx = new SoundEngine();
+
+        const QUESTIONS = [
+            {
+                category: "Giriş Seviyesi Program",
+                text: "Ali, bilgisayarında hiçbir ek kurulum yapmadan basit bir ev ve ağaç resmi çizmek istiyor. Hangi temel programdan yararlanabilir?",
+                visual: `<div class="text-4xl text-sky-400 mb-1"><i class="fa-solid fa-paintbrush"></i></div><div class="text-xs font-bold text-sky-300">Basit Çizim</div><div class="text-[10px] text-slate-400">Windows standart aracı</div>`,
+                hint: "Windows işletim sistemiyle hazır gelen klasik çizim aracıdır.",
+                options: [
+                    "Hesap Makinesi",
+                    "Müzik Çalar",
+                    "Paint",
+                    "Not Defteri"
+                ],
+                correctAnswer: 2, // C
+                explanation: "Paint, basit resimler çizmek ve küçük düzenlemeler yapmak için kullanılan kullanımı en kolay standart programdır."
+            },
+            {
+                category: "Şablon & Afiş Tasarımı",
+                text: "Zeynep, okulunun bilim şenliği için binlerce hazır renkli şablon, şekil ve yazı tipini kullanarak modern bir afiş tasarlamak istiyor. Hangi popüler web aracını seçmelidir?",
+                visual: `<div class="text-4xl text-teal-400 mb-1"><i class="fa-solid fa-shapes"></i></div><div class="text-xs font-bold text-teal-300">Hazır Şablonlar</div><div class="text-[10px] text-slate-400">Zengin kütüphane</div>`,
+                hint: "Tarayıcıdan çalışan ve afiş, broşür, sunum şablonları sunan ünlü araç.",
+                options: [
+                    "Canva",
+                    "Hesap Makinesi",
+                    "Disk Temizleme",
+                    "Ağ Bağlantıları"
+                ],
+                correctAnswer: 0, // A
+                explanation: "Canva; zengin şablonları, hazır görselleri ve kolay sürükle-bırak arayüzüyle afiş ve broşür hazırlamak için harika bir seçenektir."
+            },
+            {
+                category: "Profesyonel Fotoğrafçılık",
+                text: "Bir fotoğrafçı, çektiği portre fotoğraflardaki renk tonlarını hassasça ayarlamak, katmanlarla çalışmak ve profesyonel rötuş yapmak istiyor. Hangi sektörel programı seçmelidir?",
+                visual: `<div class="p-2.5 bg-blue-500/20 border border-blue-500 rounded-xl text-center"><div class="text-2xl font-black text-blue-400">Ps</div><div class="text-[10px] text-slate-300">Photoshop</div></div>`,
+                hint: "Dünyanın en bilinen profesyonel fotoğraf düzenleme yazılımı.",
+                options: [
+                    "Paint",
+                    "Adobe Photoshop",
+                    "Ses Kaydedicisi",
+                    "Görev Yöneticisi"
+                ],
+                correctAnswer: 1, // B
+                explanation: "Adobe Photoshop, piksel tabanlı fotoğraf düzenleme ve manipülasyon konusunda dünya standardı profesyonel bir yazılımdır."
+            },
+            {
+                category: "Vektörel Çizim & Logo",
+                text: "Grafik tasarımcı Selin, bir okul amblemini her boyutta (kartvizitten dev bina afişine kadar) bozulmadan basılacak Vektörel bir logo olarak çizmek istiyor. Hangi programı seçmelidir?",
+                visual: `<div class="p-2.5 bg-amber-500/20 border border-amber-500 rounded-xl text-center"><div class="text-2xl font-black text-amber-400">Ai</div><div class="text-[10px] text-slate-300">Illustrator</div></div>`,
+                hint: "Vektörel grafiklerin lider tasarım programı.",
+                options: [
+                    "Windows Not Defteri",
+                    "Müzik Çalar",
+                    "Paint",
+                    "Adobe Illustrator"
+                ],
+                correctAnswer: 3, // D
+                explanation: "Adobe Illustrator, matematiksel eğriler ve vektörel çizimler oluşturmak için geliştirilmiş profesyonel bir vektör tasarım programıdır."
+            },
+            {
+                category: "Açık Kaynak & Ücretsiz",
+                text: "Emre, bilgisayarına hiçbir lisans ücreti ödemeden kurabileceği, açık kaynak kodlu ve katman destekli güçlü bir fotoğraf düzenleme programı arıyor. Hangi program tam ona göredir?",
+                visual: `<div class="text-4xl text-orange-400 mb-1"><i class="fa-solid fa-code-branch"></i></div><div class="text-xs font-bold text-orange-300">Özgür & Açık Kaynak</div><div class="text-[10px] text-slate-400">Gelişmiş katman desteği</div>`,
+                hint: "Maskotu tilki/köpek olan ünlü açık kaynak yazılım.",
+                options: [
+                    "WordPad",
+                    "Paint",
+                    "GIMP",
+                    "Ekran Alıntısı Aracı"
+                ],
+                correctAnswer: 2, // C
+                explanation: "GIMP (GNU Image Manipulation Program), tamamen ücretsiz ve açık kaynak kodlu çok güçlü bir görsel işleme programıdır."
+            },
+            {
+                category: "Ortak Çalışma & Web Çizimi",
+                text: "Buket, arkadaşlarıyla okul projesi için Google Drive üzerinde eşzamanlı olarak kavram haritaları ve geometrik akış şemaları çizmek istiyor. Hangi bulut aracını kullanmalıdır?",
+                visual: `<div class="text-4xl text-rose-400 mb-1"><i class="fa-solid fa-users"></i></div><div class="text-xs font-bold text-rose-300">Ortaklaşa Çizim</div><div class="text-[10px] text-slate-400">Tarayıcı üzerinden canlı</div>`,
+                hint: "Google'ın ücretsiz vektörel şema çizim aracı.",
+                options: [
+                    "Google Çizimler",
+                    "Ses Denetimi",
+                    "BIOS Ekranı",
+                    "Sabit Disk Bölücü"
+                ],
+                correctAnswer: 0, // A
+                explanation: "Google Çizimler (Google Drawings), tarayıcı üzerinden arkadaşlarla aynı anda ortak şekil ve şemalar çizmeye olanak tanır."
+            },
+            {
+                category: "3 Boyutlu Tasarım",
+                text: "Okulun bilişim laboratuvarındaki 3D yazıcıdan sevimli bir robot gövdesi ve anahtarlık basmak isteyen Beren, hangi 3B modelleme aracını seçmelidir?",
+                visual: `<div class="text-4xl text-sky-400 mb-1"><i class="fa-solid fa-cube"></i></div><div class="text-xs font-bold text-sky-300">3 Boyutlu Modelleme</div><div class="text-[10px] text-slate-400">3D Yazıcı hazırlığı</div>`,
+                hint: "Blokları birleştirerek 3B model tasarlanan eğlenceli Autodesk aracı.",
+                options: [
+                    "Paint",
+                    "Tinkercad",
+                    "Not Defteri",
+                    "Hesap Makinesi"
+                ],
+                correctAnswer: 1, // B
+                explanation: "Tinkercad, 3 boyutlu tasarımlar hazırlamak ve 3D yazıcılara baskı dosyası üretmek için kullanılan harika bir eğitim aracıdır."
+            },
+            {
+                category: "Düzenleme İşlemleri",
+                text: "Fotoğrafta masadaki gereksiz bardakları ve boşlukları atıp sadece ortadaki doğum günü pastasını bırakmak isteyen Ece hangi düzenleme işlemini uygulamalıdır?",
+                visual: `<div class="text-4xl text-amber-400 mb-1"><i class="fa-solid fa-crop-simple"></i></div><div class="text-xs font-bold text-amber-300">Kenarları Kesme</div><div class="text-[10px] text-slate-400">İstenmeyen kısımları atma</div>`,
+                hint: "İngilizcesi 'Crop' olan kenar kesme aracı.",
+                options: [
+                    "Döndürme (Rotate)",
+                    "Silme (Delete)",
+                    "Yeniden Başlatma",
+                    "Kırpma (Crop)"
+                ],
+                correctAnswer: 3, // D
+                explanation: "Kırpma (Crop) işlemi, görselin istenmeyen dış kısımlarını kesip sadece odaklanılan bölgeyi çerçevelemek için kullanılır."
+            },
+            {
+                category: "Yön Değiştirme",
+                text: "Fotoğraf makinesini dik tutarak çektiğimiz ama bilgisayarda yan yatmış olarak açılan bir fotoğrafı düzgün hâle getirmek için hangi işlem uygulanır?",
+                visual: `<div class="text-4xl text-emerald-400 mb-1"><i class="fa-solid fa-rotate-right"></i></div><div class="text-xs font-bold text-emerald-300">90 Derece Çevirme</div><div class="text-[10px] text-slate-400">Yön düzeltme</div>`,
+                hint: "Görseli saat yönünde veya tersinde çevirme işlemi.",
+                options: [
+                    "Döndürme (Rotate)",
+                    "Boyutlandırma (Resize)",
+                    "Format Değiştirme",
+                    "Sıkıştırma (Zip)"
+                ],
+                correctAnswer: 0, // A
+                explanation: "Döndürme (Rotate) işlemi, yan veya ters duran görselleri 90, 180 veya 270 derece çevirerek doğru konuma getirmemizi sağlar."
+            },
+            {
+                category: "Görsel İyileştirme",
+                text: "Bulutlu bir günde çekildiği için karanlık ve cansız çıkan bir okul bahçesi fotoğrafının renklerini canlandırmak ve aydınlatmak için hangi işlem seçilir?",
+                visual: `<div class="text-4xl text-fuchsia-400 mb-1"><i class="fa-solid fa-sliders"></i></div><div class="text-xs font-bold text-fuchsia-300">Işık & Kontrast</div><div class="text-[10px] text-slate-400">Renk canlılığı ayarı</div>`,
+                hint: "Parlaklık, kontrast ve doygunluk ayarlarının yapıldığı menü.",
+                options: [
+                    "Dosyayı Yeniden Adlandırma",
+                    "Dosyayı Çöp Kutusuna Taşıma",
+                    "Renk Düzenleme (Parlaklık & Kontrast Ayarı)",
+                    "Bilgisayarı Kapatma"
+                ],
+                correctAnswer: 2, // C
+                explanation: "Renk düzenleme (Color Adjustment) ile görselin parlaklık, kontrast ve renk doygunluğu ayarlanarak daha canlı bir görüntü elde edilir."
+            }
+        ];
+
+        let currentIndex = 0;
+        let score = 0;
+        let answered = false;
+
+        function loadQuestion() {
+            answered = false;
+            const q = (typeof questions !== 'undefined' ? questions : QUESTIONS)[currentIndex];
+            if (!q) {
+                showResults();
+                return;
+            }
+
+            document.getElementById("q-counter").innerText = (currentIndex + 1) + " / " + (typeof questions !== 'undefined' ? questions : QUESTIONS).length;
+            document.getElementById("score-val").innerText = score;
+            document.getElementById("q-category").innerText = q.category || "TASARIM STÜDYOSU";
+            document.getElementById("q-text").innerText = q.text || q.q || q.question;
+
+            const visualBox = document.getElementById("q-visual");
+            if (q.visual) {
+                visualBox.innerHTML = q.visual;
+                visualBox.style.display = "flex";
+            } else {
+                visualBox.style.display = "none";
+            }
+
+            const optionsGrid = document.getElementById("options-grid");
+            const letters = ["A", "B", "C", "D"];
+            optionsGrid.innerHTML = q.options.map((opt, i) => `
+                <button class="btn-opt" onclick="checkAnswer(${i})" id="opt-${i}">
+                    <span class="opt-letter">${letters[i]}</span>
+                    <span>${opt}</span>
+                </button>
+            `).join('');
+
+            const fb = document.getElementById("feedback-area");
+            fb.style.display = "none";
+            fb.className = "feedback-box";
+            document.getElementById("next-btn").style.display = "none";
+        }
+
+        function checkAnswer(chosenIdx) {
+            if (answered) return;
+            answered = true;
+            sfx.init();
+
+            const q = (typeof questions !== 'undefined' ? questions : QUESTIONS)[currentIndex];
+            const correctIdx = (q.correctAnswer !== undefined) ? q.correctAnswer : ((q.answer !== undefined) ? q.answer : q.correct);
+            const isRight = (chosenIdx === correctIdx);
+
+            const chosenBtn = document.getElementById("opt-" + chosenIdx);
+            const correctBtn = document.getElementById("opt-" + correctIdx);
+            const fb = document.getElementById("feedback-area");
+
+            // Disable all options
+            for (let i = 0; i < q.options.length; i++) {
+                const b = document.getElementById("opt-" + i);
+                if (b) b.disabled = true;
+            }
+
+            if (isRight) {
+                score += 10;
+                document.getElementById("score-val").innerText = score;
+                sfx.playCorrect();
+                if (chosenBtn) chosenBtn.classList.add("correct");
+                fb.className = "feedback-box feedback-correct";
+                fb.innerHTML = `<i class="fa-solid fa-circle-check text-xl mr-2"></i> <strong>Harika! Doğru Cevap!</strong><br><span style="font-size:0.95rem; font-weight:600; opacity:0.95;">${q.explanation || ''}</span>`;
+            } else {
+                sfx.playWrong();
+                if (chosenBtn) chosenBtn.classList.add("wrong");
+                if (correctBtn) correctBtn.classList.add("correct");
+                fb.className = "feedback-box feedback-wrong";
+                fb.innerHTML = `<i class="fa-solid fa-circle-xmark text-xl mr-2"></i> <strong>Yanlış! Doğru Şık: ${["A","B","C","D"][correctIdx]}</strong><br><span style="font-size:0.95rem; font-weight:600; opacity:0.95;">${q.explanation || ''}</span>`;
+            }
+
+            fb.style.display = "block";
+            document.getElementById("next-btn").style.display = "inline-flex";
+        }
+
+        function nextQuestion() {
+            sfx.playClick();
+            currentIndex++;
+            const total = (typeof questions !== 'undefined' ? questions : QUESTIONS).length;
+            if (currentIndex < total) {
+                loadQuestion();
+            } else {
+                showResults();
+            }
+        }
+
+        function showResults() {
+            sfx.playFanfare();
+            try {
+                confetti({ particleCount: 120, spread: 80, origin: { y: 0.6 } });
+            } catch(e) {}
+
+            const total = (typeof questions !== 'undefined' ? questions : QUESTIONS).length;
+            const maxScore = total * 10;
+            const main = document.getElementById("main-area");
+            main.innerHTML = `
+                <div class="card-box" style="animation: popIn 0.5s ease;">
+                    <div style="font-size: 4.5rem; margin-bottom: 12px;">🏆</div>
+                    <span class="category-pill">GÖREV TAMAMLANDI</span>
+                    <h2 style="font-size: 2.2rem; font-weight: 900; color: #fff; margin-bottom: 10px;">
+                        Tebrikler Şampiyon!
+                    </h2>
+                    <p style="color: #94a3b8; font-size: 1.1rem; margin-bottom: 24px;">
+                        3. Hangi Programı Seçmeliyim? görevini başarıyla tamamladın!
+                    </p>
+
+                    <div style="display: flex; justify-content: center; gap: 20px; margin-bottom: 28px; flex-wrap: wrap;">
+                        <div class="stat-badge" style="font-size: 1.25rem; padding: 16px 28px; color: var(--yellow);">
+                            <i class="fa-solid fa-star"></i> Toplam Skor: ${score} / ${maxScore}
+                        </div>
+                    </div>
+
+                    <div style="display: flex; justify-content: center; gap: 14px; flex-wrap: wrap;">
+                        <button onclick="restartGame()" class="btn-primary">
+                            <i class="fa-solid fa-rotate-left"></i> Yeniden Oyna
+                        </button>
+                    </div>
+                </div>
+            `;
+        }
+
+        function restartGame() {
+            sfx.playClick();
+            currentIndex = 0;
+            score = 0;
+            document.getElementById("main-area").innerHTML = `
+                <div class="card-box" id="quiz-box">
+                    <div id="q-category" class="category-pill">Görsel Düzenleme</div>
+                    <div id="q-visual" class="visual-box"></div>
+                    <h2 id="q-text" class="question-text">Soru metni yükleniyor...</h2>
+                    <div id="options-grid" class="options-grid"></div>
+                    <div id="feedback-area" class="feedback-box"></div>
+                    <div style="margin-top: 24px; display: flex; justify-content: center;">
+                        <button id="next-btn" class="btn-primary" style="display: none;" onclick="nextQuestion()">
+                            Sonraki Soru 👉
+                        </button>
+                    </div>
+                </div>
+            `;
+            loadQuestion();
+        }
+
+        function toggleFullscreen() {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen().catch(() => {});
+            } else {
+                if (document.exitFullscreen) document.exitFullscreen();
+            }
+        }
+
+        window.onload = () => {
+            loadQuestion();
+        };
+    </script>
+</body>
+</html>

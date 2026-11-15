@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bozok Bilişim Portalı | Master Yedek Arşivi</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; }</style>
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen p-4 sm:p-8">
+
+    <div class="max-w-6xl mx-auto space-y-8">
+        <!-- Başlık Banner -->
+        <div class="text-center space-y-3 bg-gradient-to-r from-blue-900/40 via-indigo-900/40 to-purple-900/40 border border-indigo-500/30 rounded-3xl p-6 sm:p-10 shadow-2xl">
+            <span class="px-4 py-1.5 bg-yellow-400/20 text-yellow-300 font-black text-xs uppercase tracking-widest rounded-full border border-yellow-400/30 inline-block">
+                📂 Çevrim Dışı Master Yedek Arşivi
+            </span>
+            <h1 class="text-3xl sm:text-5xl font-black text-white tracking-tight">BOZOK BİLİŞİM PORTALI</h1>
+            <p class="text-slate-300 text-sm sm:text-base max-w-2xl mx-auto leading-relaxed">
+                5. Sınıf Bilişim Teknolojileri ve Yazılım dersinin tüm haftalarına ait sunular, bağımsız oyunlar, pekiştirme testleri ve çalışma kâğıtları tek merkezde!
+            </p>
+
+            <!-- İstatistik Rozetleri -->
+            <div class="flex flex-wrap items-center justify-center gap-3 pt-3">
+                <div class="px-4 py-2 bg-slate-900/80 border border-slate-700 rounded-xl text-xs sm:text-sm font-bold flex items-center gap-2">
+                    <i class="fa-solid fa-calendar-check text-blue-400"></i> 10 Hafta / Konu
+                </div>
+                <div class="px-4 py-2 bg-slate-900/80 border border-slate-700 rounded-xl text-xs sm:text-sm font-bold flex items-center gap-2">
+                    <i class="fa-solid fa-chalkboard-user text-purple-400"></i> 207 Slayt
+                </div>
+                <div class="px-4 py-2 bg-slate-900/80 border border-slate-700 rounded-xl text-xs sm:text-sm font-bold flex items-center gap-2">
+                    <i class="fa-solid fa-gamepad text-emerald-400"></i> 48 Oyun
+                </div>
+                <div class="px-4 py-2 bg-slate-900/80 border border-slate-700 rounded-xl text-xs sm:text-sm font-bold flex items-center gap-2">
+                    <i class="fa-solid fa-list-check text-yellow-400"></i> 230 Soru
+                </div>
+                <div class="px-4 py-2 bg-slate-900/80 border border-slate-700 rounded-xl text-xs sm:text-sm font-bold flex items-center gap-2">
+                    <i class="fa-solid fa-file-pdf text-rose-400"></i> 35+ Çalışma Kâğıdı
+                </div>
+            </div>
+        </div>
+
+        <!-- Arama Filtresi -->
+        <div class="relative">
+            <i class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
+            <input type="text" id="searchInput" oninput="filterWeeks()" placeholder="Konu, kazanım veya hafta ara..." class="w-full pl-11 pr-4 py-3.5 bg-slate-900 border border-slate-800 rounded-2xl text-sm text-white placeholder-slate-400 focus:outline-none focus:border-indigo-500 transition shadow-inner">
+        </div>
+
+        <!-- Hafta Kartları Listesi -->
+        <div id="weeksGrid" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            
+            <div class="week-card bg-slate-900 border border-slate-800 hover:border-indigo-500/50 rounded-2xl p-5 shadow-xl transition-all duration-200 flex flex-col justify-between space-y-4" data-title="bilişim teknolojilerinin günlük yaşamdaki önemi" data-kazanim="bty.5.1.1. bilişim teknolojilerinin günlük yaşamdaki önemini fark eder.">
+                <div>
+                    <div class="flex items-center justify-between mb-2">
+                        <span class="text-[10px] font-extrabold uppercase px-2.5 py-1 rounded bg-indigo-500/20 text-indigo-300">
+                            1. Tema: Bilişim Teknolojileri
+                        </span>
+                        <span class="text-xs font-mono font-bold text-slate-400">
+                            BTY.5.1.1.
+                        </span>
+                    </div>
+                    <h3 class="text-lg sm:text-xl font-black text-white leading-snug">
+                        Bilişim Teknolojilerinin Günlük Yaşamdaki Önemi
+                    </h3>
+                    <p class="text-xs text-slate-400 mt-1 line-clamp-2">
+                        BTY.5.1.1. Bilişim teknolojilerinin günlük yaşamdaki önemini fark eder.
+                    </p>
+                </div>
+
+                <!-- 4 Hızlı Eylem Butonu -->
+                <div class="grid grid-cols-2 gap-2 pt-2 border-t border-slate-800">
+                    <a href="./1.Hafta_Bilisim_Teknolojileri/1_Sunu/Sunu_Slaytlari.html" class="p-2.5 bg-indigo-600/20 hover:bg-indigo-600 border border-indigo-500/30 hover:border-indigo-500 text-indigo-300 hover:text-white rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 transition">
+                        <i class="fa-solid fa-chalkboard-user"></i> Sunu (22)
+                    </a>
+                    <a href="./1.Hafta_Bilisim_Teknolojileri/2_Oyunlar/Oyunlar_Menusu.html" class="p-2.5 bg-emerald-600/20 hover:bg-emerald-600 border border-emerald-500/30 hover:border-emerald-500 text-emerald-300 hover:text-white rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 transition">
+                        <i class="fa-solid fa-gamepad"></i> Oyunlar (1)
+                    </a>
+                    <a href="./1.Hafta_Bilisim_Teknolojileri/3_Pekistirme_Testi/Test_Yazdirilabilir.html" class="p-2.5 bg-yellow-600/20 hover:bg-yellow-600 border border-yellow-500/30 hover:border-yellow-500 text-yellow-300 hover:text-white rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 transition">
+                        <i class="fa-solid fa-print"></i> Test (9)
+                    </a>
+                    <a href="./1.Hafta_Bilisim_Teknolojileri/4_Calisma_Kagitlari/Calisma_Kagitlari_Goruntuleyici.html" class="p-2.5 bg-rose-600/20 hover:bg-rose-600 border border-rose-500/30 hover:border-rose-500 text-rose-300 hover:text-white rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 transition">
+                        <i class="fa-solid fa-images"></i> Kâğıtlar (6)
+                    </a>
+                </div>
+            </div>
+            
+            <div class="week-card bg-slate-900 border border-slate-800 hover:border-indigo-500/50 rounded-2xl p-5 shadow-xl transition-all duration-200 flex flex-col justify-between space-y-4" data-title="bilişim teknolojilerinin etkileri ve dijital sağlık" data-kazanim="bty.5.1.2. bilişim teknolojilerinin beden ve ruh sağlığına olumlu/olumsuz etkilerini analiz eder.">
+                <div>
+                    <div class="flex items-center justify-between mb-2">
+                        <span class="text-[10px] font-extrabold uppercase px-2.5 py-1 rounded bg-indigo-500/20 text-indigo-300">
+                            1. Tema: Bilişim Teknolojileri
+                        </span>
+                        <span class="text-xs font-mono font-bold text-slate-400">
+                            BTY.5.1.2.
+                        </span>
+                    </div>
+                    <h3 class="text-lg sm:text-xl font-black text-white leading-snug">
+                        Bilişim Teknolojilerinin Etkileri ve Dijital Sağlık
+                    </h3>
+                    <p class="text-xs text-slate-400 mt-1 line-clamp-2">
+                        BTY.5.1.2. Bilişim teknolojilerinin beden ve ruh sağlığına olumlu/olumsuz etkilerini analiz eder.
+                    </p>
+                </div>
+
+                <!-- 4 Hızlı Eylem Butonu -->
+                <div class="grid grid-cols-2 gap-2 pt-2 border-t border-slate-800">
+                    <a href="./2.Hafta_Bilisimin_Etkileri_ve_Dijital_Saglik/1_Sunu/Sunu_Slaytlari.html" class="p-2.5 bg-indigo-600/20 hover:bg-indigo-600 border border-indigo-500/30 hover:border-indigo-500 text-indigo-300 hover:text-white rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 transition">
+                        <i class="fa-solid fa-chalkboard-user"></i> Sunu (25)
+                    </a>
+                    <a href="./2.Hafta_Bilisimin_Etkileri_ve_Dijital_Saglik/2_Oyunlar/Oyunlar_Menusu.html" class="p-2.5 bg-emerald-600/20 hover:bg-emerald-600 border border-emerald-500/30 hover:border-emerald-500 text-emerald-300 hover:text-white rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 transition">
+                        <i class="fa-solid fa-gamepad"></i> Oyunlar (3)
+                    </a>
+                    <a href="./2.Hafta_Bilisimin_Etkileri_ve_Dijital_Saglik/3_Pekistirme_Testi/Test_Yazdirilabilir.html" class="p-2.5 bg-yellow-600/20 hover:bg-yellow-600 border border-yellow-500/30 hover:border-yellow-500 text-yellow-300 hover:text-white rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 transition">
+                        <i class="fa-solid fa-print"></i> Test (14)
+                    </a>
+                    <a href="./2.Hafta_Bilisimin_Etkileri_ve_Dijital_Saglik/4_Calisma_Kagitlari/Calisma_Kagitlari_Goruntuleyici.html" class="p-2.5 bg-rose-600/20 hover:bg-rose-600 border border-rose-500/30 hover:border-rose-500 text-rose-300 hover:text-white rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 transition">
+                        <i class="fa-solid fa-images"></i> Kâğıtlar (6)
+                    </a>
+                </div>
+            </div>
+            
+            <div class="week-card bg-slate-900 border border-slate-800 hover:border-indigo-500/50 rounded-2xl p-5 shadow-xl transition-all duration-200 flex flex-col justify-between space-y-4" data-title="dijital vatandaşlık ve e-devlet uygulamaları" data-kazanim="bty.5.1.3. dijital kimlik, dijital ayak izi ve e-devlet hizmetlerini kavrar.">
+                <div>
+                    <div class="flex items-center justify-between mb-2">
+                        <span class="text-[10px] font-extrabold uppercase px-2.5 py-1 rounded bg-indigo-500/20 text-indigo-300">
+                            1. Tema: Bilişim Teknolojileri
+                        </span>
+                        <span class="text-xs font-mono font-bold text-slate-400">
+                            BTY.5.1.3.
+                        </span>
+                    </div>
+                    <h3 class="text-lg sm:text-xl font-black text-white leading-snug">
+                        Dijital Vatandaşlık ve e-Devlet Uygulamaları
+                    </h3>
+                    <p class="text-xs text-slate-400 mt-1 line-clamp-2">
+                        BTY.5.1.3. Dijital kimlik, dijital ayak izi ve e-Devlet hizmetlerini kavrar.
+                    </p>
+                </div>
+
+                <!-- 4 Hızlı Eylem Butonu -->
+                <div class="grid grid-cols-2 gap-2 pt-2 border-t border-slate-800">
+                    <a href="./3.Hafta_1_Dijital_Vatandaslik_ve_eDevlet/1_Sunu/Sunu_Slaytlari.html" class="p-2.5 bg-indigo-600/20 hover:bg-indigo-600 border border-indigo-500/30 hover:border-indigo-500 text-indigo-300 hover:text-white rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 transition">
+                        <i class="fa-solid fa-chalkboard-user"></i> Sunu (18)
+                    </a>
+                    <a href="./3.Hafta_1_Dijital_Vatandaslik_ve_eDevlet/2_Oyunlar/Oyunlar_Menusu.html" class="p-2.5 bg-emerald-600/20 hover:bg-emerald-600 border border-emerald-500/30 hover:border-emerald-500 text-emerald-300 hover:text-white rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 transition">
+                        <i class="fa-solid fa-gamepad"></i> Oyunlar (4)
+                    </a>
+                    <a href="./3.Hafta_1_Dijital_Vatandaslik_ve_eDevlet/3_Pekistirme_Testi/Test_Yazdirilabilir.html" class="p-2.5 bg-yellow-600/20 hover:bg-yellow-600 border border-yellow-500/30 hover:border-yellow-500 text-yellow-300 hover:text-white rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 transition">
+                        <i class="fa-solid fa-print"></i> Test (22)
+                    </a>
+                    <a href="./3.Hafta_1_Dijital_Vatandaslik_ve_eDevlet/4_Calisma_Kagitlari/Calisma_Kagitlari_Goruntuleyici.html" class="p-2.5 bg-rose-600/20 hover:bg-rose-600 border border-rose-500/30 hover:border-rose-500 text-rose-300 hover:text-white rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 transition">
+                        <i class="fa-solid fa-images"></i> Kâğıtlar (6)
+                    </a>
+                </div>
+            </div>
+            
+            <div class="week-card bg-slate-900 border border-slate-800 hover:border-indigo-500/50 rounded-2xl p-5 shadow-xl transition-all duration-200 flex flex-col justify-between space-y-4" data-title="dijital vatandaşlık uygulamaları - 2 (genel tekrar)" data-kazanim="bty.5.1.3. dijital vatandaşlık hak ve sorumluluklarını uygular; 1-3. hafta konularını pekiştirir.">
+                <div>
+                    <div class="flex items-center justify-between mb-2">
+                        <span class="text-[10px] font-extrabold uppercase px-2.5 py-1 rounded bg-indigo-500/20 text-indigo-300">
+                            1. Tema: Bilişim Teknolojileri
+                        </span>
+                        <span class="text-xs font-mono font-bold text-slate-400">
+                            BTY.5.1.3.
+                        </span>
+                    </div>
+                    <h3 class="text-lg sm:text-xl font-black text-white leading-snug">
+                        Dijital Vatandaşlık Uygulamaları - 2 (Genel Tekrar)
+                    </h3>
+                    <p class="text-xs text-slate-400 mt-1 line-clamp-2">
+                        BTY.5.1.3. Dijital vatandaşlık hak ve sorumluluklarını uygular; 1-3. hafta konularını pekiştirir.
+                    </p>
+                </div>
+
+                <!-- 4 Hızlı Eylem Butonu -->
+                <div class="grid grid-cols-2 gap-2 pt-2 border-t border-slate-800">
+                    <a href="./3.Hafta_2_Genel_Tekrar_ve_Etkinlikler/1_Sunu/Sunu_Slaytlari.html" class="p-2.5 bg-indigo-600/20 hover:bg-indigo-600 border border-indigo-500/30 hover:border-indigo-500 text-indigo-300 hover:text-white rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 transition">
+                        <i class="fa-solid fa-chalkboard-user"></i> Sunu (20)
+                    </a>
+                    <a href="./3.Hafta_2_Genel_Tekrar_ve_Etkinlikler/2_Oyunlar/Oyunlar_Menusu.html" class="p-2.5 bg-emerald-600/20 hover:bg-emerald-600 border border-emerald-500/30 hover:border-emerald-500 text-emerald-300 hover:text-white rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 transition">
+                        <i class="fa-solid fa-gamepad"></i> Oyunlar (5)
+                    </a>
+                    <a href="./3.Hafta_2_Genel_Tekrar_ve_Etkinlikler/3_Pekistirme_Testi/Test_Yazdirilabilir.html" class="p-2.5 bg-yellow-600/20 hover:bg-yellow-600 border border-yellow-500/30 hover:border-yellow-500 text-yellow-300 hover:text-white rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 transition">
+                        <i class="fa-solid fa-print"></i> Test (20)
+                    </a>
+                    <a href="./3.Hafta_2_Genel_Tekrar_ve_Etkinlikler/4_Calisma_Kagitlari/Calisma_Kagitlari_Goruntuleyici.html" class="p-2.5 bg-rose-600/20 hover:bg-rose-600 border border-rose-500/30 hover:border-rose-500 text-rose-300 hover:text-white rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 transition">
+                        <i class="fa-solid fa-images"></i> Kâğıtlar (8)
+                    </a>
+                </div>
+            </div>
+            
+            <div class="week-card bg-slate-900 border border-slate-800 hover:border-indigo-500/50 rounded-2xl p-5 shadow-xl transition-all duration-200 flex flex-col justify-between space-y-4" data-title="yapay zekâ temelleri" data-kazanim="bty.5.1.4. yapay zekâ kavramını ve temel kullanım alanlarını sorgular.">
+                <div>
+                    <div class="flex items-center justify-between mb-2">
+                        <span class="text-[10px] font-extrabold uppercase px-2.5 py-1 rounded bg-indigo-500/20 text-indigo-300">
+                            1. Tema: Bilişim Teknolojileri
+                        </span>
+                        <span class="text-xs font-mono font-bold text-slate-400">
+                            BTY.5.1.4.
+                        </span>
+                    </div>
+                    <h3 class="text-lg sm:text-xl font-black text-white leading-snug">
+                        Yapay Zekâ Temelleri
+                    </h3>
+                    <p class="text-xs text-slate-400 mt-1 line-clamp-2">
+                        BTY.5.1.4. Yapay zekâ kavramını ve temel kullanım alanlarını sorgular.
+                    </p>
+                </div>
+
+                <!-- 4 Hızlı Eylem Butonu -->
+                <div class="grid grid-cols-2 gap-2 pt-2 border-t border-slate-800">
+                    <a href="./4.Hafta_Yapay_Zeka_Temelleri/1_Sunu/Sunu_Slaytlari.html" class="p-2.5 bg-indigo-600/20 hover:bg-indigo-600 border border-indigo-500/30 hover:border-indigo-500 text-indigo-300 hover:text-white rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 transition">
+                        <i class="fa-solid fa-chalkboard-user"></i> Sunu (24)
+                    </a>
+                    <a href="./4.Hafta_Yapay_Zeka_Temelleri/2_Oyunlar/Oyunlar_Menusu.html" class="p-2.5 bg-emerald-600/20 hover:bg-emerald-600 border border-emerald-500/30 hover:border-emerald-500 text-emerald-300 hover:text-white rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 transition">
+                        <i class="fa-solid fa-gamepad"></i> Oyunlar (3)
+                    </a>
+                    <a href="./4.Hafta_Yapay_Zeka_Temelleri/3_Pekistirme_Testi/Test_Yazdirilabilir.html" class="p-2.5 bg-yellow-600/20 hover:bg-yellow-600 border border-yellow-500/30 hover:border-yellow-500 text-yellow-300 hover:text-white rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 transition">
+                        <i class="fa-solid fa-print"></i> Test (26)
+                    </a>
+                    <a href="./4.Hafta_Yapay_Zeka_Temelleri/4_Calisma_Kagitlari/Calisma_Kagitlari_Goruntuleyici.html" class="p-2.5 bg-rose-600/20 hover:bg-rose-600 border border-rose-500/30 hover:border-rose-500 text-rose-300 hover:text-white rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 transition">
+                        <i class="fa-solid fa-images"></i> Kâğıtlar (6)
+                    </a>
+                </div>
+            </div>
+            
+            <div class="week-card bg-slate-900 border border-slate-800 hover:border-indigo-500/50 rounded-2xl p-5 shadow-xl transition-all duration-200 flex flex-col justify-between space-y-4" data-title="bilgisayar ve donanım (giriş ve çıkış birimleri)" data-kazanim="bty.5.1.5. bilgisayar sistemini oluşturan temel iç ve dış donanım birimlerini tanır.">
+                <div>
+                    <div class="flex items-center justify-between mb-2">
+                        <span class="text-[10px] font-extrabold uppercase px-2.5 py-1 rounded bg-indigo-500/20 text-indigo-300">
+                            1. Tema: Bilişim Teknolojileri
+                        </span>
+                        <span class="text-xs font-mono font-bold text-slate-400">
+                            BTY.5.1.5.
+                        </span>
+                    </div>
+                    <h3 class="text-lg sm:text-xl font-black text-white leading-snug">
+                        Bilgisayar ve Donanım (Giriş ve Çıkış Birimleri)
+                    </h3>
+                    <p class="text-xs text-slate-400 mt-1 line-clamp-2">
+                        BTY.5.1.5. Bilgisayar sistemini oluşturan temel iç ve dış donanım birimlerini tanır.
+                    </p>
+                </div>
+
+                <!-- 4 Hızlı Eylem Butonu -->
+                <div class="grid grid-cols-2 gap-2 pt-2 border-t border-slate-800">
+                    <a href="./5.Hafta_1_Bilgisayar_ve_Donanim/1_Sunu/Sunu_Slaytlari.html" class="p-2.5 bg-indigo-600/20 hover:bg-indigo-600 border border-indigo-500/30 hover:border-indigo-500 text-indigo-300 hover:text-white rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 transition">
+                        <i class="fa-solid fa-chalkboard-user"></i> Sunu (20)
+                    </a>
+                    <a href="./5.Hafta_1_Bilgisayar_ve_Donanim/2_Oyunlar/Oyunlar_Menusu.html" class="p-2.5 bg-emerald-600/20 hover:bg-emerald-600 border border-emerald-500/30 hover:border-emerald-500 text-emerald-300 hover:text-white rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 transition">
+                        <i class="fa-solid fa-gamepad"></i> Oyunlar (4)
+                    </a>
+                    <a href="./5.Hafta_1_Bilgisayar_ve_Donanim/3_Pekistirme_Testi/Test_Yazdirilabilir.html" class="p-2.5 bg-yellow-600/20 hover:bg-yellow-600 border border-yellow-500/30 hover:border-yellow-500 text-yellow-300 hover:text-white rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 transition">
+                        <i class="fa-solid fa-print"></i> Test (30)
+                    </a>
+                    <a href="./5.Hafta_1_Bilgisayar_ve_Donanim/4_Calisma_Kagitlari/Calisma_Kagitlari_Goruntuleyici.html" class="p-2.5 bg-rose-600/20 hover:bg-rose-600 border border-rose-500/30 hover:border-rose-500 text-rose-300 hover:text-white rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 transition">
+                        <i class="fa-solid fa-images"></i> Kâğıtlar (6)
+                    </a>
+                </div>
+            </div>
+            
+            <div class="week-card bg-slate-900 border border-slate-800 hover:border-indigo-500/50 rounded-2xl p-5 shadow-xl transition-all duration-200 flex flex-col justify-between space-y-4" data-title="yazılım, kapasite birimleri ve depolama birimleri" data-kazanim="bty.5.1.5. yazılım türlerini, veri kapasite basamaklarını ve depolama araçlarını ayırt eder.">
+                <div>
+                    <div class="flex items-center justify-between mb-2">
+                        <span class="text-[10px] font-extrabold uppercase px-2.5 py-1 rounded bg-indigo-500/20 text-indigo-300">
+                            1. Tema: Bilişim Teknolojileri
+                        </span>
+                        <span class="text-xs font-mono font-bold text-slate-400">
+                            BTY.5.1.5.
+                        </span>
+                    </div>
+                    <h3 class="text-lg sm:text-xl font-black text-white leading-snug">
+                        Yazılım, Kapasite Birimleri ve Depolama Birimleri
+                    </h3>
+                    <p class="text-xs text-slate-400 mt-1 line-clamp-2">
+                        BTY.5.1.5. Yazılım türlerini, veri kapasite basamaklarını ve depolama araçlarını ayırt eder.
+                    </p>
+                </div>
+
+                <!-- 4 Hızlı Eylem Butonu -->
+                <div class="grid grid-cols-2 gap-2 pt-2 border-t border-slate-800">
+                    <a href="./5.Hafta_2_Yazilim_Kapasite_ve_Depolama/1_Sunu/Sunu_Slaytlari.html" class="p-2.5 bg-indigo-600/20 hover:bg-indigo-600 border border-indigo-500/30 hover:border-indigo-500 text-indigo-300 hover:text-white rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 transition">
+                        <i class="fa-solid fa-chalkboard-user"></i> Sunu (18)
+                    </a>
+                    <a href="./5.Hafta_2_Yazilim_Kapasite_ve_Depolama/2_Oyunlar/Oyunlar_Menusu.html" class="p-2.5 bg-emerald-600/20 hover:bg-emerald-600 border border-emerald-500/30 hover:border-emerald-500 text-emerald-300 hover:text-white rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 transition">
+                        <i class="fa-solid fa-gamepad"></i> Oyunlar (9)
+                    </a>
+                    <a href="./5.Hafta_2_Yazilim_Kapasite_ve_Depolama/3_Pekistirme_Testi/Test_Yazdirilabilir.html" class="p-2.5 bg-yellow-600/20 hover:bg-yellow-600 border border-yellow-500/30 hover:border-yellow-500 text-yellow-300 hover:text-white rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 transition">
+                        <i class="fa-solid fa-print"></i> Test (24)
+                    </a>
+                    <a href="./5.Hafta_2_Yazilim_Kapasite_ve_Depolama/4_Calisma_Kagitlari/Calisma_Kagitlari_Goruntuleyici.html" class="p-2.5 bg-rose-600/20 hover:bg-rose-600 border border-rose-500/30 hover:border-rose-500 text-rose-300 hover:text-white rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 transition">
+                        <i class="fa-solid fa-images"></i> Kâğıtlar (7)
+                    </a>
+                </div>
+            </div>
+            
+            <div class="week-card bg-slate-900 border border-slate-800 hover:border-indigo-500/50 rounded-2xl p-5 shadow-xl transition-all duration-200 flex flex-col justify-between space-y-4" data-title="dosya ve klasör yönetimi" data-kazanim="bty.5.1.6. dosya ve klasör yönetimini, dosya uzantılarını ve dosya düzenleme işlemlerini uygular.">
+                <div>
+                    <div class="flex items-center justify-between mb-2">
+                        <span class="text-[10px] font-extrabold uppercase px-2.5 py-1 rounded bg-indigo-500/20 text-indigo-300">
+                            1. Tema: Bilişim Teknolojileri
+                        </span>
+                        <span class="text-xs font-mono font-bold text-slate-400">
+                            BTY.5.1.6.
+                        </span>
+                    </div>
+                    <h3 class="text-lg sm:text-xl font-black text-white leading-snug">
+                        Dosya ve Klasör Yönetimi
+                    </h3>
+                    <p class="text-xs text-slate-400 mt-1 line-clamp-2">
+                        BTY.5.1.6. Dosya ve klasör yönetimini, dosya uzantılarını ve dosya düzenleme işlemlerini uygular.
+                    </p>
+                </div>
+
+                <!-- 4 Hızlı Eylem Butonu -->
+                <div class="grid grid-cols-2 gap-2 pt-2 border-t border-slate-800">
+                    <a href="./6.Hafta_Dosya_ve_Klasor_Yonetimi/1_Sunu/Sunu_Slaytlari.html" class="p-2.5 bg-indigo-600/20 hover:bg-indigo-600 border border-indigo-500/30 hover:border-indigo-500 text-indigo-300 hover:text-white rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 transition">
+                        <i class="fa-solid fa-chalkboard-user"></i> Sunu (20)
+                    </a>
+                    <a href="./6.Hafta_Dosya_ve_Klasor_Yonetimi/2_Oyunlar/Oyunlar_Menusu.html" class="p-2.5 bg-emerald-600/20 hover:bg-emerald-600 border border-emerald-500/30 hover:border-emerald-500 text-emerald-300 hover:text-white rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 transition">
+                        <i class="fa-solid fa-gamepad"></i> Oyunlar (11)
+                    </a>
+                    <a href="./6.Hafta_Dosya_ve_Klasor_Yonetimi/3_Pekistirme_Testi/Test_Yazdirilabilir.html" class="p-2.5 bg-yellow-600/20 hover:bg-yellow-600 border border-yellow-500/30 hover:border-yellow-500 text-yellow-300 hover:text-white rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 transition">
+                        <i class="fa-solid fa-print"></i> Test (25)
+                    </a>
+                    <a href="./6.Hafta_Dosya_ve_Klasor_Yonetimi/4_Calisma_Kagitlari/Calisma_Kagitlari_Goruntuleyici.html" class="p-2.5 bg-rose-600/20 hover:bg-rose-600 border border-rose-500/30 hover:border-rose-500 text-rose-300 hover:text-white rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 transition">
+                        <i class="fa-solid fa-images"></i> Kâğıtlar (6)
+                    </a>
+                </div>
+            </div>
+            
+            <div class="week-card bg-slate-900 border border-slate-800 hover:border-indigo-500/50 rounded-2xl p-5 shadow-xl transition-all duration-200 flex flex-col justify-between space-y-4" data-title="1. tema: bilişim teknolojilerinin hayatımızdaki yeri genel tekrarı" data-kazanim="bty.5.1.1 - bty.5.1.6. birinci temanın tüm kazanımlarını kapsayan genel değerlendirme.">
+                <div>
+                    <div class="flex items-center justify-between mb-2">
+                        <span class="text-[10px] font-extrabold uppercase px-2.5 py-1 rounded bg-indigo-500/20 text-indigo-300">
+                            1. Tema: Bilişim Teknolojileri
+                        </span>
+                        <span class="text-xs font-mono font-bold text-slate-400">
+                            BTY.5.1.1
+                        </span>
+                    </div>
+                    <h3 class="text-lg sm:text-xl font-black text-white leading-snug">
+                        1. Tema: Bilişim Teknolojilerinin Hayatımızdaki Yeri Genel Tekrarı
+                    </h3>
+                    <p class="text-xs text-slate-400 mt-1 line-clamp-2">
+                        BTY.5.1.1 - BTY.5.1.6. Birinci temanın tüm kazanımlarını kapsayan genel değerlendirme.
+                    </p>
+                </div>
+
+                <!-- 4 Hızlı Eylem Butonu -->
+                <div class="grid grid-cols-2 gap-2 pt-2 border-t border-slate-800">
+                    <a href="./1.Tema_Genel_Tekrari_ve_Degerlendirme/1_Sunu/Sunu_Slaytlari.html" class="p-2.5 bg-indigo-600/20 hover:bg-indigo-600 border border-indigo-500/30 hover:border-indigo-500 text-indigo-300 hover:text-white rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 transition">
+                        <i class="fa-solid fa-chalkboard-user"></i> Sunu (20)
+                    </a>
+                    <a href="./1.Tema_Genel_Tekrari_ve_Degerlendirme/2_Oyunlar/Oyunlar_Menusu.html" class="p-2.5 bg-emerald-600/20 hover:bg-emerald-600 border border-emerald-500/30 hover:border-emerald-500 text-emerald-300 hover:text-white rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 transition">
+                        <i class="fa-solid fa-gamepad"></i> Oyunlar (10)
+                    </a>
+                    <a href="./1.Tema_Genel_Tekrari_ve_Degerlendirme/3_Pekistirme_Testi/Test_Yazdirilabilir.html" class="p-2.5 bg-yellow-600/20 hover:bg-yellow-600 border border-yellow-500/30 hover:border-yellow-500 text-yellow-300 hover:text-white rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 transition">
+                        <i class="fa-solid fa-print"></i> Test (25)
+                    </a>
+                    <a href="./1.Tema_Genel_Tekrari_ve_Degerlendirme/4_Calisma_Kagitlari/Calisma_Kagitlari_Goruntuleyici.html" class="p-2.5 bg-rose-600/20 hover:bg-rose-600 border border-rose-500/30 hover:border-rose-500 text-rose-300 hover:text-white rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 transition">
+                        <i class="fa-solid fa-images"></i> Kâğıtlar (4)
+                    </a>
+                </div>
+            </div>
+            
+            <div class="week-card bg-slate-900 border border-slate-800 hover:border-indigo-500/50 rounded-2xl p-5 shadow-xl transition-all duration-200 flex flex-col justify-between space-y-4" data-title="görsel düzenleme programlarına giriş" data-kazanim="bty.5.2.1. görsel düzenleme programlarını ve temel araçlarını amaca uygun kullanır.">
+                <div>
+                    <div class="flex items-center justify-between mb-2">
+                        <span class="text-[10px] font-extrabold uppercase px-2.5 py-1 rounded bg-indigo-500/20 text-indigo-300">
+                            2. Tema: İletişim, Araştırma ve İş Birliği
+                        </span>
+                        <span class="text-xs font-mono font-bold text-slate-400">
+                            BTY.5.2.1.
+                        </span>
+                    </div>
+                    <h3 class="text-lg sm:text-xl font-black text-white leading-snug">
+                        Görsel Düzenleme Programlarına Giriş
+                    </h3>
+                    <p class="text-xs text-slate-400 mt-1 line-clamp-2">
+                        BTY.5.2.1. Görsel düzenleme programlarını ve temel araçlarını amaca uygun kullanır.
+                    </p>
+                </div>
+
+                <!-- 4 Hızlı Eylem Butonu -->
+                <div class="grid grid-cols-2 gap-2 pt-2 border-t border-slate-800">
+                    <a href="./7.Hafta_Gorsel_Duzenleme_Programlari/1_Sunu/Sunu_Slaytlari.html" class="p-2.5 bg-indigo-600/20 hover:bg-indigo-600 border border-indigo-500/30 hover:border-indigo-500 text-indigo-300 hover:text-white rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 transition">
+                        <i class="fa-solid fa-chalkboard-user"></i> Sunu (20)
+                    </a>
+                    <a href="./7.Hafta_Gorsel_Duzenleme_Programlari/2_Oyunlar/Oyunlar_Menusu.html" class="p-2.5 bg-emerald-600/20 hover:bg-emerald-600 border border-emerald-500/30 hover:border-emerald-500 text-emerald-300 hover:text-white rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 transition">
+                        <i class="fa-solid fa-gamepad"></i> Oyunlar (5)
+                    </a>
+                    <a href="./7.Hafta_Gorsel_Duzenleme_Programlari/3_Pekistirme_Testi/Test_Yazdirilabilir.html" class="p-2.5 bg-yellow-600/20 hover:bg-yellow-600 border border-yellow-500/30 hover:border-yellow-500 text-yellow-300 hover:text-white rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 transition">
+                        <i class="fa-solid fa-print"></i> Test (35)
+                    </a>
+                    <a href="./7.Hafta_Gorsel_Duzenleme_Programlari/4_Calisma_Kagitlari/Calisma_Kagitlari_Goruntuleyici.html" class="p-2.5 bg-rose-600/20 hover:bg-rose-600 border border-rose-500/30 hover:border-rose-500 text-rose-300 hover:text-white rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 transition">
+                        <i class="fa-solid fa-images"></i> Kâğıtlar (4)
+                    </a>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+
+    <script>
+        function filterWeeks() {
+            const query = document.getElementById('searchInput').value.toLowerCase().trim();
+            const cards = document.querySelectorAll('.week-card');
+            cards.forEach(card => {
+                const title = card.getAttribute('data-title') || '';
+                const kazanim = card.getAttribute('data-kazanim') || '';
+                if (title.includes(query) || kazanim.includes(query)) {
+                    card.style.display = 'flex';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kapasite Merdiveni & Hafıza Deposu | Öğretmen Bozok</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Canvas Confetti -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <style>
+        * { box-sizing: border-box; font-family: 'Poppins', sans-serif; -webkit-tap-highlight-color: transparent; }
+        @media (min-width: 1921px) {
+            html:not([data-scale]), html[data-scale="auto"] {
+                font-size: calc(100vw / 120) !important;
+            }
+            .max-w-6xl, .max-w-5xl, .max-w-4xl {
+                max-width: min(85rem, 92vw) !important;
+            }
+        }
+        html[data-scale="100"] { font-size: 16px !important; }
+        html[data-scale="115"] { font-size: max(18.4px, calc(100vw / 104)) !important; }
+        html[data-scale="130"] { font-size: max(20.8px, calc(100vw / 92)) !important; }
+        html[data-scale="150"] { font-size: max(24px, calc(100vw / 80)) !important; }
+        html[data-scale="200"] { font-size: 32px !important; }
+        body { background-color: #050813; color: #f8fafc; min-height: 100vh; overflow-x: hidden; }
+        .glass-panel { background: rgba(13, 20, 36, 0.94); backdrop-filter: blur(16px); border: 2px solid rgba(6, 182, 212, 0.25); }
+        .ladder-step {
+            transition: all 0.25s ease;
+        }
+        .ladder-step:hover {
+            transform: translateX(6px);
+        }
+        @keyframes pulseGlow {
+            0%, 100% { box-shadow: 0 0 10px rgba(6, 182, 212, 0.4); }
+            50% { box-shadow: 0 0 25px rgba(6, 182, 212, 0.85); }
+        }
+        .glow-active { animation: pulseGlow 1.8s infinite; }
+        @keyframes popIn { 0% { transform: scale(0.92); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
+        .animate-pop { animation: popIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+    </style>
+</head>
+<body class="p-2 sm:p-4 md:p-6 flex flex-col justify-between">
+
+    <!-- ÜST BAR -->
+    <header class="max-w-6xl w-full mx-auto mb-3 sm:mb-4">
+        <div class="glass-panel rounded-2xl sm:rounded-3xl p-3 sm:p-4 flex flex-wrap items-center justify-between gap-3 shadow-2xl border-cyan-500/30">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl bg-gradient-to-tr from-cyan-500 via-blue-600 to-indigo-600 flex items-center justify-center text-white text-lg sm:text-2xl shadow-lg shadow-cyan-500/30">
+                    <i class="fa-solid fa-server"></i>
+                </div>
+                <div>
+                    <div class="flex items-center gap-2">
+                        <span class="px-2 py-0.5 rounded-md bg-cyan-500/20 text-cyan-300 border border-cyan-400/30 text-[10px] font-black uppercase tracking-wider">
+                            5. KONU - 2
+                        </span>
+                        <span class="text-xs text-slate-400 font-semibold hidden sm:inline">Öğretmen Bozok</span>
+                    </div>
+                    <h1 class="text-base sm:text-xl font-black text-white tracking-tight">
+                        Kapasite Merdiveni & Hafıza Deposu
+                    </h1>
+                </div>
+            </div>
+
+            <!-- İstatistikler -->
+            <div class="flex items-center gap-2 sm:gap-3">
+                <div class="px-3 py-1.5 rounded-xl bg-slate-900/90 border border-slate-700/60 flex items-center gap-2">
+                    <i class="fa-solid fa-layer-group text-cyan-400 text-xs sm:text-sm"></i>
+                    <div class="text-left">
+                        <span class="text-[9px] text-slate-400 font-bold uppercase block leading-none">Aşama</span>
+                        <span id="stat-stage" class="text-xs sm:text-sm font-black text-white leading-none">1 / 2</span>
+                    </div>
+                </div>
+
+                <div class="px-3 py-1.5 rounded-xl bg-slate-900/90 border border-slate-700/60 flex items-center gap-2">
+                    <i class="fa-solid fa-star text-amber-400 text-xs sm:text-sm"></i>
+                    <div class="text-left">
+                        <span class="text-[9px] text-slate-400 font-bold uppercase block leading-none">Puan</span>
+                        <span id="stat-score" class="text-xs sm:text-sm font-black text-amber-300 leading-none">0</span>
+                    </div>
+                </div>
+
+                <button onclick="storageGame.toggleSound()" id="btn-sound" class="w-9 h-9 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-700 text-cyan-400 flex items-center justify-center text-sm transition-all shadow-md">
+                    <i class="fa-solid fa-volume-high"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- ANA ALAN -->
+    <main class="max-w-6xl w-full mx-auto flex-1 flex flex-col justify-center">
+        <div id="game-container" class="glass-panel rounded-2xl sm:rounded-3xl p-4 sm:p-6 shadow-2xl relative overflow-hidden">
+            <!-- JS Tarafından Doldurulur -->
+        </div>
+    </main>
+
+    <!-- ALT BİLGİ -->
+    <footer class="max-w-6xl w-full mx-auto mt-3 sm:mt-4 text-center">
+        <div class="flex items-center justify-between text-xs text-slate-400 px-2">
+            <span>Öğretmen Bozok • Bilişim Teknolojileri ve Yazılım Dersi</span>
+            <span>💡 1024 Kat Kuralı: Bit &lt; Byte &lt; KB &lt; MB &lt; GB &lt; TB</span>
+        </div>
+    </footer>
+
+    <!-- SES & OYUN MOTORU -->
+    <script>
+        class SoundEngine {
+            constructor() {
+                this.ctx = null;
+                this.muted = false;
+            }
+            init() {
+                if (!this.ctx) {
+                    const AudioCtx = window.AudioContext || window.webkitAudioContext;
+                    if (AudioCtx) this.ctx = new AudioCtx();
+                }
+            }
+            playTone(freq, type, duration, gainVal = 0.15) {
+                if (this.muted) return;
+                this.init();
+                if (!this.ctx) return;
+                try {
+                    const osc = this.ctx.createOscillator();
+                    const gain = this.ctx.createGain();
+                    osc.type = type;
+                    osc.frequency.setValueAtTime(freq, this.ctx.currentTime);
+                    gain.gain.setValueAtTime(gainVal, this.ctx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.0001, this.ctx.currentTime + duration);
+                    osc.connect(gain);
+                    gain.connect(this.ctx.destination);
+                    osc.start();
+                    osc.stop(this.ctx.currentTime + duration);
+                } catch(e) {}
+            }
+            playSuccess() {
+                this.playTone(523, 'triangle', 0.1, 0.2);
+                setTimeout(() => this.playTone(659, 'triangle', 0.1, 0.2), 70);
+                setTimeout(() => this.playTone(784, 'triangle', 0.15, 0.25), 140);
+            }
+            playWrong() {
+                this.playTone(220, 'sawtooth', 0.12, 0.2);
+                setTimeout(() => this.playTone(180, 'sawtooth', 0.16, 0.2), 80);
+            }
+            playClick() { this.playTone(600, 'sine', 0.05, 0.1); }
+            playVictory() {
+                [523, 659, 784, 1046].forEach((f, i) => {
+                    setTimeout(() => this.playTone(f, 'triangle', 0.2, 0.25), i * 110);
+                });
+            }
+        }
+
+        const sounds = new SoundEngine();
+
+        class CapacityGame {
+            constructor() {
+                // Doğru Merdiven Sırası: Bit (0) < Byte (1) < KB (2) < MB (3) < GB (4) < TB (5)
+                this.units = [
+                    { id: "bit", name: "Bit (b)", desc: "En küçük birim (0 veya 1)", order: 0, icon: "fa-solid fa-circle-dot", color: "from-slate-700 to-slate-800" },
+                    { id: "byte", name: "Byte (B)", desc: "8 Bit = 1 Harf / Karakter", order: 1, icon: "fa-solid fa-font", color: "from-blue-700 to-indigo-900" },
+                    { id: "kb", name: "Kilobyte (KB)", desc: "1024 Byte = Kısa metin belgesi", order: 2, icon: "fa-solid fa-file-lines", color: "from-cyan-700 to-teal-900" },
+                    { id: "mb", name: "Megabyte (MB)", desc: "1024 KB = 1 Şarkı veya Fotoğraf", order: 3, icon: "fa-solid fa-music", color: "from-emerald-700 to-green-900" },
+                    { id: "gb", name: "Gigabyte (GB)", desc: "1024 MB = 1 Film veya Oyun", order: 4, icon: "fa-solid fa-film", color: "from-amber-600 to-orange-800" },
+                    { id: "tb", name: "Terabyte (TB)", desc: "1024 GB = Arşiv / Harici Disk", order: 5, icon: "fa-solid fa-hard-drive", color: "from-rose-700 to-purple-900" }
+                ];
+
+                // Aşama 2: Gerçek Hayat Tahmin Kartları (8 Soru)
+                this.scenarios = [
+                    {
+                        item: "Klavyeden basılan tek bir 'A' harfi",
+                        correctUnit: "byte",
+                        unitName: "Byte",
+                        hint: "1 karakterlik veri bellekte tam 8 bit yer kaplar.",
+                        icon: "fa-solid fa-keyboard text-blue-400"
+                    },
+                    {
+                        item: "3 dakikalık kaliteli bir MP3 müzik şarkısı",
+                        correctUnit: "mb",
+                        unitName: "Megabyte (MB)",
+                        hint: "Ortalama bir şarkı 3 ile 5 Megabyte boyutundadır.",
+                        icon: "fa-solid fa-headphones text-emerald-400"
+                    },
+                    {
+                        item: "Not defterine yazılmış 1 sayfalık kısa şiir",
+                        correctUnit: "kb",
+                        unitName: "Kilobyte (KB)",
+                        hint: "Birkaç bin harften oluşan metinler KB seviyesindedir.",
+                        icon: "fa-solid fa-file-lines text-cyan-400"
+                    },
+                    {
+                        item: "2 saatlik yüksek çözünürlüklü (Full HD) bir sinema filmi",
+                        correctUnit: "gb",
+                        unitName: "Gigabyte (GB)",
+                        hint: "HD filmler ortalama 2 - 4 Gigabyte yer kaplar.",
+                        icon: "fa-solid fa-video text-amber-400"
+                    },
+                    {
+                        item: "Devasa bir okulun 10 yıllık tüm kamera kayıtları arşivi",
+                        correctUnit: "tb",
+                        unitName: "Terabyte (TB)",
+                        hint: "Binlerce saatlik video ancak Terabyte'lık disklerde saklanır.",
+                        icon: "fa-solid fa-server text-rose-400"
+                    },
+                    {
+                        item: "Akıllı telefon kamerasıyla çekilen yüksek kaliteli bir fotoğraf",
+                        correctUnit: "mb",
+                        unitName: "Megabyte (MB)",
+                        hint: "Modern telefon fotoğrafları yaklaşık 5 - 15 MB boyutundadır.",
+                        icon: "fa-solid fa-camera text-emerald-400"
+                    },
+                    {
+                        item: "Bilgisayara yüklenen modern ve büyük bir 3D macera oyunu",
+                        correctUnit: "gb",
+                        unitName: "Gigabyte (GB)",
+                        hint: "Büyük bilgisayar oyunları 30 GB ile 100 GB arasında yer tutar.",
+                        icon: "fa-solid fa-gamepad text-purple-400"
+                    },
+                    {
+                        item: "Bilgisayarın işlemcisindeki tek bir 0 veya 1 elektrik sinyali",
+                        correctUnit: "bit",
+                        unitName: "Bit",
+                        hint: "İkili sistemdeki (binary) en küçük temel dijital parça Bit'tir.",
+                        icon: "fa-solid fa-microchip text-slate-300"
+                    }
+                ];
+
+                this.state = 'intro'; // 'intro', 'stage1', 'stage2', 'result'
+                this.stage = 1;
+                this.score = 0;
+
+                // Aşama 1 Durumu
+                this.placedSteps = []; // Kullanıcının bastığı sırayla eklenen birimler
+                this.availableUnits = [];
+
+                // Aşama 2 Durumu
+                this.scenarioIndex = 0;
+                this.scenarioFeedback = null;
+            }
+
+            init() {
+                this.render();
+            }
+
+            startStage1() {
+                sounds.playClick();
+                this.stage = 1;
+                this.placedSteps = [];
+                // Birimleri karıştırarak öğrencinin önüne koy
+                this.availableUnits = [...this.units].sort(() => Math.random() - 0.5);
+                this.state = 'stage1';
+                this.render();
+            }
+
+            pickUnit(unitId) {
+                sounds.playClick();
+                const expectedOrder = this.placedSteps.length; // 0, 1, 2, 3, 4, 5
+                const chosenUnit = this.units.find(u => u.id === unitId);
+
+                if (chosenUnit.order === expectedOrder) {
+                    sounds.playSuccess();
+                    this.placedSteps.push(chosenUnit);
+                    this.availableUnits = this.availableUnits.filter(u => u.id !== unitId);
+                    this.score += 150;
+
+                    if (this.placedSteps.length === this.units.length) {
+                        sounds.playVictory();
+                        if (typeof confetti === 'function') {
+                            confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
+                        }
+                    }
+                } else {
+                    sounds.playWrong();
+                    alert(`⚠️ Hatalı Sıra!\nMerdivenin bu basamağına "${chosenUnit.name}" gelemez. Büyüklük sırasını hatırla: Bit < Byte < KB < MB < GB < TB`);
+                }
+                this.render();
+            }
+
+            resetStage1() {
+                sounds.playClick();
+                this.placedSteps = [];
+                this.availableUnits = [...this.units].sort(() => Math.random() - 0.5);
+                this.render();
+            }
+
+            startStage2() {
+                sounds.playClick();
+                this.stage = 2;
+                this.scenarioIndex = 0;
+                this.scenarioFeedback = null;
+                this.scenarios = [...this.scenarios].sort(() => Math.random() - 0.5);
+                this.state = 'stage2';
+                this.render();
+            }
+
+            answerScenario(chosenUnitId) {
+                if (this.scenarioFeedback) return;
+                const sc = this.scenarios[this.scenarioIndex];
+
+                if (chosenUnitId === sc.correctUnit) {
+                    sounds.playSuccess();
+                    this.score += 100;
+                    this.scenarioFeedback = {
+                        isCorrect: true,
+                        title: "🎉 DOĞRU TAHMİN!",
+                        desc: `Tebrikler! ${sc.item} verisi tipik olarak <strong>${sc.unitName}</strong> boyutundadır.`
+                    };
+                } else {
+                    sounds.playWrong();
+                    this.scenarioFeedback = {
+                        isCorrect: false,
+                        title: "⚠️ YANLIŞ BİRİM!",
+                        desc: `Bu veri <strong>${sc.unitName}</strong> ile ölçülmelidir. İpucu: ${sc.hint}`
+                    };
+                }
+                this.render();
+            }
+
+            nextScenario() {
+                sounds.playClick();
+                this.scenarioFeedback = null;
+                this.scenarioIndex++;
+
+                if (this.scenarioIndex >= this.scenarios.length) {
+                    this.state = 'result';
+                    sounds.playVictory();
+                    if (typeof confetti === 'function') {
+                        confetti({ particleCount: 150, spread: 90, origin: { y: 0.5 } });
+                    }
+                }
+                this.render();
+            }
+
+            updateStats() {
+                const elSt = document.getElementById("stat-stage");
+                const elSc = document.getElementById("stat-score");
+                if (elSt) elSt.innerText = `${this.stage} / 2`;
+                if (elSc) elSc.innerText = `${this.score}`;
+            }
+
+            render() {
+                const container = document.getElementById("game-container");
+                if (!container) return;
+                this.updateStats();
+
+                if (this.state === 'intro') {
+                    container.innerHTML = `
+                        <div class="max-w-xl mx-auto text-center py-6 sm:py-10 space-y-6">
+                            <div class="w-20 h-20 sm:w-24 sm:h-24 mx-auto rounded-3xl bg-gradient-to-tr from-cyan-500 to-indigo-600 flex items-center justify-center text-white text-3xl sm:text-4xl shadow-2xl shadow-cyan-500/30 animate-bounce">
+                                <i class="fa-solid fa-stairs"></i>
+                            </div>
+                            <div class="space-y-2">
+                                <span class="px-3.5 py-1 bg-cyan-500/20 text-cyan-300 font-extrabold rounded-full text-xs uppercase tracking-wider border border-cyan-400/30">
+                                    5. KONU - 2 • AKILLI TAHTA MERDİVEN SİMÜLASYONU
+                                </span>
+                                <h2 class="text-2xl sm:text-4xl font-black text-white">Kapasite Merdiveni & Hafıza Deposu</h2>
+                                <p class="text-sm sm:text-base text-slate-300">
+                                    Bit'ten Terabyte'a kadar tüm depolama birimlerini öğren, merdiveni en küçükten en büyüğe doğru inşa et!
+                                </p>
+                            </div>
+                            <div class="p-4 bg-slate-900/80 rounded-2xl border border-slate-800 text-left text-xs sm:text-sm text-slate-300 space-y-2">
+                                <div class="flex items-center gap-2 text-cyan-400 font-bold">
+                                    <i class="fa-solid fa-gamepad"></i> 2 Aşamalı Meydan Okuma:
+                                </div>
+                                <p>• <strong>1. Aşama:</strong> Merdiven Sıralaması (Bit'ten Terabyte'a basamakları diz).</p>
+                                <p>• <strong>2. Aşama:</strong> Gerçek Hayat Eşleştirmesi (Dosyaların kapasitelerini tahmin et).</p>
+                            </div>
+                            <button onclick="storageGame.startStage1()" class="px-8 py-3.5 bg-gradient-to-r from-cyan-500 to-indigo-600 hover:from-cyan-400 hover:to-indigo-500 text-slate-950 font-black rounded-2xl text-base shadow-xl shadow-cyan-500/25 flex items-center justify-center gap-3 mx-auto transition-all hover:scale-105 active:scale-95">
+                                <i class="fa-solid fa-play"></i>
+                                <span>Maceraya Başla!</span>
+                            </button>
+                        </div>
+                    `;
+                    return;
+                }
+
+                if (this.state === 'stage1') {
+                    const isCompleted = (this.placedSteps.length === this.units.length);
+
+                    container.innerHTML = `
+                        <div class="space-y-6">
+                            <div class="text-center space-y-1">
+                                <span class="px-3 py-1 bg-cyan-500/20 text-cyan-300 text-xs font-black uppercase rounded-full border border-cyan-400/30">
+                                    AŞAMA 1: MERDİVENİ SIRALA
+                                </span>
+                                <h3 class="text-lg sm:text-xl font-black text-white">
+                                    Birimleri EN KÜÇÜKTEN EN BÜYÜĞE doğru basamaklara diz!
+                                </h3>
+                                <p class="text-xs text-slate-400">
+                                    Aşağıdaki butonlardan sıradaki en küçük birime dokun.
+                                </p>
+                            </div>
+
+                            <!-- MERDİVEN GÖRSELİ (AŞAĞIDAN YUKARIYA / KÜÇÜKTEN BÜYÜĞE) -->
+                            <div class="max-w-2xl mx-auto bg-slate-950/80 p-4 rounded-3xl border-2 border-cyan-500/30 space-y-2">
+                                ${[...this.units].reverse().map(unit => {
+                                    const isPlaced = this.placedSteps.some(p => p.id === unit.id);
+                                    return `
+                                        <div class="ladder-step p-3 rounded-2xl border flex items-center justify-between transition-all ${isPlaced ? 'bg-gradient-to-r ' + unit.color + ' border-cyan-400/60 shadow-lg text-white font-bold' : 'bg-slate-900/40 border-dashed border-slate-800 text-slate-600'}">
+                                            <div class="flex items-center gap-3">
+                                                <span class="w-7 h-7 rounded-lg ${isPlaced ? 'bg-black/30 text-yellow-300' : 'bg-slate-800 text-slate-600'} flex items-center justify-center text-xs font-black">
+                                                    ${unit.order + 1}
+                                                </span>
+                                                <i class="${unit.icon} ${isPlaced ? 'text-cyan-300' : 'text-slate-700'} text-base"></i>
+                                                <span class="text-sm font-black ${isPlaced ? 'text-white' : 'text-slate-600'}">
+                                                    ${isPlaced ? unit.name : 'Basamak ' + (unit.order + 1) + ' (Boş)'}
+                                                </span>
+                                            </div>
+                                            <span class="text-xs ${isPlaced ? 'text-cyan-200' : 'text-slate-700'}">
+                                                ${isPlaced ? unit.desc : '???'}
+                                            </span>
+                                        </div>
+                                    `;
+                                }).join('')}
+                            </div>
+
+                            <!-- SEÇİLEBİLİR BİRİMLER LİSTESİ -->
+                            ${!isCompleted ? `
+                                <div class="max-w-xl mx-auto space-y-2 text-center">
+                                    <span class="text-xs text-slate-400 font-bold block">Sıradaki Birimi Seç:</span>
+                                    <div class="flex flex-wrap items-center justify-center gap-2">
+                                        ${this.availableUnits.map(u => `
+                                            <button onclick="storageGame.pickUnit('${u.id}')" class="px-4 py-2.5 rounded-xl bg-slate-800 hover:bg-cyan-600 hover:text-slate-950 text-white font-black text-xs sm:text-sm border border-slate-700 hover:border-cyan-400 transition-all shadow-md active:scale-95">
+                                                <i class="${u.icon} mr-1"></i> ${u.name}
+                                            </button>
+                                        `).join('')}
+                                    </div>
+                                    <div class="pt-2">
+                                        <button onclick="storageGame.resetStage1()" class="text-xs text-slate-500 hover:text-slate-300 underline">
+                                            Sıralamayı Sıfırla
+                                        </button>
+                                    </div>
+                                </div>
+                            ` : `
+                                <div class="max-w-md mx-auto text-center p-4 bg-emerald-950/80 border-2 border-emerald-500 rounded-2xl animate-pop space-y-3">
+                                    <h4 class="text-base font-black text-emerald-300">🎉 HARİKA! Merdiven Tamamlandı!</h4>
+                                    <p class="text-xs text-slate-200">Kapasite merdivenini başarıyla kurdun (+900 Puan). Şimdi gerçek hayat dosyalarıyla test zamanı!</p>
+                                    <button onclick="storageGame.startStage2()" class="px-6 py-2.5 bg-gradient-to-r from-emerald-500 to-teal-500 text-slate-950 font-black rounded-xl text-xs sm:text-sm shadow-lg flex items-center justify-center gap-2 mx-auto hover:scale-105 active:scale-95 transition-all">
+                                        <span>2. Aşamaya Geç</span>
+                                        <i class="fa-solid fa-arrow-right"></i>
+                                    </button>
+                                </div>
+                            `}
+                        </div>
+                    `;
+                    return;
+                }
+
+                if (this.state === 'stage2') {
+                    const sc = this.scenarios[this.scenarioIndex];
+
+                    container.innerHTML = `
+                        <div class="space-y-6">
+                            <div class="text-center space-y-1">
+                                <span class="px-3 py-1 bg-amber-500/20 text-amber-300 text-xs font-black uppercase rounded-full border border-amber-400/30">
+                                    AŞAMA 2: KAPASİTE TAHMİNİ (${this.scenarioIndex + 1} / ${this.scenarios.length})
+                                </span>
+                                <h3 class="text-lg sm:text-xl font-black text-white">
+                                    Aşağıdaki verinin ortalama boyutunu en uygun birimle eşleştir!
+                                </h3>
+                            </div>
+
+                            <!-- SENARYO KARTI -->
+                            <div class="max-w-md mx-auto p-5 rounded-2xl bg-gradient-to-r from-slate-900 via-indigo-950/70 to-slate-900 border-2 border-indigo-500/50 shadow-2xl flex items-center gap-4 text-left">
+                                <div class="w-16 h-16 rounded-2xl bg-slate-950/90 border border-indigo-500/40 flex items-center justify-center text-3xl shrink-0 shadow-inner">
+                                    <i class="${sc.icon}"></i>
+                                </div>
+                                <div class="flex-1">
+                                    <span class="text-[10px] text-amber-400 font-bold uppercase tracking-wider block">Veri / Dosya:</span>
+                                    <h4 class="text-base sm:text-lg font-black text-white leading-snug">
+                                        ${sc.item}
+                                    </h4>
+                                    <span class="text-xs text-slate-300 mt-1 block">
+                                        Sizce bu verinin boyutu ne kadardır?
+                                    </span>
+                                </div>
+                            </div>
+
+                            <!-- GERİ BİLDİRİM KARTI -->
+                            ${this.scenarioFeedback ? `
+                                <div class="max-w-md mx-auto p-4 rounded-2xl text-xs sm:text-sm font-bold flex items-center justify-between gap-3 text-left animate-pop ${this.scenarioFeedback.isCorrect ? 'bg-emerald-950/90 border-2 border-emerald-500 text-emerald-200' : 'bg-rose-950/90 border-2 border-rose-500 text-rose-200'} shadow-xl">
+                                    <div class="flex items-center gap-3">
+                                        <i class="fa-solid ${this.scenarioFeedback.isCorrect ? 'fa-circle-check text-emerald-400 text-2xl' : 'fa-circle-xmark text-rose-400 text-2xl'} shrink-0"></i>
+                                        <div>
+                                            <span class="block font-black text-sm uppercase">${this.scenarioFeedback.title}</span>
+                                            <span>${this.scenarioFeedback.desc}</span>
+                                        </div>
+                                    </div>
+                                    <button onclick="storageGame.nextScenario()" class="px-4 py-2 bg-white/10 hover:bg-white/20 text-white font-black text-xs rounded-xl border border-white/20 shrink-0 flex items-center gap-1.5 transition-all active:scale-95">
+                                        <span>Sonraki</span>
+                                        <i class="fa-solid fa-arrow-right"></i>
+                                    </button>
+                                </div>
+                            ` : ''}
+
+                            <!-- 6 SEÇENEK BUTONU -->
+                            <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 max-w-xl mx-auto">
+                                ${this.units.map(u => `
+                                    <button onclick="storageGame.answerScenario('${u.id}')" class="p-3.5 rounded-2xl bg-slate-900/90 hover:bg-cyan-600 hover:text-slate-950 border border-slate-700 hover:border-cyan-400 text-left transition-all shadow-md active:scale-95 group">
+                                        <div class="flex items-center justify-between mb-1">
+                                            <i class="${u.icon} text-cyan-400 group-hover:text-slate-950 text-base"></i>
+                                            <span class="text-[10px] text-slate-400 group-hover:text-slate-800 font-bold uppercase">${u.id.toUpperCase()}</span>
+                                        </div>
+                                        <div class="text-xs sm:text-sm font-black text-white group-hover:text-slate-950">
+                                            ${u.name}
+                                        </div>
+                                    </button>
+                                `).join('')}
+                            </div>
+                        </div>
+                    `;
+                    return;
+                }
+
+                if (this.state === 'result') {
+                    container.innerHTML = `
+                        <div class="max-w-xl mx-auto text-center py-6 sm:py-10 space-y-6 animate-pop">
+                            <div class="w-20 h-20 sm:w-24 sm:h-24 mx-auto rounded-3xl bg-gradient-to-tr from-cyan-500 to-indigo-600 flex items-center justify-center text-slate-950 text-3xl sm:text-4xl shadow-2xl shadow-cyan-500/30">
+                                <i class="fa-solid fa-medal"></i>
+                            </div>
+                            <div class="space-y-2">
+                                <span class="px-3.5 py-1 bg-cyan-400/20 text-cyan-300 font-extrabold rounded-full text-xs uppercase tracking-wider border border-cyan-400/30">
+                                    🌟 OYUN BAŞARIYLA BİTTİ!
+                                </span>
+                                <h2 class="text-2xl sm:text-4xl font-black text-white">Hafıza & Kapasite Ustası!</h2>
+                                <p class="text-sm sm:text-base text-slate-300">
+                                    Hem merdiven basamaklarını hem de dosya boyutu tahminlerini başarıyla tamamladın!
+                                </p>
+                            </div>
+                            <div class="p-4 bg-slate-900/90 rounded-2xl border border-slate-800 flex items-center justify-around">
+                                <div>
+                                    <span class="text-xs text-slate-400 font-bold block">1. Aşama</span>
+                                    <span class="text-xl font-black text-emerald-400">Tamamlandı ✅</span>
+                                </div>
+                                <div class="h-8 w-px bg-slate-800"></div>
+                                <div>
+                                    <span class="text-xs text-slate-400 font-bold block">2. Aşama</span>
+                                    <span class="text-xl font-black text-cyan-400">${this.scenarios.length} Soru ✅</span>
+                                </div>
+                                <div class="h-8 w-px bg-slate-800"></div>
+                                <div>
+                                    <span class="text-xs text-slate-400 font-bold block">Toplam Puan</span>
+                                    <span class="text-2xl font-black text-amber-400">${this.score}</span>
+                                </div>
+                            </div>
+                            <div class="pt-2 flex items-center justify-center gap-3">
+                                <button onclick="storageGame.startStage1()" class="px-6 py-3 bg-gradient-to-r from-cyan-500 to-indigo-600 hover:from-cyan-400 hover:to-indigo-500 text-slate-950 font-black rounded-xl text-sm shadow-lg flex items-center gap-2 transition-all hover:scale-105 active:scale-95">
+                                    <i class="fa-solid fa-rotate-right"></i>
+                                    <span>Tekrar Oyna</span>
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                }
+            }
+
+            toggleSound() {
+                sounds.muted = !sounds.muted;
+                const btn = document.getElementById("btn-sound");
+                if (btn) {
+                    btn.innerHTML = sounds.muted ? '<i class="fa-solid fa-volume-xmark text-rose-400"></i>' : '<i class="fa-solid fa-volume-high"></i>';
+                }
+            }
+        }
+
+        const storageGame = new CapacityGame();
+        window.addEventListener("DOMContentLoaded", () => storageGame.init());
+    </script>
+</body>
+</html>

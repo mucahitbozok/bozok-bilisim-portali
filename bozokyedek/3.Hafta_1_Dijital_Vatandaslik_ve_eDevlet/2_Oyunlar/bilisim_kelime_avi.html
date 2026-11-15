@@ -1,0 +1,779 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bilişim Kelime Avı | Öğretmen Bozok</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- Tailwind CSS (CDN) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Canvas Confetti -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Poppins', 'Fredoka', 'sans-serif'],
+                    },
+                    colors: {
+                        cyber: {
+                            dark: '#080d1a',
+                            panel: '#0f172a',
+                            border: '#1e293b',
+                            emerald: '#10b981',
+                            cyan: '#38bdf8',
+                            purple: '#a855f7',
+                            amber: '#fbbf24'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        * { box-sizing: border-box; font-family: 'Poppins', sans-serif; -webkit-tap-highlight-color: transparent; }
+        @media (min-width: 1921px) {
+            html:not([data-scale]), html[data-scale="auto"] {
+                font-size: calc(100vw / 120) !important;
+            }
+            .max-w-6xl, .max-w-5xl, .max-w-4xl {
+                max-width: min(85rem, 92vw) !important;
+            }
+        }
+        html[data-scale="100"] { font-size: 16px !important; }
+        html[data-scale="115"] { font-size: max(18.4px, calc(100vw / 104)) !important; }
+        html[data-scale="130"] { font-size: max(20.8px, calc(100vw / 92)) !important; }
+        html[data-scale="150"] { font-size: max(24px, calc(100vw / 80)) !important; }
+        html[data-scale="200"] { font-size: 32px !important; }
+        body { background-color: #060913; color: #f8fafc; min-height: 100vh; overflow-x: hidden; }
+        .glass-panel { background: rgba(15, 23, 42, 0.88); backdrop-filter: blur(16px); border: 2px solid rgba(56, 189, 248, 0.25); }
+        .grid-cell {
+            transition: all 0.15s ease;
+            user-select: none;
+            touch-action: manipulation;
+        }
+        .grid-cell:hover {
+            transform: scale(1.08);
+            background-color: rgba(56, 189, 248, 0.25);
+        }
+        .grid-cell.selected {
+            background: linear-gradient(135deg, #0284c7, #38bdf8) !important;
+            color: #030712 !important;
+            font-weight: 900;
+            box-shadow: 0 0 15px rgba(56, 189, 248, 0.8);
+            transform: scale(1.05);
+        }
+        .grid-cell.found {
+            background: linear-gradient(135deg, #059669, #34d399) !important;
+            color: #022c22 !important;
+            font-weight: 900;
+            border-color: #6ee7b7 !important;
+            box-shadow: 0 0 10px rgba(16, 185, 129, 0.6);
+        }
+        .grid-cell.solution {
+            background: linear-gradient(135deg, #7c3aed, #c026d3) !important;
+            color: #ffffff !important;
+            font-weight: 900;
+            border-color: #f0abfc !important;
+            box-shadow: 0 0 14px rgba(192, 38, 211, 0.85);
+            animation: solPulse 1.2s infinite alternate;
+        }
+        @keyframes solPulse {
+            0% { transform: scale(1); filter: brightness(1); }
+            100% { transform: scale(1.06); filter: brightness(1.25); }
+        }
+        .grid-cell.hint-pulse {
+            animation: hintAnim 1s infinite alternate;
+        }
+        @keyframes hintAnim {
+            0% { transform: scale(1); background-color: rgba(251, 191, 36, 0.3); }
+            100% { transform: scale(1.15); background-color: rgba(251, 191, 36, 0.8); color: #000; }
+        }
+        @keyframes popIn { 0% { transform: scale(0.92); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
+        .animate-pop { animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+    </style>
+</head>
+<body class="flex flex-col justify-between p-3 sm:p-6 select-none">
+
+    <!-- ÜST ÇUBUK -->
+    <header class="max-w-6xl w-full mx-auto flex items-center justify-between gap-4 pb-4 border-b border-slate-800">
+        <div class="flex items-center gap-3">
+            <div class="w-12 h-12 rounded-2xl bg-gradient-to-tr from-purple-600 via-indigo-600 to-cyan-500 text-white flex items-center justify-center text-2xl shadow-lg shadow-purple-500/25">
+                <i class="fa-solid fa-puzzle-piece"></i>
+            </div>
+            <div>
+                <span class="px-2.5 py-0.5 bg-purple-400/20 text-purple-300 font-black rounded-lg text-[10px] tracking-wider uppercase border border-purple-400/30">SİBER LABİRENT OYUNU</span>
+                <h1 class="text-lg sm:text-xl font-black text-white flex items-center gap-2">
+                    Bilişim Kelime Avı
+                    <span class="hidden sm:inline-block text-xs px-2 py-0.5 rounded-full bg-cyan-400/20 text-cyan-300 border border-cyan-400/30 font-semibold">Dijital Terimler</span>
+                </h1>
+            </div>
+        </div>
+
+        <!-- SAĞ KONTROLLER -->
+        <div class="flex items-center gap-2 sm:gap-3">
+            <div class="bg-slate-900/90 border border-slate-800 rounded-xl px-3 py-1.5 flex items-center gap-2 text-xs font-bold text-slate-300">
+                <i class="fa-solid fa-chalkboard-user text-purple-400"></i>
+                <span class="hidden sm:inline">Öğretmen:</span>
+                <span class="text-white">Bozok</span>
+            </div>
+            <button onclick="game.openHelpModal()" class="w-10 h-10 rounded-xl bg-slate-900 border border-slate-700 hover:border-purple-400/50 text-purple-300 flex items-center justify-center transition-all hover:bg-slate-800" title="Nasıl Oynanır?">
+                <i class="fa-solid fa-circle-question text-lg"></i>
+            </button>
+            <button onclick="game.toggleAudio()" class="w-10 h-10 rounded-xl bg-slate-900 border border-slate-700 hover:border-yellow-400/50 text-yellow-400 flex items-center justify-center transition-all hover:bg-slate-800" title="Ses Aç/Kapat">
+                <i id="audio-icon" class="fa-solid fa-volume-high text-lg"></i>
+            </button>
+            <button onclick="game.toggleFullscreen()" class="w-10 h-10 rounded-xl bg-slate-900 border border-slate-700 hover:border-purple-400/50 text-slate-300 flex items-center justify-center transition-all hover:bg-slate-800" title="Tam Ekran">
+                <i class="fa-solid fa-expand text-lg"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- ANA OYUN ALANI -->
+    <main id="game-container" class="max-w-6xl w-full mx-auto my-auto py-5">
+        <!-- JS ile dinamik render edilecek -->
+    </main>
+
+    <!-- ALT BİLGİ -->
+    <footer class="max-w-6xl w-full mx-auto text-center pt-4 border-t border-slate-800/80 text-xs text-slate-500 flex flex-col sm:flex-row items-center justify-between gap-2">
+        <div class="flex items-center gap-2">
+            <i class="fa-solid fa-font text-purple-400"></i>
+            <span>BTY.5.1.3 - Dijital Vatandaşlık Kavramları & Labirent Arama</span>
+        </div>
+        <div class="text-slate-400">
+            Bozok Bilişim Portalı &copy; 2026 - Tüm Hakları Saklıdır
+        </div>
+    </footer>
+
+    <!-- MODAL: NASIL OYNANIR? -->
+    <div id="modal-help" class="hidden fixed inset-0 z-50 bg-slate-950/85 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="bg-slate-900 border-2 border-purple-400/50 rounded-3xl max-w-lg w-full flex flex-col shadow-2xl overflow-hidden animate-pop">
+            <div class="p-5 border-b border-slate-800 flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-xl bg-purple-400/20 text-purple-300 flex items-center justify-center text-xl">
+                        <i class="fa-solid fa-puzzle-piece"></i>
+                    </div>
+                    <h3 class="text-lg font-black text-white">Kelime Avı Kılavuzu</h3>
+                </div>
+                <button onclick="game.closeHelpModal()" class="w-9 h-9 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 flex items-center justify-center">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <div class="p-6 space-y-4 text-sm text-slate-200">
+                <div class="flex items-start gap-3">
+                    <span class="w-7 h-7 rounded-lg bg-purple-500 text-white font-black flex items-center justify-center text-xs shrink-0">1</span>
+                    <p>Tabloda yatay, dikey veya çapraz olarak gizlenmiş <strong>10 bilişim terimini</strong> ara.</p>
+                </div>
+                <div class="flex items-start gap-3">
+                    <span class="w-7 h-7 rounded-lg bg-purple-500 text-white font-black flex items-center justify-center text-xs shrink-0">2</span>
+                    <p>Kelimeyi seçmek için kelimenin <strong>İLK harfine dokun</strong>, ardından <strong>SON harfine dokun</strong>!</p>
+                </div>
+                <div class="flex items-start gap-3">
+                    <span class="w-7 h-7 rounded-lg bg-purple-500 text-white font-black flex items-center justify-center text-xs shrink-0">3</span>
+                    <p>Sıkışırsan <strong>"İpucu Ver"</strong> butonuna basarak gizli bir kelimenin ilk harfini parlatabilirsin!</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- OYUN JS MOTORU -->
+    <script>
+        class SoundEngine {
+            constructor() {
+                this.ctx = null;
+                this.muted = false;
+            }
+            init() {
+                if (!this.ctx) {
+                    const AudioCtx = window.AudioContext || window.webkitAudioContext;
+                    if (AudioCtx) this.ctx = new AudioCtx();
+                }
+            }
+            playBeep(freq, type, duration, gainVal = 0.15) {
+                if (this.muted) return;
+                this.init();
+                if (!this.ctx) return;
+                try {
+                    const osc = this.ctx.createOscillator();
+                    const gain = this.ctx.createGain();
+                    osc.type = type;
+                    osc.frequency.setValueAtTime(freq, this.ctx.currentTime);
+                    gain.gain.setValueAtTime(gainVal, this.ctx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.0001, this.ctx.currentTime + duration);
+                    osc.connect(gain);
+                    gain.connect(this.ctx.destination);
+                    osc.start();
+                    osc.stop(this.ctx.currentTime + duration);
+                } catch(e) {}
+            }
+            playClick() { this.playBeep(650, 'sine', 0.06, 0.1); }
+            playFound() {
+                this.playBeep(523, 'triangle', 0.1, 0.2);
+                setTimeout(() => this.playBeep(659, 'triangle', 0.1, 0.2), 80);
+                setTimeout(() => this.playBeep(784, 'triangle', 0.15, 0.25), 160);
+                setTimeout(() => this.playBeep(1046, 'triangle', 0.25, 0.25), 240);
+            }
+            playWrong() {
+                this.playBeep(250, 'sawtooth', 0.15, 0.2);
+            }
+            playFanfare() {
+                const notes = [523, 659, 784, 1046, 1318];
+                notes.forEach((n, idx) => {
+                    setTimeout(() => this.playBeep(n, 'triangle', 0.25, 0.25), idx * 130);
+                });
+            }
+        }
+
+        const sounds = new SoundEngine();
+
+        class WordHuntGame {
+            constructor() {
+                this.gridSize = 12;
+                this.wordPool = [
+                    { word: "EDEVLET", label: "e-Devlet", desc: "Tüm resmi kamu hizmetleri kapısı (turkiye.gov.tr)" },
+                    { word: "EOKUL", label: "e-Okul", desc: "Öğrenci sınav notları ve devamsızlık sistemi" },
+                    { word: "ENABIZ", label: "e-Nabız", desc: "Geçmiş tahlil, aşı ve sağlık kaydı portalı" },
+                    { word: "MHRS", label: "MHRS", desc: "Hastanelerden doktor ve klinik randevusu alma" },
+                    { word: "EBA", label: "EBA", desc: "Ders kitapları ve eğitici içerik portalı" },
+                    { word: "AYAKIZI", label: "Ayak İzi", desc: "İnternette bıraktığımız kalıcı dijital izler" },
+                    { word: "KIMLIK", label: "Dijital Kimlik", desc: "Sanal ortamda bizi temsil eden profil ve hesaplar" },
+                    { word: "NEZAKET", label: "Dijital Nezaket", desc: "İnternette saygılı ve kibar iletişim kuralları" },
+                    { word: "SIFRE", label: "Güçlü Şifre", desc: "Hesaplarımızı koruyan en az 8 haneli gizli anahtar" },
+                    { word: "TELIF", label: "Telif Hakkı", desc: "Eser sahibinin emeğine saygı ve izinsiz almama" },
+                    { word: "ZORBALIK", label: "Siber Zorbalık", desc: "Sanal ortamda birini rahatsız veya tehdit etme" },
+                    { word: "GUVENLIK", label: "Siber Güvenlik", desc: "Cihaz ve verileri dijital saldırılardan koruma" },
+                    { word: "YAZILIM", label: "Yazılım", desc: "Bilgisayara ne yapacağını söyleyen kod ve programlar" },
+                    { word: "DONANIM", label: "Donanım", desc: "Bilgisayarın elle tutulup gözle görülen parçaları" },
+                    { word: "VIRUS", label: "Zararlı Yazılım", desc: "Dosyalara ve sistemlere zarar veren kötü amaçlı kod" },
+                    { word: "INTERNET", label: "İnternet Ağı", desc: "Dünya üzerindeki tüm bilgisayarları birbirine bağlayan ağ" },
+                    { word: "EPOSTA", label: "E-Posta", desc: "İnternet üzerinden gönderilen dijital mektup ve mesaj" },
+                    { word: "BILGISAYAR", label: "Bilgisayar", desc: "Verileri işleyen, saklayan ve sonuç üreten elektronik araç" },
+                    { word: "ETIK", label: "Bilişim Etiği", desc: "Teknoloji kullanırken doğru ve ahlaki davranış kuralları" },
+                    { word: "PAROLA", label: "Güçlü Parola", desc: "Kırılması zor, harf, rakam ve sembol içeren anahtar" },
+                    { word: "TARAYICI", label: "Web Tarayıcısı", desc: "Web sitelerini görüntülememizi sağlayan program" },
+                    { word: "ARAMA", label: "Arama Motoru", desc: "İnternette bilgiye hızlıca ulaşmamızı sağlayan servis" },
+                    { word: "GIZLILIK", label: "Kişisel Gizlilik", desc: "Özel bilgilerin korunması ve paylaşılmaması ilkesi" },
+                    { word: "KODLAMA", label: "Kodlama", desc: "Problemleri çözmek için algoritma ve komut yazma" },
+                    { word: "MEDYA", label: "Dijital Medya", desc: "İnternetteki video, ses, görsel ve haber içerikleri" },
+                    { word: "AVATAR", label: "Profil Avatarı", desc: "Sanal ortamlarda gerçek fotoğraf yerine kullanılan görsel" }
+                ];
+
+                this.words = [];
+                this.grid = [];
+                this.selectedStart = null; // {r, c}
+                this.selectedCells = [];
+                this.foundCells = new Set(); // "r,c"
+                this.hintWord = null;
+                this.hintsUsed = 0;
+                this.score = 0;
+                this.showSolution = false;
+                this.state = 'intro'; // 'intro', 'playing', 'result'
+            }
+
+            init() {
+                this.buildGrid();
+                this.render();
+            }
+
+            startGame() {
+                sounds.playClick();
+                this.buildGrid();
+                this.foundCells.clear();
+                this.selectedStart = null;
+                this.selectedCells = [];
+                this.hintWord = null;
+                this.hintsUsed = 0;
+                this.score = 0;
+                this.showSolution = false;
+                this.state = 'playing';
+                this.render();
+            }
+
+            toggleSolution() {
+                sounds.playClick();
+                this.showSolution = !this.showSolution;
+                this.render();
+            }
+
+            solveAllAndFinish() {
+                sounds.playFanfare();
+                this.words.forEach(w => {
+                    w.found = true;
+                    if (w.cells) {
+                        w.cells.forEach(coord => this.foundCells.add(coord));
+                    }
+                });
+                this.showSolution = false;
+                if (typeof confetti === 'function') {
+                    confetti({ particleCount: 150, spread: 90, origin: { y: 0.6 } });
+                }
+                this.state = 'result';
+                this.render();
+            }
+
+            buildGrid() {
+                const alphabet = "ABCÇDEFGĞHIİJKLMNOÖPRSŞTUÜVYZ";
+                const directions = [
+                    { dr: 0, dc: 1, name: "Yatay Sağa ➔" },
+                    { dr: 1, dc: 0, name: "Dikey Aşağı ⬇" },
+                    { dr: 1, dc: 1, name: "Çapraz ↘" },
+                    { dr: 1, dc: -1, name: "Çapraz ↙" }
+                ];
+
+                // 26 kelimelik müfredat havuzundan her oyunda rastgele 10 farklı kelime seç
+                const shuffledPool = [...this.wordPool].sort(() => Math.random() - 0.5);
+                const selected = shuffledPool.slice(0, 10);
+                this.words = selected.map(w => ({ ...w, found: false, cells: [] }));
+
+                // Yerleşim algoritması: Uzun kelimelerden başlayarak yerleştir
+                const sortedWords = [...this.words].sort((a, b) => b.word.length - a.word.length);
+
+                let placedSuccessfully = false;
+                let attempts = 0;
+
+                while (!placedSuccessfully && attempts < 50) {
+                    attempts++;
+                    this.grid = Array(this.gridSize).fill(null).map(() => Array(this.gridSize).fill(''));
+                    let allPlaced = true;
+
+                    for (const item of sortedWords) {
+                        let placed = false;
+                        const shuffledDirs = [...directions].sort(() => Math.random() - 0.5);
+
+                        for (let tryCount = 0; tryCount < 200 && !placed; tryCount++) {
+                            const dir = shuffledDirs[tryCount % shuffledDirs.length];
+                            const r = Math.floor(Math.random() * this.gridSize);
+                            const c = Math.floor(Math.random() * this.gridSize);
+
+                            const endR = r + dir.dr * (item.word.length - 1);
+                            const endC = c + dir.dc * (item.word.length - 1);
+
+                            if (endR < 0 || endR >= this.gridSize || endC < 0 || endC >= this.gridSize) {
+                                continue;
+                            }
+
+                            // Çakışma kontrolü
+                            let canPlace = true;
+                            for (let i = 0; i < item.word.length; i++) {
+                                const curR = r + dir.dr * i;
+                                const curC = c + dir.dc * i;
+                                const existingChar = this.grid[curR][curC];
+                                if (existingChar !== '' && existingChar !== item.word[i]) {
+                                    canPlace = false;
+                                    break;
+                                }
+                            }
+
+                            if (canPlace) {
+                                item.r = r;
+                                item.c = c;
+                                item.dr = dir.dr;
+                                item.dc = dir.dc;
+                                item.dirName = dir.name;
+                                item.cells = [];
+                                for (let i = 0; i < item.word.length; i++) {
+                                    const curR = r + dir.dr * i;
+                                    const curC = c + dir.dc * i;
+                                    this.grid[curR][curC] = item.word[i];
+                                    item.cells.push(`${curR},${curC}`);
+                                }
+                                placed = true;
+                            }
+                        }
+
+                        if (!placed) {
+                            allPlaced = false;
+                            break;
+                        }
+                    }
+
+                    if (allPlaced) {
+                        placedSuccessfully = true;
+                    }
+                }
+
+                // Boş kalan yerleri rastgele Türkçe harflerle doldur
+                for (let r = 0; r < this.gridSize; r++) {
+                    for (let c = 0; c < this.gridSize; c++) {
+                        if (!this.grid[r][c]) {
+                            const randomLetter = alphabet[Math.floor(Math.random() * alphabet.length)];
+                            this.grid[r][c] = randomLetter;
+                        }
+                    }
+                }
+            }
+
+            handleCellClick(r, c) {
+                if (this.state !== 'playing') return;
+                sounds.playClick();
+
+                if (!this.selectedStart) {
+                    // İlk harfe tıklandı
+                    this.selectedStart = { r, c };
+                    this.selectedCells = [`${r},${c}`];
+                    this.render();
+                } else {
+                    // İkinci harfe tıklandı: Aradaki çizgiyi hesapla
+                    const startR = this.selectedStart.r;
+                    const startC = this.selectedStart.c;
+
+                    if (startR === r && startC === c) {
+                        // Aynı hücreye tekrar tıklandı, seçimi iptal et
+                        this.selectedStart = null;
+                        this.selectedCells = [];
+                        this.render();
+                        return;
+                    }
+
+                    const dr = r - startR;
+                    const dc = c - startC;
+
+                    // Yalnızca düz yatay, dikey veya 45 derece çapraz kontrolü
+                    const stepR = (dr === 0) ? 0 : (dr > 0 ? 1 : -1);
+                    const stepC = (dc === 0) ? 0 : (dc > 0 ? 1 : -1);
+
+                    const lengthR = Math.abs(dr);
+                    const lengthC = Math.abs(dc);
+
+                    const isValidLine = (dr === 0) || (dc === 0) || (lengthR === lengthC);
+
+                    if (isValidLine) {
+                        const steps = Math.max(lengthR, lengthC);
+                        const formedCells = [];
+                        let formedText = "";
+
+                        for (let i = 0; i <= steps; i++) {
+                            const curR = startR + (stepR * i);
+                            const curC = startC + (stepC * i);
+                            formedCells.push(`${curR},${curC}`);
+                            formedText += this.grid[curR][curC];
+                        }
+
+                        // Kelime listesinde ara
+                        const reversedText = formedText.split('').reverse().join('');
+                        const foundWord = this.words.find(w => !w.found && (w.word === formedText || w.word === reversedText));
+
+                        if (foundWord) {
+                            foundWord.found = true;
+                            formedCells.forEach(cellKey => this.foundCells.add(cellKey));
+                            this.score += 100;
+                            sounds.playFound();
+
+                            // Tüm kelimeler bitti mi?
+                            const allFound = this.words.every(w => w.found);
+                            if (allFound) {
+                                setTimeout(() => {
+                                    this.state = 'result';
+                                    sounds.playFanfare();
+                                    if (typeof confetti === 'function') {
+                                        confetti({
+                                            particleCount: 150,
+                                            spread: 90,
+                                            origin: { y: 0.6 }
+                                        });
+                                    }
+                                    this.render();
+                                }, 500);
+                            }
+                        } else {
+                            sounds.playWrong();
+                        }
+                    } else {
+                        sounds.playWrong();
+                    }
+
+                    this.selectedStart = null;
+                    this.selectedCells = [];
+                    this.render();
+                }
+            }
+
+            giveHint() {
+                sounds.playClick();
+                const unfound = this.words.filter(w => !w.found);
+                if (unfound.length === 0) return;
+
+                const targetWord = unfound[Math.floor(Math.random() * unfound.length)];
+                this.hintWord = targetWord;
+                this.hintsUsed++;
+                this.render();
+
+                setTimeout(() => {
+                    this.hintWord = null;
+                    this.render();
+                }, 2500);
+            }
+
+            render() {
+                const container = document.getElementById("game-container");
+                if (!container) return;
+
+                if (this.state === 'intro') {
+                    container.innerHTML = this.getIntroHTML();
+                } else if (this.state === 'playing') {
+                    container.innerHTML = this.getPlayingHTML();
+                } else if (this.state === 'result') {
+                    container.innerHTML = this.getResultHTML();
+                }
+            }
+
+            getIntroHTML() {
+                return `
+                    <div class="glass-panel p-6 sm:p-10 rounded-3xl text-center space-y-6 animate-pop shadow-2xl border border-purple-500/30">
+                        <div class="inline-flex p-5 rounded-3xl bg-purple-500/20 text-purple-400 text-5xl sm:text-6xl shadow-xl">
+                            <i class="fa-solid fa-puzzle-piece"></i>
+                        </div>
+                        <div class="space-y-2">
+                            <h2 class="text-2xl sm:text-3xl font-black text-white">Bilişim Kelime Avı: Siber Labirent!</h2>
+                            <p class="text-sm sm:text-base text-slate-300 max-w-xl mx-auto leading-relaxed">
+                                Harf matrisinde gizlenen <strong>10 dijital vatandaşlık kavramını</strong> bul!
+                                Akıllı tahtada kelimenin ilk harfine, ardından son harfine dokunarak kelimeleri avla!
+                            </p>
+                        </div>
+
+                        <!-- KELİME LİSTESİ ÖN İZLEME -->
+                        <div class="flex flex-wrap justify-center gap-2 max-w-2xl mx-auto">
+                            ${this.words.map(w => `
+                                <span class="px-3 py-1.5 rounded-xl bg-slate-900 border border-purple-500/30 text-purple-200 text-xs font-bold">
+                                    ${w.label}
+                                </span>
+                            `).join('')}
+                        </div>
+
+                        <div class="pt-2">
+                            <button onclick="game.startGame()" class="action-btn px-8 sm:px-12 py-4 bg-gradient-to-r from-purple-600 via-indigo-600 to-cyan-500 hover:from-purple-500 hover:to-cyan-400 text-white font-black text-base sm:text-lg rounded-2xl shadow-xl flex items-center gap-3 mx-auto border-2 border-purple-400">
+                                <i class="fa-solid fa-play"></i>
+                                <span>Labirente Gir & Başla!</span>
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }
+
+            getPlayingHTML() {
+                const foundCount = this.words.filter(w => w.found).length;
+                const totalWords = this.words.length;
+                const solutionCells = new Set();
+                if (this.showSolution) {
+                    this.words.forEach(w => {
+                        if (!w.found && w.cells) {
+                            w.cells.forEach(c => solutionCells.add(c));
+                        }
+                    });
+                }
+
+                return `
+                    <div class="grid grid-cols-1 lg:grid-cols-12 gap-5 animate-pop">
+                        <!-- SOL: HARF IZGARASI (7 KOLON) -->
+                        <div class="lg:col-span-7 glass-panel p-4 sm:p-6 rounded-3xl space-y-4 shadow-xl border border-slate-700 flex flex-col items-center">
+                            <!-- ÜST BİLGİ -->
+                            <div class="w-full flex flex-wrap items-center justify-between text-xs font-bold border-b border-slate-800 pb-3 gap-2">
+                                <div class="flex items-center gap-2">
+                                    <span class="px-2.5 py-1 rounded-lg bg-purple-500/20 text-purple-300 border border-purple-500/30">
+                                        Bulunan: ${foundCount} / ${totalWords}
+                                    </span>
+                                    <span class="text-slate-400 hidden sm:inline">İlk & Son harfe dokun!</span>
+                                </div>
+                                <div class="flex items-center gap-2 sm:gap-3">
+                                    <button onclick="game.giveHint()" class="btn-touch px-3 py-1 bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 border border-amber-400/40 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all">
+                                        <i class="fa-solid fa-lightbulb"></i>
+                                        <span>İpucu</span>
+                                    </button>
+                                    <button onclick="game.toggleSolution()" class="btn-touch px-3 py-1 ${this.showSolution ? 'bg-purple-600 hover:bg-purple-500 text-white border-purple-400 shadow-lg shadow-purple-600/40' : 'bg-purple-500/20 hover:bg-purple-500/30 text-purple-300 border border-purple-400/40'} rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all">
+                                        <i class="fa-solid ${this.showSolution ? 'fa-eye-slash' : 'fa-key'}"></i>
+                                        <span>${this.showSolution ? 'Çözümü Gizle' : 'Çözümü Göster'}</span>
+                                    </button>
+                                    <span class="text-yellow-400 font-black text-base">${this.score} P</span>
+                                </div>
+                            </div>
+
+                            ${this.showSolution ? `
+                                <div class="w-full p-3 rounded-2xl bg-purple-950/85 border-2 border-purple-400 text-purple-200 text-xs sm:text-sm font-bold flex flex-col sm:flex-row items-center justify-between gap-2.5 animate-pop shadow-xl">
+                                    <div class="flex items-center gap-2">
+                                        <i class="fa-solid fa-key text-purple-400 text-base animate-bounce"></i>
+                                        <span><strong>Çözüm Modu Aktif:</strong> Bulunamayan tüm kelimeler mor renkle aydınlatıldı!</span>
+                                    </div>
+                                    <div class="flex items-center gap-2 shrink-0">
+                                        <button onclick="game.solveAllAndFinish()" class="btn-touch px-3 py-1.5 bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-400 hover:to-pink-400 text-white font-black rounded-xl text-xs shadow-md flex items-center gap-1.5 transition-all">
+                                            <i class="fa-solid fa-check-double"></i>
+                                            <span>Tümünü Tamamla</span>
+                                        </button>
+                                        <button onclick="game.toggleSolution()" class="btn-touch px-2.5 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold rounded-xl text-xs border border-slate-700 transition-all">
+                                            Kapat
+                                        </button>
+                                    </div>
+                                </div>
+                            ` : ''}
+
+                            <!-- MATRİS TABLOSU -->
+                            <div class="w-full overflow-x-auto flex justify-center py-1">
+                                <div class="inline-grid gap-0.5 sm:gap-1.5 p-1.5 sm:p-2 bg-slate-950/80 rounded-xl sm:rounded-2xl border border-slate-800 touch-manipulation" style="grid-template-columns: repeat(${this.gridSize}, minmax(0, 1fr));">
+                                    ${this.grid.map((row, r) => row.map((letter, c) => {
+                                        const cellKey = `${r},${c}`;
+                                        const isSelected = this.selectedCells.includes(cellKey);
+                                        const isFound = this.foundCells.has(cellKey);
+                                        const isHint = (this.hintWord && this.hintWord.r === r && this.hintWord.c === c);
+                                        const isSol = this.showSolution && solutionCells.has(cellKey);
+
+                                        let classes = "w-6 h-6 sm:w-8 sm:h-8 md:w-9 md:h-9 lg:w-10 lg:h-10 rounded-md sm:rounded-xl text-[11px] sm:text-sm md:text-base font-bold flex items-center justify-center cursor-pointer border border-slate-800/80 ";
+                                        if (isFound) {
+                                            classes += "found ";
+                                        } else if (isSelected) {
+                                            classes += "selected ";
+                                        } else if (isSol) {
+                                            classes += "solution ";
+                                        } else if (isHint) {
+                                            classes += "hint-pulse ";
+                                        } else {
+                                            classes += "bg-slate-900/90 text-slate-300 hover:text-white ";
+                                        }
+
+                                        return `
+                                            <div onclick="game.handleCellClick(${r}, ${c})" class="grid-cell ${classes}">
+                                                ${letter}
+                                            </div>
+                                        `;
+                                    }).join('')).join('')}
+                                </div>
+                            </div>
+
+                            <p class="text-xs text-slate-400 text-center">
+                                <i class="fa-solid fa-hand-pointer text-cyan-400 mr-1"></i> İpucu: Seçmek istediğin kelimenin ilk harfine ve ardından son harfine bas!
+                            </p>
+                        </div>
+
+                        <!-- SAĞ: BULUNACAK KELİMELER LİSTESİ (5 KOLON) -->
+                        <div class="lg:col-span-5 glass-panel p-3 sm:p-4 rounded-3xl space-y-2.5 shadow-xl border border-slate-700 flex flex-col justify-between">
+                            <div>
+                                <h3 class="text-xs sm:text-sm font-black text-white flex items-center justify-between border-b border-slate-800 pb-1.5">
+                                    <div class="flex items-center gap-1.5">
+                                        <i class="fa-solid fa-bullseye text-cyan-400"></i>
+                                        <span>Tabloda Bulunacak Kelimeler</span>
+                                    </div>
+                                    <span class="text-xs text-slate-400 font-bold">${totalWords - foundCount} Kaldı</span>
+                                </h3>
+
+                                <div class="grid grid-cols-2 gap-1.5 sm:gap-2 pt-2">
+                                    ${this.words.map(w => `
+                                        <div class="p-1.5 sm:p-2 rounded-xl border transition-all ${w.found ? 'bg-emerald-950/40 border-emerald-500/50 text-emerald-200' : (this.showSolution ? 'bg-purple-950/30 border-purple-500/40 text-slate-200' : 'bg-slate-900/80 border-slate-800 text-slate-300')} flex items-center justify-between gap-1.5" title="${w.desc} (${w.label})">
+                                            <div class="min-w-0 flex-1">
+                                                <div class="font-mono font-black text-xs sm:text-sm tracking-wider truncate ${w.found ? 'text-emerald-300 line-through' : 'text-cyan-300'}">
+                                                    ${w.word}
+                                                </div>
+                                                <div class="text-[10px] text-slate-400 font-medium truncate leading-tight">${w.label}</div>
+                                                ${this.showSolution && !w.found ? `
+                                                    <div class="text-[9px] font-extrabold text-purple-300 truncate">
+                                                        ${w.r + 1}.Sat &bull; ${w.dirName || ''}
+                                                    </div>
+                                                ` : ''}
+                                            </div>
+                                            <div class="shrink-0 flex items-center">
+                                                ${w.found ? '<i class="fa-solid fa-circle-check text-emerald-400 text-xs sm:text-sm"></i>' : `<span class="text-[9px] px-1 py-0.5 rounded bg-cyan-950/80 text-cyan-400 border border-cyan-800 font-bold">${w.word.length}H</span>`}
+                                            </div>
+                                        </div>
+                                    `).join('')}
+                                </div>
+                            </div>
+
+                            <div class="pt-1">
+                                <button onclick="game.startGame()" class="w-full py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-xl text-xs font-bold flex items-center justify-center gap-2 border border-slate-700">
+                                    <i class="fa-solid fa-rotate-right"></i>
+                                    <span>Yeniden Karıştır</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+
+            getResultHTML() {
+                return `
+                    <div class="glass-panel p-6 sm:p-10 rounded-3xl text-center space-y-6 animate-pop shadow-2xl border border-purple-500/40">
+                        <div class="inline-flex p-5 rounded-3xl bg-gradient-to-tr from-purple-600 via-indigo-600 to-cyan-500 text-white text-5xl sm:text-6xl shadow-xl">
+                            <i class="fa-solid fa-trophy"></i>
+                        </div>
+
+                        <div class="space-y-2">
+                            <span class="px-3 py-1 rounded-full bg-purple-500/20 text-purple-300 font-bold text-xs uppercase tracking-wider border border-purple-400/30">LABİRENT ÇÖZÜLDÜ!</span>
+                            <h2 class="text-2xl sm:text-3xl font-black text-white">🏆 Tebrikler, Tüm Terimleri Buldun!</h2>
+                            <p class="text-sm sm:text-base text-slate-300 max-w-lg mx-auto leading-relaxed">
+                                Siber labirentteki tüm dijital vatandaşlık kavramlarını başarıyla tespit ettin ve kelime avını tamamladın!
+                            </p>
+                        </div>
+
+                        <!-- SKOR KARTLARI -->
+                        <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 max-w-lg mx-auto">
+                            <div class="bg-slate-900/90 p-3.5 rounded-2xl border border-slate-800">
+                                <div class="text-[10px] text-slate-400 font-bold uppercase">Toplam Puan</div>
+                                <div class="text-2xl font-black text-yellow-400">${this.score}</div>
+                            </div>
+                            <div class="bg-slate-900/90 p-3.5 rounded-2xl border border-slate-800">
+                                <div class="text-[10px] text-slate-400 font-bold uppercase">Bulunan Kelime</div>
+                                <div class="text-2xl font-black text-emerald-400">${this.words.length} / ${this.words.length}</div>
+                            </div>
+                            <div class="bg-slate-900/90 p-3.5 rounded-2xl border border-slate-800 col-span-2 sm:col-span-1">
+                                <div class="text-[10px] text-slate-400 font-bold uppercase">Kullanılan İpucu</div>
+                                <div class="text-2xl font-black text-purple-400">${this.hintsUsed}</div>
+                            </div>
+                        </div>
+
+                        <!-- BUTONLAR -->
+                        <div class="flex justify-center gap-4 flex-wrap pt-2">
+                            <button onclick="game.startGame()" class="action-btn px-8 py-3.5 bg-gradient-to-r from-purple-600 via-indigo-600 to-cyan-500 hover:from-purple-500 hover:to-cyan-400 text-white font-black text-sm sm:text-base rounded-2xl shadow-xl flex items-center gap-2 border-2 border-purple-300">
+                                <i class="fa-solid fa-rotate-right"></i>
+                                <span>Tekrar Avla</span>
+                            </button>
+                            <button onclick="game.state = 'intro'; game.render();" class="action-btn px-8 py-3.5 bg-slate-800 hover:bg-slate-700 text-white font-bold text-sm sm:text-base rounded-2xl shadow-lg flex items-center gap-2 border border-slate-700">
+                                <i class="fa-solid fa-house"></i>
+                                <span>Ana Menü</span>
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }
+
+            openHelpModal() {
+                sounds.playClick();
+                const m = document.getElementById('modal-help');
+                if (m) m.classList.remove('hidden');
+            }
+
+            closeHelpModal() {
+                sounds.playClick();
+                const m = document.getElementById('modal-help');
+                if (m) m.classList.add('hidden');
+            }
+
+            toggleAudio() {
+                sounds.muted = !sounds.muted;
+                const icon = document.getElementById('audio-icon');
+                if (icon) {
+                    icon.className = sounds.muted ? "fa-solid fa-volume-xmark text-rose-400" : "fa-solid fa-volume-high text-yellow-400";
+                }
+            }
+
+            toggleFullscreen() {
+                sounds.playClick();
+                if (!document.fullscreenElement) {
+                    if (document.documentElement.requestFullscreen) {
+                        document.documentElement.requestFullscreen();
+                    }
+                } else {
+                    if (document.exitFullscreen) {
+                        document.exitFullscreen();
+                    }
+                }
+            }
+        }
+
+        const game = new WordHuntGame();
+        window.onload = () => game.init();
+    </script>
+</body>
+</html>

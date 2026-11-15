@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dijital Vatandaşlık ve e-Devlet Uygulamaları | Yazdırılabilir Test Kağıdı</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; background: #f8fafc; color: #0f172a; }
+        @media print {
+            .no-print { display: none !important; }
+            body { background: #fff !important; color: #000 !important; }
+            .a4-page { box-shadow: none !important; border: none !important; padding: 0 !important; width: 100% !important; margin: 0 !important; }
+            .page-break { page-break-after: always; }
+        }
+        .a4-page { max-width: 210mm; margin: 0 auto; background: #fff; padding: 12mm 15mm; border: 1px solid #e2e8f0; border-radius: 8px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); }
+    </style>
+</head>
+<body class="py-6 px-2 sm:px-4">
+
+    <!-- Üst Kontrol Barı (Yazdırma ve Cevap Butonları) -->
+    <div class="no-print max-w-[210mm] mx-auto mb-4 bg-slate-900 text-white p-3 rounded-xl flex items-center justify-between shadow-lg">
+        <div class="flex items-center gap-3">
+            <a href="../index.html" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg text-xs font-bold transition flex items-center gap-1.5">
+                <i class="fa-solid fa-arrow-left"></i> Geri
+            </a>
+            <span class="text-xs sm:text-sm font-black truncate max-w-xs sm:max-w-md">3. Hafta - 1: Dijital Vatandaşlık</span>
+        </div>
+        <div class="flex items-center gap-2">
+            <button onclick="toggleAnswerKey()" class="px-3 py-1.5 bg-indigo-600 hover:bg-indigo-500 text-white rounded-lg text-xs font-bold transition flex items-center gap-1.5">
+                <i class="fa-solid fa-key"></i> <span class="hidden sm:inline">Cevap Anahtarı</span>
+            </button>
+            <button onclick="window.print()" class="px-4 py-1.5 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg text-xs font-black transition flex items-center gap-1.5 shadow">
+                <i class="fa-solid fa-print"></i> Yazdır / PDF Kaydet
+            </button>
+        </div>
+    </div>
+
+    <!-- A4 Sayfa Şablonu -->
+    <div class="a4-page">
+        <!-- MEB Resmi Sınav Başlığı -->
+        <div class="border-2 border-slate-900 rounded-xl p-3 mb-5">
+            <div class="flex items-center justify-between border-b border-slate-300 pb-2 mb-2">
+                <div class="text-center flex-1">
+                    <h1 class="text-xs sm:text-sm font-black tracking-wide uppercase">T.C. MİLLÎ EĞİTİM BAKANLIĞI</h1>
+                    <h2 class="text-sm sm:text-base font-extrabold text-indigo-900 uppercase">BİLİŞİM TEKNOLOJİLERİ VE YAZILIM DERSİ 5. SINIF</h2>
+                    <h3 class="text-xs font-bold text-slate-700">Dijital Vatandaşlık ve e-Devlet Uygulamaları Pekiştirme ve Değerlendirme Testi</h3>
+                </div>
+            </div>
+
+            <!-- Öğrenci Bilgi Tablosu -->
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs font-bold">
+                <div class="p-1.5 bg-slate-50 border border-slate-200 rounded">Adı Soyadı: .......................................</div>
+                <div class="p-1.5 bg-slate-50 border border-slate-200 rounded">Sınıfı / Şubesi: 5 / ........</div>
+                <div class="p-1.5 bg-slate-50 border border-slate-200 rounded">Okul No: ....................</div>
+                <div class="p-1.5 bg-slate-100 border-2 border-slate-400 rounded text-center text-sm font-black">ALDIĞI NOT:</div>
+            </div>
+        </div>
+
+        
+        <!-- Bölüm A: Doğru / Yanlış -->
+        <div class="mb-6">
+            <div class="bg-indigo-900 text-white px-3 py-1.5 rounded-lg text-xs font-black tracking-wide uppercase flex items-center justify-between mb-3">
+                <span>A. BÖLÜM: DOĞRU / YANLIŞ ETKİNLİĞİ (10 Soru)</span>
+                <span class="text-[10px] font-normal">Her soru eşit puandır</span>
+            </div>
+            <p class="text-[11px] text-slate-600 italic mb-2">Yönerge: Cümle doğru ise [ D ], yanlış ise [ Y ] kutucuğuna çarpı (X) koyunuz.</p>
+            <div class="space-y-2">
+                
+                <div class="flex items-start gap-2 text-xs border-b border-slate-100 pb-1.5">
+                    <div class="flex gap-1 shrink-0 font-mono font-bold text-[10px]">
+                        <span class="w-6 h-5 border border-slate-400 rounded flex items-center justify-center bg-slate-50">D</span>
+                        <span class="w-6 h-5 border border-slate-400 rounded flex items-center justify-center bg-slate-50">Y</span>
+                    </div>
+                    <div class="flex-1 leading-snug">
+                        <span class="font-bold text-slate-900">1.</span> Ali, çevrim içi oyunda tanıştığı ve kendisini 5. sınıf öğrencisi olarak tanıtan bir yabancıya okulunun adını ve ev adresini göndermiştir. Ali güvenli bir davranış sergilemiştir.
+                        <span class="answer-key-reveal hidden text-emerald-700 font-extrabold ml-2">[Cevap: YANLIŞ]</span>
+                    </div>
+                </div>
+                
+                <div class="flex items-start gap-2 text-xs border-b border-slate-100 pb-1.5">
+                    <div class="flex gap-1 shrink-0 font-mono font-bold text-[10px]">
+                        <span class="w-6 h-5 border border-slate-400 rounded flex items-center justify-center bg-slate-50">D</span>
+                        <span class="w-6 h-5 border border-slate-400 rounded flex items-center justify-center bg-slate-50">Y</span>
+                    </div>
+                    <div class="flex-1 leading-snug">
+                        <span class="font-bold text-slate-900">2.</span> Ayşe&#039;nin babası, e-Devlet kapısına girerek aile bireylerinin nüfus kayıt örneğini dakikalar içinde resmi barkodlu belge olarak almıştır.
+                        <span class="answer-key-reveal hidden text-emerald-700 font-extrabold ml-2">[Cevap: DOĞRU]</span>
+                    </div>
+                </div>
+                
+                <div class="flex items-start gap-2 text-xs border-b border-slate-100 pb-1.5">
+                    <div class="flex gap-1 shrink-0 font-mono font-bold text-[10px]">
+                        <span class="w-6 h-5 border border-slate-400 rounded flex items-center justify-center bg-slate-50">D</span>
+                        <span class="w-6 h-5 border border-slate-400 rounded flex items-center justify-center bg-slate-50">Y</span>
+                    </div>
+                    <div class="flex-1 leading-snug">
+                        <span class="font-bold text-slate-900">3.</span> Selin, arama motorunda araştırdığı spor ayakkabısının reklamlarını daha sonra ziyaret ettiği haber sitelerinde görmüştür. Bu durum &#039;Pasif Dijital Ayak İzi&#039;ne örnektir.
+                        <span class="answer-key-reveal hidden text-emerald-700 font-extrabold ml-2">[Cevap: DOĞRU]</span>
+                    </div>
+                </div>
+                
+                <div class="flex items-start gap-2 text-xs border-b border-slate-100 pb-1.5">
+                    <div class="flex gap-1 shrink-0 font-mono font-bold text-[10px]">
+                        <span class="w-6 h-5 border border-slate-400 rounded flex items-center justify-center bg-slate-50">D</span>
+                        <span class="w-6 h-5 border border-slate-400 rounded flex items-center justify-center bg-slate-50">Y</span>
+                    </div>
+                    <div class="flex-1 leading-snug">
+                        <span class="font-bold text-slate-900">4.</span> Zeynep, arkadaşı doğum günü pastasını üflerken çektiği komik fotoğrafı arkadaşına hiç sormadan sosyal medya hesabında paylaşmıştır. Zeynep dijital nezakete uygun davranmıştır.
+                        <span class="answer-key-reveal hidden text-emerald-700 font-extrabold ml-2">[Cevap: YANLIŞ]</span>
+                    </div>
+                </div>
+                
+                <div class="flex items-start gap-2 text-xs border-b border-slate-100 pb-1.5">
+                    <div class="flex gap-1 shrink-0 font-mono font-bold text-[10px]">
+                        <span class="w-6 h-5 border border-slate-400 rounded flex items-center justify-center bg-slate-50">D</span>
+                        <span class="w-6 h-5 border border-slate-400 rounded flex items-center justify-center bg-slate-50">Y</span>
+                    </div>
+                    <div class="flex-1 leading-snug">
+                        <span class="font-bold text-slate-900">5.</span> Hastaneye gitmeden önce MHRS (Alo 182) üzerinden randevu almak hem hastanelerdeki kuyrukları azaltır hem de zamandan büyük tasarruf sağlar.
+                        <span class="answer-key-reveal hidden text-emerald-700 font-extrabold ml-2">[Cevap: DOĞRU]</span>
+                    </div>
+                </div>
+                
+                <div class="flex items-start gap-2 text-xs border-b border-slate-100 pb-1.5">
+                    <div class="flex gap-1 shrink-0 font-mono font-bold text-[10px]">
+                        <span class="w-6 h-5 border border-slate-400 rounded flex items-center justify-center bg-slate-50">D</span>
+                        <span class="w-6 h-5 border border-slate-400 rounded flex items-center justify-center bg-slate-50">Y</span>
+                    </div>
+                    <div class="flex-1 leading-snug">
+                        <span class="font-bold text-slate-900">6.</span> İnternete 2 yıl önce yüklediğimiz bir videoyu hesabımızı kapatıp silsek bile, videoyu daha önce indiren birinin elinde kalmış olabilir.
+                        <span class="answer-key-reveal hidden text-emerald-700 font-extrabold ml-2">[Cevap: DOĞRU]</span>
+                    </div>
+                </div>
+                
+                <div class="flex items-start gap-2 text-xs border-b border-slate-100 pb-1.5">
+                    <div class="flex gap-1 shrink-0 font-mono font-bold text-[10px]">
+                        <span class="w-6 h-5 border border-slate-400 rounded flex items-center justify-center bg-slate-50">D</span>
+                        <span class="w-6 h-5 border border-slate-400 rounded flex items-center justify-center bg-slate-50">Y</span>
+                    </div>
+                    <div class="flex-1 leading-snug">
+                        <span class="font-bold text-slate-900">7.</span> e-Okul Veli Bilgilendirme Sistemi sadece dönem sonu karnesini gösterir; haftalık devamsızlık veya sınav tarihleri bu sistemde yer almaz.
+                        <span class="answer-key-reveal hidden text-emerald-700 font-extrabold ml-2">[Cevap: YANLIŞ]</span>
+                    </div>
+                </div>
+                
+                <div class="flex items-start gap-2 text-xs border-b border-slate-100 pb-1.5">
+                    <div class="flex gap-1 shrink-0 font-mono font-bold text-[10px]">
+                        <span class="w-6 h-5 border border-slate-400 rounded flex items-center justify-center bg-slate-50">D</span>
+                        <span class="w-6 h-5 border border-slate-400 rounded flex items-center justify-center bg-slate-50">Y</span>
+                    </div>
+                    <div class="flex-1 leading-snug">
+                        <span class="font-bold text-slate-900">8.</span> Hesap şifresi oluştururken &#039;adımız + 123&#039; formatını seçmek tahmin edilmesi imkansız, mükemmel bir güvenlik kalkanı sağlar.
+                        <span class="answer-key-reveal hidden text-emerald-700 font-extrabold ml-2">[Cevap: YANLIŞ]</span>
+                    </div>
+                </div>
+                
+                <div class="flex items-start gap-2 text-xs border-b border-slate-100 pb-1.5">
+                    <div class="flex gap-1 shrink-0 font-mono font-bold text-[10px]">
+                        <span class="w-6 h-5 border border-slate-400 rounded flex items-center justify-center bg-slate-50">D</span>
+                        <span class="w-6 h-5 border border-slate-400 rounded flex items-center justify-center bg-slate-50">Y</span>
+                    </div>
+                    <div class="flex-1 leading-snug">
+                        <span class="font-bold text-slate-900">9.</span> e-Bankacılık sayesinde hafta sonu veya gece geç saatlerde bile acil para transferi ve elektrik faturası ödemesi güvenle yapılabilir.
+                        <span class="answer-key-reveal hidden text-emerald-700 font-extrabold ml-2">[Cevap: DOĞRU]</span>
+                    </div>
+                </div>
+                
+                <div class="flex items-start gap-2 text-xs border-b border-slate-100 pb-1.5">
+                    <div class="flex gap-1 shrink-0 font-mono font-bold text-[10px]">
+                        <span class="w-6 h-5 border border-slate-400 rounded flex items-center justify-center bg-slate-50">D</span>
+                        <span class="w-6 h-5 border border-slate-400 rounded flex items-center justify-center bg-slate-50">Y</span>
+                    </div>
+                    <div class="flex-1 leading-snug">
+                        <span class="font-bold text-slate-900">10.</span> Çevrim içi bir oyunda kendisine hakaret eden birine aynı kaba sözlerle cevap vermek bilinçli bir dijital vatandaşın yapması gereken davranıştır.
+                        <span class="answer-key-reveal hidden text-emerald-700 font-extrabold ml-2">[Cevap: YANLIŞ]</span>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+        
+
+        
+        <!-- Bölüm B: Çoktan Seçmeli Test -->
+        <div class="mb-6">
+            <div class="bg-indigo-900 text-white px-3 py-1.5 rounded-lg text-xs font-black tracking-wide uppercase flex items-center justify-between mb-3">
+                <span>B. BÖLÜM: ÇOKTAN SEÇMELİ DEĞERLENDİRME TESTİ (12 Soru)</span>
+                <span class="text-[10px] font-normal">Doğru şıkkı işaretleyiniz</span>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-3">
+                
+                  <div class="text-xs border border-slate-200 rounded-lg p-2.5 bg-white flex flex-col justify-between">
+                      <div>
+                          <div class="font-bold text-slate-900 mb-1.5 leading-snug">
+                              <span class="text-indigo-800 font-black">1.</span> 5/B sınıfından Kerem, internette bir proje ödevi hazırlarken bulduğu bilgilerin doğruluğunu farklı güvenilir sitelerden kontrol etmiş, ödevine aldığı resimlerin sahiplerini kaynak olarak belirtmiş ve sınıf arkadaşlarıyla nazikçe yardımlaşmıştır. Kerem&#039;in bu davranışı hangisiyle en iyi açıklanır?
+                          </div>
+                          <div class="space-y-1 pl-1">
+                              
+                                <div class="flex items-center gap-1.5">
+                                    <span class="w-4 h-4 rounded-full border border-slate-400 flex items-center justify-center text-[10px] font-bold answer-opt-highlight">A</span>
+                                    <span class="leading-tight text-slate-800">Bilinçli ve sorumluluk sahibi bir dijital vatandaş olması</span>
+                                </div>
+                                
+                                <div class="flex items-center gap-1.5">
+                                    <span class="w-4 h-4 rounded-full border border-slate-400 flex items-center justify-center text-[10px] font-bold ">B</span>
+                                    <span class="leading-tight text-slate-800">İnterneti gereksiz yere meşgul eden bir kullanıcı olması</span>
+                                </div>
+                                
+                                <div class="flex items-center gap-1.5">
+                                    <span class="w-4 h-4 rounded-full border border-slate-400 flex items-center justify-center text-[10px] font-bold ">C</span>
+                                    <span class="leading-tight text-slate-800">Telif haklarını ve yazarları önemsememesi</span>
+                                </div>
+                                
+                                <div class="flex items-center gap-1.5">
+                                    <span class="w-4 h-4 rounded-full border border-slate-400 flex items-center justify-center text-[10px] font-bold ">D</span>
+                                    <span class="leading-tight text-slate-800">Sadece eğlence odaklı bilgisayar kullanması</span>
+                                </div>
+                                
+                          </div>
+                      </div>
+                      <div class="answer-key-reveal hidden mt-2 pt-1 border-t border-emerald-200 text-[10px] font-black text-emerald-700">
+                          Doğru Şık: A
+                      </div>
+                  </div>
+                  
+                  <div class="text-xs border border-slate-200 rounded-lg p-2.5 bg-white flex flex-col justify-between">
+                      <div>
+                          <div class="font-bold text-slate-900 mb-1.5 leading-snug">
+                              <span class="text-indigo-800 font-black">2.</span> Aşağıdaki işlemlerden hangisi bir kişinin internette bilerek ve isteyerek oluşturduğu &#039;Aktif Dijital Ayak İzi&#039;ne örnektir?
+                          </div>
+                          <div class="space-y-1 pl-1">
+                              
+                                <div class="flex items-center gap-1.5">
+                                    <span class="w-4 h-4 rounded-full border border-slate-400 flex items-center justify-center text-[10px] font-bold ">A</span>
+                                    <span class="leading-tight text-slate-800">Ziyaret ettiği haber sitesinin bilgisayarına çerez bırakması</span>
+                                </div>
+                                
+                                <div class="flex items-center gap-1.5">
+                                    <span class="w-4 h-4 rounded-full border border-slate-400 flex items-center justify-center text-[10px] font-bold ">B</span>
+                                    <span class="leading-tight text-slate-800">Arama motorunun daha önce aranan kelimeleri geçmişe kaydetmesi</span>
+                                </div>
+                                
+                                <div class="flex items-center gap-1.5">
+                                    <span class="w-4 h-4 rounded-full border border-slate-400 flex items-center justify-center text-[10px] font-bold answer-opt-highlight">C</span>
+                                    <span class="leading-tight text-slate-800">Kendi hazırladığı robotik kodlama videosunu sosyal medyada paylaşmak</span>
+                                </div>
+                                
+                                <div class="flex items-center gap-1.5">
+                                    <span class="w-4 h-4 rounded-full border border-slate-400 flex items-center justify-center text-[10px] font-bold ">D</span>
+                                    <span class="leading-tight text-slate-800">Akıllı telefonun arka planda adım ve konum verisi toplaması</span>
+                                </div>
+                                
+                          </div>
+                      </div>
+                      <div class="answer-key-reveal hidden mt-2 pt-1 border-t border-emerald-200 text-[10px] font-black text-emerald-700">
+                          Doğru Şık: C
+                      </div>
+                  </div>
+                  
+                  <div class="text-xs border border-slate-200 rounded-lg p-2.5 bg-white flex flex-col justify-between">
+                      <div>
+                          <div class="font-bold text-slate-900 mb-1.5 leading-snug">
+                              <span class="text-indigo-800 font-black">3.</span> Burak internette spor ayakkabıları inceledikten sonra, ertesi gün girdiği bir oyun sitesinin kenarında aynı ayakkabının reklamını görmüştür. Bu durumun ortaya çıkmasının TEMEL SEBEBİ nedir?
+                          </div>
+                          <div class="space-y-1 pl-1">
+                              
+                                <div class="flex items-center gap-1.5">
+                                    <span class="w-4 h-4 rounded-full border border-slate-400 flex items-center justify-center text-[10px] font-bold ">A</span>
+                                    <span class="leading-tight text-slate-800">Burak&#039;ın bilgisayarına tehlikeli bir virüs bulaşmış olması</span>
+                                </div>
+                                
+                                <div class="flex items-center gap-1.5">
+                                    <span class="w-4 h-4 rounded-full border border-slate-400 flex items-center justify-center text-[10px] font-bold answer-opt-highlight">B</span>
+                                    <span class="leading-tight text-slate-800">Gezinti sırasında arka planda oluşan pasif dijital ayak izi ve çerezler</span>
+                                </div>
+                                
+                                <div class="flex items-center gap-1.5">
+                                    <span class="w-4 h-4 rounded-full border border-slate-400 flex items-center justify-center text-[10px] font-bold ">C</span>
+                                    <span class="leading-tight text-slate-800">Ayakkabı mağazasının Burak&#039;ın ailesine telefonla ulaşması</span>
+                                </div>
+                                
+                                <div class="flex items-center gap-1.5">
+                                    <span class="w-4 h-4 rounded-full border border-slate-400 flex items-center justify-center text-[10px] font-bold ">D</span>
+                                    <span class="leading-tight text-slate-800">Oyun sitesinin Burak&#039;ın kamerasından odasını izlemesi</span>
+                                </div>
+                                
+                          </div>
+                      </div>
+                      <div class="answer-key-reveal hidden mt-2 pt-1 border-t border-emerald-200 text-[10px] font-black text-emerald-700">
+                          Doğru Şık: B
+                      </div>
+                  </div>
+                  
+                  <div class="text-xs border border-slate-200 rounded-lg p-2.5 bg-white flex flex-col justify-between">
+                      <div>
+                          <div class="font-bold text-slate-900 mb-1.5 leading-snug">
+                              <span class="text-indigo-800 font-black">4.</span> Yeni bir şehre taşınan Demir ailesi; ikametgah naklini yapmak, yeni evin elektrik-su abonelik başvurularını resmi kuruma gitmeden onaylatmak ve üzerlerindeki araç kayıtlarını görmek istemektedir. Demir ailesinin TÜM BU İŞLEMLERİ tek bir noktadan yapabileceği resmi platform hangisidir?
+                          </div>
+                          <div class="space-y-1 pl-1">
+                              
+                                <div class="flex items-center gap-1.5">
+                                    <span class="w-4 h-4 rounded-full border border-slate-400 flex items-center justify-center text-[10px] font-bold ">A</span>
+                                    <span class="leading-tight text-slate-800">e-Okul Veli Bilgilendirme Sistemi</span>
+                                </div>
+                                
+                                <div class="flex items-center gap-1.5">
+                                    <span class="w-4 h-4 rounded-full border border-slate-400 flex items-center justify-center text-[10px] font-bold ">B</span>
+                                    <span class="leading-tight text-slate-800">MHRS Hastane Randevu Merkezi</span>
+                                </div>
+                                
+                                <div class="flex items-center gap-1.5">
+                                    <span class="w-4 h-4 rounded-full border border-slate-400 flex items-center justify-center text-[10px] font-bold ">C</span>
+                                    <span class="leading-tight text-slate-800">Çevrim içi video paylaşım platformu</span>
+                                </div>
+                                
+                                <div class="flex items-center gap-1.5">
+                                    <span class="w-4 h-4 rounded-full border border-slate-400 flex items-center justify-center text-[10px] font-bold answer-opt-highlight">D</span>
+                                    <span class="leading-tight text-slate-800">e-Devlet Kapısı (turkiye.gov.tr)</span>
+                                </div>
+                                
+                          </div>
+                      </div>
+                      <div class="answer-key-reveal hidden mt-2 pt-1 border-t border-emerald-200 text-[10px] font-black text-emerald-700">
+                          Doğru Şık: D
+                      </div>
+                  </div>
+                  
+                  <div class="text-xs border border-slate-200 rounded-lg p-2.5 bg-white flex flex-col justify-between">
+                      <div>
+                          <div class="font-bold text-slate-900 mb-1.5 leading-snug">
+                              <span class="text-indigo-800 font-black">5.</span> 5. sınıf öğrencisi Ela, &#039;Bu dönem takdir mi yoksa teşekkür mü alacağım?&#039; sorusunun cevabını öğrenmek için ders sınav notlarına, sözlü notlarına ve özürsüz devamsızlık gün sayısına bakmak istemektedir. Ela hangi sistemi açmalıdır?
+                          </div>
+                          <div class="space-y-1 pl-1">
+                              
+                                <div class="flex items-center gap-1.5">
+                                    <span class="w-4 h-4 rounded-full border border-slate-400 flex items-center justify-center text-[10px] font-bold answer-opt-highlight">A</span>
+                                    <span class="leading-tight text-slate-800">e-Okul Veli Bilgilendirme Sistemi</span>
+                                </div>
+                                
+                                <div class="flex items-center gap-1.5">
+                                    <span class="w-4 h-4 rounded-full border border-slate-400 flex items-center justify-center text-[10px] font-bold ">B</span>
+                                    <span class="leading-tight text-slate-800">EBA Ders Portalı</span>
+                                </div>
+                                
+                                <div class="flex items-center gap-1.5">
+                                    <span class="w-4 h-4 rounded-full border border-slate-400 flex items-center justify-center text-[10px] font-bold ">C</span>
+                                    <span class="leading-tight text-slate-800">e-Nabız Kişisel Sağlık Sistemi</span>
+                                </div>
+                                
+                                <div class="flex items-center gap-1.5">
+                                    <span class="w-4 h-4 rounded-full border border-slate-400 flex items-center justify-center text-[10px] font-bold ">D</span>
+                                    <span class="leading-tight text-slate-800">İnteraktif Vergi Dairesi</span>
+                                </div>
+                                
+                          </div>
+                      </div>
+                      <div class="answer-key-reveal hidden mt-2 pt-1 border-t border-emerald-200 text-[10px] font-black text-emerald-700">
+                          Doğru Şık: A
+                      </div>
+                  </div>
+                  
+                  <div class="text-xs border border-slate-200 rounded-lg p-2.5 bg-white flex flex-col justify-between">
+                      <div>
+                          <div class="font-bold text-slate-900 mb-1.5 leading-snug">
+                              <span class="text-indigo-800 font-black">6.</span> Dedesi rahatsızlanan Mehmet, doktorun istediği &#039;2 yıl önceki akciğer grafisi ve kan tahlili sonuçlarını&#039; doktorun ekranına taşımak istemektedir. Sağlık geçmişini, aşı kartını ve reçeteleri arşivleyen sistem hangisidir?
+                          </div>
+                          <div class="space-y-1 pl-1">
+                              
+                                <div class="flex items-center gap-1.5">
+                                    <span class="w-4 h-4 rounded-full border border-slate-400 flex items-center justify-center text-[10px] font-bold ">A</span>
+                                    <span class="leading-tight text-slate-800">e-Okul</span>
+                                </div>
+                                
+                                <div class="flex items-center gap-1.5">
+                                    <span class="w-4 h-4 rounded-full border border-slate-400 flex items-center justify-center text-[10px] font-bold ">B</span>
+                                    <span class="leading-tight text-slate-800">EBA</span>
+                                </div>
+                                
+                                <div class="flex items-center gap-1.5">
+                                    <span class="w-4 h-4 rounded-full border border-slate-400 flex items-center justify-center text-[10px] font-bold answer-opt-highlight">C</span>
+                                    <span class="leading-tight text-slate-800">e-Nabız Kişisel Sağlık Sistemi</span>
+                                </div>
+                                
+                                <div class="flex items-center gap-1.5">
+                                    <span class="w-4 h-4 rounded-full border border-slate-400 flex items-center justify-center text-[10px] font-bold ">D</span>
+                                    <span class="leading-tight text-slate-800">e-Belediye</span>
+                                </div>
+                                
+                          </div>
+                      </div>
+                      <div class="answer-key-reveal hidden mt-2 pt-1 border-t border-emerald-200 text-[10px] font-black text-emerald-700">
+                          Doğru Şık: C
+                      </div>
+                  </div>
+                  
+                  <div class="text-xs border border-slate-200 rounded-lg p-2.5 bg-white flex flex-col justify-between">
+                      <div>
+                          <div class="font-bold text-slate-900 mb-1.5 leading-snug">
+                              <span class="text-indigo-800 font-black">7.</span> Gözlerinde batma hisseden Zeynep için annesi devlet hastanesinden uzman bir göz hekimi seçip Cuma günü saat 14.30&#039;a muayene saati almıştır. Annenin sıra beklemeden kullandığı sistem hangisidir?
+                          </div>
+                          <div class="space-y-1 pl-1">
+                              
+                                <div class="flex items-center gap-1.5">
+                                    <span class="w-4 h-4 rounded-full border border-slate-400 flex items-center justify-center text-[10px] font-bold ">A</span>
+                                    <span class="leading-tight text-slate-800">e-Vergi Dairesi</span>
+                                </div>
+                                
+                                <div class="flex items-center gap-1.5">
+                                    <span class="w-4 h-4 rounded-full border border-slate-400 flex items-center justify-center text-[10px] font-bold answer-opt-highlight">B</span>
+                                    <span class="leading-tight text-slate-800">e-Randevu / MHRS (Alo 182)</span>
+                                </div>
+                                
+                                <div class="flex items-center gap-1.5">
+                                    <span class="w-4 h-4 rounded-full border border-slate-400 flex items-center justify-center text-[10px] font-bold ">C</span>
+                                    <span class="leading-tight text-slate-800">e-Okul</span>
+                                </div>
+                                
+                                <div class="flex items-center gap-1.5">
+                                    <span class="w-4 h-4 rounded-full border border-slate-400 flex items-center justify-center text-[10px] font-bold ">D</span>
+                                    <span class="leading-tight text-slate-800">EBA Canlı Ders</span>
+                                </div>
+                                
+                          </div>
+                      </div>
+                      <div class="answer-key-reveal hidden mt-2 pt-1 border-t border-emerald-200 text-[10px] font-black text-emerald-700">
+                          Doğru Şık: B
+                      </div>
+                  </div>
+                  
+                  <div class="text-xs border border-slate-200 rounded-lg p-2.5 bg-white flex flex-col justify-between">
+                      <div>
+                          <div class="font-bold text-slate-900 mb-1.5 leading-snug">
+                              <span class="text-indigo-800 font-black">8.</span> Kendi dükkanını işleten Serdar Bey, yıllık gelir vergisi beyannamesini vermek ve motorlu taşıtlar vergisini (MTV) kuyrukta beklemeden ödemek istemektedir. Serdar Bey hangi dijital vatandaşlık uygulamasını tercih etmelidir?
+                          </div>
+                          <div class="space-y-1 pl-1">
+                              
+                                <div class="flex items-center gap-1.5">
+                                    <span class="w-4 h-4 rounded-full border border-slate-400 flex items-center justify-center text-[10px] font-bold ">A</span>
+                                    <span class="leading-tight text-slate-800">e-Okul</span>
+                                </div>
+                                
+                                <div class="flex items-center gap-1.5">
+                                    <span class="w-4 h-4 rounded-full border border-slate-400 flex items-center justify-center text-[10px] font-bold ">B</span>
+                                    <span class="leading-tight text-slate-800">e-Nabız</span>
+                                </div>
+                                
+                                <div class="flex items-center gap-1.5">
+                                    <span class="w-4 h-4 rounded-full border border-slate-400 flex items-center justify-center text-[10px] font-bold ">C</span>
+                                    <span class="leading-tight text-slate-800">MHRS</span>
+                                </div>
+                                
+                                <div class="flex items-center gap-1.5">
+                                    <span class="w-4 h-4 rounded-full border border-slate-400 flex items-center justify-center text-[10px] font-bold answer-opt-highlight">D</span>
+                                    <span class="leading-tight text-slate-800">e-Vergi (İnteraktif Vergi Dairesi)</span>
+                                </div>
+                                
+                          </div>
+                      </div>
+                      <div class="answer-key-reveal hidden mt-2 pt-1 border-t border-emerald-200 text-[10px] font-black text-emerald-700">
+                          Doğru Şık: D
+                      </div>
+                  </div>
+                  
+                  <div class="text-xs border border-slate-200 rounded-lg p-2.5 bg-white flex flex-col justify-between">
+                      <div>
+                          <div class="font-bold text-slate-900 mb-1.5 leading-snug">
+                              <span class="text-indigo-800 font-black">9.</span> Köydeki anneannesine acil ilaç parası göndermek isteyen Hakan, banka şubesine gitmeden gece yarısı saat 23.30&#039;da cep telefonundaki banka uygulamasıyla birkaç saniyede para transferini tamamlamıştır. Hakan&#039;ın kullandığı hizmet hangisidir?
+                          </div>
+                          <div class="space-y-1 pl-1">
+                              
+                                <div class="flex items-center gap-1.5">
+                                    <span class="w-4 h-4 rounded-full border border-slate-400 flex items-center justify-center text-[10px] font-bold ">A</span>
+                                    <span class="leading-tight text-slate-800">e-Devlet Kapısı</span>
+                                </div>
+                                
+                                <div class="flex items-center gap-1.5">
+                                    <span class="w-4 h-4 rounded-full border border-slate-400 flex items-center justify-center text-[10px] font-bold ">B</span>
+                                    <span class="leading-tight text-slate-800">EBA Kütüphanesi</span>
+                                </div>
+                                
+                                <div class="flex items-center gap-1.5">
+                                    <span class="w-4 h-4 rounded-full border border-slate-400 flex items-center justify-center text-[10px] font-bold answer-opt-highlight">C</span>
+                                    <span class="leading-tight text-slate-800">e-Bankacılık (İnternet &amp; Mobil Bankacılık)</span>
+                                </div>
+                                
+                                <div class="flex items-center gap-1.5">
+                                    <span class="w-4 h-4 rounded-full border border-slate-400 flex items-center justify-center text-[10px] font-bold ">D</span>
+                                    <span class="leading-tight text-slate-800">e-Nabız</span>
+                                </div>
+                                
+                          </div>
+                      </div>
+                      <div class="answer-key-reveal hidden mt-2 pt-1 border-t border-emerald-200 text-[10px] font-black text-emerald-700">
+                          Doğru Şık: C
+                      </div>
+                  </div>
+                  
+                  <div class="text-xs border border-slate-200 rounded-lg p-2.5 bg-white flex flex-col justify-between">
+                      <div>
+                          <div class="font-bold text-slate-900 mb-1.5 leading-snug">
+                              <span class="text-indigo-800 font-black">10.</span> Aşağıdakilerden hangisi internette bir forumda veya sosyal medyada KESİNLİKLE paylaşılabilecek güvenli ve zararsız bir içeriktir?
+                          </div>
+                          <div class="space-y-1 pl-1">
+                              
+                                <div class="flex items-center gap-1.5">
+                                    <span class="w-4 h-4 rounded-full border border-slate-400 flex items-center justify-center text-[10px] font-bold answer-opt-highlight">A</span>
+                                    <span class="leading-tight text-slate-800">Kendi yazdığımız çevre kirliliğini anlatan ödüllü şiirimiz</span>
+                                </div>
+                                
+                                <div class="flex items-center gap-1.5">
+                                    <span class="w-4 h-4 rounded-full border border-slate-400 flex items-center justify-center text-[10px] font-bold ">B</span>
+                                    <span class="leading-tight text-slate-800">Evimizin açık posta adresi ve kapı numaramız</span>
+                                </div>
+                                
+                                <div class="flex items-center gap-1.5">
+                                    <span class="w-4 h-4 rounded-full border border-slate-400 flex items-center justify-center text-[10px] font-bold ">C</span>
+                                    <span class="leading-tight text-slate-800">Ailemizin kredi kartının ön ve arka yüzünün fotoğrafı</span>
+                                </div>
+                                
+                                <div class="flex items-center gap-1.5">
+                                    <span class="w-4 h-4 rounded-full border border-slate-400 flex items-center justify-center text-[10px] font-bold ">D</span>
+                                    <span class="leading-tight text-slate-800">e-Okul ve e-Devlet giriş kullanıcı adı ve şifrelerimiz</span>
+                                </div>
+                                
+                          </div>
+                      </div>
+                      <div class="answer-key-reveal hidden mt-2 pt-1 border-t border-emerald-200 text-[10px] font-black text-emerald-700">
+                          Doğru Şık: A
+                      </div>
+                  </div>
+                  
+                  <div class="text-xs border border-slate-200 rounded-lg p-2.5 bg-white flex flex-col justify-between">
+                      <div>
+                          <div class="font-bold text-slate-900 mb-1.5 leading-snug">
+                              <span class="text-indigo-800 font-black">11.</span> Sosyal medyada gördüğü &#039;Yarın tüm okullar süresiz tatil edildi!&#039; yazılı kaynağı belirsiz bir resmi hemen sınıf grubuna göndermek üzere olan Eren&#039;e arkadaşı D.Ü.Ş.Ü.N. kuralını hatırlatmıştır. Eren&#039;in paylaşmadan önce İLK yapması gereken nedir?
+                          </div>
+                          <div class="space-y-1 pl-1">
+                              
+                                <div class="flex items-center gap-1.5">
+                                    <span class="w-4 h-4 rounded-full border border-slate-400 flex items-center justify-center text-[10px] font-bold ">A</span>
+                                    <span class="leading-tight text-slate-800">Hemen tüm okul arkadaşlarına ileterek haberi yaymak</span>
+                                </div>
+                                
+                                <div class="flex items-center gap-1.5">
+                                    <span class="w-4 h-4 rounded-full border border-slate-400 flex items-center justify-center text-[10px] font-bold answer-opt-highlight">B</span>
+                                    <span class="leading-tight text-slate-800">Bilginin doğru ve MEB kaynaklı olup olmadığını sorgulamak</span>
+                                </div>
+                                
+                                <div class="flex items-center gap-1.5">
+                                    <span class="w-4 h-4 rounded-full border border-slate-400 flex items-center justify-center text-[10px] font-bold ">C</span>
+                                    <span class="leading-tight text-slate-800">Resmi kaydedip profil fotoğrafı yapmak</span>
+                                </div>
+                                
+                                <div class="flex items-center gap-1.5">
+                                    <span class="w-4 h-4 rounded-full border border-slate-400 flex items-center justify-center text-[10px] font-bold ">D</span>
+                                    <span class="leading-tight text-slate-800">Tüm öğretmenleri arayıp dersleri iptal etmek</span>
+                                </div>
+                                
+                          </div>
+                      </div>
+                      <div class="answer-key-reveal hidden mt-2 pt-1 border-t border-emerald-200 text-[10px] font-black text-emerald-700">
+                          Doğru Şık: B
+                      </div>
+                  </div>
+                  
+                  <div class="text-xs border border-slate-200 rounded-lg p-2.5 bg-white flex flex-col justify-between">
+                      <div>
+                          <div class="font-bold text-slate-900 mb-1.5 leading-snug">
+                              <span class="text-indigo-800 font-black">12.</span> Oynadığı çevrim içi oyunda takım arkadaşının yaptığı bir hata yüzünden maçı kaybeden Doruk&#039;un sergilemesi gereken EN UYGUN dijital nezaket davranışı hangisidir?
+                          </div>
+                          <div class="space-y-1 pl-1">
+                              
+                                <div class="flex items-center gap-1.5">
+                                    <span class="w-4 h-4 rounded-full border border-slate-400 flex items-center justify-center text-[10px] font-bold ">A</span>
+                                    <span class="leading-tight text-slate-800">Takım arkadaşına büyük harflerle hakaret ve kaba sözler yazmak</span>
+                                </div>
+                                
+                                <div class="flex items-center gap-1.5">
+                                    <span class="w-4 h-4 rounded-full border border-slate-400 flex items-center justify-center text-[10px] font-bold ">B</span>
+                                    <span class="leading-tight text-slate-800">Arkadaşının kullanıcı adını ve profilini internette kötülemek</span>
+                                </div>
+                                
+                                <div class="flex items-center gap-1.5">
+                                    <span class="w-4 h-4 rounded-full border border-slate-400 flex items-center justify-center text-[10px] font-bold ">C</span>
+                                    <span class="leading-tight text-slate-800">Oyunu kapatıp bilgisayarın ekranına yumruk atmak</span>
+                                </div>
+                                
+                                <div class="flex items-center gap-1.5">
+                                    <span class="w-4 h-4 rounded-full border border-slate-400 flex items-center justify-center text-[10px] font-bold answer-opt-highlight">D</span>
+                                    <span class="leading-tight text-slate-800">&#039;Sağlık olsun, bir dahaki sefere daha iyi oynarız&#039; diyerek yapıcı ve nazik olmak</span>
+                                </div>
+                                
+                          </div>
+                      </div>
+                      <div class="answer-key-reveal hidden mt-2 pt-1 border-t border-emerald-200 text-[10px] font-black text-emerald-700">
+                          Doğru Şık: D
+                      </div>
+                  </div>
+                  
+            </div>
+        </div>
+        
+
+        <!-- Optik Form / Kodlama Şablonu -->
+        <div class="border-2 border-slate-400 rounded-xl p-3 bg-slate-50 mt-4">
+            <h4 class="text-xs font-black text-center text-slate-800 uppercase mb-2">ÖĞRENCİ CEVAP KODLAMA ALANI</h4>
+            <div class="grid grid-cols-5 sm:grid-cols-10 gap-1 text-center font-mono text-[10px]">
+                
+                <div class="border border-slate-300 rounded p-1 bg-white">
+                    <span class="font-bold text-slate-700 block">1</span>
+                    <span class="text-slate-400">A B C D</span>
+                </div>
+                
+                <div class="border border-slate-300 rounded p-1 bg-white">
+                    <span class="font-bold text-slate-700 block">2</span>
+                    <span class="text-slate-400">A B C D</span>
+                </div>
+                
+                <div class="border border-slate-300 rounded p-1 bg-white">
+                    <span class="font-bold text-slate-700 block">3</span>
+                    <span class="text-slate-400">A B C D</span>
+                </div>
+                
+                <div class="border border-slate-300 rounded p-1 bg-white">
+                    <span class="font-bold text-slate-700 block">4</span>
+                    <span class="text-slate-400">A B C D</span>
+                </div>
+                
+                <div class="border border-slate-300 rounded p-1 bg-white">
+                    <span class="font-bold text-slate-700 block">5</span>
+                    <span class="text-slate-400">A B C D</span>
+                </div>
+                
+                <div class="border border-slate-300 rounded p-1 bg-white">
+                    <span class="font-bold text-slate-700 block">6</span>
+                    <span class="text-slate-400">A B C D</span>
+                </div>
+                
+                <div class="border border-slate-300 rounded p-1 bg-white">
+                    <span class="font-bold text-slate-700 block">7</span>
+                    <span class="text-slate-400">A B C D</span>
+                </div>
+                
+                <div class="border border-slate-300 rounded p-1 bg-white">
+                    <span class="font-bold text-slate-700 block">8</span>
+                    <span class="text-slate-400">A B C D</span>
+                </div>
+                
+                <div class="border border-slate-300 rounded p-1 bg-white">
+                    <span class="font-bold text-slate-700 block">9</span>
+                    <span class="text-slate-400">A B C D</span>
+                </div>
+                
+                <div class="border border-slate-300 rounded p-1 bg-white">
+                    <span class="font-bold text-slate-700 block">10</span>
+                    <span class="text-slate-400">A B C D</span>
+                </div>
+                
+                <div class="border border-slate-300 rounded p-1 bg-white">
+                    <span class="font-bold text-slate-700 block">11</span>
+                    <span class="text-slate-400">A B C D</span>
+                </div>
+                
+                <div class="border border-slate-300 rounded p-1 bg-white">
+                    <span class="font-bold text-slate-700 block">12</span>
+                    <span class="text-slate-400">A B C D</span>
+                </div>
+                
+            </div>
+        </div>
+
+        <!-- Katlanabilir / Gizlenebilir Cevap Anahtarı (Sayfa Altı) -->
+        <div id="bottom-answer-box" class="answer-key-reveal hidden border-t-2 border-dashed border-slate-400 mt-6 pt-3 text-xs">
+            <h4 class="font-black text-emerald-800 uppercase text-center mb-1">--- ÖĞRETMEN CEVAP ANAHTARI KESME ALANI ---</h4>
+            <div class="flex flex-wrap justify-center gap-2 text-[11px] font-mono font-bold text-slate-800">
+                <span class="bg-indigo-50 border border-indigo-200 px-1.5 py-0.5 rounded">D/Y 1:Y</span> <span class="bg-indigo-50 border border-indigo-200 px-1.5 py-0.5 rounded">D/Y 2:D</span> <span class="bg-indigo-50 border border-indigo-200 px-1.5 py-0.5 rounded">D/Y 3:D</span> <span class="bg-indigo-50 border border-indigo-200 px-1.5 py-0.5 rounded">D/Y 4:Y</span> <span class="bg-indigo-50 border border-indigo-200 px-1.5 py-0.5 rounded">D/Y 5:D</span> <span class="bg-indigo-50 border border-indigo-200 px-1.5 py-0.5 rounded">D/Y 6:D</span> <span class="bg-indigo-50 border border-indigo-200 px-1.5 py-0.5 rounded">D/Y 7:Y</span> <span class="bg-indigo-50 border border-indigo-200 px-1.5 py-0.5 rounded">D/Y 8:Y</span> <span class="bg-indigo-50 border border-indigo-200 px-1.5 py-0.5 rounded">D/Y 9:D</span> <span class="bg-indigo-50 border border-indigo-200 px-1.5 py-0.5 rounded">D/Y 10:Y</span>
+                <span class="bg-emerald-50 border border-emerald-200 px-1.5 py-0.5 rounded">Test 1:A</span> <span class="bg-emerald-50 border border-emerald-200 px-1.5 py-0.5 rounded">Test 2:C</span> <span class="bg-emerald-50 border border-emerald-200 px-1.5 py-0.5 rounded">Test 3:B</span> <span class="bg-emerald-50 border border-emerald-200 px-1.5 py-0.5 rounded">Test 4:D</span> <span class="bg-emerald-50 border border-emerald-200 px-1.5 py-0.5 rounded">Test 5:A</span> <span class="bg-emerald-50 border border-emerald-200 px-1.5 py-0.5 rounded">Test 6:C</span> <span class="bg-emerald-50 border border-emerald-200 px-1.5 py-0.5 rounded">Test 7:B</span> <span class="bg-emerald-50 border border-emerald-200 px-1.5 py-0.5 rounded">Test 8:D</span> <span class="bg-emerald-50 border border-emerald-200 px-1.5 py-0.5 rounded">Test 9:C</span> <span class="bg-emerald-50 border border-emerald-200 px-1.5 py-0.5 rounded">Test 10:A</span> <span class="bg-emerald-50 border border-emerald-200 px-1.5 py-0.5 rounded">Test 11:B</span> <span class="bg-emerald-50 border border-emerald-200 px-1.5 py-0.5 rounded">Test 12:D</span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleAnswerKey() {
+            const reveals = document.querySelectorAll('.answer-key-reveal');
+            reveals.forEach(el => el.classList.toggle('hidden'));
+            const optHighlights = document.querySelectorAll('.answer-opt-highlight');
+            optHighlights.forEach(el => {
+                el.classList.toggle('bg-emerald-600');
+                el.classList.toggle('text-white');
+                el.classList.toggle('border-emerald-600');
+            });
+        }
+    </script>
+</body>
+</html>

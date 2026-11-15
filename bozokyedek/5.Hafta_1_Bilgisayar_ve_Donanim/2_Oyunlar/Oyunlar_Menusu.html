@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bilgisayar ve Donanım (Giriş ve Çıkış Birimleri) | Oyunlar Menüsü</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; }</style>
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen p-4 sm:p-8">
+
+    <div class="max-w-5xl mx-auto space-y-6">
+        <!-- Üst Başlık & Geri Butonu -->
+        <div class="flex items-center justify-between border-b border-slate-800 pb-4">
+            <a href="../index.html" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg text-xs font-bold transition flex items-center gap-1.5">
+                <i class="fa-solid fa-arrow-left"></i> Hafta Menüsüne Dön
+            </a>
+            <span class="text-xs font-bold text-yellow-400 bg-yellow-400/10 px-3 py-1 rounded-full border border-yellow-400/20">
+                🎮 Akıllı Tahta Oyun Arenası
+            </span>
+        </div>
+
+        <div class="text-center space-y-2">
+            <h1 class="text-2xl sm:text-4xl font-black text-white">Bilgisayar ve Donanım (Giriş ve Çıkış Birimleri)</h1>
+            <p class="text-slate-400 text-xs sm:text-sm max-w-xl mx-auto">BTY.5.1.5. Bilgisayar sistemini oluşturan temel iç ve dış donanım birimlerini tanır.</p>
+        </div>
+
+        <!-- Oyun Kartları Grid -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 pt-4">
+            
+              <div class="bg-gradient-to-br from-emerald-950/90 via-slate-900 to-indigo-950/90 rounded-2xl p-5 border-2 border-emerald-500/50 shadow-2xl flex flex-col justify-between space-y-4 hover:scale-[1.01] transition-transform">
+                  <div class="flex items-start gap-3">
+                      <div class="w-12 h-12 rounded-xl bg-white/10 flex items-center justify-center text-2xl text-yellow-300 shrink-0 shadow-inner">
+                          <i class="fa-solid fa-boxes-packing"></i>
+                      </div>
+                      <div>
+                          <span class="text-[10px] font-extrabold uppercase px-2 py-0.5 rounded bg-white/10 text-yellow-300">Ayıklama Oyunu</span>
+                          <h3 class="text-lg font-black text-white mt-1">Donanım Ayıklama İstasyonu</h3>
+                      </div>
+                  </div>
+                  <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">Donanım cihazlarını veri akış yönüne göre 3 sepete ayıkla: Giriş Birimi, Çıkış Birimi ve Çift Yönlü Birimler!</p>
+                  <a href="./donanim_siniflandirma_oyunu.html" class="w-full py-3 bg-gradient-to-r from-emerald-500 via-teal-600 to-indigo-600 hover:from-emerald-400 hover:to-indigo-500 text-slate-950 font-black rounded-xl font-black text-center text-sm shadow-xl flex items-center justify-center gap-2 hover:opacity-95 transition">
+                      <i class="fa-solid fa-play"></i> Oyunu Başlat
+                  </a>
+              </div>
+              
+              <div class="bg-gradient-to-br from-slate-900 via-amber-950/80 to-cyan-950/90 rounded-2xl p-5 border-2 border-amber-500/50 shadow-2xl flex flex-col justify-between space-y-4 hover:scale-[1.01] transition-transform">
+                  <div class="flex items-start gap-3">
+                      <div class="w-12 h-12 rounded-xl bg-white/10 flex items-center justify-center text-2xl text-yellow-300 shrink-0 shadow-inner">
+                          <i class="fa-solid fa-screwdriver-wrench"></i>
+                      </div>
+                      <div>
+                          <span class="text-[10px] font-extrabold uppercase px-2 py-0.5 rounded bg-white/10 text-yellow-300">Simülasyon</span>
+                          <h3 class="text-lg font-black text-white mt-1">Bilgisayar Kurma Atölyesi</h3>
+                      </div>
+                  </div>
+                  <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">Müşteri talebine ve bütçeye göre doğru donanım parçalarını seç, montaj yuvalarına yerleştir ve bilgisayarı başarıyla çalıştır!</p>
+                  <a href="./bilgisayar_kurma_at_lyesi.html" class="w-full py-3 bg-gradient-to-r from-amber-500 via-orange-500 to-cyan-600 hover:from-amber-400 hover:to-cyan-500 text-slate-950 font-black rounded-xl font-black text-center text-sm shadow-xl flex items-center justify-center gap-2 hover:opacity-95 transition">
+                      <i class="fa-solid fa-play"></i> Oyunu Başlat
+                  </a>
+              </div>
+              
+              <div class="bg-gradient-to-br from-indigo-950/90 via-slate-900 to-emerald-950/90 rounded-2xl p-5 border-2 border-emerald-500/50 shadow-2xl flex flex-col justify-between space-y-4 hover:scale-[1.01] transition-transform">
+                  <div class="flex items-start gap-3">
+                      <div class="w-12 h-12 rounded-xl bg-white/10 flex items-center justify-center text-2xl text-yellow-300 shrink-0 shadow-inner">
+                          <i class="fa-solid fa-clone"></i>
+                      </div>
+                      <div>
+                          <span class="text-[10px] font-extrabold uppercase px-2 py-0.5 rounded bg-white/10 text-yellow-300">3D Hafıza</span>
+                          <h3 class="text-lg font-black text-white mt-1">Donanım Avcıları: 3D Eşleştirme Oyunu</h3>
+                      </div>
+                  </div>
+                  <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">Parça ↔ Görevi veya Parça ↔ Parça modlarında 3D kartları çevir! Kolay, orta ve zor seviyelerde donanım parçalarını hafızanla eşleştir.</p>
+                  <a href="./Donanım-eslestirme-Oyunu.html" class="w-full py-3 bg-gradient-to-r from-emerald-600 via-teal-600 to-indigo-600 hover:from-emerald-500 hover:to-indigo-500 text-white font-black rounded-xl font-black text-center text-sm shadow-xl flex items-center justify-center gap-2 hover:opacity-95 transition">
+                      <i class="fa-solid fa-play"></i> Oyunu Başlat
+                  </a>
+              </div>
+              
+              <div class="bg-gradient-to-br from-blue-900/90 via-indigo-950/90 to-purple-900/90 rounded-2xl p-5 border-2 border-cyan-500/50 shadow-2xl flex flex-col justify-between space-y-4 hover:scale-[1.01] transition-transform">
+                  <div class="flex items-start gap-3">
+                      <div class="w-12 h-12 rounded-xl bg-white/10 flex items-center justify-center text-2xl text-yellow-300 shrink-0 shadow-inner">
+                          <i class="fa-solid fa-puzzle-piece"></i>
+                      </div>
+                      <div>
+                          <span class="text-[10px] font-extrabold uppercase px-2 py-0.5 rounded bg-white/10 text-yellow-300">Kelime Avı</span>
+                          <h3 class="text-lg font-black text-white mt-1">Bilgisayar ve Donanım Kelime Avı</h3>
+                      </div>
+                  </div>
+                  <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">12x12 harf matrisinde gizlenen 10 donanım ve çevre birimi kavramını bul! Her oyunda kelimelerin yerleri ve harfler rastgele değişir!</p>
+                  <a href="./donanim_kelime_avi.html" class="w-full py-3 bg-gradient-to-r from-cyan-600 via-blue-600 to-indigo-600 hover:from-cyan-500 hover:to-indigo-500 text-white font-black rounded-xl font-black text-center text-sm shadow-xl flex items-center justify-center gap-2 hover:opacity-95 transition">
+                      <i class="fa-solid fa-play"></i> Oyunu Başlat
+                  </a>
+              </div>
+              
+        </div>
+    </div>
+
+</body>
+</html>

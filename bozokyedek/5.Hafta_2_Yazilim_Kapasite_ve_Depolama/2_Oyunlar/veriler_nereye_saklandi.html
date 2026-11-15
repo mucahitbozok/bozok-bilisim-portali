@@ -1,0 +1,855 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Veriler Nereye Saklandı? | Öğretmen Bozok</title>
+    <style>
+        :root {
+            --bg-dark: #070b19;
+            --card-bg: rgba(15, 23, 42, 0.95);
+            --border-glow: rgba(56, 189, 248, 0.25);
+            --internal-color: #38bdf8;
+            --external-color: #f59e0b;
+            --cloud-color: #a855f7;
+            --accent-green: #10b981;
+            --accent-red: #ef4444;
+            --text-light: #f8fafc;
+            --text-dim: #94a3b8;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            user-select: none;
+            -webkit-user-select: none;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background: radial-gradient(circle at 50% 10%, #1e1b4b 0%, #070b19 100%);
+            color: var(--text-light);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            padding: 12px;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            width: 100%;
+            margin: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        /* Top Bar */
+        .header-bar {
+            background: var(--card-bg);
+            border: 2px solid var(--border-glow);
+            border-radius: 18px;
+            padding: 12px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 10px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+        }
+
+        .logo-box {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-icon {
+            width: 44px;
+            height: 44px;
+            background: linear-gradient(135deg, #6366f1, #9333ea);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 14px rgba(147, 51, 234, 0.4);
+        }
+
+        .header-titles h1 {
+            font-size: 1.25rem;
+            font-weight: 900;
+        }
+
+        .header-titles span {
+            font-size: 0.75rem;
+            color: var(--internal-color);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .header-stats {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .stat-badge {
+            background: #0f172a;
+            border: 1px solid rgba(255,255,255,0.1);
+            padding: 6px 14px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.85rem;
+            font-weight: 800;
+        }
+
+        .btn-tool {
+            width: 38px;
+            height: 38px;
+            background: #1e293b;
+            border: 1px solid rgba(255,255,255,0.15);
+            color: #fff;
+            border-radius: 10px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+
+        .btn-tool:hover {
+            background: #334155;
+            transform: scale(1.05);
+        }
+
+        /* Storage Storage Capacity Gauges (Visual Fill status) */
+        .gauges-panel {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+        }
+
+        .gauge-card {
+            background: var(--card-bg);
+            border: 2px solid rgba(255,255,255,0.08);
+            border-radius: 16px;
+            padding: 10px 14px;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            transition: all 0.3s;
+        }
+
+        .gauge-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 0.8rem;
+            font-weight: 800;
+        }
+
+        .gauge-track {
+            width: 100%;
+            height: 8px;
+            background: rgba(0,0,0,0.4);
+            border-radius: 6px;
+            overflow: hidden;
+        }
+
+        .gauge-fill {
+            height: 100%;
+            width: 0%;
+            transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Mission Stage */
+        .stage-area {
+            background: var(--card-bg);
+            border: 2px solid var(--border-glow);
+            border-radius: 24px;
+            padding: 24px;
+            min-height: 480px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: relative;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+        }
+
+        /* Scenario Card */
+        .scenario-card {
+            background: rgba(15, 23, 42, 0.8);
+            border: 2px dashed rgba(56, 189, 248, 0.35);
+            border-radius: 20px;
+            padding: 24px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .scenario-tag {
+            background: rgba(99, 102, 241, 0.2);
+            color: #a5b4fc;
+            border: 1px solid #6366f1;
+            font-size: 0.75rem;
+            font-weight: 900;
+            padding: 4px 14px;
+            border-radius: 20px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .scenario-icon-box {
+            width: 90px;
+            height: 90px;
+            background: linear-gradient(135deg, rgba(30, 41, 59, 0.95), rgba(15, 23, 42, 0.95));
+            border: 3px solid var(--internal-color);
+            border-radius: 22px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 25px rgba(56, 189, 248, 0.3);
+            animation: pulse-border 2s infinite alternate;
+        }
+
+        @keyframes pulse-border {
+            0% { box-shadow: 0 0 15px rgba(56, 189, 248, 0.2); }
+            100% { box-shadow: 0 0 30px rgba(56, 189, 248, 0.6); }
+        }
+
+        .scenario-title {
+            font-size: 1.6rem;
+            font-weight: 900;
+            color: #fff;
+        }
+
+        .scenario-text {
+            font-size: 1.05rem;
+            color: #cbd5e1;
+            max-width: 700px;
+            line-height: 1.6;
+        }
+
+        /* Storage Category Buttons (Touch Target 3 columns) */
+        .storage-options {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            margin-top: 20px;
+        }
+
+        .storage-btn {
+            background: rgba(15, 23, 42, 0.85);
+            border: 3px solid rgba(255,255,255,0.12);
+            border-radius: 20px;
+            padding: 20px 14px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            position: relative;
+        }
+
+        .storage-btn:hover {
+            transform: translateY(-5px);
+        }
+
+        .storage-btn.btn-internal {
+            border-color: rgba(56, 189, 248, 0.4);
+            background: linear-gradient(145deg, rgba(14, 165, 233, 0.15), rgba(15, 23, 42, 0.9));
+        }
+        .storage-btn.btn-internal:hover {
+            border-color: #38bdf8;
+            box-shadow: 0 10px 25px rgba(56, 189, 248, 0.3);
+        }
+
+        .storage-btn.btn-external {
+            border-color: rgba(245, 158, 11, 0.4);
+            background: linear-gradient(145deg, rgba(245, 158, 11, 0.15), rgba(15, 23, 42, 0.9));
+        }
+        .storage-btn.btn-external:hover {
+            border-color: #f59e0b;
+            box-shadow: 0 10px 25px rgba(245, 158, 11, 0.3);
+        }
+
+        .storage-btn.btn-cloud {
+            border-color: rgba(168, 85, 247, 0.4);
+            background: linear-gradient(145deg, rgba(168, 85, 247, 0.15), rgba(15, 23, 42, 0.9));
+        }
+        .storage-btn.btn-cloud:hover {
+            border-color: #a855f7;
+            box-shadow: 0 10px 25px rgba(168, 85, 247, 0.3);
+        }
+
+        .btn-headline {
+            font-size: 1.25rem;
+            font-weight: 900;
+            margin-top: 10px;
+        }
+
+        .btn-subinfo {
+            font-size: 0.8rem;
+            color: var(--text-dim);
+            margin-top: 6px;
+            line-height: 1.4;
+        }
+
+        /* Feedback Screen */
+        .feedback-modal {
+            position: absolute;
+            inset: 0;
+            background: rgba(7, 11, 25, 0.94);
+            backdrop-filter: blur(8px);
+            border-radius: 24px;
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 30px;
+            text-align: center;
+            z-index: 50;
+        }
+
+        .fb-icon-circle {
+            width: 72px;
+            height: 72px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 16px;
+        }
+
+        .btn-proceed {
+            background: linear-gradient(135deg, #6366f1, #3b82f6);
+            color: #fff;
+            border: none;
+            padding: 14px 36px;
+            border-radius: 14px;
+            font-size: 1.1rem;
+            font-weight: 900;
+            cursor: pointer;
+            box-shadow: 0 8px 20px rgba(99, 102, 241, 0.4);
+            transition: all 0.2s;
+            margin-top: 20px;
+        }
+
+        .btn-proceed:hover {
+            transform: scale(1.04);
+            box-shadow: 0 12px 25px rgba(99, 102, 241, 0.6);
+        }
+
+        /* Overlay Screens */
+        .game-overlay {
+            position: absolute;
+            inset: 0;
+            background: rgba(7, 11, 25, 0.96);
+            backdrop-filter: blur(12px);
+            border-radius: 24px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 30px;
+            text-align: center;
+            z-index: 100;
+        }
+
+        .stars-row {
+            display: flex;
+            gap: 12px;
+            margin: 16px 0;
+        }
+
+        .star-item {
+            font-size: 2.5rem;
+            color: #475569;
+            transition: all 0.3s;
+        }
+
+        .star-item.active {
+            color: #fbbf24;
+            transform: scale(1.15);
+            text-shadow: 0 0 20px rgba(251, 191, 36, 0.6);
+        }
+
+        @media (max-width: 768px) {
+            .storage-options {
+                grid-template-columns: 1fr;
+            }
+            .gauges-panel {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- TOP STATUS BAR -->
+        <header class="header-bar">
+            <div class="logo-box">
+                <div class="logo-icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5"><ellipse cx="12" cy="5" rx="9" ry="3"></ellipse><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"></path><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"></path></svg>
+                </div>
+                <div class="header-titles">
+                    <h1>Veriler Nereye Saklandı?</h1>
+                    <span>BTY.5.1.5 • Dahili, Harici ve Bulut Depolama</span>
+                </div>
+            </div>
+
+            <div class="header-stats">
+                <div class="stat-badge">
+                    <span style="color:var(--internal-color)">📦 Görev:</span>
+                    <span id="stat-quest">1 / 15</span>
+                </div>
+                <div class="stat-badge">
+                    <span style="color:#fbbf24">⭐ Puan:</span>
+                    <span id="stat-score">0</span>
+                </div>
+                <button class="btn-tool" onclick="storageLab.toggleSound()" id="sound-btn" title="Ses">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg>
+                </button>
+                <button class="btn-tool" onclick="storageLab.toggleFullscreen()" title="Tam Ekran">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path></svg>
+                </button>
+            </div>
+        </header>
+
+        <!-- GAUGES PANEL -->
+        <div class="gauges-panel">
+            <div class="gauge-card">
+                <div class="gauge-header" style="color:var(--internal-color)">
+                    <span>💻 İç Depolama (Dahili)</span>
+                    <span id="gauge-internal-pct">0</span>
+                </div>
+                <div class="gauge-track">
+                    <div id="gauge-internal-bar" class="gauge-fill" style="background:var(--internal-color)"></div>
+                </div>
+            </div>
+            <div class="gauge-card">
+                <div class="gauge-header" style="color:var(--external-color)">
+                    <span>💾 Harici Depolama</span>
+                    <span id="gauge-external-pct">0</span>
+                </div>
+                <div class="gauge-track">
+                    <div id="gauge-external-bar" class="gauge-fill" style="background:var(--external-color)"></div>
+                </div>
+            </div>
+            <div class="gauge-card">
+                <div class="gauge-header" style="color:var(--cloud-color)">
+                    <span>☁️ Bulut Depolama</span>
+                    <span id="gauge-cloud-pct">0</span>
+                </div>
+                <div class="gauge-track">
+                    <div id="gauge-cloud-bar" class="gauge-fill" style="background:var(--cloud-color)"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- MAIN MISSION STAGE -->
+        <main class="stage-area">
+            
+            <!-- SCENARIO CARD -->
+            <div class="scenario-card">
+                <div class="scenario-tag" id="scenario-number">GÖREV #1</div>
+                <div class="scenario-icon-box" id="scenario-icon"></div>
+                <div class="scenario-title" id="scenario-title">Veri Bekleniyor...</div>
+                <div class="scenario-text" id="scenario-desc">Senaryo metni burada görüntülenecektir.</div>
+            </div>
+
+            <!-- THREE CATEGORY BUTTONS -->
+            <div class="storage-options">
+                <!-- 1. Internal -->
+                <div class="storage-btn btn-internal" onclick="storageLab.choose('internal')">
+                    <svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"></rect><circle cx="12" cy="12" r="4"></circle><line x1="2" y1="12" x2="6" y2="12"></line><line x1="18" y1="12" x2="22" y2="12"></line></svg>
+                    <div class="btn-headline" style="color:#38bdf8">1. İç Depolama (Dahili)</div>
+                    <div class="btn-subinfo">Bilgisayarın veya cihazın kasasının içine monte edilmiş, sabit duran HDD ve SSD birimleridir.</div>
+                </div>
+
+                <!-- 2. External -->
+                <div class="storage-btn btn-external" onclick="storageLab.choose('external')">
+                    <svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2"><rect x="7" y="2" width="10" height="20" rx="2"></rect><line x1="10" y1="6" x2="14" y2="6"></line><circle cx="12" cy="16" r="1.5"></circle></svg>
+                    <div class="btn-headline" style="color:#f59e0b">2. Harici Depolama</div>
+                    <div class="btn-subinfo">Cebimizde veya çantamızda taşıyabildiğimiz USB bellek, hafıza kartı, harici disk ve CD/DVD birimleridir.</div>
+                </div>
+
+                <!-- 3. Cloud -->
+                <div class="storage-btn btn-cloud" onclick="storageLab.choose('cloud')">
+                    <svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="#a855f7" stroke-width="2"><path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"></path></svg>
+                    <div class="btn-headline" style="color:#c084fc">3. Bulut Depolama</div>
+                    <div class="btn-subinfo">Dosyalarımızı internet bağlantısı üzerinden güvenli uzak sunucularda (Google Drive, OneDrive vb.) saklama yöntemidir.</div>
+                </div>
+            </div>
+
+            <!-- FEEDBACK MODAL -->
+            <div id="fb-modal" class="feedback-modal">
+                <div id="fb-icon" class="fb-icon-circle"></div>
+                <h2 id="fb-title" style="font-size:1.8rem; font-weight:900; margin-bottom:8px;">Harika!</h2>
+                <p id="fb-text" style="color:#cbd5e1; font-size:1.1rem; max-width:620px; line-height:1.6;"></p>
+                <button class="btn-proceed" onclick="storageLab.nextQuest()">
+                    <span>Sıradaki Veriyi İncele ➔</span>
+                </button>
+            </div>
+
+            <!-- START SCREEN -->
+            <div id="intro-screen" class="game-overlay">
+                <div style="width:72px; height:72px; border-radius:20px; background:linear-gradient(135deg, #6366f1, #3b82f6); display:flex; align-items:center; justify-content:center; margin-bottom:16px;">
+                    <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5"><ellipse cx="12" cy="5" rx="9" ry="3"></ellipse><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"></path><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"></path></svg>
+                </div>
+                <h2 style="font-size:2rem; font-weight:900; margin-bottom:10px;">Teknoloji Laboratuvarı Görevi!</h2>
+                <p style="color:#cbd5e1; max-width:620px; font-size:1.05rem; line-height:1.6; margin-bottom:24px;">
+                    Laboratuvardaki fotoğraflar, işletim sistemleri, sunumlar ve arşivler karıştı! 
+                    Her durum için verinin <strong>İç Depolama (Dahili)</strong>, <strong>Harici Depolama</strong> veya <strong>Bulut Depolama</strong> birimlerinden hangisinde olduğunu doğru seçerek laboratuvarı düzenle!
+                </p>
+                <button class="btn-proceed" onclick="storageLab.start()">
+                    <span>Laboratuvarı Düzenlemeye Başla ➔</span>
+                </button>
+            </div>
+
+            <!-- RESULT SCREEN (3 STARS) -->
+            <div id="finish-screen" class="game-overlay" style="display:none;">
+                <div class="stars-row">
+                    <span id="star-1" class="star-item">★</span>
+                    <span id="star-2" class="star-item">★</span>
+                    <span id="star-3" class="star-item">★</span>
+                </div>
+                <h2 id="final-title" style="font-size:2.2rem; font-weight:900; margin-bottom:8px;">Tebrikler Veri Uzmanı!</h2>
+                <p id="final-stats" style="color:#cbd5e1; font-size:1.1rem; line-height:1.6; margin-bottom:24px;">
+                    15 görevden 15'ini doğru tamamladın!<br>
+                    Toplam Puanın: <strong style="color:#fbbf24; font-size:1.4rem;">150</strong>
+                </p>
+                <button class="btn-proceed" onclick="storageLab.start()">
+                    <span>Yeniden Oyna 🔄</span>
+                </button>
+            </div>
+
+        </main>
+    </div>
+
+    <script>
+        // Web Audio Synthesizer
+        const SoundFX = {
+            ctx: null,
+            active: true,
+            init() {
+                if (!this.ctx) {
+                    const AC = window.AudioContext || window.webkitAudioContext;
+                    if (AC) this.ctx = new AC();
+                }
+            },
+            play(type) {
+                if (!this.active) return;
+                try {
+                    this.init();
+                    if (!this.ctx) return;
+                    if (this.ctx.state === 'suspended') this.ctx.resume();
+
+                    const t = this.ctx.currentTime;
+                    const o = this.ctx.createOscillator();
+                    const g = this.ctx.createGain();
+                    o.connect(g);
+                    g.connect(this.ctx.destination);
+
+                    if (type === 'good') {
+                        o.type = 'triangle';
+                        o.frequency.setValueAtTime(440, t);
+                        o.frequency.setValueAtTime(554.37, t + 0.08);
+                        o.frequency.setValueAtTime(659.25, t + 0.16);
+                        g.gain.setValueAtTime(0.25, t);
+                        g.gain.exponentialRampToValueAtTime(0.01, t + 0.4);
+                        o.start(t);
+                        o.stop(t + 0.4);
+                    } else if (type === 'bad') {
+                        o.type = 'sawtooth';
+                        o.frequency.setValueAtTime(240, t);
+                        o.frequency.linearRampToValueAtTime(120, t + 0.25);
+                        g.gain.setValueAtTime(0.25, t);
+                        g.gain.exponentialRampToValueAtTime(0.01, t + 0.25);
+                        o.start(t);
+                        o.stop(t + 0.25);
+                    } else if (type === 'fanfare') {
+                        [523.25, 659.25, 783.99, 1046.50].forEach((freq, idx) => {
+                            const osc = this.ctx.createOscillator();
+                            const gain = this.ctx.createGain();
+                            osc.type = 'triangle';
+                            osc.connect(gain);
+                            gain.connect(this.ctx.destination);
+                            osc.frequency.setValueAtTime(freq, t + idx * 0.1);
+                            gain.gain.setValueAtTime(0.2, t + idx * 0.1);
+                            gain.gain.exponentialRampToValueAtTime(0.001, t + idx * 0.1 + 0.4);
+                            osc.start(t + idx * 0.1);
+                            osc.stop(t + idx * 0.1 + 0.4);
+                        });
+                    }
+                } catch(e) {}
+            }
+        };
+
+        // 16 Detailed Scenarios
+        const scenarios = [
+            {
+                title: "Okul Sunumu Teslimi",
+                desc: "Arkadaşımızın bilgisayarına ödev sunumumuzu kopyalayıp sınıfa götürmek için cebimizde taşıdığımız USB Bellek...",
+                type: "external",
+                exp: "Doğru! USB bellek cebimizde taşınabilen bir HARİCİ DEPOLAMA birimidir.",
+                badExp: "Yanlış! USB bellek bilgisayarın içinde sabit durmaz veya internet servisi değildir; HARİCİ DEPOLAMADIR.",
+                svg: '<svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2"><rect x="7" y="2" width="10" height="20" rx="2"></rect><circle cx="12" cy="16" r="1.5"></circle></svg>'
+            },
+            {
+                title: "İşletim Sisteminin Yuvası (SSD)",
+                desc: "Bilgisayarın kasasının içine vidalanmış, bilgisayar açılır açılmaz Windows veya Pardus'u hızla başlatan katı hâl sürücüsü (SSD)...",
+                type: "internal",
+                exp: "Bravo! Bilgisayar kasası ve cihazın içinde sabit bulunan SSD, bir İÇ DEPOLAMA (Dahili) birimidir.",
+                badExp: "Dikkat! SSD bilgisayarın içinde gömülüdür, bu yüzden İÇ DEPOLAMA (Dahili) olarak sınıflandırılır.",
+                svg: '<svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2"><rect x="3" y="4" width="18" height="16" rx="2"></rect><text x="12" y="14" font-size="7" font-weight="900" fill="#38bdf8" text-anchor="middle">SSD</text></svg>'
+            },
+            {
+                title: "Google Drive'daki Gezi Fotoğrafları",
+                desc: "Telefonumuzdaki gezi fotoğraflarını internet üzerinden Google hesabımıza yükleyip dünyanın her yerinden şifremizle ulaştığımız alan...",
+                type: "cloud",
+                exp: "Harika! İnternet üzerinden uzak sunucularda dosya saklayan Google Drive, BULUT DEPOLAMADIR.",
+                badExp: "Yanıldın! İnternet üzerinden erişilen bu gibi depolama alanları fiziksel bir alet değil, BULUT DEPOLAMADIR.",
+                svg: '<svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#a855f7" stroke-width="2"><path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"></path></svg>'
+            },
+            {
+                title: "Taşınabilir Harici Sabit Disk",
+                desc: "Fotoğraf ve video yedeklerimizi yanımızda gezdirmek için USB kablosuyla bilgisayara bağladığımız 1 TB'lık taşınabilir disk...",
+                type: "external",
+                exp: "Doğru! Kasaya monte edilmeyip kabloyla dışarıdan bağlanan taşınabilir diskler HARİCİ DEPOLAMADIR.",
+                badExp: "Yanlış! Taşınabilir harici diskler bilgisayarın içinde sabit durmaz, dışarıdan bağlandığı için HARİCİ DEPOLAMADIR.",
+                svg: '<svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2"><rect x="4" y="2" width="16" height="20" rx="3"></rect><line x1="8" y1="6" x2="16" y2="6"></line></svg>'
+            },
+            {
+                title: "Kasanın İçindeki Manyetik Sabit Disk (HDD)",
+                desc: "Masaüstü bilgisayarın içindeki metal kafese vidalanmış, içinde dönen manyetik tablalar olan dahili Hard Disk...",
+                type: "internal",
+                exp: "Tebrikler! Kasanın içine monte edilmiş geleneksel HDD sürücüsü bir İÇ DEPOLAMA (Dahili) birimidir.",
+                badExp: "Hatalı! Kasanın içindeki sabit HDD, bilgisayarın ana İÇ DEPOLAMA birimidir.",
+                svg: '<svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"></rect><circle cx="12" cy="12" r="5"></circle></svg>'
+            },
+            {
+                title: "Fotoğraf Makinesindeki SD Kart",
+                desc: "Dijital fotoğraf makinesinin yuvasına takılan, çekilen resimleri saklayıp bilgisayara aktarmamızı sağlayan küçük hafıza kartı...",
+                type: "external",
+                exp: "Doğru! Hafıza kartları (SD/MicroSD) cihazdan çıkarılıp taşınabildiği için HARİCİ DEPOLAMADIR.",
+                badExp: "Dikkat! SD kartlar çıkarılıp taşınabilen HARİCİ DEPOLAMA birimleridir.",
+                svg: '<svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2"><path d="M4 4h10l6 6v10H4z"></path></svg>'
+            },
+            {
+                title: "Microsoft OneDrive Belgeleri",
+                desc: "Bilgisayarımız bozulsa bile internet tarayıcısından Microsoft hesabımızla giriş yaparak indirdiğimiz ödev arşivi...",
+                type: "cloud",
+                exp: "Mükemmel! İnternet altyapısıyla çalışan OneDrive, modern bir BULUT DEPOLAMA hizmetidir.",
+                badExp: "Yanlış! İnternet üzerindeki sunucularda saklanan sistemler BULUT DEPOLAMA olarak adlandırılır.",
+                svg: '<svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#a855f7" stroke-width="2"><path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"></path></svg>'
+            },
+            {
+                title: "Eski Müzik CD / DVD Diski",
+                desc: "Optik okuyucuya yerleştirilerek şarkı dinlenen veya film izlenen, kutusunda sakladığımız yuvarlak disk...",
+                type: "external",
+                exp: "Doğru! CD ve DVD gibi optik diskler elle taşınabilir HARİCİ DEPOLAMA araçlarıdır.",
+                badExp: "Hatalı! CD ve DVD diskleri taşınabilir oldukları için HARİCİ DEPOLAMAYA girer.",
+                svg: '<svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="12" r="3"></circle></svg>'
+            },
+            {
+                title: "Dizüstü Bilgisayarın M.2 SSD Birimi",
+                desc: "Laptop bilgisayarın kapağı açıldığında anakartın üzerindeki yuvaya takılı olan, işletim sistemini çalıştıran çip şeklindeki SSD...",
+                type: "internal",
+                exp: "Harika! Cihazın kendi gövdesinde fabrikasyon olarak yer alan bu SSD bir İÇ DEPOLAMA birimidir.",
+                badExp: "Dikkat! Laptopun gövdesinin içindeki SSD, sabit İÇ DEPOLAMA birimidir.",
+                svg: '<svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2"><rect x="4" y="6" width="16" height="12" rx="2"></rect><circle cx="8" cy="12" r="1.5"></circle><circle cx="16" cy="12" r="1.5"></circle></svg>'
+            },
+            {
+                title: "Yandex Disk Yedekleri",
+                desc: "Akıllı telefonumuz internete bağlandığında videoları otomatik olarak internetteki hesabımıza aktaran güvenli hizmet...",
+                type: "cloud",
+                exp: "Doğru! Yandex Disk, internet üzerinden dosya saklayan bir BULUT DEPOLAMA hizmetidir.",
+                badExp: "Yanlış! İnternet üzerinden erişilen Yandex Disk bir BULUT DEPOLAMA yöntemidir.",
+                svg: '<svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#a855f7" stroke-width="2"><path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"></path></svg>'
+            },
+            {
+                title: "Televizyona Takılan USB Flash Bellek",
+                desc: "Çizgi film izlemek için içine video kopyalayıp televizyonun yan tarafındaki girişe taktığımız taşınabilir bellek...",
+                type: "external",
+                exp: "Tebrikler! USB bellek cebimizde rahatlıkla taşıyabildiğimiz bir HARİCİ DEPOLAMA aracıdır.",
+                badExp: "Dalgınlığına geldi! Flash bellekler HARİCİ DEPOLAMA kategorisindedir.",
+                svg: '<svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2"><rect x="7" y="2" width="10" height="20" rx="2"></rect></svg>'
+            },
+            {
+                title: "Akıllı Telefonun Anakartındaki Dahili Hafıza",
+                desc: "Telefonu ilk satın aldığımızda içinde hazır bulunan '128 GB Telefon Hafızası' donanımı...",
+                type: "internal",
+                exp: "Doğru! Telefonun kasasının içine lehimlenmiş ana hafıza bir İÇ DEPOLAMA (Dahili) örneğidir.",
+                badExp: "Yanlış! Telefonun içindeki sabit hafıza İÇ DEPOLAMA birimidir.",
+                svg: '<svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2"><rect x="6" y="2" width="12" height="20" rx="3"></rect><line x1="12" y1="18" x2="12" y2="18.01"></line></svg>'
+            },
+            {
+                title: "Apple iCloud Fotoğraf Arşivi",
+                desc: "Telefonumuz suya düşüp bozulsa bile yeni aldığımız cihaza internet şifremizi girince geri gelen fotoğraflar...",
+                type: "cloud",
+                exp: "Tam isabet! İnternet sunucularında saklandığı için cihaz bozulsa bile kaybolmayan sistem BULUT DEPOLAMADIR.",
+                badExp: "Dikkat! Verilerin internet sunucularında saklanması BULUT DEPOLAMAYA örnektir.",
+                svg: '<svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#a855f7" stroke-width="2"><path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"></path></svg>'
+            },
+            {
+                title: "Akıllı Tahtanın İçindeki Ana Sabit Disk",
+                desc: "Sınıfımızdaki etkileşimli tahtanın arka kasasında bulunan ve Pardus işletim sistemini saklayan disk...",
+                type: "internal",
+                exp: "Bravo! Akıllı tahtanın kasası içindeki sabit disk İÇ DEPOLAMA (Dahili) birimidir.",
+                badExp: "Hatalı! Akıllı tahtanın içindeki ana disk bir İÇ DEPOLAMA birimidir.",
+                svg: '<svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line></svg>'
+            },
+            {
+                title: "Dron Çekimlerini Saklayan MicroSD Kart",
+                desc: "Havada uçan dronun altındaki minik yuvaya takılan ve gökyüzü videolarını kaydeden küçük kart...",
+                type: "external",
+                exp: "Doğru! Drondan çıkarılıp bilgisayara takılan hafıza kartı HARİCİ DEPOLAMADIR.",
+                badExp: "Yanıldın! Çıkarılıp takılan MicroSD kartlar HARİCİ DEPOLAMADIR.",
+                svg: '<svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2"><rect x="5" y="4" width="14" height="16" rx="2"></rect></svg>'
+            }
+        ];
+
+        // Storage Lab Manager
+        const storageLab = {
+            list: [],
+            curr: 0,
+            score: 0,
+            counts: { internal: 0, external: 0, cloud: 0 },
+
+            start() {
+                SoundFX.init();
+                SoundFX.play('good');
+                document.getElementById('intro-screen').style.display = 'none';
+                document.getElementById('finish-screen').style.display = 'none';
+                document.getElementById('fb-modal').style.display = 'none';
+
+                this.list = [...scenarios].sort(() => Math.random() - 0.5);
+                this.curr = 0;
+                this.score = 0;
+                this.counts = { internal: 0, external: 0, cloud: 0 };
+                this.updateGauges();
+                this.render();
+            },
+
+            render() {
+                const s = this.list[this.curr];
+                document.getElementById('stat-quest').innerText = `${this.curr + 1} / ${this.list.length}`;
+                document.getElementById('stat-score').innerText = this.score;
+                document.getElementById('scenario-number').innerText = `GÖREV #${this.curr + 1}`;
+                document.getElementById('scenario-title').innerText = s.title;
+                document.getElementById('scenario-desc').innerText = s.desc;
+                document.getElementById('scenario-icon').innerHTML = s.svg;
+            },
+
+            choose(choice) {
+                const s = this.list[this.curr];
+                const isRight = (choice === s.type);
+                const fbModal = document.getElementById('fb-modal');
+                const fbIcon = document.getElementById('fb-icon');
+                const fbTitle = document.getElementById('fb-title');
+                const fbText = document.getElementById('fb-text');
+
+                if (isRight) {
+                    SoundFX.play('good');
+                    this.score += 10;
+                    this.counts[choice]++;
+                    fbIcon.style.background = 'rgba(16, 185, 129, 0.2)';
+                    fbIcon.innerHTML = '<svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>';
+                    fbTitle.innerText = "Doğru Depolama Alanı!";
+                    fbTitle.style.color = "var(--accent-green)";
+                    fbText.innerText = s.exp;
+                } else {
+                    SoundFX.play('bad');
+                    fbIcon.style.background = 'rgba(239, 68, 68, 0.2)';
+                    fbIcon.innerHTML = '<svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="3"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>';
+                    fbTitle.innerText = "Farklı Bir Yerde Duruyor!";
+                    fbTitle.style.color = "var(--accent-red)";
+                    fbText.innerText = s.badExp;
+                }
+
+                this.updateGauges();
+                document.getElementById('stat-score').innerText = this.score;
+                fbModal.style.display = 'flex';
+            },
+
+            updateGauges() {
+                const max = 5; // expected count per type
+                const intPct = Math.min(100, Math.round((this.counts.internal / max) * 100));
+                const extPct = Math.min(100, Math.round((this.counts.external / max) * 100));
+                const cldPct = Math.min(100, Math.round((this.counts.cloud / max) * 100));
+
+                document.getElementById('gauge-internal-bar').style.width = intPct + '%';
+                document.getElementById('gauge-internal-pct').innerText = this.counts.internal + ' Örnek';
+
+                document.getElementById('gauge-external-bar').style.width = extPct + '%';
+                document.getElementById('gauge-external-pct').innerText = this.counts.external + ' Örnek';
+
+                document.getElementById('gauge-cloud-bar').style.width = cldPct + '%';
+                document.getElementById('gauge-cloud-pct').innerText = this.counts.cloud + ' Örnek';
+            },
+
+            nextQuest() {
+                SoundFX.play('good');
+                document.getElementById('fb-modal').style.display = 'none';
+                this.curr++;
+                if (this.curr < this.list.length) {
+                    this.render();
+                } else {
+                    this.finish();
+                }
+            },
+
+            finish() {
+                SoundFX.play('fanfare');
+                const screen = document.getElementById('finish-screen');
+                const stats = document.getElementById('final-stats');
+                const star1 = document.getElementById('star-1');
+                const star2 = document.getElementById('star-2');
+                const star3 = document.getElementById('star-3');
+
+                const totalRight = this.score / 10;
+                star1.classList.remove('active');
+                star2.classList.remove('active');
+                star3.classList.remove('active');
+
+                if (totalRight >= 5) star1.classList.add('active');
+                if (totalRight >= 10) star2.classList.add('active');
+                if (totalRight >= 14) star3.classList.add('active');
+
+                stats.innerHTML = `
+                    Toplam <strong>${this.list.length}</strong> senaryodan <strong>${totalRight}</strong> tanesini doğru eşleştirdin!<br>
+                    İç Depolama: <strong>${this.counts.internal}</strong> • Harici Depolama: <strong>${this.counts.external}</strong> • Bulut Depolama: <strong>${this.counts.cloud}</strong><br>
+                    Toplam Puanın: <strong style="color:#fbbf24; font-size:1.4rem;">${this.score}</strong>
+                `;
+                screen.style.display = 'flex';
+            },
+
+            toggleSound() {
+                SoundFX.active = !SoundFX.active;
+                const btn = document.getElementById('sound-btn');
+                btn.style.opacity = SoundFX.active ? '1' : '0.4';
+                if (SoundFX.active) SoundFX.play('good');
+            },
+
+            toggleFullscreen() {
+                if (!document.fullscreenElement) {
+                    document.documentElement.requestFullscreen().catch(() => {});
+                } else {
+                    if (document.exitFullscreen) document.exitFullscreen();
+                }
+            }
+        };
+    </script>
+</body>
+</html>

@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dosya Uzantısı Eşleştirme Oyunu | Öğretmen Bozok</title>
+    <style>
+        :root {
+            --bg-page: #f1f5f9;
+            --cat-resim: #fef08a;
+            --cat-video: #ddd6fe;
+            --cat-ses: #fed7aa;
+            --cat-belge: #bae6fd;
+            --cat-uygulama: #bbf7d0;
+            --card-border: #22c55e;
+            --card-bg: #ffffff;
+            --text-dark: #0f172a;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background-color: #0f172a;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            overflow-x: hidden;
+        }
+
+        #game-board-container {
+            width: 96vw;
+            max-width: 1440px;
+            height: 54vw;
+            max-height: 820px;
+            aspect-ratio: 16 / 9;
+            background: #f8fafc;
+            border-radius: 24px;
+            box-shadow: 0 25px 60px rgba(0,0,0,0.7);
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            border: 3px solid #38bdf8;
+        }
+
+        /* Üst Kontrol Paneli */
+        header.game-header {
+            padding: 10px 24px;
+            background: #ffffff;
+            border-bottom: 2px solid #e2e8f0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-shrink: 0;
+        }
+
+        .header-title-box h1 {
+            font-size: 1.25rem;
+            font-weight: 900;
+            color: #0f172a;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .header-controls {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .badge-stat {
+            background: #f1f5f9;
+            border: 1px solid #cbd5e1;
+            padding: 6px 14px;
+            border-radius: 999px;
+            font-size: 0.88rem;
+            font-weight: 800;
+            color: #1e293b;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn-tool {
+            background: #f8fafc;
+            border: 1px solid #cbd5e1;
+            padding: 7px 14px;
+            border-radius: 12px;
+            font-weight: 800;
+            font-size: 0.82rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            color: #1e293b;
+        }
+        .btn-tool:hover { background: #e2e8f0; transform: translateY(-1px); }
+
+        /* 5 Kategori Alanı */
+        #categories-row {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 12px;
+            padding: 14px 20px 8px;
+            flex-grow: 1;
+            max-height: 60%;
+        }
+
+        .cat-box {
+            border-radius: 18px;
+            border: 2px dashed #94a3b8;
+            padding: 10px;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            transition: all 0.2s;
+            overflow-y: auto;
+        }
+
+        .cat-box.drag-over {
+            transform: scale(1.02);
+            border-color: #2563eb !important;
+            box-shadow: 0 0 15px rgba(37,99,235,0.3);
+        }
+
+        .cat-box.resim { background: var(--cat-resim); border-color: #eab308; }
+        .cat-box.video { background: var(--cat-video); border-color: #8b5cf6; }
+        .cat-box.ses { background: var(--cat-ses); border-color: #f97316; }
+        .cat-box.belge { background: var(--cat-belge); border-color: #0284c7; }
+        .cat-box.uygulama { background: var(--cat-uygulama); border-color: #16a34a; }
+
+        .cat-header {
+            text-align: center;
+            font-size: 1.1rem;
+            font-weight: 900;
+            letter-spacing: 0.05em;
+            padding: 6px;
+            border-radius: 10px;
+            margin-bottom: 8px;
+            background: rgba(255,255,255,0.7);
+            color: #0f172a;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            flex-shrink: 0;
+        }
+
+        .cat-items-area {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            overflow-y: auto;
+        }
+
+        /* Kartlar Havuzu */
+        #cards-dock {
+            background: #e2e8f0;
+            border-top: 2px solid #cbd5e1;
+            padding: 14px 24px;
+            min-height: 120px;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            overflow-y: auto;
+            flex-shrink: 0;
+        }
+
+        /* Dosya Kartı (Beyaz Dikdörtgen, Yeşil Çerçeve, Renkli Pin Noktası) */
+        .file-card {
+            background: var(--card-bg);
+            border: 2.5px solid var(--card-border);
+            border-radius: 12px;
+            padding: 10px 18px 8px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.12);
+            font-size: 1.05rem;
+            font-weight: 800;
+            color: #0f172a;
+            cursor: grab;
+            user-select: none;
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .file-card:active { cursor: grabbing; transform: scale(0.97); }
+        .file-card:hover { transform: translateY(-3px) scale(1.03); box-shadow: 0 8px 18px rgba(0,0,0,0.18); }
+        .file-card.selected { border-color: #2563eb; background: #eff6ff; box-shadow: 0 0 12px rgba(37,99,235,0.4); transform: scale(1.06); }
+        .file-card.placed { cursor: default; transform: none !important; box-shadow: none; border-color: #16a34a; background: #ffffff; padding: 6px 12px; font-size: 0.88rem; }
+
+        /* Kartın Üstündeki Renkli Tutturma Noktası (Pin) */
+        .file-card::before {
+            content: "";
+            position: absolute;
+            top: 3px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 8px;
+            height: 8px;
+            background: #ef4444;
+            border-radius: 50%;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.3);
+        }
+
+        /* Oyun Sonu Modal */
+        #modal-victory {
+            display: none;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(15,23,42,0.85);
+            backdrop-filter: blur(8px);
+            z-index: 100;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: #ffffff;
+            text-align: center;
+            padding: 24px;
+        }
+
+        .victory-panel {
+            background: #ffffff;
+            color: #0f172a;
+            border-radius: 24px;
+            padding: 32px 40px;
+            max-width: 650px;
+            width: 90%;
+            box-shadow: 0 25px 60px rgba(0,0,0,0.5);
+            border: 4px solid #22c55e;
+        }
+
+        .btn-restart {
+            background: linear-gradient(135deg, #16a34a, #15803d);
+            border: none;
+            color: #ffffff;
+            padding: 12px 28px;
+            border-radius: 14px;
+            font-size: 1rem;
+            font-weight: 800;
+            cursor: pointer;
+            margin-top: 18px;
+            transition: all 0.2s;
+        }
+        .btn-restart:hover { transform: scale(1.04); box-shadow: 0 6px 20px rgba(22,163,74,0.4); }
+
+        @media (max-width: 900px) {
+            #game-board-container { height: 96vh; aspect-ratio: auto; border-radius: 0; }
+            #categories-row { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="game-board-container">
+        <header class="game-header">
+            <div class="header-title-box">
+                <h1>📁 Dosya Uzantısı Eşleştirme Oyunu</h1>
+            </div>
+
+            <div class="header-controls">
+                <div class="badge-stat">
+                    <span>Mod:</span>
+                    <select id="mode-select" onchange="changeMode(this.value)" style="background:transparent; border:none; font-weight:800; cursor:pointer;">
+                        <option value="normal">Normal (15 Kart)</option>
+                        <option value="kolay">Kolay (8 Kart)</option>
+                        <option value="zor">Zor (22 Kart)</option>
+                    </select>
+                </div>
+                <div class="badge-stat" style="color:#15803d;">
+                    <span>🏆 Puan:</span> <strong id="score-val">0</strong>
+                </div>
+                <div class="badge-stat" style="color:#0284c7;">
+                    <span>📦 Kalan:</span> <strong id="remaining-val">15</strong>
+                </div>
+                <button class="btn-tool" onclick="restartGame()">🔄 Yeniden Başlat</button>
+                <button class="btn-tool" onclick="toggleMute()" id="mute-btn">🔊</button>
+                <button class="btn-tool" onclick="toggleFullscreen()">⛶</button>
+            </div>
+        </header>
+
+        <!-- 5 Kategori Bölgesi -->
+        <main id="categories-row">
+            <!-- RESİM -->
+            <div class="cat-box resim" data-cat="resim" onclick="onCategoryClick('resim')">
+                <div class="cat-header">🖼️ RESİM</div>
+                <div class="cat-items-area" id="box-resim"></div>
+            </div>
+
+            <!-- VİDEO -->
+            <div class="cat-box video" data-cat="video" onclick="onCategoryClick('video')">
+                <div class="cat-header">🎬 VİDEO</div>
+                <div class="cat-items-area" id="box-video"></div>
+            </div>
+
+            <!-- SES -->
+            <div class="cat-box ses" data-cat="ses" onclick="onCategoryClick('ses')">
+                <div class="cat-header">🎵 SES</div>
+                <div class="cat-items-area" id="box-ses"></div>
+            </div>
+
+            <!-- YAZI VEYA BELGE -->
+            <div class="cat-box belge" data-cat="belge" onclick="onCategoryClick('belge')">
+                <div class="cat-header">📄 YAZI / BELGE</div>
+                <div class="cat-items-area" id="box-belge"></div>
+            </div>
+
+            <!-- UYGULAMA -->
+            <div class="cat-box uygulama" data-cat="uygulama" onclick="onCategoryClick('uygulama')">
+                <div class="cat-header">⚙️ UYGULAMA</div>
+                <div class="cat-items-area" id="box-uygulama"></div>
+            </div>
+        </main>
+
+        <!-- Kartların Beklediği Alt Rıhtım -->
+        <footer id="cards-dock">
+            <!-- Dinamik Kartlar -->
+        </footer>
+
+        <!-- Oyun Sonu Zafer Ekranı -->
+        <div id="modal-victory">
+            <div class="victory-panel">
+                <div style="font-size:3rem; margin-bottom:10px;">🎉 🏆 👏</div>
+                <h2 style="font-size:1.8rem; font-weight:900; margin-bottom:8px; color:#15803d;">Tebrikler! Bütün Dosyalar Eşleştirildi!</h2>
+                <p style="font-size:1.05rem; color:#475569; margin-bottom:16px;">
+                    Dosya uzantıları sayesinde her dosyayı doğru kategorisine eksiksiz yerleştirdiniz!
+                </p>
+                <div style="background:#f1f5f9; padding:14px; border-radius:14px; margin-bottom:16px; font-size:0.95rem; text-align:left;">
+                    <strong style="color:#0284c7;">💡 Önemli Ders Notu:</strong> Dosya uzantısı (noktadan sonraki kısım) dosyanın türünü belirler. Örneğin .mp3 ses, .mp4 video, .docx belge, .jpg görsel, .exe ise uygulama dosyasıdır!
+                </div>
+                <div style="font-size:1.2rem; font-weight:900; color:#0f172a;">
+                    Kazanılan Puan: <span id="victory-score" style="color:#16a34a;">0</span>
+                </div>
+                <button class="btn-restart" onclick="restartGame()">Tekrar Oyna 🔄</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Ses Sentezleyici
+        let isMuted = false;
+        class SoundFX {
+            constructor() { this.ctx = null; }
+            init() {
+                if (!this.ctx && !isMuted) {
+                    const AC = window.AudioContext || window.webkitAudioContext;
+                    if (AC) this.ctx = new AC();
+                }
+            }
+            tone(freq, type='sine', dur=0.1, gainVal=0.1) {
+                if (isMuted) return;
+                try {
+                    this.init();
+                    if (!this.ctx) return;
+                    const osc = this.ctx.createOscillator();
+                    const g = this.ctx.createGain();
+                    osc.type = type;
+                    osc.frequency.setValueAtTime(freq, this.ctx.currentTime);
+                    g.gain.setValueAtTime(gainVal, this.ctx.currentTime);
+                    g.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + dur);
+                    osc.connect(g);
+                    g.connect(this.ctx.destination);
+                    osc.start();
+                    osc.stop(this.ctx.currentTime + dur);
+                } catch(e) {}
+            }
+            click() { this.tone(550, 'triangle', 0.05, 0.08); }
+            success() { this.tone(523, 'sine', 0.08, 0.1); setTimeout(() => this.tone(659, 'sine', 0.12, 0.1), 80); }
+            wrong() { this.tone(180, 'sawtooth', 0.15, 0.12); }
+            victory() {
+                [523, 659, 784, 1046].forEach((f, i) => setTimeout(() => this.tone(f, 'sine', 0.15, 0.12), i * 100));
+            }
+        }
+        const sfx = new SoundFX();
+
+        function toggleMute() {
+            isMuted = !isMuted;
+            document.getElementById('mute-btn').innerText = isMuted ? '🔇' : '🔊';
+        }
+
+        function toggleFullscreen() {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen().catch(() => {});
+            } else {
+                if (document.exitFullscreen) document.exitFullscreen();
+            }
+        }
+
+        // Kart Veri Havuzu
+        const allCardData = [
+            // Resim
+            { name: "buse.gif", cat: "resim", diff: "easy" },
+            { name: "ali.jpg", cat: "resim", diff: "easy" },
+            { name: "ahmet.png", cat: "resim", diff: "normal" },
+            { name: "ibrahim.bmp", cat: "resim", diff: "normal" },
+            { name: "cizim.jpeg", cat: "resim", diff: "hard" },
+
+            // Video
+            { name: "nisa.avi", cat: "video", diff: "easy" },
+            { name: "mehmet.mp4", cat: "video", diff: "easy" },
+            { name: "sevil.mov", cat: "video", diff: "normal" },
+            { name: "klip.flv", cat: "video", diff: "hard" },
+            { name: "sinema.mpeg", cat: "video", diff: "hard" },
+
+            // Ses
+            { name: "elif.mp3", cat: "ses", diff: "easy" },
+            { name: "mesut.wav", cat: "ses", diff: "normal" },
+            { name: "beyza.aac", cat: "ses", diff: "normal" },
+            { name: "kayit.wma", cat: "ses", diff: "hard" },
+
+            // Belge
+            { name: "cigdem.doc", cat: "belge", diff: "easy" },
+            { name: "meryem.docx", cat: "belge", diff: "easy" },
+            { name: "hakan.txt", cat: "belge", diff: "normal" },
+            { name: "halime.pdf", cat: "belge", diff: "normal" },
+            { name: "dilekce.rtf", cat: "belge", diff: "hard" },
+            { name: "kitap.epub", cat: "belge", diff: "hard" },
+
+            // Uygulama
+            { name: "semra.exe", cat: "uygulama", diff: "easy" },
+            { name: "mobil_oyun.apk", cat: "uygulama", diff: "hard" }
+        ];
+
+        let currentMode = "normal";
+        let activeCards = [];
+        let score = 0;
+        let remainingCount = 0;
+        let selectedCard = null;
+
+        function changeMode(mode) {
+            currentMode = mode;
+            restartGame();
+        }
+
+        function restartGame() {
+            score = 0;
+            selectedCard = null;
+            document.getElementById('modal-victory').style.display = 'none';
+
+            // Kategori kutularını temizle
+            document.querySelectorAll('.cat-items-area').forEach(b => b.innerHTML = '');
+
+            if (currentMode === "kolay") {
+                activeCards = allCardData.filter(c => c.diff === "easy");
+            } else if (currentMode === "normal") {
+                activeCards = allCardData.filter(c => c.diff === "easy" || c.diff === "normal");
+            } else {
+                activeCards = [...allCardData];
+            }
+
+            activeCards.sort(() => Math.random() - 0.5);
+            remainingCount = activeCards.length;
+
+            updateScoreUI();
+            renderDock();
+        }
+
+        function updateScoreUI() {
+            document.getElementById('score-val').innerText = score;
+            document.getElementById('remaining-val').innerText = remainingCount;
+        }
+
+        function renderDock() {
+            const dock = document.getElementById('cards-dock');
+            dock.innerHTML = '';
+            activeCards.forEach((card, idx) => {
+                const el = document.createElement('div');
+                el.className = 'file-card';
+                el.innerText = card.name;
+                el.setAttribute('data-idx', idx);
+                el.setAttribute('data-cat', card.cat);
+                el.draggable = true;
+
+                // Drag & Drop
+                el.addEventListener('dragstart', (e) => {
+                    sfx.click();
+                    e.dataTransfer.setData('text/plain', idx);
+                    selectCard(el);
+                });
+
+                // Dokunmatik & Tıklama
+                el.addEventListener('click', () => {
+                    sfx.click();
+                    selectCard(el);
+                });
+
+                dock.appendChild(el);
+            });
+        }
+
+        function selectCard(cardEl) {
+            document.querySelectorAll('.file-card').forEach(c => c.classList.remove('selected'));
+            if (selectedCard === cardEl) {
+                selectedCard = null;
+            } else {
+                selectedCard = cardEl;
+                cardEl.classList.add('selected');
+            }
+        }
+
+        // Kategori Tıklama ile Eşleştirme (Dokunmatik Akıllı Tahta)
+        function onCategoryClick(catName) {
+            if (!selectedCard) return;
+            handleMatch(selectedCard, catName);
+        }
+
+        // Sürükle-Bırak Dinleyicileri (Drag & Drop)
+        document.querySelectorAll('.cat-box').forEach(box => {
+            box.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                box.classList.add('drag-over');
+            });
+            box.addEventListener('dragleave', () => {
+                box.classList.remove('drag-over');
+            });
+            box.addEventListener('drop', (e) => {
+                e.preventDefault();
+                box.classList.remove('drag-over');
+                const idx = e.dataTransfer.getData('text/plain');
+                const cardEl = document.querySelector(`.file-card[data-idx="${idx}"]`);
+                const targetCat = box.getAttribute('data-cat');
+                if (cardEl) handleMatch(cardEl, targetCat);
+            });
+        });
+
+        function handleMatch(cardEl, targetCat) {
+            const expectedCat = cardEl.getAttribute('data-cat');
+            if (expectedCat === targetCat) {
+                // DOĞRU
+                sfx.success();
+                score += 10;
+                remainingCount--;
+                updateScoreUI();
+
+                cardEl.classList.remove('selected');
+                cardEl.classList.add('placed');
+                cardEl.draggable = false;
+                cardEl.onclick = null;
+
+                const targetArea = document.getElementById(`box-${targetCat}`);
+                targetArea.appendChild(cardEl);
+                selectedCard = null;
+
+                if (remainingCount === 0) {
+                    setTimeout(() => {
+                        sfx.victory();
+                        document.getElementById('victory-score').innerText = score + " Puan";
+                        document.getElementById('modal-victory').style.display = 'flex';
+                    }, 400);
+                }
+            } else {
+                // YANLIŞ
+                sfx.wrong();
+                cardEl.style.borderColor = '#ef4444';
+                cardEl.style.transform = 'translateX(-5px)';
+                setTimeout(() => {
+                    cardEl.style.transform = 'translateX(5px)';
+                    setTimeout(() => {
+                        cardEl.style.transform = '';
+                        cardEl.style.borderColor = 'var(--card-border)';
+                        cardEl.classList.remove('selected');
+                        selectedCard = null;
+                    }, 150);
+                }, 150);
+            }
+        }
+
+        // Başlat
+        restartGame();
+    </script>
+</body>
+</html>
