@@ -123,35 +123,43 @@ const CURRICULUM_DATA = [
             },
             {
                 "week": 8,
-                "title": "Görsel Tasarıma Yönelik Kurgu Oluşturma",
-                "code": "BTY.5.2.2 Görsel için kurgu oluşturabilme",
-                "outcome": "a) Görsel tasarlanacak gerçek hayat problemini belirler. b) Görsel hazırlama sürecinde kullanılacak hikâye/senaryo unsurlarını belirler. c) Belirlenen unsurları kapsayan hikâye/senaryo oluşturur. ç) Hikâyeyi/senaryoyu bütünlük/kullanışlılık açısından değerlendirir.",
+                "title": "Görsel Tasarıma Yönelik Kurgu Oluşturma, Görsel Dosyası Geliştirme",
+                "code": "BTY.5.2.2 Görsel için kurgu oluşturabilme, BTY.5.2.3 Görsel dosyası geliştirebilme",
+                "outcome": "a) Görsel tasarlanacak gerçek hayat problemini belirler. b) Görsel hazırlama sürecinde kullanılacak hikâye/senaryo unsurlarını belirler. c) Belirlenen unsurları kapsayan hikâye/senaryo oluşturur. ç) Hikâyeyi/senaryoyu bütünlük/kullanışlılık açısından değerlendirir.\n\na) Tasarlanan hikâye/senaryo unsurlarına uygun bir görsel oluşturur.\nb) Oluşturulan görseli belirlenen ölçütler açısından değerlendirir.",
                 "isAvailable": false,
-                "badge": "Yakında"
+                "badge": "Yakında",
+                "customLabel": "8. Konu",
+                "customHeaderTitle": "8. Konu: Görsel Tasarıma Yönelik Kurgu Oluşturma, Görsel Dosyası Geliştirme (BTY.5.2.2 & BTY.5.2.3)"
             },
             {
                 "week": 9,
-                "title": "Görsel Ürün Geliştirme",
-                "code": "BTY.5.2.3 Görsel dosyası geliştirebilme",
-                "outcome": "a) Tasarlanan hikâye/senaryo unsurlarına uygun bir görsel oluşturur.\nb) Oluşturulan görseli belirlenen ölçütler açısından değerlendirir.",
-                "isAvailable": false,
-                "badge": "Yakında"
-            },
-            {
-                "week": 10,
                 "title": "Kelime İşlemci Programlarına Giriş, Kelime İşlemci Dosyası Geliştirme",
                 "code": "BTY.5.2.4 Kelime işlemci programlarından yararlanabilme, BTY.5.2.5 Kelime işlemci belgesi oluşturabilme,",
                 "outcome": "a)          Kelime işlemci programlarının temel özelliklerini tanır.\nb)          Uygun kelime işlemci programını belirler.\nc)           Belirlenen kelime işlemci programının arayüz özelliklerini kullanır.\nç)           Kullanılan kelime işlemci programını kullanım alanları/verimliliği açısından değerlendirir.\n\na)          Kelime işlemci dosyası oluşturur.\nb)          Oluşturulan kelime işlemci dosyasını belirlenen ölçütler açısından değerlendirir.",
                 "isAvailable": false,
-                "badge": "Yakında"
+                "badge": "Yakında",
+                "customLabel": "9. Konu",
+                "customHeaderTitle": "9. Konu: Kelime İşlemci Programlarına Giriş, Kelime İşlemci Dosyası Geliştirme (BTY.5.2.4 & BTY.5.2.5)"
             },
             {
-                "week": 11,
+                "week": 10,
                 "title": "Sunum Programlarına Giriş, Sunum Dosyası Oluşturma",
                 "code": "BTY.5.2.6 Sunum programlarından yararlanabilme, BTY.5.2.7 Sunum dosyası geliştirebilme",
                 "outcome": "a)          Sunum programlarının temel özelliklerini tanır.\nb)          Uygun sunum programını belirler.\nc)           Belirlenen sunum programının arayüz özelliklerini kullanır.\nç)           Kullanılan sunum programını kullanım alanları/verimliliği açısından değerlendirir.\n\na)          Sunum dosyası oluşturur.\nb)          Oluşturulan sunum dosyasını belirlenen ölçütler açısından değerlendirir.",
                 "isAvailable": false,
-                "badge": "Yakında"
+                "badge": "Yakında",
+                "customLabel": "10. Konu",
+                "customHeaderTitle": "10. Konu: Sunum Programlarına Giriş, Sunum Dosyası Oluşturma (BTY.5.2.6 & BTY.5.2.7)"
+            },
+            {
+                "week": 11,
+                "title": "2. Tema Genel Tekrarı ve Değerlendirme",
+                "code": "2. TEMA: Dijital Ürün Tasarımı ve Geliştirme (BTY.5.2.1 - BTY.5.2.7 Kapsamlı Tekrar)",
+                "outcome": "a) 2. Tema kapsamındaki tüm konuları (görsel düzenleme programları, görsel kurgu ve ürün geliştirme, kelime işlemci belgesi, sunum dosyası oluşturma) bütünsel olarak pekiştirir.\nb) Kapsamlı tema testi ve dijital ürün sergisi ile öğrenme düzeyini değerlendirir.",
+                "isAvailable": false,
+                "badge": "Yakında",
+                "customLabel": "11. Konu",
+                "customHeaderTitle": "11. Konu: 2. Tema Genel Tekrarı ve Değerlendirme (Dijital Ürün Tasarımı)"
             }
         ],
         "themeTitle": "2. Tema: Dijital Ürün Tasarımı ve Geliştirme",

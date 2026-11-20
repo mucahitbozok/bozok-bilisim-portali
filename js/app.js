@@ -472,6 +472,50 @@ class App {
                         <i class="fa-solid fa-arrow-left"></i>
                         <span>1. Tema Tekrar'a Dön</span>
                     </button>
+                    <button onclick="app.loadWeek(8)" class="px-3.5 py-2 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white font-black text-xs rounded-xl shadow-lg flex items-center gap-1.5 transition-all hover:scale-105 active:scale-95" title="8. Konu: Görsel Tasarıma Yönelik Kurgu Oluşturma, Görsel Dosyası Geliştirme">
+                        <i class="fa-solid fa-wand-magic-sparkles"></i>
+                        <span>8. Konuya Geç 👉</span>
+                    </button>
+                ` : ''}
+                ${String(this.currentWeek) === '8' ? `
+                    <button onclick="app.loadWeek(7)" class="px-3.5 py-2 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white font-black text-xs rounded-xl shadow-lg flex items-center gap-1.5 transition-all hover:scale-105 active:scale-95" title="7. Konu: Görsel Düzenleme Programlarına Giriş">
+                        <i class="fa-solid fa-arrow-left"></i>
+                        <span>7. Konuya Dön</span>
+                    </button>
+                    <button onclick="app.loadWeek(9)" class="px-3.5 py-2 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white font-black text-xs rounded-xl shadow-lg flex items-center gap-1.5 transition-all hover:scale-105 active:scale-95" title="9. Konu: Kelime İşlemci Programlarına Giriş, Kelime İşlemci Dosyası Geliştirme">
+                        <i class="fa-solid fa-file-word"></i>
+                        <span>9. Konuya Geç 👉</span>
+                    </button>
+                ` : ''}
+                ${String(this.currentWeek) === '9' ? `
+                    <button onclick="app.loadWeek(8)" class="px-3.5 py-2 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white font-black text-xs rounded-xl shadow-lg flex items-center gap-1.5 transition-all hover:scale-105 active:scale-95" title="8. Konu: Görsel Tasarıma Yönelik Kurgu Oluşturma, Görsel Dosyası Geliştirme">
+                        <i class="fa-solid fa-arrow-left"></i>
+                        <span>8. Konuya Dön</span>
+                    </button>
+                    <button onclick="app.loadWeek(10)" class="px-3.5 py-2 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white font-black text-xs rounded-xl shadow-lg flex items-center gap-1.5 transition-all hover:scale-105 active:scale-95" title="10. Konu: Sunum Programlarına Giriş, Sunum Dosyası Oluşturma">
+                        <i class="fa-solid fa-file-powerpoint"></i>
+                        <span>10. Konuya Geç 👉</span>
+                    </button>
+                ` : ''}
+                ${String(this.currentWeek) === '10' ? `
+                    <button onclick="app.loadWeek(9)" class="px-3.5 py-2 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white font-black text-xs rounded-xl shadow-lg flex items-center gap-1.5 transition-all hover:scale-105 active:scale-95" title="9. Konu: Kelime İşlemci Programlarına Giriş, Kelime İşlemci Dosyası Geliştirme">
+                        <i class="fa-solid fa-arrow-left"></i>
+                        <span>9. Konuya Dön</span>
+                    </button>
+                    <button onclick="app.loadWeek(11)" class="px-3.5 py-2 bg-gradient-to-r from-amber-500 to-yellow-500 hover:from-amber-400 hover:to-yellow-400 text-slate-950 font-black text-xs rounded-xl shadow-lg flex items-center gap-1.5 transition-all hover:scale-105 active:scale-95" title="2. Tema Genel Tekrarı ve Değerlendirme">
+                        <i class="fa-solid fa-trophy"></i>
+                        <span>2. Tema Tekrar'a Geç 👉</span>
+                    </button>
+                ` : ''}
+                ${String(this.currentWeek) === '11' ? `
+                    <button onclick="app.loadWeek(10)" class="px-3.5 py-2 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white font-black text-xs rounded-xl shadow-lg flex items-center gap-1.5 transition-all hover:scale-105 active:scale-95" title="10. Konu: Sunum Programlarına Giriş, Sunum Dosyası Oluşturma">
+                        <i class="fa-solid fa-arrow-left"></i>
+                        <span>10. Konuya Dön</span>
+                    </button>
+                    <button onclick="app.loadWeek(12)" class="px-3.5 py-2 bg-gradient-to-r from-teal-600 to-emerald-600 hover:from-teal-500 hover:to-emerald-500 text-white font-black text-xs rounded-xl shadow-lg flex items-center gap-1.5 transition-all hover:scale-105 active:scale-95" title="3. Tema: 12. Konu - Bilgisayar Ağları ve Ağ Bileşenleri">
+                        <i class="fa-solid fa-network-wired"></i>
+                        <span>12. Konuya Geç (3. Tema) 👉</span>
+                    </button>
                 ` : ''}
                 ${hasVideos ? `
                     <button onclick="app.switchTab('videos')" class="px-4 py-2 bg-gradient-to-r from-rose-600 to-red-600 hover:from-rose-500 hover:to-red-500 text-white font-black text-xs rounded-xl shadow-lg flex items-center gap-2 transition-all hover:scale-105 active:scale-95" title="Konu Videoları">
