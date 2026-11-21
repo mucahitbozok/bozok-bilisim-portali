@@ -1,0 +1,112 @@
+# ANTIGRAVITY OYUN GELİŞTİRME PROMPTU
+## SENARYO MİMARI – ÖĞRETMEN BOZOK
+
+5. sınıf öğrencileri için hikâye ve senaryo oluşturma becerisini geliştiren, tarayıcıda çalışan etkileşimli bir eğitsel oyun geliştir.
+
+### 1. OYUNUN AMACI
+Öğrencilerin bir görsel hazırlamadan önce karakter, mekân, olay ve mesaj unsurlarını belirlemesini; olayları başlangıç, gelişme ve sonuç sırasına koymasını sağla.
+
+**Kazanım:** BTY.5.2.2 – Görsel için kurgu oluşturabilme.
+
+### 2. TASARIM
+- Oyun adı: Senaryo Mimarı
+- Öğretmen Bozok marka kimliği kullanılsın.
+- Turkuaz, lacivert ve beyaz renkleri tercih edilsin.
+- Kullanıcının sağladığı Öğretmen Bozok karakteri ve MB logosu kullanılsın.
+- Görsel tasarım 5. sınıf öğrencilerine uygun olsun.
+- Türkçe karakterler doğru görüntülensin.
+- Akıllı tahta ve tablet uyumlu olsun.
+
+### 3. AÇILIŞ EKRANI
+- Öğretmen Bozok karakteri.
+- “Bir hikâye oluştur, görselin kurgusunu tamamla!” mesajı.
+- Oyuna Başla butonu.
+- Nasıl Oynanır butonu.
+- Ses Aç/Kapat butonu.
+
+### 4. OYUN BÖLÜMLERİ
+
+**Bölüm 1 – Hikâyenin Parçaları**
+
+Öğrenciye kavramlar ve açıklamalar ver. Doğru eşleştirme yapmasını iste.
+
+Kavramlar:
+- Karakter
+- Mekân
+- Olay
+- Mesaj
+
+Örnek:
+“Bir öğrencinin okul bahçesindeki çöpleri toplaması” olaydır.
+
+**Bölüm 2 – Hikâyeyi Tamamla**
+
+Öğrenciye eksik bir hikâye ver. Karakter, mekân, olay veya mesaj seçeneklerinden uygun olanı seçmesini iste.
+
+**Bölüm 3 – Olayları Sırala**
+
+Öğrenciye karışık verilmiş üç olay kartı göster.
+
+Kartları:
+1. Başlangıç
+2. Gelişme
+3. Sonuç
+
+şeklinde doğru sıraya koymasını iste.
+
+**Bölüm 4 – Senaryonu Kur**
+
+Öğrenciye bir konu ver:
+- Su tasarrufu
+- Doğayı koruma
+- Dijital güvenlik
+- Kitap okuma
+- Sağlıklı yaşam
+
+Öğrenciye uygun karakter, mekân, olay ve mesaj kartlarını seçtir. Seçimlerden tutarlı bir örnek senaryo oluştur.
+
+### 5. İÇERİK
+- En az 4 bölüm oluştur.
+- Her bölümde en az 5 görev olsun.
+- En az 20 farklı görev hazırla.
+- Kartlar sürükle-bırak yöntemiyle veya dokunarak sıralanabilsin.
+- Sürükle-bırak çalışmazsa dokunarak seçim yapılabilecek alternatif sun.
+- Öğrencinin seçimleri anında kontrol edilsin.
+- Aynı görevler sürekli tekrarlanmasın.
+
+### 6. PUANLAMA
+- Her doğru görev 10 puan.
+- Doğru sıralama ve tutarlı senaryo oluşturma ek puan kazandırsın.
+- Yanlış cevapta puan verilmesin.
+- Bölüm sonlarında kısa değerlendirme göster.
+- Oyun sonunda toplam puanı göster.
+
+### 7. GERİ BİLDİRİM
+Doğru cevapta: “Harika! Hikâyenin parçalarını doğru birleştirdin.”
+
+Yanlış cevapta: “Hikâyenin diğer parçalarını da düşün. Olay nerede geçiyor ve kimler yer alıyor?”
+
+Senaryo oluşturma bölümünde tek bir doğru cevap zorunlu olmasın. Konuya uygun, mantıklı ve tutarlı farklı senaryoları kabul et.
+
+### 8. TEKNİK GEREKSİNİMLER
+- Başla, geri, ileri ve yeniden başlat butonları çalışsın.
+- Kart seçimi ve sıralama çalışsın.
+- Cevap kontrolü doğru yapılsın.
+- Puanlar doğru hesaplansın.
+- Tamamlanan bölümler işaretlensin.
+- Sonuç ekranı oluşturulsun.
+- Oyun baştan oynanabilsin.
+
+### 9. SON TEST
+Bütün bölümleri ayrı ayrı çalıştır.
+- Kart eşleştirmelerini test et.
+- Olay sıralamasını test et.
+- Senaryo oluşturma bölümünde farklı tutarlı cevapları dene.
+- Yanlış cevap geri bildirimlerini kontrol et.
+- Puanlamayı kontrol et.
+- Butonları ve yeniden başlatmayı test et.
+- Akıllı tahta ve tablet görünümünü kontrol et.
+
+Test edemediğin özelliği test edilmiş gibi gösterme.
+
+Sadece oyun görseli üretme. Gerçekten oynanabilen, çalışan ve tamamlanmış bir eğitim oyunu geliştir.

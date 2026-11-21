@@ -1,0 +1,253 @@
+# ÖĞRETMEN BOZOK
+## 5. SINIF BİLİŞİM TEKNOLOJİLERİ VE YAZILIM
+### PEKİŞTİRME VE DEĞERLENDİRME TESTİ
+
+**Kazanımlar:** BTY.5.2.2 – Görsel için kurgu oluşturabilme  
+BTY.5.2.3 – Görsel dosyası geliştirebilme
+
+**Ad Soyad:** ........................................................  
+**Sınıf / Numara:** ................................................  
+**Tarih:** ....... / ....... / .......
+
+---
+
+### A. Çoktan Seçmeli Sorular
+
+**1.** Bir öğrenci okul koridorlarında çöplerin yere atıldığını fark ediyor. Bu sorun için bir afiş hazırlamak istiyor. İlk olarak ne yapmalıdır?
+
+A) Afişi hemen indirmek  
+B) Problemi ve afişin amacını belirlemek  
+C) Rastgele görseller eklemek  
+D) Yazıların rengini seçmek  
+
+**2.** Bir görselin kimlere hitap edeceğini belirlemek aşağıdakilerden hangisidir?
+
+A) Dosya uzantısı  
+B) Hedef kitle  
+C) İndirme işlemi  
+D) Görsel boyutu  
+
+**3.** Bir hikâyede olayların gerçekleştiği yer aşağıdakilerden hangisidir?
+
+A) Mekân  
+B) Karakter  
+C) Mesaj  
+D) Başlık  
+
+**4.** Bir senaryoda verilmek istenen temel düşünceye ne ad verilir?
+
+A) Araç  
+B) Mekân  
+C) Mesaj  
+D) Şablon  
+
+**5.** Canva'da hazır tasarım örneklerini bulmak için öncelikle hangi bölümden yararlanılır?
+
+A) Şablonlar  
+B) Yüklemeler  
+C) Projeler  
+D) İndir  
+
+**6.** Canva'da tasarıma şekil, çizgi veya farklı görsel ögeler eklemek için hangi bölüm kullanılır?
+
+A) Metin  
+B) Öğeler  
+C) İndir  
+D) Projeler  
+
+**7.** Bir tasarıma kendi bilgisayarındaki fotoğrafı eklemek isteyen öğrenci hangi bölümden yararlanır?
+
+A) Şablonlar  
+B) Metin  
+C) Yüklemeler  
+D) Projeler  
+
+**8.** Yapay zekâya görsel hazırlatırken aşağıdakilerden hangisi daha iyi bir komuttur?
+
+A) Güzel bir şey yap.  
+B) Bir görsel oluştur.  
+C) Doğayı korumayla ilgili, çocuklara hitap eden, renkli ve okunaklı bir afiş oluştur.  
+D) Her şeyi ekle.  
+
+---
+
+### B. Doğru – Yanlış
+
+Aşağıdaki ifadelerin başına doğruysa **D**, yanlışsa **Y** yazınız.
+
+**9.** (....) Görsel hazırlamadan önce problemin belirlenmesi tasarım sürecine yardımcı olur.
+
+**10.** (....) Hedef kitle, görselin kimlere yönelik hazırlandığını belirtir.
+
+**11.** (....) Bir senaryoda karakter, mekân, olay ve mesaj gibi unsurlar bulunabilir.
+
+**12.** (....) Tasarımda yazıların okunaklı olması önemli değildir.
+
+**13.** (....) Canva'da metinlerin boyutu, rengi ve görünümü düzenlenebilir.
+
+**14.** (....) Yapay zekâya verilen komutun açık ve anlaşılır olması gerekmez.
+
+---
+
+### C. Eşleştirme
+
+Aşağıdaki kavramları uygun açıklamalarla eşleştiriniz.
+
+| Kavram | Açıklama |
+|---|---|
+| **15.** Hedef kitle | A. Tasarıma yazı eklemeyi sağlar. |
+| **16.** Mekân | B. Görselin kimlere yönelik olduğunu belirtir. |
+| **17.** Metin aracı | C. Olayın gerçekleştiği yeri belirtir. |
+| **18.** Öğeler | D. Tasarıma şekil ve çizgi gibi ögeler eklemeyi sağlar. |
+
+**Cevaplar:** 15: ....  16: ....  17: ....  18: ....
+
+---
+
+### D. Sıralama
+
+**19.** Bir görsel tasarlama sürecinde aşağıdaki işlemleri uygun sıraya koyunuz. Yanlarına 1'den 5'e kadar numara yazınız.
+
+(....) Görseli oluşturmak ve düzenlemek  
+(....) Gerçek yaşamdan bir problem belirlemek  
+(....) Tasarımı değerlendirmek ve gerekli düzeltmeleri yapmak  
+(....) Hedef kitleyi ve tasarımın amacını belirlemek  
+(....) Hikâye veya senaryo oluşturmak  
+
+---
+
+### E. Senaryo ve Yorumlama
+
+**20.** Ece, okulda öğrencilerin muslukları açık bıraktığını fark ediyor. Su tasarrufu hakkında bir afiş hazırlamak istiyor.
+
+a) Ece'nin belirlediği problem nedir?
+
+....................................................................................
+
+b) Bu afişin hedef kitlesi kim olabilir?
+
+....................................................................................
+
+c) Afişin vermek istediği mesaj ne olabilir?
+
+....................................................................................
+
+**21.** Bir öğrenci, okulda kitap okuma alışkanlığını artırmak için kısa bir görsel hikâye hazırlıyor.
+
+- Karakter: ........................................................
+- Mekân: ............................................................
+- Olay: ................................................................
+- Mesaj: ..............................................................
+
+**22.** Bir öğrenci Canva'da hazırladığı afişe başlık eklemek, bir fotoğraf yerleştirmek ve renkli şekiller kullanmak istiyor.
+
+Bu işlemler için kullanabileceği Canva bölümlerini yazınız.
+
+- Başlık eklemek: ................................................
+- Fotoğraf eklemek: ............................................
+- Şekil eklemek: .................................................
+
+**23.** Yapay zekâya “Bir afiş hazırla.” komutunu veren öğrenci istediği sonucu alamıyor.
+
+Bu komutu daha anlaşılır hâle getirmek için hangi bilgileri ekleyebilir? En az üç örnek yazınız.
+
+1. .........................................................................
+2. .........................................................................
+3. .........................................................................
+
+**24.** Bir öğrenci dijital güvenlik konulu bir afiş hazırlıyor. Afişte yazılar çok küçük, görseller konuyla ilgisiz ve verilmek istenen mesaj anlaşılmıyor.
+
+Bu tasarımda gördüğünüz üç problemi yazınız.
+
+1. .........................................................................
+2. .........................................................................
+3. .........................................................................
+
+**25.** Hazırladığınız bir görseli tamamladıktan sonra onu değerlendirmek için kendinize sorabileceğiniz üç soru yazınız.
+
+1. .........................................................................
+2. .........................................................................
+3. .........................................................................
+
+---
+
+**TEST TAMAMLANDI**
+
+Cevaplarınızı kontrol etmeyi ve açık uçlu sorularda düşüncelerinizi kendi cümlelerinizle ifade etmeyi unutmayınız.
+
+---
+
+# CEVAP ANAHTARI – ÖĞRETMEN KULLANIMI
+
+### A. Çoktan Seçmeli
+1. B  
+2. B  
+3. A  
+4. C  
+5. A  
+6. B  
+7. C  
+8. C  
+
+### B. Doğru – Yanlış
+9. D  
+10. D  
+11. D  
+12. Y  
+13. D  
+14. Y  
+
+### C. Eşleştirme
+15. B  
+16. C  
+17. A  
+18. D  
+
+### D. Sıralama
+19.  
+- Görseli oluşturmak ve düzenlemek: **4**
+- Gerçek yaşamdan bir problem belirlemek: **1**
+- Tasarımı değerlendirmek ve gerekli düzeltmeleri yapmak: **5**
+- Hedef kitleyi ve tasarımın amacını belirlemek: **2**
+- Hikâye veya senaryo oluşturmak: **3**
+
+### E. Senaryo ve Yorumlama – Örnek Cevaplar
+
+**20.**
+- a) Öğrencilerin muslukları açık bırakması ve suyu israf etmesi.
+- b) Okul öğrencileri.
+- c) “Suyu boşa harcama, geleceğini koru.” gibi uygun mesajlar.
+
+**21.** Örnek:
+- Karakter: Kitap okumayı seven bir öğrenci.
+- Mekân: Okul kütüphanesi.
+- Olay: Öğrenci arkadaşlarına kitap okumayı önerir.
+- Mesaj: Kitap okumak bilgi ve hayal gücümüzü geliştirir.
+
+Öğrencinin kurduğu, konuya uygun ve birbiriyle tutarlı senaryolar kabul edilir.
+
+**22.**
+- Başlık eklemek: Metin
+- Fotoğraf eklemek: Yüklemeler
+- Şekil eklemek: Öğeler
+
+**23.** Örnek bilgiler:
+- Afişin konusu (örneğin dijital güvenlik).
+- Hedef kitlesi (örneğin 5. sınıf öğrencileri).
+- Görselin tarzı (örneğin renkli ve sade).
+- Görselde bulunması istenen nesneler veya ayrıntılar.
+
+En az üç uygun bilgi içeren cevaplar kabul edilir.
+
+**24.**
+- Yazıların küçük olması ve okunmaması.
+- Görsellerin konuyla ilgisiz olması.
+- Ana mesajın anlaşılmaması.
+
+**25.** Örnek değerlendirme soruları:
+- Görselim hedef kitleme uygun mu?
+- Yazılarım kolay okunuyor mu?
+- Görsellerim vermek istediğim mesajı destekliyor mu?
+- Senaryomla tasarımım birbiriyle uyumlu mu?
+
+Anlamlı ve tasarımı değerlendirmeye yönelik üç farklı soru kabul edilir.

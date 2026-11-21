@@ -1,0 +1,369 @@
+# ÖĞRETMEN BOZOK – 24 SLAYTLIK AKILLI TAHTA DERS SUNUSU
+
+## 1. PROJE BİLGİLERİ
+
+**Ders:** Bilişim Teknolojileri ve Yazılım  
+**Sınıf:** 5. Sınıf  
+**Tema:** Dijital Ürün Tasarımı ve Geliştirme  
+**Konu:** Canva ile Görsel Tasarlama
+
+**Kazanımlar:**
+- BTY.5.2.2 – Görsel için kurgu oluşturabilme
+- BTY.5.2.3 – Görsel dosyası geliştirebilme
+
+Bu iki kazanım aynı hafta birlikte işlenecektir. Sunu, iki kazanımı birbirinden koparmadan tek bir tasarım süreci içinde ele almalıdır.
+
+## 2. GENEL GÖREV
+
+Öğretmen Bozok markasına uygun, 5. sınıf öğrencilerinin ilgisini çekecek, öğretmenin sınıfta doğrudan kullanabileceği kapsamlı bir akıllı tahta sunusu hazırla.
+
+Sununun amacı yalnızca kavramları tanımlamak değildir. Öğrenci:
+- Günlük yaşamdan bir problem fark etmeli.
+- Bu problem için görsel tasarım fikri geliştirmeli.
+- Hedef kitle ve tasarım amacını belirlemeli.
+- Hikâye ve senaryo oluşturmalı.
+- Storyboard ile tasarımını planlamalı.
+- Canva'nın temel araçlarını tanımalı.
+- Canva'da tasarım oluşturma sürecini anlamalı.
+- Yapay zekâya uygun komut yazmayı öğrenmeli.
+- Tasarımını değerlendirmeli ve geliştirmelidir.
+
+**Önemli:** Sunu yalnızca başlık ve kısa maddelerden oluşmasın. Her konu açıklansın, örneklendirilsin ve öğrencinin düşünmesini sağlayacak sorularla desteklensin.
+
+## 3. MARKA VE TASARIM KİMLİĞİ
+
+Kullanıcının sağladığı:
+- Öğretmen Bozok karakter setini,
+- MB Öğretmen Bozok logosunu
+
+referans olarak kullan.
+
+Tasarım özellikleri:
+- Ana renkler: Turkuaz, koyu lacivert ve beyaz.
+- Yardımcı renkler: Açık turkuaz ve gerektiğinde sarı.
+- Modern, düzenli ve profesyonel görünüm.
+- 5. sınıf öğrencilerine uygun, enerjik ama göz yormayan tasarım.
+- Öğretmen Bozok karakteri anlatıcı, yönlendirici ve soru soran öğretmen rolünde kullanılsın.
+- Logo kapakta ve uygun alt bilgi alanlarında yer alsın.
+- Her slaytta aynı tasarım dili korunsun.
+- Türkçe karakterler doğru görüntülensin.
+
+**Teknik özellikler:**
+- 16:9 geniş ekran.
+- PowerPoint biçiminde ve tamamen düzenlenebilir.
+- Akıllı tahtada uzaktan okunabilecek büyük yazılar.
+- Başlıklar belirgin, açıklamalar kısa paragraflar hâlinde.
+- Görsel, şema, örnek ve karşılaştırmalarla desteklenmiş slaytlar.
+- Gereksiz animasyon ve aşırı süsleme kullanılmasın.
+
+# 4. SUNU İÇERİĞİ – 24 SLAYT
+
+## BÖLÜM 1 – GÖRSEL TASARIMI TANIMA
+
+### SLAYT 1 – Kapak
+Başlık: CANVA İLE GÖRSEL TASARLAMA
+
+- Öğretmen Bozok karakteri ve logosu.
+- BTY.5.2.2 ve BTY.5.2.3 kazanım kodları.
+- 5. Sınıf Bilişim Teknolojileri ve Yazılım.
+- Görsel açıdan güçlü bir kapak tasarımı.
+
+### SLAYT 2 – Bir Görsel Neden Hazırlanır?
+Görsel tasarımın günlük yaşamdaki kullanımını açıkla.
+
+Örnekler:
+- Okul etkinliği afişi.
+- Kitap tanıtım görseli.
+- Çevreyi koruma posteri.
+- Dijital güvenlik afişi.
+- Bir etkinliğe davetiye.
+
+Öğrencilere şu soruyu sor:
+
+“Bir afiş gördüğünde ilk olarak nereye bakarsın?”
+
+### SLAYT 3 – Görsel Tasarım Nedir?
+- Bir düşünceyi, bilgiyi veya mesajı görsellerle anlatmak.
+- Yazı, renk, şekil, fotoğraf ve çizimlerin birlikte kullanılması.
+- Görsel tasarımın bilgilendirme ve farkındalık oluşturma amacı.
+
+Günlük hayattan örneklerle açıkla.
+
+### SLAYT 4 – İyi Bir Görsel Tasarımın Özellikleri
+- Amaca uygunluk.
+- Hedef kitleye uygunluk.
+- Okunabilirlik.
+- Sadelik.
+- Renk uyumu.
+- Görsel bütünlük.
+
+Başarılı ve başarısız tasarım örneklerini karşılaştır.
+
+## BÖLÜM 2 – PROBLEM VE KURGU OLUŞTURMA
+
+### SLAYT 5 – Tasarıma Bir Problemle Başla
+Günlük yaşamda görsel tasarımla anlatılabilecek problemleri göster:
+
+- Güçlü şifre kullanmama.
+- Kişisel bilgileri internette paylaşma.
+- Siber zorbalık.
+- Teknoloji kullanımında denge.
+- Çevre kirliliği.
+
+Öğrencinin bir problem seçmesini iste.
+
+### SLAYT 6 – Hedef Kitleyi Belirle
+Hedef kitle kavramını 5. sınıf düzeyinde açıkla.
+
+Örnekler:
+- Çocuklar için afiş.
+- Öğretmenler için bilgilendirme görseli.
+- Aileler için güvenli internet posteri.
+- Tüm okul için çevre duyurusu.
+
+Aynı mesajın farklı hedef kitlelere göre nasıl değişebileceğini göster.
+
+### SLAYT 7 – Tasarımın Amacını Belirle
+Tasarımın amacı şu seçeneklerden biri veya birkaçı olabilir:
+- Bilgilendirmek.
+- Uyarıda bulunmak.
+- Farkındalık oluşturmak.
+- Bir davranışı teşvik etmek.
+
+Örnek problem ve amaç eşleştirmeleri yap.
+
+### SLAYT 8 – Hikâye ve Senaryo Nedir?
+- Senaryo, görselde anlatılacak olayın önceden planlanmasıdır.
+- Hikâyenin görselin mesajını güçlendirmesi gerekir.
+- Olaylar birbiriyle tutarlı olmalıdır.
+
+Dijital güvenlik konusunda kısa bir örnek senaryo göster.
+
+### SLAYT 9 – Hikâyenin Dört Temel Unsuru
+Dört kavramı ayrı görsel alanlarda açıkla:
+
+1. Karakter: Hikâyede kim var?
+2. Mekân: Olay nerede geçiyor?
+3. Olay: Ne yaşanıyor?
+4. Mesaj: İzleyici ne öğrenmeli?
+
+Her kavram için dijital güvenlik örneği ver.
+
+### SLAYT 10 – Başlangıç, Gelişme ve Sonuç
+- Başlangıç: Problem veya durum tanıtılır.
+- Gelişme: Olay yaşanır ve çözüm aranır.
+- Sonuç: Problem çözülür veya ana mesaj verilir.
+
+Örnek:
+Bir öğrenci kolay tahmin edilen bir şifre kullanır. Hesabının güvenliğiyle ilgili sorun yaşar. Güçlü şifre oluşturmayı öğrenir ve arkadaşlarını bilgilendirir.
+
+### SLAYT 11 – Storyboard: Hikâyeyi Karelere Dönüştür
+Storyboard kavramını açıkla.
+
+- İlk kare: Başlangıç.
+- İkinci kare: Gelişme.
+- Üçüncü kare: Sonuç.
+
+Aynı dijital güvenlik örneğini üç karelik görsel taslak olarak göster.
+
+Öğrencilere kendi hikâyelerini üç karede planlamalarını söyle.
+
+## BÖLÜM 3 – CANVA'YI TANIMA VE KULLANMA
+
+### SLAYT 12 – Canva Nedir?
+Canva'nın ne amaçla kullanıldığını açıkla.
+
+Örnek kullanım alanları:
+- Afiş.
+- Davetiye.
+- Sunum.
+- İnfografik.
+- Sosyal medya görseli.
+
+Canva'nın hazır şablonlar ve sürükle-bırak mantığıyla tasarım hazırlamayı kolaylaştırdığını anlat.
+
+### SLAYT 13 – Canva'da Tasarıma Başlama
+Temel tasarım sürecini sırayla açıkla:
+1. Canva'yı aç.
+2. Tasarım türünü veya boyutunu seç.
+3. Hazır şablonları incele.
+4. Uygun bir şablon seç veya boş tasarımla başla.
+5. Tasarım alanını düzenlemeye başla.
+
+Ekran görüntüsü veya açıklayıcı arayüz görseli kullan. Güncel arayüzü doğrulayamadığın yerlerde sahte ekran görüntüsü oluşturma.
+
+### SLAYT 14 – Canva Şablonları
+- Şablonun ne olduğunu açıkla.
+- Hazır tasarım örneklerinin nasıl kullanılacağını göster.
+- Şablon seçerken konuya ve hedef kitleye dikkat edilmesini anlat.
+- Hazır şablonun olduğu gibi bırakılmak zorunda olmadığını vurgula.
+
+### SLAYT 15 – Canva Öğeler
+Öğeler bölümünü açıkla:
+- Şekiller.
+- Simgeler.
+- İkonlar.
+- Çizimler.
+- Dekoratif görsel öğeler.
+
+Bir dijital güvenlik afişinde kullanılabilecek örnek öğeleri göster.
+
+### SLAYT 16 – Canva Metin Araçları
+Metin ekleme ve düzenleme işlemlerini anlat:
+- Başlık ekleme.
+- Alt başlık ekleme.
+- Açıklama yazısı ekleme.
+- Yazı tipi seçimi.
+- Yazı boyutu.
+- Yazı rengi.
+- Kalın ve benzeri biçimlendirmeler.
+
+Başlık ile açıklama metni arasındaki farkı örnekle göster.
+
+### SLAYT 17 – Yüklemeler, Arka Plan ve Diğer Araçlar
+- Yüklemeler: Kendi görsellerini tasarıma ekleme.
+- Arka plan: Tasarımın zeminini düzenleme.
+- Projeler: Çalışmaları düzenli tutma.
+- Uygulamalar ve araçlar: Tasarım sürecini destekleyen seçenekler.
+
+Araçların kullanım amaçlarını 5. sınıf seviyesinde açıkla.
+
+### SLAYT 18 – Sürükle, Yerleştir ve Düzenle
+Bir tasarımın nasıl düzenlendiğini örnekle:
+- Metni seçme.
+- Görseli seçme.
+- Boyutunu değiştirme.
+- Konumunu ayarlama.
+- Öğeleri hizalama.
+- Tasarımın genel görünümünü kontrol etme.
+
+Öğrencinin anlayabileceği önce/sonra örneği göster.
+
+### SLAYT 19 – Tasarımı İndirme ve Saklama
+- Tasarım tamamlandıktan sonra kontrol edilmesi.
+- İndirme seçeneğinin kullanılması.
+- Kullanılan tasarıma uygun dosya biçiminin seçilmesi.
+- Dosyanın düzenli adlandırılması ve saklanması.
+
+PNG, JPG ve PDF biçimlerini genel kullanım amaçlarıyla açıkla. Canva'daki mevcut seçeneklerin hesap ve tasarım türüne göre değişebileceğini belirt.
+
+## BÖLÜM 4 – YAPAY ZEKÂ İLE GÖRSEL TASARIM
+
+### SLAYT 20 – Canva ve Yapay Zekâ
+- Yapay zekânın tasarım sürecine nasıl yardımcı olabileceğini açıkla.
+- Canva'da bulunan AI araçlarının görsel üretimi ve fikir geliştirme amacıyla kullanılabileceğini anlat.
+- Yapay zekânın ürettiği sonucun her zaman kusursuz olmayabileceğini vurgula.
+- Üretilen görselin kontrol edilmesi ve gerektiğinde düzenlenmesi gerektiğini belirt.
+
+### SLAYT 21 – Prompt Nedir?
+Prompt kavramını 5. sınıf seviyesinde açıkla.
+
+Prompt:
+“Yapay zekâya ne yapmasını istediğimizi anlatan komuttur.”
+
+İyi bir prompt yazarken:
+- Kim veya ne görünecek?
+- Ne yapacak?
+- Nerede olacak?
+- Hangi tarzda olacak?
+- Hangi ayrıntılar bulunacak?
+
+sorularına cevap verilmesini göster.
+
+### SLAYT 22 – İyi ve Zayıf Prompt Karşılaştırması
+Zayıf komut:
+“Bir afiş yap.”
+
+Geliştirilmiş komut:
+“5. sınıf öğrencileri için güçlü şifre kullanımını anlatan, renkli, sade ve anlaşılır bir dijital güvenlik afişi oluştur.”
+
+İki komut arasındaki farkı açıkla.
+
+Öğrencilere kendi promptlarını geliştirme görevi ver.
+
+## BÖLÜM 5 – DEĞERLENDİRME VE PEKİŞTİRME
+
+### SLAYT 23 – Tasarımını Değerlendir ve Geliştir
+Kontrol listesi oluştur:
+- Problem ve tasarım amacı uyumlu mu?
+- Hedef kitle doğru belirlenmiş mi?
+- Hikâye tutarlı mı?
+- Mesaj açık mı?
+- Yazılar okunaklı mı?
+- Renkler uyumlu mu?
+- Görseller konuya uygun mu?
+- Gereksiz öğeler var mı?
+
+Hatalı bir afiş örneği göster ve öğrencilerden düzeltme önerileri iste.
+
+### SLAYT 24 – Genel Tekrar ve Çıkış Etkinliği
+Önceki slaytlardaki bütün süreci görsel bir akış şemasıyla özetle:
+
+Problem → Hedef Kitle ve Amaç → Hikâye ve Senaryo → Storyboard → Canva Tasarımı → AI Prompt → Değerlendirme ve Geliştirme
+
+Ardından öğrencilere şu uygulama görevini ver:
+
+**GÖREV: DİJİTAL GÜVENLİK AFİŞİ**
+
+“Okul arkadaşlarını güçlü şifre kullanmaya teşvik eden bir afiş hazırlayacaksın.”
+
+Öğrencilerden:
+1. Problemi belirlemelerini,
+2. Hedef kitleyi seçmelerini,
+3. Afişin mesajını yazmalarını,
+4. Üç karelik hikâye taslağı oluşturmalarını,
+5. Canva'da kullanacakları araçları belirlemelerini,
+6. Yapay zekâ için bir prompt yazmalarını,
+7. Tasarımlarını kontrol etmek için üç ölçüt seçmelerini iste.
+
+Son olarak çıkış sorusu:
+
+“Bir görsel tasarımın başarılı olması için yalnızca güzel görünmesi yeterli midir? Neden?”
+
+# 5. SUNU İÇİN ÖĞRETMEN ANLATIM NOTLARI
+
+Her slayt için sunucu notları hazırla.
+
+Notlarda:
+- Öğretmenin konuyu nasıl açıklayacağı,
+- Önemli kavramların kısa açıklamaları,
+- Öğrencilere sorulacak sorular,
+- Örnek cevaplar,
+- Bir sonraki slayta geçiş cümlesi
+
+bulunsun.
+
+Sunucu notları slaytın üzerinde görünmesin; PowerPoint konuşmacı notları alanında yer alsın.
+
+# 6. ETKİLEŞİMLİ SINIF KULLANIMI
+
+Uygun slaytlara kısa etkinlikler ekle:
+- Görseldeki problemi bul.
+- Hedef kitleyi tahmin et.
+- Hikâyenin eksik unsurunu tamamla.
+- Storyboard sıralamasını yap.
+- Canva aracını kullanım amacıyla eşleştir.
+- Zayıf promptu geliştir.
+- Hatalı tasarımı düzelt.
+
+Soruların cevaplarını doğrudan aynı slaytta gösterme. Öğretmen için cevapları konuşmacı notlarına ekle.
+
+# 7. KALİTE KONTROLÜ VE TESLİM
+
+Sunuyu tamamladıktan sonra:
+
+1. 24 slaydın tamamının bulunduğunu kontrol et.
+2. İki kazanımın da içerikte yeterince işlendiğini doğrula.
+3. Canva araçlarının anlatımında kavram karışıklığı olmadığını kontrol et.
+4. AI ve prompt anlatımının 5. sınıf seviyesine uygun olduğunu kontrol et.
+5. Kaynaklarda bulunmayan özellikleri kaynak bilgisi gibi sunma.
+6. Türkçe karakterleri ve yazım kurallarını kontrol et.
+7. Öğretmen Bozok karakteri ve logosunun tutarlı kullanıldığını kontrol et.
+8. Yazıların akıllı tahtada okunabilir olduğunu kontrol et.
+9. Görsellerin metinleri kapatmadığını ve taşma olmadığını kontrol et.
+10. Sunuyu baştan sona çalıştırıp slaytları kontrol et.
+11. Düzenlenebilir PowerPoint dosyasını proje klasörüne kaydet.
+
+**TESLİM:** Tamamlanmış 24 slaytlık PowerPoint sunusu ve öğretmen konuşmacı notları.
+
+Yalnızca sunu taslağı veya metin planı verme. Gerçek sunuyu oluştur, kontrol et ve dosya konumunu bildir.

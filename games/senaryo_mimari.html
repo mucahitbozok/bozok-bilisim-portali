@@ -1,0 +1,1553 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Senaryo Mimarı | Öğretmen Bozok</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <style>
+        :root {
+            --bg-dark: #070d18;
+            --panel-bg: rgba(13, 23, 42, 0.92);
+            --panel-border: rgba(6, 182, 212, 0.28);
+            --primary: #06b6d4;
+            --accent: #6366f1;
+            --navy: #0f172a;
+            --green: #10b981;
+            --yellow: #f59e0b;
+            --red: #ef4444;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: radial-gradient(circle at 50% 10%, #162447 0%, #070d18 100%);
+            color: #f8fafc;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow-x: hidden;
+            padding: 16px;
+        }
+
+        #game-frame {
+            width: 100%;
+            max-width: 1100px;
+            min-height: 85vh;
+            background: var(--panel-bg);
+            border: 2px solid var(--panel-border);
+            border-radius: 28px;
+            backdrop-filter: blur(20px);
+            box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.85), 0 0 35px rgba(6, 182, 212, 0.2);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        header {
+            padding: 16px 24px;
+            background: rgba(15, 23, 42, 0.95);
+            border-bottom: 2px solid rgba(255, 255, 255, 0.08);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .mb-logo {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, #06b6d4, #4f46e5);
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            font-weight: 900;
+            color: #fff;
+            letter-spacing: -1px;
+            box-shadow: 0 4px 16px rgba(6, 182, 212, 0.4);
+        }
+
+        .header-title h1 {
+            font-size: 1.3rem;
+            font-weight: 900;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .header-title p {
+            font-size: 0.78rem;
+            color: #67e8f9;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+        }
+
+        .header-controls {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn-ctrl {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.16);
+            color: #f1f5f9;
+            padding: 9px 15px;
+            border-radius: 12px;
+            font-size: 0.82rem;
+            font-weight: 800;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            transition: all 0.2s;
+        }
+
+        .btn-ctrl:hover {
+            background: rgba(6, 182, 212, 0.25);
+            border-color: #06b6d4;
+            transform: translateY(-2px);
+        }
+
+        .stat-badge {
+            background: rgba(15, 23, 42, 0.85);
+            border: 1px solid rgba(6, 182, 212, 0.35);
+            padding: 8px 14px;
+            border-radius: 12px;
+            font-weight: 800;
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #e2e8f0;
+        }
+
+        .stat-badge span {
+            color: #22d3ee;
+            font-size: 1rem;
+        }
+
+        main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 24px;
+            position: relative;
+        }
+
+        .screen {
+            width: 100%;
+            max-width: 900px;
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            animation: fadeIn 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .screen.active {
+            display: flex;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(12px) scale(0.98); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        .start-avatar {
+            width: 110px;
+            height: 110px;
+            background: linear-gradient(135deg, #0891b2, #4338ca);
+            border: 4px solid #22d3ee;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3.2rem;
+            color: #fff;
+            margin-bottom: 18px;
+            box-shadow: 0 10px 30px rgba(6, 182, 212, 0.4);
+            animation: pulse 2.5s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .hero-title {
+            font-size: 2.2rem;
+            font-weight: 900;
+            text-align: center;
+            background: linear-gradient(135deg, #ffffff, #67e8f9);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+        }
+
+        .hero-desc {
+            font-size: 1.05rem;
+            color: #94a3b8;
+            text-align: center;
+            max-width: 620px;
+            margin-bottom: 24px;
+            line-height: 1.5;
+        }
+
+        .section-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+            margin-bottom: 28px;
+        }
+
+        .sec-tag {
+            background: rgba(6, 182, 212, 0.12);
+            border: 1px solid rgba(6, 182, 212, 0.3);
+            color: #a5f3fc;
+            padding: 8px 14px;
+            border-radius: 9999px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn-start {
+            background: linear-gradient(135deg, #06b6d4, #4f46e5);
+            color: #fff;
+            padding: 16px 42px;
+            border-radius: 18px;
+            font-size: 1.25rem;
+            font-weight: 900;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 10px 25px rgba(6, 182, 212, 0.5);
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            transition: all 0.25s;
+        }
+
+        .btn-start:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 15px 35px rgba(6, 182, 212, 0.65);
+        }
+
+        .quiz-top {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 14px;
+        }
+
+        .section-indicator {
+            padding: 6px 14px;
+            background: rgba(99, 102, 241, 0.2);
+            border: 1px solid rgba(99, 102, 241, 0.4);
+            border-radius: 10px;
+            color: #a5b4fc;
+            font-size: 0.85rem;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            gap: 7px;
+        }
+
+        .progress-bar-container {
+            width: 100%;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 9999px;
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #06b6d4, #6366f1);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .scenario-box {
+            width: 100%;
+            background: rgba(15, 23, 42, 0.85);
+            border: 1px solid rgba(255, 255, 255, 0.14);
+            border-radius: 20px;
+            padding: 22px;
+            margin-bottom: 20px;
+        }
+
+        .scenario-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(6, 182, 212, 0.2);
+            color: #67e8f9;
+            font-size: 0.78rem;
+            font-weight: 800;
+            padding: 4px 10px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+        }
+
+        .scenario-text {
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: #f1f5f9;
+            line-height: 1.5;
+        }
+
+        /* ORDERING CARDS (SECTION 3) */
+        .order-slots-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            width: 100%;
+            margin-bottom: 16px;
+        }
+
+        .order-slot {
+            background: rgba(15, 23, 42, 0.6);
+            border: 2px dashed rgba(6, 182, 212, 0.4);
+            border-radius: 16px;
+            min-height: 90px;
+            padding: 12px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            font-size: 0.85rem;
+            color: #94a3b8;
+            font-weight: 700;
+        }
+
+        .order-slot.filled {
+            border-style: solid;
+            border-color: #06b6d4;
+            background: rgba(6, 182, 212, 0.15);
+            color: #f8fafc;
+        }
+
+        .order-slot-header {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            font-weight: 900;
+            color: #38bdf8;
+            margin-bottom: 6px;
+        }
+
+        .order-pool-cards {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+
+        .order-item-card {
+            background: rgba(30, 41, 59, 0.85);
+            border: 2px solid rgba(255, 255, 255, 0.14);
+            border-radius: 14px;
+            padding: 14px 18px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-weight: 700;
+            font-size: 0.95rem;
+            color: #f1f5f9;
+        }
+
+        .order-item-card:hover {
+            border-color: #06b6d4;
+            background: rgba(6, 182, 212, 0.2);
+            transform: translateX(4px);
+        }
+
+        .order-item-card.used {
+            opacity: 0.4;
+            pointer-events: none;
+            text-decoration: line-through;
+        }
+
+        /* SECTION 4: SENARYO KURMA (INTERACTIVE BUILDER) */
+        .builder-grid {
+            width: 100%;
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+
+        @media (min-width: 640px) {
+            .builder-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        .builder-category {
+            background: rgba(15, 23, 42, 0.75);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 16px;
+            padding: 14px;
+        }
+
+        .cat-title {
+            font-size: 0.85rem;
+            font-weight: 900;
+            color: #38bdf8;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            text-transform: uppercase;
+        }
+
+        .cat-options {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .cat-btn {
+            background: rgba(30, 41, 59, 0.85);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #cbd5e1;
+            padding: 10px 12px;
+            border-radius: 10px;
+            font-size: 0.88rem;
+            font-weight: 700;
+            cursor: pointer;
+            text-align: left;
+            transition: all 0.2s;
+        }
+
+        .cat-btn:hover {
+            background: rgba(6, 182, 212, 0.2);
+            color: #fff;
+        }
+
+        .cat-btn.selected {
+            background: linear-gradient(135deg, #0891b2, #4f46e5);
+            border-color: #22d3ee;
+            color: #fff;
+            box-shadow: 0 4px 12px rgba(6, 182, 212, 0.4);
+        }
+
+        .story-preview-card {
+            width: 100%;
+            background: linear-gradient(135deg, rgba(6, 182, 212, 0.15), rgba(99, 102, 241, 0.15));
+            border: 2px solid #06b6d4;
+            border-radius: 20px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .options-grid {
+            width: 100%;
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        @media (min-width: 640px) {
+            .options-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        .option-card {
+            background: rgba(30, 41, 59, 0.75);
+            border: 2px solid rgba(255, 255, 255, 0.12);
+            border-radius: 16px;
+            padding: 16px 18px;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: left;
+        }
+
+        .option-card:hover {
+            background: rgba(6, 182, 212, 0.15);
+            border-color: #06b6d4;
+            transform: translateY(-2px);
+        }
+
+        .option-card.correct {
+            background: rgba(16, 185, 129, 0.25) !important;
+            border-color: #10b981 !important;
+            color: #a7f3d0 !important;
+        }
+
+        .option-card.incorrect {
+            background: rgba(239, 68, 68, 0.25) !important;
+            border-color: #ef4444 !important;
+            color: #fecaca !important;
+        }
+
+        .option-key {
+            width: 34px;
+            height: 34px;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 900;
+            font-size: 0.95rem;
+            flex-shrink: 0;
+            color: #38bdf8;
+        }
+
+        .option-card.correct .option-key {
+            background: #10b981;
+            color: #fff;
+        }
+
+        .option-card.incorrect .option-key {
+            background: #ef4444;
+            color: #fff;
+        }
+
+        .option-label {
+            font-size: 0.98rem;
+            font-weight: 700;
+            color: #e2e8f0;
+            flex: 1;
+        }
+
+        .feedback-box {
+            width: 100%;
+            background: rgba(15, 23, 42, 0.9);
+            border: 2px solid var(--panel-border);
+            border-radius: 16px;
+            padding: 16px 20px;
+            margin-bottom: 20px;
+            display: none;
+            align-items: flex-start;
+            gap: 14px;
+            animation: slideUp 0.25s ease;
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .feedback-box.show {
+            display: flex;
+        }
+
+        .feedback-icon {
+            font-size: 1.5rem;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .feedback-content h4 {
+            font-size: 1rem;
+            font-weight: 800;
+            margin-bottom: 4px;
+        }
+
+        .feedback-content p {
+            font-size: 0.9rem;
+            color: #cbd5e1;
+            line-height: 1.4;
+        }
+
+        .btn-next {
+            background: linear-gradient(135deg, #06b6d4, #4f46e5);
+            color: #fff;
+            padding: 13px 32px;
+            border-radius: 14px;
+            font-size: 1.05rem;
+            font-weight: 800;
+            border: none;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s;
+            margin-left: auto;
+        }
+
+        .btn-next:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(6, 182, 212, 0.4);
+        }
+
+        .result-card {
+            background: rgba(15, 23, 42, 0.85);
+            border: 2px solid rgba(6, 182, 212, 0.4);
+            border-radius: 24px;
+            padding: 32px;
+            text-align: center;
+            width: 100%;
+            max-width: 650px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.6);
+        }
+
+        .result-trophy {
+            font-size: 4rem;
+            color: #facc15;
+            margin-bottom: 14px;
+            animation: bounce 1.2s infinite alternate;
+        }
+
+        @keyframes bounce {
+            from { transform: translateY(0); }
+            to { transform: translateY(-10px); }
+        }
+
+        .result-score {
+            font-size: 3rem;
+            font-weight: 900;
+            color: #22d3ee;
+            margin-bottom: 6px;
+        }
+
+        .result-title {
+            font-size: 1.6rem;
+            font-weight: 900;
+            color: #fff;
+            margin-bottom: 8px;
+        }
+
+        .result-msg {
+            font-size: 1rem;
+            color: #cbd5e1;
+            margin-bottom: 24px;
+            line-height: 1.5;
+        }
+
+        .modal {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.75);
+            backdrop-filter: blur(8px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            padding: 16px;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-body {
+            background: #0f172a;
+            border: 2px solid #06b6d4;
+            border-radius: 24px;
+            padding: 28px;
+            max-width: 550px;
+            width: 100%;
+            color: #f8fafc;
+        }
+
+        .modal-body h3 {
+            font-size: 1.4rem;
+            font-weight: 900;
+            color: #22d3ee;
+            margin-bottom: 14px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .modal-body ul {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 20px;
+            font-size: 0.95rem;
+            color: #cbd5e1;
+        }
+
+        .modal-body li {
+            display: flex;
+            gap: 10px;
+            align-items: flex-start;
+        }
+
+        .modal-body li i {
+            color: #38bdf8;
+            margin-top: 3px;
+        }
+
+        .btn-close-modal {
+            background: #06b6d4;
+            color: #042f2e;
+            padding: 10px 24px;
+            border-radius: 12px;
+            font-weight: 800;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+
+<div id="game-frame">
+    <header>
+        <div class="header-left">
+            <div class="mb-logo">MB</div>
+            <div class="header-title">
+                <h1><i class="fa-solid fa-clapperboard text-cyan-400"></i> Senaryo Mimarı</h1>
+                <p>Öğretmen Bozok • BTY.5.2.2</p>
+            </div>
+        </div>
+        <div class="header-controls">
+            <div class="stat-badge">
+                <i class="fa-solid fa-star text-amber-400"></i> Puan: <span id="score-display">0</span>
+            </div>
+            <button class="btn-ctrl" id="btn-how" onclick="game.toggleModal(true)">
+                <i class="fa-solid fa-circle-question text-cyan-400"></i> Nasıl Oynanır?
+            </button>
+            <button class="btn-ctrl" id="btn-sound" onclick="game.toggleSound()">
+                <i class="fa-solid fa-volume-high" id="sound-icon"></i>
+            </button>
+        </div>
+    </header>
+
+    <main>
+        <!-- START SCREEN -->
+        <div class="screen active" id="screen-start">
+            <div class="start-avatar">
+                <i class="fa-solid fa-masks-theater"></i>
+            </div>
+            <h2 class="hero-title">Bir Hikâye Oluştur, Görselin Kurgusunu Tamamla!</h2>
+            <p class="hero-desc">
+                Harika bir afiş veya görsel hazırlamanın sırrı güçlü bir senaryodur! Karakter, mekân, olay ve mesajı belirle, olayları sıraya koy ve kendi storyboard senaryonu inşa et!
+            </p>
+            <div class="section-tags">
+                <div class="sec-tag"><i class="fa-solid fa-puzzle-piece"></i> 1. Hikâyenin Parçaları</div>
+                <div class="sec-tag"><i class="fa-solid fa-pen-fancy"></i> 2. Hikâyeyi Tamamla</div>
+                <div class="sec-tag"><i class="fa-solid fa-arrow-down-1-9"></i> 3. Olayları Sırala</div>
+                <div class="sec-tag"><i class="fa-solid fa-wand-magic-sparkles"></i> 4. Senaryonu Kur</div>
+            </div>
+            <button class="btn-start" onclick="game.start()">
+                <i class="fa-solid fa-play"></i> Mimarlığa Başla
+            </button>
+        </div>
+
+        <!-- QUIZ / TASK SCREEN -->
+        <div class="screen" id="screen-quiz">
+            <div class="quiz-top">
+                <div class="section-indicator" id="quiz-section-badge">
+                    <i class="fa-solid fa-layer-group"></i> Bölüm 1
+                </div>
+                <div class="stat-badge">
+                    Görev: <span id="task-counter">1 / 20</span>
+                </div>
+            </div>
+            <div class="progress-bar-container">
+                <div class="progress-bar-fill" id="progress-fill"></div>
+            </div>
+
+            <!-- Normal Quiz Container (Bölüm 1 & 2) -->
+            <div id="container-standard" style="width:100%;">
+                <div class="scenario-box">
+                    <div class="scenario-badge" id="standard-badge">Görev</div>
+                    <div class="scenario-text" id="standard-text">Soru metni...</div>
+                </div>
+                <div class="options-grid" id="standard-options"></div>
+            </div>
+
+            <!-- Sorting Container (Bölüm 3) -->
+            <div id="container-sorting" style="width:100%; display:none;">
+                <div class="scenario-box">
+                    <div class="scenario-badge">Olay Akışı Sıralama</div>
+                    <div class="scenario-text" id="sorting-instruction">Aşağıdaki 3 olayı sırasıyla Başlangıç, Gelişme ve Sonuç kutularına yerleştir:</div>
+                </div>
+                <div class="order-slots-grid">
+                    <div class="order-slot" id="slot-0" onclick="game.undoOrderSlot(0)">
+                        <div class="order-slot-header">1. Başlangıç</div>
+                        <div id="slot-text-0">Kart Seç</div>
+                    </div>
+                    <div class="order-slot" id="slot-1" onclick="game.undoOrderSlot(1)">
+                        <div class="order-slot-header">2. Gelişme</div>
+                        <div id="slot-text-1">Kart Seç</div>
+                    </div>
+                    <div class="order-slot" id="slot-2" onclick="game.undoOrderSlot(2)">
+                        <div class="order-slot-header">3. Sonuç</div>
+                        <div id="slot-text-2">Kart Seç</div>
+                    </div>
+                </div>
+                <div class="order-pool-cards" id="sorting-cards"></div>
+            </div>
+
+            <!-- Builder Container (Bölüm 4) -->
+            <div id="container-builder" style="width:100%; display:none;">
+                <div class="scenario-box">
+                    <div class="scenario-badge">Senaryo İnşası</div>
+                    <div class="scenario-text" id="builder-topic-title">Konu: Su Tasarrufu</div>
+                </div>
+                <div class="builder-grid" id="builder-grid">
+                    <!-- Dinamik kategoriler: Karakter, Mekan, Olay, Mesaj -->
+                </div>
+                <div class="story-preview-card" id="builder-preview" style="display:none;">
+                    <h4 style="color:#22d3ee; font-weight:900; margin-bottom:8px;"><i class="fa-solid fa-scroll"></i> Oluşturulan Senaryo Kurgusu:</h4>
+                    <p id="builder-preview-text" style="color:#f1f5f9; font-size:1rem; line-height:1.5;"></p>
+                </div>
+                <button class="btn-ctrl" id="btn-check-builder" style="display:none; width:100%; justify-content:center; padding:14px; background:#06b6d4; color:#042f2e;" onclick="game.checkBuilder()">
+                    Senaryoyu Onayla ve Değerlendir <i class="fa-solid fa-check-double"></i>
+                </button>
+            </div>
+
+            <!-- Feedback Box -->
+            <div class="feedback-box" id="feedback-box">
+                <div class="feedback-icon" id="feedback-icon"><i class="fa-solid fa-circle-check text-emerald-400"></i></div>
+                <div class="feedback-content">
+                    <h4 id="feedback-title">Harika!</h4>
+                    <p id="feedback-desc">Açıklama</p>
+                </div>
+            </div>
+
+            <div style="width:100%; display:flex; justify-content:flex-end; margin-top:10px;">
+                <button class="btn-next" id="btn-next" style="display:none;" onclick="game.nextTask()">
+                    Sonraki Görev <i class="fa-solid fa-arrow-right"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- RESULT SCREEN -->
+        <div class="screen" id="screen-result">
+            <div class="result-card">
+                <div class="result-trophy" id="result-trophy"><i class="fa-solid fa-trophy"></i></div>
+                <div class="result-score" id="result-score">200 / 200</div>
+                <h3 class="result-title" id="result-title">Baş Mimar Oldun! 🏆</h3>
+                <p class="result-msg" id="result-msg">Karakterden mesaja tüm unsurları ustalıkla birleştirdin ve kusursuz kurgular tasarladın!</p>
+                <button class="btn-start" onclick="game.restart()">
+                    <i class="fa-solid fa-rotate-right"></i> Yeniden Tasarla
+                </button>
+            </div>
+        </div>
+    </main>
+</div>
+
+<!-- HOW TO PLAY MODAL -->
+<div class="modal" id="modal-how">
+    <div class="modal-body">
+        <h3><i class="fa-solid fa-circle-info text-cyan-400"></i> Nasıl Oynanır?</h3>
+        <ul>
+            <li><i class="fa-solid fa-check"></i> <strong>Bölüm 1 (Hikâyenin Parçaları):</strong> Verilen ifadenin Karakter, Mekân, Olay mı yoksa Mesaj mı olduğunu seç.</li>
+            <li><i class="fa-solid fa-check"></i> <strong>Bölüm 2 (Hikâyeyi Tamamla):</strong> Senaryodaki eksik bırakılan parçayı en uygun seçenekle tamamla.</li>
+            <li><i class="fa-solid fa-check"></i> <strong>Bölüm 3 (Olayları Sırala):</strong> Karışık kartlara tıklayarak 1. Başlangıç, 2. Gelişme ve 3. Sonuç kutularına yerleştir.</li>
+            <li><i class="fa-solid fa-check"></i> <strong>Bölüm 4 (Senaryonu Kur):</strong> Verilen konuya göre kendi Karakter, Mekân, Olay ve Mesaj kartlarını seçerek eksiksiz bir hikâye inşa et!</li>
+            <li><i class="fa-solid fa-check"></i> Her doğru görev <strong>10 Puan</strong> kazandırır!</li>
+        </ul>
+        <button class="btn-close-modal" onclick="game.toggleModal(false)">Anladım, Kapat</button>
+    </div>
+</div>
+
+<script>
+// Sound Engine
+class SoundFx {
+    constructor() {
+        this.ctx = null;
+        this.muted = false;
+    }
+    init() {
+        if (!this.ctx) {
+            const AudioCtx = window.AudioContext || window.webkitAudioContext;
+            if (AudioCtx) this.ctx = new AudioCtx();
+        }
+        if (this.ctx && this.ctx.state === 'suspended') {
+            this.ctx.resume();
+        }
+    }
+    playTone(freq, type, dur, gainVal = 0.15) {
+        if (this.muted) return;
+        this.init();
+        if (!this.ctx) return;
+        try {
+            const osc = this.ctx.createOscillator();
+            const gain = this.ctx.createGain();
+            osc.type = type;
+            osc.frequency.setValueAtTime(freq, this.ctx.currentTime);
+            gain.gain.setValueAtTime(gainVal, this.ctx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.0001, this.ctx.currentTime + dur);
+            osc.connect(gain);
+            gain.connect(this.ctx.destination);
+            osc.start();
+            osc.stop(this.ctx.currentTime + dur);
+        } catch(e) {}
+    }
+    click() { this.playTone(600, 'sine', 0.08, 0.1); }
+    correct() {
+        this.playTone(523.25, 'triangle', 0.12, 0.2);
+        setTimeout(() => this.playTone(659.25, 'triangle', 0.12, 0.2), 100);
+        setTimeout(() => this.playTone(783.99, 'triangle', 0.25, 0.2), 200);
+    }
+    wrong() {
+        this.playTone(300, 'sawtooth', 0.18, 0.2);
+        setTimeout(() => this.playTone(220, 'sawtooth', 0.25, 0.2), 150);
+    }
+    fanfare() {
+        [523, 659, 783, 1046].forEach((f, i) => {
+            setTimeout(() => this.playTone(f, 'sine', 0.35, 0.2), i * 140);
+        });
+    }
+}
+
+const sounds = new SoundFx();
+
+const TASKS = [
+    // BÖLÜM 1: Hikâyenin Parçaları (5 Görev)
+    {
+        type: 'standard',
+        section: 'Bölüm 1 – Hikâyenin Parçaları',
+        badge: 'Kavram Eşleştirme',
+        text: "'Bir öğrencinin okul bahçesindeki çöpleri tek tek toplayıp geri dönüşüm kutusuna atması' hikâyenin hangi unsurudur?",
+        options: ['Karakter', 'Mekân', 'Olay', 'Mesaj'],
+        answer: 2,
+        explanation: "Harika! Yaşanan hareket, eylem ve durumlar hikâyede 'Olay' unsurunu oluşturur."
+    },
+    {
+        type: 'standard',
+        section: 'Bölüm 1 – Hikâyenin Parçaları',
+        badge: 'Kavram Eşleştirme',
+        text: "'Güneşli bir sabah okulun bilişim teknolojileri sınıfı ve koridorları' hikâyenin hangi unsurudur?",
+        options: ['Mekân', 'Karakter', 'Mesaj', 'Olay'],
+        answer: 0,
+        explanation: "Doğru! Olayın cereyan ettiği, gerçekleştiği çevre ve fiziki alana 'Mekân' denir."
+    },
+    {
+        type: 'standard',
+        section: 'Bölüm 1 – Hikâyenin Parçaları',
+        badge: 'Kavram Eşleştirme',
+        text: "'Teknolojiye meraklı, araştırma yapmayı çok seven 5. sınıf öğrencisi Can' hikâyenin hangi unsurudur?",
+        options: ['Mekân', 'Karakter', 'Olay', 'Mesaj'],
+        answer: 1,
+        explanation: "Tebrikler! Hikâyede yer alan, eylemi gerçekleştiren canlı veya varlığa 'Karakter' denir."
+    },
+    {
+        type: 'standard',
+        section: 'Bölüm 1 – Hikâyenin Parçaları',
+        badge: 'Kavram Eşleştirme',
+        text: "'Güçlü şifre belirlemek dijital kapımızı kilitler; şifreni kimseyle paylaşma!' ifadesi hikâyenin hangi unsurudur?",
+        options: ['Olay', 'Mekân', 'Karakter', 'Mesaj'],
+        answer: 3,
+        explanation: "Tam isabet! İzleyiciye veya okuyucuya aktarılmak istenen ana fikir ve öğüt 'Mesaj'dır."
+    },
+    {
+        type: 'standard',
+        section: 'Bölüm 1 – Hikâyenin Parçaları',
+        badge: 'Kavram Eşleştirme',
+        text: "'Kitap okumak hayal gücünü kanatlandırır, her gün 20 sayfa oku!' sloganı afiş kurgusunda neyi temsil eder?",
+        options: ['Mekân', 'Mesaj', 'Karakter', 'Olay'],
+        answer: 1,
+        explanation: "Bravo! Afişin vermek istediği temel ders ve öğüt 'Mesaj'dır."
+    },
+
+    // BÖLÜM 2: Hikâyeyi Tamamla (5 Görev)
+    {
+        type: 'standard',
+        section: 'Bölüm 2 – Hikâyeyi Tamamla',
+        badge: 'Boşluk Tamamlama',
+        text: "Kurgu: 'Deniz, evde bilgisayarında oyun oynarken tanımadığı birinden gelen hediye linkine tıklar ve hesabı kilitlenir.' Bu kurguda eksik olan MEKÂN hangisi olabilir?",
+        options: ['Deniz'in evindeki çalışma odası', 'Futbol sahası', 'Yüzme havuzu', 'Orman piknik alanı'],
+        answer: 0,
+        explanation: "Harika! Deniz bilgisayar başında olduğuna göre olay evdeki çalışma odasında geçer."
+    },
+    {
+        type: 'standard',
+        section: 'Bölüm 2 – Hikâyeyi Tamamla',
+        badge: 'Boşluk Tamamlama',
+        text: "Kurgu: 'Okul kantininde sıra bekleyen öğrenciler ambalaj atıklarını yere atmak üzeredir.' Bu senaryoya verilecek en uygun MESAJ hangisidir?",
+        options: [
+            'Hızlı koşan daha çok tost alır.',
+            'Yere atılan her çöp geleceğimizi kirletir, çöpler kutuya!',
+            'Matematik sınavına çok çalışmalısın.',
+            'İnternet şifreni büyük harfle yaz.'
+        ],
+        answer: 1,
+        explanation: "Doğru mesaj! Çevre kirliliği sorununa yönelik doğrudan davranış değişikliği sağlayan mesaj budur."
+    },
+    {
+        type: 'standard',
+        section: 'Bölüm 2 – Hikâyeyi Tamamla',
+        badge: 'Boşluk Tamamlama',
+        text: "Kurgu: Mekân: 'Okul Kütüphanesi', Olay: 'Yırtılmış kitapları fark eden bir öğrencinin onları bantlayarak onarması'. Bu kurgu için en uygun KARAKTER kimdir?",
+        options: [
+            'Kitapsever ve yardımsever öğrenci Elif',
+            'Sadece maç izleyen bir seyirci',
+            'Otomobil yarışçısı',
+            'Uzay astronotu'
+        ],
+        answer: 0,
+        explanation: "Çok iyi! Kütüphanedeki kitapları koruyan kitapsever öğrenci karaktere en uygun kişidir."
+    },
+    {
+        type: 'standard',
+        section: 'Bölüm 2 – Hikâyeyi Tamamla',
+        badge: 'Boşluk Tamamlama',
+        text: "Kurgu: Karakter: 'Ali', Mekân: 'Lavabo', Mesaj: 'Geleceğini kurutma, musluğu kapat!'. Bu kurgudaki OLAY ne olmalıdır?",
+        options: [
+            'Ali'nin resim çizmesi',
+            'Ali'nin boşa akan musluğu görüp hemen sıkıca kapatması',
+            'Ali'nin top oynaması',
+            'Ali'nin müzik dinlemesi'
+        ],
+        answer: 1,
+        explanation: "Bravo! Musluk kapatma eylemi su tasarrufu mesajıyla yüzde yüz örtüşen olaydır."
+    },
+    {
+        type: 'standard',
+        section: 'Bölüm 2 – Hikâyeyi Tamamla',
+        badge: 'Boşluk Tamamlama',
+        text: "Kurgu: 'Siber zorbalığa uğrayan Zeynep çok üzülür ve durumu rehber öğretmenine anlatır.' Bu senaryoda Zeynep'e destek olan ikinci KARAKTER kimdir?",
+        options: ['Rehber Öğretmen', 'Kantin görevlisi', 'Yoldan geçen yabancı', 'Taksi şoförü'],
+        answer: 0,
+        explanation: "Doğru! Zeynep'e yardım eden ve sorunu çözen karakter Rehber Öğretmendir."
+    },
+
+    // BÖLÜM 3: Olayları Sırala (5 Görev)
+    {
+        type: 'sorting',
+        section: 'Bölüm 3 – Olayları Sırala',
+        badge: 'Zaman Akışı (1)',
+        instruction: 'Şifre güvenliği hikâyesini Başlangıç, Gelişme ve Sonuç sırasına koy:',
+        cards: [
+            { id: 'b', title: 'Hesabı çalınma tehlikesi yaşar ve şifre kurallarını öğrenir.', correctSlot: 1 },
+            { id: 'c', title: 'Artık karmaşık şifre koyar, hesabını güvene alır ve afiş hazırlar.', correctSlot: 2 },
+            { id: 'a', title: 'Mert, tahmin edilmesi çok kolay bir şifre (123456) kullanmaktadır.', correctSlot: 0 }
+        ],
+        explanation: "Harika sıralama! Önce problem (kolay şifre), sonra gelişme (tehlike), sonunda ise çözüm (güçlü şifre) gelir."
+    },
+    {
+        type: 'sorting',
+        section: 'Bölüm 3 – Olayları Sırala',
+        badge: 'Zaman Akışı (2)',
+        instruction: 'Su tasarrufu hikâyesini doğru sıraya koy:',
+        cards: [
+            { id: 'c', title: 'Okul panosuna su tasarrufu afişi asarak tüm okulu bilinçlendirir.', correctSlot: 2 },
+            { id: 'a', title: 'Ece, lavaboda açık bırakılan musluktan suların boşa aktığını görür.', correctSlot: 0 },
+            { id: 'b', title: 'Musluğu hemen kapatır ve arkadaşlarına suyun önemini anlatır.', correctSlot: 1 }
+        ],
+        explanation: "Mükemmel! Problem fark edildi -> anında müdahale edildi -> kalıcı farkındalık afişi asıldı."
+    },
+    {
+        type: 'sorting',
+        section: 'Bölüm 3 – Olayları Sırala',
+        badge: 'Zaman Akışı (3)',
+        instruction: 'Çevre temizliği hikâyesini doğru sıraya diz:',
+        cards: [
+            { id: 'b', title: 'Gönüllü çevre kulübü kurarak bahçeyi arkadaşlarıyla temizler.', correctSlot: 1 },
+            { id: 'a', title: 'Teneffüste okul bahçesinin çöplerle dolduğunu fark eder.', correctSlot: 0 },
+            { id: 'c', title: 'Bahçe tertemiz olur ve 'Temiz Çevre' sloganlı poster asılır.', correctSlot: 2 }
+        ],
+        explanation: "Tebrikler! Giriş (çöpleri görme) -> Gelişme (kulüple temizleme) -> Sonuç (temiz çevre ve poster)."
+    },
+    {
+        type: 'sorting',
+        section: 'Bölüm 3 – Olayları Sırala',
+        badge: 'Zaman Akışı (4)',
+        instruction: 'Dijital sağlık ve ergonomi hikâyesini doğru sırala:',
+        cards: [
+            { id: 'a', title: 'Kaan, saatlerce bilgisayar başında kambur oturarak oyun oynar.', correctSlot: 0 },
+            { id: 'c', title: 'Doğru oturuş kurallarını uygular, dinlenme molaları verip sağlığına kavuşur.', correctSlot: 2 },
+            { id: 'b', title: 'Boynu ve gözleri çok ağrımaya başlayınca duruş hatasını anlar.', correctSlot: 1 }
+        ],
+        explanation: "Harika! Yanlış alışkanlık -> Ağrı ve farkına varma -> Ergonomik düzenleme ve iyileşme."
+    },
+    {
+        type: 'sorting',
+        section: 'Bölüm 3 – Olayları Sırala',
+        badge: 'Zaman Akışı (5)',
+        instruction: 'Kitap okuma farkındalığı hikâyesini sıraya koy:',
+        cards: [
+            { id: 'c', title: 'Bütün sınıf her gün 20 dakika kitap okuma saati başlatır.', correctSlot: 2 },
+            { id: 'a', title: 'Sınıfta öğrencilerin kitap okumak yerine sıkıldığı görülür.', correctSlot: 0 },
+            { id: 'b', title: 'Kütüphaneden en heyecanlı macera kitaplarını getirip tanıtır.', correctSlot: 1 }
+        ],
+        explanation: "Çok doğru! Sıkılma durumu -> Kitap tanıtımı -> Bütün sınıfın okuma saatine başlaması."
+    },
+
+    // BÖLÜM 4: Senaryonu Kur (5 Görev)
+    {
+        type: 'builder',
+        section: 'Bölüm 4 – Senaryonu Kur',
+        badge: 'Mimarlık Görevi (1)',
+        topic: 'Su Tasarrufu',
+        elements: {
+            karakter: ['Duyarlı Öğrenci Ece', 'Uykucu Tembel Çocuk', 'Hızlı Koşucu'],
+            mekan: ['Okul Lavaboları', 'Uzay İstasyonu', 'Lunapark'],
+            olay: ['Açık bırakılan muslukları kapatıp arkadaşlarına tasarrufu anlatması', 'Top sektirme rekoru kırması', 'Gitar çalması'],
+            mesaj: ['Damlayan her damla geleceğimizdir, musluğu kapat!', 'En sevdiğim renk mavidir.', 'Yarın matematik sınavı var.']
+        },
+        correctPicks: [0, 0, 0, 0],
+        storyText: "Duyarlı Öğrenci Ece, okul lavabolarında açık bırakılan muslukları kapatıp arkadaşlarına tasarrufu anlattı ve 'Damlayan her damla geleceğimizdir, musluğu kapat!' mesajını okul panosuna astı."
+    },
+    {
+        type: 'builder',
+        section: 'Bölüm 4 – Senaryonu Kur',
+        badge: 'Mimarlık Görevi (2)',
+        topic: 'Dijital Güvenlik (Güçlü Şifre)',
+        elements: {
+            karakter: ['Bilişim Kulübü Sözcüsü Arda', 'Bahçıvan Hasan Amca', 'Müzisyen Ozan'],
+            mekan: ['Bilişim Teknolojileri Sınıfı', 'Balıkçı Teknesi', 'Otobüs Durağı'],
+            olay: ['Tahmin edilmesi zor, harf-sayı-sembol içeren şifre oluşturmayı öğretmesi', 'Otobüs bileti alması', 'Resim boyaması'],
+            mesaj: ['Şifren senin dijital kilitindir, güçlü tut ve kimseyle paylaşma!', 'Yemekten önce ellerini yıka.', 'Çiçekleri sulamayı unutma.']
+        },
+        correctPicks: [0, 0, 0, 0],
+        storyText: "Bilişim Kulübü Sözcüsü Arda, Bilişim Sınıfında arkadaşlarına tahmin edilmesi zor şifreler oluşturmayı öğretti ve 'Şifren senin dijital kilitindir, güçlü tut ve kimseyle paylaşma!' mesajıyla afiş hazırladı."
+    },
+    {
+        type: 'builder',
+        section: 'Bölüm 4 – Senaryonu Kur',
+        badge: 'Mimarlık Görevi (3)',
+        topic: 'Çevre Temizliği ve Geri Dönüşüm',
+        elements: {
+            karakter: ['Çevre Gönüllüsü Zeynep', 'Kaptan Pilot', 'Kamera Operatörü'],
+            mekan: ['Okul Bahçesi ve Koridorlar', 'Uçak Kokpiti', 'Tren Garı'],
+            olay: ['Plastik şişeleri geri dönüşüm kutusuna atıp afiş hazırlaması', 'Uçağı piste indirmesi', 'Bilet kontrol etmesi'],
+            mesaj: ['Temiz okul, sağlıklı gelecek! Çöpünü kutuya at!', 'Uçuşumuz 2 saat sürecektir.', 'Hızlı tren saat 10'da kalkar.']
+        },
+        correctPicks: [0, 0, 0, 0],
+        storyText: "Çevre Gönüllüsü Zeynep, Okul Bahçesinde plastik şişeleri geri dönüşüm kutusuna atarak 'Temiz okul, sağlıklı gelecek! Çöpünü kutuya at!' sloganlı afiş tasarladı."
+    },
+    {
+        type: 'builder',
+        section: 'Bölüm 4 – Senaryonu Kur',
+        badge: 'Mimarlık Görevi (4)',
+        topic: 'Kitap Okuma Alışkanlığı',
+        elements: {
+            karakter: ['Kitap Kurdu Kerem', 'Formula 1 Pilotu', 'Dalgıç Mert'],
+            mekan: ['Okul Kütüphanesi', 'Yarış Pisti', 'Denizaltı'],
+            olay: ['Arkadaşlarına en sevdiği macera kitabını okutup kitap kulübü kurması', 'Araba lastiği değiştirmesi', 'Mercan kayalıklarına dalması'],
+            mesaj: ['Kitaplar dünyayı keşfetmenin en keyifli yoludur, her gün oku!', 'Hızlı gitmek tehlikelidir.', 'Tüpün havasını kontrol et.']
+        },
+        correctPicks: [0, 0, 0, 0],
+        storyText: "Kitap Kurdu Kerem, Okul Kütüphanesinde arkadaşlarına macera kitaplarını tanıtarak 'Kitaplar dünyayı keşfetmenin en keyifli yoludur, her gün oku!' mesajlı okuma afişi hazırladı."
+    },
+    {
+        type: 'builder',
+        section: 'Bölüm 4 – Senaryonu Kur',
+        badge: 'Mimarlık Görevi (5)',
+        topic: 'Sağlıklı Teknoloji ve Duruş (Ergonomi)',
+        elements: {
+            karakter: ['Bilinçli Teknoloji Kullanıcısı Selin', 'Aşçıbaşı Usta', 'İtfaiye Eri'],
+            mekan: ['Bilgisayar Çalışma Masası', 'Fırın Mutfağı', 'Yangın İstasyonu'],
+            olay: ['Dik oturup 20 dakikada bir mola verme kuralını sınıfa öğretmesi', 'Kek hamuru yoğurması', 'Hortum bağlaması'],
+            mesaj: ['Ekran karşısında dik dur, sağlığını koru!', 'Pastayı fırına sürdük.', 'Yangın tüpü hazır.']
+        },
+        correctPicks: [0, 0, 0, 0],
+        storyText: "Bilinçli Teknoloji Kullanıcısı Selin, Çalışma Masasında dik oturup göz molaları verme kuralını anlattı ve 'Ekran karşısında dik dur, sağlığını koru!' uyarılı afiş tasarladı."
+    }
+];
+
+class ScenarioArchitectGame {
+    constructor() {
+        this.currentIdx = 0;
+        this.score = 0;
+        this.answered = false;
+        
+        // Sorting state
+        this.placedSlots = [null, null, null];
+        
+        // Builder state
+        this.builderSelections = { karakter: null, mekan: null, olay: null, mesaj: null };
+
+        this.screens = {
+            start: document.getElementById('screen-start'),
+            quiz: document.getElementById('screen-quiz'),
+            result: document.getElementById('screen-result')
+        };
+    }
+
+    start() {
+        sounds.click();
+        this.currentIdx = 0;
+        this.score = 0;
+        this.updateScore();
+        this.showScreen('quiz');
+        this.loadTask();
+    }
+
+    showScreen(name) {
+        Object.values(this.screens).forEach(s => s.classList.remove('active'));
+        this.screens[name].classList.add('active');
+    }
+
+    loadTask() {
+        this.answered = false;
+        const task = TASKS[this.currentIdx];
+
+        // Progress
+        document.getElementById('task-counter').innerText = `${this.currentIdx + 1} / ${TASKS.length}`;
+        const pct = (this.currentIdx / TASKS.length) * 100;
+        document.getElementById('progress-fill').style.width = `${pct}%`;
+
+        document.getElementById('quiz-section-badge').innerHTML = `<i class="fa-solid fa-layer-group"></i> ${task.section}`;
+
+        // Reset feedback & Next button
+        document.getElementById('feedback-box').className = 'feedback-box';
+        document.getElementById('btn-next').style.display = 'none';
+
+        const contStd = document.getElementById('container-standard');
+        const contSort = document.getElementById('container-sorting');
+        const contBuild = document.getElementById('container-builder');
+
+        contStd.style.display = 'none';
+        contSort.style.display = 'none';
+        contBuild.style.display = 'none';
+
+        if (task.type === 'standard') {
+            contStd.style.display = 'block';
+            document.getElementById('standard-badge').innerText = task.badge;
+            document.getElementById('standard-text').innerText = task.text;
+
+            const grid = document.getElementById('standard-options');
+            grid.innerHTML = '';
+            const letters = ['A', 'B', 'C', 'D'];
+            task.options.forEach((opt, idx) => {
+                const btn = document.createElement('div');
+                btn.className = 'option-card';
+                btn.onclick = () => this.handleStandardAnswer(idx, btn);
+                btn.innerHTML = `
+                    <div class="option-key">${letters[idx]}</div>
+                    <div class="option-label">${opt}</div>
+                `;
+                grid.appendChild(btn);
+            });
+        } else if (task.type === 'sorting') {
+            contSort.style.display = 'block';
+            document.getElementById('sorting-instruction').innerText = task.instruction;
+            this.placedSlots = [null, null, null];
+            this.renderSorting();
+        } else if (task.type === 'builder') {
+            contBuild.style.display = 'block';
+            document.getElementById('builder-topic-title').innerHTML = `<strong>Hedef Konu:</strong> ${task.topic}`;
+            document.getElementById('builder-preview').style.display = 'none';
+            document.getElementById('btn-check-builder').style.display = 'none';
+            this.builderSelections = { karakter: null, mekan: null, olay: null, mesaj: null };
+            this.renderBuilder();
+        }
+    }
+
+    handleStandardAnswer(selectedIdx, btnElement) {
+        if (this.answered) return;
+        this.answered = true;
+
+        const task = TASKS[this.currentIdx];
+        const cards = document.querySelectorAll('#standard-options .option-card');
+
+        const fBox = document.getElementById('feedback-box');
+        const fIcon = document.getElementById('feedback-icon');
+        const fTitle = document.getElementById('feedback-title');
+        const fDesc = document.getElementById('feedback-desc');
+
+        if (selectedIdx === task.answer) {
+            sounds.correct();
+            btnElement.classList.add('correct');
+            this.score += 10;
+            this.updateScore();
+
+            fBox.className = 'feedback-box show border-emerald-500/50 bg-emerald-950/40 text-emerald-100';
+            fIcon.innerHTML = '<i class="fa-solid fa-circle-check text-emerald-400"></i>';
+            fTitle.innerText = 'Harika! Kurgu Doğru 🎯';
+            fDesc.innerText = task.explanation;
+        } else {
+            sounds.wrong();
+            btnElement.classList.add('incorrect');
+            cards[task.answer].classList.add('correct');
+
+            fBox.className = 'feedback-box show border-rose-500/50 bg-rose-950/40 text-rose-100';
+            fIcon.innerHTML = '<i class="fa-solid fa-circle-xmark text-rose-400"></i>';
+            fTitle.innerText = 'Bir Parçayı Kaçırdın! 💡';
+            fDesc.innerText = task.explanation;
+        }
+
+        document.getElementById('btn-next').style.display = 'inline-flex';
+    }
+
+    // SORTING LOGIC
+    renderSorting() {
+        const task = TASKS[this.currentIdx];
+        
+        // Render slots
+        for (let i = 0; i < 3; i++) {
+            const slotEl = document.getElementById(`slot-${i}`);
+            const textEl = document.getElementById(`slot-text-${i}`);
+            const cardId = this.placedSlots[i];
+            if (cardId !== null) {
+                const card = task.cards.find(c => c.id === cardId);
+                slotEl.classList.add('filled');
+                textEl.innerText = card.title;
+            } else {
+                slotEl.classList.remove('filled');
+                textEl.innerText = '(Tıkla ve Yerleştir)';
+            }
+        }
+
+        // Render card pool
+        const pool = document.getElementById('sorting-cards');
+        pool.innerHTML = '';
+        task.cards.forEach(card => {
+            const isUsed = this.placedSlots.includes(card.id);
+            const cardEl = document.createElement('div');
+            cardEl.className = `order-item-card ${isUsed ? 'used' : ''}`;
+            cardEl.innerHTML = `<i class="fa-solid fa-hand-pointer text-cyan-400"></i> ${card.title}`;
+            cardEl.onclick = () => this.placeOrderCard(card.id);
+            pool.appendChild(cardEl);
+        });
+
+        // If all 3 slots filled, check automatically
+        if (this.placedSlots.every(s => s !== null) && !this.answered) {
+            this.checkSorting();
+        }
+    }
+
+    placeOrderCard(cardId) {
+        if (this.answered) return;
+        sounds.click();
+        const firstEmpty = this.placedSlots.indexOf(null);
+        if (firstEmpty !== -1) {
+            this.placedSlots[firstEmpty] = cardId;
+            this.renderSorting();
+        }
+    }
+
+    undoOrderSlot(slotIdx) {
+        if (this.answered) return;
+        if (this.placedSlots[slotIdx] !== null) {
+            sounds.click();
+            this.placedSlots[slotIdx] = null;
+            this.renderSorting();
+        }
+    }
+
+    checkSorting() {
+        this.answered = true;
+        const task = TASKS[this.currentIdx];
+        let correctCount = 0;
+
+        for (let i = 0; i < 3; i++) {
+            const card = task.cards.find(c => c.id === this.placedSlots[i]);
+            if (card && card.correctSlot === i) {
+                correctCount++;
+            }
+        }
+
+        const fBox = document.getElementById('feedback-box');
+        const fIcon = document.getElementById('feedback-icon');
+        const fTitle = document.getElementById('feedback-title');
+        const fDesc = document.getElementById('feedback-desc');
+
+        if (correctCount === 3) {
+            sounds.correct();
+            this.score += 10;
+            this.updateScore();
+            fBox.className = 'feedback-box show border-emerald-500/50 bg-emerald-950/40 text-emerald-100';
+            fIcon.innerHTML = '<i class="fa-solid fa-circle-check text-emerald-400"></i>';
+            fTitle.innerText = 'Kusursuz Olay Akışı! 🎬';
+            fDesc.innerText = task.explanation;
+        } else {
+            sounds.wrong();
+            fBox.className = 'feedback-box show border-rose-500/50 bg-rose-950/40 text-rose-100';
+            fIcon.innerHTML = '<i class="fa-solid fa-circle-xmark text-rose-400"></i>';
+            fTitle.innerText = 'Sıralamada Hata Var! 💡';
+            fDesc.innerText = task.explanation;
+        }
+
+        document.getElementById('btn-next').style.display = 'inline-flex';
+    }
+
+    // BUILDER LOGIC
+    renderBuilder() {
+        const task = TASKS[this.currentIdx];
+        const grid = document.getElementById('builder-grid');
+        grid.innerHTML = '';
+
+        const categories = [
+            { key: 'karakter', label: '1. Karakter Seç', icon: 'fa-user' },
+            { key: 'mekan', label: '2. Mekân Seç', icon: 'fa-location-dot' },
+            { key: 'olay', label: '3. Olay Seç', icon: 'fa-bolt' },
+            { key: 'mesaj', label: '4. Mesaj Seç', icon: 'fa-bullhorn' }
+        ];
+
+        categories.forEach(cat => {
+            const box = document.createElement('div');
+            box.className = 'builder-category';
+            box.innerHTML = `<div class="cat-title"><i class="fa-solid ${cat.icon}"></i> ${cat.label}</div>`;
+
+            const optsDiv = document.createElement('div');
+            optsDiv.className = 'cat-options';
+
+            task.elements[cat.key].forEach((text, optIdx) => {
+                const btn = document.createElement('button');
+                btn.className = `cat-btn ${this.builderSelections[cat.key] === optIdx ? 'selected' : ''}`;
+                btn.innerText = text;
+                btn.onclick = () => {
+                    if (this.answered) return;
+                    sounds.click();
+                    this.builderSelections[cat.key] = optIdx;
+                    this.renderBuilder();
+                    this.updateBuilderPreview();
+                };
+                optsDiv.appendChild(btn);
+            });
+
+            box.appendChild(optsDiv);
+            grid.appendChild(box);
+        });
+    }
+
+    updateBuilderPreview() {
+        const b = this.builderSelections;
+        const btnCheck = document.getElementById('btn-check-builder');
+        if (b.karakter !== null && b.mekan !== null && b.olay !== null && b.mesaj !== null) {
+            btnCheck.style.display = 'flex';
+        } else {
+            btnCheck.style.display = 'none';
+        }
+    }
+
+    checkBuilder() {
+        if (this.answered) return;
+        this.answered = true;
+
+        const task = TASKS[this.currentIdx];
+        const b = this.builderSelections;
+
+        // Check if matching correct picks
+        const isMatch = (
+            b.karakter === task.correctPicks[0] &&
+            b.mekan === task.correctPicks[1] &&
+            b.olay === task.correctPicks[2] &&
+            b.mesaj === task.correctPicks[3]
+        );
+
+        const previewBox = document.getElementById('builder-preview');
+        const previewText = document.getElementById('builder-preview-text');
+        previewBox.style.display = 'block';
+        previewText.innerText = task.storyText;
+
+        const fBox = document.getElementById('feedback-box');
+        const fIcon = document.getElementById('feedback-icon');
+        const fTitle = document.getElementById('feedback-title');
+        const fDesc = document.getElementById('feedback-desc');
+
+        if (isMatch) {
+            sounds.correct();
+            this.score += 10;
+            this.updateScore();
+            fBox.className = 'feedback-box show border-emerald-500/50 bg-emerald-950/40 text-emerald-100';
+            fIcon.innerHTML = '<i class="fa-solid fa-circle-check text-emerald-400"></i>';
+            fTitle.innerText = 'Mükemmel Senaryo Kurgulandı! 🌟';
+            fDesc.innerText = 'Karakter, mekân, olay ve mesaj konuya son derece tutarlı ve amaca uygun bir bütünlük oluşturdu!';
+        } else {
+            sounds.wrong();
+            fBox.className = 'feedback-box show border-amber-500/50 bg-amber-950/40 text-amber-100';
+            fIcon.innerHTML = '<i class="fa-solid fa-circle-exclamation text-amber-400"></i>';
+            fTitle.innerText = 'Kurgu Tutarsız Oldu! 💡';
+            fDesc.innerText = 'Seçtiğin parçalar konudan biraz koptu. İdeal senaryoyu yukarıdaki kutudan inceleyebilirsin!';
+        }
+
+        document.getElementById('btn-check-builder').style.display = 'none';
+        document.getElementById('btn-next').style.display = 'inline-flex';
+    }
+
+    nextTask() {
+        sounds.click();
+        this.currentIdx++;
+        if (this.currentIdx < TASKS.length) {
+            this.loadTask();
+        } else {
+            this.finishGame();
+        }
+    }
+
+    updateScore() {
+        document.getElementById('score-display').innerText = this.score;
+    }
+
+    finishGame() {
+        document.getElementById('progress-fill').style.width = '100%';
+        this.showScreen('result');
+        sounds.fanfare();
+        confetti({
+            particleCount: 130,
+            spread: 90,
+            origin: { y: 0.6 }
+        });
+
+        document.getElementById('result-score').innerText = `${this.score} / ${TASKS.length * 10}`;
+        const trophy = document.getElementById('result-trophy');
+        const title = document.getElementById('result-title');
+        const msg = document.getElementById('result-msg');
+
+        if (this.score >= 170) {
+            trophy.innerHTML = '<i class="fa-solid fa-trophy text-yellow-400"></i>';
+            title.innerText = 'Usta Senaryo Mimarı! 🏆';
+            msg.innerText = 'Tüm hikâye parçalarını, olay sıralamalarını ve storyboard senaryolarını eksiksiz inşa ettin!';
+        } else if (this.score >= 120) {
+            trophy.innerHTML = '<i class="fa-solid fa-medal text-cyan-400"></i>';
+            title.innerText = 'Başarılı Kurgu Mimarı! 🎖️';
+            msg.innerText = 'Hikâyenin parçalarını başarıyla birleştirdin. Tasarımlarında bu kurguları rahatlıkla kullanabilirsin.';
+        } else {
+            trophy.innerHTML = '<i class="fa-solid fa-masks-theater text-amber-400"></i>';
+            title.innerText = 'Çırak Mimar! 🎬';
+            msg.innerText = 'Karakter ve olay ilişkilerine biraz daha dikkat ederek hikâyelerini daha tutarlı kılabilirsin. Yeniden dene!';
+        }
+    }
+
+    restart() {
+        sounds.click();
+        this.start();
+    }
+
+    toggleModal(show) {
+        sounds.click();
+        document.getElementById('modal-how').classList.toggle('active', show);
+    }
+
+    toggleSound() {
+        sounds.muted = !sounds.muted;
+        const icon = document.getElementById('sound-icon');
+        icon.className = sounds.muted ? 'fa-solid fa-volume-xmark text-rose-400' : 'fa-solid fa-volume-high text-cyan-400';
+    }
+}
+
+const game = new ScenarioArchitectGame();
+</script>
+</body>
+</html>

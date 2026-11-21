@@ -1,0 +1,112 @@
+# ANTIGRAVITY OYUN GELİŞTİRME PROMPTU
+## PROBLEM AVCISI – ÖĞRETMEN BOZOK
+
+5. sınıf Bilişim Teknolojileri ve Yazılım dersi için tarayıcıda çalışan, etkileşimli ve eğlenceli bir eğitsel oyun geliştir.
+
+### 1. OYUNUN AMACI
+Öğrencilerin günlük yaşamda karşılaştıkları problemleri fark etmesini, bu problemlere yönelik görsel tasarımın amacını ve hedef kitlesini belirlemesini sağla.
+
+**Kazanım:** BTY.5.2.2 – Görsel için kurgu oluşturabilme.
+
+### 2. TASARIM
+- Oyun adı: Problem Avcısı
+- Marka: Öğretmen Bozok
+- Renkler: Turkuaz, lacivert ve beyaz.
+- Kullanıcının sağladığı Öğretmen Bozok karakterini ve MB logosunu kullan.
+- 5. sınıf öğrencilerine uygun, renkli, anlaşılır ve modern bir tasarım oluştur.
+- Arayüz Türkçe olsun.
+- Masaüstü, akıllı tahta ve tablet ekranlarına uyumlu olsun.
+
+### 3. AÇILIŞ EKRANI
+- Büyük oyun başlığı.
+- Öğretmen Bozok karakteri.
+- “Günlük yaşamın problemlerini bulmaya hazır mısın?” mesajı.
+- Oyuna Başla butonu.
+- Nasıl Oynanır butonu.
+- Ses Aç/Kapat butonu.
+
+### 4. OYUN BÖLÜMLERİ
+
+**Bölüm 1 – Problemi Bul**
+
+Öğrenciye günlük yaşamdan bir durum göster.
+
+Örnek durumlar:
+- Okul bahçesine çöplerin atılması.
+- Muslukların açık bırakılması.
+- Sınıfta ışıkların gereksiz yere açık kalması.
+- Kitapların zarar görmesi.
+- İnternette kişisel bilgilerin paylaşılması.
+
+Öğrenci, verilen durumdaki temel problemi seçsin.
+
+**Bölüm 2 – Hedef Kitleyi Bul**
+
+Öğrenciye bir problem ve görsel hazırlama görevi ver. Görselin kimlere yönelik olması gerektiğini seçmesini iste.
+
+Örnek:
+“Okul bahçesinin temiz tutulması için afiş hazırlanacak.”
+
+Seçenekler:
+- Okul öğrencileri
+- Sadece öğretmenler
+- Sadece aileler
+- Spor kulübü üyeleri
+
+**Bölüm 3 – Tasarımın Amacını Belirle**
+
+Öğrenciye görselin hangi amaçla hazırlandığını seçtir.
+
+Örnek amaçlar:
+- Bilgilendirmek
+- Uyarıda bulunmak
+- Farkındalık oluşturmak
+- Bir davranışı teşvik etmek
+
+### 5. SORU VE İÇERİK KURALLARI
+- En az 15 farklı soru veya görev oluştur.
+- Sorular 5. sınıf seviyesinde olsun.
+- Kolaydan zora doğru ilerlesin.
+- Aynı soruyu sürekli tekrar etme.
+- Günlük yaşamdan örnekler kullan.
+- Her soruda 3 veya 4 seçenek sun.
+- Birden fazla doğru cevap gerektiren görevleri açıkça belirt.
+
+### 6. PUANLAMA
+- Her doğru cevap 10 puan.
+- Yanlış cevapta puan verilmesin.
+- Cevaptan sonra kısa açıklama göster.
+- Bölüm sonunda bölüm puanı göster.
+- Oyun sonunda toplam puan ve başarı mesajı göster.
+
+### 7. GERİ BİLDİRİM
+Doğru cevapta: “Harika! Problemi doğru belirledin.”
+
+Yanlış cevapta: “Tekrar düşün. Bu durumdaki asıl sorun ne?”
+
+Açıklamalar öğretici ve kısa olsun.
+
+### 8. TEKNİK GEREKSİNİMLER
+- Oyuna Başla butonu gerçekten çalışsın.
+- Nasıl Oynanır ekranı açılsın.
+- Cevap seçenekleri tıklanabilir olsun.
+- Cevap kontrolü doğru çalışsın.
+- Puanlama doğru yapılsın.
+- Sonraki soru butonu çalışsın.
+- Oyun sonunda Yeniden Oyna butonu bulunsun.
+- Sayfa yenilendiğinde oyun bozulmasın.
+- Hatalı veya boş cevapta sistem çökmesin.
+
+### 9. SON TEST
+Oyunu tamamladıktan sonra:
+- Başlangıç ekranını test et.
+- Bütün butonları test et.
+- Doğru ve yanlış cevapları dene.
+- Puanlamayı kontrol et.
+- Sonuç ekranını kontrol et.
+- Yeniden oynama özelliğini test et.
+- Mobil ve masaüstü görünümünü kontrol et.
+
+Test edemediğin hiçbir özelliği test edilmiş gibi gösterme.
+
+Çalışan, tamamlanmış ve öğrencinin doğrudan oynayabileceği bir oyun teslim et. Sadece tasarım veya ekran görüntüsü oluşturma; oyunun etkileşimlerini gerçekten geliştir.

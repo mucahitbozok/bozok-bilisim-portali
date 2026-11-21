@@ -1,0 +1,1443 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Tasarım Dedektifleri | Öğretmen Bozok</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <style>
+        :root {
+            --bg-dark: #070d18;
+            --panel-bg: rgba(13, 23, 42, 0.92);
+            --panel-border: rgba(16, 185, 129, 0.28);
+            --primary: #10b981;
+            --cyan: #06b6d4;
+            --navy: #0f172a;
+            --green: #10b981;
+            --yellow: #f59e0b;
+            --red: #ef4444;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: radial-gradient(circle at 50% 10%, #064e3b 0%, #070d18 100%);
+            color: #f8fafc;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow-x: hidden;
+            padding: 16px;
+        }
+
+        #game-frame {
+            width: 100%;
+            max-width: 1100px;
+            min-height: 85vh;
+            background: var(--panel-bg);
+            border: 2px solid var(--panel-border);
+            border-radius: 28px;
+            backdrop-filter: blur(20px);
+            box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.85), 0 0 35px rgba(16, 185, 129, 0.2);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        header {
+            padding: 16px 24px;
+            background: rgba(15, 23, 42, 0.95);
+            border-bottom: 2px solid rgba(255, 255, 255, 0.08);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .mb-logo {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, #10b981, #06b6d4);
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            font-weight: 900;
+            color: #fff;
+            letter-spacing: -1px;
+            box-shadow: 0 4px 16px rgba(16, 185, 129, 0.4);
+        }
+
+        .header-title h1 {
+            font-size: 1.3rem;
+            font-weight: 900;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .header-title p {
+            font-size: 0.78rem;
+            color: #6ee7b7;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+        }
+
+        .header-controls {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn-ctrl {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.16);
+            color: #f1f5f9;
+            padding: 9px 15px;
+            border-radius: 12px;
+            font-size: 0.82rem;
+            font-weight: 800;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            transition: all 0.2s;
+        }
+
+        .btn-ctrl:hover {
+            background: rgba(16, 185, 129, 0.25);
+            border-color: #10b981;
+            transform: translateY(-2px);
+        }
+
+        .stat-badge {
+            background: rgba(15, 23, 42, 0.85);
+            border: 1px solid rgba(16, 185, 129, 0.35);
+            padding: 8px 14px;
+            border-radius: 12px;
+            font-weight: 800;
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #e2e8f0;
+        }
+
+        .stat-badge span {
+            color: #6ee7b7;
+            font-size: 1rem;
+        }
+
+        main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 24px;
+            position: relative;
+        }
+
+        .screen {
+            width: 100%;
+            max-width: 920px;
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            animation: fadeIn 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .screen.active {
+            display: flex;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(12px) scale(0.98); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        .start-avatar {
+            width: 110px;
+            height: 110px;
+            background: linear-gradient(135deg, #059669, #0d9488);
+            border: 4px solid #6ee7b7;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3.2rem;
+            color: #fff;
+            margin-bottom: 18px;
+            box-shadow: 0 10px 30px rgba(16, 185, 129, 0.4);
+            animation: pulse 2.5s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .hero-title {
+            font-size: 2.2rem;
+            font-weight: 900;
+            text-align: center;
+            background: linear-gradient(135deg, #ffffff, #6ee7b7);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+        }
+
+        .hero-desc {
+            font-size: 1.05rem;
+            color: #94a3b8;
+            text-align: center;
+            max-width: 620px;
+            margin-bottom: 24px;
+            line-height: 1.5;
+        }
+
+        .section-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+            margin-bottom: 28px;
+        }
+
+        .sec-tag {
+            background: rgba(16, 185, 129, 0.15);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            color: #a7f3d0;
+            padding: 8px 14px;
+            border-radius: 9999px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn-start {
+            background: linear-gradient(135deg, #10b981, #06b6d4);
+            color: #fff;
+            padding: 16px 42px;
+            border-radius: 18px;
+            font-size: 1.25rem;
+            font-weight: 900;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 10px 25px rgba(16, 185, 129, 0.5);
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            transition: all 0.25s;
+        }
+
+        .btn-start:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 15px 35px rgba(16, 185, 129, 0.65);
+        }
+
+        .quiz-top {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 14px;
+        }
+
+        .section-indicator {
+            padding: 6px 14px;
+            background: rgba(16, 185, 129, 0.2);
+            border: 1px solid rgba(16, 185, 129, 0.4);
+            border-radius: 10px;
+            color: #6ee7b7;
+            font-size: 0.85rem;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            gap: 7px;
+        }
+
+        .progress-bar-container {
+            width: 100%;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 9999px;
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #10b981, #06b6d4);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .scenario-box {
+            width: 100%;
+            background: rgba(15, 23, 42, 0.85);
+            border: 1px solid rgba(255, 255, 255, 0.14);
+            border-radius: 20px;
+            padding: 20px;
+            margin-bottom: 18px;
+        }
+
+        .scenario-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(16, 185, 129, 0.2);
+            color: #6ee7b7;
+            font-size: 0.78rem;
+            font-weight: 800;
+            padding: 4px 10px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+        }
+
+        .scenario-text {
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: #f1f5f9;
+            line-height: 1.5;
+        }
+
+        /* SECTION 2: SIDE-BY-SIDE POSTER COMPARISON */
+        .poster-compare-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 16px;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+
+        @media (min-width: 640px) {
+            .poster-compare-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        .poster-card {
+            background: #1e293b;
+            border: 3px solid rgba(255, 255, 255, 0.14);
+            border-radius: 20px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            cursor: pointer;
+            transition: all 0.25s;
+            position: relative;
+        }
+
+        .poster-card:hover {
+            border-color: #10b981;
+            transform: translateY(-4px);
+            box-shadow: 0 10px 25px rgba(16, 185, 129, 0.2);
+        }
+
+        .poster-card.correct {
+            border-color: #10b981 !important;
+            background: rgba(16, 185, 129, 0.15) !important;
+        }
+
+        .poster-card.incorrect {
+            border-color: #ef4444 !important;
+            background: rgba(239, 68, 68, 0.15) !important;
+        }
+
+        .poster-label-tag {
+            font-size: 0.75rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            padding: 4px 10px;
+            border-radius: 8px;
+            margin-bottom: 12px;
+            display: inline-block;
+        }
+
+        /* SECTION 4: CHECKLIST RUBRIC */
+        .checklist-container {
+            width: 100%;
+            background: rgba(15, 23, 42, 0.85);
+            border: 2px solid rgba(16, 185, 129, 0.35);
+            border-radius: 20px;
+            padding: 20px;
+            margin-bottom: 18px;
+        }
+
+        .check-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: rgba(30, 41, 59, 0.75);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 12px 16px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .check-item:hover {
+            background: rgba(16, 185, 129, 0.15);
+            border-color: #10b981;
+        }
+
+        .check-item.checked {
+            background: rgba(16, 185, 129, 0.25);
+            border-color: #10b981;
+        }
+
+        .check-item-text {
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: #f1f5f9;
+        }
+
+        .check-box-icon {
+            width: 28px;
+            height: 28px;
+            border-radius: 8px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+            color: transparent;
+            transition: all 0.2s;
+        }
+
+        .check-item.checked .check-box-icon {
+            background: #10b981;
+            border-color: #10b981;
+            color: #fff;
+        }
+
+        .options-grid {
+            width: 100%;
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        @media (min-width: 640px) {
+            .options-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        .option-card {
+            background: rgba(30, 41, 59, 0.75);
+            border: 2px solid rgba(255, 255, 255, 0.12);
+            border-radius: 16px;
+            padding: 16px 18px;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: left;
+        }
+
+        .option-card:hover {
+            background: rgba(16, 185, 129, 0.18);
+            border-color: #10b981;
+            transform: translateY(-2px);
+        }
+
+        .option-card.correct {
+            background: rgba(16, 185, 129, 0.25) !important;
+            border-color: #10b981 !important;
+            color: #a7f3d0 !important;
+        }
+
+        .option-card.incorrect {
+            background: rgba(239, 68, 68, 0.25) !important;
+            border-color: #ef4444 !important;
+            color: #fecaca !important;
+        }
+
+        .option-key {
+            width: 34px;
+            height: 34px;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 900;
+            font-size: 0.95rem;
+            flex-shrink: 0;
+            color: #6ee7b7;
+        }
+
+        .option-card.correct .option-key {
+            background: #10b981;
+            color: #fff;
+        }
+
+        .option-card.incorrect .option-key {
+            background: #ef4444;
+            color: #fff;
+        }
+
+        .option-label {
+            font-size: 0.98rem;
+            font-weight: 700;
+            color: #e2e8f0;
+            flex: 1;
+        }
+
+        .feedback-box {
+            width: 100%;
+            background: rgba(15, 23, 42, 0.9);
+            border: 2px solid var(--panel-border);
+            border-radius: 16px;
+            padding: 16px 20px;
+            margin-bottom: 20px;
+            display: none;
+            align-items: flex-start;
+            gap: 14px;
+            animation: slideUp 0.25s ease;
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .feedback-box.show {
+            display: flex;
+        }
+
+        .feedback-icon {
+            font-size: 1.5rem;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .feedback-content h4 {
+            font-size: 1rem;
+            font-weight: 800;
+            margin-bottom: 4px;
+        }
+
+        .feedback-content p {
+            font-size: 0.9rem;
+            color: #cbd5e1;
+            line-height: 1.4;
+        }
+
+        .btn-next {
+            background: linear-gradient(135deg, #10b981, #06b6d4);
+            color: #fff;
+            padding: 13px 32px;
+            border-radius: 14px;
+            font-size: 1.05rem;
+            font-weight: 800;
+            border: none;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s;
+            margin-left: auto;
+        }
+
+        .btn-next:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(16, 185, 129, 0.4);
+        }
+
+        .result-card {
+            background: rgba(15, 23, 42, 0.85);
+            border: 2px solid rgba(16, 185, 129, 0.4);
+            border-radius: 24px;
+            padding: 32px;
+            text-align: center;
+            width: 100%;
+            max-width: 650px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.6);
+        }
+
+        .result-trophy {
+            font-size: 4rem;
+            color: #facc15;
+            margin-bottom: 14px;
+            animation: bounce 1.2s infinite alternate;
+        }
+
+        @keyframes bounce {
+            from { transform: translateY(0); }
+            to { transform: translateY(-10px); }
+        }
+
+        .result-score {
+            font-size: 3rem;
+            font-weight: 900;
+            color: #6ee7b7;
+            margin-bottom: 6px;
+        }
+
+        .result-title {
+            font-size: 1.6rem;
+            font-weight: 900;
+            color: #fff;
+            margin-bottom: 8px;
+        }
+
+        .result-msg {
+            font-size: 1rem;
+            color: #cbd5e1;
+            margin-bottom: 24px;
+            line-height: 1.5;
+        }
+
+        .modal {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.75);
+            backdrop-filter: blur(8px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            padding: 16px;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-body {
+            background: #0f172a;
+            border: 2px solid #10b981;
+            border-radius: 24px;
+            padding: 28px;
+            max-width: 550px;
+            width: 100%;
+            color: #f8fafc;
+        }
+
+        .modal-body h3 {
+            font-size: 1.4rem;
+            font-weight: 900;
+            color: #6ee7b7;
+            margin-bottom: 14px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .modal-body ul {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 20px;
+            font-size: 0.95rem;
+            color: #cbd5e1;
+        }
+
+        .modal-body li {
+            display: flex;
+            gap: 10px;
+            align-items: flex-start;
+        }
+
+        .modal-body li i {
+            color: #34d399;
+            margin-top: 3px;
+        }
+
+        .btn-close-modal {
+            background: #10b981;
+            color: #064e3b;
+            padding: 10px 24px;
+            border-radius: 12px;
+            font-weight: 800;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+
+<div id="game-frame">
+    <header>
+        <div class="header-left">
+            <div class="mb-logo">MB</div>
+            <div class="header-title">
+                <h1><i class="fa-solid fa-magnifying-glass-chart text-emerald-400"></i> Tasarım Dedektifleri</h1>
+                <p>Öğretmen Bozok • BTY.5.2.3</p>
+            </div>
+        </div>
+        <div class="header-controls">
+            <div class="stat-badge">
+                <i class="fa-solid fa-star text-amber-400"></i> Puan: <span id="score-display">0</span>
+            </div>
+            <button class="btn-ctrl" id="btn-how" onclick="game.toggleModal(true)">
+                <i class="fa-solid fa-circle-question text-emerald-400"></i> Nasıl Oynanır?
+            </button>
+            <button class="btn-ctrl" id="btn-sound" onclick="game.toggleSound()">
+                <i class="fa-solid fa-volume-high" id="sound-icon"></i>
+            </button>
+        </div>
+    </header>
+
+    <main>
+        <!-- START SCREEN -->
+        <div class="screen active" id="screen-start">
+            <div class="start-avatar">
+                <i class="fa-solid fa-user-secret"></i>
+            </div>
+            <h2 class="hero-title">Tasarım Hatalarını Bul ve Görselleri Geliştir!</h2>
+            <p class="hero-desc">
+                Tasarım dedektifi olarak görevin afişlerdeki kusurları yakalamak! Küçük yazıları, ilgisiz görselleri, renk uyumsuzluklarını tespit et; iki tasarımı kıyasla ve kalite kontrol testini tamamla!
+            </p>
+            <div class="section-tags">
+                <div class="sec-tag"><i class="fa-solid fa-bug"></i> 1. Hata Avı</div>
+                <div class="sec-tag"><i class="fa-solid fa-code-compare"></i> 2. İyi Tasarımı Seç</div>
+                <div class="sec-tag"><i class="fa-solid fa-wrench"></i> 3. Tasarımı Düzelt</div>
+                <div class="sec-tag"><i class="fa-solid fa-clipboard-check"></i> 4. Son Kontrol Listesi</div>
+            </div>
+            <button class="btn-start" onclick="game.start()">
+                <i class="fa-solid fa-play"></i> Soruşturmaya Başla
+            </button>
+        </div>
+
+        <!-- QUIZ SCREEN -->
+        <div class="screen" id="screen-quiz">
+            <div class="quiz-top">
+                <div class="section-indicator" id="quiz-section-badge">
+                    <i class="fa-solid fa-layer-group"></i> Bölüm 1
+                </div>
+                <div class="stat-badge">
+                    Görev: <span id="task-counter">1 / 16</span>
+                </div>
+            </div>
+            <div class="progress-bar-container">
+                <div class="progress-bar-fill" id="progress-fill"></div>
+            </div>
+
+            <!-- Standard Quiz (Bölüm 1 & 3) -->
+            <div id="container-standard" style="width:100%;">
+                <div class="scenario-box">
+                    <div class="scenario-badge" id="standard-badge">Görev</div>
+                    <div class="scenario-text" id="standard-text">Soru metni...</div>
+                </div>
+                <div class="options-grid" id="standard-options"></div>
+            </div>
+
+            <!-- Compare Posters (Bölüm 2) -->
+            <div id="container-compare" style="width:100%; display:none;">
+                <div class="scenario-box">
+                    <div class="scenario-badge">Tasarım Karşılaştırması</div>
+                    <div class="scenario-text" id="compare-text">Hangi tasarım amaca ve hedef kitleye daha uygundur?</div>
+                </div>
+                <div class="poster-compare-grid" id="poster-compare-grid"></div>
+            </div>
+
+            <!-- Rubric Checklist (Bölüm 4) -->
+            <div id="container-rubric" style="width:100%; display:none;">
+                <div class="scenario-box">
+                    <div class="scenario-badge">Son Kalite Kontrolü</div>
+                    <div class="scenario-text" id="rubric-text">Hazırlanan afişi yayınlamadan önce kontrol edilmesi gereken 5 altın kuralı işaretle:</div>
+                </div>
+                <div class="checklist-container" id="checklist-container"></div>
+                <button class="btn-ctrl" id="btn-rubric-confirm" style="display:none; width:100%; justify-content:center; padding:14px; background:#10b981; color:#064e3b; font-weight:900;" onclick="game.confirmRubric()">
+                    Kontrol Listesini Onayla <i class="fa-solid fa-check-double"></i>
+                </button>
+            </div>
+
+            <!-- Feedback Box -->
+            <div class="feedback-box" id="feedback-box">
+                <div class="feedback-icon" id="feedback-icon"><i class="fa-solid fa-circle-check text-emerald-400"></i></div>
+                <div class="feedback-content">
+                    <h4 id="feedback-title">Harika!</h4>
+                    <p id="feedback-desc">Açıklama</p>
+                </div>
+            </div>
+
+            <div style="width:100%; display:flex; justify-content:flex-end; margin-top:10px;">
+                <button class="btn-next" id="btn-next" style="display:none;" onclick="game.nextTask()">
+                    Sonraki Görev <i class="fa-solid fa-arrow-right"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- RESULT SCREEN -->
+        <div class="screen" id="screen-result">
+            <div class="result-card">
+                <div class="result-trophy" id="result-trophy"><i class="fa-solid fa-trophy"></i></div>
+                <div class="result-score" id="result-score">160 / 160</div>
+                <h3 class="result-title" id="result-title">Usta Tasarım Dedektifi! 🔍</h3>
+                <p class="result-msg" id="result-msg">Tasarım hatalarını gözünden kaçırmadın ve afişlerin kalitesini en üst seviyeye taşıdın!</p>
+                <button class="btn-start" onclick="game.restart()">
+                    <i class="fa-solid fa-rotate-right"></i> Yeniden İncele
+                </button>
+            </div>
+        </div>
+    </main>
+</div>
+
+<!-- HOW TO PLAY MODAL -->
+<div class="modal" id="modal-how">
+    <div class="modal-body">
+        <h3><i class="fa-solid fa-circle-info text-emerald-400"></i> Nasıl Oynanır?</h3>
+        <ul>
+            <li><i class="fa-solid fa-check"></i> <strong>Bölüm 1 (Hata Avı):</strong> Kusurlu tasarımlardaki temel hatayı bul.</li>
+            <li><i class="fa-solid fa-check"></i> <strong>Bölüm 2 (İyi Tasarımı Seç):</strong> İki farklı afişten hangisinin okunaklı ve amaca uygun olduğunu seç.</li>
+            <li><i class="fa-solid fa-check"></i> <strong>Bölüm 3 (Tasarımı Düzelt):</strong> Hatalı bir afişi düzeltmek için yapılması gereken en doğru hamleyi belirle.</li>
+            <li><i class="fa-solid fa-check"></i> <strong>Bölüm 4 (Son Kontrol):</strong> Tasarım değerlendirme kriterlerini eksiksiz işaretle!</li>
+            <li><i class="fa-solid fa-check"></i> Her doğru tespit <strong>10 Puan</strong> kazandırır!</li>
+        </ul>
+        <button class="btn-close-modal" onclick="game.toggleModal(false)">Anladım, Kapat</button>
+    </div>
+</div>
+
+<script>
+class SoundFx {
+    constructor() {
+        this.ctx = null;
+        this.muted = false;
+    }
+    init() {
+        if (!this.ctx) {
+            const AudioCtx = window.AudioContext || window.webkitAudioContext;
+            if (AudioCtx) this.ctx = new AudioCtx();
+        }
+        if (this.ctx && this.ctx.state === 'suspended') {
+            this.ctx.resume();
+        }
+    }
+    playTone(freq, type, dur, gainVal = 0.15) {
+        if (this.muted) return;
+        this.init();
+        if (!this.ctx) return;
+        try {
+            const osc = this.ctx.createOscillator();
+            const gain = this.ctx.createGain();
+            osc.type = type;
+            osc.frequency.setValueAtTime(freq, this.ctx.currentTime);
+            gain.gain.setValueAtTime(gainVal, this.ctx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.0001, this.ctx.currentTime + dur);
+            osc.connect(gain);
+            gain.connect(this.ctx.destination);
+            osc.start();
+            osc.stop(this.ctx.currentTime + dur);
+        } catch(e) {}
+    }
+    click() { this.playTone(600, 'sine', 0.08, 0.1); }
+    correct() {
+        this.playTone(523.25, 'triangle', 0.12, 0.2);
+        setTimeout(() => this.playTone(659.25, 'triangle', 0.12, 0.2), 100);
+        setTimeout(() => this.playTone(783.99, 'triangle', 0.25, 0.2), 200);
+    }
+    wrong() {
+        this.playTone(300, 'sawtooth', 0.18, 0.2);
+        setTimeout(() => this.playTone(220, 'sawtooth', 0.25, 0.2), 150);
+    }
+    fanfare() {
+        [523, 659, 783, 1046].forEach((f, i) => {
+            setTimeout(() => this.playTone(f, 'sine', 0.35, 0.2), i * 140);
+        });
+    }
+}
+
+const sounds = new SoundFx();
+
+const TASKS = [
+    // BÖLÜM 1: Hata Avı (5 Görev)
+    {
+        type: 'standard',
+        section: 'Bölüm 1 – Hata Avı',
+        badge: 'Okunabilirlik Kusuru',
+        text: "Bir afişte açık sarı arka plan üzerine açık sarı ve beyaz renkli yazılar yazılmış. Yanından geçen kimse yazıyı okuyamıyor. Bu tasarımdaki temel hata nedir?",
+        options: [
+            'Arka plan ile yazı arasında kontrast (zıtlık) olmaması ve okunabilirliğin kaybolması',
+            'Afişin çok büyük olması',
+            'Yazının Türkçe yazılması',
+            'Afişte fotoğraf olmaması'
+        ],
+        answer: 0,
+        explanation: "Harika av! Açık renk zemine açık renk yazı yazıldığında kontrast kaybolur ve yazı okunmaz hâle gelir."
+    },
+    {
+        type: 'standard',
+        section: 'Bölüm 1 – Hata Avı',
+        badge: 'İçerik Uyumu Kusuru',
+        text: "Siber zorbalık ve güvenli internet konulu bir uyarı afişinin tam ortasına büyük bir dilim pizza ve çizgi film hamburgeri konulmuş. Buradaki dedektiflik tespiti nedir?",
+        options: [
+            'Pizza fotoğrafının siber güvenlik konusuyla tamamen ilgisiz olması',
+            'Pizzanın mantarlı olması',
+            'Hamburgerin çok lezzetli görünmesi',
+            'Afişin renklerinin soluk olması'
+        ],
+        answer: 0,
+        explanation: "Tam isabet! Kullanılan görseller afişin amacıyla ve iletmek istediği mesajla yüzde yüz örtüşmelidir."
+    },
+    {
+        type: 'standard',
+        section: 'Bölüm 1 – Hata Avı',
+        badge: 'Kalabalık ve Karmaşa',
+        text: "Bir okul afişine 15 farklı yazı tipi, 20 küçük fotoğraf, her köşeye çıkartmalar ve uzun 5 sayfalık metin sıkıştırılmış. Bu afişteki sorun nedir?",
+        options: [
+            'Aşırı kalabalık, göz yoran karmaşa ve ana mesajın kaybolması',
+            'Afişin çok boş görünmesi',
+            'Afişte hiç yazı olmaması',
+            'Yazıların büyük harfle başlaması'
+        ],
+        answer: 0,
+        explanation: "Doğru! İyi tasarım sadedir. Çok fazla öğe ve yazı afişi karmaşaya boğar ve mesajı görünmez kılar."
+    },
+    {
+        type: 'standard',
+        section: 'Bölüm 1 – Hata Avı',
+        badge: 'Tipografi Boyutu',
+        text: "Okul koridoruna asılan afişteki ana başlık 10 punto (küçük bir kitap yazısı gibi) yapılmış. 1 metre uzaktaki öğrenciler bile başlığı göremiyor. Hata nedir?",
+        options: [
+            'Başlığın uzaktan okunmayacak kadar çok küçük boyutta olması',
+            'Afişin kağıdının kalın olması',
+            'Afişin kenarlarının düz olması',
+            'Başlıkta ünlem işareti bulunması'
+        ],
+        answer: 0,
+        explanation: "Tebrikler! Afiş başlığı en az birkaç metreden rahatlıkla okunabilecek irilikte ve vurguda olmalıdır."
+    },
+    {
+        type: 'standard',
+        section: 'Bölüm 1 – Hata Avı',
+        badge: 'Hedef Kitle Uyumu',
+        text: "Anaokulu ve 1. sınıf minik öğrencilerine yönelik diş fırçalama panosuna karmaşık tıp terimleri ve hiç resimsiz düz metinler konulmuş. Sorun nedir?",
+        options: [
+            'İçeriğin ve görsel dilin hedef kitlenin (minik çocukların) yaşına uygun olmaması',
+            'Diş fırçasının mavi olması',
+            'Panonun duvara asılması',
+            'Metnin Türkçe olması'
+        ],
+        answer: 0,
+        explanation: "Bravo! Tasarımın dili, görselleri ve yazıları hedef kitlenin yaşına ve anlayışına hitap etmelidir."
+    },
+
+    // BÖLÜM 2: İyi Tasarımı Seç (4 Görev)
+    {
+        type: 'compare',
+        section: 'Bölüm 2 – İyi Tasarımı Seç',
+        badge: 'Kıyaslama (1)',
+        instruction: 'Konu: Su Tasarrufu Afişi. Aşağıdaki iki tasarım modelinden hangisi başarılıdır?',
+        posters: [
+            {
+                id: 'bad',
+                title: 'Tasarım A',
+                tag: 'Kusurlu Tasarım',
+                tagColor: 'bg-rose-500/20 text-rose-300',
+                desc: '🔴 Sarı zemin üzerine beyaz küçük yazı, köşede alakasız bir futbol topu görseli, karmaşık 4 farklı yazı tipi.',
+                isCorrect: false,
+                reason: 'Açık zeminde beyaz yazı okunmaz ve futbol topu su tasarrufuyla tamamen alakasızdır.'
+            },
+            {
+                id: 'good',
+                title: 'Tasarım B',
+                tag: 'Başarılı Tasarım 🏆',
+                tagColor: 'bg-emerald-500/20 text-emerald-300',
+                desc: '🟢 Koyu lacivert zemin üzerinde net okunan büyük beyaz/turkuaz başlık: "Damlayan Su Geleceğimizdir!", musluğu kapatan güler yüzlü öğrenci ikonu.',
+                isCorrect: true,
+                reason: 'Harika kontrast, okunaklı büyük başlık, konuya doğrudan uygun odaklı görsel ve net mesaj.'
+            }
+        ]
+    },
+    {
+        type: 'compare',
+        section: 'Bölüm 2 – İyi Tasarımı Seç',
+        badge: 'Kıyaslama (2)',
+        instruction: 'Konu: Güçlü Şifre Güvenliği. Hangi afiş konsepti daha etkilidir?',
+        posters: [
+            {
+                id: 'good',
+                title: 'Tasarım A',
+                tag: 'Başarılı Tasarım 🏆',
+                tagColor: 'bg-emerald-500/20 text-emerald-300',
+                desc: '🟢 Sade, güven veren kalkan simgesi, büyük başlık: "Şifren Kapının Kilididir!", altında 3 maddelik sade rehber (Büyük harf, Sayı, Sembol).',
+                isCorrect: true,
+                reason: 'Mesaj net, görsel doğrudan konuyu destekliyor ve adımlar çok kolay anlaşılıyor.'
+            },
+            {
+                id: 'bad',
+                title: 'Tasarım B',
+                tag: 'Kusurlu Tasarım',
+                tagColor: 'bg-rose-500/20 text-rose-300',
+                desc: '🔴 20 satır kopyalanmış uzun teknik yasa maddesi, hiç simge yok, soluk gri zemin üstüne gri yazı.',
+                isCorrect: false,
+                reason: 'Düz metin yığını afiş değil makaledir; koridordan geçen kimse 20 satır teknik yazı okumaz.'
+            }
+        ]
+    },
+    {
+        type: 'compare',
+        section: 'Bölüm 2 – İyi Tasarımı Seç',
+        badge: 'Kıyaslama (3)',
+        instruction: 'Konu: Kitap Okuma Kulübü Duyurusu. Hangi afiş öğrencileri daha çok çeker?',
+        posters: [
+            {
+                id: 'bad',
+                title: 'Tasarım A',
+                tag: 'Kusurlu Tasarım',
+                tagColor: 'bg-rose-500/20 text-rose-300',
+                desc: '🔴 Siyah-beyaz fotokopi gibi soluk, tarih ve saat yazılmamış, kulübün nerede toplanacağı belirsiz.',
+                isCorrect: false,
+                reason: 'Duyuru afişinde tarih, yer ve saat gibi temel bilgilendirme öğeleri eksik bırakılamaz.'
+            },
+            {
+                id: 'good',
+                title: 'Tasarım B',
+                tag: 'Başarılı Tasarım 🏆',
+                tagColor: 'bg-emerald-500/20 text-emerald-300',
+                desc: '🟢 Canlı ve sıcak renkler, kitap açan neşeli karakterler, belirgin gün, saat ve yer: "Her Çarşamba 15.30 - Kütüphane".',
+                isCorrect: true,
+                reason: 'Etkileyici görsel, net bilgiler ve öğrencileri heveslendiren sıcak davet dili.'
+            }
+        ]
+    },
+    {
+        type: 'compare',
+        section: 'Bölüm 2 – İyi Tasarımı Seç',
+        badge: 'Kıyaslama (4)',
+        instruction: 'Konu: Doğru Oturuş ve Ergonomi. Hangi grafik daha bilgilendiricidir?',
+        posters: [
+            {
+                id: 'good',
+                title: 'Tasarım A',
+                tag: 'Başarılı Tasarım 🏆',
+                tagColor: 'bg-emerald-500/20 text-emerald-300',
+                desc: '🟢 Yan yana iki net çizim: Kırmızı çarpılı kambur oturuş vs Yeşil onaylı dik oturuş, oklarla gösterilen 90 derece kol ve bacak açısı.',
+                isCorrect: true,
+                reason: 'Yanlış ve doğru durumun görsel karşılaştırması anında öğrenmeyi sağlar.'
+            },
+            {
+                id: 'bad',
+                title: 'Tasarım B',
+                tag: 'Kusurlu Tasarım',
+                tagColor: 'bg-rose-500/20 text-rose-300',
+                desc: '🔴 Sadece bir sandalye resmi, hiçbir açıklama veya insan figürü yok, ne anlatıldığı anlaşılmıyor.',
+                isCorrect: false,
+                reason: 'Yalnızca boş bir sandalye resmi oturuş kurallarını ve ergonomiyi anlatamaz.'
+            }
+        ]
+    },
+
+    // BÖLÜM 3: Tasarımı Düzelt (4 Görev)
+    {
+        type: 'standard',
+        section: 'Bölüm 3 – Tasarımı Düzelt',
+        badge: 'Düzeltme Hamlesi',
+        text: "Kusurlu Tasarım: Çevre temizliği afişinde yazılar arka plandaki koyu ağaç yaprakları yüzünden hiç seçilmiyor. Tasarım dedektifi olarak en doğru düzeltme nedir?",
+        options: [
+            'Yazının arkasına yarı saydam bir zemin bandı eklemek veya yüksek kontrastlı açık bir renk seçmek',
+            'Bütün ağaçları afişten silip simsiyah yapmak',
+            'Afişi panoya asmaktan vazgeçmek',
+            'Yazıyı daha da küçültmek'
+        ],
+        answer: 0,
+        explanation: "Harika düzeltme! Karmaşık arka planlarda yazı altına şeffaf kontrast kutu eklemek yazıyı anında parlatır."
+    },
+    {
+        type: 'standard',
+        section: 'Bölüm 3 – Tasarımı Düzelt',
+        badge: 'Düzeltme Hamlesi',
+        text: "Kusurlu Tasarım: Afişte hem çizgi film karakteri, hem gerçek fotoğraf, hem 3D robot, hem sulu boya çiçeği yan yana konmuş. Uyumsuzluğu düzeltmek için ne yaparsın?",
+        options: [
+            'Tüm görsel öğeleri tek ve tutarlı bir tarzda (örneğin sadece modern vektörel çizimler) birleştirmek',
+            'Üzerine 5 fotoğraf daha eklemek',
+            'Her fotoğrafı farklı renge boyamak',
+            'Canva hesabını kapatmak'
+        ],
+        answer: 0,
+        explanation: "Doğru! Görsel bütünlük için afişteki tüm simge ve çizimlerin aynı görsel tarzı paylaşması gerekir."
+    },
+    {
+        type: 'standard',
+        section: 'Bölüm 3 – Tasarımı Düzelt',
+        badge: 'Düzeltme Hamlesi',
+        text: "Kusurlu Tasarım: Afişin ana başlığı ile alt yazısı tamamen aynı boyutta ve aynı hizada yazılmış, hangisinin başlık olduğu anlaşılmıyor. Nasıl düzeltirsin?",
+        options: [
+            'Ana başlığı belirgin şekilde büyütüp kalınlaştırmak, alt yazıyı daha küçük ve sade yapmak',
+            'İkisini de silmek',
+            'Yazıları ters çevirmek',
+            'Yazıların arasına 10 tane ünlem koymak'
+        ],
+        answer: 0,
+        explanation: "Tam isabet! Görsel hiyerarşi kurarak başlığın ilk görülen unsur olmasını sağlamalısın."
+    },
+    {
+        type: 'standard',
+        section: 'Bölüm 3 – Tasarım Dedektifleri',
+        badge: 'Düzeltme Hamlesi',
+        text: "Kusurlu Tasarım: Afişe indirilen internet fotoğrafı çok bulanık, kenarları tırtıklı ve pikselleri sayılıyor. Bu görüntü sorununu nasıl çözersin?",
+        options: [
+            'Düşük çözünürlüklü bozuk görsel yerine yüksek çözünürlüklü veya vektörel net bir görsel kullanmak',
+            'Bulanık görseli daha da büyütmek',
+            'Ekranın parlaklığını kısmak',
+            'Bilgisayarı yeniden başlatmak'
+        ],
+        answer: 0,
+        explanation: "Bravo! Bulanık ve pikselli görseller kaliteyi düşürür. Her zaman net ve yüksek çözünürlüklü öğeler tercih edilmelidir."
+    },
+
+    // BÖLÜM 4: Son Kontrol (3 Görev / Checklist)
+    {
+        type: 'rubric',
+        section: 'Bölüm 4 – Son Kontrol Listesi',
+        badge: 'Tasarım Rubriği (1)',
+        instruction: 'Bir afişi tamamladığında mutlaka onaylaman gereken 5 kriteri işaretle:',
+        items: [
+            { text: 'Afişin ana mesajı ve amacı uzaktan ilk bakışta anlaşılıyor mu?', isMust: true },
+            { text: 'Başlık ve yazılar kontrast renklerle net şekilde okunabiliyor mu?', isMust: true },
+            { text: 'Görseller ve simgeler konuyla doğrudan ilgili ve uyumlu mu?', isMust: true },
+            { text: 'Hedef kitleye (örneğin 5. sınıf öğrencilerine) uygun bir dil kullanılmış mı?', isMust: true },
+            { text: 'Gereksiz kalabalık ve göz yoran fazlalıklar temizlenmiş mi?', isMust: true }
+        ],
+        explanation: "Tebrikler! Bu 5 altın kural başarılı her grafik tasarımcının ve dedektifin kontrol listesidir!"
+    },
+    {
+        type: 'standard',
+        section: 'Bölüm 4 – Son Kontrol Listesi',
+        badge: 'Değerlendirme Kriteri',
+        text: "'Bir görsel tasarımın başarılı olması için yalnızca süslü ve güzel görünmesi yeterli midir?' sorusuna en doğru profesyonel cevap hangisidir?",
+        options: [
+            'Hayır; tasarımın amacına ulaşması, mesajı net iletmesi ve hedef kitleyi harekete geçirmesi şarttır.',
+            'Evet, renkli olsun yeterlidir.',
+            'Evet, kimsenin anlamasına gerek yoktur.',
+            'Hayır, sadece pahalı programlarla yapılması gerekir.'
+        ],
+        answer: 0,
+        explanation: "Mükemmel tespit! Tasarım yalnızca süs değil, bir problemi çözen ve mesajı ileten güçlü bir iletişim aracıdır."
+    },
+    {
+        type: 'standard',
+        section: 'Bölüm 4 – Son Kontrol Listesi',
+        badge: 'Telif ve Etik',
+        text: "Tasarımında başkalarının çizimlerini veya fotoğraflarını kullanırken telif haklarına ve etiğe uygun davranmak için ne yapmalısın?",
+        options: [
+            'Telif haklarına saygı duymalı, serbest kullanıma açık (ücretsiz/Creative Commons) kaynakları tercih etmeli ve gerekirse kaynak belirtmeliyim.',
+            'İnternette gördüğüm her şeyi izinsiz kopyalayıp benimmiş gibi satmalıyım.',
+            'Sanatçının imzasını silmeliyim.',
+            'Fotoğrafın sahibine asla haber vermemeliyim.'
+        ],
+        answer: 0,
+        explanation: "Harika etik duruş! Dijital dünyada başkalarının emeğine saygı duymak ve telifsiz kaynakları kullanmak temel bir kuraldır."
+    }
+];
+
+class DesignDetectivesGame {
+    constructor() {
+        this.currentIdx = 0;
+        this.score = 0;
+        this.answered = false;
+
+        // Rubric state
+        this.checkedRubric = [];
+
+        this.screens = {
+            start: document.getElementById('screen-start'),
+            quiz: document.getElementById('screen-quiz'),
+            result: document.getElementById('screen-result')
+        };
+    }
+
+    start() {
+        sounds.click();
+        this.currentIdx = 0;
+        this.score = 0;
+        this.updateScore();
+        this.showScreen('quiz');
+        this.loadTask();
+    }
+
+    showScreen(name) {
+        Object.values(this.screens).forEach(s => s.classList.remove('active'));
+        this.screens[name].classList.add('active');
+    }
+
+    loadTask() {
+        this.answered = false;
+        const task = TASKS[this.currentIdx];
+
+        // Progress
+        document.getElementById('task-counter').innerText = `${this.currentIdx + 1} / ${TASKS.length}`;
+        const pct = (this.currentIdx / TASKS.length) * 100;
+        document.getElementById('progress-fill').style.width = `${pct}%`;
+
+        document.getElementById('quiz-section-badge').innerHTML = `<i class="fa-solid fa-layer-group"></i> ${task.section}`;
+
+        // Reset feedback & next button
+        document.getElementById('feedback-box').className = 'feedback-box';
+        document.getElementById('btn-next').style.display = 'none';
+
+        const contStd = document.getElementById('container-standard');
+        const contComp = document.getElementById('container-compare');
+        const contRub = document.getElementById('container-rubric');
+
+        contStd.style.display = 'none';
+        contComp.style.display = 'none';
+        contRub.style.display = 'none';
+
+        if (task.type === 'standard') {
+            contStd.style.display = 'block';
+            document.getElementById('standard-badge').innerText = task.badge;
+            document.getElementById('standard-text').innerText = task.text;
+
+            const grid = document.getElementById('standard-options');
+            grid.innerHTML = '';
+            const letters = ['A', 'B', 'C', 'D'];
+
+            task.options.forEach((opt, idx) => {
+                const btn = document.createElement('div');
+                btn.className = 'option-card';
+                btn.onclick = () => this.handleStandardAnswer(idx, btn);
+                btn.innerHTML = `
+                    <div class="option-key">${letters[idx]}</div>
+                    <div class="option-label">${opt}</div>
+                `;
+                grid.appendChild(btn);
+            });
+        } else if (task.type === 'compare') {
+            contComp.style.display = 'block';
+            document.getElementById('compare-text').innerText = task.instruction;
+            const grid = document.getElementById('poster-compare-grid');
+            grid.innerHTML = '';
+
+            task.posters.forEach((p, idx) => {
+                const card = document.createElement('div');
+                card.className = 'poster-card';
+                card.onclick = () => this.handleComparePick(idx, card);
+                card.innerHTML = `
+                    <div class="poster-label-tag ${p.tagColor}">${p.tag}</div>
+                    <h3 style="font-size:1.3rem; font-weight:900; color:#fff; margin-bottom:8px;">${p.title}</h3>
+                    <p style="font-size:0.95rem; color:#cbd5e1; line-height:1.5;">${p.desc}</p>
+                `;
+                grid.appendChild(card);
+            });
+        } else if (task.type === 'rubric') {
+            contRub.style.display = 'block';
+            document.getElementById('rubric-text').innerText = task.instruction;
+            this.checkedRubric = [];
+            this.renderRubric();
+        }
+    }
+
+    handleStandardAnswer(selectedIdx, btnElement) {
+        if (this.answered) return;
+        this.answered = true;
+
+        const task = TASKS[this.currentIdx];
+        const cards = document.querySelectorAll('#standard-options .option-card');
+
+        const fBox = document.getElementById('feedback-box');
+        const fIcon = document.getElementById('feedback-icon');
+        const fTitle = document.getElementById('feedback-title');
+        const fDesc = document.getElementById('feedback-desc');
+
+        if (selectedIdx === task.answer) {
+            sounds.correct();
+            btnElement.classList.add('correct');
+            this.score += 10;
+            this.updateScore();
+
+            fBox.className = 'feedback-box show border-emerald-500/50 bg-emerald-950/40 text-emerald-100';
+            fIcon.innerHTML = '<i class="fa-solid fa-circle-check text-emerald-400"></i>';
+            fTitle.innerText = 'Dedektiflik Görevi Başarılı! 🎯';
+            fDesc.innerText = task.explanation;
+        } else {
+            sounds.wrong();
+            btnElement.classList.add('incorrect');
+            cards[task.answer].classList.add('correct');
+
+            fBox.className = 'feedback-box show border-rose-500/50 bg-rose-950/40 text-rose-100';
+            fIcon.innerHTML = '<i class="fa-solid fa-circle-xmark text-rose-400"></i>';
+            fTitle.innerText = 'İpucunu Kaçırdın! 💡';
+            fDesc.innerText = task.explanation;
+        }
+
+        document.getElementById('btn-next').style.display = 'inline-flex';
+    }
+
+    handleComparePick(idx, cardElement) {
+        if (this.answered) return;
+        this.answered = true;
+
+        const task = TASKS[this.currentIdx];
+        const picked = task.posters[idx];
+        const allCards = document.querySelectorAll('.poster-card');
+
+        const fBox = document.getElementById('feedback-box');
+        const fIcon = document.getElementById('feedback-icon');
+        const fTitle = document.getElementById('feedback-title');
+        const fDesc = document.getElementById('feedback-desc');
+
+        if (picked.isCorrect) {
+            sounds.correct();
+            cardElement.classList.add('correct');
+            this.score += 10;
+            this.updateScore();
+
+            fBox.className = 'feedback-box show border-emerald-500/50 bg-emerald-950/40 text-emerald-100';
+            fIcon.innerHTML = '<i class="fa-solid fa-circle-check text-emerald-400"></i>';
+            fTitle.innerText = 'Doğru Tasarımı Seçtin! 🏆';
+            fDesc.innerText = picked.reason;
+        } else {
+            sounds.wrong();
+            cardElement.classList.add('incorrect');
+            allCards.forEach((c, i) => {
+                if (task.posters[i].isCorrect) c.classList.add('correct');
+            });
+
+            fBox.className = 'feedback-box show border-rose-500/50 bg-rose-950/40 text-rose-100';
+            fIcon.innerHTML = '<i class="fa-solid fa-circle-xmark text-rose-400"></i>';
+            fTitle.innerText = 'Kusurlu Tasarımı Seçtin! 💡';
+            fDesc.innerText = picked.reason;
+        }
+
+        document.getElementById('btn-next').style.display = 'inline-flex';
+    }
+
+    renderRubric() {
+        const task = TASKS[this.currentIdx];
+        const container = document.getElementById('checklist-container');
+        container.innerHTML = '';
+
+        task.items.forEach((item, idx) => {
+            const isChecked = this.checkedRubric.includes(idx);
+            const row = document.createElement('div');
+            row.className = `check-item ${isChecked ? 'checked' : ''}`;
+            row.onclick = () => {
+                if (this.answered) return;
+                sounds.click();
+                if (this.checkedRubric.includes(idx)) {
+                    this.checkedRubric = this.checkedRubric.filter(i => i !== idx);
+                } else {
+                    this.checkedRubric.push(idx);
+                }
+                this.renderRubric();
+                document.getElementById('btn-rubric-confirm').style.display = 
+                    (this.checkedRubric.length === task.items.length) ? 'flex' : 'none';
+            };
+            row.innerHTML = `
+                <div class="check-item-text"><i class="fa-solid fa-circle-dot text-emerald-400 mr-2"></i> ${item.text}</div>
+                <div class="check-box-icon"><i class="fa-solid fa-check"></i></div>
+            `;
+            container.appendChild(row);
+        });
+    }
+
+    confirmRubric() {
+        if (this.answered) return;
+        this.answered = true;
+        sounds.correct();
+        this.score += 10;
+        this.updateScore();
+
+        const task = TASKS[this.currentIdx];
+        const fBox = document.getElementById('feedback-box');
+        const fIcon = document.getElementById('feedback-icon');
+        const fTitle = document.getElementById('feedback-title');
+        const fDesc = document.getElementById('feedback-desc');
+
+        fBox.className = 'feedback-box show border-emerald-500/50 bg-emerald-950/40 text-emerald-100';
+        fIcon.innerHTML = '<i class="fa-solid fa-circle-check text-emerald-400"></i>';
+        fTitle.innerText = '5 Altın Kriter Tamamlandı! 📋✨';
+        fDesc.innerText = task.explanation;
+
+        document.getElementById('btn-rubric-confirm').style.display = 'none';
+        document.getElementById('btn-next').style.display = 'inline-flex';
+    }
+
+    nextTask() {
+        sounds.click();
+        this.currentIdx++;
+        if (this.currentIdx < TASKS.length) {
+            this.loadTask();
+        } else {
+            this.finishGame();
+        }
+    }
+
+    updateScore() {
+        document.getElementById('score-display').innerText = this.score;
+    }
+
+    finishGame() {
+        document.getElementById('progress-fill').style.width = '100%';
+        this.showScreen('result');
+        sounds.fanfare();
+        confetti({
+            particleCount: 140,
+            spread: 90,
+            origin: { y: 0.6 }
+        });
+
+        document.getElementById('result-score').innerText = `${this.score} / ${TASKS.length * 10}`;
+        const trophy = document.getElementById('result-trophy');
+        const title = document.getElementById('result-title');
+        const msg = document.getElementById('result-msg');
+
+        if (this.score >= 140) {
+            trophy.innerHTML = '<i class="fa-solid fa-trophy text-yellow-400"></i>';
+            title.innerText = 'Baş Dedektif! 🏆';
+            msg.innerText = 'Tüm görsel tasarım hatalarını kusursuz yakaladın, afişleri düzelttin ve kalite kontrolünü mükemmel tamamladın!';
+        } else if (this.score >= 100) {
+            trophy.innerHTML = '<i class="fa-solid fa-medal text-emerald-400"></i>';
+            title.innerText = 'Kıdemli Dedektif! 🎖️';
+            msg.innerText = 'Tasarım hatalarını iyi tespit ettin. Kontrast ve hizalama kurallarına dikkat ederek daha da ustalaşabilirsin.';
+        } else {
+            trophy.innerHTML = '<i class="fa-solid fa-magnifying-glass text-amber-400"></i>';
+            title.innerText = 'Stajyer Dedektif! 🔍';
+            msg.innerText = 'Görsel uyumunu ve okunabilirlik kurallarını tekrar gözden geçirerek kendini geliştirebilirsin. Yeniden dene!';
+        }
+    }
+
+    restart() {
+        sounds.click();
+        this.start();
+    }
+
+    toggleModal(show) {
+        sounds.click();
+        document.getElementById('modal-how').classList.toggle('active', show);
+    }
+
+    toggleSound() {
+        sounds.muted = !sounds.muted;
+        const icon = document.getElementById('sound-icon');
+        icon.className = sounds.muted ? 'fa-solid fa-volume-xmark text-rose-400' : 'fa-solid fa-volume-high text-emerald-400';
+    }
+}
+
+const game = new DesignDetectivesGame();
+</script>
+</body>
+</html>

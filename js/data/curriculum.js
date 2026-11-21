@@ -123,13 +123,13 @@ const CURRICULUM_DATA = [
             },
             {
                 "week": 8,
-                "title": "Görsel Tasarıma Yönelik Kurgu Oluşturma, Görsel Dosyası Geliştirme",
+                "title": "Canva ile Görsel Tasarlama (Kurgu ve Görsel Geliştirme)",
                 "code": "BTY.5.2.2 Görsel için kurgu oluşturabilme, BTY.5.2.3 Görsel dosyası geliştirebilme",
                 "outcome": "a) Görsel tasarlanacak gerçek hayat problemini belirler. b) Görsel hazırlama sürecinde kullanılacak hikâye/senaryo unsurlarını belirler. c) Belirlenen unsurları kapsayan hikâye/senaryo oluşturur. ç) Hikâyeyi/senaryoyu bütünlük/kullanışlılık açısından değerlendirir.\n\na) Tasarlanan hikâye/senaryo unsurlarına uygun bir görsel oluşturur.\nb) Oluşturulan görseli belirlenen ölçütler açısından değerlendirir.",
-                "isAvailable": false,
-                "badge": "Yakında",
+                "isAvailable": true,
+                "badge": "Hazır",
                 "customLabel": "8. Konu",
-                "customHeaderTitle": "8. Konu: Görsel Tasarıma Yönelik Kurgu Oluşturma, Görsel Dosyası Geliştirme (BTY.5.2.2 & BTY.5.2.3)"
+                "customHeaderTitle": "8. Konu: Canva ile Görsel Tasarlama (BTY.5.2.2 & BTY.5.2.3)"
             },
             {
                 "week": 9,

@@ -1,0 +1,1124 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Problem Avcısı | Öğretmen Bozok</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <style>
+        :root {
+            --bg-dark: #070d18;
+            --panel-bg: rgba(13, 23, 42, 0.92);
+            --panel-border: rgba(6, 182, 212, 0.25);
+            --primary: #06b6d4;
+            --primary-dark: #0891b2;
+            --accent: #3b82f6;
+            --navy: #0f172a;
+            --green: #10b981;
+            --yellow: #f59e0b;
+            --red: #ef4444;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: radial-gradient(circle at 50% 10%, #0e2a47 0%, #070d18 100%);
+            color: #f8fafc;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow-x: hidden;
+            padding: 16px;
+        }
+
+        #game-frame {
+            width: 100%;
+            max-width: 1100px;
+            min-height: 85vh;
+            background: var(--panel-bg);
+            border: 2px solid var(--panel-border);
+            border-radius: 28px;
+            backdrop-filter: blur(20px);
+            box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.85), 0 0 35px rgba(6, 182, 212, 0.25);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            position: relative;
+        }
+
+        header {
+            padding: 16px 24px;
+            background: rgba(15, 23, 42, 0.95);
+            border-bottom: 2px solid rgba(255, 255, 255, 0.08);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .mb-logo {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, #06b6d4, #0284c7);
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            font-weight: 900;
+            color: #fff;
+            letter-spacing: -1px;
+            box-shadow: 0 4px 16px rgba(6, 182, 212, 0.4);
+        }
+
+        .header-title h1 {
+            font-size: 1.3rem;
+            font-weight: 900;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .header-title p {
+            font-size: 0.78rem;
+            color: #67e8f9;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+        }
+
+        .header-controls {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn-ctrl {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.16);
+            color: #f1f5f9;
+            padding: 9px 15px;
+            border-radius: 12px;
+            font-size: 0.82rem;
+            font-weight: 800;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            transition: all 0.2s;
+        }
+
+        .btn-ctrl:hover {
+            background: rgba(6, 182, 212, 0.25);
+            border-color: #06b6d4;
+            transform: translateY(-2px);
+        }
+
+        .stat-badge {
+            background: rgba(15, 23, 42, 0.85);
+            border: 1px solid rgba(6, 182, 212, 0.35);
+            padding: 8px 14px;
+            border-radius: 12px;
+            font-weight: 800;
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #e2e8f0;
+        }
+
+        .stat-badge span {
+            color: #22d3ee;
+            font-size: 1rem;
+        }
+
+        main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 24px;
+            position: relative;
+        }
+
+        .screen {
+            width: 100%;
+            max-width: 860px;
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            animation: fadeIn 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .screen.active {
+            display: flex;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(12px) scale(0.98); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        /* START SCREEN */
+        .start-avatar {
+            width: 110px;
+            height: 110px;
+            background: linear-gradient(135deg, #0891b2, #1e3a8a);
+            border: 4px solid #22d3ee;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3.2rem;
+            color: #fff;
+            margin-bottom: 18px;
+            box-shadow: 0 10px 30px rgba(6, 182, 212, 0.4);
+            animation: pulse 2.5s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .hero-title {
+            font-size: 2.2rem;
+            font-weight: 900;
+            text-align: center;
+            background: linear-gradient(135deg, #ffffff, #67e8f9);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+        }
+
+        .hero-desc {
+            font-size: 1.05rem;
+            color: #94a3b8;
+            text-align: center;
+            max-width: 600px;
+            margin-bottom: 24px;
+            line-height: 1.5;
+        }
+
+        .section-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+            margin-bottom: 28px;
+        }
+
+        .sec-tag {
+            background: rgba(6, 182, 212, 0.12);
+            border: 1px solid rgba(6, 182, 212, 0.3);
+            color: #a5f3fc;
+            padding: 8px 14px;
+            border-radius: 9999px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn-start {
+            background: linear-gradient(135deg, #06b6d4, #0284c7);
+            color: #fff;
+            padding: 16px 42px;
+            border-radius: 18px;
+            font-size: 1.25rem;
+            font-weight: 900;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 10px 25px rgba(6, 182, 212, 0.5);
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            transition: all 0.25s;
+        }
+
+        .btn-start:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 15px 35px rgba(6, 182, 212, 0.65);
+        }
+
+        /* QUIZ SCREEN */
+        .quiz-top {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 14px;
+        }
+
+        .section-indicator {
+            padding: 6px 14px;
+            background: rgba(6, 182, 212, 0.18);
+            border: 1px solid rgba(6, 182, 212, 0.4);
+            border-radius: 10px;
+            color: #22d3ee;
+            font-size: 0.85rem;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            gap: 7px;
+        }
+
+        .progress-bar-container {
+            width: 100%;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 9999px;
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #06b6d4, #3b82f6);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .scenario-box {
+            width: 100%;
+            background: rgba(15, 23, 42, 0.85);
+            border: 1px solid rgba(255, 255, 255, 0.14);
+            border-radius: 20px;
+            padding: 22px;
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .scenario-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(59, 130, 246, 0.2);
+            color: #93c5fd;
+            font-size: 0.78rem;
+            font-weight: 800;
+            padding: 4px 10px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+        }
+
+        .scenario-text {
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: #f1f5f9;
+            line-height: 1.5;
+        }
+
+        .options-grid {
+            width: 100%;
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        @media (min-width: 640px) {
+            .options-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        .option-card {
+            background: rgba(30, 41, 59, 0.75);
+            border: 2px solid rgba(255, 255, 255, 0.12);
+            border-radius: 16px;
+            padding: 16px 18px;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: left;
+        }
+
+        .option-card:hover {
+            background: rgba(6, 182, 212, 0.15);
+            border-color: #06b6d4;
+            transform: translateY(-2px);
+        }
+
+        .option-card.correct {
+            background: rgba(16, 185, 129, 0.25) !important;
+            border-color: #10b981 !important;
+            color: #a7f3d0 !important;
+        }
+
+        .option-card.incorrect {
+            background: rgba(239, 68, 68, 0.25) !important;
+            border-color: #ef4444 !important;
+            color: #fecaca !important;
+        }
+
+        .option-key {
+            width: 34px;
+            height: 34px;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 900;
+            font-size: 0.95rem;
+            flex-shrink: 0;
+            color: #38bdf8;
+        }
+
+        .option-card.correct .option-key {
+            background: #10b981;
+            color: #fff;
+        }
+
+        .option-card.incorrect .option-key {
+            background: #ef4444;
+            color: #fff;
+        }
+
+        .option-label {
+            font-size: 0.98rem;
+            font-weight: 700;
+            color: #e2e8f0;
+            flex: 1;
+        }
+
+        .feedback-box {
+            width: 100%;
+            background: rgba(15, 23, 42, 0.9);
+            border: 2px solid var(--panel-border);
+            border-radius: 16px;
+            padding: 16px 20px;
+            margin-bottom: 20px;
+            display: none;
+            align-items: flex-start;
+            gap: 14px;
+            animation: slideUp 0.25s ease;
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .feedback-box.show {
+            display: flex;
+        }
+
+        .feedback-icon {
+            font-size: 1.5rem;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .feedback-content h4 {
+            font-size: 1rem;
+            font-weight: 800;
+            margin-bottom: 4px;
+        }
+
+        .feedback-content p {
+            font-size: 0.9rem;
+            color: #cbd5e1;
+            line-height: 1.4;
+        }
+
+        .btn-next {
+            background: linear-gradient(135deg, #06b6d4, #0284c7);
+            color: #fff;
+            padding: 13px 32px;
+            border-radius: 14px;
+            font-size: 1.05rem;
+            font-weight: 800;
+            border: none;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s;
+            margin-left: auto;
+        }
+
+        .btn-next:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(6, 182, 212, 0.4);
+        }
+
+        /* RESULT SCREEN */
+        .result-card {
+            background: rgba(15, 23, 42, 0.85);
+            border: 2px solid rgba(6, 182, 212, 0.4);
+            border-radius: 24px;
+            padding: 32px;
+            text-align: center;
+            width: 100%;
+            max-width: 650px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.6);
+        }
+
+        .result-trophy {
+            font-size: 4rem;
+            color: #facc15;
+            margin-bottom: 14px;
+            animation: bounce 1.2s infinite alternate;
+        }
+
+        @keyframes bounce {
+            from { transform: translateY(0); }
+            to { transform: translateY(-10px); }
+        }
+
+        .result-score {
+            font-size: 3rem;
+            font-weight: 900;
+            color: #22d3ee;
+            margin-bottom: 6px;
+        }
+
+        .result-title {
+            font-size: 1.6rem;
+            font-weight: 900;
+            color: #fff;
+            margin-bottom: 8px;
+        }
+
+        .result-msg {
+            font-size: 1rem;
+            color: #cbd5e1;
+            margin-bottom: 24px;
+            line-height: 1.5;
+        }
+
+        /* MODAL */
+        .modal {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.75);
+            backdrop-filter: blur(8px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            padding: 16px;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-body {
+            background: #0f172a;
+            border: 2px solid #06b6d4;
+            border-radius: 24px;
+            padding: 28px;
+            max-width: 550px;
+            width: 100%;
+            color: #f8fafc;
+        }
+
+        .modal-body h3 {
+            font-size: 1.4rem;
+            font-weight: 900;
+            color: #22d3ee;
+            margin-bottom: 14px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .modal-body ul {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 20px;
+            font-size: 0.95rem;
+            color: #cbd5e1;
+        }
+
+        .modal-body li {
+            display: flex;
+            gap: 10px;
+            align-items: flex-start;
+        }
+
+        .modal-body li i {
+            color: #38bdf8;
+            margin-top: 3px;
+        }
+
+        .btn-close-modal {
+            background: #06b6d4;
+            color: #042f2e;
+            padding: 10px 24px;
+            border-radius: 12px;
+            font-weight: 800;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+
+<div id="game-frame">
+    <header>
+        <div class="header-left">
+            <div class="mb-logo">MB</div>
+            <div class="header-title">
+                <h1><i class="fa-solid fa-bullseye text-cyan-400"></i> Problem Avcısı</h1>
+                <p>Öğretmen Bozok • BTY.5.2.2</p>
+            </div>
+        </div>
+        <div class="header-controls">
+            <div class="stat-badge">
+                <i class="fa-solid fa-star text-amber-400"></i> Puan: <span id="score-display">0</span>
+            </div>
+            <button class="btn-ctrl" id="btn-how" onclick="game.toggleModal(true)">
+                <i class="fa-solid fa-circle-question text-cyan-400"></i> Nasıl Oynanır?
+            </button>
+            <button class="btn-ctrl" id="btn-sound" onclick="game.toggleSound()">
+                <i class="fa-solid fa-volume-high" id="sound-icon"></i>
+            </button>
+        </div>
+    </header>
+
+    <main>
+        <!-- START SCREEN -->
+        <div class="screen active" id="screen-start">
+            <div class="start-avatar">
+                <i class="fa-solid fa-chalkboard-user"></i>
+            </div>
+            <h2 class="hero-title">Günlük Yaşamın Problemlerini Bulmaya Hazır mısın?</h2>
+            <p class="hero-desc">
+                Tasarım yapmadan önceki en önemli adım problemi, hedef kitleyi ve amacı doğru belirlemektir. Gerçek hayat durumlarını incele, hedefleri vur ve usta bir Problem Avcısı ol!
+            </p>
+            <div class="section-tags">
+                <div class="sec-tag"><i class="fa-solid fa-magnifying-glass"></i> 1. Problemi Bul</div>
+                <div class="sec-tag"><i class="fa-solid fa-users"></i> 2. Hedef Kitleyi Bul</div>
+                <div class="sec-tag"><i class="fa-solid fa-compass"></i> 3. Tasarımın Amacını Belirle</div>
+            </div>
+            <button class="btn-start" onclick="game.start()">
+                <i class="fa-solid fa-play"></i> Oyuna Başla
+            </button>
+        </div>
+
+        <!-- QUIZ SCREEN -->
+        <div class="screen" id="screen-quiz">
+            <div class="quiz-top">
+                <div class="section-indicator" id="quiz-section-badge">
+                    <i class="fa-solid fa-layer-group"></i> Bölüm 1
+                </div>
+                <div class="stat-badge">
+                    Soru: <span id="question-counter">1 / 16</span>
+                </div>
+            </div>
+            <div class="progress-bar-container">
+                <div class="progress-bar-fill" id="progress-fill"></div>
+            </div>
+
+            <div class="scenario-box">
+                <div class="scenario-badge" id="scenario-badge"><i class="fa-solid fa-circle-info"></i> Durum İncelemesi</div>
+                <div class="scenario-text" id="scenario-text">Soru metni yükleniyor...</div>
+            </div>
+
+            <div class="options-grid" id="options-container">
+                <!-- Dinamik seçenekler -->
+            </div>
+
+            <div class="feedback-box" id="feedback-box">
+                <div class="feedback-icon" id="feedback-icon"><i class="fa-solid fa-circle-check text-emerald-400"></i></div>
+                <div class="feedback-content">
+                    <h4 id="feedback-title">Harika!</h4>
+                    <p id="feedback-desc">Açıklama</p>
+                </div>
+            </div>
+
+            <div style="width:100%; display:flex; justify-content:flex-end;">
+                <button class="btn-next" id="btn-next" style="display:none;" onclick="game.nextQuestion()">
+                    Sonraki Soru <i class="fa-solid fa-arrow-right"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- RESULT SCREEN -->
+        <div class="screen" id="screen-result">
+            <div class="result-card">
+                <div class="result-trophy" id="result-trophy"><i class="fa-solid fa-trophy"></i></div>
+                <div class="result-score" id="result-score">160 / 160</div>
+                <h3 class="result-title" id="result-title">Mükemmel Problem Avcısı!</h3>
+                <p class="result-msg" id="result-msg">Tüm gerçek hayat problemlerini, hedef kitlelerini ve tasarım amaçlarını eksiksiz tespit ettin!</p>
+                <button class="btn-start" onclick="game.restart()">
+                    <i class="fa-solid fa-rotate-right"></i> Yeniden Oyna
+                </button>
+            </div>
+        </div>
+    </main>
+</div>
+
+<!-- HOW TO PLAY MODAL -->
+<div class="modal" id="modal-how">
+    <div class="modal-body">
+        <h3><i class="fa-solid fa-circle-info text-cyan-400"></i> Nasıl Oynanır?</h3>
+        <ul>
+            <li><i class="fa-solid fa-check"></i> Oyun 3 temel bölümden ve 16 görevden oluşur.</li>
+            <li><i class="fa-solid fa-check"></i> <strong>1. Bölüm:</strong> Günlük yaşam durumundaki temel sorunu bul.</li>
+            <li><i class="fa-solid fa-check"></i> <strong>2. Bölüm:</strong> Afişin hitap edeceği doğru hedef kitleyi seç.</li>
+            <li><i class="fa-solid fa-check"></i> <strong>3. Bölüm:</strong> Tasarımın asıl amacını (bilgilendirme, uyarı, farkındalık vb.) belirle.</li>
+            <li><i class="fa-solid fa-check"></i> Her doğru cevap <strong>10 Puan</strong> kazandırır!</li>
+        </ul>
+        <button class="btn-close-modal" onclick="game.toggleModal(false)">Anladım, Kapat</button>
+    </div>
+</div>
+
+<script>
+// Sound Engine
+class SoundFx {
+    constructor() {
+        this.ctx = null;
+        this.muted = false;
+    }
+    init() {
+        if (!this.ctx) {
+            const AudioCtx = window.AudioContext || window.webkitAudioContext;
+            if (AudioCtx) this.ctx = new AudioCtx();
+        }
+        if (this.ctx && this.ctx.state === 'suspended') {
+            this.ctx.resume();
+        }
+    }
+    playTone(freq, type, dur, gainVal = 0.15) {
+        if (this.muted) return;
+        this.init();
+        if (!this.ctx) return;
+        try {
+            const osc = this.ctx.createOscillator();
+            const gain = this.ctx.createGain();
+            osc.type = type;
+            osc.frequency.setValueAtTime(freq, this.ctx.currentTime);
+            gain.gain.setValueAtTime(gainVal, this.ctx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.0001, this.ctx.currentTime + dur);
+            osc.connect(gain);
+            gain.connect(this.ctx.destination);
+            osc.start();
+            osc.stop(this.ctx.currentTime + dur);
+        } catch(e) {}
+    }
+    click() { this.playTone(600, 'sine', 0.08, 0.1); }
+    correct() {
+        this.playTone(523.25, 'triangle', 0.12, 0.2);
+        setTimeout(() => this.playTone(659.25, 'triangle', 0.12, 0.2), 100);
+        setTimeout(() => this.playTone(783.99, 'triangle', 0.25, 0.2), 200);
+    }
+    wrong() {
+        this.playTone(300, 'sawtooth', 0.18, 0.2);
+        setTimeout(() => this.playTone(220, 'sawtooth', 0.25, 0.2), 150);
+    }
+    fanfare() {
+        [523, 659, 783, 1046].forEach((f, i) => {
+            setTimeout(() => this.playTone(f, 'sine', 0.35, 0.2), i * 140);
+        });
+    }
+}
+
+const sounds = new SoundFx();
+
+const QUESTIONS = [
+    // BÖLÜM 1: Problemi Bul (Sorular 1 - 6)
+    {
+        section: "Bölüm 1 – Problemi Bul",
+        badge: "Okul Ortamı",
+        text: "Teneffüste okul bahçesinde yürürken her yerde boş meyve suyu kutuları, bisküvi ambalajları ve plastik şişelerin yere saçıldığını görüyorsun. Buradaki temel problem nedir?",
+        options: [
+            "Okul kantininde yeterli çeşit olmaması",
+            "Bahçede yere çöp atılması ve çevre kirliliği oluşması",
+            "Bahçede futbol sahasının bulunmaması",
+            "Öğrencilerin teneffüslerinin çok kısa olması"
+        ],
+        answer: 1,
+        explanation: "Harika! Bahçeye çöp atılması doğrudan çözülmesi gereken temel çevre problemidir."
+    },
+    {
+        section: "Bölüm 1 – Problemi Bul",
+        badge: "Tasarruf ve Kaynaklar",
+        text: "Lavaboya gittiğinde elini yıkayan öğrencilerin muslukları tam kapatmadan çıktığını ve suların şarıl şarıl boşa aktığını fark ettin. Bu durumdaki temel sorun nedir?",
+        options: [
+            "Sabunlukların boş olması",
+            "Muslukların açık bırakılması nedeniyle yaşanan su israfı",
+            "Aynaların temizlenmemiş olması",
+            "Teneffüs zilinin erken çalması"
+        ],
+        answer: 1,
+        explanation: "Doğru tespit! Açık bırakılan musluklar doğal kaynaklarımızın ve temiz suyun israf edilmesine yol açar."
+    },
+    {
+        section: "Bölüm 1 – Problemi Bul",
+        badge: "Enerji Verimliliği",
+        text: "Gündüz güneş pırıl pırıl parlarken sınıfların ve koridorların tüm ışıklarının gereksiz yere açık unutulduğu gözleniyor. Buradaki temel problem nedir?",
+        options: [
+            "Pencerelerin perdesiz olması",
+            "Gereksiz açık bırakılan ışıkların sebep olduğu elektrik israfı",
+            "Sınıfta yeterli akıllı tahta olmaması",
+            "Lambaların sarı yerine beyaz ışık vermesi"
+        ],
+        answer: 1,
+        explanation: "Bravo! Gündüz vakti açık unutulan lambalar ciddi bir enerji ve elektrik israfıdır."
+    },
+    {
+        section: "Bölüm 1 – Problemi Bul",
+        badge: "Kütüphane Kültürü",
+        text: "Okul kütüphanesindeki masal ve hikâye kitaplarının sayfalarının yırtıldığı, üzerlerine karalamalar yapıldığı tespit ediliyor. Buradaki problem nedir?",
+        options: [
+            "Kütüphanede yeterli sandalye olmaması",
+            "Ortak kullanım eşyası olan kitapların zarar görmesi ve dikkatsiz kullanılması",
+            "Kitapların kapaklarının mavi olması",
+            "Kütüphanenin sadece sabahları açık olması"
+        ],
+        answer: 1,
+        explanation: "Tebrikler! Kitaplara zarar verilmesi diğer öğrencilerin bilgiye erişimini engelleyen önemli bir sorundur."
+    },
+    {
+        section: "Bölüm 1 – Problemi Bul",
+        badge: "Dijital Güvenlik",
+        text: "Bir öğrencinin sosyal medya hesabının şifresini '123456' yaptığı ve bu şifreyi herkesin içinde arkadaşlarına söylediği görülüyor. Buradaki temel problem nedir?",
+        options: [
+            "Öğrencinin profil resminin olmaması",
+            "Zayıf şifre seçimi ve kişisel bilgilerin güvensiz paylaşılması",
+            "İnternet hızının düşük olması",
+            "Öğrencinin yeterli takipçisinin bulunmaması"
+        ],
+        answer: 1,
+        explanation: "Harika av! Kolay tahmin edilen şifreler ve şifreyi başkalarıyla paylaşmak hesap güvenliğini tehlikeye atar."
+    },
+    {
+        section: "Bölüm 1 – Problemi Bul",
+        badge: "Dijital Etik",
+        text: "Sınıf sohbet grubunda bir öğrencinin arkadaşıyla alay eden kırıcı mesajlar yazdığı ve onu gruptan çıkarttığı görülüyor. Buradaki problem nedir?",
+        options: [
+            "Telefonun şarjının çabuk bitmesi",
+            "Siber zorbalık ve kırıcı dijital iletişim",
+            "Grupta çok fazla fotoğraf paylaşılması",
+            "Ödevlerin gruba geç gönderilmesi"
+        ],
+        answer: 1,
+        explanation: "Çok doğru! Dijital ortamda başkalarını üzen veya dışlayan davranışlar siber zorbalıktır."
+    },
+
+    // BÖLÜM 2: Hedef Kitleyi Bul (Sorular 7 - 11)
+    {
+        section: "Bölüm 2 – Hedef Kitleyi Bul",
+        badge: "Okul Afişi",
+        text: "Okul bahçesinin ve koridorların temiz tutulması amacıyla hazırlanan renkli ve çizgi karakterli bir uyarı afişinin asıl hedef kitlesi kim olmalıdır?",
+        options: [
+            "Yalnızca okul personeli ve hademeler",
+            "Okuldaki tüm öğrenciler",
+            "Komşu mahallenin sakinleri",
+            "Sadece okul servis şoförleri"
+        ],
+        answer: 1,
+        explanation: "Doğru hedef! Bahçeyi aktif kullanan ve temiz tutması gereken kitle öncelikle öğrencilerdir."
+    },
+    {
+        section: "Bölüm 2 – Hedef Kitleyi Bul",
+        badge: "Veli Bilgilendirmesi",
+        text: "Çocukların evde internette geçirdiği süreyi yönetmek ve güvenli internet filtreleri kurmak için bir el broşürü tasarlanıyor. Bu broşürün hedef kitlesi kimdir?",
+        options: [
+            "1. sınıf minik öğrencileri",
+            "Anne, baba ve aile büyükleri (Veliler)",
+            "Bilgisayar tamircileri",
+            "Yalnızca oyun geliştiricileri"
+        ],
+        answer: 1,
+        explanation: "Tam isabet! Evde filtre kuracak ve rehberlik edecek kişiler doğrudan ebeveynlerdir."
+    },
+    {
+        section: "Bölüm 2 – Hedef Kitleyi Bul",
+        badge: "Ders Kulübü",
+        text: "Bilişim Teknolojileri ve Robotik Kodlama Kulübü'ne yeni üye kazandırmak için hazırlanan eğlenceli duyuru afişinin hedef kitlesi kimdir?",
+        options: [
+            "Teknoloji ve kodlamaya ilgi duyan 5. sınıf öğrencileri",
+            "Okul kantini işletmecileri",
+            "İlçe milli eğitim müfettişleri",
+            "Sadece okul mezunları"
+        ],
+        answer: 0,
+        explanation: "Harika! Kulübe katılacak olanlar teknolojiye meraklı ortaokul öğrencileridir."
+    },
+    {
+        section: "Bölüm 2 – Hedef Kitleyi Bul",
+        badge: "Trafik ve Servis",
+        text: "Okul çıkış saatinde okul kapısı önünde araçların hız yapmaması ve emniyet kemeri takılması için hazırlanan afişin hedef kitlesi kimdir?",
+        options: [
+            "Kütüphane görevlileri",
+            "Sürücüler ve servis şoförleri",
+            "Anaokulu çocukları",
+            "Spor salonu çalışanları"
+        ],
+        answer: 1,
+        explanation: "Doğru! Trafik güvenliği ve hız kuralları doğrudan araç sürücülerini hedefler."
+    },
+    {
+        section: "Bölüm 2 – Hedef Kitleyi Bul",
+        badge: "Akran İletişimi",
+        text: "5. sınıflar arası satranç turnuvası düzenleniyor. Turnuvaya yarışmacı çağırmak amacıyla hazırlanan görselin hedef kitlesi kimdir?",
+        options: [
+            "Yalnızca okul müdürü",
+            "Turnuvaya katılmak isteyen satranç meraklısı öğrenciler",
+            "Kırtasiye çalışanları",
+            "Üniversite öğrencileri"
+        ],
+        answer: 1,
+        explanation: "Bravo! Afişin dili ve görselleri satranç oynamak isteyen öğrencilere göre kurgulanmalıdır."
+    },
+
+    // BÖLÜM 3: Tasarımın Amacını Belirle (Sorular 12 - 16)
+    {
+        section: "Bölüm 3 – Tasarımın Amacını Belirle",
+        badge: "Afiş Amacı",
+        text: "'Ellerini sabunla yıkadıktan sonra musluğu iyice kapattığından emin ol! Damlayan her damla geleceğimizdir.' yazılı afişin temel amacı nedir?",
+        options: [
+            "Satış yapmak",
+            "Bir davranışı teşvik etmek ve farkındalık oluşturmak",
+            "Tarih dersi anlatmak",
+            "Müzik dinletisi duyurmak"
+        ],
+        answer: 1,
+        explanation: "Mükemmel! Bu afiş suyu kapatma davranışını kazandırmak ve tasarruf bilinci oluşturmak için tasarlanmıştır."
+    },
+    {
+        section: "Bölüm 3 – Tasarımın Amacını Belirle",
+        badge: "Tasarım Amacı",
+        text: "'Bilişim Sınıfı Kullanım Kuralları: 1. İçecekle girilmez 2. Bilgisayarlar düzgün kapatılır 3. Sandalyeler yerleştirilir.' görselinin amacı nedir?",
+        options: [
+            "Film tanıtımı yapmak",
+            "Kuralları hatırlatmak ve bilgilendirmede bulunmak",
+            "Şaka ve eğlence üretmek",
+            "Kıyafet modasını göstermek"
+        ],
+        answer: 1,
+        explanation: "Çok doğru! Kuralların yer aldığı panolar doğrudan 'bilgilendirme' ve 'hatırlatma' amacı taşır."
+    },
+    {
+        section: "Bölüm 3 – Tasarımın Amacını Belirle",
+        badge: "Tasarım Amacı",
+        text: "'DİKKAT! Tanımadığınız kişilerden gelen bağlantılara (linklere) ASLA tıklamayın!' yazan kırmızı ünlemli afişin temel amacı nedir?",
+        options: [
+            "Kullanıcıları siber tehditlere karşı uyarmak",
+            "İnternet paketi satmak",
+            "Oyun tavsiyesinde bulunmak",
+            "Bilgisayar kasası temizlemek"
+        ],
+        answer: 0,
+        explanation: "Tam isabet! 'DİKKAT' ve ünlem simgeleri görselin bir 'uyarı' amacı taşıdığını gösterir."
+    },
+    {
+        section: "Bölüm 3 – Tasarımın Amacını Belirle",
+        badge: "Tasarım Amacı",
+        text: "'29 Ekim Cumhuriyet Bayramı Töreni saat 10.00'da okul bahçesinde başlayacaktır. Tüm velilerimiz davetlidir.' görselinin amacı nedir?",
+        options: [
+            "Duyuru yapmak ve davette bulunmak",
+            "Cezai işlem uygulamak",
+            "Bilgisayar oyunu kurmak",
+            "Şifre sıfırlamak"
+        ],
+        answer: 0,
+        explanation: "Doğru! Etkinlik zamanı, yeri ve katılım çağrısı içeren görseller duyuru/davet amacı taşır."
+    },
+    {
+        section: "Bölüm 3 – Tasarımın Amacını Belirle",
+        badge: "Tasarım Amacı",
+        text: "'Günde 5 saat ekran başında kambur oturmak vs 1 saat spor yapıp dik durmak' konulu karşılaştırmalı görselin amacı nedir?",
+        options: [
+            "Sadece bilgisayar monitörü satmak",
+            "Sağlıklı yaşam ve doğru duruş konusunda farkındalık yaratmak",
+            "E-posta adresi açmak",
+            "Dosya uzantılarını listelemek"
+        ],
+        answer: 1,
+        explanation: "Harika sonuç! İki durumu karşılaştıran görseller sağlık farkındalığı oluşturmayı amaçlar."
+    }
+];
+
+class ProblemHunterGame {
+    constructor() {
+        this.currentIdx = 0;
+        this.score = 0;
+        this.answered = false;
+        this.screens = {
+            start: document.getElementById('screen-start'),
+            quiz: document.getElementById('screen-quiz'),
+            result: document.getElementById('screen-result')
+        };
+    }
+
+    start() {
+        sounds.click();
+        this.currentIdx = 0;
+        this.score = 0;
+        this.updateScore();
+        this.showScreen('quiz');
+        this.loadQuestion();
+    }
+
+    showScreen(name) {
+        Object.values(this.screens).forEach(s => s.classList.remove('active'));
+        this.screens[name].classList.add('active');
+    }
+
+    loadQuestion() {
+        this.answered = false;
+        const q = QUESTIONS[this.currentIdx];
+        
+        // Progress & Badges
+        document.getElementById('question-counter').innerText = `${this.currentIdx + 1} / ${QUESTIONS.length}`;
+        const pct = ((this.currentIdx) / QUESTIONS.length) * 100;
+        document.getElementById('progress-fill').style.width = `${pct}%`;
+        
+        document.getElementById('quiz-section-badge').innerHTML = `<i class="fa-solid fa-layer-group"></i> ${q.section}`;
+        document.getElementById('scenario-badge').innerHTML = `<i class="fa-solid fa-tag"></i> ${q.badge}`;
+        document.getElementById('scenario-text').innerText = q.text;
+
+        // Feedback & Next Button Reset
+        document.getElementById('feedback-box').className = 'feedback-box';
+        document.getElementById('btn-next').style.display = 'none';
+
+        // Options
+        const container = document.getElementById('options-container');
+        container.innerHTML = '';
+        const letters = ['A', 'B', 'C', 'D'];
+
+        q.options.forEach((opt, idx) => {
+            const btn = document.createElement('div');
+            btn.className = 'option-card';
+            btn.onclick = () => this.handleAnswer(idx, btn);
+            btn.innerHTML = `
+                <div class="option-key">${letters[idx]}</div>
+                <div class="option-label">${opt}</div>
+            `;
+            container.appendChild(btn);
+        });
+    }
+
+    handleAnswer(selectedIdx, btnElement) {
+        if (this.answered) return;
+        this.answered = true;
+
+        const q = QUESTIONS[this.currentIdx];
+        const cards = document.querySelectorAll('.option-card');
+
+        const feedbackBox = document.getElementById('feedback-box');
+        const feedbackIcon = document.getElementById('feedback-icon');
+        const feedbackTitle = document.getElementById('feedback-title');
+        const feedbackDesc = document.getElementById('feedback-desc');
+
+        if (selectedIdx === q.answer) {
+            sounds.correct();
+            btnElement.classList.add('correct');
+            this.score += 10;
+            this.updateScore();
+
+            feedbackBox.className = 'feedback-box show border-emerald-500/50 bg-emerald-950/40 text-emerald-100';
+            feedbackIcon.innerHTML = '<i class="fa-solid fa-circle-check text-emerald-400"></i>';
+            feedbackTitle.innerText = 'Tebrikler! Doğru Tespit 🎯';
+            feedbackDesc.innerText = q.explanation;
+        } else {
+            sounds.wrong();
+            btnElement.classList.add('incorrect');
+            cards[q.answer].classList.add('correct');
+
+            feedbackBox.className = 'feedback-box show border-rose-500/50 bg-rose-950/40 text-rose-100';
+            feedbackIcon.innerHTML = '<i class="fa-solid fa-circle-xmark text-rose-400"></i>';
+            feedbackTitle.innerText = 'Tekrar Düşünelim... 💡';
+            feedbackDesc.innerText = q.explanation;
+        }
+
+        document.getElementById('btn-next').style.display = 'inline-flex';
+    }
+
+    nextQuestion() {
+        sounds.click();
+        this.currentIdx++;
+        if (this.currentIdx < QUESTIONS.length) {
+            this.loadQuestion();
+        } else {
+            this.finishGame();
+        }
+    }
+
+    updateScore() {
+        document.getElementById('score-display').innerText = this.score;
+    }
+
+    finishGame() {
+        document.getElementById('progress-fill').style.width = '100%';
+        this.showScreen('result');
+        sounds.fanfare();
+        confetti({
+            particleCount: 120,
+            spread: 80,
+            origin: { y: 0.6 }
+        });
+
+        document.getElementById('result-score').innerText = `${this.score} / ${QUESTIONS.length * 10}`;
+        const trophy = document.getElementById('result-trophy');
+        const title = document.getElementById('result-title');
+        const msg = document.getElementById('result-msg');
+
+        if (this.score >= 140) {
+            trophy.innerHTML = '<i class="fa-solid fa-trophy text-yellow-400"></i>';
+            title.innerText = 'Efsane Problem Avcısı! 🏆';
+            msg.innerText = 'Tüm gerçek hayat problemlerini, hedef kitlelerini ve tasarım amaçlarını kusursuz bir şekilde avladın!';
+        } else if (this.score >= 100) {
+            trophy.innerHTML = '<i class="fa-solid fa-medal text-cyan-400"></i>';
+            title.innerText = 'Başarılı Araştırmacı! 🎖️';
+            msg.innerText = 'Problemleri ve hedefleri iyi yakaladın, tasarım öncesi kurguyu harika kurdun.';
+        } else {
+            trophy.innerHTML = '<i class="fa-solid fa-compass text-amber-400"></i>';
+            title.innerText = 'Gelişmekte Olan Avcı! 🎯';
+            msg.innerText = 'Problemleri biraz daha dikkatli inceleyerek tasarım hedeflerini daha net belirleyebilirsin. Yeniden dene!';
+        }
+    }
+
+    restart() {
+        sounds.click();
+        this.start();
+    }
+
+    toggleModal(show) {
+        sounds.click();
+        document.getElementById('modal-how').classList.toggle('active', show);
+    }
+
+    toggleSound() {
+        sounds.muted = !sounds.muted;
+        const icon = document.getElementById('sound-icon');
+        icon.className = sounds.muted ? 'fa-solid fa-volume-xmark text-rose-400' : 'fa-solid fa-volume-high text-cyan-400';
+    }
+}
+
+const game = new ProblemHunterGame();
+</script>
+</body>
+</html>

@@ -1,0 +1,117 @@
+# ANTIGRAVITY OYUN GELİŞTİRME PROMPTU
+## CANVA USTASI – ÖĞRETMEN BOZOK
+
+5. sınıf Bilişim Teknolojileri ve Yazılım dersi için Canva'nın temel bölümlerini ve görsel tasarım araçlarını tanıtan etkileşimli bir eğitsel oyun geliştir.
+
+### 1. OYUNUN AMACI
+Öğrencilerin Canva'da bulunan temel bölümleri tanımasını ve tasarım yaparken hangi aracı hangi amaçla kullanacağını öğrenmesini sağla. Ayrıca anlaşılır yapay zekâ komutları oluşturma becerilerini geliştir.
+
+**Kazanım:** BTY.5.2.3 – Görsel dosyası geliştirebilme.
+
+### 2. TASARIM
+- Oyun adı: Canva Ustası
+- Marka: Öğretmen Bozok
+- Renkler: Turkuaz, lacivert ve beyaz.
+- Sağlanan Öğretmen Bozok karakteri ve MB logosunu kullan.
+- 5. sınıfa uygun, sade ve eğlenceli bir arayüz oluştur.
+- Akıllı tahta ve tablet uyumlu olsun.
+- Türkçe karakterleri doğru göster.
+
+### 3. AÇILIŞ EKRANI
+- Oyun başlığı.
+- Öğretmen Bozok karakteri.
+- “Tasarım araçlarını tanımaya hazır mısın?” mesajı.
+- Oyuna Başla butonu.
+- Nasıl Oynanır butonu.
+- Ses Aç/Kapat butonu.
+
+### 4. OYUN BÖLÜMLERİ
+
+**Bölüm 1 – Doğru Canva Aracını Bul**
+
+Öğrenciye bir görev göster ve doğru Canva bölümünü seçmesini iste.
+
+Canva bölümleri:
+- Şablonlar
+- Öğeler
+- Metin
+- Yüklemeler
+- Araçlar
+- Projeler
+- Uygulamalar
+
+Örnek görevler:
+- Tasarıma başlık eklemek: Metin.
+- Tasarıma şekil eklemek: Öğeler.
+- Kendi fotoğrafını eklemek: Yüklemeler.
+- Hazır tasarım örneği seçmek: Şablonlar.
+
+**Bölüm 2 – Tasarım Görevleri**
+
+Öğrenciye bir afiş hazırlama görevi ver.
+
+Örnek:
+“Su tasarrufu hakkında bir afiş hazırlıyorsun. Başlık eklemek, şekil kullanmak ve kendi fotoğrafını yerleştirmek istiyorsun.”
+
+Öğrenci uygun araçları sırayla seçsin.
+
+**Bölüm 3 – Komutunu Güçlendir**
+
+Öğrenciye zayıf yapay zekâ komutları göster.
+
+Örnek:
+“Bir afiş yap.”
+
+Öğrenciye bu komutu geliştirmek için aşağıdaki bilgilerden uygun olanları seçtir:
+- Konu
+- Hedef kitle
+- Görselin tarzı
+- Mekân
+- İstenen ayrıntılar
+
+Ardından örnek güçlü komutu göster.
+
+Örnek:
+“5. sınıf öğrencilerine yönelik, su tasarrufu konulu, renkli ve okunaklı bir afiş oluştur. Afişte musluğu kapatan bir öğrenci bulunsun.”
+
+### 5. İÇERİK
+- En az 20 farklı görev oluştur.
+- Kolaydan zora ilerle.
+- Canva bölümlerini gerçek işlevleriyle öğret.
+- Kaynaklarda belirtilmeyen araç özelliklerini kesin bilgi gibi sunma.
+- Gerçek Canva arayüzünü taklit etmek zorunda değilsin. Bu oyun bir öğrenme ve eşleştirme oyunu olsun.
+- Canva hesabı veya internet bağlantısı gerektirmesin.
+
+### 6. PUANLAMA
+- Her doğru cevap 10 puan.
+- Doğru araç sıralamalarına ek puan ver.
+- Komut geliştirme bölümünde uygun bilgi seçimine göre puan hesapla.
+- Yanlış cevapta açıklayıcı geri bildirim göster.
+- Oyun sonunda toplam puan ve başarı düzeyi göster.
+
+### 7. GERİ BİLDİRİM
+Doğru cevapta: “Harika! Doğru tasarım aracını seçtin.”
+
+Yanlış cevapta: “Bu işlemi yapmak için hangi Canva bölümünü kullanabileceğini tekrar düşün.”
+
+### 8. TEKNİK GEREKSİNİMLER
+- Bütün butonlar çalışsın.
+- Araç seçimi çalışsın.
+- Görevler arasında geçiş yapılabilsin.
+- Puanlama doğru yapılsın.
+- Komut geliştirme bölümü çalışsın.
+- Oyun sonunda sonuç ekranı açılsın.
+- Yeniden oynama özelliği bulunsun.
+
+### 9. SON TEST
+- Her Canva bölümüne ait soruları test et.
+- Araç eşleştirmelerini kontrol et.
+- Komut geliştirme bölümünü test et.
+- Doğru ve yanlış cevapları dene.
+- Puanlamayı kontrol et.
+- Bütün butonları ve ekran geçişlerini test et.
+- Akıllı tahta ve tablet uyumluluğunu kontrol et.
+
+Test edemediğin özellikleri test edilmiş gibi gösterme.
+
+Çalışan, tamamlanmış ve öğrencilerin doğrudan oynayabileceği bir oyun geliştir. Sadece ekran tasarımı veya görsel üretme.

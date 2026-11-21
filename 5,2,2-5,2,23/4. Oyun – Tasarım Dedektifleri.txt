@@ -1,0 +1,126 @@
+# ANTIGRAVITY OYUN GELİŞTİRME PROMPTU
+## TASARIM DEDEKTİFLERİ – ÖĞRETMEN BOZOK
+
+5. sınıf öğrencilerinin görsel tasarımları değerlendirmesini ve tasarım hatalarını fark etmesini sağlayan etkileşimli bir eğitsel oyun geliştir.
+
+### 1. OYUNUN AMACI
+Öğrencilerin hazırlanan görselleri amaç, hedef kitle, okunaklılık, görsel uyumu ve mesajın açıklığı açısından değerlendirmesini sağla.
+
+**Kazanım:** BTY.5.2.3 – Görsel dosyası geliştirebilme.
+
+### 2. TASARIM
+- Oyun adı: Tasarım Dedektifleri
+- Öğretmen Bozok marka kimliği kullanılsın.
+- Turkuaz, lacivert ve beyaz renkleri tercih edilsin.
+- Kullanıcının sağladığı karakter ve MB logosu kullanılsın.
+- Görseller 5. sınıf seviyesine uygun olsun.
+- Akıllı tahta ve tablet ekranlarında düzgün çalışsın.
+
+### 3. AÇILIŞ EKRANI
+- Öğretmen Bozok karakteri.
+- “Tasarım hatalarını bul ve görselleri geliştir!” mesajı.
+- Oyuna Başla butonu.
+- Nasıl Oynanır butonu.
+- Ses Aç/Kapat butonu.
+
+### 4. OYUN BÖLÜMLERİ
+
+**Bölüm 1 – Hata Avı**
+
+Öğrenciye tasarım hataları içeren örnek afişler göster.
+
+Hata örnekleri:
+- Çok küçük yazılar.
+- Konuyla ilgisiz görseller.
+- Birbiriyle uyumsuz renkler.
+- Anlaşılmayan mesaj.
+- Hedef kitleye uygun olmayan içerik.
+- Gereğinden fazla görsel ve yazı.
+
+Öğrenci görseldeki hataları seçsin.
+
+**Bölüm 2 – İyi Tasarımı Seç**
+
+Öğrenciye aynı konuda hazırlanmış iki farklı tasarım göster.
+
+Öğrenci aşağıdaki ölçütlere göre daha uygun olanı seçsin:
+- Okunaklılık.
+- Görsel uyumu.
+- Amaca uygunluk.
+- Hedef kitleye uygunluk.
+- Mesajın anlaşılması.
+
+Seçimden sonra neden daha uygun olduğunu açıklayan kısa bilgi göster.
+
+**Bölüm 3 – Tasarımı Düzelt**
+
+Öğrenciye hatalı bir tasarım göster.
+
+Örnek:
+- Başlık çok küçük.
+- Görsel mesajı desteklemiyor.
+- Renkler okunaklılığı azaltıyor.
+
+Öğrenciye düzeltme seçenekleri sun:
+- Başlığı büyüt.
+- Konuyla ilgili görsel seç.
+- Daha okunaklı renkler kullan.
+- Gereksiz ayrıntıları azalt.
+
+Öğrenci doğru düzeltmeleri seçerek tasarımı iyileştirsin.
+
+**Bölüm 4 – Son Kontrol**
+
+Öğrenciye bir tasarım değerlendirme listesi sun:
+- Tasarım amacına uygun mu?
+- Hedef kitleye hitap ediyor mu?
+- Yazılar okunaklı mı?
+- Görseller birbiriyle uyumlu mu?
+- Mesaj açık mı?
+
+Öğrenci her maddeyi değerlendirerek tasarımı tamamlasın.
+
+### 5. İÇERİK
+- En az 15 farklı görev oluştur.
+- Her bölümde farklı örnekler kullan.
+- Hatalı ve başarılı tasarımlar birbirinden kolayca ayırt edilebilsin.
+- Görsellerin üzerindeki yazılar Türkçe ve okunaklı olsun.
+- Hatalı tasarım örnekleri bilerek hazırlanmış eğitim amaçlı örnekler olsun.
+- Her hatanın neden sorun oluşturduğunu açıklayan geri bildirim ekle.
+
+### 6. PUANLAMA
+- Doğru hata tespiti 10 puan.
+- Doğru tasarım seçimi 10 puan.
+- Uygun düzeltme seçimi 10 puan.
+- Son kontrol bölümünde her doğru değerlendirme için puan ver.
+- Yanlış cevapta puan düşürme zorunlu olmasın; öğrenciye tekrar deneme hakkı ver.
+- Oyun sonunda toplam puan ve başarı mesajı göster.
+
+### 7. GERİ BİLDİRİM
+Doğru cevapta: “Dedektiflik görevini başarıyla tamamladın!”
+
+Yanlış cevapta: “Bir kez daha incele. Bu tasarımın mesajı açık mı ve yazıları kolay okunuyor mu?”
+
+### 8. TEKNİK GEREKSİNİMLER
+- Başlangıç ekranı çalışsın.
+- Afişler ve görseller düzgün yüklensin.
+- Hata seçme alanları çalışsın.
+- Düzeltme seçenekleri tıklanabilsin.
+- Cevap kontrolü doğru çalışsın.
+- Puanlama doğru hesaplansın.
+- Sonuç ekranı açılsın.
+- Yeniden oynama özelliği bulunsun.
+
+### 9. SON TEST
+- Hatalı tasarım örneklerini kontrol et.
+- Doğru ve yanlış hata seçimlerini dene.
+- Tasarım karşılaştırma bölümünü test et.
+- Düzeltme bölümünü test et.
+- Son kontrol listesini test et.
+- Puanlama ve sonuç ekranını kontrol et.
+- Bütün butonları ve yeniden başlatmayı dene.
+- Akıllı tahta ve tablet uyumluluğunu kontrol et.
+
+Test etmediğin özellikleri test edilmiş gibi gösterme.
+
+Sadece tasarım görseli üretme. Etkileşimleri çalışan, öğrencinin gerçekten oynayabileceği eksiksiz bir oyun geliştir.

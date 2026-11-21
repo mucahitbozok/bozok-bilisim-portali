@@ -1,0 +1,1359 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Canva Ustası | Öğretmen Bozok</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <style>
+        :root {
+            --bg-dark: #070d18;
+            --panel-bg: rgba(13, 23, 42, 0.92);
+            --panel-border: rgba(6, 182, 212, 0.28);
+            --primary: #06b6d4;
+            --purple: #8b5cf6;
+            --navy: #0f172a;
+            --green: #10b981;
+            --yellow: #f59e0b;
+            --red: #ef4444;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: radial-gradient(circle at 50% 10%, #172554 0%, #070d18 100%);
+            color: #f8fafc;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow-x: hidden;
+            padding: 16px;
+        }
+
+        #game-frame {
+            width: 100%;
+            max-width: 1100px;
+            min-height: 85vh;
+            background: var(--panel-bg);
+            border: 2px solid var(--panel-border);
+            border-radius: 28px;
+            backdrop-filter: blur(20px);
+            box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.85), 0 0 35px rgba(6, 182, 212, 0.2);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        header {
+            padding: 16px 24px;
+            background: rgba(15, 23, 42, 0.95);
+            border-bottom: 2px solid rgba(255, 255, 255, 0.08);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .mb-logo {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, #06b6d4, #8b5cf6);
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            font-weight: 900;
+            color: #fff;
+            letter-spacing: -1px;
+            box-shadow: 0 4px 16px rgba(139, 92, 246, 0.4);
+        }
+
+        .header-title h1 {
+            font-size: 1.3rem;
+            font-weight: 900;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .header-title p {
+            font-size: 0.78rem;
+            color: #c084fc;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+        }
+
+        .header-controls {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn-ctrl {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.16);
+            color: #f1f5f9;
+            padding: 9px 15px;
+            border-radius: 12px;
+            font-size: 0.82rem;
+            font-weight: 800;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            transition: all 0.2s;
+        }
+
+        .btn-ctrl:hover {
+            background: rgba(139, 92, 246, 0.25);
+            border-color: #8b5cf6;
+            transform: translateY(-2px);
+        }
+
+        .stat-badge {
+            background: rgba(15, 23, 42, 0.85);
+            border: 1px solid rgba(139, 92, 246, 0.35);
+            padding: 8px 14px;
+            border-radius: 12px;
+            font-weight: 800;
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #e2e8f0;
+        }
+
+        .stat-badge span {
+            color: #c084fc;
+            font-size: 1rem;
+        }
+
+        main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 24px;
+            position: relative;
+        }
+
+        .screen {
+            width: 100%;
+            max-width: 900px;
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            animation: fadeIn 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .screen.active {
+            display: flex;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(12px) scale(0.98); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        .start-avatar {
+            width: 110px;
+            height: 110px;
+            background: linear-gradient(135deg, #0891b2, #7c3aed);
+            border: 4px solid #c084fc;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3.2rem;
+            color: #fff;
+            margin-bottom: 18px;
+            box-shadow: 0 10px 30px rgba(139, 92, 246, 0.4);
+            animation: pulse 2.5s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .hero-title {
+            font-size: 2.2rem;
+            font-weight: 900;
+            text-align: center;
+            background: linear-gradient(135deg, #ffffff, #c084fc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+        }
+
+        .hero-desc {
+            font-size: 1.05rem;
+            color: #94a3b8;
+            text-align: center;
+            max-width: 620px;
+            margin-bottom: 24px;
+            line-height: 1.5;
+        }
+
+        .section-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+            margin-bottom: 28px;
+        }
+
+        .sec-tag {
+            background: rgba(139, 92, 246, 0.15);
+            border: 1px solid rgba(139, 92, 246, 0.3);
+            color: #e9d5ff;
+            padding: 8px 14px;
+            border-radius: 9999px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn-start {
+            background: linear-gradient(135deg, #06b6d4, #7c3aed);
+            color: #fff;
+            padding: 16px 42px;
+            border-radius: 18px;
+            font-size: 1.25rem;
+            font-weight: 900;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 10px 25px rgba(139, 92, 246, 0.5);
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            transition: all 0.25s;
+        }
+
+        .btn-start:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 15px 35px rgba(139, 92, 246, 0.65);
+        }
+
+        .quiz-top {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 14px;
+        }
+
+        .section-indicator {
+            padding: 6px 14px;
+            background: rgba(139, 92, 246, 0.2);
+            border: 1px solid rgba(139, 92, 246, 0.4);
+            border-radius: 10px;
+            color: #d8b4fe;
+            font-size: 0.85rem;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            gap: 7px;
+        }
+
+        .progress-bar-container {
+            width: 100%;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 9999px;
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #06b6d4, #a855f7);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .scenario-box {
+            width: 100%;
+            background: rgba(15, 23, 42, 0.85);
+            border: 1px solid rgba(255, 255, 255, 0.14);
+            border-radius: 20px;
+            padding: 22px;
+            margin-bottom: 20px;
+        }
+
+        .scenario-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(139, 92, 246, 0.2);
+            color: #c084fc;
+            font-size: 0.78rem;
+            font-weight: 800;
+            padding: 4px 10px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+        }
+
+        .scenario-text {
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: #f1f5f9;
+            line-height: 1.5;
+        }
+
+        /* SECTION 3: PROMPT BUILDER */
+        .prompt-workbench {
+            width: 100%;
+            background: rgba(15, 23, 42, 0.8);
+            border: 2px solid rgba(139, 92, 246, 0.4);
+            border-radius: 18px;
+            padding: 18px;
+            margin-bottom: 18px;
+        }
+
+        .weak-prompt-box {
+            background: rgba(239, 68, 68, 0.15);
+            border: 1px dashed #ef4444;
+            border-radius: 12px;
+            padding: 12px 16px;
+            margin-bottom: 14px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .prompt-builder-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 12px;
+            margin-bottom: 14px;
+        }
+
+        @media (min-width: 640px) {
+            .prompt-builder-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        .prompt-col-box {
+            background: rgba(30, 41, 59, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 14px;
+            padding: 12px;
+        }
+
+        .prompt-col-title {
+            font-size: 0.82rem;
+            font-weight: 800;
+            color: #38bdf8;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+        }
+
+        .prompt-tag-btn {
+            background: rgba(15, 23, 42, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            color: #cbd5e1;
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-size: 0.84rem;
+            font-weight: 700;
+            cursor: pointer;
+            width: 100%;
+            text-align: left;
+            margin-bottom: 6px;
+            transition: all 0.2s;
+        }
+
+        .prompt-tag-btn:hover {
+            background: rgba(139, 92, 246, 0.2);
+            color: #fff;
+        }
+
+        .prompt-tag-btn.selected {
+            background: linear-gradient(135deg, #7c3aed, #06b6d4);
+            border-color: #c084fc;
+            color: #fff;
+            box-shadow: 0 4px 12px rgba(139, 92, 246, 0.35);
+        }
+
+        .prompt-result-box {
+            background: rgba(16, 185, 129, 0.15);
+            border: 1px solid #10b981;
+            border-radius: 14px;
+            padding: 14px;
+            margin-top: 14px;
+            display: none;
+        }
+
+        .options-grid {
+            width: 100%;
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        @media (min-width: 640px) {
+            .options-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        .option-card {
+            background: rgba(30, 41, 59, 0.75);
+            border: 2px solid rgba(255, 255, 255, 0.12);
+            border-radius: 16px;
+            padding: 16px 18px;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: left;
+        }
+
+        .option-card:hover {
+            background: rgba(139, 92, 246, 0.2);
+            border-color: #8b5cf6;
+            transform: translateY(-2px);
+        }
+
+        .option-card.correct {
+            background: rgba(16, 185, 129, 0.25) !important;
+            border-color: #10b981 !important;
+            color: #a7f3d0 !important;
+        }
+
+        .option-card.incorrect {
+            background: rgba(239, 68, 68, 0.25) !important;
+            border-color: #ef4444 !important;
+            color: #fecaca !important;
+        }
+
+        .option-key {
+            width: 34px;
+            height: 34px;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 900;
+            font-size: 0.95rem;
+            flex-shrink: 0;
+            color: #c084fc;
+        }
+
+        .option-card.correct .option-key {
+            background: #10b981;
+            color: #fff;
+        }
+
+        .option-card.incorrect .option-key {
+            background: #ef4444;
+            color: #fff;
+        }
+
+        .option-label {
+            font-size: 0.98rem;
+            font-weight: 700;
+            color: #e2e8f0;
+            flex: 1;
+        }
+
+        .feedback-box {
+            width: 100%;
+            background: rgba(15, 23, 42, 0.9);
+            border: 2px solid var(--panel-border);
+            border-radius: 16px;
+            padding: 16px 20px;
+            margin-bottom: 20px;
+            display: none;
+            align-items: flex-start;
+            gap: 14px;
+            animation: slideUp 0.25s ease;
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .feedback-box.show {
+            display: flex;
+        }
+
+        .feedback-icon {
+            font-size: 1.5rem;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .feedback-content h4 {
+            font-size: 1rem;
+            font-weight: 800;
+            margin-bottom: 4px;
+        }
+
+        .feedback-content p {
+            font-size: 0.9rem;
+            color: #cbd5e1;
+            line-height: 1.4;
+        }
+
+        .btn-next {
+            background: linear-gradient(135deg, #06b6d4, #7c3aed);
+            color: #fff;
+            padding: 13px 32px;
+            border-radius: 14px;
+            font-size: 1.05rem;
+            font-weight: 800;
+            border: none;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s;
+            margin-left: auto;
+        }
+
+        .btn-next:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(139, 92, 246, 0.4);
+        }
+
+        .result-card {
+            background: rgba(15, 23, 42, 0.85);
+            border: 2px solid rgba(139, 92, 246, 0.4);
+            border-radius: 24px;
+            padding: 32px;
+            text-align: center;
+            width: 100%;
+            max-width: 650px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.6);
+        }
+
+        .result-trophy {
+            font-size: 4rem;
+            color: #facc15;
+            margin-bottom: 14px;
+            animation: bounce 1.2s infinite alternate;
+        }
+
+        @keyframes bounce {
+            from { transform: translateY(0); }
+            to { transform: translateY(-10px); }
+        }
+
+        .result-score {
+            font-size: 3rem;
+            font-weight: 900;
+            color: #c084fc;
+            margin-bottom: 6px;
+        }
+
+        .result-title {
+            font-size: 1.6rem;
+            font-weight: 900;
+            color: #fff;
+            margin-bottom: 8px;
+        }
+
+        .result-msg {
+            font-size: 1rem;
+            color: #cbd5e1;
+            margin-bottom: 24px;
+            line-height: 1.5;
+        }
+
+        .modal {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.75);
+            backdrop-filter: blur(8px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            padding: 16px;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-body {
+            background: #0f172a;
+            border: 2px solid #8b5cf6;
+            border-radius: 24px;
+            padding: 28px;
+            max-width: 550px;
+            width: 100%;
+            color: #f8fafc;
+        }
+
+        .modal-body h3 {
+            font-size: 1.4rem;
+            font-weight: 900;
+            color: #c084fc;
+            margin-bottom: 14px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .modal-body ul {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 20px;
+            font-size: 0.95rem;
+            color: #cbd5e1;
+        }
+
+        .modal-body li {
+            display: flex;
+            gap: 10px;
+            align-items: flex-start;
+        }
+
+        .modal-body li i {
+            color: #a855f7;
+            margin-top: 3px;
+        }
+
+        .btn-close-modal {
+            background: #8b5cf6;
+            color: #fff;
+            padding: 10px 24px;
+            border-radius: 12px;
+            font-weight: 800;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+
+<div id="game-frame">
+    <header>
+        <div class="header-left">
+            <div class="mb-logo">MB</div>
+            <div class="header-title">
+                <h1><i class="fa-solid fa-wand-magic-sparkles text-purple-400"></i> Canva Ustası</h1>
+                <p>Öğretmen Bozok • BTY.5.2.3</p>
+            </div>
+        </div>
+        <div class="header-controls">
+            <div class="stat-badge">
+                <i class="fa-solid fa-star text-amber-400"></i> Puan: <span id="score-display">0</span>
+            </div>
+            <button class="btn-ctrl" id="btn-how" onclick="game.toggleModal(true)">
+                <i class="fa-solid fa-circle-question text-purple-400"></i> Nasıl Oynanır?
+            </button>
+            <button class="btn-ctrl" id="btn-sound" onclick="game.toggleSound()">
+                <i class="fa-solid fa-volume-high" id="sound-icon"></i>
+            </button>
+        </div>
+    </header>
+
+    <main>
+        <!-- START SCREEN -->
+        <div class="screen active" id="screen-start">
+            <div class="start-avatar">
+                <i class="fa-solid fa-palette"></i>
+            </div>
+            <h2 class="hero-title">Tasarım Araçlarını Tanımaya Hazır mısın?</h2>
+            <p class="hero-desc">
+                Canva'nın güçlü tasarım bölümlerini (Şablonlar, Öğeler, Metin, Yüklemeler) ustaca kullanmayı öğren! Ardından zayıf yapay zekâ komutlarını güçlendirerek harika tasarımlar üret!
+            </p>
+            <div class="section-tags">
+                <div class="sec-tag"><i class="fa-solid fa-toolbox"></i> 1. Doğru Canva Aracını Bul</div>
+                <div class="sec-tag"><i class="fa-solid fa-list-check"></i> 2. Tasarım Görevleri</div>
+                <div class="sec-tag"><i class="fa-solid fa-robot"></i> 3. Komutunu Güçlendir (AI Prompt)</div>
+            </div>
+            <button class="btn-start" onclick="game.start()">
+                <i class="fa-solid fa-play"></i> Tasarıma Başla
+            </button>
+        </div>
+
+        <!-- QUIZ SCREEN -->
+        <div class="screen" id="screen-quiz">
+            <div class="quiz-top">
+                <div class="section-indicator" id="quiz-section-badge">
+                    <i class="fa-solid fa-layer-group"></i> Bölüm 1
+                </div>
+                <div class="stat-badge">
+                    Görev: <span id="task-counter">1 / 20</span>
+                </div>
+            </div>
+            <div class="progress-bar-container">
+                <div class="progress-bar-fill" id="progress-fill"></div>
+            </div>
+
+            <!-- Standard Quiz (Bölüm 1 & 2) -->
+            <div id="container-standard" style="width:100%;">
+                <div class="scenario-box">
+                    <div class="scenario-badge" id="standard-badge">Görev</div>
+                    <div class="scenario-text" id="standard-text">Soru metni...</div>
+                </div>
+                <div class="options-grid" id="standard-options"></div>
+            </div>
+
+            <!-- Prompt Builder (Bölüm 3) -->
+            <div id="container-prompt" style="width:100%; display:none;">
+                <div class="scenario-box">
+                    <div class="scenario-badge">Yapay Zekâ Komut Güçlendirme</div>
+                    <div class="scenario-text" id="prompt-goal-title">Hedef: Zayıf komutu profesyonel bir prompta dönüştür!</div>
+                </div>
+                <div class="prompt-workbench">
+                    <div class="weak-prompt-box">
+                        <i class="fa-solid fa-triangle-exclamation text-rose-400 text-xl"></i>
+                        <div>
+                            <div style="font-size:0.75rem; text-transform:uppercase; color:#fca5a5; font-weight:800;">Zayıf Komut:</div>
+                            <div id="weak-prompt-text" style="font-size:1.05rem; font-weight:700; color:#fff;">"Bir afiş yap."</div>
+                        </div>
+                    </div>
+                    <div style="font-size:0.85rem; color:#cbd5e1; margin-bottom:10px; font-weight:700;">
+                        Aşağıdaki 3 temel bileşenden konuya en uygun olanları seç:
+                    </div>
+                    <div class="prompt-builder-grid" id="prompt-builder-grid">
+                        <!-- Dinamik seçim kutuları: Konu & Hedef Kitle, Görsel Tarz, Ayrıntı -->
+                    </div>
+                    <div class="prompt-result-box" id="prompt-result-box">
+                        <div style="font-size:0.75rem; text-transform:uppercase; color:#6ee7b7; font-weight:800; margin-bottom:4px;">
+                            <i class="fa-solid fa-wand-magic-sparkles"></i> Güçlendirilmiş Profesyonel Prompt:
+                        </div>
+                        <div id="strong-prompt-text" style="font-size:1rem; font-weight:700; color:#fff; line-height:1.4;"></div>
+                    </div>
+                </div>
+                <button class="btn-ctrl" id="btn-check-prompt" style="display:none; width:100%; justify-content:center; padding:14px; background:#8b5cf6; color:#fff;" onclick="game.checkPromptBuilder()">
+                    Komutu Güçlendir ve Kontrol Et <i class="fa-solid fa-arrow-right"></i>
+                </button>
+            </div>
+
+            <!-- Feedback Box -->
+            <div class="feedback-box" id="feedback-box">
+                <div class="feedback-icon" id="feedback-icon"><i class="fa-solid fa-circle-check text-emerald-400"></i></div>
+                <div class="feedback-content">
+                    <h4 id="feedback-title">Harika!</h4>
+                    <p id="feedback-desc">Açıklama</p>
+                </div>
+            </div>
+
+            <div style="width:100%; display:flex; justify-content:flex-end; margin-top:10px;">
+                <button class="btn-next" id="btn-next" style="display:none;" onclick="game.nextTask()">
+                    Sonraki Görev <i class="fa-solid fa-arrow-right"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- RESULT SCREEN -->
+        <div class="screen" id="screen-result">
+            <div class="result-card">
+                <div class="result-trophy" id="result-trophy"><i class="fa-solid fa-trophy"></i></div>
+                <div class="result-score" id="result-score">200 / 200</div>
+                <h3 class="result-title" id="result-title">Tasarım Ustası Oldun! 🎨</h3>
+                <p class="result-msg" id="result-msg">Canva'nın tüm araçlarına hâkimsin ve yapay zekâya en güçlü komutları yazabiliyorsun!</p>
+                <button class="btn-start" onclick="game.restart()">
+                    <i class="fa-solid fa-rotate-right"></i> Yeniden Oyna
+                </button>
+            </div>
+        </div>
+    </main>
+</div>
+
+<!-- HOW TO PLAY MODAL -->
+<div class="modal" id="modal-how">
+    <div class="modal-body">
+        <h3><i class="fa-solid fa-circle-info text-purple-400"></i> Nasıl Oynanır?</h3>
+        <ul>
+            <li><i class="fa-solid fa-check"></i> <strong>Bölüm 1 (Doğru Canva Aracını Bul):</strong> Tasarımda yapılmak istenen işleme uygun Canva panelini seç.</li>
+            <li><i class="fa-solid fa-check"></i> <strong>Bölüm 2 (Tasarım Görevleri):</strong> Gerçek bir tasarım hazırlama adımlarında doğru aracı ve sıralamayı bul.</li>
+            <li><i class="fa-solid fa-check"></i> <strong>Bölüm 3 (Komutunu Güçlendir):</strong> Zayıf yapay zekâ komutlarına konu, hedef kitle ve stil detayları ekleyerek süper komutlar oluştur!</li>
+            <li><i class="fa-solid fa-check"></i> Her doğru görev <strong>10 Puan</strong> kazandırır!</li>
+        </ul>
+        <button class="btn-close-modal" onclick="game.toggleModal(false)">Anladım, Kapat</button>
+    </div>
+</div>
+
+<script>
+class SoundFx {
+    constructor() {
+        this.ctx = null;
+        this.muted = false;
+    }
+    init() {
+        if (!this.ctx) {
+            const AudioCtx = window.AudioContext || window.webkitAudioContext;
+            if (AudioCtx) this.ctx = new AudioCtx();
+        }
+        if (this.ctx && this.ctx.state === 'suspended') {
+            this.ctx.resume();
+        }
+    }
+    playTone(freq, type, dur, gainVal = 0.15) {
+        if (this.muted) return;
+        this.init();
+        if (!this.ctx) return;
+        try {
+            const osc = this.ctx.createOscillator();
+            const gain = this.ctx.createGain();
+            osc.type = type;
+            osc.frequency.setValueAtTime(freq, this.ctx.currentTime);
+            gain.gain.setValueAtTime(gainVal, this.ctx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.0001, this.ctx.currentTime + dur);
+            osc.connect(gain);
+            gain.connect(this.ctx.destination);
+            osc.start();
+            osc.stop(this.ctx.currentTime + dur);
+        } catch(e) {}
+    }
+    click() { this.playTone(600, 'sine', 0.08, 0.1); }
+    correct() {
+        this.playTone(523.25, 'triangle', 0.12, 0.2);
+        setTimeout(() => this.playTone(659.25, 'triangle', 0.12, 0.2), 100);
+        setTimeout(() => this.playTone(783.99, 'triangle', 0.25, 0.2), 200);
+    }
+    wrong() {
+        this.playTone(300, 'sawtooth', 0.18, 0.2);
+        setTimeout(() => this.playTone(220, 'sawtooth', 0.25, 0.2), 150);
+    }
+    fanfare() {
+        [523, 659, 783, 1046].forEach((f, i) => {
+            setTimeout(() => this.playTone(f, 'sine', 0.35, 0.2), i * 140);
+        });
+    }
+}
+
+const sounds = new SoundFx();
+
+const TASKS = [
+    // BÖLÜM 1: Doğru Canva Aracını Bul (8 Görev)
+    {
+        type: 'standard',
+        section: 'Bölüm 1 – Doğru Canva Aracını Bul',
+        badge: 'Canva Araçları',
+        text: "Tasarımına 'SUYUN ÖNEMİ' şeklinde büyük ve dikkat çekici bir başlık yazısı eklemek istiyorsun. Hangi Canva bölümünü seçmelisin?",
+        options: ['Şablonlar', 'Metin (Text)', 'Yüklemeler', 'Projeler'],
+        answer: 1,
+        explanation: "Doğru! Başlık, alt başlık ve gövde metinleri eklemek için sol menüdeki 'Metin' aracı kullanılır."
+    },
+    {
+        type: 'standard',
+        section: 'Bölüm 1 – Doğru Canva Aracını Bul',
+        badge: 'Canva Araçları',
+        text: "Afişine su damlası simgesi, renkli bir çerçeve veya bir ok işareti yerleştirmek istiyorsun. Hangi bölüme gitmelisin?",
+        options: ['Öğeler (Elements)', 'Yüklemeler', 'Metin', 'İndir'],
+        answer: 0,
+        explanation: "Tam isabet! Şekiller, çizgiler, grafikler, çıkartmalar ve simgeler 'Öğeler' bölümünde yer alır."
+    },
+    {
+        type: 'standard',
+        section: 'Bölüm 1 – Doğru Canva Aracını Bul',
+        badge: 'Canva Araçları',
+        text: "Bilgisayarında veya telefonunda kayıtlı kendi fotoğrafını tasarımına dahil etmek için hangi bölümü kullanırsın?",
+        options: ['Şablonlar', 'Yüklemeler (Uploads)', 'Öğeler', 'Metin'],
+        answer: 1,
+        explanation: "Harika! Cihazındaki kendi dosya ve fotoğraflarını Canva'ya aktarmak için 'Yüklemeler' kullanılır."
+    },
+    {
+        type: 'standard',
+        section: 'Bölüm 1 – Doğru Canva Aracını Bul',
+        badge: 'Canva Araçları',
+        text: "Sıfırdan tasarlamak yerine profesyonelce hazırlanmış hazır bir afiş veya davetiye düzeni seçmek istiyorsun. Nereden başlarsın?",
+        options: ['Şablonlar (Templates)', 'Yüklemeler', 'Çizim', 'Uygulamalar'],
+        answer: 0,
+        explanation: "Bravo! Hazır tasarım düzenleri ve ilham verici örnekler 'Şablonlar' sekmesindedir."
+    },
+    {
+        type: 'standard',
+        section: 'Bölüm 1 – Doğru Canva Aracını Bul',
+        badge: 'Canva Araçları',
+        text: "Tasarımının bembeyaz zeminini açık mavi renge boyamak veya degrade bir desenle kaplamak istiyorsun. Hangi aracı kullanırsın?",
+        options: ['Arka Plan / Renk Paleti', 'Metin Biçimlendirme', 'Dosya Boyutu', 'Projeler'],
+        answer: 0,
+        explanation: "Çok doğru! Tasarımın zemin rengini ve dokusunu düzenlemek için 'Arka Plan' ve renk seçici kullanılır."
+    },
+    {
+        type: 'standard',
+        section: 'Bölüm 1 – Doğru Canva Aracını Bul',
+        badge: 'Canva Araçları',
+        text: "Daha önce hazırlayıp kaydettiğin eski okul afişlerini bulmak ve yeniden düzenlemek için hangi sekmeyi açarsın?",
+        options: ['Projeler (Projects)', 'Şablonlar', 'Öğeler', 'İndir'],
+        answer: 0,
+        explanation: "Harika! Tüm geçmiş çalışmaların ve tasarımların 'Projeler' sekmesinde güvenle saklanır."
+    },
+    {
+        type: 'standard',
+        section: 'Bölüm 1 – Doğru Canva Aracını Bul',
+        badge: 'Canva Araçları',
+        text: "Tasarımını tamamladın. Bunu akıllı tahtada göstermek ve sınıf panosuna basmak için bilgisayarına kaydetmek istiyorsun. Hangi butona basarsın?",
+        options: ['Paylaş ➔ İndir (Download)', 'Metin Sil', 'Şablon Değiştir', 'Geri Al'],
+        answer: 0,
+        explanation: "Doğru! Tasarımı PNG, JPG veya PDF olarak kaydetmek için 'Paylaş ➔ İndir' butonu kullanılır."
+    },
+    {
+        type: 'standard',
+        section: 'Bölüm 1 – Doğru Canva Aracını Bul',
+        badge: 'Canva Araçları',
+        text: "Yapay zekâ destekli sihirli görsel üreticileri (Magic Media) ve QR kod oluşturucuları gibi ek araçları nerede bulabilirsin?",
+        options: ['Uygulamalar (Apps)', 'Yüklemeler', 'Silgi', 'Sayfa Numarası'],
+        answer: 0,
+        explanation: "Tebrikler! QR kod, AI çizim ve harici eklentiler 'Uygulamalar' menüsünde yer alır."
+    },
+
+    // BÖLÜM 2: Tasarım Görevleri (7 Görev)
+    {
+        type: 'standard',
+        section: 'Bölüm 2 – Tasarım Görevleri',
+        badge: 'Afiş İş Akışı',
+        text: "Su tasarrufu afişi hazırlarken ilk yapılması gereken en mantıklı adım hangisidir?",
+        options: [
+            'Rastgele 10 tane resim indirmek',
+            'Canva'da uygun boyutlu bir Afiş Şablonu seçmek veya boş afiş sayfası açmak',
+            'Tasarımı hemen indirip kapatmak',
+            'Bütün renkleri siyaha boyamak'
+        ],
+        answer: 1,
+        explanation: "Harika! İlk adım her zaman uygun tasarım türünü ve boyutunu (Afiş) belirlemektir."
+    },
+    {
+        type: 'standard',
+        section: 'Bölüm 2 – Tasarım Görevleri',
+        badge: 'Tipografi ve Hiyerarşi',
+        text: "Afişin ana başlığı ile altındaki açıklama metni arasındaki görsel ilişki nasıl olmalıdır?",
+        options: [
+            'Ana başlık büyük ve vurgulu, açıklama metni daha küçük ve sade olmalıdır.',
+            'Açıklama metni başlıktan çok daha büyük olmalıdır.',
+            'Bütün yazılar aynı boyutta ve birbirine bitişik olmalıdır.',
+            'Yazılar arka plan rengiyle aynı renkte görünmez olmalıdır.'
+        ],
+        answer: 0,
+        explanation: "Çok doğru! Tasarımda hiyerarşi kuralına göre ana başlık hemen dikkat çekecek boyutta olmalıdır."
+    },
+    {
+        type: 'standard',
+        section: 'Bölüm 2 – Tasarım Görevleri',
+        badge: 'Görsel Düzenleme',
+        text: "Eklediğin bir fotoğraf tasarımda gereksiz yer kaplıyor ve bir kısmı boşluk. Fotoğrafın sadece istediğin kısmını göstermek için ne yaparsın?",
+        options: ['Kırpma (Crop) aracını kullanırım.', 'Yazı tipini büyütürüm.', 'Şablonu silerim.', 'Projeyi kapatırım.'],
+        answer: 0,
+        explanation: "Bravo! Görsellerin istenmeyen kenarlarını kesip sadece odak noktasını bırakmak için 'Kırpma' yapılır."
+    },
+    {
+        type: 'standard',
+        section: 'Bölüm 2 – Tasarım Görevleri',
+        badge: 'Hizalama ve Düzen',
+        text: "Afişindeki başlık, görsel ve açıklama metninin düzgün görünmesi için neye dikkat etmelisin?",
+        options: [
+            'Öğelerin birbiriyle hizalanmasına ve aralarında yeterli boşluk bırakılmasına',
+            'Tüm öğelerin üst üste bindirilmesine',
+            'Afişin her santimetresinin yazıyla doldurulmasına',
+            'Yazıların ters çevrilmesine'
+        ],
+        answer: 0,
+        explanation: "Tam isabet! Hizalama ve beyaz boşluk (nefes alanı) afişin gözü yormamasını ve okunmasını sağlar."
+    },
+    {
+        type: 'standard',
+        section: 'Bölüm 2 – Tasarım Görevleri',
+        badge: 'Dosya Formatı',
+        text: "Hazırladığın dijital güvenlik afişini okul panosuna yüksek kalitede bastırmak istiyorsun. İndirirken hangi formatı seçmelisin?",
+        options: ['Baskı PDF'si (PDF Print)', 'Düşük kaliteli GIF', 'Ham metin .txt', 'Bozuk uzantı'],
+        answer: 0,
+        explanation: "Harika! Fiziksel baskı ve çıktı almak için en net ve kaliteli format Baskı PDF'sidir."
+    },
+    {
+        type: 'standard',
+        section: 'Bölüm 2 – Tasarım Görevleri',
+        badge: 'Şeffaf Arka Plan',
+        text: "Afiş için çizdiğin okul maskotunu arka planı saydam (şeffaf) olarak kaydetmek istiyorsun. Hangi format uygundur?",
+        options: ['PNG (Şeffaf Arka Plan)', 'JPG', 'BMP', 'MP3'],
+        answer: 0,
+        explanation: "Doğru! Saydamlığı destekleyen ve logolar için en uygun bitmap formatı PNG'dir."
+    },
+    {
+        type: 'standard',
+        section: 'Bölüm 2 – Tasarım Görevleri',
+        badge: 'Görsel Bütünlük',
+        text: "Afişinde 7 farklı yazı tipi ve 10 farklı alakasız renk kullanmak neden kötü bir tasarım tercihi olur?",
+        options: [
+            'Okunabilirliği zorlaştırır, karmaşa yaratır ve mesajın anlaşılmasını engeller.',
+            'Bilgisayarın elektriğini çok harcar.',
+            'Canva hesabının silinmesine yol açar.',
+            'Yazıların kaybolmasına neden olur.'
+        ],
+        answer: 0,
+        explanation: "Çok doğru! Başarılı tasarımlarda en fazla 2-3 uyumlu renk ve en fazla 2 yazı tipi kullanılır."
+    },
+
+    // BÖLÜM 3: Komutunu Güçlendir (AI Prompt Engineering - 5 Görev)
+    {
+        type: 'prompt',
+        section: 'Bölüm 3 – Komutunu Güçlendir',
+        badge: 'AI Prompt Görevi (1)',
+        weakPrompt: 'Bir afiş yap.',
+        goalTopic: 'Su Tasarrufu ve Gelecek',
+        parts: {
+            konu: ['5. sınıf öğrencileri için su tasarrufunu anlatan', 'Uzay savaşları içeren', 'Otomobil yarışı konulu'],
+            stil: ['renkli, sade ve okunaklı grafik afiş tarzında', 'karanlık ve korkutucu film afişi', 'karmaşık pikselli'],
+            detay: ['musluğu kapatan güler yüzlü bir öğrenci karakteri ve damlayan su damlası', 'yarış arabası lastiği', 'uçan halı']
+        },
+        correctIndices: [0, 0, 0],
+        strongPrompt: "5. sınıf öğrencileri için su tasarrufunu anlatan, renkli, sade ve okunaklı grafik afiş tarzında; musluğu kapatan güler yüzlü bir öğrenci karakteri ve damlayan su damlası detayları içeren görsel."
+    },
+    {
+        type: 'prompt',
+        section: 'Bölüm 3 – Komutunu Güçlendir',
+        badge: 'AI Prompt Görevi (2)',
+        weakPrompt: 'Şifre resmi çiz.',
+        goalTopic: 'Dijital Güvenlik (Güçlü Şifre)',
+        parts: {
+            konu: ['Ortaokul öğrencilerine güçlü şifre kullanımını öğreten', 'Korsan hazine haritası gösteren', 'Piknik sepeti olan'],
+            stil: ['modern, güven veren turkuaz ve lacivert tonlarında dijital illüstrasyon', 'eski püskü yırtık kağıt stili', 'bulanık karalama'],
+            detay: ['harf, sayı ve sembollerden oluşan kilitli bir kalkan simgesi', 'tahta kaşık ve tabak', 'futbol kalesi']
+        },
+        correctIndices: [0, 0, 0],
+        strongPrompt: "Ortaokul öğrencilerine güçlü şifre kullanımını öğreten, modern, güven veren turkuaz ve lacivert tonlarında dijital illüstrasyon; harf, sayı ve sembollerden oluşan kilitli bir kalkan simgesi içeren net afiş tasarımı."
+    },
+    {
+        type: 'prompt',
+        section: 'Bölüm 3 – Komutunu Güçlendir',
+        badge: 'AI Prompt Görevi (3)',
+        weakPrompt: 'Ağaç resmi üret.',
+        goalTopic: 'Doğayı Koruma ve Orman Haftası',
+        parts: {
+            konu: ['Çocuklara doğayı koruma ve fidan dikme sevgisini aşılayan', 'Odun kesim fabrikasını tanıtan', 'Kutup buzullarını eriten'],
+            stil: ['canlı yeşil ve mavi tonlarında, neşeli vektörel çizim', 'gri ve dumanlı endüstriyel fotoğraf', 'siyah beyaz gazete baskısı'],
+            detay: ['el ele tutuşup fidan sulayan minik öğrenciler ve neşeli kuşlar', 'büyük bir buldozer iş makinesi', 'çöp yığını']
+        },
+        correctIndices: [0, 0, 0],
+        strongPrompt: "Çocuklara doğayı koruma ve fidan dikme sevgisini aşılayan, canlı yeşil ve mavi tonlarında neşeli vektörel çizim; el ele tutuşup fidan sulayan minik öğrenciler ve neşeli kuşlar bulunan çevre posteri."
+    },
+    {
+        type: 'prompt',
+        section: 'Bölüm 3 – Komutunu Güçlendir',
+        badge: 'AI Prompt Görevi (4)',
+        weakPrompt: 'Kitap oku afişi yap.',
+        goalTopic: 'Okuma Alışkanlığı',
+        parts: {
+            konu: ['Gençleri kitap okumaya teşvik eden ve hayal gücünü vurgulayan', 'Sadece sözlük satışı yapan', 'Televizyon reklamı olan'],
+            stil: ['sıcak pastel renklerde, masalsı ve ilham verici illüstrasyon', 'karanlık ve kasvetli gece çizimi', 'bozuk televizyon paraziti'],
+            detay: ['açık kitaptan yükselen rengarenk roketler, yıldızlar ve düşler', 'boş bir tahta masa', 'uyuklayan bir kedi']
+        },
+        correctIndices: [0, 0, 0],
+        strongPrompt: "Gençleri kitap okumaya teşvik eden ve hayal gücünü vurgulayan, sıcak pastel renklerde masalsı illüstrasyon; açık kitaptan yükselen rengarenk roketler, yıldızlar ve düşler içeren etkileyici poster."
+    },
+    {
+        type: 'prompt',
+        section: 'Bölüm 3 – Komutunu Güçlendir',
+        badge: 'AI Prompt Görevi (5)',
+        weakPrompt: 'Bilgisayarda doğru oturma.',
+        goalTopic: 'Ergonomi ve Dijital Sağlık',
+        parts: {
+            konu: ['Öğrencilere bilgisayar başında doğru ve dik oturuş kurallarını öğreten', 'Halı sahada maç yapan', 'Lokantada yemek yiyen'],
+            stil: ['anlaşılır bilgilendirici infografik ve sevimli robot rehber tarzında', 'korku filmi kapağı', 'aşırı parıltılı disco ışıkları'],
+            detay: ['dik sırt, göz hizasında ekran ve 90 derece bükülmüş kollar gösteren rehber çizim', 'bir tabak makarna', 'bozuk bir klavye']
+        },
+        correctIndices: [0, 0, 0],
+        strongPrompt: "Öğrencilere bilgisayar başında doğru ve dik oturuş kurallarını öğreten, anlaşılır bilgilendirici infografik ve sevimli robot rehber tarzında; dik sırt, göz hizasında ekran ve 90 derece bükülmüş kollar gösteren net eğitim görseli."
+    }
+];
+
+class CanvaMasterGame {
+    constructor() {
+        this.currentIdx = 0;
+        this.score = 0;
+        this.answered = false;
+
+        // Prompt builder state
+        this.promptSelections = { konu: null, stil: null, detay: null };
+
+        this.screens = {
+            start: document.getElementById('screen-start'),
+            quiz: document.getElementById('screen-quiz'),
+            result: document.getElementById('screen-result')
+        };
+    }
+
+    start() {
+        sounds.click();
+        this.currentIdx = 0;
+        this.score = 0;
+        this.updateScore();
+        this.showScreen('quiz');
+        this.loadTask();
+    }
+
+    showScreen(name) {
+        Object.values(this.screens).forEach(s => s.classList.remove('active'));
+        this.screens[name].classList.add('active');
+    }
+
+    loadTask() {
+        this.answered = false;
+        const task = TASKS[this.currentIdx];
+
+        // Progress
+        document.getElementById('task-counter').innerText = `${this.currentIdx + 1} / ${TASKS.length}`;
+        const pct = (this.currentIdx / TASKS.length) * 100;
+        document.getElementById('progress-fill').style.width = `${pct}%`;
+
+        document.getElementById('quiz-section-badge').innerHTML = `<i class="fa-solid fa-layer-group"></i> ${task.section}`;
+
+        // Reset feedback & next button
+        document.getElementById('feedback-box').className = 'feedback-box';
+        document.getElementById('btn-next').style.display = 'none';
+
+        const contStd = document.getElementById('container-standard');
+        const contPrompt = document.getElementById('container-prompt');
+
+        contStd.style.display = 'none';
+        contPrompt.style.display = 'none';
+
+        if (task.type === 'standard') {
+            contStd.style.display = 'block';
+            document.getElementById('standard-badge').innerText = task.badge;
+            document.getElementById('standard-text').innerText = task.text;
+
+            const grid = document.getElementById('standard-options');
+            grid.innerHTML = '';
+            const letters = ['A', 'B', 'C', 'D'];
+
+            task.options.forEach((opt, idx) => {
+                const btn = document.createElement('div');
+                btn.className = 'option-card';
+                btn.onclick = () => this.handleStandardAnswer(idx, btn);
+                btn.innerHTML = `
+                    <div class="option-key">${letters[idx]}</div>
+                    <div class="option-label">${opt}</div>
+                `;
+                grid.appendChild(btn);
+            });
+        } else if (task.type === 'prompt') {
+            contPrompt.style.display = 'block';
+            document.getElementById('weak-prompt-text').innerText = `"${task.weakPrompt}"`;
+            document.getElementById('prompt-goal-title').innerHTML = `Hedef Konu: <strong>${task.goalTopic}</strong>`;
+            document.getElementById('prompt-result-box').style.display = 'none';
+            document.getElementById('btn-check-prompt').style.display = 'none';
+            this.promptSelections = { konu: null, stil: null, detay: null };
+            this.renderPromptBuilder();
+        }
+    }
+
+    handleStandardAnswer(selectedIdx, btnElement) {
+        if (this.answered) return;
+        this.answered = true;
+
+        const task = TASKS[this.currentIdx];
+        const cards = document.querySelectorAll('#standard-options .option-card');
+
+        const fBox = document.getElementById('feedback-box');
+        const fIcon = document.getElementById('feedback-icon');
+        const fTitle = document.getElementById('feedback-title');
+        const fDesc = document.getElementById('feedback-desc');
+
+        if (selectedIdx === task.answer) {
+            sounds.correct();
+            btnElement.classList.add('correct');
+            this.score += 10;
+            this.updateScore();
+
+            fBox.className = 'feedback-box show border-emerald-500/50 bg-emerald-950/40 text-emerald-100';
+            fIcon.innerHTML = '<i class="fa-solid fa-circle-check text-emerald-400"></i>';
+            fTitle.innerText = 'Harika! Doğru Canva Aracı 🛠️';
+            fDesc.innerText = task.explanation;
+        } else {
+            sounds.wrong();
+            btnElement.classList.add('incorrect');
+            cards[task.answer].classList.add('correct');
+
+            fBox.className = 'feedback-box show border-rose-500/50 bg-rose-950/40 text-rose-100';
+            fIcon.innerHTML = '<i class="fa-solid fa-circle-xmark text-rose-400"></i>';
+            fTitle.innerText = 'Tekrar Düşünelim... 💡';
+            fDesc.innerText = task.explanation;
+        }
+
+        document.getElementById('btn-next').style.display = 'inline-flex';
+    }
+
+    // PROMPT BUILDER LOGIC
+    renderPromptBuilder() {
+        const task = TASKS[this.currentIdx];
+        const grid = document.getElementById('prompt-builder-grid');
+        grid.innerHTML = '';
+
+        const cols = [
+            { key: 'konu', title: '1. Konu ve Hedef Kitle' },
+            { key: 'stil', title: '2. Görsel Tarz ve Renk' },
+            { key: 'detay', title: '3. Ana Karakter ve Detaylar' }
+        ];
+
+        cols.forEach(col => {
+            const box = document.createElement('div');
+            box.className = 'prompt-col-box';
+            box.innerHTML = `<div class="prompt-col-title">${col.title}</div>`;
+
+            task.parts[col.key].forEach((text, optIdx) => {
+                const btn = document.createElement('button');
+                btn.className = `prompt-tag-btn ${this.promptSelections[col.key] === optIdx ? 'selected' : ''}`;
+                btn.innerText = text;
+                btn.onclick = () => {
+                    if (this.answered) return;
+                    sounds.click();
+                    this.promptSelections[col.key] = optIdx;
+                    this.renderPromptBuilder();
+                    this.checkPromptReady();
+                };
+                box.appendChild(btn);
+            });
+
+            grid.appendChild(box);
+        });
+    }
+
+    checkPromptReady() {
+        const p = this.promptSelections;
+        const btn = document.getElementById('btn-check-prompt');
+        if (p.konu !== null && p.stil !== null && p.detay !== null) {
+            btn.style.display = 'flex';
+        } else {
+            btn.style.display = 'none';
+        }
+    }
+
+    checkPromptBuilder() {
+        if (this.answered) return;
+        this.answered = true;
+
+        const task = TASKS[this.currentIdx];
+        const p = this.promptSelections;
+
+        const isMatch = (
+            p.konu === task.correctIndices[0] &&
+            p.stil === task.correctIndices[1] &&
+            p.detay === task.correctIndices[2]
+        );
+
+        const resBox = document.getElementById('prompt-result-box');
+        const resText = document.getElementById('strong-prompt-text');
+        resBox.style.display = 'block';
+        resText.innerText = task.strongPrompt;
+
+        const fBox = document.getElementById('feedback-box');
+        const fIcon = document.getElementById('feedback-icon');
+        const fTitle = document.getElementById('feedback-title');
+        const fDesc = document.getElementById('feedback-desc');
+
+        if (isMatch) {
+            sounds.correct();
+            this.score += 10;
+            this.updateScore();
+            fBox.className = 'feedback-box show border-emerald-500/50 bg-emerald-950/40 text-emerald-100';
+            fIcon.innerHTML = '<i class="fa-solid fa-circle-check text-emerald-400"></i>';
+            fTitle.innerText = 'Süper Prompt Mühendisliği! 🤖✨';
+            fDesc.innerText = 'Yapay zekâya konu, hedef kitle, tarz ve detayları eksiksiz verdin. Artık kusursuz bir görsel üretebilirsin!';
+        } else {
+            sounds.wrong();
+            fBox.className = 'feedback-box show border-amber-500/50 bg-amber-950/40 text-amber-100';
+            fIcon.innerHTML = '<i class="fa-solid fa-circle-exclamation text-amber-400"></i>';
+            fTitle.innerText = 'Detaylarda Boşluk Kaldı! 💡';
+            fDesc.innerText = 'Seçtiğin parçalar konudan biraz koptu. İdeal süper promptu yukarıdaki yeşil kutudan inceleyebilirsin!';
+        }
+
+        document.getElementById('btn-check-prompt').style.display = 'none';
+        document.getElementById('btn-next').style.display = 'inline-flex';
+    }
+
+    nextTask() {
+        sounds.click();
+        this.currentIdx++;
+        if (this.currentIdx < TASKS.length) {
+            this.loadTask();
+        } else {
+            this.finishGame();
+        }
+    }
+
+    updateScore() {
+        document.getElementById('score-display').innerText = this.score;
+    }
+
+    finishGame() {
+        document.getElementById('progress-fill').style.width = '100%';
+        this.showScreen('result');
+        sounds.fanfare();
+        confetti({
+            particleCount: 130,
+            spread: 90,
+            origin: { y: 0.6 }
+        });
+
+        document.getElementById('result-score').innerText = `${this.score} / ${TASKS.length * 10}`;
+        const trophy = document.getElementById('result-trophy');
+        const title = document.getElementById('result-title');
+        const msg = document.getElementById('result-msg');
+
+        if (this.score >= 170) {
+            trophy.innerHTML = '<i class="fa-solid fa-trophy text-yellow-400"></i>';
+            title.innerText = 'Büyük Canva Ustası! 🏆';
+            msg.innerText = 'Tasarım araçlarını ve yapay zekâ komut oluşturma tekniklerini eksiksiz kavradın!';
+        } else if (this.score >= 120) {
+            trophy.innerHTML = '<i class="fa-solid fa-medal text-purple-400"></i>';
+            title.innerText = 'Yetenekli Tasarımcı! 🎖️';
+            msg.innerText = 'Canva bölümlerini çok iyi biliyorsun. Komutlarını biraz daha detaylandırarak yapay zekâyı en iyi şekilde yönlendirebilirsin.';
+        } else {
+            trophy.innerHTML = '<i class="fa-solid fa-palette text-amber-400"></i>';
+            title.innerText = 'Çırak Tasarımcı! 🎨';
+            msg.innerText = 'Canva araçlarını tekrar gözden geçirerek kendini geliştirebilirsin. Yeniden dene!';
+        }
+    }
+
+    restart() {
+        sounds.click();
+        this.start();
+    }
+
+    toggleModal(show) {
+        sounds.click();
+        document.getElementById('modal-how').classList.toggle('active', show);
+    }
+
+    toggleSound() {
+        sounds.muted = !sounds.muted;
+        const icon = document.getElementById('sound-icon');
+        icon.className = sounds.muted ? 'fa-solid fa-volume-xmark text-rose-400' : 'fa-solid fa-volume-high text-purple-400';
+    }
+}
+
+const game = new CanvaMasterGame();
+</script>
+</body>
+</html>
